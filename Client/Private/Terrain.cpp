@@ -17,7 +17,7 @@ HRESULT CTerrain::Initialize_Prototype()
 {
 	return S_OK;
 
-	_int i = 0;
+	_int i = 10;
 }
 
 HRESULT CTerrain::Initialize(void * pArg)
