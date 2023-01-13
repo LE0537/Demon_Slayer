@@ -55,6 +55,21 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Char\01.Rui">
       <UniqueIdentifier>{396662d3-d3da-475a-a2f9-a83369f2fe77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI">
+      <UniqueIdentifier>{9f5b62f3-8f25-4092-b437-3914a5ba6d02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect">
+      <UniqueIdentifier>{fe3725ee-5fd5-41aa-a76f-ed316cb11c2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Char\00.Tanjiro">
+      <UniqueIdentifier>{aec952ec-fe07-4002-b9c4-8c6a0fac524c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Char\02.Kyoujuro">
+      <UniqueIdentifier>{b5e55ae6-1d11-41da-a130-1abb867bcc28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Char\03.Akaza">
+      <UniqueIdentifier>{33d76ee3-95a4-493f-92d9-8dd10348afd8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
