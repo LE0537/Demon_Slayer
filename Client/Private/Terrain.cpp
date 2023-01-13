@@ -16,6 +16,8 @@ CTerrain::CTerrain(const CTerrain & rhs)
 HRESULT CTerrain::Initialize_Prototype()
 {
 	return S_OK;
+
+	_int i = 0;
 }
 
 HRESULT CTerrain::Initialize(void * pArg)
