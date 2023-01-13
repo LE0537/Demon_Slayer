@@ -70,6 +70,39 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Char\03.Akaza">
       <UniqueIdentifier>{33d76ee3-95a4-493f-92d9-8dd10348afd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\00.Logo">
+      <UniqueIdentifier>{4ab37792-3cfc-4357-a1a3-3bc9266f2e7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading">
+      <UniqueIdentifier>{8fcc0829-d55d-47ee-836b-db552f97fd3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.GamePlay">
+      <UniqueIdentifier>{cd197243-3a01-43ec-b7ba-344368373eb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.GamePlay\Gauge">
+      <UniqueIdentifier>{4081d9b0-2205-44e9-8a88-7fd2a92fec5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.GamePlay\Gauge\Top">
+      <UniqueIdentifier>{4e2445e5-316a-4c3f-acd7-6f909a8f13e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.GamePlay\Gauge\Top\Base">
+      <UniqueIdentifier>{e3fc518b-fb3f-4e86-bc41-2965674c18bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.GamePlay\Gauge\Top\Bar">
+      <UniqueIdentifier>{5d7dde71-3d26-4f9b-a698-26e78093bd24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.GamePlay\Gauge\Top\Bar\Hp">
+      <UniqueIdentifier>{0c83a826-af6c-4329-a925-738873200dc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.GamePlay\Gauge\Top\Bar\Skill">
+      <UniqueIdentifier>{afb3d5d7-d97c-4d0d-8c1e-d7d6024ab608}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.GamePlay\Gauge\Top\Deco">
+      <UniqueIdentifier>{0645b7ca-891e-444f-8806-94132b595090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.GamePlay\Gauge\Top\Bar\Hp\Back">
+      <UniqueIdentifier>{c4b0bc9a-83a7-425b-84c2-1f33b4dd8f44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -132,6 +165,21 @@
     <ClInclude Include="..\public\Rui.h">
       <Filter>02.GameObjects\99.GameObj\01.Char\01.Rui</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\GaugeBase.h">
+      <Filter>03.UI\02.GamePlay\Gauge\Top\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HpBarDeco.h">
+      <Filter>03.UI\02.GamePlay\Gauge\Top\Deco</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HpBar.h">
+      <Filter>03.UI\02.GamePlay\Gauge\Top\Bar\Hp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SkillBar.h">
+      <Filter>03.UI\02.GamePlay\Gauge\Top\Bar\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HpBarBack.h">
+      <Filter>03.UI\02.GamePlay\Gauge\Top\Bar\Hp\Back</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -178,6 +226,21 @@
     </ClCompile>
     <ClCompile Include="..\private\Rui.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Char\01.Rui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GaugeBase.cpp">
+      <Filter>03.UI\02.GamePlay\Gauge\Top\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HpBarDeco.cpp">
+      <Filter>03.UI\02.GamePlay\Gauge\Top\Deco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HpBar.cpp">
+      <Filter>03.UI\02.GamePlay\Gauge\Top\Bar\Hp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkillBar.cpp">
+      <Filter>03.UI\02.GamePlay\Gauge\Top\Bar\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HpBarBack.cpp">
+      <Filter>03.UI\02.GamePlay\Gauge\Top\Bar\Hp\Back</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
