@@ -378,3 +378,6 @@ Engine/Bin/Engine.lib
 Engine/Default/Engine.vcxproj
 Engine/Default/Engine.vcxproj.filter
 Reference/Librarys/Engine.lib
+*.cso
+*.obj
+*.tlog
