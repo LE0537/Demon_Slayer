@@ -1,0 +1,39 @@
+﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\shout\Desktop\과제\팀폴-귀칼\새 폴더\귀칼\Client\Bin\Shader_VtxAnimModel.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\shout\Desktop\과제\팀폴-귀칼\새 폴더\귀칼\Client\Bin\Shader_VtxModel.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\shout\Desktop\과제\팀폴-귀칼\새 폴더\귀칼\Client\Bin\Shader_VtxNorTex.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\shout\Desktop\과제\팀폴-귀칼\새 폴더\귀칼\Client\Bin\Shader_VtxPointInstance.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\shout\Desktop\과제\팀폴-귀칼\새 폴더\귀칼\Client\Bin\Shader_VtxRectInstance.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\shout\Desktop\과제\팀폴-귀칼\새 폴더\귀칼\Client\Bin\Shader_VtxTex.cso
+FXC : warning X4717: Effects deprecated for D3DCompiler_47
+  
+  compilation object save succeeded; see C:\Users\shout\Desktop\과제\팀폴-귀칼\새 폴더\귀칼\Client\Bin\Shader_VtxUIModel.cso
+  stdafx.cpp
+  Client.cpp
+  Terrain.cpp
+  Rui.cpp
+  Player.cpp
+  MainApp.cpp
+  Loader.cpp
+  Level_Logo.cpp
+  Level_Loading.cpp
+  Level_GamePlay.cpp
+  GameObj.cpp
+  Data_Manager.cpp
+  Camera_Dynamic.cpp
+  BattleField.cpp
+  BackGround.cpp
+  코드를 생성하고 있습니다...
+  Client.vcxproj -> C:\Users\shout\Desktop\과제\팀폴-귀칼\새 폴더\귀칼\Client\Default\..\Bin\Client.exe
+  Client.vcxproj -> ..\Bin\Client.pdb (Full PDB)
