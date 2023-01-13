@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+Client/Bin/*.*
+Client/Bin/*.tlog
+Client/Bin/*.obj
+Client/Bin/*.cso
+Client/Bin/Client.tlog/
+
 # User-specific files
 *.rsuser
 *.suo
@@ -96,12 +102,6 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
-
-Client/Bin/*.*
-Client/Bin/*.tlog
-Client/Bin/*.obj
-Client/Bin/*.cso
-Client/Bin/Client.tlog/
 
 
 
