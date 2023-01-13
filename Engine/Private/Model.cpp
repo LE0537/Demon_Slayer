@@ -1,5 +1,6 @@
 #include "..\Public\Model.h"
 #include "MeshContainer.h"
+#include "MeshInstance.h"
 #include "Texture.h"
 #include "Shader.h"
 #include "HierarchyNode.h"
@@ -25,10 +26,15 @@ CModel::CModel(const CModel & rhs)
 	, m_iNumAnimations(rhs.m_iNumAnimations)	// 추가
 	, m_DataMaterials(rhs.m_DataMaterials)	// 추가
 	, m_bIsBin(rhs.m_bIsBin)	// 추가
+	, m_iNumInstancing(rhs.m_iNumInstancing)	//	Instancing 추가
 {
 	for (auto& pMeshContainer : rhs.m_Meshes)
 	{
 		m_Meshes.push_back((CMeshContainer*)pMeshContainer->Clone());
+	}
+	for (auto& pMeshInstancing : rhs.m_Meshes_Instancing)
+	{
+		m_Meshes_Instancing.push_back((CMeshInstance*)pMeshInstancing->Clone());
 	}
 
 	for (auto& Material : m_Materials)
@@ -50,18 +56,24 @@ CHierarchyNode * CModel::Get_BonePtr(const char * pBoneName) const
 	return *iter;
 }
 
-HRESULT CModel::Initialize_Prototype(TYPE eModelType, const char * pModelFilePath, _fmatrix PivotMatrix)
+HRESULT CModel::Initialize_Prototype(TYPE eModelType, const char * pModelFilePath, _fmatrix PivotMatrix, _uint iNumInstance)
 {
 	m_eModelType = eModelType;
 
 	XMStoreFloat4x4(&m_PivotMatrix, PivotMatrix);
-
+	
 	_uint			iFlag = 0;
 
 	if (TYPE_NONANIM == eModelType)
 		iFlag = aiProcess_PreTransformVertices | aiProcess_ConvertToLeftHanded | aiProcess_GenNormals | aiProcess_CalcTangentSpace;
 	else
 		iFlag = aiProcess_ConvertToLeftHanded | aiProcess_GenNormals | aiProcess_CalcTangentSpace;
+
+	m_iNumInstancing = iNumInstance;
+	if (1 < m_iNumInstancing)
+		m_eModelType = TYPE_NONANIM_INSTANCING;	//	AnimInsatnce은 안(못) 할 예정입니다.
+	else if (0 > m_iNumInstancing)
+		return E_FAIL;
 
 	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
 	if (nullptr == m_pAIScene)
@@ -80,7 +92,8 @@ HRESULT CModel::Initialize_Prototype(TYPE eModelType, const char * pModelFilePat
 
 HRESULT CModel::Initialize(void * pArg)
 {
-	if (TYPE_NONANIM == m_eModelType)
+	if (TYPE_NONANIM == m_eModelType ||
+		1 < m_iNumInstancing)
 		return S_OK;
 
 	if (FAILED(Create_HierarchyNodes(m_pAIScene->mRootNode)))
@@ -101,8 +114,16 @@ HRESULT CModel::SetUp_Material(CShader * pShader, const char * pConstantName, _u
 	if (iMeshIndex >= m_iNumMeshes)
 		return E_FAIL;
 
-	if (nullptr == m_Materials[m_Meshes[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType])
-		return S_OK;
+	if (1 < m_iNumInstancing)
+	{
+		if (nullptr == m_Materials[m_Meshes_Instancing[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType])
+			return S_OK;
+	}
+	else
+	{
+		if (nullptr == m_Materials[m_Meshes[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType])
+			return S_OK;
+	}
 
 	return pShader->Set_ShaderResourceView(pConstantName, m_Materials[m_Meshes[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType]->Get_SRV());
 }
@@ -149,7 +170,11 @@ HRESULT CModel::Render(CShader * pShader, _uint iMeshIndex, _uint iPassIndex)
 	}
 	pShader->Begin(iPassIndex);
 
-	m_Meshes[iMeshIndex]->Render();
+	if (1 < m_iNumInstancing)
+		m_Meshes_Instancing[iMeshIndex]->Render();
+	else
+		m_Meshes[iMeshIndex]->Render();
+
 
 	return S_OK;
 }
@@ -178,19 +203,35 @@ HRESULT CModel::Create_MeshContainer()
 
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
 
-	m_Meshes.reserve(m_iNumMeshes);
-
-	for (_uint i = 0; i < m_iNumMeshes; ++i)
+	if (1 < m_iNumInstancing)
 	{
-		aiMesh*		pAIMesh = m_pAIScene->mMeshes[i];
+		m_Meshes_Instancing.reserve(m_iNumMeshes);
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			aiMesh*		pAIMesh = m_pAIScene->mMeshes[i];
 
-		CMeshContainer*		pMeshContainer = CMeshContainer::Create(m_pDevice, m_pContext, m_eModelType, pAIMesh, this, XMLoadFloat4x4(&m_PivotMatrix));
-		if (nullptr == pMeshContainer)
-			return E_FAIL;
+			/* 메시를 생성한다. */
+			CMeshInstance*		pMeshContainer = CMeshInstance::Create(m_pDevice, m_pContext, m_eModelType, pAIMesh, this, XMLoadFloat4x4(&m_PivotMatrix), m_iNumInstancing);
+			if (nullptr == pMeshContainer)
+				return E_FAIL;
 
-		m_Meshes.push_back(pMeshContainer);
+			m_Meshes_Instancing.push_back(pMeshContainer);
+		}
 	}
+	else
+	{
+		m_Meshes.reserve(m_iNumMeshes);
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			aiMesh*		pAIMesh = m_pAIScene->mMeshes[i];
 
+			CMeshContainer*		pMeshContainer = CMeshContainer::Create(m_pDevice, m_pContext, m_eModelType, pAIMesh, this, XMLoadFloat4x4(&m_PivotMatrix));
+			if (nullptr == pMeshContainer)
+				return E_FAIL;
+
+			m_Meshes.push_back(pMeshContainer);
+		}
+	}
 	return S_OK;
 }
 
@@ -289,11 +330,11 @@ HRESULT CModel::Create_Animations()
 }
 
 
-CModel * CModel::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, TYPE eModelType, const char * pModelFilePath, _fmatrix PivotMatrix)
+CModel * CModel::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, TYPE eModelType, const char * pModelFilePath, _fmatrix PivotMatrix, _uint iNumInstance)
 {
 	CModel*	pInstance = new CModel(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_Prototype(eModelType, pModelFilePath, PivotMatrix)))
+	if (FAILED(pInstance->Initialize_Prototype(eModelType, pModelFilePath, PivotMatrix, iNumInstance)))
 	{
 		ERR_MSG(TEXT("Failed to Created : CModel"));
 		Safe_Release(pInstance);
@@ -426,6 +467,9 @@ HRESULT CModel::Get_MaterialData(DATA_BINSCENE * pBinScene)
 }
 _bool CModel::Picking(CTransform * pTransform, _float3 * pOut)
 {
+	if (1 < m_iNumInstancing)
+		return false;
+
 	_bool bTrue = false;
 	//	_float* fDist = nullptr;
 	_float  fDist2 = 99999.f;
@@ -647,6 +691,10 @@ void CModel::Free()
 	for (auto& pMeshContainer : m_Meshes)
 		Safe_Release(pMeshContainer);
 	m_Meshes.clear();
+
+	for (auto& pMeshInstancing : m_Meshes_Instancing)
+		Safe_Release(pMeshInstancing);
+	m_Meshes_Instancing.clear();
 
 	for (auto& Material : m_Materials)
 	{

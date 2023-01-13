@@ -5,6 +5,7 @@
 #include "Camera_Dynamic.h"
 #include "SoundMgr.h"
 #include "GameObj.h"
+#include "MeshObj_Static.h"
 
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -38,15 +39,19 @@ HRESULT CLevel_GamePlay::Initialize()
 	//if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 	//	return E_FAIL;
 
-	
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("hov.wav"),0.45f);
+/*
+	if (FAILED(Load_StaticObjects("11Test")))
+		return E_FAIL;
+*/
+
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("hov.wav"), 0.45f);
 
 	return S_OK;
 }
 
 void CLevel_GamePlay::Tick(_float fTimeDelta)
 {
-	__super::Tick(fTimeDelta);	
+	__super::Tick(fTimeDelta);
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
@@ -66,7 +71,7 @@ void CLevel_GamePlay::Late_Tick(_float fTimeDelta)
 HRESULT CLevel_GamePlay::Ready_Lights()
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-	
+
 	LIGHTDESC			LightDesc;
 
 	/* For.Directional*/
@@ -84,7 +89,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	/* For.Point */
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
-	
+
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -97,11 +102,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	Safe_AddRef(pGameInstance);
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_GAMEPLAY, pLayerTag, &m_pPlayer)))
-			return E_FAIL;
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
-	
+
 	return S_OK;
 }
 
@@ -113,7 +118,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _tchar * pLayerTag)
 
 
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BattleField"), LEVEL_GAMEPLAY, pLayerTag)))
-			return E_FAIL;
+		return E_FAIL;
 
 
 
@@ -126,8 +131,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _tchar * pLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _tchar * pLayerTag)
 {
-	
-	
+
+
 	return S_OK;
 }
 
@@ -181,6 +186,62 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _tchar * pLayerTag)
 
 
 	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	char		szFilePath[MAX_PATH] = "../Bin/Resources/Data/StaticObjs/";
+	strcat_s(szFilePath, pFileName);
+	strcat_s(szFilePath, ".stobj");
+
+	_tchar		szRealPath[MAX_PATH] = L"";
+	MultiByteToWideChar(CP_ACP, 0, szFilePath, (_int)strlen(szFilePath), szRealPath, MAX_PATH);
+
+	HANDLE		hFile = CreateFile(szRealPath, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		ERR_MSG(L"Failed to GamePlay : Load StaticObjs");
+
+		return E_FAIL;
+	}
+
+	DWORD		dwByte = 0;
+	_float4x4*	pWorld = new _float4x4;
+	_int*		pMeshIndex = new _int;
+
+	while (true)
+	{
+		ReadFile(hFile, pMeshIndex, sizeof(_int), &dwByte, nullptr);
+		ReadFile(hFile, pWorld, sizeof(_float4x4), &dwByte, nullptr);
+
+		if (0 == dwByte)
+		{
+			Safe_Delete(pWorld);
+			Safe_Delete(pMeshIndex);
+			break;
+		}
+		CMeshObj_Static::MESHOBJ_STATIC_DESC tMeshObj_StaticDesc;
+		tMeshObj_StaticDesc.matWorld = *pWorld;
+		tMeshObj_StaticDesc.iCurrentLevel = LEVEL_GAMEPLAY;
+		tMeshObj_StaticDesc.iModelIndex = *pMeshIndex;
+
+		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static", LEVEL_GAMEPLAY, L"Layer_MeshObj_Static", &tMeshObj_StaticDesc)))
+		{
+			ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects");
+			break;
+		}
+	}
+	CloseHandle(hFile);
+
+	Safe_Delete(pWorld);
+	Safe_Delete(pMeshIndex);
+
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }

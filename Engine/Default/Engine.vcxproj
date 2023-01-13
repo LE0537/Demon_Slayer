@@ -193,6 +193,7 @@
     <ClCompile Include="..\private\Light.cpp" />
     <ClCompile Include="..\private\Light_Manager.cpp" />
     <ClCompile Include="..\private\MeshContainer.cpp" />
+    <ClCompile Include="..\Private\MeshInstance.cpp" />
     <ClCompile Include="..\private\Model.cpp" />
     <ClCompile Include="..\Private\Navigation.cpp" />
     <ClCompile Include="..\Private\Object_Manager.cpp" />
@@ -247,6 +248,7 @@
     <ClInclude Include="..\public\Light.h" />
     <ClInclude Include="..\public\Light_Manager.h" />
     <ClInclude Include="..\public\MeshContainer.h" />
+    <ClInclude Include="..\Public\MeshInstance.h" />
     <ClInclude Include="..\public\Model.h" />
     <ClInclude Include="..\Public\Navigation.h" />
     <ClInclude Include="..\Public\Object_Manager.h" />

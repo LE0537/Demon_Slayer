@@ -7,26 +7,21 @@ BEGIN(Engine)
 class ENGINE_DLL CModel final : public CComponent
 {
 public:
-	enum TYPE { TYPE_NONANIM, TYPE_ANIM, TYPE_END };
+	enum TYPE { TYPE_NONANIM, TYPE_ANIM, TYPE_NONANIM_INSTANCING, TYPE_END };
 private:
 	CModel(ID3D11Device* pDevice ,ID3D11DeviceContext* pContext);
 	CModel(const CModel& rhs);
 	virtual ~CModel() = default;
 
 public:
-	_uint	Get_NumMeshContainers() const {
-		return m_iNumMeshes;
-	}
-
-	_float4x4 Get_PivotFloat4x4() const {
-		return m_PivotMatrix;
-	}
+	_uint	Get_NumMeshContainers() const { return m_iNumMeshes; }
+	_float4x4 Get_PivotFloat4x4() const { return m_PivotMatrix; }
 
 	class CHierarchyNode* Get_BonePtr(const char* pBoneName) const;
 
 
 public:
-	virtual HRESULT Initialize_Prototype(TYPE eModelType, const char* pModelFilePath, _fmatrix PivotMatrix);
+	virtual HRESULT Initialize_Prototype(TYPE eModelType, const char* pModelFilePath, _fmatrix PivotMatrix, _uint iNumInstance);
 	virtual HRESULT Bin_Initialize_Prototype(DATA_BINSCENE* pScene, TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix);	// 추가
 	virtual HRESULT Initialize(void* pArg);
 	virtual HRESULT Bin_Initialize(void* pArg); // 추가
@@ -81,6 +76,15 @@ private:
 	_bool					m_bAnimReset = false;
 
 	_float3*					vPos;
+
+//----------------------
+private:/* For.Instancing Model */
+	_uint								m_iNumInstancing = 1;
+	vector<class CMeshInstance*>		m_Meshes_Instancing;
+
+
+//----------------------
+
 private: // 추가
 	HRESULT Bin_Ready_MeshContainers(_fmatrix PivotMatrix);
 	HRESULT Bin_Ready_Materials(const char* pModelFilePath);
@@ -102,7 +106,7 @@ private:
 	HRESULT Create_Animations();
 	
 public:
-	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eModelType, const char* pModelFilePath, _fmatrix PivotMatrix = XMMatrixIdentity());
+	static CModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, TYPE eModelType, const char* pModelFilePath, _fmatrix PivotMatrix = XMMatrixIdentity(), _uint iNumInstance = 1);
 	static CModel* Bin_Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, DATA_BINSCENE* pScene, TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix = XMMatrixIdentity()); // 추가
 	virtual CComponent* Clone(void* pArg = nullptr) override;
 	virtual void Free() override;

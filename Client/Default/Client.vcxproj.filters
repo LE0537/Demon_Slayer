@@ -70,6 +70,9 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Char\03.Akaza">
       <UniqueIdentifier>{33d76ee3-95a4-493f-92d9-8dd10348afd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\02.Map\01.MeshObj_Static">
+      <UniqueIdentifier>{32e5c8cf-ccb0-43da-a7e8-c1c8dbcf2218}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -132,6 +135,9 @@
     <ClInclude Include="..\public\Rui.h">
       <Filter>02.GameObjects\99.GameObj\01.Char\01.Rui</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MeshObj_Static.h">
+      <Filter>02.GameObjects\02.Map\01.MeshObj_Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -178,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Rui.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Char\01.Rui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MeshObj_Static.cpp">
+      <Filter>02.GameObjects\02.Map\01.MeshObj_Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
