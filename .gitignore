@@ -372,6 +372,4 @@ Engine/Default/Engine.vcxproj.filter
 Reference/Librarys/Engine.lib
 
 Client/Bin/*.tlog
-Client/Bin/Client.tlog/*.tlog
-Client/Bin/*.tlog
-Client/Bin/Client.tlog/*.tlog
+Client/Bin/Client.tlog
