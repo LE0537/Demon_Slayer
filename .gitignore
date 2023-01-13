@@ -3,12 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-Client/Bin/*.*
-Client/Bin/*.tlog
-Client/Bin/*.obj
-Client/Bin/*.cso
-Client/Bin/Client.tlog/
-
 # User-specific files
 *.rsuser
 *.suo
@@ -102,8 +96,7 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
-
-
+*.tlog
 
 # Chutzpah Test files
 _Chutzpah*
@@ -370,14 +363,7 @@ FodyWeavers.xsd
 *.bak
 Client/Bin/Client.exe
 Client/Bin/Engine.dll
-Client/Default/Client.vcxproj
-Client/Default/Client.vcxproj.filter
 Engine/Bin/Engine.dll
 Engine/Bin/Engine.exp
 Engine/Bin/Engine.lib
-Engine/Default/Engine.vcxproj
-Engine/Default/Engine.vcxproj.filter
 Reference/Librarys/Engine.lib
-*.cso
-*.obj
-*.tlog
