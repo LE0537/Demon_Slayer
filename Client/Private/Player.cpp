@@ -55,7 +55,7 @@ HRESULT CPlayer::Initialize(void * pArg)
 
 void CPlayer::Tick(_float fTimeDelta)
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (pGameInstance->Key_Down(DIK_F4))	
 	{
@@ -68,7 +68,7 @@ void CPlayer::Tick(_float fTimeDelta)
 		RELEASE_INSTANCE(CData_Manager);
 	}
 
-	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CGameInstance);*/
 
 	__super::Tick(fTimeDelta);
 	
@@ -189,7 +189,7 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Model*/
-	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_Player"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Player"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 

@@ -260,10 +260,10 @@ HRESULT CModel::Create_Materials(const char* pModelFilePath)
 				continue;
 
 			char			szName[MAX_PATH] = "";
-			char			szExt[MAX_PATH] = "";
+			char			szExt[MAX_PATH] = ".png";
 			char			szTextureFileName[MAX_PATH] = "";
 
-			_splitpath_s(strPath.data, nullptr, 0, nullptr, 0, szName, MAX_PATH, szExt, 0);
+			_splitpath_s(strPath.data, nullptr, 0, nullptr, 0, szName, MAX_PATH, nullptr, 0);
 
 			strcpy_s(szTextureFileName, szName);
 			strcat_s(szTextureFileName, szExt);
