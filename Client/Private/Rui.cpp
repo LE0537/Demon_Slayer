@@ -47,16 +47,16 @@ void CRui::Tick(_float fTimeDelta)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (pGameInstance->Key_Down(DIK_F5))	
-	{
-		CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
-		char cName[MAX_PATH];
-		ZeroMemory(cName, sizeof(char) * MAX_PATH);
-		pData_Manager->TCtoC(TEXT("Rui"), cName);
-		pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
-		ERR_MSG(TEXT("Save_Bin_Rui"));
-		RELEASE_INSTANCE(CData_Manager);
-	}
+	//if (pGameInstance->Key_Down(DIK_F5))	
+	//{
+	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
+	//	char cName[MAX_PATH];
+	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
+	//	pData_Manager->TCtoC(TEXT("Rui"), cName);
+	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
+	//	ERR_MSG(TEXT("Save_Bin_Rui"));
+	//	RELEASE_INSTANCE(CData_Manager);
+	//}
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -204,32 +204,11 @@ HRESULT CRui::Ready_Components()
 }
 void CRui::Key_Input(_float fTimeDelta)
 {
-
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 
-	if (pGameInstance->Key_Pressing(DIK_UP))
-	{
-		m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
-	}
-
-	if (pGameInstance->Key_Pressing(DIK_DOWN))
-	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	}
-
-
-	if (pGameInstance->Key_Pressing(DIK_LEFT))
-	{
-		m_pTransformCom->Turn2(m_pTransformCom->Get_State(CTransform::STATE_UP), XMConvertToRadians(-3.f));
-	}
-	else if (pGameInstance->Key_Pressing(DIK_RIGHT))
-	{
-		m_pTransformCom->Turn2(m_pTransformCom->Get_State(CTransform::STATE_UP), XMConvertToRadians(3.f));
-	}
-
-
 	RELEASE_INSTANCE(CGameInstance);
+
 }
 void CRui::Set_ShadowLightPos()
 {

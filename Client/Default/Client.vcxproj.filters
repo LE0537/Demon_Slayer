@@ -43,9 +43,6 @@
     <Filter Include="02.GameObjects\02.Map">
       <UniqueIdentifier>{02cbd942-76bf-4716-ab1d-88fbc83ee3e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="96.Data_Manager">
-      <UniqueIdentifier>{bc13d5da-b1a6-467d-ad39-0f08ad6428fe}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\02.Map\00.BattleField">
       <UniqueIdentifier>{4baccdec-6f70-4d67-b21d-587b1aa08110}</UniqueIdentifier>
     </Filter>
@@ -72,6 +69,18 @@
     </Filter>
     <Filter Include="02.GameObjects\02.Map\01.MeshObj_Static">
       <UniqueIdentifier>{32e5c8cf-ccb0-43da-a7e8-c1c8dbcf2218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Data_Manager">
+      <UniqueIdentifier>{bc13d5da-b1a6-467d-ad39-0f08ad6428fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState">
+      <UniqueIdentifier>{16caab30-47a9-443e-9517-7c0b5f92f97d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Idle">
+      <UniqueIdentifier>{06f6152a-5959-4bba-93fb-df3dfc590ec7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Move">
+      <UniqueIdentifier>{b3fbdb14-f363-4c40-9d45-118aeebc237a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +147,24 @@
     <ClInclude Include="..\Public\MeshObj_Static.h">
       <Filter>02.GameObjects\02.Map\01.MeshObj_Static</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Tanjiro.h">
+      <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Kyoujuro.h">
+      <Filter>02.GameObjects\99.GameObj\01.Char\02.Kyoujuro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Akaza.h">
+      <Filter>02.GameObjects\99.GameObj\01.Char\03.Akaza</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroIdleState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroMoveState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Move</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -187,6 +214,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\MeshObj_Static.cpp">
       <Filter>02.GameObjects\02.Map\01.MeshObj_Static</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Tanjiro.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Kyoujuro.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Char\02.Kyoujuro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Akaza.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Char\03.Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroIdleState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroMoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Move</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
