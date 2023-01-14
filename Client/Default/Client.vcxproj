@@ -181,6 +181,7 @@
     <ClInclude Include="..\Public\Level_Logo.h" />
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
+    <ClInclude Include="..\Public\MeshObj_Static_Inst.h" />
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\Rui.h" />
     <ClInclude Include="..\Public\MeshObj_Static.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="..\Private\Loader.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />
     <ClCompile Include="..\Private\MeshObj_Static.cpp" />
+    <ClCompile Include="..\Private\MeshObj_Static_Inst.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\Rui.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />

@@ -1,19 +1,19 @@
 #include "stdafx.h"
-#include "..\Public\MeshObj_Static.h"
+#include "..\Public\MeshObj_Static_Inst.h"
 
 #include "GameInstance.h"
 
-CMeshObj_Static::CMeshObj_Static(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CMeshObj_Static_Inst::CMeshObj_Static_Inst(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObj(pDevice, pContext)
 {
 }
 
-CMeshObj_Static::CMeshObj_Static(const CMeshObj_Static & rhs)
+CMeshObj_Static_Inst::CMeshObj_Static_Inst(const CMeshObj_Static_Inst & rhs)
 	: CGameObj(rhs)
 {
 }
 
-void CMeshObj_Static::Change_Model(_uint iObjNumber, const _tchar * pModel_PrototypeTag)
+void CMeshObj_Static_Inst::Change_Model(_uint iObjNumber, const _tchar * pModel_PrototypeTag)
 {
 	if (FAILED(Delete_Component(TEXT("Com_Model"))))
 		return;
@@ -25,12 +25,12 @@ void CMeshObj_Static::Change_Model(_uint iObjNumber, const _tchar * pModel_Proto
 		return;
 }
 
-HRESULT CMeshObj_Static::Initialize_Prototype()
+HRESULT CMeshObj_Static_Inst::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CMeshObj_Static::Initialize(void * pArg)
+HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 {
 	if (nullptr == pArg)
 		return E_FAIL;
@@ -40,21 +40,37 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	_matrix		matWorld = XMLoadFloat4x4(&m_tMyDesc.matWorld);
-	m_pTransformCom->Set_WorldMatrix(matWorld);
+	//	_matrix		matWorld = XMLoadFloat4x4(&m_tMyDesc.matWorld);
+	//	m_pTransformCom->Set_WorldMatrix(matWorld);
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	//	(_float4*)&m_WorldMatrix.m[eState][0];
+
+	vector<VTXMATRIX>		vecMatrix;
+	for (auto & iter : m_tMyDesc.vecWorld)
+	{
+		VTXMATRIX	VtxMatrix;
+		VtxMatrix.vRight = (_float4)&iter.m[CTransform::STATE_RIGHT][0];
+		VtxMatrix.vUp = (_float4)&iter.m[CTransform::STATE_UP][0];
+		VtxMatrix.vLook = (_float4)&iter.m[CTransform::STATE_LOOK][0];
+		VtxMatrix.vPosition = (_float4)&iter.m[CTransform::STATE_TRANSLATION][0];
+
+		vecMatrix.push_back(VtxMatrix);
+	}
+
+	m_pModelCom->Update_Instancing(vecMatrix, 1.f / 60.f);
+
 	return S_OK;
 }
 
-void CMeshObj_Static::Tick(_float fTimeDelta)
+void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 }
 
-void CMeshObj_Static::Late_Tick(_float fTimeDelta)
+void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
 {
 	__super::Late_Tick(fTimeDelta);
 
@@ -62,7 +78,7 @@ void CMeshObj_Static::Late_Tick(_float fTimeDelta)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 }
 
-HRESULT CMeshObj_Static::Render()
+HRESULT CMeshObj_Static_Inst::Render()
 {
 	if (FAILED(__super::Render()))
 		return E_FAIL;
@@ -90,7 +106,7 @@ HRESULT CMeshObj_Static::Render()
 	return S_OK;
 }
 
-HRESULT CMeshObj_Static::Delete_Component(const _tchar * pComponentTag)
+HRESULT CMeshObj_Static_Inst::Delete_Component(const _tchar * pComponentTag)
 {
 	auto	iter = find_if(m_Components.begin(), m_Components.end(), CTag_Finder(pComponentTag));
 	if (iter == m_Components.end())
@@ -102,7 +118,7 @@ HRESULT CMeshObj_Static::Delete_Component(const _tchar * pComponentTag)
 	return S_OK;
 }
 
-HRESULT CMeshObj_Static::Ready_Components()
+HRESULT CMeshObj_Static_Inst::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -128,7 +144,7 @@ HRESULT CMeshObj_Static::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CMeshObj_Static::SetUp_ShaderResources()
+HRESULT CMeshObj_Static_Inst::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -149,40 +165,42 @@ HRESULT CMeshObj_Static::SetUp_ShaderResources()
 	return S_OK;
 }
 
-HRESULT CMeshObj_Static::Ready_ModelComponent()
+HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 {
 	_tchar	pPrototypeTag_Model[MAX_PATH] = L"";
+	CModel::MESHINSTANCINGDESC tMeshInstancingDesc;
+	tMeshInstancingDesc.iNumMeshInstancing = m_tMyDesc.iNumInstancing;
 	switch (m_tMyDesc.iModelIndex)
 	{
-	case 2001: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree1"); break;
-	case 2002: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree2"); break;
-	case 2003: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree3"); break;
+	case 2001: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree1_Instancing"); break;
+	case 2002: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree2_Instancing"); break;
+	case 2003: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree3_Instancing"); break;
 
-	case 2004: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff1"); break;
-	case 2005: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff2"); break;
-	case 2006: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff3"); break;
-	case 2007: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff_Small"); break;
+	case 2004: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff1_Instancing"); break;
+	case 2005: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff2_Instancing"); break;
+	case 2006: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff3_Instancing"); break;
+	case 2007: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff_Small_Instancing"); break;
 
-	case 2008: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass1"); break;
-	case 2009: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass2"); break;
-	case 2010: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass3"); break;
-	case 2011: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass4"); break;
+	case 2008: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass1_Instancing"); break;
+	case 2009: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass2_Instancing"); break;
+	case 2010: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass3_Instancing"); break;
+	case 2011: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass4_Instancing"); break;
 	}
 
 
-	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_GAMEPLAY, pPrototypeTag_Model, (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_GAMEPLAY, pPrototypeTag_Model, (CComponent**)&m_pModelCom, &tMeshInstancingDesc)))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CMeshObj_Static * CMeshObj_Static::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CMeshObj_Static_Inst * CMeshObj_Static_Inst::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CMeshObj_Static*	pInstance = new CMeshObj_Static(pDevice, pContext);
+	CMeshObj_Static_Inst*	pInstance = new CMeshObj_Static_Inst(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CMeshObj_Static"));
+		ERR_MSG(TEXT("Failed to Created : CMeshObj_Static_Inst"));
 		Safe_Release(pInstance);
 	}
 
@@ -190,20 +208,20 @@ CMeshObj_Static * CMeshObj_Static::Create(ID3D11Device * pDevice, ID3D11DeviceCo
 }
 
 
-CGameObject * CMeshObj_Static::Clone(void * pArg)
+CGameObject * CMeshObj_Static_Inst::Clone(void * pArg)
 {
-	CMeshObj_Static*	pInstance = new CMeshObj_Static(*this);
+	CMeshObj_Static_Inst*	pInstance = new CMeshObj_Static_Inst(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CMeshObj_Static"));
+		ERR_MSG(TEXT("Failed to Cloned : CMeshObj_Static_Inst"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CMeshObj_Static::Free()
+void CMeshObj_Static_Inst::Free()
 {
 	__super::Free();
 

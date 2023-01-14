@@ -73,6 +73,9 @@
     <Filter Include="02.GameObjects\02.Map\01.MeshObj_Static">
       <UniqueIdentifier>{32e5c8cf-ccb0-43da-a7e8-c1c8dbcf2218}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\02.Map\02.MeshObj_Instancing_Static">
+      <UniqueIdentifier>{08b0d043-af6d-454f-97f3-a99aa70574c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -138,6 +141,9 @@
     <ClInclude Include="..\Public\MeshObj_Static.h">
       <Filter>02.GameObjects\02.Map\01.MeshObj_Static</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MeshObj_Static_Inst.h">
+      <Filter>02.GameObjects\02.Map\02.MeshObj_Instancing_Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -187,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\MeshObj_Static.cpp">
       <Filter>02.GameObjects\02.Map\01.MeshObj_Static</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MeshObj_Static_Inst.cpp">
+      <Filter>02.GameObjects\02.Map\02.MeshObj_Instancing_Static</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

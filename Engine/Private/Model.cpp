@@ -56,7 +56,7 @@ CHierarchyNode * CModel::Get_BonePtr(const char * pBoneName) const
 	return *iter;
 }
 
-HRESULT CModel::Initialize_Prototype(TYPE eModelType, const char * pModelFilePath, _fmatrix PivotMatrix, _uint iNumInstance)
+HRESULT CModel::Initialize_Prototype(TYPE eModelType, const char * pModelFilePath, _fmatrix PivotMatrix)
 {
 	m_eModelType = eModelType;
 
@@ -64,16 +64,11 @@ HRESULT CModel::Initialize_Prototype(TYPE eModelType, const char * pModelFilePat
 	
 	_uint			iFlag = 0;
 
-	if (TYPE_NONANIM == eModelType)
+	if (TYPE_NONANIM == eModelType ||
+		TYPE_NONANIM_INSTANCING == eModelType)
 		iFlag = aiProcess_PreTransformVertices | aiProcess_ConvertToLeftHanded | aiProcess_GenNormals | aiProcess_CalcTangentSpace;
 	else
 		iFlag = aiProcess_ConvertToLeftHanded | aiProcess_GenNormals | aiProcess_CalcTangentSpace;
-
-	m_iNumInstancing = iNumInstance;
-	if (1 < m_iNumInstancing)
-		m_eModelType = TYPE_NONANIM_INSTANCING;	//	AnimInsatnce은 안(못) 할 예정입니다.
-	else if (0 > m_iNumInstancing)
-		return E_FAIL;
 
 	m_pAIScene = m_Importer.ReadFile(pModelFilePath, iFlag);
 	if (nullptr == m_pAIScene)
@@ -92,9 +87,20 @@ HRESULT CModel::Initialize_Prototype(TYPE eModelType, const char * pModelFilePat
 
 HRESULT CModel::Initialize(void * pArg)
 {
-	if (TYPE_NONANIM == m_eModelType ||
-		1 < m_iNumInstancing)
+	if (TYPE_NONANIM == m_eModelType)
 		return S_OK;
+
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
+	{
+		for (auto & iter : m_Meshes_Instancing)
+		{
+			iter->Initialize(pArg);
+		}
+
+		return S_OK;
+	}
+
+
 
 	if (FAILED(Create_HierarchyNodes(m_pAIScene->mRootNode)))
 		return E_FAIL;
@@ -114,10 +120,12 @@ HRESULT CModel::SetUp_Material(CShader * pShader, const char * pConstantName, _u
 	if (iMeshIndex >= m_iNumMeshes)
 		return E_FAIL;
 
-	if (1 < m_iNumInstancing)
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
 	{
 		if (nullptr == m_Materials[m_Meshes_Instancing[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType])
 			return S_OK;
+
+		return pShader->Set_ShaderResourceView(pConstantName, m_Materials[m_Meshes_Instancing[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType]->Get_SRV());
 	}
 	else
 	{
@@ -170,7 +178,7 @@ HRESULT CModel::Render(CShader * pShader, _uint iMeshIndex, _uint iPassIndex)
 	}
 	pShader->Begin(iPassIndex);
 
-	if (1 < m_iNumInstancing)
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
 		m_Meshes_Instancing[iMeshIndex]->Render();
 	else
 		m_Meshes[iMeshIndex]->Render();
@@ -203,7 +211,7 @@ HRESULT CModel::Create_MeshContainer()
 
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
 
-	if (1 < m_iNumInstancing)
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
 	{
 		m_Meshes_Instancing.reserve(m_iNumMeshes);
 		for (_uint i = 0; i < m_iNumMeshes; ++i)
@@ -211,7 +219,7 @@ HRESULT CModel::Create_MeshContainer()
 			aiMesh*		pAIMesh = m_pAIScene->mMeshes[i];
 
 			/* 메시를 생성한다. */
-			CMeshInstance*		pMeshContainer = CMeshInstance::Create(m_pDevice, m_pContext, m_eModelType, pAIMesh, this, XMLoadFloat4x4(&m_PivotMatrix), m_iNumInstancing);
+			CMeshInstance*		pMeshContainer = CMeshInstance::Create(m_pDevice, m_pContext, m_eModelType, pAIMesh, this, XMLoadFloat4x4(&m_PivotMatrix));
 			if (nullptr == pMeshContainer)
 				return E_FAIL;
 
@@ -330,11 +338,11 @@ HRESULT CModel::Create_Animations()
 }
 
 
-CModel * CModel::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, TYPE eModelType, const char * pModelFilePath, _fmatrix PivotMatrix, _uint iNumInstance)
+CModel * CModel::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, TYPE eModelType, const char * pModelFilePath, _fmatrix PivotMatrix)
 {
 	CModel*	pInstance = new CModel(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_Prototype(eModelType, pModelFilePath, PivotMatrix, iNumInstance)))
+	if (FAILED(pInstance->Initialize_Prototype(eModelType, pModelFilePath, PivotMatrix)))
 	{
 		ERR_MSG(TEXT("Failed to Created : CModel"));
 		Safe_Release(pInstance);
@@ -425,6 +433,16 @@ HRESULT CModel::Bin_Initialize(void * pArg)
 
 	return S_OK;
 }
+void CModel::Update_Instancing(vector<VTXMATRIX> vecMatrix, _float fTimeDelta)
+{
+	if (TYPE_NONANIM_INSTANCING != m_eModelType)
+		return;
+
+	for (auto & iter : m_Meshes_Instancing)
+	{
+		iter->Update(vecMatrix, fTimeDelta);
+	}
+}
 HRESULT CModel::Get_HierarchyNodeData(DATA_BINSCENE * pBinScene)
 {
 	if (0 == m_Bones.size())
@@ -467,7 +485,7 @@ HRESULT CModel::Get_MaterialData(DATA_BINSCENE * pBinScene)
 }
 _bool CModel::Picking(CTransform * pTransform, _float3 * pOut)
 {
-	if (1 < m_iNumInstancing)
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
 		return false;
 
 	_bool bTrue = false;
