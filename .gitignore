@@ -26,5 +26,4 @@ Release
 *.exe
 *.cso
 *.obj.enc
-*.idb
 *.stobj
