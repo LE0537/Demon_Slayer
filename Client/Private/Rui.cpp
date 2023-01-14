@@ -36,7 +36,7 @@ HRESULT CRui::Initialize(void * pArg)
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+//	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -45,20 +45,20 @@ HRESULT CRui::Initialize(void * pArg)
 
 void CRui::Tick(_float fTimeDelta)
 {
-	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	//if (pGameInstance->Key_Down(DIK_F4))	
-	//{
-	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
-	//	char cName[MAX_PATH];
-	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
-	//	pData_Manager->TCtoC(TEXT("Rui"), cName);
-	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
-	//	ERR_MSG(TEXT("Save_Bin_Rui"));
-	//	RELEASE_INSTANCE(CData_Manager);
-	//}
+	if (pGameInstance->Key_Down(DIK_F5))	
+	{
+		CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
+		char cName[MAX_PATH];
+		ZeroMemory(cName, sizeof(char) * MAX_PATH);
+		pData_Manager->TCtoC(TEXT("Rui"), cName);
+		pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
+		ERR_MSG(TEXT("Save_Bin_Rui"));
+		RELEASE_INSTANCE(CData_Manager);
+	}
 
-	//RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CGameInstance);
 
 	__super::Tick(fTimeDelta);
 
@@ -179,7 +179,7 @@ HRESULT CRui::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Model*/
-	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Rui"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 

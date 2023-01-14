@@ -35,10 +35,7 @@ HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNu
 
 		ID3D11ShaderResourceView*			pSRV = nullptr;
 
-		if (!lstrcmp(szExt, TEXT(".dds")))
-			hr = DirectX::CreateDDSTextureFromFile(m_pDevice, szFullPath, nullptr, &pSRV);
-		else
-			hr = DirectX::CreateWICTextureFromFile(m_pDevice, szFullPath, nullptr, &pSRV);
+		hr = DirectX::CreateWICTextureFromFile(m_pDevice, szFullPath, nullptr, &pSRV);
 
 		if (FAILED(hr))
 			return E_FAIL;

@@ -55,20 +55,20 @@ HRESULT CPlayer::Initialize(void * pArg)
 
 void CPlayer::Tick(_float fTimeDelta)
 {
-	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	//if (pGameInstance->Key_Down(DIK_F4))	
-	//{
-	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
-	//	char cName[MAX_PATH];
-	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
-	//	pData_Manager->TCtoC(TEXT("Player"), cName);
-	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
-	//	ERR_MSG(TEXT("Save_Bin_Player"));
-	//	RELEASE_INSTANCE(CData_Manager);
-	//}
+	if (pGameInstance->Key_Down(DIK_F4))	
+	{
+		CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
+		char cName[MAX_PATH];
+		ZeroMemory(cName, sizeof(char) * MAX_PATH);
+		pData_Manager->TCtoC(TEXT("Player"), cName);
+		pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
+		ERR_MSG(TEXT("Save_Bin_Player"));
+		RELEASE_INSTANCE(CData_Manager);
+	}
 
-	//RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CGameInstance);
 
 	__super::Tick(fTimeDelta);
 	
@@ -189,7 +189,7 @@ HRESULT CPlayer::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Model*/
-	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Player"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_Player"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 

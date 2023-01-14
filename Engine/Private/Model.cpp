@@ -255,7 +255,7 @@ HRESULT CModel::Create_Materials(const char* pModelFilePath)
 		for (_uint j = 0; j < AI_TEXTURE_TYPE_MAX; ++j)
 		{
 			aiString		strPath;
-		
+
 			if (FAILED(pAIMaterial->GetTexture(aiTextureType(j), 0, &strPath)))
 				continue;
 
@@ -263,7 +263,7 @@ HRESULT CModel::Create_Materials(const char* pModelFilePath)
 			char			szExt[MAX_PATH] = "";
 			char			szTextureFileName[MAX_PATH] = "";
 
-			_splitpath_s(strPath.data, nullptr, 0, nullptr, 0, szName, MAX_PATH, nullptr, 0);
+			_splitpath_s(strPath.data, nullptr, 0, nullptr, 0, szName, MAX_PATH, szExt, 0);
 
 			strcpy_s(szTextureFileName, szName);
 			strcat_s(szTextureFileName, szExt);
@@ -565,10 +565,6 @@ HRESULT CModel::Bin_Ready_Materials(const char * pModelFilePath)
 			if (!strcmp(pAIMaterial.cNames[j], ""))
 				continue;
 
-			if (!strcmp(pAIMaterial.cNames[j], "sea01_com_n.dds"))
-			{
-
-			}
 			char			szFullPath[MAX_PATH] = "";
 			char			szExt[MAX_PATH] = "";
 
@@ -577,12 +573,6 @@ HRESULT CModel::Bin_Ready_Materials(const char * pModelFilePath)
 			strcpy_s(szFullPath, pModelFilePath);
 			strcat_s(szFullPath, pAIMaterial.cNames[j]);
 
-			if (!strcmp("", szExt))
-			{
-				strcpy_s(szExt, ".dds");
-				strcat_s(szFullPath, szExt);
-			}
-			
 			_tchar			szWideFullPath[MAX_PATH] = TEXT("");
 
 			MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szWideFullPath, MAX_PATH);
