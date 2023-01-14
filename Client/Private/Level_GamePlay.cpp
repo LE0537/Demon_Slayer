@@ -39,10 +39,10 @@ HRESULT CLevel_GamePlay::Initialize()
 	//if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 	//	return E_FAIL;
 
-
+/*
 	if (FAILED(Load_StaticObjects("11Test")))
 		return E_FAIL;
-
+*/
 
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("hov.wav"), 0.45f);
 
