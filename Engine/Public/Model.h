@@ -77,13 +77,11 @@ private:
 
 	_float3*					vPos;
 
-//----------------------
+//-------------------------------------------------------------------
 private:/* For.Instancing Model */
 	_uint								m_iNumInstancing = 1;
 	vector<class CMeshInstance*>		m_Meshes_Instancing;
-
-
-//----------------------
+//-------------------------------------------------------------------
 
 private: // Ãß°¡
 	HRESULT Bin_Ready_MeshContainers(_fmatrix PivotMatrix);
