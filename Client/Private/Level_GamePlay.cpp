@@ -41,7 +41,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	//	return E_FAIL;
 
 
-	if (FAILED(Load_StaticObjects("11Test")))
+	if (FAILED(Load_StaticObjects("11Test_2")))
 		return E_FAIL;
 
 

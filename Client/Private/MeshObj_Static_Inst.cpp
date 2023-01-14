@@ -177,6 +177,15 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2009: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass2_Instancing"); break;
 	case 2010: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass3_Instancing"); break;
 	case 2011: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass4_Instancing"); break;
+
+	case 2012: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far1_Instancing"); break;
+	case 2013: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far2_Instancing"); break;
+
+	case 2014: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb1_Instancing"); break;
+	case 2015: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb2_Instancing"); break;
+	case 2016: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb3_Instancing"); break;
+
+	case 2017: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround_Instancing"); break;
 	}
 
 
