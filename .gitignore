@@ -24,3 +24,6 @@ Release
 *.exe
 *.cso
 *.obj.enc
+
+*.idb
+*.pdb
