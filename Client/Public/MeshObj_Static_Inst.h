@@ -13,11 +13,11 @@ class CMeshObj_Static_Inst final : public CGameObj
 public:
 	typedef struct tagMeshObj_Static_Instancing_Desc
 	{
-		vector<_float4x4>	vecWorld;
-		_uint				iCurrentLevel;
+		_uint			iNumInstancing = 1;
+		_float4x4*		pWorld = nullptr;
+		_uint			iCurrentLevel;
 
 		_uint		iModelIndex;
-		_uint		iNumInstancing = 1;
 
 	}MESHOBJ_STATIC_INSTANCING_DESC;
 

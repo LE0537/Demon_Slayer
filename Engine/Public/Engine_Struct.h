@@ -88,11 +88,11 @@ namespace Engine
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
 	}VTXRECTINSTANCE_DECLARATION;
 
-	typedef struct ENGINE_DLL tagVertexMeshInstance_Declaration
+	typedef struct ENGINE_DLL tagVertexModelInstance_Declaration
 	{
-		static const unsigned int iNumElements = 6;
+		static const unsigned int iNumElements = 8;
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
-	}VTXMESHINSTANCE_DECLARATION;
+	}VTXMODELINSTANCE_DECLARATION;
 
 	typedef struct tagVertexPoint
 	{

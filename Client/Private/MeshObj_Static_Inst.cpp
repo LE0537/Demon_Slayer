@@ -40,22 +40,14 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//	_matrix		matWorld = XMLoadFloat4x4(&m_tMyDesc.matWorld);
-	//	m_pTransformCom->Set_WorldMatrix(matWorld);
-
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	//	(_float4*)&m_WorldMatrix.m[eState][0];
-
 	vector<VTXMATRIX>		vecMatrix;
-	for (auto & iter : m_tMyDesc.vecWorld)
+	for (_uint i = 0; i < m_tMyDesc.iNumInstancing; ++i)
 	{
 		VTXMATRIX	VtxMatrix;
-		VtxMatrix.vRight = (_float4)&iter.m[CTransform::STATE_RIGHT][0];
-		VtxMatrix.vUp = (_float4)&iter.m[CTransform::STATE_UP][0];
-		VtxMatrix.vLook = (_float4)&iter.m[CTransform::STATE_LOOK][0];
-		VtxMatrix.vPosition = (_float4)&iter.m[CTransform::STATE_TRANSLATION][0];
+		memcpy(&VtxMatrix, &m_tMyDesc.pWorld[i], sizeof VtxMatrix);
 
 		vecMatrix.push_back(VtxMatrix);
 	}
@@ -134,7 +126,7 @@ HRESULT CMeshObj_Static_Inst::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"), (CComponent**)&m_pShaderCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModelInstance"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
 	/* For.Com_Model*/

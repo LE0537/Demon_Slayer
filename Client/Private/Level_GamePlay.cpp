@@ -279,17 +279,26 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 	{
 		if (4 <= Pair.second)
 		{
+			_uint iNumInstancing = Pair.second;
 			CMeshObj_Static_Inst::MESHOBJ_STATIC_INSTANCING_DESC tMeshObj_Static_InstDesc;
-			tMeshObj_Static_InstDesc.vecWorld = map_MeshIdx_World.find(Pair.first)->second;
+			_float4x4*		arrWorld = new _float4x4[iNumInstancing];
+			for (_uint i = 0; i < iNumInstancing; ++i)
+			{
+				arrWorld[i] = map_MeshIdx_World.find(Pair.first)->second[i];
+			}
+
+			tMeshObj_Static_InstDesc.pWorld = arrWorld;
 			tMeshObj_Static_InstDesc.iCurrentLevel = LEVEL_GAMEPLAY;
 			tMeshObj_Static_InstDesc.iModelIndex = Pair.first;
-			tMeshObj_Static_InstDesc.iNumInstancing = Pair.second;
+			tMeshObj_Static_InstDesc.iNumInstancing = iNumInstancing;
 
 			if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static_Instancing", LEVEL_GAMEPLAY, L"Layer_MeshObj_Static_Inst", &tMeshObj_Static_InstDesc)))
 			{
 				ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects_Instancing");
 				continue;
 			}
+
+			Safe_Delete_Array(arrWorld);
 		}
 		else
 		{
