@@ -4,9 +4,11 @@
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
 #include "SoundMgr.h"
+
 #include "GameObj.h"
 #include "MeshObj_Static.h"
 #include "MeshObj_Static_Inst.h"
+#include "Terrain.h"
 
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -29,6 +31,9 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+		return E_FAIL;
+
+	if (FAILED(Load_Map(L"Layer_BackGround", "11_Map")))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
@@ -345,6 +350,23 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 	Safe_Delete(pWorld);
 	Safe_Delete(pMeshIndex);
 
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Load_Map(const _tchar* pLayerTag, char * pFileName)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CTerrain::NEWTERRAINDESC tNewTerrainDesc;
+	ZeroMemory(&tNewTerrainDesc, sizeof tNewTerrainDesc);
+
+	//	strcpy_s(tTerrainDesc.strFileName, MAX_PATH, "TestMap");
+	strcpy_s(tNewTerrainDesc.tTerrainDesc.strFileName, MAX_PATH, pFileName);
+	if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_NewTerrain", LEVEL_GAMEPLAY, pLayerTag, &tNewTerrainDesc)))
+		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);
 

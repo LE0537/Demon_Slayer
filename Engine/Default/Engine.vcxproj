@@ -212,6 +212,7 @@
     <ClCompile Include="..\private\VIBuffer_Hexagon.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Instance.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Navigation.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_NewTerrain.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Point_Instance.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Rect_Instance.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="..\public\VIBuffer_Hexagon.h" />
     <ClInclude Include="..\Public\VIBuffer_Instance.h" />
     <ClInclude Include="..\Public\VIBuffer_Navigation.h" />
+    <ClInclude Include="..\Public\VIBuffer_NewTerrain.h" />
     <ClInclude Include="..\Public\VIBuffer_Point_Instance.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
     <ClInclude Include="..\Public\VIBuffer_Rect_Instance.h" />

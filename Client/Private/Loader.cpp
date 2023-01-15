@@ -192,8 +192,25 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	}
 #pragma endregion Static Objects
 
+#pragma region Map
+	{
+		/*For.Prototype_Component_Texture_TerrainDiffuse */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TerrainDiffuse"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Map/Textures/Diffuse_%d.png", 12))))
+			return E_FAIL;
+		/*For.Prototype_Component_Texture_TerrainNormal */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TerrainNormal"),
+			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Map/Textures/Normal_%d.png", 12))))
+			return E_FAIL;
 
 
+		//	MeshObj_Static
+		/*For.Prototype_GameObject_NewTerrain */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NewTerrain"),
+			CTerrain::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+	}
+#pragma endregion Map
 
 
 	/* Ä«¸Þ¶ó °´Ã¼ */

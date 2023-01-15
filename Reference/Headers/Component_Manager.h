@@ -12,6 +12,7 @@
 #include "VIBuffer_Trail.h"
 //#include "VIBuffer_Cube.h"
 #include "VIBuffer_Terrain.h"
+#include "VIBuffer_NewTerrain.h"
 #include "VIBuffer_Hexagon.h"
 #include "VIBuffer_Rect_Instance.h"
 #include "VIBuffer_Point_Instance.h"

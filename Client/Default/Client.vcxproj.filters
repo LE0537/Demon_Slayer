@@ -88,6 +88,9 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Jump">
       <UniqueIdentifier>{757b88c0-ac87-434c-b129-e83c7166eab0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\02.Map\99.Terrain">
+      <UniqueIdentifier>{7a4aff2a-9f9c-48f3-b326-ed6a6b776aea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
