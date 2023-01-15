@@ -20,6 +20,7 @@ public:
 	{
 		STATE_IDLE,
 		STATE_MOVE,
+		STATE_JUMP,
 		STATE_END
 	};
 
@@ -46,6 +47,10 @@ public:
 
 		return pCurrentState;
 	}
+	
+public:
+	STATE_ID Get_TanjiroState() const { return m_eStateId; }
+
 
 protected:
 	STATE_TYPE m_eStateType = TYPE_DEFAULT;

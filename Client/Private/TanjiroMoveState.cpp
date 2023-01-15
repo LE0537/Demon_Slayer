@@ -52,7 +52,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 CTanjiroState * CMoveState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	Move(pTanjiro, fTimeDelta);
-	//pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
 
 	return nullptr;
@@ -62,14 +62,14 @@ CTanjiroState * CMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	{
-		switch (m_eStateType)
+	switch (m_eStateType)
 		{
 		case Client::CTanjiroState::TYPE_START:
 			m_eStateType = CTanjiroState::TYPE_LOOP;
 			break;
-		case Client::CTanjiroState::TYPE_LOOP:
-			m_eStateType = CTanjiroState::TYPE_LOOP;
-			break;
+		//case Client::CTanjiroState::TYPE_LOOP:
+		//	m_eStateType = CTanjiroState::TYPE_LOOP;
+		//	break;
 		case Client::CTanjiroState::TYPE_END:
 			return new CIdleState();
 			break;
@@ -145,9 +145,8 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		break;
 	}
 
-	pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
-	
-
+	if(m_eDirection != DIR_STOP)
+		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
 }
 
 

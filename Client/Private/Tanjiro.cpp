@@ -36,8 +36,9 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
 
-	CTanjiroState* pState = new CIdleState();
+	CTanjiroState* pState = new CMoveState(OBJDIR::DIR_STOP, CTanjiroState::STATE_TYPE::TYPE_DEFAULT);
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
 
 
 	return S_OK;
@@ -49,12 +50,20 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 	Set_ShadowLightPos();
 
-	
+
 
 	HandleInput();
 	TickState(fTimeDelta);
 
-	m_pModelCom->Play_Animation(fTimeDelta);
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	printf_s("anim index : %d \n", m_pTanjiroState->Get_TanjiroState());
+
+	RELEASE_INSTANCE(CGameInstance);
+	
+
+	//m_pModelCom->Play_Animation(fTimeDelta);
 	m_pAABBCom->Update(m_pTransformCom->Get_WorldMatrix());
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
 
@@ -228,277 +237,10 @@ void CTanjiro::Set_ShadowLightPos()
 	RELEASE_INSTANCE(CGameInstance);
 }
 
-void CTanjiro::Tanjiro_GoStraight(_float fTimeDelta)
-{
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	CTransform* pTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, L"Layer_Camera", L"Com_Transform");
-
-	_vector vPlayerLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-	_vector vCameraLook = pTransform->Get_State(CTransform::STATE_LOOK);
-	vCameraLook = XMVectorSetY(vCameraLook, XMVectorGetY(vPlayerLook));
-	_vector vLookDot = XMVector3AngleBetweenVectors(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_float fAngle = XMConvertToDegrees(XMVectorGetX(vLookDot));
-
-	//해킹 완료 배고파서 6시팟 밥머그러 감 ㅋ ㅋ
-
-	// 외적, 내적으로 angle 보정
-	_vector vCross = XMVector3Cross(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_vector vDot = XMVector3Dot(XMVector3Normalize(vCross), XMVector3Normalize(XMVectorSet(0.f, 1.f, 0.f, 0.f)));
-
-	_float fScala = XMVectorGetX(vDot);
-
-	if (fScala < 0.f)
-		fAngle = 360.f - fAngle;
-
-
-	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), fAngle - 5.f);
-	m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
-	m_eCurKeyState = KEY_END;
-
-	int i = fAngle;
-
-	_tchar	m_szFPS[MAX_PATH] = L"";
-	wsprintf(m_szFPS, L"fAngle : L %d", i);
-	OutputDebugString(m_szFPS);
-
-	RELEASE_INSTANCE(CGameInstance);
-}
-
-void CTanjiro::Tanjiro_GoBackWard(_float fTimeDelta)
-{
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CTransform* pTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, L"Layer_Camera", L"Com_Transform");
-
-	_vector vPlayerLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-	_vector vCameraLook = pTransform->Get_State(CTransform::STATE_LOOK);
-	vCameraLook = XMVectorSetY(vCameraLook, XMVectorGetY(vPlayerLook));
-	vCameraLook *= -1.f;
-	_vector vLookDot = XMVector3AngleBetweenVectors(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_float fAngle = XMConvertToDegrees(XMVectorGetX(vLookDot));
-
-	// 외적, 내적으로 angle 보정
-	_vector vCross = XMVector3Cross(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_vector vDot = XMVector3Dot(XMVector3Normalize(vCross), XMVector3Normalize(XMVectorSet(0.f, 1.f, 0.f, 0.f)));
-
-	_float fScala = XMVectorGetX(vDot);
-
-	if (fScala < 0.f)
-		fAngle = 360.f - fAngle;
-
-
-	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), fAngle - 5.f);
-	m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
-	m_eCurKeyState = KEY_END;
-
-	RELEASE_INSTANCE(CGameInstance);
-}
-
-void CTanjiro::Tanjiro_GoRight(_float fTimeDelta)
-{
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	CTransform* pTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, L"Layer_Camera", L"Com_Transform");
-
-	m_eCurKeyState = KEY_RIGHT;
-
-	_vector vPlayerLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-	_vector vCameraLook = pTransform->Get_State(CTransform::STATE_LOOK);
-	vCameraLook = XMVectorSetY(vCameraLook, XMVectorGetY(vPlayerLook));
-	_vector tempVec = XMVector3AngleBetweenVectors(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_float fAngle = XMConvertToDegrees(XMVectorGetX(tempVec));
-
-	if (m_ePreKeyState == KEY_LEFT)
-		fAngle += 180.f;
-	else
-		fAngle = 90.f - fAngle;
-
-	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), fAngle);
-	m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
-	m_ePreKeyState = m_eCurKeyState;
-
-
-	RELEASE_INSTANCE(CGameInstance);
-}
-
-void CTanjiro::Tanjiro_GoLeft(_float fTimeDelta)
-{
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	CTransform* pTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, L"Layer_Camera", L"Com_Transform");
-
-	m_eCurKeyState = KEY_LEFT;
-
-	_vector vPlayerLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-	_vector vCameraLook = pTransform->Get_State(CTransform::STATE_LOOK);
-	vCameraLook = XMVectorSetY(vCameraLook, XMVectorGetY(vPlayerLook));
-	_vector tempVec = XMVector3AngleBetweenVectors(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_float fAngle = XMConvertToDegrees(XMVectorGetX(tempVec));
-
-
-
-
-	if (m_ePreKeyState == KEY_RIGHT)
-		fAngle += 180.f;
-	else
-		fAngle += 270.f;
-
-	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), fAngle);
-	m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
-	m_ePreKeyState = m_eCurKeyState;
-
-	RELEASE_INSTANCE(CGameInstance);
-}
-
-void CTanjiro::Tanjiro_GoLF(_float fTimeDelta)
-{
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CTransform* pTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, L"Layer_Camera", L"Com_Transform");
-
-	m_eCurKeyState = KEY_LF;
-
-	_vector vPlayerLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-	_vector vCameraLook = pTransform->Get_State(CTransform::STATE_LOOK);
-	vCameraLook = XMVectorSetY(vCameraLook, XMVectorGetY(vPlayerLook));
-	_vector tempVec = XMVector3AngleBetweenVectors(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_float fAngle = XMConvertToDegrees(XMVectorGetX(tempVec));
-
-
-	// 외적, 내적으로 angle 보정
-	_vector vCross = XMVector3Cross(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_vector vDot = XMVector3Dot(XMVector3Normalize(vCross), XMVector3Normalize(XMVectorSet(0.f, 1.f, 0.f, 0.f)));
-
-	_float fScala = XMVectorGetX(vDot);
-
-	if (fScala < 0.f)
-		fAngle = 360.f - fAngle;
-
-
-	if (m_ePreKeyState == KEY_RB)
-		fAngle += 180.f;
-	else
-		fAngle += 315.f;
-
-	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), fAngle);
-	m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
-	m_ePreKeyState = m_eCurKeyState;
-
-	RELEASE_INSTANCE(CGameInstance);
-}
-
-void CTanjiro::Tanjiro_GoRF(_float fTimeDelta)
-{
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CTransform* pTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, L"Layer_Camera", L"Com_Transform");
-
-	m_eCurKeyState = KEY_RF;
-
-	_vector vPlayerLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-	_vector vCameraLook = pTransform->Get_State(CTransform::STATE_LOOK);
-	vCameraLook = XMVectorSetY(vCameraLook, XMVectorGetY(vPlayerLook));
-	_vector tempVec = XMVector3AngleBetweenVectors(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_float fAngle = XMConvertToDegrees(XMVectorGetX(tempVec));
-
-	// 외적, 내적으로 angle 보정
-	_vector vCross = XMVector3Cross(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_vector vDot = XMVector3Dot(XMVector3Normalize(vCross), XMVector3Normalize(XMVectorSet(0.f, 1.f, 0.f, 0.f)));
-	_float fScala = XMVectorGetX(vDot);
-
-	if (fScala < 0.f)
-		fAngle = 360.f - fAngle;
-
-	if (m_ePreKeyState == KEY_LB)
-		fAngle += 180.f;
-	else
-		fAngle += 45.f;
-
-	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), fAngle);
-	m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
-	m_ePreKeyState = m_eCurKeyState;
-
-	RELEASE_INSTANCE(CGameInstance);
-}
-
-void CTanjiro::Tanjiro_GoLB(_float fTimeDelta)
-{
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CTransform* pTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, L"Layer_Camera", L"Com_Transform");
-
-	m_eCurKeyState = KEY_LB;
-
-	_vector vPlayerLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-	_vector vCameraLook = pTransform->Get_State(CTransform::STATE_LOOK);
-	vCameraLook = XMVectorSetY(vCameraLook, XMVectorGetY(vPlayerLook));
-	vCameraLook *= -1.f;
-
-	_vector tempVec = XMVector3AngleBetweenVectors(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_float fAngle = XMConvertToDegrees(XMVectorGetX(tempVec));
-
-
-	// 외적, 내적으로 angle 보정
-	_vector vCross = XMVector3Cross(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_vector vDot = XMVector3Dot(XMVector3Normalize(vCross), XMVector3Normalize(XMVectorSet(0.f, 1.f, 0.f, 0.f)));
-
-	_float fScala = XMVectorGetX(vDot);
-
-	if (fScala < 0.f)
-		fAngle = 360.f - fAngle;
-
-
-	if (m_ePreKeyState == KEY_RF)
-		fAngle += 180.f;
-	else
-		fAngle += 405.f;
-
-	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), fAngle);
-	m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
-	m_ePreKeyState = m_eCurKeyState;
-
-	RELEASE_INSTANCE(CGameInstance);
-}
-
-void CTanjiro::Tanjiro_GoRB(_float fTimeDelta)
-{
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CTransform* pTransform = (CTransform*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, L"Layer_Camera", L"Com_Transform");
-
-	m_eCurKeyState = KEY_RB;
-
-	_vector vPlayerLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-	_vector vCameraLook = pTransform->Get_State(CTransform::STATE_LOOK);
-	vCameraLook = XMVectorSetY(vCameraLook, XMVectorGetY(vPlayerLook));
-	vCameraLook *= -1.f;
-
-	_vector tempVec = XMVector3AngleBetweenVectors(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_float fAngle = XMConvertToDegrees(XMVectorGetX(tempVec));
-
-
-	// 외적, 내적으로 angle 보정
-	_vector vCross = XMVector3Cross(XMVector3Normalize(vPlayerLook), XMVector3Normalize(vCameraLook));
-	_vector vDot = XMVector3Dot(XMVector3Normalize(vCross), XMVector3Normalize(XMVectorSet(0.f, 1.f, 0.f, 0.f)));
-
-	_float fScala = XMVectorGetX(vDot);
-
-	if (fScala < 0.f)
-		fAngle = 360.f - fAngle;
-
-
-	if (m_ePreKeyState == KEY_LF)
-		fAngle += 180.f;
-	else
-		fAngle += 315.f;
-
-	m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), fAngle);
-	m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
-	m_ePreKeyState = m_eCurKeyState;
-
-	RELEASE_INSTANCE(CGameInstance);
-}
-
-
 
 void CTanjiro::HandleInput()
 {
+
 	CTanjiroState* pNewState = m_pTanjiroState->HandleInput(this);
 
 	if (pNewState)

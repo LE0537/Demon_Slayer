@@ -23,13 +23,23 @@ class CTanjiro : public CGameObj
 public:
 	enum ANIMID
 	{
+		// IDLE
 		ANIM_IDLE = 69,
+
+		// MOVE
 		ANIM_MOVE_START = 72,
 		ANIM_MOVE_LOOP = 73,
 		ANIM_MOVE_END = 74,
+
+		// JUMP
+		ANIM_JUMP_START = 65,
+		ANIM_JUMP_LOOP_START = 66,
+		ANIM_JUMP_LOOP_END = 67,
+		ANIM_JUMP_END = 68,
+
+
 		ANIM_END = 100
 	};
-
 
 private:
 	CTanjiro(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -55,16 +65,7 @@ private:
 	void	Set_ShadowLightPos();
 
 
-public:
-	void Tanjiro_GoStraight(_float fTimeDelta);
-	void Tanjiro_GoBackWard(_float fTimeDelta);
-	void Tanjiro_GoRight(_float fTimeDelta);
-	void Tanjiro_GoLeft(_float fTimeDelta);
 
-	void Tanjiro_GoLF(_float fTimeDelta);
-	void Tanjiro_GoRF(_float fTimeDelta);
-	void Tanjiro_GoLB(_float fTimeDelta);
-	void Tanjiro_GoRB(_float fTimeDelta);
 	
 
 

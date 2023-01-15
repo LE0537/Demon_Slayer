@@ -85,6 +85,9 @@
     <Filter Include="02.GameObjects\02.Map\02.MeshObj_Instancing_Static">
       <UniqueIdentifier>{08b0d043-af6d-454f-97f3-a99aa70574c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Jump">
+      <UniqueIdentifier>{757b88c0-ac87-434c-b129-e83c7166eab0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -171,6 +174,9 @@
     <ClInclude Include="..\Public\Tanjiro.h">
       <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroJumpState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Jump</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -233,11 +239,14 @@
     <ClCompile Include="..\Private\TanjiroIdleState.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Idle</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Kyoujuro.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Char\02.Kyoujuro</Filter>
+    </ClCompile>
     <ClCompile Include="..\Private\TanjiroMoveState.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Move</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Kyoujuro.cpp">
-      <Filter>02.GameObjects\99.GameObj\01.Char\02.Kyoujuro</Filter>
+    <ClCompile Include="..\Private\TanjiroJumpState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Jump</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

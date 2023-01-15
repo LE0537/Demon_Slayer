@@ -42,6 +42,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Add_Fonts(m_pDevice, m_pContext, TEXT("Font_Nexon"), TEXT("../Bin/Resources/Fonts/130.spritefont"))))
 		return E_FAIL;
 
+	if (FAILED(Open_DebugCMD()))
+		return E_FAIL;
+
 	CSoundMgr::Get_Instance()->Initialize();
 
 	return S_OK;
@@ -161,6 +164,20 @@ HRESULT CMainApp::Ready_Prototype_Component()
 
 
 	Safe_AddRef(m_pRenderer);
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Open_DebugCMD()
+{
+	if (::AllocConsole() == TRUE)
+	{
+		FILE* nfp[3];
+		freopen_s(nfp + 0, "CONOUT$", "rb", stdin);
+		freopen_s(nfp + 1, "CONOUT$", "wb", stdout);
+		freopen_s(nfp + 2, "CONOUT$", "wb", stderr);
+		std::ios::sync_with_stdio();
+	}
 
 	return S_OK;
 }

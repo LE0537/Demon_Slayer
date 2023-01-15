@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TanjiroIdlestate.h"
 #include "TanjiroMoveState.h"
+#include "TanjiroJumpState.h"
 #include "GameInstance.h"
 
 using namespace Tanjiro;
@@ -24,7 +25,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		else
 			return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 	}
-		
+
 	else if (pGameInstance->Key_Pressing(DIK_D)) // ╣з
 	{
 		if (pGameInstance->Key_Pressing(DIK_A)) // аб
@@ -40,17 +41,15 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
 	else if (pGameInstance->Key_Pressing(DIK_S)) // ©Л
 		return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
-
-
-
-
+	else if (pGameInstance->Key_Down(DIK_SPACE)) // а║га
+		return new JumpState(STATE_TYPE::TYPE_START);
 
 	return nullptr;
 }
 
 CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	//pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 	
 
 	return nullptr;
