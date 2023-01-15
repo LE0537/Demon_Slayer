@@ -170,12 +170,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
+    <ClInclude Include="..\Public\Akaza.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\BattleField.h" />
     <ClInclude Include="..\Public\Camera_Dynamic.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\Data_Manager.h" />
     <ClInclude Include="..\public\GameObj.h" />
+    <ClInclude Include="..\Public\Kyoujuro.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
@@ -185,6 +187,10 @@
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\Rui.h" />
     <ClInclude Include="..\Public\MeshObj_Static.h" />
+    <ClInclude Include="..\Public\Tanjiro.h" />
+    <ClInclude Include="..\Public\TanjiroIdleState.h" />
+    <ClInclude Include="..\Public\TanjiroMoveState.h" />
+    <ClInclude Include="..\Public\TanjiroState.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
@@ -192,11 +198,13 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Private\Akaza.cpp" />
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\private\BattleField.cpp" />
     <ClCompile Include="..\Private\Camera_Dynamic.cpp" />
     <ClCompile Include="..\Private\Data_Manager.cpp" />
     <ClCompile Include="..\private\GameObj.cpp" />
+    <ClCompile Include="..\Private\Kyoujuro.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\Private\Level_Logo.cpp" />
@@ -206,6 +214,9 @@
     <ClCompile Include="..\Private\MeshObj_Static_Inst.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\Rui.cpp" />
+    <ClCompile Include="..\Private\Tanjiro.cpp" />
+    <ClCompile Include="..\Private\TanjiroIdleState.cpp" />
+    <ClCompile Include="..\Private\TanjiroMoveState.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
