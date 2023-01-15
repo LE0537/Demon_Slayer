@@ -33,24 +33,20 @@ void CMeshInstance::Get_BoneMatrices(_float4x4 * pBoneMatrices, _fmatrix PivotMa
 	}
 }
 
-HRESULT CMeshInstance::Initialize_Prototype(CModel::TYPE eModelType, const aiMesh * pAIMesh, CModel* pModel, _fmatrix PivotMatrix, _uint iNumInstance)
+HRESULT CMeshInstance::Initialize_Prototype(CModel::TYPE eModelType, const aiMesh * pAIMesh, CModel* pModel, _fmatrix PivotMatrix)
 {
 	strcpy_s(m_szName, pAIMesh->mName.data);
-	m_iNumInstance = iNumInstance;
 
 	m_iMaterialIndex = pAIMesh->mMaterialIndex;
 	m_pAIMesh = pAIMesh;
 
 #pragma region VERTICES
 
-	HRESULT			hr = 0;
+	if (CModel::TYPE_NONANIM_INSTANCING != eModelType)
+		return E_FAIL;
 
-	if (CModel::TYPE_NONANIM == eModelType)
-		hr = Create_VertexBuffer_NonAnimModel(pAIMesh, PivotMatrix);
-	else if(CModel::TYPE_ANIM == eModelType)
-		hr = Create_VertexBuffer_AnimModel(pAIMesh, pModel);
-	else if(CModel::TYPE_NONANIM_INSTANCING == eModelType)
-		hr = Create_VertexBuffer_AnimModel(pAIMesh, pModel);
+
+	HRESULT	hr = Create_VertexBuffer_NonAnimModel(pAIMesh, PivotMatrix);
 
 	if (FAILED(hr))
 		return E_FAIL;
@@ -58,6 +54,18 @@ HRESULT CMeshInstance::Initialize_Prototype(CModel::TYPE eModelType, const aiMes
 
 #pragma endregion
 
+
+	return S_OK;
+}
+
+HRESULT CMeshInstance::Initialize(void * pArg)
+{
+	if (nullptr == pArg)
+		return S_OK;
+
+	CModel::MESHINSTANCINGDESC tMeshInstancingDesc;
+	memcpy(&tMeshInstancingDesc, pArg, sizeof tMeshInstancingDesc);
+	m_iNumInstance = tMeshInstancingDesc.iNumMeshInstancing;
 
 #pragma region Indices
 	ZeroMemory(&m_BufferDesc, sizeof(D3D11_BUFFER_DESC));
@@ -131,15 +139,11 @@ HRESULT CMeshInstance::Initialize_Prototype(CModel::TYPE eModelType, const aiMes
 	Safe_Delete_Array(pInstanceVtx);
 #pragma endregion
 
+
 	return S_OK;
 }
 
-HRESULT CMeshInstance::Initialize(void * pArg)
-{
-	return S_OK;
-}
-
-void CMeshInstance::Update(_float fTimeDelta)
+void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fTimeDelta)
 {
 	D3D11_MAPPED_SUBRESOURCE		MappedSubResource;
 	ZeroMemory(&MappedSubResource, sizeof MappedSubResource);
@@ -149,6 +153,10 @@ void CMeshInstance::Update(_float fTimeDelta)
 	for (_uint i = 0; i < m_iNumInstance; ++i)
 	{
 		//	하고싶은것
+		((VTXMATRIX*)MappedSubResource.pData)[i].vRight = vecMatrix[i].vRight;
+		((VTXMATRIX*)MappedSubResource.pData)[i].vUp = vecMatrix[i].vUp;
+		((VTXMATRIX*)MappedSubResource.pData)[i].vLook = vecMatrix[i].vLook;
+		((VTXMATRIX*)MappedSubResource.pData)[i].vPosition = vecMatrix[i].vPosition;
 	}
 
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
@@ -234,6 +242,7 @@ HRESULT CMeshInstance::Create_VertexBuffer_NonAnimModel(const aiMesh* pAIMesh, _
 
 HRESULT CMeshInstance::Create_VertexBuffer_AnimModel(const aiMesh* pAIMesh, CModel* pModel)
 {
+/*	초기화 필요
 	ZeroMemory(&m_BufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 
@@ -305,15 +314,17 @@ HRESULT CMeshInstance::Create_VertexBuffer_AnimModel(const aiMesh* pAIMesh, CMod
 		return E_FAIL;
 
 	Safe_Delete_Array(pVertices);
+	*/
 
 	return S_OK;
+
 }
 
-CMeshInstance * CMeshInstance::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CModel::TYPE eModelType, const aiMesh * pAIMesh, CModel * pModel, _fmatrix PivotMatrix, _uint iNumInstance)
+CMeshInstance * CMeshInstance::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CModel::TYPE eModelType, const aiMesh * pAIMesh, CModel * pModel, _fmatrix PivotMatrix)
 {
 	CMeshInstance*	pInstance = new CMeshInstance(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_Prototype(eModelType, pAIMesh, pModel, PivotMatrix, iNumInstance)))
+	if (FAILED(pInstance->Initialize_Prototype(eModelType, pAIMesh, pModel, PivotMatrix)))
 	{
 		ERR_MSG(TEXT("Failed to Created : CMeshInstance"));
 		Safe_Release(pInstance);
@@ -328,7 +339,7 @@ CComponent * CMeshInstance::Clone(void * pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CTransform"));
+		ERR_MSG(TEXT("Failed to Cloned : CMeshInstance"));
 		Safe_Release(pInstance);
 	}
 

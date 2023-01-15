@@ -88,6 +88,12 @@ namespace Engine
 		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
 	}VTXRECTINSTANCE_DECLARATION;
 
+	typedef struct ENGINE_DLL tagVertexModelInstance_Declaration
+	{
+		static const unsigned int iNumElements = 8;
+		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
+	}VTXMODELINSTANCE_DECLARATION;
+
 	typedef struct tagVertexPoint
 	{
 		XMFLOAT3		vPosition;

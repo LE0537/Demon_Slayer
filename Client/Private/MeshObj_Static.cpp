@@ -37,11 +37,11 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 
 	memcpy(&m_tMyDesc, pArg, sizeof m_tMyDesc);
 
-	_matrix		matWorld = XMLoadFloat4x4(&m_tMyDesc.matWorld);
-	m_pTransformCom->Set_WorldMatrix(matWorld);
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
+	_matrix		matWorld = XMLoadFloat4x4(&m_tMyDesc.matWorld);
+	m_pTransformCom->Set_WorldMatrix(matWorld);
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -118,7 +118,7 @@ HRESULT CMeshObj_Static::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_GAMEPLAY, TEXT("Prototype_Component_Shader_VtxModel"), (CComponent**)&m_pShaderCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
 	/* For.Com_Model*/
@@ -151,7 +151,7 @@ HRESULT CMeshObj_Static::SetUp_ShaderResources()
 
 HRESULT CMeshObj_Static::Ready_ModelComponent()
 {
-	_tchar*	pPrototypeTag_Model = L"";
+	_tchar	pPrototypeTag_Model[MAX_PATH] = L"";
 	switch (m_tMyDesc.iModelIndex)
 	{
 	case 2001: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree1"); break;
@@ -168,6 +168,14 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2010: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass3"); break;
 	case 2011: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass4"); break;
 
+	case 2012: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far1"); break;
+	case 2013: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far2"); break;
+
+	case 2014: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb1"); break;
+	case 2015: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb2"); break;
+	case 2016: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb3"); break;
+
+	case 2017: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround"); break;
 	}
 
 

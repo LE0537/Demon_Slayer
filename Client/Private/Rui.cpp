@@ -45,6 +45,7 @@ HRESULT CRui::Initialize(void * pArg)
 
 void CRui::Tick(_float fTimeDelta)
 {
+	/*
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	//if (pGameInstance->Key_Down(DIK_F5))	
@@ -59,7 +60,7 @@ void CRui::Tick(_float fTimeDelta)
 	//}
 
 	RELEASE_INSTANCE(CGameInstance);
-
+*/
 	__super::Tick(fTimeDelta);
 
 	Key_Input(fTimeDelta);
