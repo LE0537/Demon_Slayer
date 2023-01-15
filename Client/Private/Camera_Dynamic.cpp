@@ -24,7 +24,7 @@ HRESULT CCamera_Dynamic::Initialize_Prototype()
 HRESULT CCamera_Dynamic::Initialize(void* pArg)
 {
 	m_pPlayer = (CGameObj*)*(&((CAMERADESC_DERIVED*)pArg)->CameraDesc.pTarget);
-	
+
 	if (FAILED(__super::Initialize(&((CAMERADESC_DERIVED*)pArg)->CameraDesc)))
 		return E_FAIL;
 
@@ -65,7 +65,7 @@ HRESULT CCamera_Dynamic::Render()
 	if (FAILED(__super::Render()))
 		return E_FAIL;
 
-	
+
 	return S_OK;
 }
 
@@ -109,21 +109,26 @@ void CCamera_Dynamic::Set_CamPos()
 	vPos -= vLook * 30.f;
 
 	m_pSubTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	
+
 }
 
 void CCamera_Dynamic::Lerp_SubCam(_float fTimeDelta)
 {
-	//	Have Bug. PlayerPos == TargetPos, Display looks like Motion Blur
+	_float	fWeight = 5.f;
+	_matrix matWorld = XMMatrixIdentity();
 
-	for (_int i = 0; i < 4; ++i)
-	{
-		_float	fWeight = (4 == i ? 1.5f : 3.f);
-		CTransform::STATE	iTemp = CTransform::STATE(i);
-		_vector vLerp = XMVector3Normalize(XMVectorLerp(m_pTransform->Get_State(iTemp), m_pSubTransform->Get_State(iTemp), fTimeDelta * fWeight));
-		m_pTransform->Set_State(CTransform::STATE(i), vLerp);
-	}
+	_vector vLerp = XMVector3Normalize(XMVectorLerp(m_pTransform->Get_State(CTransform::STATE_LOOK), m_pSubTransform->Get_State(CTransform::STATE_LOOK), fTimeDelta * fWeight));
+	matWorld.r[CTransform::STATE_LOOK] = vLerp;
 
+	_vector vRight = XMVector3Normalize(XMVector3Cross(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_pTransform->Get_State(CTransform::STATE_LOOK)));
+	_vector vUp = XMVector3Cross(m_pTransform->Get_State(CTransform::STATE_LOOK), m_pTransform->Get_State(CTransform::STATE_RIGHT));
+	matWorld.r[CTransform::STATE_RIGHT] = vRight;
+	matWorld.r[CTransform::STATE_UP] = vUp;
+
+	_vector vLerp_Pos = XMVector3Normalize(XMVectorLerp(m_pTransform->Get_State(CTransform::STATE_TRANSLATION), m_pSubTransform->Get_State(CTransform::STATE_TRANSLATION), fTimeDelta * fWeight));
+	matWorld.r[CTransform::STATE_TRANSLATION] = vLerp_Pos;
+
+	m_pTransform->Set_WorldMatrix(matWorld);
 }
 
 CCamera_Dynamic * CCamera_Dynamic::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
