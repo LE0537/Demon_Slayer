@@ -13,7 +13,7 @@ CIdleState::CIdleState()
 
 CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 	if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 	{
@@ -43,7 +43,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 
 
 
-	RELEASE_INSTANCE(CGameInstance);
+
 
 	return nullptr;
 }
