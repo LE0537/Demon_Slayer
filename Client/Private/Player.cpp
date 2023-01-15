@@ -218,25 +218,25 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 
-	if (pGameInstance->Key_Pressing(DIK_W))
-	{
-		m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
-	}
+	//if (pGameInstance->Key_Pressing(DIK_W))
+	//{
+	//	m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
+	//}
 
-	if (pGameInstance->Key_Pressing(DIK_S))
-	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	}
+	//if (pGameInstance->Key_Pressing(DIK_S))
+	//{
+	//	m_pTransformCom->Go_Backward(fTimeDelta);
+	//}
 
 
-	if (pGameInstance->Key_Pressing(DIK_A))
-	{
-		m_pTransformCom->Turn2(m_pTransformCom->Get_State(CTransform::STATE_UP), XMConvertToRadians(-3.f));
-	}
-	else if (pGameInstance->Key_Pressing(DIK_D))
-	{
-		m_pTransformCom->Turn2(m_pTransformCom->Get_State(CTransform::STATE_UP), XMConvertToRadians(3.f));
-	}
+	//if (pGameInstance->Key_Pressing(DIK_A))
+	//{
+	//	m_pTransformCom->Turn2(m_pTransformCom->Get_State(CTransform::STATE_UP), XMConvertToRadians(-3.f));
+	//}
+	//else if (pGameInstance->Key_Pressing(DIK_D))
+	//{
+	//	m_pTransformCom->Turn2(m_pTransformCom->Get_State(CTransform::STATE_UP), XMConvertToRadians(3.f));
+	//}
 
 
 	RELEASE_INSTANCE(CGameInstance);

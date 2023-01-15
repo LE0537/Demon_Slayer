@@ -26,23 +26,22 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_LOOP);
 	}
 
-	else if (pGameInstance->Key_Pressing(DIK_D)) // 第
+	else if (pGameInstance->Key_Pressing(DIK_S)) // 第
 	{
 		if (pGameInstance->Key_Pressing(DIK_A)) // 谅
 			return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_LOOP);
 		else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
 			return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_LOOP);
 		else
-			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
+			return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_LOOP);
 	}
 
 
 	else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
 		return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_LOOP);
-	else if (pGameInstance->Key_Pressing(DIK_S)) // 快
-		return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_LOOP);
+	else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+		return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
 	else
-
 		return new CMoveState(OBJDIR::DIR_STOP, STATE_TYPE::TYPE_END);
 
 
@@ -119,33 +118,35 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 	switch (m_eDirection)
 	{
 	case Client::DIR_STRAIGHT:
-		pTanjiro->Tanjiro_GoStraight(fTimeDelta);
+		pTanjiro->Get_Transform()->Set_RotationY(0.f);
 		break;
 	case Client::DIR_LEFT:
-		pTanjiro->Tanjiro_GoLeft(fTimeDelta);
+		pTanjiro->Get_Transform()->Set_RotationY(270.f);
 		break;
 	case Client::DIR_RIGHT:
-		pTanjiro->Tanjiro_GoRight(fTimeDelta);
+		pTanjiro->Get_Transform()->Set_RotationY(90.f);
 		break;
 	case Client::DIR_BACK:
-		pTanjiro->Tanjiro_GoBackWard(fTimeDelta);
+		pTanjiro->Get_Transform()->Set_RotationY(180.f);
 		break;
 	case Client::DIR_LF:
-		pTanjiro->Tanjiro_GoLF(fTimeDelta);
+		pTanjiro->Get_Transform()->Set_RotationY(305.f);
 		break;
 	case Client::DIR_RF:
-		pTanjiro->Tanjiro_GoRF(fTimeDelta);
+		pTanjiro->Get_Transform()->Set_RotationY(45.f);
 		break;
 	case Client::DIR_LB:
-		pTanjiro->Tanjiro_GoLB(fTimeDelta);
+		pTanjiro->Get_Transform()->Set_RotationY(225.f);
 		break;
 	case Client::DIR_RB:
-		pTanjiro->Tanjiro_GoRB(fTimeDelta);
+		pTanjiro->Get_Transform()->Set_RotationY(135.f);
 		break;
 	case Client::DIR_STOP:
 		break;
 	}
 
+	pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+	
 
 }
 
