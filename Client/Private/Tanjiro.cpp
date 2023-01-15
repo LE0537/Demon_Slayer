@@ -556,4 +556,5 @@ void CTanjiro::Free()
 	Safe_Release(m_pAABBCom);
 	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pModelCom);
+	Safe_Delete(m_pTanjiroState);
 }

@@ -45,7 +45,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 
 		return new CMoveState(OBJDIR::DIR_STOP, STATE_TYPE::TYPE_END);
 
-	RELEASE_INSTANCE(CGameInstance);
+
 
 	return nullptr;
 }
