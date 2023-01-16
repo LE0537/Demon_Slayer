@@ -2,6 +2,7 @@
 #include "TanjiroJumpstate.h"
 #include "GameInstance.h"
 #include "TanjiroIdleState.h"
+#include "TanjiroMoveState.h"
 
 using namespace Tanjiro;
 
@@ -14,6 +15,8 @@ CJumpstate::CJumpstate(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
 
 CTanjiroState * CJumpstate::HandleInput(CTanjiro * pTanjiro)
 {
+
+
 	return nullptr;
 }
 
@@ -26,7 +29,7 @@ CTanjiroState * CJumpstate::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_END);
 
 
-	if(m_eStateType == TYPE_START)
+	if (m_eStateType == TYPE_START)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 3.f);
 	else if (m_eStateType == TYPE_LOOP)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
@@ -79,7 +82,7 @@ CTanjiroState * CJumpstate::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		case Client::CTanjiroState::TYPE_DEFAULT:
 			printf_s("Default Jump \n");
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			return new CIdleState(STATE_JUMP);
+			return new CIdleState();
 			break;
 		}
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
