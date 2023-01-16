@@ -350,6 +350,24 @@ HRESULT CTanjiro::Ready_Parts2()
 
 	return S_OK;
 }
+void CTanjiro::Set_Info()
+{
+	m_tInfo.strName = TEXT("ÅºÁö·Î");
+	m_tInfo.bOni = true;
+	m_tInfo.iMaxHp = 1000;
+	m_tInfo.iHp = m_tInfo.iMaxHp;
+	m_tInfo.iSkMaxBar = 100;
+	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
+	m_tInfo.iUnicMaxBar = 100;
+	m_tInfo.iUnicBar = 0;
+	m_tInfo.iDmg = 30;
+	m_tInfo.iCombo = 0;
+	m_tInfo.fComboTime = 0.f;
+	m_tInfo.bPowerUp = false;
+	m_tInfo.fPowerUpTime = 0.f;
+	m_tInfo.iFriendMaxBar = 100;
+	m_tInfo.iFriendBar;
+}
 CTanjiro * CTanjiro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CTanjiro*	pInstance = new CTanjiro(pDevice, pContext);

@@ -35,7 +35,7 @@ private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
 	void	Set_ShadowLightPos();
-
+	void	Set_Info();
 private:
 	CModel*					m_pModelCom = nullptr;
 	CCollider*				m_pAABBCom = nullptr;

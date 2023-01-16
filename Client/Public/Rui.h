@@ -36,7 +36,7 @@ private:
 	HRESULT Ready_Components();
 	void	Key_Input(_float fTimeDelta);
 	void	Set_ShadowLightPos();
-
+	void	Set_Info();
 public:
 
 private:

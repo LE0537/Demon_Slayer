@@ -37,7 +37,7 @@ private:
 	void	Set_ShadowLightPos();
 	HRESULT Ready_Parts();
 	HRESULT Ready_Parts2();
-
+	void	Set_Info();
 private:
 	CModel*					m_pModelCom = nullptr;
 	CCollider*				m_pOBBCom = nullptr;

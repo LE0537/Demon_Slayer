@@ -75,6 +75,7 @@ private:
 	void LateTickState(_float fTimeDelta);
 	HRESULT Ready_Parts();
 	HRESULT Ready_Parts2();
+	void	Set_Info();
 private:
 	CModel*					m_pModelCom = nullptr;
 

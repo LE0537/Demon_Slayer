@@ -20,6 +20,7 @@ HRESULT CCharacters::Initialize_Prototype()
 
 HRESULT CCharacters::Initialize(void * pArg)
 {
+	ZeroMemory(&m_tInfo, sizeof(PLAYERINFO));
 
 	return S_OK;
 }

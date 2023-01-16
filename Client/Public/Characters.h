@@ -30,11 +30,28 @@ public:
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
 
+protected:
+	typedef struct tagInfo {
+		wstring		strName; //캐릭터 이름;
+		_bool		bOni;    //true = 오니 , false = 인간;
+		_int		iMaxHp;  
+		_int		iHp;
+		_int		iSkMaxBar; //맥스스킬게이지
+		_int		iSkBar;    //스킬게이지
+		_int		iUnicMaxBar; //맥스필살기게이지
+		_int		iUnicBar;    //필살기게이지
+		_int		iDmg;      //평타 데미지
+		_int		iCombo;
+		_float		fComboTime;
+		_bool		bPowerUp;
+		_float		fPowerUpTime;
+		_int		iFriendMaxBar; //맥스친구게이지
+		_int		iFriendBar;    //친구게이지
 
+	}PLAYERINFO;
 
 protected:
-
-
+	PLAYERINFO		m_tInfo;
 
 public:
 	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
