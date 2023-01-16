@@ -9,12 +9,12 @@
 #include "Camera_Dynamic.h"
 
 CRui::CRui(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
-	: CGameObj(pDevice, pContext)
+	: CCharacters(pDevice, pContext)
 {
 }
 
 CRui::CRui(const CRui & rhs)
-	: CGameObj(rhs)
+	: CCharacters(rhs)
 {
 }
 

@@ -13,12 +13,12 @@ using namespace Tanjiro;
 
 
 CTanjiro::CTanjiro(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
-	: CGameObj(pDevice, pContext)
+	: CCharacters(pDevice, pContext)
 {
 }
 
 CTanjiro::CTanjiro(const CTanjiro & rhs)
-	: CGameObj(rhs)
+	: CCharacters(rhs)
 {
 }
 

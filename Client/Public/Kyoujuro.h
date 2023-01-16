@@ -1,6 +1,6 @@
 #pragma once
 #include "Client_Defines.h"
-#include "GameObj.h"
+#include "Characters.h"
 
 
 BEGIN(Engine)
@@ -18,7 +18,7 @@ END
 
 BEGIN(Client)
 
-class CKyoujuro : public CGameObj
+class CKyoujuro : public CCharacters
 {
 private:
 	CKyoujuro(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

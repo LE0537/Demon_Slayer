@@ -5,12 +5,12 @@
 
 
 CAkaza::CAkaza(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
-	: CGameObj(pDevice, pContext)
+	: CCharacters(pDevice, pContext)
 {
 }
 
 CAkaza::CAkaza(const CAkaza & rhs)
-	: CGameObj(rhs)
+	: CCharacters(rhs)
 {
 }
 

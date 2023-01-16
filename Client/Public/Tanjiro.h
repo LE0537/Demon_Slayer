@@ -1,6 +1,6 @@
 #pragma once
 #include "Client_Defines.h"
-#include "GameObj.h"
+#include "Characters.h"
 
 
 BEGIN(Engine)
@@ -18,7 +18,7 @@ END
 
 BEGIN(Client)
 
-class CTanjiro : public CGameObj
+class CTanjiro : public CCharacters
 {
 public:
 	enum ANIMID

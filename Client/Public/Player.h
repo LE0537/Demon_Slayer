@@ -1,6 +1,6 @@
 #pragma once
 #include "Client_Defines.h"
-#include "GameObj.h"
+#include "Characters.h"
 
 
 BEGIN(Engine)
@@ -18,7 +18,7 @@ END
 
 BEGIN(Client)
 
-class CPlayer : public CGameObj
+class CPlayer : public CCharacters
 {
 private:
 	CPlayer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -45,7 +45,6 @@ private:
 	CCollider*				m_pOBBCom = nullptr;
 
 
-	CGameObject*			m_pTrail = nullptr;
 
 
 public:

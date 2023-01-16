@@ -7,12 +7,12 @@
 #include "Data_Manager.h"	
 
 CPlayer::CPlayer(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
-	: CGameObj(pDevice, pContext)
+	: CCharacters(pDevice, pContext)
 {
 }
 
 CPlayer::CPlayer(const CPlayer & rhs)
-	: CGameObj(rhs)
+	: CCharacters(rhs)
 {
 }
 

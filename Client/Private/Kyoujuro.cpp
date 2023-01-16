@@ -7,12 +7,12 @@
 #include "Camera_Dynamic.h"
 
 CKyoujuro::CKyoujuro(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
-	: CGameObj(pDevice, pContext)
+	: CCharacters(pDevice, pContext)
 {
 }
 
 CKyoujuro::CKyoujuro(const CKyoujuro & rhs)
-	: CGameObj(rhs)
+	: CCharacters(rhs)
 {
 }
 
