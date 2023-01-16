@@ -47,6 +47,22 @@ HRESULT CHpBarBack::Initialize(void * pArg)
 
 void CHpBarBack::Tick(_float fTimeDelta)
 {
+	if (0 == m_iImgNum)
+	{
+		m_fX = 376.f;
+		m_fY = 88.f;
+		m_fSizeX = 612.f;
+		m_fSizeY = 24.f;
+		m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX * 0.7f, m_fSizeY * 1.6f, 0.f, 1.f));
+	}
+	else
+	{
+		m_fX = 914.f;
+		m_fY = 88.f;
+		m_fSizeX = 612.f;
+		m_fSizeY = 24.f;
+		m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX * 0.67f, m_fSizeY * 1.6f, 0.f, 1.f));
+	}
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -65,7 +81,7 @@ HRESULT CHpBarBack::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(m_iImgNum);
+	m_pShaderCom->Begin();
 
 	m_pVIBufferCom->Render();
 

@@ -36,9 +36,15 @@ HRESULT CHpBar::Initialize(void * pArg)
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
 	if (m_iImgNum == 1)
+	{
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
+		m_iShaderNum = 0;
+	}
 	else
+	{
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
+		m_iShaderNum = 1;
+	}
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX * 0.7f, m_fSizeY, 0.f, 1.f));
 
@@ -69,7 +75,7 @@ HRESULT CHpBar::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(m_iImgNum);
+	m_pShaderCom->Begin(m_iShaderNum);
 
 	m_pVIBufferCom->Render();
 	
