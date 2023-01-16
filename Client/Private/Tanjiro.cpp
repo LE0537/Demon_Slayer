@@ -58,7 +58,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	printf_s("anim index : %d \n", m_pTanjiroState->Get_TanjiroState());
+	//printf_s("anim index : %d \n", m_pTanjiroState->Get_TanjiroState());
 
 	RELEASE_INSTANCE(CGameInstance);
 	

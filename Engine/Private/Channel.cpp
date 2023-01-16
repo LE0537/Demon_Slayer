@@ -135,6 +135,8 @@ void CChannel::Reset()
 	m_iCurrentKeyFrameIndex = 0;
 }
 
+
+
 CChannel * CChannel::Create(CModel* pModel, aiNodeAnim * pAIChannel)
 {
 	CChannel*	pInstance = new CChannel();

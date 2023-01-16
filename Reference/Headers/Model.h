@@ -23,6 +23,10 @@ public:
 
 	class CHierarchyNode* Get_BonePtr(const char* pBoneName) const;
 
+public: // 민준 추가 키프레임 가져오기
+	_bool Is_KeyFrame(char* pChannelName, _uint iKeyFrame);
+	_float	Get_Duration();
+	_float  Get_CurrentTime();
 
 public:
 	virtual HRESULT Initialize_Prototype(TYPE eModelType, const char* pModelFilePath, _fmatrix PivotMatrix);
@@ -86,6 +90,10 @@ private:
 
 	_float3*					vPos;
 
+
+public:
+	void    Set_LinearTime(_uint iAnimIndex, _float flinearTime); // 민준추가
+
 //------------------Instancing-------------------------------------------------
 private:/* For.Instancing Model */
 	_uint								m_iNumInstancing = 1;
@@ -105,7 +113,7 @@ public:
 		m_iPrevAnimIndex = iAnimIndex; }
 	_bool	Get_End(_int iAnimIndex);
 	void	Set_End(_int iAnimIndex);
-	void	Set_Loop(_uint iAnimIndex);
+	void	Set_Loop(_uint iAnimIndex, _bool bIsLoop = false); // 민준추가
 private:
 	HRESULT Create_MeshContainer();
 	HRESULT Create_Materials(const char* pModelFilePath);
