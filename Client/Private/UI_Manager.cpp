@@ -163,6 +163,8 @@ HRESULT CUI_Manager::Add_Obj(CUI::UIINFO CloneInfo)
 
 void CUI_Manager::Free()
 {
+	Safe_Release(m_pDevice);
+	Safe_Release(m_pContext);
 }
 
 
