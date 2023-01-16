@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
 #include "SoundMgr.h"
+#include "UI_Manager.h"
 
 #include "GameObj.h"
 #include "MeshObj_Static.h"
@@ -42,13 +43,12 @@ HRESULT CLevel_GamePlay::Initialize()
 	//if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 	//	return E_FAIL;	
 
-	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
-		return E_FAIL;
-
 
 	if (FAILED(Load_StaticObjects("11Test_2")))
 		return E_FAIL;
 
+	if (FAILED(CUI_Manager::Get_Instance()->Init(m_pDevice, m_pContext)))
+		return E_FAIL;	
 
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("hov.wav"), 0.45f);
 
@@ -190,32 +190,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _tchar * pLayerTag)
 
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, pLayerTag)))
 	//	return E_FAIL;
-
-	Safe_Release(pGameInstance);
-
-	return S_OK;
-}
-
-HRESULT CLevel_GamePlay::Ready_Layer_UI(const _tchar * pLayerTag)
-{
-	CGameInstance*			pGameInstance = CGameInstance::Get_Instance();
-	Safe_AddRef(pGameInstance);
-
-	for (_uint i = 0; i < 2; ++i)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBase"), LEVEL_GAMEPLAY, pLayerTag, &i)))
-			return E_FAIL;
-
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBarBack"), LEVEL_GAMEPLAY, pLayerTag, &i)))
-			return E_FAIL;
-
-		/*if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBar"), LEVEL_GAMEPLAY, pLayerTag, &i)))
-			return E_FAIL;*/
-
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBarDeco"), LEVEL_GAMEPLAY, pLayerTag, &i)))
-			return E_FAIL;
-	}
-
 
 	Safe_Release(pGameInstance);
 

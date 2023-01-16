@@ -1,16 +1,16 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObj.h"
+#include "UI.h"
 
 BEGIN(Client)
 
-class CGaugeBase final : public CGameObj
+class CChangeSprt final : public CUI
 {
 private:
-	CGaugeBase(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CGaugeBase(const CGaugeBase& rhs);
-	virtual ~CGaugeBase() = default;
+	CChangeSprt(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CChangeSprt(const CChangeSprt& rhs);
+	virtual ~CChangeSprt() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -20,17 +20,12 @@ public:
 	virtual HRESULT Render();
 
 private:
-	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
-	_float4x4				m_ViewMatrix, m_ProjMatrix;
-	_uint					m_iImgNum = 0;
-
-private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 
 public:
-	static CGaugeBase* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CChangeSprt* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };

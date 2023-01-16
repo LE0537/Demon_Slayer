@@ -139,6 +139,36 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon">
       <UniqueIdentifier>{192f7c65-8c5c-42e9-850d-a0a2562cb913}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\99.Manager">
+      <UniqueIdentifier>{f30887ed-41c5-43ee-9de2-cd419502f0d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Char">
+      <UniqueIdentifier>{955ca6ee-1347-44cd-847c-959852508e75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Char\Icon">
+      <UniqueIdentifier>{d015f0f5-6528-41fa-83fe-766cf371466c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Char\Name">
+      <UniqueIdentifier>{3587e0bc-3917-4980-bee1-1042c45a57e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Gague\BarParts">
+      <UniqueIdentifier>{325d52ad-5cbf-4fb0-8c10-03bfc1fc4c5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Gague\BarParts\SkillBarParts">
+      <UniqueIdentifier>{fad1517d-6cda-47b0-bbfb-a1697e74cfb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Change">
+      <UniqueIdentifier>{c7a988e6-fa47-44f9-b194-bd107a122eaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Change\ChangeBaseDeco">
+      <UniqueIdentifier>{443859b5-a7a0-47fb-a053-56028a515352}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Change\Sprt">
+      <UniqueIdentifier>{3d13102a-cd49-495a-b1f9-e61d43579e49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Change\ChangeIcon">
+      <UniqueIdentifier>{e9da1432-ed35-4d2a-a5b0-d1f4929a8431}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -231,9 +261,6 @@
     <ClInclude Include="..\Public\SkillBar.h">
       <Filter>03.UI\02.Battle\BattleTop\Gague\Bar\SKill</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\GaugeBase.h">
-      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeBase</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\HpBar.h">
       <Filter>03.UI\02.Battle\BattleTop\Gague\Bar\Hp</Filter>
     </ClInclude>
@@ -257,6 +284,33 @@
     </ClInclude>
     <ClInclude Include="..\Public\TanjiroWeapon.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI_Manager.h">
+      <Filter>03.UI\99.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GaugeBasePerson.h">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI.h">
+      <Filter>03.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CharNameUI.h">
+      <Filter>03.UI\02.Battle\BattleTop\Char\Name</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CharIcon.h">
+      <Filter>03.UI\02.Battle\BattleTop\Char\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SkillBarParts.h">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\BarParts\SkillBarParts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ChangeBaseDeco.h">
+      <Filter>03.UI\02.Battle\BattleTop\Change\ChangeBaseDeco</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ChangeSprt.h">
+      <Filter>03.UI\02.Battle\BattleTop\Change\Sprt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ChangeIcon.h">
+      <Filter>03.UI\02.Battle\BattleTop\Change\ChangeIcon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -329,9 +383,6 @@
     <ClCompile Include="..\Private\TanjiroJumpState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Jump</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\GaugeBase.cpp">
-      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeBase</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\HpBarBack.cpp">
       <Filter>03.UI\02.Battle\BattleTop\Gague\Bar\Back</Filter>
     </ClCompile>
@@ -358,6 +409,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroWeapon.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Manager.cpp">
+      <Filter>03.UI\99.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GaugeBasePerson.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI.cpp">
+      <Filter>03.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CharNameUI.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Char\Name</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CharIcon.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Char\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkillBarParts.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\BarParts\SkillBarParts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ChangeBaseDeco.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Change\ChangeBaseDeco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ChangeSprt.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Change\Sprt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ChangeIcon.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Change\ChangeIcon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
