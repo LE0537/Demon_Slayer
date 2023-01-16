@@ -139,6 +139,18 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon">
       <UniqueIdentifier>{192f7c65-8c5c-42e9-850d-a0a2562cb913}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState">
+      <UniqueIdentifier>{0809d1cd-d6ec-4da3-8874-bec1ff5c1230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle">
+      <UniqueIdentifier>{140979a1-ebe0-4725-9a24-29a4184ac86c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump">
+      <UniqueIdentifier>{79364944-01cb-474d-9533-39071de1a937}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move">
+      <UniqueIdentifier>{2782017a-9e1a-4828-a751-bc9e949c4bb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -258,6 +270,18 @@
     <ClInclude Include="..\Public\TanjiroWeapon.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroIdle.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroJump.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump</Filter>
+    </ClInclude>
+    <ClInclude Include="KyoujuroMove.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -358,6 +382,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroWeapon.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroIdle.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroJump.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="KyoujuroMove.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

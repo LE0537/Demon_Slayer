@@ -182,8 +182,11 @@
     <ClInclude Include="..\Public\HpBar.h" />
     <ClInclude Include="..\Public\HpBarBack.h" />
     <ClInclude Include="..\Public\HpBarDeco.h" />
+    <ClInclude Include="..\Public\KyoujuroJump.h" />
+    <ClInclude Include="..\Public\KyoujuroIdle.h" />
     <ClInclude Include="..\Public\Kyoujuro.h" />
     <ClInclude Include="..\Public\KyoujuroSheath.h" />
+    <ClInclude Include="..\Public\KyoujuroState.h" />
     <ClInclude Include="..\Public\KyoujuroWeapon.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
@@ -204,6 +207,7 @@
     <ClInclude Include="..\Public\TanjiroWeapon.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="KyoujuroMove.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -220,6 +224,8 @@
     <ClCompile Include="..\Private\HpBar.cpp" />
     <ClCompile Include="..\Private\HpBarBack.cpp" />
     <ClCompile Include="..\Private\HpBarDeco.cpp" />
+    <ClCompile Include="..\Private\KyoujuroJump.cpp" />
+    <ClCompile Include="..\Private\KyoujuroIdle.cpp" />
     <ClCompile Include="..\Private\Kyoujuro.cpp" />
     <ClCompile Include="..\Private\KyoujuroSheath.cpp" />
     <ClCompile Include="..\Private\KyoujuroWeapon.cpp" />
@@ -241,6 +247,7 @@
     <ClCompile Include="..\Private\TanjiroWeapon.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="KyoujuroMove.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
