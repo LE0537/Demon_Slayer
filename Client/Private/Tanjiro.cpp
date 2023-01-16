@@ -8,6 +8,8 @@
 #include "TanjiroState.h"
 #include "TanjiroIdleState.h"
 #include "TanjiroMoveState.h"
+#include "TanjiroWeapon.h"
+#include "TanjiroSheath.h"
 
 using namespace Tanjiro;
 
@@ -32,6 +34,11 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	*(CGameObject**)pArg = this;
 
 	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Parts()))
+		return E_FAIL;
+	if (FAILED(Ready_Parts2()))
 		return E_FAIL;
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
@@ -82,10 +89,17 @@ void CTanjiro::Tick(_float fTimeDelta)
 	RELEASE_INSTANCE(CGameInstance);
 	
 
-	//m_pModelCom->Play_Animation(fTimeDelta);
-	m_pAABBCom->Update(m_pTransformCom->Get_WorldMatrix());
-	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
+	m_pModelCom->Get_PivotFloat4x4();
+	m_pTransformCom->Get_World4x4Ptr();
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+	if (nullptr == pSocket)
+		return;
+	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
+
+	m_pOBBCom->Update(matColl);
+	m_pWeapon->Tick(fTimeDelta);
+	m_pSheath->Tick(fTimeDelta);
 }
 
 void CTanjiro::Late_Tick(_float fTimeDelta)
@@ -95,6 +109,15 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+	dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);
+	dynamic_cast<CTanjiroSheath*>(m_pSheath)->Set_Render(true);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+
+	if (g_bDebug)
+	{
+		m_pRendererCom->Add_Debug(m_pOBBCom);
+	}
 }
 
 HRESULT CTanjiro::Render()
@@ -114,11 +137,19 @@ HRESULT CTanjiro::Render()
 	{
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
+		if (i == 0 || i == 1)
+		{
+			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_MaskTexture", i, aiTextureType_NORMALS)))
+				return E_FAIL;
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-			return E_FAIL;
-
-		//aiTextureType_AMBIENT
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+				return E_FAIL;
+		}
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -234,17 +265,11 @@ HRESULT CTanjiro::Ready_Components()
 
 	CCollider::COLLIDERDESC		ColliderDesc;
 
-	/* For.Com_AABB */
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
-	ColliderDesc.vScale = _float3(4.f, 4.f, 4.f);
-	ColliderDesc.vPosition = _float3(0.f, 2.f, 0.f);
-	if (FAILED(__super::Add_Components(TEXT("Com_AABB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"), (CComponent**)&m_pAABBCom, &ColliderDesc)))
-		return E_FAIL;
-
 	/* For.Com_OBB*/
-	ColliderDesc.vScale = _float3(4.f, 4.f, 4.f);
-	ColliderDesc.vPosition = _float3(0.f, 2.f, 0.f);
+	ColliderDesc.vScale = _float3(170.f, 80.f, 80.f);
+	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
 		return E_FAIL;
 
@@ -278,7 +303,53 @@ void CTanjiro::LateTickState(_float fTimeDelta)
 	if (pNewState)
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pNewState);
 }
+HRESULT CTanjiro::Ready_Parts()
+{
 
+	/* For.Weapon */
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("R_Hand_1_Lct");
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CTanjiroWeapon::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pWeapon = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_TanjiroWeapon"), &WeaponDesc);
+	if (nullptr == m_pWeapon)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CTanjiro::Ready_Parts2()
+{
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("L_Weapon_1");
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CTanjiroSheath::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pSheath = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_TanjiroSheath"), &WeaponDesc);
+	if (nullptr == m_pSheath)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
 CTanjiro * CTanjiro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CTanjiro*	pInstance = new CTanjiro(pDevice, pContext);
@@ -309,8 +380,9 @@ void CTanjiro::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pAABBCom);
 	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pModelCom);
 	Safe_Delete(m_pTanjiroState);
+	Safe_Release(m_pWeapon);
+	Safe_Release(m_pSheath);
 }

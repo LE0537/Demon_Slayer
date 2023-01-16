@@ -23,6 +23,8 @@
 //parts
 #include "KyoujuroWeapon.h"
 #include "KyoujuroSheath.h"
+#include "TanjiroWeapon.h"
+#include "TanjiroSheath.h"
 //UI
 #include "HpBar.h"
 #include "HpBarBack.h"
@@ -296,6 +298,15 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CKyoujuroSheath::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TanjiroWeapon"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TanjiroWeapon"),
+		CTanjiroWeapon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TanjiroSheath"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TanjiroSheath"),
+		CTanjiroSheath::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	/* UI °´Ã¼ */
 

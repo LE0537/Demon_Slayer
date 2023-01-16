@@ -45,7 +45,7 @@ private:
 	CRenderer*				m_pRendererCom = nullptr;
 	CTransform*				m_pTransformCom = nullptr;
 	CModel*					m_pModelCom = nullptr;
-
+	CCollider*				m_pOBBCom = nullptr;
 
 private:
 	WEAPONDESC				m_WeaponDesc;

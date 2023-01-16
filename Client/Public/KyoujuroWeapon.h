@@ -11,7 +11,6 @@ class CRenderer;
 class CTransform;
 class CModel;
 class CHierarchyNode;
-class CCollider;
 END
 
 

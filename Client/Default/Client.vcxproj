@@ -199,7 +199,9 @@
     <ClInclude Include="..\Public\TanjiroIdleState.h" />
     <ClInclude Include="..\Public\TanjiroJumpState.h" />
     <ClInclude Include="..\Public\TanjiroMoveState.h" />
+    <ClInclude Include="..\Public\TanjiroSheath.h" />
     <ClInclude Include="..\Public\TanjiroState.h" />
+    <ClInclude Include="..\Public\TanjiroWeapon.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
@@ -235,6 +237,8 @@
     <ClCompile Include="..\Private\TanjiroIdleState.cpp" />
     <ClCompile Include="..\Private\TanjiroJumpState.cpp" />
     <ClCompile Include="..\Private\TanjiroMoveState.cpp" />
+    <ClCompile Include="..\Private\TanjiroSheath.cpp" />
+    <ClCompile Include="..\Private\TanjiroWeapon.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">

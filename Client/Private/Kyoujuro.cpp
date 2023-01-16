@@ -269,7 +269,7 @@ HRESULT CKyoujuro::Ready_Parts2()
 	if (nullptr == pSocket)
 		return E_FAIL;
 
-	CKyoujuroWeapon::WEAPONDESC		WeaponDesc;
+	CKyoujuroSheath::WEAPONDESC		WeaponDesc;
 	WeaponDesc.pSocket = pSocket;
 	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
 	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();

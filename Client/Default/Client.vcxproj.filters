@@ -133,6 +133,12 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\00.Player">
       <UniqueIdentifier>{659557ea-ef16-4743-a036-c75deba40809}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Sheath">
+      <UniqueIdentifier>{e3570abc-182a-4fa0-81d0-f919eba2f0d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon">
+      <UniqueIdentifier>{192f7c65-8c5c-42e9-850d-a0a2562cb913}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -246,6 +252,12 @@
     <ClInclude Include="..\public\Characters.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroSheath.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Sheath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroWeapon.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -340,6 +352,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Characters.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroSheath.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Sheath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroWeapon.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -73,12 +73,15 @@ private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
 	void LateTickState(_float fTimeDelta);
-
+	HRESULT Ready_Parts();
+	HRESULT Ready_Parts2();
 private:
 	CModel*					m_pModelCom = nullptr;
-	CCollider*				m_pAABBCom = nullptr;
+
 	CCollider*				m_pOBBCom = nullptr;
 
+	CGameObject*			m_pWeapon = nullptr;
+	CGameObject*			m_pSheath = nullptr;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
