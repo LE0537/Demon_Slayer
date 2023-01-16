@@ -4,28 +4,28 @@
 
 BEGIN(Client)
 BEGIN(Tanjiro)
-class JumpState : public CTanjiroState
+class CJumpstate : public CTanjiroState
 {
 public:
-	JumpState(STATE_TYPE eType);
+	CJumpstate(STATE_TYPE eType, _float fPositionY, _float fJumpTime);
 
 	virtual CTanjiroState* HandleInput(CTanjiro* pTanjiro) override;
 	virtual CTanjiroState* Tick(CTanjiro* pTanjiro, _float fTimeDelta) override;
 	virtual CTanjiroState* Late_Tick(CTanjiro* pTanjiro, _float fTimeDelta) override;
 
-
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
 
 
+private:
+	CTanjiroState* Jump(CTanjiro* pTanjiro, _float fTimeDelta);
+
 
 private:
-	void Jump(CTanjiro* pTanjiro, _float fTimeDelta);
-
-private:
+	_float m_fJumpPower = 15.f;
 	_float m_fJumpTime = 0.f;
-	_float m_fJumpDelay = 0.f;
-	_bool  m_bJump = true;
+	_float m_fGravity = 9.8f;
+	_float m_fCurrentPosY = 0.f;
 
 };
 END
