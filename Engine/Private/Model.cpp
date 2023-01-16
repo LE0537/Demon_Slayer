@@ -182,7 +182,19 @@ HRESULT CModel::Play_Animation(_float fTimeDelta)
 
 	return S_OK;
 }
+HRESULT CModel::Play_Animation2(_float fTimeDelta)
+{
 
+	m_Animations[m_iPrevAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta);
+	
+	for (auto& pBoneNode : m_Bones)
+	{
+		/* 뼈의 m_CombinedTransformationMatrix행렬을 갱신한다. */
+		pBoneNode->Invalidate_CombinedTransformationmatrix();
+	}
+
+	return S_OK;
+}
 HRESULT CModel::Render(CShader * pShader, _uint iMeshIndex, _uint iPassIndex)
 {
 	if (TYPE_ANIM == m_eModelType)

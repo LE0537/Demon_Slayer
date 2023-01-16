@@ -169,6 +169,18 @@
     <Filter Include="03.UI\02.Battle\BattleTop\Change\ChangeIcon">
       <UniqueIdentifier>{e9da1432-ed35-4d2a-a5b0-d1f4929a8431}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState">
+      <UniqueIdentifier>{cf55ae77-4be1-4a44-b2b7-5e118e7e43b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle">
+      <UniqueIdentifier>{078c5284-ef0a-48a3-bf8f-f164dd805601}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump">
+      <UniqueIdentifier>{808a9829-dbc3-46a3-9892-a9dce6cb10dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move">
+      <UniqueIdentifier>{7564fea6-7abd-4748-8e49-31f0aff9bd3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -312,6 +324,18 @@
     <ClInclude Include="..\Public\ChangeIcon.h">
       <Filter>03.UI\02.Battle\BattleTop\Change\ChangeIcon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroIdleState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroJumpState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump</Filter>
+    </ClInclude>
+    <ClInclude Include="KyoujuroMoveState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -436,6 +460,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\ChangeIcon.cpp">
       <Filter>03.UI\02.Battle\BattleTop\Change\ChangeIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroIdleState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroJumpState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="KyoujuroMoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

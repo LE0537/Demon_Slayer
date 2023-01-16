@@ -41,6 +41,7 @@ public:
 public:
 	HRESULT SetUp_Material(class CShader* pShader, const char* pConstantName, _uint iMeshIndex, aiTextureType eType);
 	HRESULT Play_Animation(_float fTimeDelta);
+	HRESULT Play_Animation2(_float fTimeDelta);
 	HRESULT Render(class CShader* pShader, _uint iMeshIndex, _uint iPassIndex = 0);
 
 public: // For. Data 추가
@@ -109,7 +110,7 @@ private: // 추가
 
 public:
 	void Set_CurrentAnimIndex(_uint iAnimIndex){
-		if (m_iPrevAnimIndex != iAnimIndex) { m_bAnimReset = true; }
+		//if (m_iPrevAnimIndex != iAnimIndex) { m_bAnimReset = true; }
 		m_iPrevAnimIndex = iAnimIndex; }
 	_bool	Get_End(_int iAnimIndex);
 	void	Set_End(_int iAnimIndex);

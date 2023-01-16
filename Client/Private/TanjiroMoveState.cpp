@@ -42,7 +42,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 	else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
 		return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
 	else
-		return new CMoveState(OBJDIR::DIR_STOP, STATE_TYPE::TYPE_END);
+		return new CIdleState();
 
 
 
@@ -51,26 +51,19 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CMoveState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	Move(pTanjiro, fTimeDelta);
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
-
-	return nullptr;
-}
-
-CTanjiroState * CMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
-{
 	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	{
-	switch (m_eStateType)
+		switch (m_eStateType)
 		{
 		case Client::CTanjiroState::TYPE_START:
 			m_eStateType = CTanjiroState::TYPE_LOOP;
 			break;
-		//case Client::CTanjiroState::TYPE_LOOP:
-		//	m_eStateType = CTanjiroState::TYPE_LOOP;
-		//	break;
+			//case Client::CTanjiroState::TYPE_LOOP:
+			//	m_eStateType = CTanjiroState::TYPE_LOOP;
+			//	break;
 		case Client::CTanjiroState::TYPE_END:
+			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 			return new CIdleState();
 			break;
 		case Client::CTanjiroState::TYPE_DEFAULT:
@@ -80,6 +73,15 @@ CTanjiroState * CMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		}
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 	}
+
+	return nullptr;
+}
+
+CTanjiroState * CMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
+{
+	Move(pTanjiro, fTimeDelta);
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+
 
 	return nullptr;
 }

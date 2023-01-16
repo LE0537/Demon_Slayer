@@ -27,23 +27,23 @@ public:
 
 public:
 	virtual ~CKyoujuroState() {};
-	virtual CKyoujuroState* HandleInput(CKyoujuro* pTanjiro) { return nullptr; };
-	virtual CKyoujuroState* Tick(CKyoujuro* pTanjiro, _float fTimeDelta) { return nullptr; };
-	virtual CKyoujuroState* Late_Tick(CKyoujuro* pTanjiro, _float fTimeDelta) { return nullptr; };
+	virtual CKyoujuroState* HandleInput(CKyoujuro* pKyoujuro) { return nullptr; };
+	virtual CKyoujuroState* Tick(CKyoujuro* pKyoujuro, _float fTimeDelta) { return nullptr; };
+	virtual CKyoujuroState* Late_Tick(CKyoujuro* pKyoujuro, _float fTimeDelta) { return nullptr; };
 
-	virtual void Enter(CKyoujuro* pTanjiro) {};
-	virtual void Exit(CKyoujuro* pTanjiro) {};
+	virtual void Enter(CKyoujuro* pKyoujuro) {};
+	virtual void Exit(CKyoujuro* pKyoujuro) {};
 
-	CKyoujuroState* ChangeState(CKyoujuro* pTanjiro, CKyoujuroState* pCurrentState, CKyoujuroState* pNewState)
+	CKyoujuroState* ChangeState(CKyoujuro* pKyoujuro, CKyoujuroState* pCurrentState, CKyoujuroState* pNewState)
 	{
 		if (pCurrentState)
 		{
-			pCurrentState->Exit(pTanjiro);
+			pCurrentState->Exit(pKyoujuro);
 			Safe_Delete(pCurrentState);
 		}
 
 		pCurrentState = pNewState;
-		pCurrentState->Enter(pTanjiro);
+		pCurrentState->Enter(pKyoujuro);
 
 		return pCurrentState;
 	}

@@ -9,9 +9,9 @@ class CIdleState : public CKyoujuroState
 public:
 	CIdleState();
 
-	virtual CKyoujuroState* HandleInput(CKyoujuro* pTanjiro) override;
-	virtual CKyoujuroState* Tick(CKyoujuro* pTanjiro, _float fTimeDelta) override;
-	virtual CKyoujuroState* Late_Tick(CKyoujuro* pTanjiro, _float fTimeDelta) override;
+	virtual CKyoujuroState* HandleInput(CKyoujuro* pKyoujuro) override;
+	virtual CKyoujuroState* Tick(CKyoujuro* pKyoujuro, _float fTimeDelta) override;
+	virtual CKyoujuroState* Late_Tick(CKyoujuro* pKyoujuro, _float fTimeDelta) override;
 
 
 	virtual void Enter(CKyoujuro* pTanjiro) override;
