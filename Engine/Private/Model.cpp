@@ -56,6 +56,21 @@ CHierarchyNode * CModel::Get_BonePtr(const char * pBoneName) const
 	return *iter;
 }
 
+_bool CModel::Is_KeyFrame(char* pChannelName, _uint iKeyFrame)
+{
+	return m_Animations[m_iCurrentAnimIndex]->Is_KeyFrame(pChannelName, iKeyFrame);
+}
+
+_float CModel::Get_Duration()
+{
+	return  m_Animations[m_iCurrentAnimIndex]->Get_Duration();
+}
+
+_float CModel::Get_CurrentTime()
+{
+	return m_Animations[m_iCurrentAnimIndex]->Get_CurrentTime();
+}
+
 HRESULT CModel::Initialize_Prototype(TYPE eModelType, const char * pModelFilePath, _fmatrix PivotMatrix)
 {
 	m_eModelType = eModelType;
@@ -199,9 +214,9 @@ void CModel::Set_End(_int iAnimIndex)
 //	m_Animations[iAnimIndex]->Reset3();
 }
 
-void CModel::Set_Loop(_uint iAnimIndex)
+void CModel::Set_Loop(_uint iAnimIndex, _bool bIsLoop)
 {
-	m_Animations[iAnimIndex]->Set_Loop();
+	m_Animations[iAnimIndex]->Set_Loop(bIsLoop);
 }
 
 HRESULT CModel::Create_MeshContainer()
@@ -544,6 +559,10 @@ HRESULT CModel::Get_AnimData(DATA_BINSCENE * pBinScene)
 	}
 
 	return S_OK;
+}
+void CModel::Set_LinearTime(_uint iAnimIndex, _float flinearTime)
+{
+	m_Animations[iAnimIndex]->Set_LinearTime(flinearTime);
 }
 HRESULT CModel::Bin_Ready_MeshContainers(_fmatrix PivotMatrix)
 {

@@ -24,6 +24,7 @@ private:
 
 private:
 	_float m_fJumpTime = 0.f;
+	_float m_fJumpDelay = 0.f;
 	_bool  m_bJump = true;
 
 };

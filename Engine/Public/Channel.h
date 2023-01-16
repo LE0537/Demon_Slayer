@@ -17,6 +17,12 @@ public:
 	void Reset();
 	vector<KEYFRAME> Get_Key() { return m_KeyFrames; }
 
+
+public: // πŒ¡ÿ √ﬂ∞°
+	char* Get_ChannelName() { return m_szName; }
+	_uint Get_CurrentKeyframe() { return m_iCurrentKeyFrameIndex; }
+
+
 private:
 	char					m_szName[MAX_PATH] = "";
 	class CHierarchyNode*	m_pBoneNode = nullptr;
@@ -26,6 +32,9 @@ private:
 	vector<KEYFRAME>		m_KeyFrames;
 
 	_uint					m_iCurrentKeyFrameIndex = 0;
+
+
+
 public: // For. Data
 	void Get_ChannelData(DATA_BINCHANNEL* pChannelData);
 public:

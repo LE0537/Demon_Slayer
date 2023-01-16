@@ -81,7 +81,6 @@ CTanjiroState * CMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 	}
 
-
 	return nullptr;
 }
 
