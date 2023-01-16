@@ -28,6 +28,10 @@ CTanjiroState * CJumpstate::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	if(m_eStateType == TYPE_START)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 3.f);
+	else if (m_eStateType == TYPE_LOOP)
+		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
+	else if (m_eStateType == TYPE_DEFAULT)
+		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
 	else
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
@@ -57,22 +61,25 @@ CTanjiroState * CJumpstate::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		case Client::CTanjiroState::TYPE_START:
 			printf_s("Start Jump \n");
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+		
 			return new CJumpstate(STATE_TYPE::TYPE_LOOP, m_fCurrentPosY, m_fJumpTime);
 			break;
 		case Client::CTanjiroState::TYPE_LOOP:
 			printf_s("Loop Jump \n");
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+		
 			return new CJumpstate(STATE_TYPE::TYPE_END, m_fCurrentPosY, m_fJumpTime);
 			break;
 		case Client::CTanjiroState::TYPE_END:
 			printf_s("End jump \n");
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+	
 			//return new CJumpstate(STATE_TYPE::TYPE_DEFAULT, m_fCurrentPosY, m_fJumpTime);
 			break;
 		case Client::CTanjiroState::TYPE_DEFAULT:
 			printf_s("Default Jump \n");
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			return new CIdleState();
+			return new CIdleState(STATE_JUMP);
 			break;
 		}
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
@@ -106,6 +113,7 @@ void CJumpstate::Enter(CTanjiro * pTanjiro)
 		break;
 	case Client::CTanjiroState::TYPE_DEFAULT:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_END);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_END, 0.01f);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_END);
 		break;
 	}
@@ -115,6 +123,7 @@ void CJumpstate::Enter(CTanjiro * pTanjiro)
 
 void CJumpstate::Exit(CTanjiro * pTanjiro)
 {
+
 }
 
 
@@ -122,7 +131,7 @@ CTanjiroState* CJumpstate::Jump(CTanjiro* pTanjiro, _float fTimeDelta)
 {
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
-	static _float fVelocity = 15.f;
+	static _float fVelocity = 20.f;
 	static _float fGravity = 40.f;
 
 

@@ -219,6 +219,11 @@ void CModel::Set_Loop(_uint iAnimIndex, _bool bIsLoop)
 	m_Animations[iAnimIndex]->Set_Loop(bIsLoop);
 }
 
+void CModel::Reset_Anim(_uint iAnimIndex)
+{
+	m_Animations[iAnimIndex]->Reset3();
+}
+
 HRESULT CModel::Create_MeshContainer()
 {
 	if (nullptr == m_pAIScene)

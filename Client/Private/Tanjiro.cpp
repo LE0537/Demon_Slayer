@@ -29,10 +29,29 @@ HRESULT CTanjiro::Initialize_Prototype()
 
 HRESULT CTanjiro::Initialize(void * pArg)
 {
+	*(CGameObject**)pArg = this;
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+	LIGHTDESC			LightDesc;
+
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+	_float4 vLightPos;
+	XMStoreFloat4(&vLightPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+	vLightPos.y += 300.f;
+	LightDesc.eType = LIGHTDESC::TYPE_FIELDSHADOW;
+	LightDesc.vDirection = vLightPos;
+	LightDesc.vDiffuse = _float4(380.f, 0.f, -1180.f, 1.f);
+	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
+
+
+	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
 
@@ -151,7 +170,22 @@ HRESULT CTanjiro::Render_ShadowDepth()
 
 	return S_OK;
 }
+void CTanjiro::Set_ShadowLightPos()
+{
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+	_float4 vPos;
+	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+	_float4 vAt = vPos;
+
+	vPos.x -= 15.f;
+	vPos.y += 30.f;
+	vPos.z -= 30.f;
+
+	pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW, vPos, vAt);
+
+	RELEASE_INSTANCE(CGameInstance);
+}
 HRESULT CTanjiro::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
@@ -217,26 +251,6 @@ HRESULT CTanjiro::Ready_Components()
 
 	return S_OK;
 }
-
-
-
-void CTanjiro::Set_ShadowLightPos()
-{
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-	_float4 vPos;
-	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
-	_float4 vAt = vPos;
-
-	vPos.x -= 15.f;
-	vPos.y += 30.f;
-	vPos.z -= 30.f;
-
-	pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW, vPos, vAt);
-
-	RELEASE_INSTANCE(CGameInstance);
-}
-
 
 void CTanjiro::HandleInput()
 {

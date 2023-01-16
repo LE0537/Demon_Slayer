@@ -74,7 +74,6 @@ private:
 	void TickState(_float fTimeDelta);
 	void LateTickState(_float fTimeDelta);
 
-
 private:
 	CModel*					m_pModelCom = nullptr;
 	CCollider*				m_pAABBCom = nullptr;

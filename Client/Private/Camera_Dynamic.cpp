@@ -87,18 +87,18 @@ void CCamera_Dynamic::Set_CamPos()
 	vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
 
 	_vector vRight = XMVector3Normalize(vPos - vTarget);
-	_vector vUp = { 0.f,1.f,0.f,0.f };
-	_vector vLook = XMVector3Normalize(XMVector3Cross(vRight, vUp));
+	//_vector vUp = { 0.f,1.f,0.f,0.f };
+	//_vector vLook = XMVector3Normalize(XMVector3Cross(vRight, vUp));
 
-	_matrix	RotationMatrixX = XMMatrixRotationAxis(vRight, XMConvertToRadians(15.f));
+	//_matrix	RotationMatrixX = XMMatrixRotationAxis(vRight, XMConvertToRadians(15.f));
 
-	vRight = XMVector3Normalize(XMVector3TransformNormal(vRight, RotationMatrixX));
-	vUp = XMVector3Normalize(XMVector3TransformNormal(vUp, RotationMatrixX));
-	vLook = XMVector3Normalize(XMVector3TransformNormal(vLook, RotationMatrixX));
+	//vRight = XMVector3Normalize(XMVector3TransformNormal(vRight, RotationMatrixX));
+	//vUp = XMVector3Normalize(XMVector3TransformNormal(vUp, RotationMatrixX));
+	//vLook = XMVector3Normalize(XMVector3TransformNormal(vLook, RotationMatrixX));
 
-	m_pSubTransform->Set_State(CTransform::STATE_RIGHT, vRight);
-	m_pSubTransform->Set_State(CTransform::STATE_UP, vUp);
-	m_pSubTransform->Set_State(CTransform::STATE_LOOK, vLook);
+	//m_pSubTransform->Set_State(CTransform::STATE_RIGHT, vRight);
+	//m_pSubTransform->Set_State(CTransform::STATE_UP, vUp);
+	//m_pSubTransform->Set_State(CTransform::STATE_LOOK, vLook);
 
 	_vector vAtPos = vPos;
 
@@ -106,7 +106,10 @@ void CCamera_Dynamic::Set_CamPos()
 
 	m_pSubTransform->LookAt(vAtPos);
 
-	vPos -= vLook * 30.f;
+	//vPos -= vLook * 30.f;
+
+	vPos.m128_f32[1] += 10.f;
+	vPos.m128_f32[2] -= 30.f;
 
 	m_pSubTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 

@@ -114,6 +114,7 @@ public:
 	_bool	Get_End(_int iAnimIndex);
 	void	Set_End(_int iAnimIndex);
 	void	Set_Loop(_uint iAnimIndex, _bool bIsLoop = false); // πŒ¡ÿ√ﬂ∞°
+	void	Reset_Anim(_uint iAnimIndex);
 private:
 	HRESULT Create_MeshContainer();
 	HRESULT Create_Materials(const char* pModelFilePath);

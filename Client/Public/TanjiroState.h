@@ -55,6 +55,8 @@ public:
 protected:
 	STATE_TYPE m_eStateType = TYPE_DEFAULT;
 	STATE_ID m_eStateId = STATE_END;
+
+	STATE_ID m_ePreState = STATE_END;
 };
 
 END
