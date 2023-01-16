@@ -91,6 +91,39 @@
     <Filter Include="02.GameObjects\02.Map\99.Terrain">
       <UniqueIdentifier>{7a4aff2a-9f9c-48f3-b326-ed6a6b776aea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\00.Logo">
+      <UniqueIdentifier>{2f8e4730-5ebe-4023-af42-d66e6ab5488b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading">
+      <UniqueIdentifier>{86a435e6-88b4-4e83-a147-d37f2d1fe70b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle">
+      <UniqueIdentifier>{2c738be8-7e49-4283-85ee-bdde3e36cfe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop">
+      <UniqueIdentifier>{3dbbb170-5f90-4505-a32d-16e079f555bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Gague">
+      <UniqueIdentifier>{7468f66b-7dde-4907-8f33-0809535f75d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Gague\GaugeBase">
+      <UniqueIdentifier>{2c6858a8-dbc5-43ee-8f50-c8a29b42df7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Gague\Bar">
+      <UniqueIdentifier>{55b03674-1311-42bb-8cc8-8d825681cbbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Gague\Bar\SKill">
+      <UniqueIdentifier>{e3766e25-e780-4ac0-bf26-4eab85eb8f18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Gague\Bar\Hp">
+      <UniqueIdentifier>{9a2bb412-3cbe-43c8-a73e-946a9e5c7551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Gague\Bar\Back">
+      <UniqueIdentifier>{278d1fdc-1c1c-483f-92e4-8f1e1339e7c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Gague\Deco">
+      <UniqueIdentifier>{ea268c37-2dc0-4fb6-82e6-d17ec73d99b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -180,6 +213,21 @@
     <ClInclude Include="..\Public\TanjiroJumpState.h">
       <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Jump</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\SkillBar.h">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\Bar\SKill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GaugeBase.h">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HpBar.h">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\Bar\Hp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HpBarBack.h">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\Bar\Back</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HpBarDeco.h">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\Deco</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -250,6 +298,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroJumpState.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Char\00.Tanjiro\TanjiroState\Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GaugeBase.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HpBarBack.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\Bar\Back</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HpBarDeco.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\Deco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SkillBar.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\Bar\SKill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HpBar.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\Bar\Hp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
