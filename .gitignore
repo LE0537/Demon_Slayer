@@ -4,7 +4,6 @@
 *.suo
 *.exp
 *.ilk
-*.pdb
 *.iobj
 *.ipdb
 *.aps
@@ -13,7 +12,6 @@
 *.obj
 *.log
 *.res
-*.idb
 *.pch
 *.lastbuildstate
 
@@ -25,3 +23,7 @@ Release
 # Executables
 *.exe
 *.cso
+*.obj.enc
+
+*.idb
+*.pdb

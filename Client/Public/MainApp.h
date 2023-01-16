@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #pragma once
 
 #include "Client_Defines.h"
@@ -36,7 +37,8 @@ private:
 
 private:
 	HRESULT Open_Level(LEVEL eLevel);
-	HRESULT Ready_Prototype_Component();	
+	HRESULT Ready_Prototype_Component();
+	HRESULT Open_DebugCMD();
 public:
 	static CMainApp* Create();
 	virtual void Free();

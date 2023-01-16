@@ -62,7 +62,7 @@ void CAnimation::Invalidate_TransformationMatrix2(_float fTimeDelta, vector<clas
 	/* 현재 재생중인 시간. */
 	m_fCurrentTime2 += fTimeDelta;
 	
-	if (m_fCurrentTime2 >= 0.2f)
+	if (m_fCurrentTime2 >= m_flinearTime)
 	{
 		m_fCurrentTime2 = 0.f;
 
@@ -99,6 +99,29 @@ void CAnimation::Reset3()
 	}
 	m_fCurrentTime = 0.f;
 }
+
+_bool CAnimation::Is_KeyFrame(char * pChannelName, _uint iKeyFrame)
+{
+	auto iter = find_if(m_Channels.begin(), m_Channels.end(), [&](CChannel* pChannel)
+	{
+		return !strcmp(pChannelName, pChannel->Get_ChannelName());
+	});
+
+	if (iter == m_Channels.end())
+		return false;
+	else
+	{
+		if ((*iter)->Get_CurrentKeyframe() == iKeyFrame)
+			return true;
+		else
+			return false;
+	}
+}
+
+
+
+
+
 CAnimation * CAnimation::Create(CModel* pModel, aiAnimation * pAIAnimation)
 {
 	CAnimation*	pInstance = new CAnimation();

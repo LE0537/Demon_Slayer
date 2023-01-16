@@ -102,6 +102,17 @@ public:
 	void Turn2(_fvector vAxis, _float fAngle);
 	void LookAt(_fvector vAt);
 
+
+public:
+	void Set_Rotation(_float3 fAngle);
+	void Set_RotationY(_float fAngleY);
+	// 사용법 x축 기준으로  90도 회전하고 싶으면 _float3(90.f,0.f,0.f) 넣어주면 됨
+private:
+	_float m_fCurrentRotationX = 0.f;
+	_float m_fCurrentRotationY = 0.f;
+	_float m_fCurrentRotationZ = 0.f;
+
+
 private:			
 	_float4x4				m_WorldMatrix;
 	TRANSFORMDESC			m_TransformDesc;

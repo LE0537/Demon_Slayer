@@ -30,6 +30,9 @@ public:
 	HRESULT Ready_Layer_Monster(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_UI(const _tchar* pLayerTag);
 
+	HRESULT Load_StaticObjects(char* pFileName);
+	HRESULT Load_Map(const _tchar* pLayerTag, char* pFileName);
+
 private:
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
 

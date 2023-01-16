@@ -1,5 +1,6 @@
 #include "..\Public\Model.h"
 #include "MeshContainer.h"
+#include "MeshInstance.h"
 #include "Texture.h"
 #include "Shader.h"
 #include "HierarchyNode.h"
@@ -25,10 +26,15 @@ CModel::CModel(const CModel & rhs)
 	, m_iNumAnimations(rhs.m_iNumAnimations)	// 추가
 	, m_DataMaterials(rhs.m_DataMaterials)	// 추가
 	, m_bIsBin(rhs.m_bIsBin)	// 추가
+	, m_iNumInstancing(rhs.m_iNumInstancing)	//	Instancing 추가
 {
 	for (auto& pMeshContainer : rhs.m_Meshes)
 	{
 		m_Meshes.push_back((CMeshContainer*)pMeshContainer->Clone());
+	}
+	for (auto& pMeshInstancing : rhs.m_Meshes_Instancing)
+	{
+		m_Meshes_Instancing.push_back((CMeshInstance*)pMeshInstancing->Clone());
 	}
 
 	for (auto& Material : m_Materials)
@@ -50,15 +56,31 @@ CHierarchyNode * CModel::Get_BonePtr(const char * pBoneName) const
 	return *iter;
 }
 
+_bool CModel::Is_KeyFrame(char* pChannelName, _uint iKeyFrame)
+{
+	return m_Animations[m_iCurrentAnimIndex]->Is_KeyFrame(pChannelName, iKeyFrame);
+}
+
+_float CModel::Get_Duration()
+{
+	return  m_Animations[m_iCurrentAnimIndex]->Get_Duration();
+}
+
+_float CModel::Get_CurrentTime()
+{
+	return m_Animations[m_iCurrentAnimIndex]->Get_CurrentTime();
+}
+
 HRESULT CModel::Initialize_Prototype(TYPE eModelType, const char * pModelFilePath, _fmatrix PivotMatrix)
 {
 	m_eModelType = eModelType;
 
 	XMStoreFloat4x4(&m_PivotMatrix, PivotMatrix);
-
+	
 	_uint			iFlag = 0;
 
-	if (TYPE_NONANIM == eModelType)
+	if (TYPE_NONANIM == eModelType ||
+		TYPE_NONANIM_INSTANCING == eModelType)
 		iFlag = aiProcess_PreTransformVertices | aiProcess_ConvertToLeftHanded | aiProcess_GenNormals | aiProcess_CalcTangentSpace;
 	else
 		iFlag = aiProcess_ConvertToLeftHanded | aiProcess_GenNormals | aiProcess_CalcTangentSpace;
@@ -83,6 +105,18 @@ HRESULT CModel::Initialize(void * pArg)
 	if (TYPE_NONANIM == m_eModelType)
 		return S_OK;
 
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
+	{
+		for (auto & iter : m_Meshes_Instancing)
+		{
+			iter->Initialize(pArg);
+		}
+
+		return S_OK;
+	}
+
+
+
 	if (FAILED(Create_HierarchyNodes(m_pAIScene->mRootNode)))
 		return E_FAIL;
 
@@ -101,8 +135,18 @@ HRESULT CModel::SetUp_Material(CShader * pShader, const char * pConstantName, _u
 	if (iMeshIndex >= m_iNumMeshes)
 		return E_FAIL;
 
-	if (nullptr == m_Materials[m_Meshes[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType])
-		return S_OK;
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
+	{
+		if (nullptr == m_Materials[m_Meshes_Instancing[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType])
+			return S_OK;
+
+		return pShader->Set_ShaderResourceView(pConstantName, m_Materials[m_Meshes_Instancing[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType]->Get_SRV());
+	}
+	else
+	{
+		if (nullptr == m_Materials[m_Meshes[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType])
+			return S_OK;
+	}
 
 	return pShader->Set_ShaderResourceView(pConstantName, m_Materials[m_Meshes[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType]->Get_SRV());
 }
@@ -149,7 +193,11 @@ HRESULT CModel::Render(CShader * pShader, _uint iMeshIndex, _uint iPassIndex)
 	}
 	pShader->Begin(iPassIndex);
 
-	m_Meshes[iMeshIndex]->Render();
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
+		m_Meshes_Instancing[iMeshIndex]->Render();
+	else
+		m_Meshes[iMeshIndex]->Render();
+
 
 	return S_OK;
 }
@@ -166,9 +214,9 @@ void CModel::Set_End(_int iAnimIndex)
 //	m_Animations[iAnimIndex]->Reset3();
 }
 
-void CModel::Set_Loop(_uint iAnimIndex)
+void CModel::Set_Loop(_uint iAnimIndex, _bool bIsLoop)
 {
-	m_Animations[iAnimIndex]->Set_Loop();
+	m_Animations[iAnimIndex]->Set_Loop(bIsLoop);
 }
 
 HRESULT CModel::Create_MeshContainer()
@@ -178,19 +226,35 @@ HRESULT CModel::Create_MeshContainer()
 
 	m_iNumMeshes = m_pAIScene->mNumMeshes;
 
-	m_Meshes.reserve(m_iNumMeshes);
-
-	for (_uint i = 0; i < m_iNumMeshes; ++i)
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
 	{
-		aiMesh*		pAIMesh = m_pAIScene->mMeshes[i];
+		m_Meshes_Instancing.reserve(m_iNumMeshes);
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			aiMesh*		pAIMesh = m_pAIScene->mMeshes[i];
 
-		CMeshContainer*		pMeshContainer = CMeshContainer::Create(m_pDevice, m_pContext, m_eModelType, pAIMesh, this, XMLoadFloat4x4(&m_PivotMatrix));
-		if (nullptr == pMeshContainer)
-			return E_FAIL;
+			/* 메시를 생성한다. */
+			CMeshInstance*		pMeshContainer = CMeshInstance::Create(m_pDevice, m_pContext, m_eModelType, pAIMesh, this, XMLoadFloat4x4(&m_PivotMatrix));
+			if (nullptr == pMeshContainer)
+				return E_FAIL;
 
-		m_Meshes.push_back(pMeshContainer);
+			m_Meshes_Instancing.push_back(pMeshContainer);
+		}
 	}
+	else
+	{
+		m_Meshes.reserve(m_iNumMeshes);
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			aiMesh*		pAIMesh = m_pAIScene->mMeshes[i];
 
+			CMeshContainer*		pMeshContainer = CMeshContainer::Create(m_pDevice, m_pContext, m_eModelType, pAIMesh, this, XMLoadFloat4x4(&m_PivotMatrix));
+			if (nullptr == pMeshContainer)
+				return E_FAIL;
+
+			m_Meshes.push_back(pMeshContainer);
+		}
+	}
 	return S_OK;
 }
 
@@ -214,12 +278,12 @@ HRESULT CModel::Create_Materials(const char* pModelFilePath)
 		for (_uint j = 0; j < AI_TEXTURE_TYPE_MAX; ++j)
 		{
 			aiString		strPath;
-		
+
 			if (FAILED(pAIMaterial->GetTexture(aiTextureType(j), 0, &strPath)))
 				continue;
 
 			char			szName[MAX_PATH] = "";
-			char			szExt[MAX_PATH] = ".dds";
+			char			szExt[MAX_PATH] = ".png";
 			char			szTextureFileName[MAX_PATH] = "";
 
 			_splitpath_s(strPath.data, nullptr, 0, nullptr, 0, szName, MAX_PATH, nullptr, 0);
@@ -384,6 +448,16 @@ HRESULT CModel::Bin_Initialize(void * pArg)
 
 	return S_OK;
 }
+void CModel::Update_Instancing(vector<VTXMATRIX> vecMatrix, _float fTimeDelta)
+{
+	if (TYPE_NONANIM_INSTANCING != m_eModelType)
+		return;
+
+	for (auto & iter : m_Meshes_Instancing)
+	{
+		iter->Update(vecMatrix, fTimeDelta);
+	}
+}
 HRESULT CModel::Get_HierarchyNodeData(DATA_BINSCENE * pBinScene)
 {
 	if (0 == m_Bones.size())
@@ -426,6 +500,9 @@ HRESULT CModel::Get_MaterialData(DATA_BINSCENE * pBinScene)
 }
 _bool CModel::Picking(CTransform * pTransform, _float3 * pOut)
 {
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
+		return false;
+
 	_bool bTrue = false;
 	//	_float* fDist = nullptr;
 	_float  fDist2 = 99999.f;
@@ -483,6 +560,10 @@ HRESULT CModel::Get_AnimData(DATA_BINSCENE * pBinScene)
 
 	return S_OK;
 }
+void CModel::Set_LinearTime(_uint iAnimIndex, _float flinearTime)
+{
+	m_Animations[iAnimIndex]->Set_LinearTime(flinearTime);
+}
 HRESULT CModel::Bin_Ready_MeshContainers(_fmatrix PivotMatrix)
 {
 	m_iNumMeshes = m_pBin_AIScene->iMeshCount;
@@ -521,10 +602,6 @@ HRESULT CModel::Bin_Ready_Materials(const char * pModelFilePath)
 			if (!strcmp(pAIMaterial.cNames[j], ""))
 				continue;
 
-			if (!strcmp(pAIMaterial.cNames[j], "sea01_com_n.dds"))
-			{
-
-			}
 			char			szFullPath[MAX_PATH] = "";
 			char			szExt[MAX_PATH] = "";
 
@@ -533,12 +610,6 @@ HRESULT CModel::Bin_Ready_Materials(const char * pModelFilePath)
 			strcpy_s(szFullPath, pModelFilePath);
 			strcat_s(szFullPath, pAIMaterial.cNames[j]);
 
-			if (!strcmp("", szExt))
-			{
-				strcpy_s(szExt, ".dds");
-				strcat_s(szFullPath, szExt);
-			}
-			
 			_tchar			szWideFullPath[MAX_PATH] = TEXT("");
 
 			MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szWideFullPath, MAX_PATH);
@@ -647,6 +718,10 @@ void CModel::Free()
 	for (auto& pMeshContainer : m_Meshes)
 		Safe_Release(pMeshContainer);
 	m_Meshes.clear();
+
+	for (auto& pMeshInstancing : m_Meshes_Instancing)
+		Safe_Release(pMeshInstancing);
+	m_Meshes_Instancing.clear();
 
 	for (auto& Material : m_Materials)
 	{

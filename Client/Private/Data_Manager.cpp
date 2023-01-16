@@ -365,7 +365,7 @@ HRESULT CData_Manager::Create_Try_BinModel(const _tchar * pModelName, LEVEL eLEV
 	if (bIsBin)
 	{
 		if (DATA_ANIM == eTYPE)
-			PivotMatrix = XMMatrixScaling(0.03f, 0.03f, 0.03f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+			PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
 		else
 			PivotMatrix = XMMatrixScaling(1.f, 1.f, 1.f);
 		if (FAILED(pGameInstance->Add_Prototype(eLEVEL, pModelName,

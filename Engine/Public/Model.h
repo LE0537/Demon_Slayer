@@ -7,29 +7,37 @@ BEGIN(Engine)
 class ENGINE_DLL CModel final : public CComponent
 {
 public:
-	enum TYPE { TYPE_NONANIM, TYPE_ANIM, TYPE_END };
+	enum TYPE { TYPE_NONANIM, TYPE_ANIM, TYPE_NONANIM_INSTANCING, TYPE_END };
+	typedef struct tagMeshInstancingDesc
+	{
+		_uint	iNumMeshInstancing = 1;
+	}MESHINSTANCINGDESC;
 private:
 	CModel(ID3D11Device* pDevice ,ID3D11DeviceContext* pContext);
 	CModel(const CModel& rhs);
 	virtual ~CModel() = default;
 
 public:
-	_uint	Get_NumMeshContainers() const {
-		return m_iNumMeshes;
-	}
-
-	_float4x4 Get_PivotFloat4x4() const {
-		return m_PivotMatrix;
-	}
+	_uint	Get_NumMeshContainers() const { return m_iNumMeshes; }
+	_float4x4 Get_PivotFloat4x4() const { return m_PivotMatrix; }
 
 	class CHierarchyNode* Get_BonePtr(const char* pBoneName) const;
 
+public: // 민준 추가 키프레임 가져오기
+	_bool Is_KeyFrame(char* pChannelName, _uint iKeyFrame);
+	_float	Get_Duration();
+	_float  Get_CurrentTime();
 
 public:
 	virtual HRESULT Initialize_Prototype(TYPE eModelType, const char* pModelFilePath, _fmatrix PivotMatrix);
 	virtual HRESULT Bin_Initialize_Prototype(DATA_BINSCENE* pScene, TYPE eType, const char* pModelFilePath, _fmatrix PivotMatrix);	// 추가
 	virtual HRESULT Initialize(void* pArg);
 	virtual HRESULT Bin_Initialize(void* pArg); // 추가
+//------------------Instancing-------------------------------------------------
+public:
+	void	Update_Instancing(vector<VTXMATRIX> vecMatrix, _float fTimeDelta);
+//------------------Instancing-------------------------------------------------
+
 public:
 	HRESULT SetUp_Material(class CShader* pShader, const char* pConstantName, _uint iMeshIndex, aiTextureType eType);
 	HRESULT Play_Animation(_float fTimeDelta);
@@ -81,6 +89,17 @@ private:
 	_bool					m_bAnimReset = false;
 
 	_float3*					vPos;
+
+
+public:
+	void    Set_LinearTime(_uint iAnimIndex, _float flinearTime); // 민준추가
+
+//------------------Instancing-------------------------------------------------
+private:/* For.Instancing Model */
+	_uint								m_iNumInstancing = 1;
+	vector<class CMeshInstance*>		m_Meshes_Instancing;
+//------------------Instancing-------------------------------------------------
+
 private: // 추가
 	HRESULT Bin_Ready_MeshContainers(_fmatrix PivotMatrix);
 	HRESULT Bin_Ready_Materials(const char* pModelFilePath);
@@ -94,7 +113,7 @@ public:
 		m_iPrevAnimIndex = iAnimIndex; }
 	_bool	Get_End(_int iAnimIndex);
 	void	Set_End(_int iAnimIndex);
-	void	Set_Loop(_uint iAnimIndex);
+	void	Set_Loop(_uint iAnimIndex, _bool bIsLoop = false); // 민준추가
 private:
 	HRESULT Create_MeshContainer();
 	HRESULT Create_Materials(const char* pModelFilePath);
