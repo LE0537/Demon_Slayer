@@ -182,6 +182,8 @@
     <ClInclude Include="..\Public\HpBarBack.h" />
     <ClInclude Include="..\Public\HpBarDeco.h" />
     <ClInclude Include="..\Public\Kyoujuro.h" />
+    <ClInclude Include="..\Public\KyoujuroSheath.h" />
+    <ClInclude Include="..\Public\KyoujuroWeapon.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
@@ -215,6 +217,8 @@
     <ClCompile Include="..\Private\HpBarBack.cpp" />
     <ClCompile Include="..\Private\HpBarDeco.cpp" />
     <ClCompile Include="..\Private\Kyoujuro.cpp" />
+    <ClCompile Include="..\Private\KyoujuroSheath.cpp" />
+    <ClCompile Include="..\Private\KyoujuroWeapon.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\Private\Level_Logo.cpp" />

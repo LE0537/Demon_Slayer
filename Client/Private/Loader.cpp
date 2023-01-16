@@ -20,7 +20,9 @@
 #include "Tanjiro.h"
 #include "Kyoujuro.h"
 #include "Akaza.h"
-
+//parts
+#include "KyoujuroWeapon.h"
+#include "KyoujuroSheath.h"
 //UI
 #include "HpBar.h"
 #include "HpBarBack.h"
@@ -284,6 +286,15 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CAkaza::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyoujuroWeapon"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroWeapon"),
+		CKyoujuroWeapon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyoujuroSheath"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroSheath"),
+		CKyoujuroSheath::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 
 	/* UI °´Ã¼ */

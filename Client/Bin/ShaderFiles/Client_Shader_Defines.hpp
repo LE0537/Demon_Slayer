@@ -11,6 +11,12 @@ sampler PointSampler = sampler_state
 	AddressU = wrap;
 	AddressV = wrap;
 };
+sampler CLAMPSampler = sampler_state
+{
+	Filter = MIN_MAG_MIP_LINEAR;
+AddressU = CLAMP;
+AddressV = CLAMP;
+};
 
 
 RasterizerState RS_Default

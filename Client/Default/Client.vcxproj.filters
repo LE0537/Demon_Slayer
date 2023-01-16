@@ -124,6 +124,12 @@
     <Filter Include="03.UI\02.Battle\BattleTop\Gague\Deco">
       <UniqueIdentifier>{ea268c37-2dc0-4fb6-82e6-d17ec73d99b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Char\02.Kyoujuro\Sheath">
+      <UniqueIdentifier>{b4871925-76bb-432f-8e57-685c75aab43d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Char\02.Kyoujuro\Weapon">
+      <UniqueIdentifier>{a40c6a1c-96db-431c-be67-67a5fdbdf442}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -228,6 +234,12 @@
     <ClInclude Include="..\Public\HpBarDeco.h">
       <Filter>03.UI\02.Battle\BattleTop\Gague\Deco</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroWeapon.h">
+      <Filter>02.GameObjects\99.GameObj\01.Char\02.Kyoujuro\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroSheath.h">
+      <Filter>02.GameObjects\99.GameObj\01.Char\02.Kyoujuro\Sheath</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -313,6 +325,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\HpBar.cpp">
       <Filter>03.UI\02.Battle\BattleTop\Gague\Bar\Hp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroSheath.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Char\02.Kyoujuro\Sheath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroWeapon.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Char\02.Kyoujuro\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

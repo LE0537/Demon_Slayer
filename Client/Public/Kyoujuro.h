@@ -35,12 +35,16 @@ private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
 	void	Set_ShadowLightPos();
+	HRESULT Ready_Parts();
+	HRESULT Ready_Parts2();
 
 private:
 	CModel*					m_pModelCom = nullptr;
 	CCollider*				m_pAABBCom = nullptr;
 	CCollider*				m_pOBBCom = nullptr;
 
+	CGameObject*			m_pWeapon = nullptr;
+	CGameObject*			m_pSheath = nullptr;
 
 public:
 	static CKyoujuro* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

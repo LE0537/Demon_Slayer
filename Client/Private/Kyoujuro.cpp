@@ -2,6 +2,9 @@
 #include "..\Public\Kyoujuro.h"
 #include "Layer.h"
 #include "GameInstance.h"
+#include "KyoujuroWeapon.h"
+#include "KyoujuroSheath.h"
+#include "Camera_Dynamic.h"
 
 CKyoujuro::CKyoujuro(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObj(pDevice, pContext)
@@ -23,8 +26,18 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-6.f, 0.f, 0.f, 1.f));
+	if (FAILED(Ready_Parts()))
+		return E_FAIL;
+	if (FAILED(Ready_Parts2()))
+		return E_FAIL;
 
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
@@ -35,14 +48,22 @@ void CKyoujuro::Tick(_float fTimeDelta)
 
 	//Set_ShadowLightPos();
 
+
+	m_pModelCom->Play_Animation(fTimeDelta);
 	m_pAABBCom->Update(m_pTransformCom->Get_WorldMatrix());
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
+	m_pWeapon->Tick(fTimeDelta);
+	m_pSheath->Tick(fTimeDelta);
 }
 
 void CKyoujuro::Late_Tick(_float fTimeDelta)
 {
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+	dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Set_Render(true);
+	dynamic_cast<CKyoujuroSheath*>(m_pSheath)->Set_Render(true);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
 }
 
 HRESULT CKyoujuro::Render()
@@ -62,11 +83,19 @@ HRESULT CKyoujuro::Render()
 	{
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
+		if (i == 0 || i == 1)
+		{
+			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_MaskTexture", i, aiTextureType_NORMALS)))
+				return E_FAIL;
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-			return E_FAIL;
-
-		//aiTextureType_AMBIENT
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+				return E_FAIL;
+		}
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -201,7 +230,53 @@ void CKyoujuro::Set_ShadowLightPos()
 
 	RELEASE_INSTANCE(CGameInstance);
 }
+HRESULT CKyoujuro::Ready_Parts()
+{
 
+	/* For.Weapon */
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("R_Hand_1_Lct");
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CKyoujuroWeapon::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pWeapon = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_KyoujuroWeapon"), &WeaponDesc);
+	if (nullptr == m_pWeapon)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CKyoujuro::Ready_Parts2()
+{
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("L_Weapon_1");
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CKyoujuroWeapon::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pSheath = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_KyoujuroSheath"), &WeaponDesc);
+	if (nullptr == m_pSheath)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
 CKyoujuro * CKyoujuro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CKyoujuro*	pInstance = new CKyoujuro(pDevice, pContext);
@@ -235,4 +310,6 @@ void CKyoujuro::Free()
 	Safe_Release(m_pAABBCom);
 	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pWeapon);
+	Safe_Release(m_pSheath);
 }

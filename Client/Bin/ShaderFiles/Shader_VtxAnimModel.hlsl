@@ -2,7 +2,7 @@
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;
-
+texture2D		g_MaskTexture;
 matrix			g_BoneMatrices[600];
 
 struct VS_IN
@@ -104,7 +104,21 @@ PS_OUT_SHADOW PS_Shadow(PS_IN In)
 
 	return Out;
 }
+PS_OUT PS_MASK(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
 
+	float4 vMask = g_MaskTexture.Sample(CLAMPSampler, In.vTexUV);
+
+	Out.vDiffuse = g_DiffuseTexture.Sample(CLAMPSampler, In.vTexUV);
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1300.f, 0.f, 0.f);
+
+	if (vMask.r == 0.f)
+		Out.vDiffuse.rgb = 1.f;
+	//
+	return Out;
+}
 technique11 DefaultTechnique
 {
 	pass Default //0
@@ -127,5 +141,15 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_Shadow();
+	}
+	pass MASK //2
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MASK();
 	}
 }
