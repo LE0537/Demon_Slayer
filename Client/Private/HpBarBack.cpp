@@ -3,12 +3,12 @@
 #include "GameInstance.h"
 
 CHpBarBack::CHpBarBack(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
-	: CGameObj(pDevice, pContext)
+	: CUI(pDevice, pContext)
 {
 }
 
 CHpBarBack::CHpBarBack(const CHpBarBack & rhs)
-	: CGameObj(rhs)
+	: CUI(rhs)
 {
 }
 
@@ -22,21 +22,24 @@ HRESULT CHpBarBack::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	memcpy(&m_iImgNum, pArg, sizeof(_uint));
+	memcpy(&m_UIinfo, pArg, sizeof(UIINFO));
 
-	m_fSizeX = 612.f;
-	m_fSizeY = 24.f;
-	m_fY = 88.f;
+	m_fSizeX = m_UIinfo.vScale.x;
+	m_fSizeY = m_UIinfo.vScale.y;
+	m_fX = m_UIinfo.vPos.x;
+	m_fY = m_UIinfo.vPos.y;
 
-	if (0 == m_iImgNum)
-		m_fX = 376.f;
+	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
+
+	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);	
+
+	if (!m_UIinfo.bReversal)
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 	else
-		m_fX = 914.f;
-	
-	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
-	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX * 0.65f, m_fSizeY, 0.f, 1.f));	
+	if (m_UIinfo.vRot >= 0 && m_UIinfo.vRot <= 360)
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_UIinfo.vRot));
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f)));
@@ -47,22 +50,6 @@ HRESULT CHpBarBack::Initialize(void * pArg)
 
 void CHpBarBack::Tick(_float fTimeDelta)
 {
-	if (0 == m_iImgNum)
-	{
-		m_fX = 376.f;
-		m_fY = 88.f;
-		m_fSizeX = 612.f;
-		m_fSizeY = 24.f;
-		m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX * 0.7f, m_fSizeY * 1.6f, 0.f, 1.f));
-	}
-	else
-	{
-		m_fX = 914.f;
-		m_fY = 88.f;
-		m_fSizeX = 612.f;
-		m_fSizeY = 24.f;
-		m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX * 0.67f, m_fSizeY * 1.6f, 0.f, 1.f));
-	}
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -81,7 +68,10 @@ HRESULT CHpBarBack::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin();
+	if (!m_UIinfo.bReversal)
+		m_pShaderCom->Begin();
+	else 
+		m_pShaderCom->Begin(1);
 
 	m_pVIBufferCom->Render();
 
@@ -103,7 +93,7 @@ HRESULT CHpBarBack::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_HpBarBack"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_HpBarBack"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */

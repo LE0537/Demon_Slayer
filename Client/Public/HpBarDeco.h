@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Client_Defines.h"
-#include "GameObj.h"
+#include "UI.h"
 
 BEGIN(Client)
 
-class CHpBarDeco final : public CGameObj
+class CHpBarDeco final : public CUI
 {
 private:
 	CHpBarDeco(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -18,11 +18,6 @@ public:
 	virtual void Tick(_float fTimeDelta);
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
-
-private:
-	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
-	_float4x4				m_ViewMatrix, m_ProjMatrix;
-	_uint					m_iImgNum = 0;
 
 private:
 	HRESULT Ready_Components();
