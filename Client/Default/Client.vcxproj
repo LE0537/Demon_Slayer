@@ -175,10 +175,15 @@
     <ClInclude Include="..\public\BattleField.h" />
     <ClInclude Include="..\Public\Camera_Dynamic.h" />
     <ClInclude Include="..\public\Characters.h" />
+    <ClInclude Include="..\Public\ChangeBaseDeco.h" />
+    <ClInclude Include="..\Public\ChangeIcon.h" />
+    <ClInclude Include="..\Public\ChangeSprt.h" />
+    <ClInclude Include="..\Public\CharIcon.h" />
+    <ClInclude Include="..\Public\CharNameUI.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\Data_Manager.h" />
     <ClInclude Include="..\public\GameObj.h" />
-    <ClInclude Include="..\Public\GaugeBase.h" />
+    <ClInclude Include="..\Public\GaugeBasePerson.h" />
     <ClInclude Include="..\Public\HpBar.h" />
     <ClInclude Include="..\Public\HpBarBack.h" />
     <ClInclude Include="..\Public\HpBarDeco.h" />
@@ -198,6 +203,7 @@
     <ClInclude Include="..\public\Rui.h" />
     <ClInclude Include="..\Public\MeshObj_Static.h" />
     <ClInclude Include="..\Public\SkillBar.h" />
+    <ClInclude Include="..\Public\SkillBarParts.h" />
     <ClInclude Include="..\Public\Tanjiro.h" />
     <ClInclude Include="..\Public\TanjiroIdleState.h" />
     <ClInclude Include="..\Public\TanjiroJumpState.h" />
@@ -206,6 +212,8 @@
     <ClInclude Include="..\Public\TanjiroState.h" />
     <ClInclude Include="..\Public\TanjiroWeapon.h" />
     <ClInclude Include="..\Public\Terrain.h" />
+    <ClInclude Include="..\public\UI.h" />
+    <ClInclude Include="..\public\UI_Manager.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="KyoujuroMove.h" />
     <ClInclude Include="Resource.h" />
@@ -218,9 +226,14 @@
     <ClCompile Include="..\private\BattleField.cpp" />
     <ClCompile Include="..\Private\Camera_Dynamic.cpp" />
     <ClCompile Include="..\private\Characters.cpp" />
+    <ClCompile Include="..\Private\ChangeBaseDeco.cpp" />
+    <ClCompile Include="..\Private\ChangeIcon.cpp" />
+    <ClCompile Include="..\Private\ChangeSprt.cpp" />
+    <ClCompile Include="..\Private\CharIcon.cpp" />
+    <ClCompile Include="..\Private\CharNameUI.cpp" />
     <ClCompile Include="..\Private\Data_Manager.cpp" />
     <ClCompile Include="..\private\GameObj.cpp" />
-    <ClCompile Include="..\Private\GaugeBase.cpp" />
+    <ClCompile Include="..\Private\GaugeBasePerson.cpp" />
     <ClCompile Include="..\Private\HpBar.cpp" />
     <ClCompile Include="..\Private\HpBarBack.cpp" />
     <ClCompile Include="..\Private\HpBarDeco.cpp" />
@@ -239,6 +252,7 @@
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\Rui.cpp" />
     <ClCompile Include="..\Private\SkillBar.cpp" />
+    <ClCompile Include="..\Private\SkillBarParts.cpp" />
     <ClCompile Include="..\Private\Tanjiro.cpp" />
     <ClCompile Include="..\Private\TanjiroIdleState.cpp" />
     <ClCompile Include="..\Private\TanjiroJumpState.cpp" />
@@ -246,6 +260,8 @@
     <ClCompile Include="..\Private\TanjiroSheath.cpp" />
     <ClCompile Include="..\Private\TanjiroWeapon.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\private\UI.cpp" />
+    <ClCompile Include="..\private\UI_Manager.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="KyoujuroMove.cpp" />
     <ClCompile Include="stdafx.cpp">

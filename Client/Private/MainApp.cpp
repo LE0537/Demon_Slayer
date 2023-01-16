@@ -6,6 +6,7 @@
 #include "SoundMgr.h"
 #include "Data_Manager.h"	// 추가
 #include "BackGround.h"
+#include "UI_Manager.h"
 
 bool			g_bDebug = false;
 
@@ -208,5 +209,6 @@ void CMainApp::Free()
 	
 	CGameInstance::Release_Engine();
 	CData_Manager::Destroy_Instance();	// 추가
+	CUI_Manager::Destroy_Instance();
 }
 

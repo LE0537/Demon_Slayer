@@ -1,50 +1,45 @@
 #include "stdafx.h"
-#include "GaugeBase.h"
+#include "SkillBarParts.h"
 #include "GameInstance.h"
 
-CGaugeBase::CGaugeBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
-	: CGameObj(pDevice, pContext)
+CSkillBarParts::CSkillBarParts(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+	: CUI(pDevice, pContext)
 {
 }
 
-CGaugeBase::CGaugeBase(const CGaugeBase & rhs)
-	: CGameObj(rhs)
+CSkillBarParts::CSkillBarParts(const CSkillBarParts & rhs)
+	: CUI(rhs)
 {
 }
 
-HRESULT CGaugeBase::Initialize_Prototype()
+HRESULT CSkillBarParts::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CGaugeBase::Initialize(void * pArg)
+HRESULT CSkillBarParts::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	memcpy(&m_iImgNum, pArg, sizeof(_uint));
+	memcpy(&m_UIinfo, pArg, sizeof(UIINFO));
 
-	m_fSizeX = 540.f;
-	m_fY = 90.f;
-	if (0 == m_iImgNum)
-	{
-		m_fX = 310.f;
-		m_fSizeY = 74.f;
-	}
-	else
-	{
-		m_fX = 970.f;
-		m_fSizeY = 90.f;
-	}
-	
+	m_fSizeX = m_UIinfo.vScale.x;
+	m_fSizeY = m_UIinfo.vScale.y;
+	m_fX = m_UIinfo.vPos.x;
+	m_fY = m_UIinfo.vPos.y;
+
+	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
+
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-	if (m_iImgNum == 0)
+	if (!m_UIinfo.bReversal)
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
+	if (m_UIinfo.vRot >= 0 && m_UIinfo.vRot <= 360)
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_UIinfo.vRot));
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f)));
@@ -53,18 +48,18 @@ HRESULT CGaugeBase::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CGaugeBase::Tick(_float fTimeDelta)
+void CSkillBarParts::Tick(_float fTimeDelta)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void CGaugeBase::Late_Tick(_float fTimeDelta)
+void CSkillBarParts::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CGaugeBase::Render()
+HRESULT CSkillBarParts::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -73,14 +68,17 @@ HRESULT CGaugeBase::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(m_iImgNum);
+	if (!m_UIinfo.bReversal)
+		m_pShaderCom->Begin();
+	else
+		m_pShaderCom->Begin(1);
 
 	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
-HRESULT CGaugeBase::Ready_Components()
+HRESULT CSkillBarParts::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -95,7 +93,7 @@ HRESULT CGaugeBase::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_GaugeBase"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkillBarParts"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -105,7 +103,7 @@ HRESULT CGaugeBase::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CGaugeBase::SetUp_ShaderResources()
+HRESULT CSkillBarParts::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -123,13 +121,13 @@ HRESULT CGaugeBase::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CGaugeBase * CGaugeBase::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CSkillBarParts * CSkillBarParts::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CGaugeBase*	pInstance = new CGaugeBase(pDevice, pContext);
+	CSkillBarParts*	pInstance = new CSkillBarParts(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CGaugeBase"));
+		ERR_MSG(TEXT("Failed to Created : CSkillBarParts"));
 		Safe_Release(pInstance);
 	}
 
@@ -137,20 +135,20 @@ CGaugeBase * CGaugeBase::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pC
 }
 
 
-CGameObject * CGaugeBase::Clone(void * pArg)
+CGameObject * CSkillBarParts::Clone(void * pArg)
 {
-	CGaugeBase*	pInstance = new CGaugeBase(*this);
+	CSkillBarParts*	pInstance = new CSkillBarParts(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CGaugeBase"));
+		ERR_MSG(TEXT("Failed to Cloned : CSkillBarParts"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CGaugeBase::Free()
+void CSkillBarParts::Free()
 {
 	__super::Free();
 

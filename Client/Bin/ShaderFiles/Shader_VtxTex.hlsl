@@ -101,6 +101,21 @@ PS_OUT PS_MAIN(PS_IN In)
 	return Out;
 }
 
+//PS_OUT PS_HpBarMinus(PS_IN In)
+//{
+//	PS_OUT      Out = (PS_OUT)0;
+//
+//	if (g_fCurrentHp / g_fMaxHp < In.vTexUV.x)
+//		discard;
+//	else
+//		Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+//
+//	if (Out.vColor.a<0.3f)
+//		discard;
+//
+//	return Out;
+//}
+
 
 technique11 DefaultTechnique
 {
