@@ -39,6 +39,8 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 
 	RELEASE_INSTANCE(CGameInstance);
 
+	m_pModelCom->Set_CurrentAnimIndex(17);
+
 	return S_OK;
 }
 
@@ -50,8 +52,15 @@ void CKyoujuro::Tick(_float fTimeDelta)
 
 
 	m_pModelCom->Play_Animation(fTimeDelta);
-	m_pAABBCom->Update(m_pTransformCom->Get_WorldMatrix());
-	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
+	m_pModelCom->Get_PivotFloat4x4();
+	m_pTransformCom->Get_World4x4Ptr();
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+	if (nullptr == pSocket)
+		return;
+	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+	
+
+	m_pOBBCom->Update(matColl);
 	m_pWeapon->Tick(fTimeDelta);
 	m_pSheath->Tick(fTimeDelta);
 }
@@ -64,6 +73,11 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 	dynamic_cast<CKyoujuroSheath*>(m_pSheath)->Set_Render(true);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+
+	if (g_bDebug)
+	{
+		m_pRendererCom->Add_Debug(m_pOBBCom);
+	}
 }
 
 HRESULT CKyoujuro::Render()
@@ -196,17 +210,11 @@ HRESULT CKyoujuro::Ready_Components()
 
 	CCollider::COLLIDERDESC		ColliderDesc;
 
-	/* For.Com_AABB */
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
-	ColliderDesc.vScale = _float3(4.f, 4.f, 4.f);
-	ColliderDesc.vPosition = _float3(0.f, 2.f, 0.f);
-	if (FAILED(__super::Add_Components(TEXT("Com_AABB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"), (CComponent**)&m_pAABBCom, &ColliderDesc)))
-		return E_FAIL;
-
 	/* For.Com_OBB*/
-	ColliderDesc.vScale = _float3(4.f, 4.f, 4.f);
-	ColliderDesc.vPosition = _float3(0.f, 2.f, 0.f);
+	ColliderDesc.vScale = _float3(170.f, 80.f, 80.f);
+	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
 		return E_FAIL;
 
@@ -307,7 +315,6 @@ void CKyoujuro::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pAABBCom);
 	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pWeapon);

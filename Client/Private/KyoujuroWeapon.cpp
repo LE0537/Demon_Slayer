@@ -55,6 +55,16 @@ void CKyoujuroWeapon::Tick(_float fTimeDelta)
 
 		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * SocketMatrix);
 
+		_matrix	matCollBox = XMLoadFloat4x4(&m_CombinedWorldMatrix);
+		_vector vUp = matCollBox.r[1];
+		matCollBox.r[3] += XMVector3Normalize(vUp) * 2.f;
+
+		m_pOBBCom->Update(matCollBox);
+
+		if (g_bDebug)
+		{
+			m_pRendererCom->Add_Debug(m_pOBBCom);
+		}
 	}
 
 }
@@ -115,13 +125,21 @@ HRESULT CKyoujuroWeapon::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
-
-
 	/* For.Com_Model*/
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("KyoujuroWeapon"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 	
+	CCollider::COLLIDERDESC		ColliderDesc;
+
+	/* For.Com_AABB */
+	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
+
+	/* For.Com_OBB*/
+	ColliderDesc.vScale = _float3(10.f, 100.f, 10.f);
+	ColliderDesc.vPosition = _float3(0.f, 0.f, 0.f);
+	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -189,6 +207,6 @@ void CKyoujuroWeapon::Free()
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
-
+	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pRendererCom);
 }

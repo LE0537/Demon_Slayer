@@ -40,7 +40,6 @@ private:
 
 private:
 	CModel*					m_pModelCom = nullptr;
-	CCollider*				m_pAABBCom = nullptr;
 	CCollider*				m_pOBBCom = nullptr;
 
 	CGameObject*			m_pWeapon = nullptr;

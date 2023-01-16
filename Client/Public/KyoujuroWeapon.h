@@ -11,7 +11,7 @@ class CRenderer;
 class CTransform;
 class CModel;
 class CHierarchyNode;
-class CVIBuffer_Trail;
+class CCollider;
 END
 
 
@@ -46,7 +46,7 @@ private:
 	CTransform*				m_pTransformCom = nullptr;
 	CModel*					m_pModelCom = nullptr;
 
-
+	CCollider*				m_pOBBCom = nullptr;
 private:
 	WEAPONDESC				m_WeaponDesc;
 	_float4x4				m_CombinedWorldMatrix;
