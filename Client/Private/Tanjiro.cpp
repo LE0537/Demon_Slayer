@@ -41,25 +41,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts2()))
 		return E_FAIL;
 
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-	LIGHTDESC			LightDesc;
-
-	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
-	_float4 vLightPos;
-	XMStoreFloat4(&vLightPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
-	vLightPos.y += 300.f;
-	LightDesc.eType = LIGHTDESC::TYPE_FIELDSHADOW;
-	LightDesc.vDirection = vLightPos;
-	LightDesc.vDiffuse = _float4(380.f, 0.f, -1180.f, 1.f);
-	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
-
-
-	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
-		return E_FAIL;
-
-
-	RELEASE_INSTANCE(CGameInstance);
+	
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
 

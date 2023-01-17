@@ -102,6 +102,14 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	/* For.Point */
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
+	LightDesc.eType = LIGHTDESC::TYPE_FIELDSHADOW;
+	LightDesc.vDirection = _float4(-30.f, 30.f, -30.f, 0.f);
+	LightDesc.vDiffuse = _float4(380.f, 0.f, -1180.f, 1.f);
+	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
+
+
+	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
 
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -167,7 +175,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CameraDesc.CameraDesc.fFovy = XMConvertToRadians(30.0f);
 	CameraDesc.CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	CameraDesc.CameraDesc.fNear = 0.2f;
-	CameraDesc.CameraDesc.fFar = 1300.f;
+	CameraDesc.CameraDesc.fFar = 500.f;
 
 	CameraDesc.CameraDesc.TransformDesc.fSpeedPerSec = 10.f;
 	CameraDesc.CameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
