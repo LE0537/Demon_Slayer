@@ -4,6 +4,8 @@
 #include "TanjiroMoveJumpState.h"
 #include "GameInstance.h"
 #include "TanjiroAtk_1_State.h"
+#include "Characters.h"
+#include "Layer.h"
 using namespace Tanjiro;
 
 
@@ -218,8 +220,41 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		break;
 	}
 
-	if(m_eDirection != DIR_STOP)
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (m_eDirection != DIR_STOP)
 		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+
+	CCollider*	pMyCollider = pTanjiro->Get_Collider();
+	CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
+
+	if (nullptr == pTargetCollider)
+		return;
+
+	if (pMyCollider->Collision(pTargetCollider))
+	{
+		CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"))->Get_LayerFront();
+
+		_float fSpeed = pTanjiro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+
+		_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+		_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+		_vector vMyLook = vTargetLook * -1.f;
+
+		_vector vPow = XMVector3Dot(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+		_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+		vPos += vMyLook * (fSpeed - fSpeed * fPow);
+		vTargetPos += vTargetLook * fSpeed * fPow;
+
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 

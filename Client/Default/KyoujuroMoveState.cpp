@@ -250,7 +250,5 @@ void CMoveState::Move(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
 	}
 	
-
-
 	RELEASE_INSTANCE(CGameInstance);
 }

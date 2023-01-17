@@ -58,13 +58,15 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
-
 public:
 //	CTransform* Get_Transfrom() const { return m_pTransformCom; }
 	CModel* Get_Model() const { return m_pModelCom; }
 
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) {m_eAnimID = iAnimIndex;}
+	CCollider* Get_Collider() { return m_pSphereCom; }
+	CGameObject* Get_Weapon() { return m_pWeapon; }
+
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();

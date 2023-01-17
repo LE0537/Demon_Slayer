@@ -66,6 +66,15 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 	Set_ShadowLightPos();
 
+	//m_fHpTime += fTimeDelta;
+
+	//if (m_fHpTime >= 3.f)
+	//{
+	//	if(m_tInfo.iHp > 700)
+	//		m_tInfo.iHp -= 100;
+
+	//	m_fHpTime = 0.f;
+	//}
 
 
 	HandleInput();
