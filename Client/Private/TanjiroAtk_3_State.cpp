@@ -3,7 +3,8 @@
 #include "TanjiroIdleState.h"
 #include "GameInstance.h"
 #include "TanjiroAtk_4_State.h"
-
+#include "TanjiroWeapon.h"
+#include "Layer.h""
 using namespace Tanjiro;
 
 
@@ -53,10 +54,69 @@ CTanjiroState * CAtk_3_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"))->Get_LayerFront();
+	pTanjiro->Get_Transform()->LookAt(m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
 
+	m_fMove += fTimeDelta;
 
+	if (m_fMove < 0.5f)
+	{
+		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
 
+		CCollider*	pMyCollider = pTanjiro->Get_Collider();
+		CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
+
+		if (nullptr == pTargetCollider)
+			return nullptr;
+
+		if (pMyCollider->Collision(pTargetCollider))
+		{
+			_float fSpeed = pTanjiro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+
+			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+		}
+	}
+	else
+	{
+		if (!m_bHit)
+		{
+			CCollider*	pMyCollider = dynamic_cast<CTanjiroWeapon*>(pTanjiro->Get_Weapon())->Get_WeaponColl();
+			CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
+
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				m_pTarget->Get_Transform()->LookAt(vPos);
+				m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 3.f);
+
+				m_bHit = true;
+			}
+		}
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	return nullptr;
 }

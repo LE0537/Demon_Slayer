@@ -3,7 +3,8 @@
 #include "TanjiroIdleState.h"
 #include "TanjiroAtk_3_State.h"
 #include "GameInstance.h"
-
+#include "TanjiroWeapon.h"
+#include "Layer.h""
 using namespace Tanjiro;
 
 
@@ -53,9 +54,58 @@ CTanjiroState * CAtk_2_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"))->Get_LayerFront();
+	pTanjiro->Get_Transform()->LookAt(m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 0.7f);
+	m_fMove += fTimeDelta;
+	if (m_fMove < 0.3f)
+	{
+		if (m_iHit < 1)
+		{
 
+			CCollider*	pMyCollider = dynamic_cast<CTanjiroWeapon*>(pTanjiro->Get_Weapon())->Get_WeaponColl();
+			CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
 
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				m_pTarget->Get_Transform()->LookAt(vPos);
+				m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
+
+				++m_iHit;
+			}
+		}
+	}
+	else if (m_fMove >= 0.3f)
+	{
+		if (!m_bHit)
+		{
+			CCollider*	pMyCollider = dynamic_cast<CTanjiroWeapon*>(pTanjiro->Get_Weapon())->Get_WeaponColl();
+			CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
+
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				m_pTarget->Get_Transform()->LookAt(vPos);
+				m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
+
+				m_bHit = true;
+			}
+		}
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
 
 
 	return nullptr;

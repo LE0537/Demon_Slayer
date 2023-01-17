@@ -17,7 +17,9 @@ public:
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
 
-
+private:
+	_float m_fMove = 0.f;
+	_bool  m_bHit = false;
 };
 END
 END

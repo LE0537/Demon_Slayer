@@ -52,7 +52,7 @@ protected:
 
 public:
 	PLAYERINFO Get_PlayerInfo() { return m_tInfo; };
-
+	void	   Set_Hp(_int _iDmg) { m_tInfo.iHp += _iDmg; }
 protected:
 	PLAYERINFO		m_tInfo;
 
