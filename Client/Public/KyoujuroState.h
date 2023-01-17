@@ -22,6 +22,10 @@ public:
 		STATE_IDLE,
 		STATE_MOVE,
 		STATE_JUMP,
+		STATE_ATK_1,
+		STATE_ATK_2,
+		STATE_ATK_3,
+		STATE_ATK_4,
 		STATE_END
 	};
 
