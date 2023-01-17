@@ -66,8 +66,6 @@ private:
 
 
 
-	
-
 
 private:
 	void HandleInput();

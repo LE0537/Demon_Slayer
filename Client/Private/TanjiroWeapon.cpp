@@ -46,7 +46,6 @@ void CTanjiroWeapon::Tick(_float fTimeDelta)
 	if (m_bRender)
 	{
 
-
 		_matrix		SocketMatrix = m_WeaponDesc.pSocket->Get_CombinedTransformationMatrix() *
 			XMLoadFloat4x4(&m_WeaponDesc.SocketPivotMatrix) * XMLoadFloat4x4(m_WeaponDesc.pParentWorldMatrix);
 

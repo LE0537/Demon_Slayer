@@ -181,6 +181,24 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move">
       <UniqueIdentifier>{25b4b8b3-bbc5-4044-bf75-69cac27a658a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_1">
+      <UniqueIdentifier>{e964716f-2f96-4f47-8535-ac0a33fd9aa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_2">
+      <UniqueIdentifier>{c230f2b1-cad2-4447-9ae3-78ea53ef900d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_3">
+      <UniqueIdentifier>{8b70cb3f-27e8-4f99-bdf0-a15363e2c456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_4">
+      <UniqueIdentifier>{3835a0cf-ddb5-4483-b147-79be7efeda33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move\MoveJump">
+      <UniqueIdentifier>{2376ccd0-c537-4988-9656-8cffe7e38cd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move\MoveJump">
+      <UniqueIdentifier>{276d0c91-978d-4ed6-b859-f4463be410bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -336,6 +354,15 @@
     <ClInclude Include="KyoujuroMoveState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Atk_1_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroMoveJumpState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move\MoveJump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroMoveJumpState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move\MoveJump</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -469,6 +496,18 @@
     </ClCompile>
     <ClCompile Include="KyoujuroMoveState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_GamePlay.cpp">
+      <Filter>01.Levels\02.GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Atk_1_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroMoveJumpState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move\MoveJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroMoveJumpState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move\MoveJump</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

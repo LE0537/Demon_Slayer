@@ -101,7 +101,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	vector			vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 
-	float			fViewZ = vDepthDesc.y * 1300.f;
+	float			fViewZ = vDepthDesc.y * 500.f;
 
 	vector			vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
 
@@ -171,7 +171,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_POINT(PS_IN In)
 	vector			vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 
-	float			fViewZ = vDepthDesc.y * 1300.f;
+	float			fViewZ = vDepthDesc.y * 500.f;
 
 	vector			vWorldPos = (vector)0.f;
 
@@ -248,14 +248,14 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	float		fFogDistance = 5.f;
 
-	fFogPower = min((max((vDepth.y * 1300.f) - fFogDistance, 0.f) / 90.0f),0.3f);
+	fFogPower = min((max((vDepth.y * 500.f) - fFogDistance, 0.f) / 90.0f),0.3f);
 
 	Out.vColor = (vDiffuse * vShade + vSpecular) + vFogColor * fFogPower;
 	//=================== ±×¸²ÀÚ =======================================================
 
 	vector			vDepthDesc = g_DepthTexture.Sample(DepthSampler, In.vTexUV);
 
-	float			fViewZ = vDepthDesc.y * 1300.f;
+	float			fViewZ = vDepthDesc.y * 500.f;
 
 	vector			vWorldPos = (vector)0.f;
 
@@ -280,7 +280,7 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(DepthSampler, vNewUV);
 
-	if (vWorldPos.z - 0.1f > vShadowDepthInfo.x * 1300.0f)
+	if (vWorldPos.z - 0.1f > vShadowDepthInfo.x * 500.0f)
 		Out.vColor -= vector(0.2f, 0.2f, 0.2f, 0.f);
 
 	if (Out.vColor.a == 0.f)

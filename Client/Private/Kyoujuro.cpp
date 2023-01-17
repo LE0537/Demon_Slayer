@@ -79,13 +79,20 @@ void CKyoujuro::Tick(_float fTimeDelta)
 	
 
 	m_pOBBCom->Update(matColl);
-	m_pWeapon->Tick(fTimeDelta);
-	m_pSheath->Tick(fTimeDelta);
+
 
 }
 
 void CKyoujuro::Late_Tick(_float fTimeDelta)
 {
+
+
+
+	LateTickState(fTimeDelta);
+	m_pWeapon->Tick(fTimeDelta);
+	m_pSheath->Tick(fTimeDelta);
+
+
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 	dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Set_Render(true);
@@ -97,8 +104,6 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 	{
 		m_pRendererCom->Add_Debug(m_pOBBCom);
 	}
-
-	LateTickState(fTimeDelta);
 
 }
 
