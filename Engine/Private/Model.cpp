@@ -189,7 +189,6 @@ HRESULT CModel::Play_Animation2(_float fTimeDelta)
 	
 	for (auto& pBoneNode : m_Bones)
 	{
-		/* 뼈의 m_CombinedTransformationMatrix행렬을 갱신한다. */
 		pBoneNode->Invalidate_CombinedTransformationmatrix();
 	}
 

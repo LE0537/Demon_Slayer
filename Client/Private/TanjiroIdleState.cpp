@@ -8,7 +8,8 @@ using namespace Tanjiro;
 
 
 
-CIdleState::CIdleState()
+CIdleState::CIdleState(STATE_ID eState)
+	: ePreState(eState)
 {
 }
 
@@ -61,8 +62,16 @@ CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	static _float fTest = 0.f;
+	fTest += fTimeDelta;
 
-	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
+
+	if (ePreState == CTanjiroState::STATE_JUMP)
+	{
+		pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
+	}
+	else
+		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;
 }

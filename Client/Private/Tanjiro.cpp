@@ -106,8 +106,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 
 	m_pOBBCom->Update(matColl);
-	m_pWeapon->Tick(fTimeDelta);
-	m_pSheath->Tick(fTimeDelta);
+
 
 }
 
@@ -115,6 +114,8 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 {
 
 	LateTickState(fTimeDelta);
+	m_pWeapon->Tick(fTimeDelta);
+	m_pSheath->Tick(fTimeDelta);
 
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
