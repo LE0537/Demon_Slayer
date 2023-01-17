@@ -184,6 +184,7 @@ HRESULT CModel::Play_Animation2(_float fTimeDelta)
 {
 	m_Animations[m_iPrevAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta);
 	
+
 	for (auto& pBoneNode : m_Bones)
 	{
 		pBoneNode->Invalidate_CombinedTransformationmatrix();
