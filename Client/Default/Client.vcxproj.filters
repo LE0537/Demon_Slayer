@@ -458,9 +458,6 @@
     <ClCompile Include="..\Private\ChangeIcon.cpp">
       <Filter>03.UI\02.Battle\BattleTop\Change\ChangeIcon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Level_GamePlay.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\KyoujuroIdleState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle</Filter>
     </ClCompile>
@@ -469,6 +466,9 @@
     </ClCompile>
     <ClCompile Include="KyoujuroMoveState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_GamePlay.cpp">
+      <Filter>01.Levels\02.GamePlay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
