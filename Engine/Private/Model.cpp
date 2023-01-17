@@ -184,6 +184,7 @@ HRESULT CModel::Play_Animation(_float fTimeDelta)
 }
 HRESULT CModel::Play_Animation2(_float fTimeDelta)
 {
+	// 왜 자꾸 오류남 ? 
 
 	m_Animations[m_iPrevAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta);
 	
