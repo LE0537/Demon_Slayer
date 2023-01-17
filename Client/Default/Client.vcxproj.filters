@@ -327,13 +327,13 @@
     <ClInclude Include="..\Public\KyoujuroState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\KyoujuroIdle.h">
+    <ClInclude Include="..\Public\KyoujuroIdleState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\KyoujuroJump.h">
+    <ClInclude Include="..\Public\KyoujuroJumpState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump</Filter>
     </ClInclude>
-    <ClInclude Include="KyoujuroMove.h">
+    <ClInclude Include="KyoujuroMoveState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClInclude>
   </ItemGroup>
@@ -346,9 +346,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\MainApp.cpp">
       <Filter>00.MainApp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_GamePlay.cpp">
-      <Filter>01.Levels\02.GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Loading.cpp">
       <Filter>01.Levels\00.Loader</Filter>
@@ -461,13 +458,16 @@
     <ClCompile Include="..\Private\ChangeIcon.cpp">
       <Filter>03.UI\02.Battle\BattleTop\Change\ChangeIcon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\KyoujuroIdle.cpp">
+    <ClCompile Include="..\Private\Level_GamePlay.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroIdleState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\KyoujuroJump.cpp">
+    <ClCompile Include="..\Private\KyoujuroJumpState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump</Filter>
     </ClCompile>
-    <ClCompile Include="KyoujuroMove.cpp">
+    <ClCompile Include="KyoujuroMoveState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClCompile>
   </ItemGroup>

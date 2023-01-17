@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "GameObj.h"
+#include "Characters.h"
 
 BEGIN(Client)
 
@@ -14,6 +15,7 @@ public:
 		_float2			vPos;
 		_float2			vScale;
 		_float			vRot;
+		CCharacters*	pTarget;
 	}UIINFO;
 
 protected:
@@ -28,6 +30,7 @@ public:
 	virtual void Tick(_float fTimeDelta);
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
+
 
 protected:
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;

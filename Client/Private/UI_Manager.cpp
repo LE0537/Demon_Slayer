@@ -76,7 +76,7 @@ void CUI_Manager::Load_Data()
 
 		DATATEXTURELIST.push_back(CUI::UIINFO(tInfo));
 
-		CUI::UIINFO CloneInfo;
+	/*	CUI::UIINFO CloneInfo;
 
 		ZeroMemory(&CloneInfo, sizeof(CUI::UIINFO));
 
@@ -86,7 +86,7 @@ void CUI_Manager::Load_Data()
 		CloneInfo.vRot = CUI::UIINFO(tInfo).vRot;
 		CloneInfo.bReversal = CUI::UIINFO(tInfo).bReversal;
 
-		Add_Obj(CloneInfo);
+		Add_Obj(CloneInfo);*/
 		
 	}
 	Safe_Release(pGameInstance);
@@ -94,70 +94,70 @@ void CUI_Manager::Load_Data()
 	CloseHandle(hFile);
 }
 
-HRESULT CUI_Manager::Add_Obj(CUI::UIINFO CloneInfo)
+HRESULT CUI_Manager::Add_Obj()
 {
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	Safe_AddRef(pGameInstance);
-	if (CloneInfo.iTextureNum == 0)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
-			return E_FAIL;
-	}
-	else if (CloneInfo.iTextureNum == 1)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBarDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
-			return E_FAIL;
-	}
-	else if (CloneInfo.iTextureNum == 2)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBarBack"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
-			return E_FAIL;
-	}
-	else if (CloneInfo.iTextureNum == 3)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBasePerson"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
-			return E_FAIL;
-	}
-	else if (CloneInfo.iTextureNum == 4)
-	{
-	}
-	else if (CloneInfo.iTextureNum == 5)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
-			return E_FAIL;
-	}
-	else if (CloneInfo.iTextureNum == 6)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharNameUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
-			return E_FAIL;
-	}
-	else if (CloneInfo.iTextureNum == 7)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
-			return E_FAIL;
-	}
-	else if (CloneInfo.iTextureNum == 8)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillBarParts"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
-			return E_FAIL;
-	}
-	else if (CloneInfo.iTextureNum == 9)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeBaseDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
-			return E_FAIL;
-	}
-	else if (CloneInfo.iTextureNum == 10)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeSprt"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
-			return E_FAIL;
-	}
-	else if (CloneInfo.iTextureNum == 11)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
-			return E_FAIL;
-	}
+	//CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	//Safe_AddRef(pGameInstance);
+	//if (CloneInfo.iTextureNum == 0)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
+	//		return E_FAIL;
+	//}
+	//else if (CloneInfo.iTextureNum == 1)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBarDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
+	//		return E_FAIL;
+	//}
+	//else if (CloneInfo.iTextureNum == 2)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBarBack"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
+	//		return E_FAIL;
+	//}
+	//else if (CloneInfo.iTextureNum == 3)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBasePerson"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
+	//		return E_FAIL;
+	//}
+	//else if (CloneInfo.iTextureNum == 4)
+	//{
+	//}
+	//else if (CloneInfo.iTextureNum == 5)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
+	//		return E_FAIL;
+	//}
+	//else if (CloneInfo.iTextureNum == 6)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharNameUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
+	//		return E_FAIL;
+	//}
+	//else if (CloneInfo.iTextureNum == 7)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
+	//		return E_FAIL;
+	//}
+	//else if (CloneInfo.iTextureNum == 8)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillBarParts"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
+	//		return E_FAIL;
+	//}
+	//else if (CloneInfo.iTextureNum == 9)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeBaseDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
+	//		return E_FAIL;
+	//}
+	//else if (CloneInfo.iTextureNum == 10)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeSprt"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
+	//		return E_FAIL;
+	//}
+	//else if (CloneInfo.iTextureNum == 11)
+	//{
+	//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &CloneInfo)))
+	//		return E_FAIL;
+	//}
 
-	Safe_Release(pGameInstance);
+	//Safe_Release(pGameInstance);
 	return S_OK;
 }
 
