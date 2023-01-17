@@ -37,7 +37,10 @@
 #include "ChangeBaseDeco.h"
 #include "ChangeSprt.h"
 #include "ChangeIcon.h"
-
+//Effect
+#include "Effect.h"
+#include "Effect_Manager.h"
+#include "Effect_Texture.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -75,6 +78,12 @@ HRESULT CLoader::Initialize(LEVEL eNextLevel)
 	m_eNextLevel = eNextLevel;
 
 	InitializeCriticalSection(&m_CriticalSection);
+
+	CEffect_Manager* pEffect_Manager = GET_INSTANCE(CEffect_Manager);
+
+	pEffect_Manager->Initialize(m_pDevice, m_pContext);
+
+	RELEASE_INSTANCE(CEffect_Manager);
 
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, Thread_Main, this, 0, nullptr);
 	if (0 == m_hThread)
@@ -230,6 +239,110 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	}
 #pragma endregion Map
 
+#pragma region Effect
+	{
+		/* Texture */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Eff_Circle"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Eff_Circle.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Eff_Sprk */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Eff_Sprk"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Eff_Sprk.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Base */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Base"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Base00.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Eff_Tap */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Eff_Tap"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Eff_Tap00.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Burst */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Burst"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Burst00.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Dust */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Dust"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Dust00.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Fade00 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Fade00"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Fade00.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Fade01 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Fade01"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Fade01.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Fade02 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Fade02"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Fade02.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Fade03 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Fade03"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Fade03.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Light00 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Light00"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Light00.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Eff_Light00 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Eff_Light00"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Eff_Light00.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Light01 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Light01"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Light01.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Line01 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Line01"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Line01.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Squ01 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Squ01"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Squ01.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Sun00 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Sun00"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Sun00.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Sun01 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Sun01"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Sun01.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Sun02 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Sun02"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Sun02.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Xef_Uzu00 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Uzu00"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Uzu00.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Spike00 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Spike00"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Spike00.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Spike01 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Spike01"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Spike01.png"), 1))))
+			return E_FAIL;
+		/* For.Prototype_Component_Texture_Wind02 */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Wind02"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Wind02.png"), 1))))
+			return E_FAIL;
+
+		/* °´Ã¼ */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectTexture"),
+			CEffect_Texture::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+		CEffect_Manager* pEffect_Manager = GET_INSTANCE(CEffect_Manager);
+
+		pEffect_Manager->Load_Effect();
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
+	}
+#pragma endregion Effect
 
 	/* Ä«¸Þ¶ó °´Ã¼ */
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Dynamic"),

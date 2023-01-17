@@ -211,6 +211,18 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_4">
       <UniqueIdentifier>{735d8c88-857f-47ff-9e99-cac2977f93d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Effect\00.EffectManager">
+      <UniqueIdentifier>{d37213a8-20f9-49ce-b9e9-4d74351c7bf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect\01.EffectTexture">
+      <UniqueIdentifier>{5ad5de8a-607a-4461-bc82-b56b8ad95b8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect\02.EffectMesh">
+      <UniqueIdentifier>{4518dd4c-db1e-4d95-800e-eec751748f0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect\03.EffectParticle">
+      <UniqueIdentifier>{4b874ab3-fb8c-42a1-a396-84e644f167f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -396,6 +408,21 @@
     <ClInclude Include="..\Public\KyoujuroAtk_4_State.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_4</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect.h">
+      <Filter>04.Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Manager.h">
+      <Filter>04.Effect\00.EffectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Texture.h">
+      <Filter>04.Effect\01.EffectTexture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Mesh.h">
+      <Filter>04.Effect\02.EffectMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Effect_Particle.h">
+      <Filter>04.Effect\03.EffectParticle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -559,6 +586,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroAtk_4_State.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect.cpp">
+      <Filter>04.Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Manager.cpp">
+      <Filter>04.Effect\00.EffectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Texture.cpp">
+      <Filter>04.Effect\01.EffectTexture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Mesh.cpp">
+      <Filter>04.Effect\02.EffectMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_Particle.cpp">
+      <Filter>04.Effect\03.EffectParticle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
