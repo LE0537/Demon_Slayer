@@ -8,7 +8,8 @@ BEGIN(Engine)
 class ENGINE_DLL CRenderer final : public CComponent
 {
 public:
-	enum RENDERGROUP {RENDER_PRIORITY,RENDER_SHADOWDEPTH, RENDER_NONALPHABLEND, RENDER_NONLIGHT, RENDER_ALPHABLEND, RENDER_UI,RENDER_UIPOKE ,RENDER_END };
+	enum RENDERGROUP {RENDER_PRIORITY,RENDER_SHADOWDEPTH, RENDER_NONALPHABLEND, RENDER_NONLIGHT, RENDER_ALPHABLEND, 
+		RENDER_DISTORTION, RENDER_UI,RENDER_UIPOKE ,RENDER_END };
 
 private:
 	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);	
@@ -31,6 +32,7 @@ private:
 	typedef list<class CGameObject*>		GAMEOBJECTS;
 
 private:
+	_bool						m_bRenderDebug = false;
 	list<class CComponent*>					m_DebugComponents;
 
 private:
@@ -41,14 +43,37 @@ private:
 	class CShader*							m_pShader = nullptr;
 	_float4x4								m_WorldMatrix, m_ViewMatrix, m_ProjMatrix;
 
+	_float				m_fFar = 0.f;
+
+//==Glow=============================================================
+private:
+	_float						m_fGlowWinCX, m_fGlowWinCY;
+	ID3D11DepthStencilView*		m_pGlowDSV = nullptr;
+//==Glow=============================================================
+
+
+
+	//	Function
+//==Glow=============================================================
+private:
+	HRESULT Ready_GlowDSV(_float fWinCX, _float fWinCY);
+	HRESULT Set_Viewport(_float fWinCX, _float fWinCY);
+//==Glow=============================================================
+
 private:
 	HRESULT Render_Priority();
 	HRESULT Render_ShadowDepth();
 	HRESULT Render_NonAlphaBlend();
 	HRESULT Render_Lights();
+	HRESULT Render_AO();
+	HRESULT Render_Glow();
 	HRESULT Render_Blend();
+	HRESULT Render_OutLine();
 	HRESULT Render_NonLight();
 	HRESULT Render_AlphaBlend();
+	HRESULT Render_Blur();
+	HRESULT Render_DistortionObjects();
+	HRESULT Render_Master();
 	HRESULT Render_UI();
 	HRESULT Render_UIPOKE();
 

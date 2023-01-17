@@ -18,12 +18,61 @@ vector			g_vLightSpecular;
 vector			g_vMtrlAmbient = vector(1.f, 1.f, 1.f, 1.f);
 vector			g_vMtrlSpecular = vector(1.f, 1.f, 1.f, 1.f);
 
+bool			g_bRenderAO;
+
 texture2D		g_DiffuseTexture;
 texture2D		g_NormalTexture;
 texture2D		g_DepthTexture;
 texture2D		g_ShadeTexture;
 texture2D		g_SpecularTexture;
 texture2D       g_ShadowDepthTexture;
+texture2D		g_GlowTexture;
+texture2D		g_DistortionTexture;
+texture2D		g_AOTexture;
+texture2D		g_BlurTexture;
+
+float			g_fWinSizeX = 1280.f;
+float			g_fWinSizeY = 720.f;
+float			g_fFar;
+float			g_fSSAORadius;
+
+const float		g_fWeight[13] =
+{
+	0.0561f, 0.1353f, 0.278f, 0.4868f, 0.7261f, 0.9231f, 1.0f,
+	0.9231f, 0.7261f, 0.4868f, 0.278f, 0.1353f, 0.0561f
+};
+const float		g_fWeightTotal = 6.2108;
+
+float3 g_vRandom[16] =
+{
+	float3(0.2024537f, 0.841204f, -0.9060141f),
+	float3(-0.2200423f, 0.6282339f, -0.8275437f),
+	float3(0.3677659f, 0.1086345f, -0.4466777f),
+	float3(0.8775856f, 0.4617546f, -0.6427765f),
+	float3(0.7867433f, -0.141479f, -0.1567597f),
+	float3(0.4839356f, -0.8253108f, -0.1563844f),
+	float3(0.4401554f, -0.4228428f, -0.330118f),
+	float3(0.0019193f, -0.8048455f, 0.0726584f),
+	float3(-0.7578573f, -0.5583301f, 0.2347527f),
+	float3(-0.4540f, -0.2527426f, 0.59244601f),
+	float3(-0.0483543f, -0.2527567f, 0.5921463f),
+	float3(-0.4192315f, 0.2084311f, -0.3672158f),
+	float3(-0.8433158f, 0.1546315f, 0.2204781f),
+	float3(-0.4031129f, -0.8261332f, 0.4619123f),
+	float3(-0.6657215f, 0.6291122f, 0.6120921f),
+	float3(-0.0001812f, 0.2781219f, 0.8001631f),
+};
+
+float3 randomNormal(float2 vTex)
+{
+	float fnoiseX = (frac(sin(dot(vTex, float2(13.2135f, 64.215f) * 1.f)) * 12345.2785f));
+	float fnoiseY = (frac(sin(dot(vTex, float2(10.231f, 41.9234f) * 2.f)) * 30514.6549f));
+	float fnoiseZ = (frac(sin(dot(vTex, float2(16.1345f, 97.4231f) * 3.f)) * 59401.1312f));
+
+	return normalize(float3(fnoiseX, fnoiseY, fnoiseZ));
+};
+
+
 
 sampler LinearSampler = sampler_state
 {
@@ -37,15 +86,16 @@ sampler DepthSampler = sampler_state
 };
 
 
+
 struct VS_IN
 {
-	float3		vPosition : POSITION;	
+	float3		vPosition : POSITION;
 	float2		vTexUV : TEXCOORD0;
 };
 
 struct VS_OUT
 {
-	float4		vPosition : SV_POSITION;	
+	float4		vPosition : SV_POSITION;
 	float2		vTexUV : TEXCOORD0;
 };
 
@@ -83,7 +133,40 @@ PS_OUT PS_MAIN(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-	
+
+	return Out;
+}
+
+PS_OUT PS_SSAO(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	if (0 == g_DepthTexture.Sample(LinearSampler, In.vTexUV).y)
+		return Out;
+
+	float3	vRay;
+	float3	vReflect;
+	float2	vRandomUV;
+
+	int		iColor = 0;
+
+	vector	vNormal = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
+
+	for (int i = 0; i < 16; ++i)
+	{
+		vRay = reflect(randomNormal(In.vTexUV), g_vRandom[i]);
+		vReflect = normalize(reflect(vRay, vNormal)) * g_fSSAORadius;
+		vReflect.x *= -1.f;
+		vRandomUV = In.vTexUV + vReflect.xy;
+		float	fDepth = (g_DepthTexture.Sample(LinearSampler, In.vTexUV)).y;
+		float	fOccNorm = (g_DepthTexture.Sample(LinearSampler, vRandomUV)).y;
+
+		iColor += -1.f * floor(fOccNorm - (fDepth + (0.005f * (g_DepthTexture.Sample(LinearSampler, In.vTexUV)).y)));
+	}
+
+	Out.vColor = abs((iColor / 16.f) - 1.f);
+
+
 	return Out;
 }
 
@@ -101,7 +184,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	vector			vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 
-	float			fViewZ = vDepthDesc.y * 500.f;
+	float			fViewZ = vDepthDesc.y * 1300.f;
 
 	vector			vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
 
@@ -118,7 +201,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	{
 		Out.vShade = g_vLightDiffuse * (saturate(dot(normalize(g_vLightDir2) * -1.f, normalize(vNormal))) + (g_vLightAmbient * g_vMtrlAmbient));
 	}
-	
+
 	Out.vShade.a = 1.f;
 
 	vector			vWorldPos = (vector)0.f;
@@ -150,7 +233,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 		vReflect = reflect(normalize(g_vLightDir2), normalize(vNormal));
 	}
 	vector			vLook = vWorldPos - g_vCamPosition;
-	
+
 	if (vNormalDesc.w == 1.f)
 	{
 		Out.vSpecular = 0.f;
@@ -171,7 +254,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_POINT(PS_IN In)
 	vector			vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 
-	float			fViewZ = vDepthDesc.y * 500.f;
+	float			fViewZ = vDepthDesc.y * 1300.f;
 
 	vector			vWorldPos = (vector)0.f;
 
@@ -226,7 +309,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_POINT(PS_IN In)
 	}
 	else
 		Out.vSpecular = 0.f;
-	
+
 
 	return Out;
 }
@@ -241,6 +324,8 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 	vector			vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vDepth = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
+	vector			vGlow = g_GlowTexture.Sample(LinearSampler, In.vTexUV);
+	vector			vAO = 0.1f * g_AOTexture.Sample(LinearSampler, In.vTexUV) * g_bRenderAO;
 
 	vector		vFogColor = vector(1.f, 1.f, 1.f, 1.f);
 
@@ -248,14 +333,14 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	float		fFogDistance = 5.f;
 
-	fFogPower = min((max((vDepth.y * 500.f) - fFogDistance, 0.f) / 90.0f),0.3f);
+	fFogPower = min((max((vDepth.y * 1300.f) - fFogDistance, 0.f) / 90.0f), 0.3f);
 
-	Out.vColor = (vDiffuse * vShade + vSpecular) + vFogColor * fFogPower;
+	Out.vColor = ((vDiffuse - vAO) * vShade + vSpecular + vGlow) + vFogColor * fFogPower;
 	//=================== ±×¸²ÀÚ =======================================================
 
 	vector			vDepthDesc = g_DepthTexture.Sample(DepthSampler, In.vTexUV);
 
-	float			fViewZ = vDepthDesc.y * 500.f;
+	float			fViewZ = vDepthDesc.y * 1300.f;
 
 	vector			vWorldPos = (vector)0.f;
 
@@ -269,7 +354,7 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
 
 	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
-	
+
 	vWorldPos = mul(vWorldPos, g_matLightView);
 
 	vector		vUVPos = mul(vWorldPos, g_matLightProj);
@@ -280,11 +365,242 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(DepthSampler, vNewUV);
 
-	if (vWorldPos.z - 0.1f > vShadowDepthInfo.x * 500.0f)
+	if (vWorldPos.z - 0.1f > vShadowDepthInfo.x * 1300.0f)
 		Out.vColor -= vector(0.2f, 0.2f, 0.2f, 0.f);
 
 	if (Out.vColor.a == 0.f)
 		discard;
+
+	return Out;
+}
+
+PS_OUT PS_OUTLINE(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	if (g_DepthTexture.Sample(LinearSampler, In.vTexUV).a == 0.f)
+		discard;
+
+
+	float4 color = 0;
+	float mask[9] =
+	{ -1, -1, -1,
+		-1, 8, -1,
+		-1, -1, -1 };
+	float coord[3] = { -1, 0, 1 };
+
+	for (int i = 0; i < 9; ++i)
+		color += 10.f * (mask[i] * (g_DepthTexture.Sample(LinearSampler, In.vTexUV + float2(coord[i % 3] / g_fWinSizeX, coord[i / 3] / g_fWinSizeY))));
+
+	//	float gray = 1 - (color.r * 0.3f + color.g * 0.59f + color.b *	0.11f);
+	float gray = saturate(1.f - 3.f * (color.r + color.g + color.b));
+	Out.vColor = vector(gray, gray, gray, 1);
+
+	if (gray > 0.1f)
+		discard;
+
+	return Out;
+}
+
+PS_OUT PS_INNERLINE(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	float		fValue = g_NormalTexture.Sample(LinearSampler, In.vTexUV).a;
+	if (fValue == 0.f)
+		discard;
+
+	float4 inline_color = 0;
+	float mask[9] =
+	{ -1, -1, -1,
+		-1, 8, -1,
+		-1, -1, -1 };
+	float coord[3] = { -1, 0, 1 };
+
+	for (int i = 0; i < 9; ++i)
+		inline_color += fValue * (mask[i] * (g_NormalTexture.Sample(LinearSampler, In.vTexUV + float2(coord[i % 3] / g_fWinSizeX, coord[i / 3] / g_fWinSizeY))));
+
+	float gray_normal = saturate(1 - 3.f * (inline_color.r + inline_color.g + inline_color.b));
+	Out.vColor = vector(gray_normal, gray_normal, gray_normal, 1);
+
+	if (gray_normal > 0.1f)
+		discard;
+
+	return Out;
+}
+
+PS_OUT PS_GLOWX(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	//	GlowX
+	float weight0, weight1, weight2, weight3, weight4, weight5, weight6;
+
+	weight0 = 1.0f;
+	weight1 = 0.9231f;
+	weight2 = 0.7261f;
+	weight3 = 0.4868f;
+	weight4 = 0.278f;
+	weight5 = 0.1353f;
+	weight6 = 0.0561f;
+
+	float normalization = (weight0 + 2.0f * (weight1 + weight2 + weight3 + weight4 + weight5 + weight6));
+	// Normalize the weights.
+
+	weight0 = weight0 / normalization;
+	weight1 = weight1 / normalization;
+	weight2 = weight2 / normalization;
+	weight3 = weight3 / normalization;
+	weight4 = weight4 / normalization;
+	weight5 = weight5 / normalization;
+	weight6 = weight6 / normalization;
+
+	float2 texCoord1 = In.vTexUV + float2(-6.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord2 = In.vTexUV + float2(-5.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord3 = In.vTexUV + float2(-4.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord4 = In.vTexUV + float2(-3.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord5 = In.vTexUV + float2(-2.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord6 = In.vTexUV + float2(-1.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord7 = In.vTexUV + float2(0.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord8 = In.vTexUV + float2(1.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord9 = In.vTexUV + float2(2.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord10 = In.vTexUV + float2(3.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord11 = In.vTexUV + float2(4.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord12 = In.vTexUV + float2(5.0f / g_fWinSizeX, 0.0f);
+	float2 texCoord13 = In.vTexUV + float2(6.0f / g_fWinSizeX, 0.0f);
+
+	float3 colorTest = 0;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord1) * weight6;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord2) * weight5;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord3) * weight4;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord4) * weight3;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord5) * weight2;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord6) * weight1;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord7) * weight0;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord8) * weight1;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord9) * weight2;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord10) * weight3;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord11) * weight4;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord12) * weight5;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord13) * weight6;
+
+	Out.vColor.rgb = colorTest;
+
+	return Out;
+}
+
+PS_OUT PS_GLOWXY(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	//	GlowX
+	float weight0, weight1, weight2, weight3, weight4, weight5, weight6;
+
+	weight0 = 1.0f;
+	weight1 = 0.9231f;
+	weight2 = 0.7261f;
+	weight3 = 0.4868f;
+	weight4 = 0.278f;
+	weight5 = 0.1353f;
+	weight6 = 0.0561f;
+
+	float normalization = (weight0 + 2.0f * (weight1 + weight2 + weight3 + weight4 + weight5 + weight6));
+	// Normalize the weights.
+
+	weight0 = weight0 / normalization;
+	weight1 = weight1 / normalization;
+	weight2 = weight2 / normalization;
+	weight3 = weight3 / normalization;
+	weight4 = weight4 / normalization;
+	weight5 = weight5 / normalization;
+	weight6 = weight6 / normalization;
+
+	float2 texCoord1 = In.vTexUV + float2(0.0f, -6.0f / g_fWinSizeY);
+	float2 texCoord2 = In.vTexUV + float2(0.0f, -5.0f / g_fWinSizeY);
+	float2 texCoord3 = In.vTexUV + float2(0.0f, -4.0f / g_fWinSizeY);
+	float2 texCoord4 = In.vTexUV + float2(0.0f, -3.0f / g_fWinSizeY);
+	float2 texCoord5 = In.vTexUV + float2(0.0f, -2.0f / g_fWinSizeY);
+	float2 texCoord6 = In.vTexUV + float2(0.0f, -1.0f / g_fWinSizeY);
+	float2 texCoord7 = In.vTexUV + float2(0.0f, 0.0f / g_fWinSizeY);
+	float2 texCoord8 = In.vTexUV + float2(0.0f, 1.0f / g_fWinSizeY);
+	float2 texCoord9 = In.vTexUV + float2(0.0f, 2.0f / g_fWinSizeY);
+	float2 texCoord10 = In.vTexUV + float2(0.0f, 3.0f / g_fWinSizeY);
+	float2 texCoord11 = In.vTexUV + float2(0.0f, 4.0f / g_fWinSizeY);
+	float2 texCoord12 = In.vTexUV + float2(0.0f, 5.0f / g_fWinSizeY);
+	float2 texCoord13 = In.vTexUV + float2(0.0f, 6.0f / g_fWinSizeY);
+
+	float3 colorTest = 0;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord1) * weight6;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord2) * weight5;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord3) * weight4;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord4) * weight3;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord5) * weight2;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord6) * weight1;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord7) * weight0;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord8) * weight1;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord9) * weight2;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord10) * weight3;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord11) * weight4;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord12) * weight5;
+	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord13) * weight6;
+
+	//	colorTest += g_GlowTexture.Sample(LinearSampler, In.vTexUV);
+	Out.vColor.rgb = colorTest;
+
+	return Out;
+}
+
+PS_OUT PS_BLURX(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	float2	vNewUV = 0;
+	vector	vColor = 0;
+	vector	vAccColor = 0;
+
+	for (int i = -6; i < 6; ++i)
+	{
+		vNewUV = In.vTexUV + float2(i / g_fWinSizeX, 0.f);
+
+		vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
+		vAccColor += vColor * (g_fWeight[6 + i] * g_BlurTexture.Sample(LinearSampler, vNewUV));
+	}
+
+	Out.vColor.rgb = vAccColor / g_fWeightTotal;
+
+	return Out;
+}
+
+PS_OUT PS_BLURXY(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	float2	vNewUV = 0;
+	vector	vColor = 0;
+	vector	vAccColor = 0;
+
+	for (int i = -6; i < 6; ++i)
+	{
+		vNewUV = In.vTexUV + float2(0.f, i / (g_fWinSizeY / 2.f));
+
+		vColor = g_DiffuseTexture.Sample(LinearSampler, vNewUV);
+		vAccColor += vColor * g_fWeight[6 + i] * g_BlurTexture.Sample(LinearSampler, vNewUV);
+	}
+
+	Out.vColor.rgb = vAccColor / g_fWeightTotal;
+
+	return Out;
+}
+
+PS_OUT PS_DISTORTION(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector		vDistortionTexture = g_DistortionTexture.Sample(LinearSampler, In.vTexUV);
+	float		fDistortionValue = vDistortionTexture.x * 20.f * vDistortionTexture.a;
+	float2		vDistortionUV = float2(In.vTexUV.x + (fDistortionValue / g_fWinSizeX), In.vTexUV.y);
+
+	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, vDistortionUV);
 
 	return Out;
 }
@@ -325,7 +641,7 @@ DepthStencilState DSS_ZEnable_Disable_ZWrite_Disable
 
 technique11 DefaultTechnique
 {
-	pass DebugTarget
+	pass DebugTarget	//	0
 	{
 		SetRasterizerState(RS_Default);
 		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
@@ -336,7 +652,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
 
-	pass Light_Directional
+	pass Light_Directional	//	1
 	{
 		SetRasterizerState(RS_Default);
 		SetBlendState(BS_LightBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
@@ -347,7 +663,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_LIGHT_DIRECTIONAL();
 	}
 
-	pass Light_Point
+	pass Light_Point	//	2
 	{
 		SetRasterizerState(RS_Default);
 		SetBlendState(BS_LightBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
@@ -358,7 +674,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_LIGHT_POINT();
 	}
 
-	pass Blend
+	pass Blend	//	3
 	{
 		SetRasterizerState(RS_Default);
 		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
@@ -367,6 +683,94 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_BLEND();
+	}
+
+	pass OutLine	//	4
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_OUTLINE();
+	}
+
+	pass InnerLine	//	5
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_INNERLINE();
+	}
+
+	pass GlowX	//	6
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_GLOWX();
+	}
+
+	pass GlowXY	//	7
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_GLOWXY();
+	}
+
+	pass All_Distortion	//	8
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_DISTORTION();
+	}
+
+	pass SSAO	//	9
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_SSAO();
+	}
+
+	pass BlurX	//	10
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_BLURX();
+	}
+
+	pass BlurXY	//	11
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_BLURXY();
 	}
 
 }

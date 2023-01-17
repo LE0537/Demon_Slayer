@@ -13,13 +13,18 @@ private:
 	virtual ~CTarget_Manager() = default;
 
 public:
-	HRESULT Add_RenderTarget(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pTargetTag, 
+	HRESULT Add_RenderTarget(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pTargetTag,
 		_uint iSizeX, _uint iSizeY, DXGI_FORMAT eFormat, const _float4* pColor);
 
 	HRESULT Add_MRT(const _tchar* pMRTTag, const _tchar* pTargetTag);
 	HRESULT Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* pMRTTag);
+	HRESULT Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* pMRTTag, ID3D11DepthStencilView* pDSV);
+
+	HRESULT Begin_MRT_NonClear(ID3D11DeviceContext* pContext, const _tchar* pMRTTag);
 	HRESULT Begin_ShadowMRT(ID3D11DeviceContext* pContext, const _tchar* pMRTTag);
 	HRESULT End_MRT(ID3D11DeviceContext* pContext);
+
+	HRESULT	MRT_Clear(ID3D11DeviceContext* pContext, const _tchar* pMRTTag);
 
 public:
 	HRESULT Bind_ShaderResource(const _tchar* pTargetTag, class CShader* pShader, const char* pConstantName);
@@ -28,6 +33,7 @@ public:
 public:
 	HRESULT Ready_Debug(const _tchar* pTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
 	HRESULT Render_Debug(const _tchar* pMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
+	HRESULT Render_SoloTarget_Debug(const _tchar* pRenderTargetTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 #endif // _DEBUG
 
 private:
@@ -44,7 +50,7 @@ private:
 
 	ID3D11DepthStencilView*				m_pShadowDeptheStencil = nullptr;
 
-	
+
 
 private:
 	class CRenderTarget* Find_RenderTarget(const _tchar* pTargetTag);

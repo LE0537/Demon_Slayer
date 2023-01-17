@@ -26,7 +26,7 @@ HRESULT CTarget_Manager::Add_MRT(const _tchar * pMRTTag, const _tchar * pTargetT
 {
 	CRenderTarget*	pRenderTarget = Find_RenderTarget(pTargetTag);
 
-	if(nullptr == pRenderTarget)
+	if (nullptr == pRenderTarget)
 		return E_FAIL;
 
 	list<CRenderTarget*>*		pMRTList = Find_MRT(pMRTTag);
@@ -35,7 +35,7 @@ HRESULT CTarget_Manager::Add_MRT(const _tchar * pMRTTag, const _tchar * pTargetT
 	{
 		list<CRenderTarget*>		MRTList;
 
-		MRTList.push_back(pRenderTarget);		
+		MRTList.push_back(pRenderTarget);
 
 		m_MRTs.emplace(pMRTTag, MRTList);
 	}
@@ -56,7 +56,7 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const _tchar *
 
 
 	// 끼워져 있는 8개의 랜더 타겟와 스텐실 하나를 보관한다.
-	
+
 	pContext->OMGetRenderTargets(1, &m_pOldRTV, &m_pOldDSV);
 
 	_uint			iNumRTVs = 0;
@@ -71,7 +71,50 @@ HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext* pContext, const _tchar *
 
 
 	pContext->OMSetRenderTargets(iNumRTVs, RTVs, m_pOldDSV);
-	
+
+	return S_OK;
+}
+HRESULT CTarget_Manager::Begin_MRT(ID3D11DeviceContext * pContext, const _tchar * pMRTTag, ID3D11DepthStencilView * pDSV)
+{
+	list<CRenderTarget*>*		pMRTList = Find_MRT(pMRTTag);
+	if (nullptr == pMRTList)
+		return E_FAIL;
+
+	pContext->OMGetRenderTargets(1, &m_pOldRTV, &m_pOldDSV);
+
+	ID3D11RenderTargetView*		pRTVs[8] = { nullptr };
+
+	_uint		iNumRenderTargets = 0;
+
+	for (auto& pRenderTarget : *pMRTList)
+	{
+		pRenderTarget->Clear();
+		pRTVs[iNumRenderTargets++] = pRenderTarget->Get_RTV();
+	}
+
+	pContext->OMSetRenderTargets(iNumRenderTargets, pRTVs, pDSV);
+
+	return S_OK;
+}
+HRESULT CTarget_Manager::Begin_MRT_NonClear(ID3D11DeviceContext * pContext, const _tchar * pMRTTag)
+{
+	list<CRenderTarget*>*		pMRTList = Find_MRT(pMRTTag);
+	if (nullptr == pMRTList)
+		return E_FAIL;
+
+	pContext->OMGetRenderTargets(1, &m_pOldRTV, &m_pOldDSV);
+
+	ID3D11RenderTargetView*		pRTVs[8] = { nullptr };
+
+	_uint		iNumRenderTargets = 0;
+
+	for (auto& pRenderTarget : *pMRTList)
+	{
+		pRTVs[iNumRenderTargets++] = pRenderTarget->Get_RTV();
+	}
+
+	pContext->OMSetRenderTargets(iNumRenderTargets, pRTVs, m_pOldDSV);
+
 	return S_OK;
 }
 HRESULT CTarget_Manager::Begin_ShadowMRT(ID3D11DeviceContext * pContext, const _tchar * pMRTTag)
@@ -98,7 +141,7 @@ HRESULT CTarget_Manager::Begin_ShadowMRT(ID3D11DeviceContext * pContext, const _
 
 	pContext->ClearDepthStencilView(m_pShadowDeptheStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
 	pContext->OMSetRenderTargets(iNumRTVs, RTVs, m_pShadowDeptheStencil);
-	
+
 
 	D3D11_VIEWPORT			ViewPortDesc;
 	ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
@@ -131,6 +174,24 @@ HRESULT CTarget_Manager::End_MRT(ID3D11DeviceContext * pContext)
 	ViewPortDesc.MaxDepth = 1.f;
 
 	pContext->RSSetViewports(1, &ViewPortDesc);
+
+	return S_OK;
+}
+
+HRESULT CTarget_Manager::MRT_Clear(ID3D11DeviceContext * pContext, const _tchar * pMRTTag)
+{
+	list<CRenderTarget*>*		pMRTList = Find_MRT(pMRTTag);
+	if (nullptr == pMRTList)
+		return E_FAIL;
+
+	ID3D11RenderTargetView*		pRTVs[8] = { nullptr };
+
+	_uint		iNumRenderTargets = 0;
+
+	for (auto& pRenderTarget : *pMRTList)
+	{
+		pRenderTarget->Clear();
+	}
 
 	return S_OK;
 }
@@ -189,20 +250,31 @@ HRESULT CTarget_Manager::Ready_Debug(const _tchar * pTargetTag, _float fX, _floa
 	return pRenderTarget->Ready_Debug(fX, fY, fSizeX, fSizeY);
 }
 
+#ifdef _DEBUG
 HRESULT CTarget_Manager::Render_Debug(const _tchar * pMRTTag, class CShader* pShader, CVIBuffer_Rect * pVIBuffer)
 {
 	list<class CRenderTarget*>*		pMRTList = Find_MRT(pMRTTag);
 
 	for (auto& pTarget : *pMRTList)
-	{		
+	{
 		if (nullptr != pTarget)
 			pTarget->Render_Debug(pShader, pVIBuffer);
-		
+
 	}
 
 	return S_OK;
 }
 
+HRESULT CTarget_Manager::Render_SoloTarget_Debug(const _tchar * pRenderTargetTag, class CShader* pShader, CVIBuffer_Rect * pVIBuffer)
+{
+	class CRenderTarget*		pRenderTarget = Find_RenderTarget(pRenderTargetTag);
+
+	if (nullptr != pRenderTarget)
+		pRenderTarget->Render_Debug(pShader, pVIBuffer);
+
+	return S_OK;
+}
+#endif // _DEBUG
 
 CRenderTarget * CTarget_Manager::Find_RenderTarget(const _tchar * pTargetTag)
 {
@@ -221,7 +293,7 @@ list<class CRenderTarget*>* CTarget_Manager::Find_MRT(const _tchar * pMRTTag)
 	if (iter == m_MRTs.end())
 		return nullptr;
 
-	return &iter->second;	
+	return &iter->second;
 }
 
 void CTarget_Manager::Free()
@@ -236,11 +308,11 @@ void CTarget_Manager::Free()
 	}
 	m_MRTs.clear();
 
-	for (auto& Pair : m_RenderTargets)	
+	for (auto& Pair : m_RenderTargets)
 		Safe_Release(Pair.second);
 
-	m_RenderTargets.clear();	
-	
+	m_RenderTargets.clear();
+
 	Safe_Release(m_pShadowDeptheStencil);
 	Safe_Release(m_pOldRTV);
 	Safe_Release(m_pOldDSV);
