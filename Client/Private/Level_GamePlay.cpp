@@ -25,6 +25,9 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
 
+	if (FAILED(CUI_Manager::Get_Instance()->Init(m_pDevice, m_pContext)))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
@@ -47,8 +50,6 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Load_StaticObjects("11Test_2")))
 		return E_FAIL;
 
-	if (FAILED(CUI_Manager::Get_Instance()->Init(m_pDevice, m_pContext)))
-		return E_FAIL;	
 
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("hov.wav"), 0.45f);
 
@@ -60,6 +61,12 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (!m_bCreateUI)
+	{
+		CUI_Manager::Get_Instance()->Add_Obj();
+		m_bCreateUI = true;
+	}
 
 	if (pGameInstance->Key_Down(DIK_F1))
 		g_bDebug = !g_bDebug;

@@ -5,6 +5,13 @@
 #include "KyoujuroWeapon.h"
 #include "KyoujuroSheath.h"
 #include "Camera_Dynamic.h"
+#include "KyoujuroState.h"
+#include "KyoujuroIdleState.h"
+#include "KyoujuroMoveState.h"
+
+using namespace Kyoujuro;
+
+#include "UI_Manager.h"
 
 CKyoujuro::CKyoujuro(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -39,19 +46,29 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	m_pModelCom->Set_CurrentAnimIndex(17);
+	//CKyoujuroState* pState = new CMoveState(OBJDIR::DIR_STOP, CKyoujuroState::STATE_TYPE::TYPE_DEFAULT);
+	//m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+
+	CKyoujuroState* pState = new CIdleState();
+	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+
+	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	return S_OK;
 }
 
 void CKyoujuro::Tick(_float fTimeDelta)
 {
+
 	__super::Tick(fTimeDelta);
 
 	//Set_ShadowLightPos();
 
 
-	m_pModelCom->Play_Animation(fTimeDelta);
+	HandleInput();
+	TickState(fTimeDelta);
+
+
 	m_pModelCom->Get_PivotFloat4x4();
 	m_pTransformCom->Get_World4x4Ptr();
 	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
@@ -63,6 +80,7 @@ void CKyoujuro::Tick(_float fTimeDelta)
 	m_pOBBCom->Update(matColl);
 	m_pWeapon->Tick(fTimeDelta);
 	m_pSheath->Tick(fTimeDelta);
+
 }
 
 void CKyoujuro::Late_Tick(_float fTimeDelta)
@@ -78,6 +96,9 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 	{
 		m_pRendererCom->Add_Debug(m_pOBBCom);
 	}
+
+	LateTickState(fTimeDelta);
+
 }
 
 HRESULT CKyoujuro::Render()
@@ -285,6 +306,7 @@ HRESULT CKyoujuro::Ready_Parts2()
 
 	return S_OK;
 }
+
 void CKyoujuro::Set_Info()
 {
 	m_tInfo.strName = TEXT("ÄìÁÖ·Î");
@@ -302,6 +324,31 @@ void CKyoujuro::Set_Info()
 	m_tInfo.fPowerUpTime = 0.f;
 	m_tInfo.iFriendMaxBar = 100;
 	m_tInfo.iFriendBar;
+}
+void CKyoujuro::HandleInput()
+{
+	CKyoujuroState* pNewState = m_pKyoujuroState->HandleInput(this);
+
+	if (pNewState)
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pNewState);
+
+}
+void CKyoujuro::TickState(_float fTimeDelta)
+{
+	CKyoujuroState* pNewState = m_pKyoujuroState->Tick(this, fTimeDelta);
+
+	if (pNewState)
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pNewState);
+
+
+}
+void CKyoujuro::LateTickState(_float fTimeDelta)
+{
+	CKyoujuroState* pNewState = m_pKyoujuroState->Late_Tick(this, fTimeDelta);
+
+	if (pNewState)
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pNewState);
+
 }
 CKyoujuro * CKyoujuro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
@@ -337,4 +384,6 @@ void CKyoujuro::Free()
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pWeapon);
 	Safe_Release(m_pSheath);
+
+	Safe_Delete(m_pKyoujuroState);
 }

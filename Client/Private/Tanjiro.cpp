@@ -3,7 +3,7 @@
 #include "Layer.h"
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
-
+#include "UI_Manager.h"
 // state
 #include "TanjiroState.h"
 #include "TanjiroIdleState.h"
@@ -62,9 +62,16 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
 
-	CTanjiroState* pState = new CMoveState(OBJDIR::DIR_STOP, CTanjiroState::STATE_TYPE::TYPE_DEFAULT);
+	CTanjiroState* pState = new CIdleState();
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 
+
+	//CTanjiroState* pState = new CMoveState(OBJDIR::DIR_STOP, CTanjiroState::STATE_TYPE::TYPE_DEFAULT);
+	//m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
+
+
+	CUI_Manager::Get_Instance()->Set_1P(this);
 
 
 	return S_OK;
@@ -100,6 +107,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 	m_pOBBCom->Update(matColl);
 	m_pWeapon->Tick(fTimeDelta);
 	m_pSheath->Tick(fTimeDelta);
+
 }
 
 void CTanjiro::Late_Tick(_float fTimeDelta)

@@ -22,12 +22,53 @@ CTanjiroState * CJumpstate::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CJumpstate::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	_float fDurationTime = 0.f; // 애니메이션 총 시간
+	_float fCurrentTime = 0.f; // 애니메이션 현재 시간
+
 
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_START);
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_LOOP_START);
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_LOOP_END);
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_END);
 
+
+	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
+	{
+		switch (m_eStateType)
+		{
+		case Client::CTanjiroState::TYPE_START:
+			printf_s("Start Jump \n");
+			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+
+			return new CJumpstate(STATE_TYPE::TYPE_LOOP, m_fCurrentPosY, m_fJumpTime);
+			break;
+		case Client::CTanjiroState::TYPE_LOOP:
+			printf_s("Loop Jump \n");
+			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+
+			return new CJumpstate(STATE_TYPE::TYPE_END, m_fCurrentPosY, m_fJumpTime);
+			break;
+		case Client::CTanjiroState::TYPE_END:
+			printf_s("End jump \n");
+			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+
+			//return new CJumpstate(STATE_TYPE::TYPE_DEFAULT, m_fCurrentPosY, m_fJumpTime);
+			break;
+		case Client::CTanjiroState::TYPE_DEFAULT:
+			printf_s("Default Jump \n");
+			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+			return new CIdleState();
+			break;
+		}
+		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+	}
+
+
+	return nullptr;
+}
+
+CTanjiroState * CJumpstate::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
+{
 
 	if (m_eStateType == TYPE_START)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 3.f);
@@ -40,54 +81,8 @@ CTanjiroState * CJumpstate::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	m_fJumpTime += 0.05f;
 
-	if(m_eStateType != TYPE_DEFAULT)
+	if (m_eStateType != TYPE_DEFAULT)
 		Jump(pTanjiro, fTimeDelta + m_fJumpTime);
-	
-	return nullptr;
-}
-
-CTanjiroState * CJumpstate::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
-{
-	_float fDurationTime = 0.f; // 애니메이션 총 시간
-	_float fCurrentTime = 0.f; // 애니메이션 현재 시간
-
-	fDurationTime = pTanjiro->Get_Model()->Get_Duration();
-	fCurrentTime = pTanjiro->Get_Model()->Get_CurrentTime();
-
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
-
-	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
-	{
-		switch (m_eStateType)
-		{
-		case Client::CTanjiroState::TYPE_START:
-			printf_s("Start Jump \n");
-			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-		
-			return new CJumpstate(STATE_TYPE::TYPE_LOOP, m_fCurrentPosY, m_fJumpTime);
-			break;
-		case Client::CTanjiroState::TYPE_LOOP:
-			printf_s("Loop Jump \n");
-			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-		
-			return new CJumpstate(STATE_TYPE::TYPE_END, m_fCurrentPosY, m_fJumpTime);
-			break;
-		case Client::CTanjiroState::TYPE_END:
-			printf_s("End jump \n");
-			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-	
-			//return new CJumpstate(STATE_TYPE::TYPE_DEFAULT, m_fCurrentPosY, m_fJumpTime);
-			break;
-		case Client::CTanjiroState::TYPE_DEFAULT:
-			printf_s("Default Jump \n");
-			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			return new CIdleState();
-			break;
-		}
-		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-	}
-
 
 	return nullptr;
 }
@@ -116,7 +111,6 @@ void CJumpstate::Enter(CTanjiro * pTanjiro)
 		break;
 	case Client::CTanjiroState::TYPE_DEFAULT:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_END);
-		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_END, 0.01f);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_END);
 		break;
 	}
