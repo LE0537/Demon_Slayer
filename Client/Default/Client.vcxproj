@@ -171,6 +171,7 @@
   <ItemGroup>
     <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
     <ClInclude Include="..\Public\Akaza.h" />
+    <ClInclude Include="..\Public\Atk_1_State.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\BattleField.h" />
     <ClInclude Include="..\Public\Camera_Dynamic.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="..\Public\KyoujuroJumpState.h" />
     <ClInclude Include="..\Public\KyoujuroIdleState.h" />
     <ClInclude Include="..\Public\Kyoujuro.h" />
+    <ClInclude Include="..\Public\KyoujuroMoveJumpState.h" />
     <ClInclude Include="..\Public\KyoujuroSheath.h" />
     <ClInclude Include="..\Public\KyoujuroState.h" />
     <ClInclude Include="..\Public\KyoujuroWeapon.h" />
@@ -199,6 +201,7 @@
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\Public\MeshObj_Static_Inst.h" />
+    <ClInclude Include="..\Public\TanjiroMoveJumpState.h" />
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\Rui.h" />
     <ClInclude Include="..\Public\MeshObj_Static.h" />
@@ -222,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Akaza.cpp" />
+    <ClCompile Include="..\Private\Atk_1_State.cpp" />
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\private\BattleField.cpp" />
     <ClCompile Include="..\Private\Camera_Dynamic.cpp" />
@@ -240,6 +244,7 @@
     <ClCompile Include="..\Private\KyoujuroJumpState.cpp" />
     <ClCompile Include="..\Private\KyoujuroIdleState.cpp" />
     <ClCompile Include="..\Private\Kyoujuro.cpp" />
+    <ClCompile Include="..\Private\KyoujuroMoveJumpState.cpp" />
     <ClCompile Include="..\Private\KyoujuroSheath.cpp" />
     <ClCompile Include="..\Private\KyoujuroWeapon.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
@@ -249,6 +254,7 @@
     <ClCompile Include="..\Private\MainApp.cpp" />
     <ClCompile Include="..\Private\MeshObj_Static.cpp" />
     <ClCompile Include="..\Private\MeshObj_Static_Inst.cpp" />
+    <ClCompile Include="..\Private\TanjiroMoveJumpState.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\Rui.cpp" />
     <ClCompile Include="..\Private\SkillBar.cpp" />

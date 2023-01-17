@@ -45,10 +45,6 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 		_float fPositionY = XMVectorGetY(vPosition);
 		return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 	}
-
-
-
-
 	return nullptr;
 }
 

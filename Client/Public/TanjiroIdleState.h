@@ -7,7 +7,7 @@ BEGIN(Tanjiro)
 class CIdleState : public CTanjiroState
 {
 public:
-	CIdleState();
+	CIdleState(STATE_ID eState = CTanjiroState::STATE_END);
 
 	virtual CTanjiroState* HandleInput(CTanjiro* pTanjiro) override;
 	virtual CTanjiroState* Tick(CTanjiro* pTanjiro, _float fTimeDelta) override;
@@ -17,6 +17,9 @@ public:
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
 
+
+private:
+	STATE_ID ePreState = CTanjiroState::STATE_END;
 
 };
 END

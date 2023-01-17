@@ -57,7 +57,7 @@ CTanjiroState * CJumpstate::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		case Client::CTanjiroState::TYPE_DEFAULT:
 			printf_s("Default Jump \n");
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			return new CIdleState();
+			return new CIdleState(STATE_ID::STATE_JUMP);
 			break;
 		}
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());

@@ -12,7 +12,8 @@ public:
 		TYPE_START,
 		TYPE_LOOP,
 		TYPE_END,
-		TYPE_DEFAULT
+		TYPE_DEFAULT,
+		TYPE_CHANGE
 	};
 
 
