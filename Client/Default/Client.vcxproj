@@ -187,8 +187,8 @@
     <ClInclude Include="..\Public\HpBar.h" />
     <ClInclude Include="..\Public\HpBarBack.h" />
     <ClInclude Include="..\Public\HpBarDeco.h" />
-    <ClInclude Include="..\Public\KyoujuroJump.h" />
-    <ClInclude Include="..\Public\KyoujuroIdle.h" />
+    <ClInclude Include="..\Public\KyoujuroJumpState.h" />
+    <ClInclude Include="..\Public\KyoujuroIdleState.h" />
     <ClInclude Include="..\Public\Kyoujuro.h" />
     <ClInclude Include="..\Public\KyoujuroSheath.h" />
     <ClInclude Include="..\Public\KyoujuroState.h" />
@@ -215,7 +215,7 @@
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Manager.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="KyoujuroMove.h" />
+    <ClInclude Include="KyoujuroMoveState.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -237,8 +237,8 @@
     <ClCompile Include="..\Private\HpBar.cpp" />
     <ClCompile Include="..\Private\HpBarBack.cpp" />
     <ClCompile Include="..\Private\HpBarDeco.cpp" />
-    <ClCompile Include="..\Private\KyoujuroJump.cpp" />
-    <ClCompile Include="..\Private\KyoujuroIdle.cpp" />
+    <ClCompile Include="..\Private\KyoujuroJumpState.cpp" />
+    <ClCompile Include="..\Private\KyoujuroIdleState.cpp" />
     <ClCompile Include="..\Private\Kyoujuro.cpp" />
     <ClCompile Include="..\Private\KyoujuroSheath.cpp" />
     <ClCompile Include="..\Private\KyoujuroWeapon.cpp" />
@@ -263,7 +263,7 @@
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Manager.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="KyoujuroMove.cpp" />
+    <ClCompile Include="KyoujuroMoveState.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

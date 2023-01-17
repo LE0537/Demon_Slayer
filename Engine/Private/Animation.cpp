@@ -65,17 +65,21 @@ void CAnimation::Invalidate_TransformationMatrix2(_float fTimeDelta, vector<clas
 	if (m_fCurrentTime2 >= m_flinearTime)
 	{
 		m_fCurrentTime2 = 0.f;
-
+		int a = 10;
 		m_bAnimEnd = true;
+
 		if (m_bAnimEnd)
 			Reset2();
+
 	}
 	else
 	{
 		auto& Currentiter = m_Channels.begin();
 		auto& Previter = _Channel.begin();
 		for (_uint i = 0; i < m_Channels.size(); ++i)
+		{
 			Currentiter[i]->Invalidate_TransformationMatrix2(m_fCurrentTime2, Previter[i]->Get_Key()[0]);
+		}
 	}
 	
 }
