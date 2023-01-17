@@ -52,6 +52,7 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
+	Set_Info();
 	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	return S_OK;
@@ -314,7 +315,7 @@ HRESULT CKyoujuro::Ready_Parts2()
 void CKyoujuro::Set_Info()
 {
 	m_tInfo.strName = TEXT("ƒÏ¡÷∑Œ");
-	m_tInfo.bOni = true;
+	m_tInfo.bOni = false;
 	m_tInfo.iMaxHp = 1000;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
 	m_tInfo.iSkMaxBar = 100;

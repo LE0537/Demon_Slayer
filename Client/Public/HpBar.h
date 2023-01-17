@@ -27,8 +27,8 @@ private:
 private:
 	_bool			m_bHpMinusCheck = false;
 	_bool			m_bBeforeCheck = false;
-	_float			m_fCurHp = 100.f;
-	_float			m_fMaxHp = 100.f;
+	_float			m_fCurHp = 0.f;
+	_float			m_fMaxHp = 0.f;
 	_float			m_fHpTime = 0.f;
 	_float			m_fMinusHp = 0.f;
 	_float			m_fMinus_BeforeHp = 0.f;

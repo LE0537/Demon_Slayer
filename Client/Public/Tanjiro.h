@@ -87,6 +87,7 @@ private:
 
 	CGameObject*			m_pWeapon = nullptr;
 	CGameObject*			m_pSheath = nullptr;
+	_float					m_fHpTime = 0.f;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

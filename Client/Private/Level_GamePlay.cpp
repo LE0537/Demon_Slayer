@@ -25,7 +25,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
 
-	if (FAILED(CUI_Manager::Get_Instance()->Init(m_pDevice, m_pContext)))
+	if (FAILED(CUI_Manager::Get_Instance()->Init(m_pDevice, m_pContext, "P1_Person_HpUI")))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
@@ -64,7 +64,18 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 
 	if (!m_bCreateUI)
 	{
-		CUI_Manager::Get_Instance()->Add_Obj();
+		_bool bOniCheck = CUI_Manager::Get_Instance()->P1_Oni_Check();
+		if(!bOniCheck)
+			CUI_Manager::Get_Instance()->Add_P1_PersonHpUI();
+		else
+			CUI_Manager::Get_Instance()->Add_P1_OniHpUI();
+
+		bOniCheck = CUI_Manager::Get_Instance()->P2_Oni_Check();
+		if (!bOniCheck)
+			CUI_Manager::Get_Instance()->Add_P2_PersonHpUI();
+		else
+			CUI_Manager::Get_Instance()->Add_P2_OniHpUI();
+
 		m_bCreateUI = true;
 	}
 
