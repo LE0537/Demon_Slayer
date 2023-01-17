@@ -36,6 +36,8 @@ private:
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
 
 	CGameObject* m_pPlayer = nullptr;
+
+	_bool		m_bCreateUI = false;
 public:
 	static CLevel_GamePlay* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;

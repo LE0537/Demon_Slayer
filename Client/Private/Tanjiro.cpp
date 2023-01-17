@@ -3,7 +3,7 @@
 #include "Layer.h"
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
-
+#include "UI_Manager.h"
 // state
 #include "TanjiroState.h"
 #include "TanjiroIdleState.h"
@@ -66,7 +66,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	CTanjiroState* pState = new CMoveState(OBJDIR::DIR_STOP, CTanjiroState::STATE_TYPE::TYPE_DEFAULT);
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 
-
+	CUI_Manager::Get_Instance()->Set_1P(this);
 
 	return S_OK;
 }
