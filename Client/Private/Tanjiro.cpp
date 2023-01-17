@@ -58,6 +58,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
 		return E_FAIL;
 
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));

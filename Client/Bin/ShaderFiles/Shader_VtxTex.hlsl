@@ -6,12 +6,12 @@ texture2D		g_NormalTexture;
 
 vector			g_vCamPosition;
 
-float g_fStatHp;
-float g_fStatDmg;
-float g_fStatSDmg;
-float g_fStatDef;
-float g_fStatSDef;
-float g_fStatSpeed;
+float			g_fCurrentHp;
+float			g_fMaxHp;
+float			g_fMinusHp;
+float			g_fMinus_BeforeHp;
+float			g_fCurSkillGauge;
+float			g_fMaxSkillGauge;
 
 float4			g_vLightDiffuse = float4(1.f, 1.f, 1.f, 1.f); //ºûÀÇ»ö
 float4			g_vLightAmbient = float4(0.5f, 0.5f, 0.5f, 1.f); //ºûÀÇ ÃÖ¼Ò ¹à±â
@@ -101,20 +101,40 @@ PS_OUT PS_MAIN(PS_IN In)
 	return Out;
 }
 
-//PS_OUT PS_HpBarMinus(PS_IN In)
-//{
-//	PS_OUT      Out = (PS_OUT)0;
-//
-//	if (g_fCurrentHp / g_fMaxHp < In.vTexUV.x)
-//		discard;
-//	else
-//		Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
-//
-//	if (Out.vColor.a<0.3f)
-//		discard;
-//
-//	return Out;
-//}
+PS_OUT PS_HpBarMinus(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	
+	if (g_fCurrentHp / g_fMaxHp < In.vTexUV.x)
+	{
+		Out.vColor.r = 1.f;
+		Out.vColor.g = 0.f;
+		Out.vColor.b = 0.f;
+		Out.vColor.a = 0.7f; 
+		
+	}
+	else
+		Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+	
+	if (g_fMinusHp / g_fMinus_BeforeHp < In.vTexUV.x)
+		discard;
+
+	return Out;
+}
+
+PS_OUT PS_SkillBarMinus(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	if (g_fCurSkillGauge / g_fMaxSkillGauge < In.vTexUV.x)
+		discard;
+	else
+		Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+
+
+	return Out;
+}
 
 
 technique11 DefaultTechnique
@@ -139,6 +159,28 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN();
+	}
+
+	pass HpBarDiscard //2
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_HpBarMinus();
+	}
+
+	pass SkillBarDiscard //3
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_SkillBarMinus();
 	}
 
 	
