@@ -11,6 +11,8 @@
 
 using namespace Kyoujuro;
 
+#include "UI_Manager.h"
+
 CKyoujuro::CKyoujuro(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
 {
@@ -49,6 +51,8 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+
+	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	return S_OK;
 }
