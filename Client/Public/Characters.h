@@ -50,6 +50,9 @@ protected:
 
 	}PLAYERINFO;
 
+public:
+	PLAYERINFO Get_PlayerInfo() { return m_tInfo; };
+
 protected:
 	PLAYERINFO		m_tInfo;
 

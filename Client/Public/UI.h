@@ -8,7 +8,16 @@ BEGIN(Client)
 class CUI : public CGameObj 
 {
 public:
-	typedef struct tagCloneUIInfo
+	typedef struct tagLoadUIInfo
+	{
+		_bool			bReversal;
+		_uint			iTextureNum;
+		_float2			vPos;
+		_float2			vScale;
+		_float			vRot;
+	}LOADUIINFO;
+
+	typedef struct tagThrowUIInfo
 	{
 		_bool			bReversal;
 		_uint			iTextureNum;
@@ -16,7 +25,7 @@ public:
 		_float2			vScale;
 		_float			vRot;
 		CCharacters*	pTarget;
-	}UIINFO;
+	}THROWUIINFO;
 
 protected:
 	CUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -36,7 +45,8 @@ protected:
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
 	_float4x4				m_ViewMatrix, m_ProjMatrix;
 	_uint					m_iImgNum = 0;
-	UIINFO					m_UIinfo;
+	LOADUIINFO				m_LoadUIinfo;
+	THROWUIINFO				m_ThrowUIinfo;
 
 public:
 	static CUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
