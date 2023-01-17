@@ -171,7 +171,11 @@
   <ItemGroup>
     <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
     <ClInclude Include="..\Public\Akaza.h" />
-    <ClInclude Include="..\Public\Atk_1_State.h" />
+    <ClInclude Include="..\Public\KyoujuroAtk_1_State.h" />
+    <ClInclude Include="..\Public\KyoujuroAtk_2_State.h" />
+    <ClInclude Include="..\Public\KyoujuroAtk_3_State.h" />
+    <ClInclude Include="..\Public\KyoujuroAtk_4_State.h" />
+    <ClInclude Include="..\Public\TanjiroAtk_1_State.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\BattleField.h" />
     <ClInclude Include="..\Public\Camera_Dynamic.h" />
@@ -201,6 +205,9 @@
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
     <ClInclude Include="..\Public\MeshObj_Static_Inst.h" />
+    <ClInclude Include="..\Public\TanjiroAtk_2_State.h" />
+    <ClInclude Include="..\Public\TanjiroAtk_3_State.h" />
+    <ClInclude Include="..\Public\TanjiroAtk_4_State.h" />
     <ClInclude Include="..\Public\TanjiroMoveJumpState.h" />
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\Rui.h" />
@@ -225,7 +232,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Akaza.cpp" />
-    <ClCompile Include="..\Private\Atk_1_State.cpp" />
+    <ClCompile Include="..\Private\KyoujuroAtk_1_State.cpp" />
+    <ClCompile Include="..\Private\KyoujuroAtk_2_State.cpp" />
+    <ClCompile Include="..\Private\KyoujuroAtk_3_State.cpp" />
+    <ClCompile Include="..\Private\KyoujuroAtk_4_State.cpp" />
+    <ClCompile Include="..\Private\TanjiroAtk_1_State.cpp" />
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\private\BattleField.cpp" />
     <ClCompile Include="..\Private\Camera_Dynamic.cpp" />
@@ -254,6 +265,9 @@
     <ClCompile Include="..\Private\MainApp.cpp" />
     <ClCompile Include="..\Private\MeshObj_Static.cpp" />
     <ClCompile Include="..\Private\MeshObj_Static_Inst.cpp" />
+    <ClCompile Include="..\Private\TanjiroAtk_2_State.cpp" />
+    <ClCompile Include="..\Private\TanjiroAtk_3_State.cpp" />
+    <ClCompile Include="..\Private\TanjiroAtk_4_State.cpp" />
     <ClCompile Include="..\Private\TanjiroMoveJumpState.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\Rui.cpp" />

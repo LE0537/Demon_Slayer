@@ -4,6 +4,7 @@
 #include "TanjiroJumpstate.h"
 #include "GameInstance.h"
 
+#include "TanjiroAtk_1_State.h"
 using namespace Tanjiro;
 
 
@@ -48,6 +49,10 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		_float fPositionY = XMVectorGetY(vPosition);
 		return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 	}
+	//else if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
+	//	return new CAtk_1_State();
+	else if (pGameInstance->Key_Down(DIK_J))
+		return new CAtk_1_State();
 
 	return nullptr;
 }

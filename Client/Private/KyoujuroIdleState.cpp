@@ -3,7 +3,7 @@
 #include "KyoujuroMoveState.h"
 #include "KyoujuroJumpState.h"
 #include "GameInstance.h"
-
+#include "KyoujuroAtk_1_State.h"
 using namespace Kyoujuro;
 
 CIdleState::CIdleState()
@@ -45,6 +45,9 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 		_float fPositionY = XMVectorGetY(vPosition);
 		return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 	}
+	else if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
+		return new CAtk_1_State();
+
 	return nullptr;
 }
 
