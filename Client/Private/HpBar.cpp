@@ -50,32 +50,6 @@ HRESULT CHpBar::Initialize(void * pArg)
 
 void CHpBar::Tick(_float fTimeDelta)
 {
-	m_fHpTime += fTimeDelta;
-
-	if (m_fHpTime >= 3.f && m_fCurHp > 70.f)
-	{
-		if (!m_bBeforeCheck)
-		{
-			m_fMinus_BeforeHp = m_fCurHp;
-			m_fMinusHp = m_fMinus_BeforeHp;
-			m_bBeforeCheck = true;
-		}
-		m_fCurHp -= 10.f;
-
-		if (m_fCurHp <= 70.f)
-			m_bHpMinusCheck = true;
-		
-		m_fHpTime = 0.f;
-	}
-
-	if (m_bHpMinusCheck)
-	{
-		m_fMinusHp -= 0.5f;
-
-		if (m_fMinusHp == m_fCurHp)
-			m_bHpMinusCheck = false;
-	}
-
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -95,7 +69,7 @@ HRESULT CHpBar::Render()
 		return E_FAIL;
 
 	if (!m_UIinfo.bReversal)
-		m_pShaderCom->Begin(2);
+		m_pShaderCom->Begin();
 	else
 		m_pShaderCom->Begin(1);
 
@@ -142,14 +116,6 @@ HRESULT CHpBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurrentHp", &m_fCurHp, sizeof(_float))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxHp", &m_fMaxHp, sizeof(_float))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fMinusHp", &m_fMinusHp, sizeof(_float))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fMinus_BeforeHp", &m_fMinus_BeforeHp, sizeof(_float))))
-		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;

@@ -181,17 +181,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move">
       <UniqueIdentifier>{25b4b8b3-bbc5-4044-bf75-69cac27a658a}</UniqueIdentifier>
     </Filter>
-      <UniqueIdentifier>{26c3ddd2-7082-42f4-85ff-afe0d41b10e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle">
-      <UniqueIdentifier>{d1b61e5a-49fd-4cee-b9fb-18afd637a480}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump">
-      <UniqueIdentifier>{1f988d1e-a4cd-4f30-98a7-ce0edc379f4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move">
-      <UniqueIdentifier>{372ba446-3f10-4577-955d-f9d294486999}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -346,9 +335,6 @@
     </ClInclude>
     <ClInclude Include="KyoujuroMove.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\KyoujuroState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

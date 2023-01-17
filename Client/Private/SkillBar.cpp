@@ -50,19 +50,6 @@ HRESULT CSkillBar::Initialize(void * pArg)
 
 void CSkillBar::Tick(_float fTimeDelta)
 {
-	m_fKeyPressTime += fTimeDelta;
-
-	if (GetKeyState('I') & 0x8000 && m_fKeyPressTime > 0.5f)
-	{
-		m_fCurSkillGauge -= 1.f;
-		m_fKeyPressTime = 0.f;
-	}
-	else if (m_fCurSkillGauge < 5.f)
-	{
-		m_fCurSkillGauge += 0.01f;
-	}
-	
-
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -82,7 +69,7 @@ HRESULT CSkillBar::Render()
 		return E_FAIL;
 
 	if (!m_UIinfo.bReversal)
-		m_pShaderCom->Begin(3);
+		m_pShaderCom->Begin();
 	else
 		m_pShaderCom->Begin(1);
 
@@ -126,12 +113,6 @@ HRESULT CSkillBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurSkillGauge", &m_fCurSkillGauge, sizeof(_float))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxSkillGauge", &m_fMaxSkillGauge, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
