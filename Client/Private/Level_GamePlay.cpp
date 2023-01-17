@@ -37,7 +37,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Load_Map(L"Layer_BackGround", "11_Map")))
+	if (FAILED(Load_Map(L"Layer_BackGround", "11_Map_Ground")))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
@@ -47,7 +47,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	//	return E_FAIL;	
 
 
-	if (FAILED(Load_StaticObjects("11Test_2")))
+	if (FAILED(Load_StaticObjects("11Test")))
 		return E_FAIL;
 
 
