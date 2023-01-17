@@ -52,6 +52,7 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
+	Set_Info();
 	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	return S_OK;
@@ -77,7 +78,7 @@ void CKyoujuro::Tick(_float fTimeDelta)
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 	
 
-	m_pOBBCom->Update(matColl);
+	m_pSphereCom->Update(matColl);
 
 
 }
@@ -101,7 +102,7 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 
 	if (g_bDebug)
 	{
-		m_pRendererCom->Add_Debug(m_pOBBCom);
+		m_pRendererCom->Add_Debug(m_pSphereCom);
 	}
 
 }
@@ -219,7 +220,7 @@ HRESULT CKyoujuro::Ready_Components()
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
-	TransformDesc.fSpeedPerSec = 10.f;
+	TransformDesc.fSpeedPerSec = 15.f;
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
@@ -238,10 +239,9 @@ HRESULT CKyoujuro::Ready_Components()
 
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
-	/* For.Com_OBB*/
-	ColliderDesc.vScale = _float3(170.f, 80.f, 80.f);
+	ColliderDesc.vScale = _float3(100.f, 100.f, 100.f);
 	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
-	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
+	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
 
 
@@ -315,7 +315,7 @@ HRESULT CKyoujuro::Ready_Parts2()
 void CKyoujuro::Set_Info()
 {
 	m_tInfo.strName = TEXT("ƒÏ¡÷∑Œ");
-	m_tInfo.bOni = true;
+	m_tInfo.bOni = false;
 	m_tInfo.iMaxHp = 1000;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
 	m_tInfo.iSkMaxBar = 100;
@@ -385,7 +385,7 @@ void CKyoujuro::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pOBBCom);
+	Safe_Release(m_pSphereCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pWeapon);
 	Safe_Release(m_pSheath);

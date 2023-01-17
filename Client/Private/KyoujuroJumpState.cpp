@@ -68,13 +68,13 @@ CKyoujuroState * CJumpState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
 
 	if (m_eStateType == TYPE_START)
-		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 3.f);
+		pKyoujuro->Get_Model()->Play_Animation2(fTimeDelta * 2.f);
 	else if (m_eStateType == TYPE_LOOP)
-		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
+		pKyoujuro->Get_Model()->Play_Animation2(fTimeDelta * 2.f);
 	else if (m_eStateType == TYPE_DEFAULT)
-		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
+		pKyoujuro->Get_Model()->Play_Animation2(fTimeDelta * 2.f);
 	else
-		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
+		pKyoujuro->Get_Model()->Play_Animation2(fTimeDelta);
 
 	m_fJumpTime += 0.05f;
 
@@ -93,17 +93,17 @@ void CJumpState::Enter(CKyoujuro * pKyoujuro)
 	{
 	case Client::CKyoujuroState::TYPE_START:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIM_JUMP_START);
-		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_JUMP_START, 0.01f);
+	//	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_JUMP_START, 0.01f);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_JUMP_START);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIM_JUMP_LOOP_START);
-		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_JUMP_LOOP_START, 0.01f);
+	//	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_JUMP_LOOP_START, 0.01f);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_JUMP_LOOP_START);
 		break;
 	case Client::CKyoujuroState::TYPE_END:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIM_JUMP_LOOP_END);
-		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_JUMP_LOOP_END, 0.01f);
+	//	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_JUMP_LOOP_END, 0.01f);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_JUMP_LOOP_END);
 		break;
 	case Client::CKyoujuroState::TYPE_DEFAULT:

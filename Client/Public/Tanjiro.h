@@ -60,7 +60,7 @@ public:
 	virtual HRESULT Render_ShadowDepth();
 
 public:
-	CTransform* Get_Transfrom() const { return m_pTransformCom; }
+//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
 	CModel* Get_Model() const { return m_pModelCom; }
 
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
@@ -83,10 +83,11 @@ private:
 private:
 	CModel*					m_pModelCom = nullptr;
 
-	CCollider*				m_pOBBCom = nullptr;
+	CCollider*				m_pSphereCom = nullptr;
 
 	CGameObject*			m_pWeapon = nullptr;
 	CGameObject*			m_pSheath = nullptr;
+	_float					m_fHpTime = 0.f;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
