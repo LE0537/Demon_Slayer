@@ -5,7 +5,7 @@
 #include "KyoujuroWeapon.h"
 #include "KyoujuroSheath.h"
 #include "Camera_Dynamic.h"
-
+#include "UI_Manager.h"
 CKyoujuro::CKyoujuro(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
 {
@@ -40,6 +40,8 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	RELEASE_INSTANCE(CGameInstance);
 
 	m_pModelCom->Set_CurrentAnimIndex(17);
+
+	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	return S_OK;
 }
