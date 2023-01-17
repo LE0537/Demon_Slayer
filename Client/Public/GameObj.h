@@ -42,7 +42,7 @@ protected:
 
 public:
 	CTransform* Get_Transform() { return m_pTransformCom; }
-
+	
 
 public:
 	static CGameObj* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

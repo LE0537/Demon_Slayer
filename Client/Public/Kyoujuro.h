@@ -52,12 +52,12 @@ public:
 	virtual HRESULT Render_ShadowDepth();
 
 public:
-	CTransform* Get_Transfrom() const { return m_pTransformCom; }
+//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
 	CModel* Get_Model() const { return m_pModelCom; }
 
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
-
+	CCollider* Get_Collider() { return m_pSphereCom; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -67,8 +67,8 @@ private:
 	void	Set_Info();
 private:
 	CModel*					m_pModelCom = nullptr;
-	CCollider*				m_pOBBCom = nullptr;
-
+	CCollider*				m_pSphereCom = nullptr;
+	
 	CGameObject*			m_pWeapon = nullptr;
 	CGameObject*			m_pSheath = nullptr;
 
