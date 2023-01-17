@@ -22,24 +22,24 @@ HRESULT CHpBar::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	memcpy(&m_UIinfo, pArg, sizeof(UIINFO));
+	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
-	m_fSizeX = m_UIinfo.vScale.x;
-	m_fSizeY = m_UIinfo.vScale.y;
-	m_fX = m_UIinfo.vPos.x;
-	m_fY = m_UIinfo.vPos.y;
+	m_fSizeX = m_ThrowUIinfo.vScale.x;
+	m_fSizeY = m_ThrowUIinfo.vScale.y;
+	m_fX = m_ThrowUIinfo.vPos.x;
+	m_fY = m_ThrowUIinfo.vPos.y;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-	if (!m_UIinfo.bReversal)
+	if (!m_ThrowUIinfo.bReversal)
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	if (m_UIinfo.vRot >= 0 && m_UIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_UIinfo.vRot));
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f)));
@@ -50,27 +50,23 @@ HRESULT CHpBar::Initialize(void * pArg)
 
 void CHpBar::Tick(_float fTimeDelta)
 {
-	m_fHpTime += fTimeDelta;
+	m_fMaxHp = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iMaxHp;
+	m_fCurHp = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iHp;
 
-	if (m_fHpTime >= 3.f && m_fCurHp > 70.f)
+	if (!m_bBeforeCheck)
 	{
-		if (!m_bBeforeCheck)
-		{
-			m_fMinus_BeforeHp = m_fCurHp;
-			m_fMinusHp = m_fMinus_BeforeHp;
+		m_fMinus_BeforeHp = m_fCurHp;
+		m_fMinusHp = m_fMinus_BeforeHp;
+		if (m_ThrowUIinfo.pTarget->Get_PlayerInfo().iHp > 700)
 			m_bBeforeCheck = true;
-		}
-		m_fCurHp -= 10.f;
-
-		if (m_fCurHp <= 70.f)
-			m_bHpMinusCheck = true;
-		
-		m_fHpTime = 0.f;
 	}
+
+	if (m_fCurHp <= 700.f)
+		m_bHpMinusCheck = true;	
 
 	if (m_bHpMinusCheck)
 	{
-		m_fMinusHp -= 0.5f;
+		m_fMinusHp -= 5.f;
 
 		if (m_fMinusHp == m_fCurHp)
 			m_bHpMinusCheck = false;
@@ -94,10 +90,10 @@ HRESULT CHpBar::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_UIinfo.bReversal)
-		m_pShaderCom->Begin(2);
+	if (!m_ThrowUIinfo.bReversal)
+		m_pShaderCom->Begin(0);
 	else
-		m_pShaderCom->Begin(1);
+		m_pShaderCom->Begin(2);
 
 	m_pVIBufferCom->Render();
 	
