@@ -27,10 +27,6 @@ CKyoujuroState * CJumpState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_JUMP_LOOP_END);
 	pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_JUMP_END);
 
-	fDurationTime = pKyoujuro->Get_Model()->Get_Duration();
-	fCurrentTime = pKyoujuro->Get_Model()->Get_CurrentTime();
-
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 
 	if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))

@@ -63,8 +63,11 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
 
-	CTanjiroState* pState = new CMoveState(OBJDIR::DIR_STOP, CTanjiroState::STATE_TYPE::TYPE_DEFAULT);
+	CTanjiroState* pState = new CIdleState();
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
+	//CTanjiroState* pState = new CMoveState(OBJDIR::DIR_STOP, CTanjiroState::STATE_TYPE::TYPE_DEFAULT);
+	//m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 
 
 
