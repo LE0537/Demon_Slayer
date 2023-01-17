@@ -78,6 +78,13 @@ CTanjiroState * CMoveJumpState::HandleInput(CTanjiro * pTanjiro)
 			m_eNextDir = OBJDIR::DIR_STOP;
 		}
 	}
+	else
+	{
+		m_bMove = false;
+		m_eNextDir = OBJDIR::DIR_STOP;
+	}
+
+
 	return nullptr;
 }
 
@@ -100,7 +107,7 @@ CTanjiroState * CMoveJumpState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	}
 
 
-	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
+	else if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	{
 		switch (m_eStateType)
 		{

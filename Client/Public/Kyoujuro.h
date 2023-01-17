@@ -36,6 +36,12 @@ public:
 		ANIM_JUMP_END = 56,
 
 
+		// ATTACK
+		ANIM_ATTACK_1 = 10,
+		ANIM_ATTACK_2 = 11,
+		ANIM_ATTACK_3 = 12,
+		ANIM_ATTACK_4 = 15,
+
 		ANIM_END = 100
 	};
 

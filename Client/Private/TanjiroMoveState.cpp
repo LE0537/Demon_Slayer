@@ -3,7 +3,7 @@
 #include "TanjiroIdlestate.h"
 #include "TanjiroMoveJumpState.h"
 #include "GameInstance.h"
-
+#include "TanjiroAtk_1_State.h"
 using namespace Tanjiro;
 
 
@@ -16,6 +16,12 @@ CMoveState::CMoveState(OBJDIR eDir, STATE_TYPE eType)
 CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+
+	if(pGameInstance->Key_Down(DIK_J))
+			return new CAtk_1_State();
+
+
 
 	if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 	{

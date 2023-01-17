@@ -21,7 +21,8 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	if (m_eStateType != STATE_TYPE::TYPE_DEFAULT)
+
+	if (m_eStateType != CKyoujuroState::TYPE_DEFAULT)
 	{
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 		{
@@ -78,6 +79,15 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 			m_eNextDir = OBJDIR::DIR_STOP;
 		}
 	}
+	else
+	{
+		m_bMove = false;
+		m_eNextDir = OBJDIR::DIR_STOP;
+	}
+
+
+	
+
 	return nullptr;
 }
 
@@ -100,7 +110,7 @@ CKyoujuroState * CMoveJumpState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	}
 
 
-	if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
+	else if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
 	{
 		switch (m_eStateType)
 		{
@@ -124,6 +134,7 @@ CKyoujuroState * CMoveJumpState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		case Client::CKyoujuroState::TYPE_DEFAULT:
 			printf_s("Default Jump \n");
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+
 			if (m_bMove == false)
 				return new CIdleState();
 			break;

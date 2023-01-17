@@ -4,6 +4,7 @@
 #include "Kyoujuro.h"
 #include "KyoujuroMoveJumpState.h"
 #include "GameInstance.h"
+#include "KyoujuroAtk_1_State.h"
 
 using namespace Kyoujuro;
 
@@ -17,6 +18,10 @@ CMoveState::CMoveState(OBJDIR eDir, STATE_TYPE eType)
 CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+
+	if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
+		return new CAtk_1_State();
 
 	if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 	{
