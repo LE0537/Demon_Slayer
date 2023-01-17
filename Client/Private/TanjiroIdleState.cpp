@@ -62,7 +62,7 @@ CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
 
 	return nullptr;
 }
