@@ -15,7 +15,7 @@ public:
 	virtual ~CUI_Manager() = default;
 
 public:
-	HRESULT Init(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, string sLoadName);
+	HRESULT Init(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	
 public:
 	void Load_Data(string sLoadName);

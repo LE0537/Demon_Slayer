@@ -12,7 +12,7 @@ CUI_Manager::CUI_Manager()
 {
 }
 
-HRESULT CUI_Manager::Init(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, string sLoadName)
+HRESULT CUI_Manager::Init(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	m_pDevice = pDevice;
 	m_pContext = pContext;
@@ -20,7 +20,7 @@ HRESULT CUI_Manager::Init(ID3D11Device * pDevice, ID3D11DeviceContext * pContext
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
 	
-	Load_Data(sLoadName);
+//	Load_Data(sLoadName);
 
 	//if (sLoadName == "P1_Person_HpUI")
 	//{
@@ -284,6 +284,7 @@ void CUI_Manager::Free()
 {
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+
 }
 
 

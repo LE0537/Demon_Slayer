@@ -50,6 +50,8 @@ HRESULT CHpBar::Initialize(void * pArg)
 
 void CHpBar::Tick(_float fTimeDelta)
 {
+	m_fMinusHpTime += fTimeDelta;
+
 	m_fMaxHp = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iMaxHp;
 	m_fCurHp = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iHp;
 
@@ -57,19 +59,24 @@ void CHpBar::Tick(_float fTimeDelta)
 	{
 		m_fMinus_BeforeHp = m_fCurHp;
 		m_fMinusHp = m_fMinus_BeforeHp;
-		if (m_ThrowUIinfo.pTarget->Get_PlayerInfo().iHp > 700)
-			m_bBeforeCheck = true;
+		m_bBeforeCheck = true;
 	}
 
-	if (m_fCurHp <= 700.f)
+	if(m_fMinusHpTime >= 1.f)
 		m_bHpMinusCheck = true;	
 
 	if (m_bHpMinusCheck)
 	{
-		m_fMinusHp -= 5.f;
+		if (m_fMinusHp > m_fCurHp)
+			m_fMinusHp -= 5.f;
 
-		if (m_fMinusHp == m_fCurHp)
+		if (m_fMinusHp <= m_fCurHp)
+		{
+			m_fMinusHp = m_fCurHp;
 			m_bHpMinusCheck = false;
+			//m_bBeforeCheck = false;
+			m_fMinusHpTime = 0.f;
+		}
 	}
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
@@ -91,9 +98,9 @@ HRESULT CHpBar::Render()
 		return E_FAIL;
 
 	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin(0);
+		m_pShaderCom->Begin(6);
 	else
-		m_pShaderCom->Begin(2);
+		m_pShaderCom->Begin(2); //p1
 
 	m_pVIBufferCom->Render();
 	
