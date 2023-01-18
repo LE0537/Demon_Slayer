@@ -53,7 +53,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	//m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 
 
-
+	Set_Info();
 	CUI_Manager::Get_Instance()->Set_1P(this);
 
 
@@ -352,7 +352,7 @@ HRESULT CTanjiro::Ready_Parts2()
 void CTanjiro::Set_Info()
 {
 	m_tInfo.strName = TEXT("ÅºÁö·Î");
-	m_tInfo.bOni = true;
+	m_tInfo.bOni = false;
 	m_tInfo.iMaxHp = 1000;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
 	m_tInfo.iSkMaxBar = 100;
