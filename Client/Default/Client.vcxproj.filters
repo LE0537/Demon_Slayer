@@ -223,6 +223,9 @@
     <Filter Include="04.Effect\03.EffectParticle">
       <UniqueIdentifier>{4b874ab3-fb8c-42a1-a396-84e644f167f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="95.DebugTool">
+      <UniqueIdentifier>{8f315dbf-b836-4124-869d-6a33c443d427}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
