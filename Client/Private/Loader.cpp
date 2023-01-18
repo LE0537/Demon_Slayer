@@ -79,12 +79,6 @@ HRESULT CLoader::Initialize(LEVEL eNextLevel)
 
 	InitializeCriticalSection(&m_CriticalSection);
 
-	CEffect_Manager* pEffect_Manager = GET_INSTANCE(CEffect_Manager);
-
-	pEffect_Manager->Initialize(m_pDevice, m_pContext);
-
-	RELEASE_INSTANCE(CEffect_Manager);
-
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, Thread_Main, this, 0, nullptr);
 	if (0 == m_hThread)
 		return E_FAIL;
