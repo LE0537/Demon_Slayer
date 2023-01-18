@@ -66,8 +66,6 @@ private:
 	BasicEffect*									m_pEffect = nullptr;
 
 
-
-
 private:
 	_matrix Remove_Rotation(_fmatrix Matrix);
 	_float3 Compute_Min();
