@@ -177,7 +177,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
 
-	pass HpBarDiscard //2
+	pass P1HpBarDiscard //2
 	{
 		SetRasterizerState(RS_SkyBox);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
@@ -188,7 +188,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_HpBarMinus();
 	}
 
-	pass SkillBarDiscard //3
+	pass P2SkillBarDiscard //3
 	{
 		SetRasterizerState(RS_Default);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
@@ -208,5 +208,28 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_COLOR();
+	}
+
+	pass P1SkillBarDiscard //5
+	{
+		SetRasterizerState(RS_SkyBox);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_SkillBarMinus();
+	}
+
+
+	pass P2HpBarDiscard //6
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_HpBarMinus();
 	}
 }

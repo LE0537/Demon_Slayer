@@ -70,9 +70,9 @@ HRESULT CSkillBar::Render()
 
 
 	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin(3);
+		m_pShaderCom->Begin(3); //p2
 	else
-		m_pShaderCom->Begin(1);
+		m_pShaderCom->Begin(5); //p1
 
 	m_pVIBufferCom->Render();
 

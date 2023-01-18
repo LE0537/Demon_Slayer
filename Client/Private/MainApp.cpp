@@ -35,6 +35,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(CData_Manager::Get_Instance()->Init(m_pDevice, m_pContext)))
 		return E_FAIL;	// 추가
 
+	if (FAILED(CUI_Manager::Get_Instance()->Init(m_pDevice, m_pContext)))
+		return E_FAIL;
+
 	if (FAILED(CEffect_Manager::Get_Instance()->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
 
@@ -213,6 +216,7 @@ void CMainApp::Free()
 	
 	CGameInstance::Release_Engine();
 	CData_Manager::Destroy_Instance();	// 추가
+	CUI_Manager::Destroy_Instance();
 	CUI_Manager::Destroy_Instance();
 	CEffect_Manager::Destroy_Instance();
 }

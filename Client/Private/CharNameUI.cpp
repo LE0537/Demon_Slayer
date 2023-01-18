@@ -86,6 +86,7 @@ void CCharNameUI::Name_Selected(wstring strName)
 	{
 		m_iImgNum = 1;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
+		m_fX -= 50.f;
 	}
 	else if (strName == TEXT("ÅºÁö·Î"))
 	{
