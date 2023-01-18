@@ -45,6 +45,18 @@ public:
 		// HIT
 		ANIM_HIT = 19,
 
+		// GUARD
+		ANIM_GUARD_0 = 47,
+		ANIM_GUARD_1 = 48,
+		ANIM_GUARD_2 = 49,
+
+		// GUARD ADV
+		ANIM_GUARD_ADV = 50,
+
+		// GUARD STATE -> HIT
+		ANIM_GUARD_HIT_0 = 51,
+		ANIM_GUARD_HIT_1 = 52,
+
 		ANIM_END = 100
 	};
 

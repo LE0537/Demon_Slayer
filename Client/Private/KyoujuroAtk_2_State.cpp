@@ -34,7 +34,7 @@ CKyoujuroState * CAtk_2_State::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	m_fTime += fTimeDelta * 60;
 	m_fComboDelay += fTimeDelta * 60;
 	//printf_s("AttackTime : %f \n", (_float)m_fComboDelay);
-	printf_s("AttackTime : %f \n", (_float)m_fTime);
+	//printf_s("AttackTime : %f \n", (_float)m_fTime);
 
 	if (m_bAtkCombo == true && m_fTime >= 30.f)
 		return new CAtk_3_State();

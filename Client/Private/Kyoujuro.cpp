@@ -92,12 +92,13 @@ void CKyoujuro::Tick(_float fTimeDelta)
 void CKyoujuro::Late_Tick(_float fTimeDelta)
 {
 
-
-
 	LateTickState(fTimeDelta);
+
+
 	m_pWeapon->Tick(fTimeDelta);
 	m_pSheath->Tick(fTimeDelta);
 
+	
 
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
@@ -274,7 +275,10 @@ HRESULT CKyoujuro::Ready_Parts()
 {
 
 	/* For.Weapon */
-	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("R_Hand_1_Lct");
+	//CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("R_Hand_1_Lct");
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("R_Hand_1_P0012_V00_C00_Lct");
+	//CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("R_Hand_1_End");
+
 	if (nullptr == pSocket)
 		return E_FAIL;
 
