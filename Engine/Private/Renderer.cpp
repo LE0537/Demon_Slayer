@@ -114,6 +114,12 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_LightDepth"), TEXT("Target_ShadowDepth"))))
 		return E_FAIL;
 
+	/* For.MRT_AlphaDeferred */
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Diffuse"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Glow"))))
+		return E_FAIL;
+
 	/* For.MRT_GlowX */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GlowX"), TEXT("Target_GlowX")))) return E_FAIL; 
 	/* For.MRT_GlowXY */

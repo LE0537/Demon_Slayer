@@ -8,15 +8,18 @@
 #include "Effect_Manager.h"
 #include "BackGround.h"
 #include "UI_Manager.h"
+#include "ImGuiManager.h"
 
 bool			g_bDebug = false;
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())
+	, m_pImGuiManager(CImGuiManager::Get_Instance())
 {
 	/*D3D11_SAMPLER_DESC*/
 	
 	Safe_AddRef(m_pGameInstance);
+	Safe_AddRef(m_pImGuiManager);
 }
 
 HRESULT CMainApp::Initialize()
@@ -50,6 +53,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Open_DebugCMD()))
 		return E_FAIL;
 
+	if (FAILED(m_pImGuiManager->Initialize(m_pDevice, m_pContext)))
+		return E_FAIL;
+
 	CSoundMgr::Get_Instance()->Initialize();
 
 	return S_OK;
@@ -59,6 +65,8 @@ void CMainApp::Tick(_float fTimeDelta)
 {
 	if (nullptr == m_pGameInstance)
 		return;
+
+	m_pImGuiManager->Tick(fTimeDelta);
 
 	m_pGameInstance->Tick_Engine(fTimeDelta);
 
@@ -72,6 +80,7 @@ HRESULT CMainApp::Render()
 
 	m_pRenderer->Render_GameObjects(g_bDebug);
 
+	m_pImGuiManager->Render();
 	m_pGameInstance->Present();
 
 	++m_iNumRender;
@@ -210,7 +219,10 @@ void CMainApp::Free()
 	Safe_Release(m_pContext);
 
 	Safe_Release(m_pGameInstance);
-	
+	Safe_Release(m_pImGuiManager);
+
+	CImGuiManager::Destroy_Instance();
+
 	CGameInstance::Release_Engine();
 	CData_Manager::Destroy_Instance();	// Ãß°¡
 	CUI_Manager::Destroy_Instance();

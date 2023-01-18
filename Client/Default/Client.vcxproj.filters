@@ -226,6 +226,9 @@
     <Filter Include="95.DebugTool">
       <UniqueIdentifier>{8f315dbf-b836-4124-869d-6a33c443d427}</UniqueIdentifier>
     </Filter>
+    <Filter Include="95.DebugTool\Default">
+      <UniqueIdentifier>{24790ce1-7b11-47d8-a96e-384f45a5e604}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -426,6 +429,30 @@
     <ClInclude Include="..\Public\Effect_Particle.h">
       <Filter>04.Effect\03.EffectParticle</Filter>
     </ClInclude>
+    <ClInclude Include="..\DebugTool\imconfig.h">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DebugTool\imgui.h">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DebugTool\imgui_impl_dx11.h">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DebugTool\imgui_impl_win32.h">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DebugTool\imstb_rectpack.h">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DebugTool\imstb_textedit.h">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DebugTool\imstb_truetype.h">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DebugTool\ImGuiManager.h">
+      <Filter>95.DebugTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -607,6 +634,30 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Particle.cpp">
       <Filter>04.Effect\03.EffectParticle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DebugTool\imgui.cpp">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DebugTool\imgui_demo.cpp">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DebugTool\imgui_draw.cpp">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DebugTool\imgui_impl_dx11.cpp">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DebugTool\imgui_impl_win32.cpp">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DebugTool\imgui_tables.cpp">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DebugTool\imgui_widgets.cpp">
+      <Filter>95.DebugTool\Default</Filter>
+    </ClCompile>
+    <ClCompile Include="..\DebugTool\ImGuiManager.cpp">
+      <Filter>95.DebugTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

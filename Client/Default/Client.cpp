@@ -9,6 +9,8 @@
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 HWND	g_hWnd;
 HINSTANCE g_hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
@@ -177,6 +179,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam);
+
     switch (message)
     {
     case WM_COMMAND:
