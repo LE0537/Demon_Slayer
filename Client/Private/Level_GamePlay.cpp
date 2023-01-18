@@ -125,7 +125,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
 	LightDesc.eType = LIGHTDESC::TYPE_FIELDSHADOW;
 	LightDesc.vDirection = _float4(-30.f, 30.f, -30.f, 0.f);
-	LightDesc.vDiffuse = _float4(380.f, 0.f, -1180.f, 1.f);
+	LightDesc.vDiffuse = _float4(0.f, 0.f, 0.f, 1.f);
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
 

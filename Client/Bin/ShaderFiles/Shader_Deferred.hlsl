@@ -30,6 +30,8 @@ texture2D		g_GlowTexture;
 texture2D		g_DistortionTexture;
 texture2D		g_AOTexture;
 texture2D		g_BlurTexture;
+texture2D		g_GrayScaleTexture;
+texture2D		g_AddTexture;
 
 float			g_fWinSizeX = 1280.f;
 float			g_fWinSizeY = 720.f;
@@ -184,7 +186,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	vector			vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 
-	float			fViewZ = vDepthDesc.y * 1300.f;
+	float			fViewZ = vDepthDesc.y * g_fFar;
 
 	vector			vNormal = vector(vNormalDesc.xyz * 2.f - 1.f, 0.f);
 
@@ -254,7 +256,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_POINT(PS_IN In)
 	vector			vNormalDesc = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vDepthDesc = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 
-	float			fViewZ = vDepthDesc.y * 1300.f;
+	float			fViewZ = vDepthDesc.y * g_fFar;
 
 	vector			vWorldPos = (vector)0.f;
 
@@ -324,7 +326,6 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 	vector			vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vDepth = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
-	vector			vGlow = g_GlowTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vAO = 0.1f * g_AOTexture.Sample(LinearSampler, In.vTexUV) * g_bRenderAO;
 
 	vector		vFogColor = vector(1.f, 1.f, 1.f, 1.f);
@@ -333,14 +334,14 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	float		fFogDistance = 5.f;
 
-	fFogPower = min((max((vDepth.y * 1300.f) - fFogDistance, 0.f) / 90.0f), 0.3f);
+	fFogPower = min((max((vDepth.y * g_fFar) - fFogDistance, 0.f) / 90.0f), 0.3f);
 
-	Out.vColor = ((vDiffuse - vAO) * vShade + vSpecular + vGlow) + vFogColor * fFogPower;
+	Out.vColor = ((vDiffuse - vAO) * vShade + vSpecular) + vFogColor * fFogPower;
 	//=================== ±×¸²ÀÚ =======================================================
 
 	vector			vDepthDesc = g_DepthTexture.Sample(DepthSampler, In.vTexUV);
 
-	float			fViewZ = vDepthDesc.y * 1300.f;
+	float			fViewZ = vDepthDesc.y * g_fFar;
 
 	vector			vWorldPos = (vector)0.f;
 
@@ -365,7 +366,7 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(DepthSampler, vNewUV);
 
-	if (vWorldPos.z - 0.1f > vShadowDepthInfo.x * 1300.0f)
+	if (vWorldPos.z - 0.1f > vShadowDepthInfo.x * g_fFar)
 		Out.vColor -= vector(0.2f, 0.2f, 0.2f, 0.f);
 
 	if (Out.vColor.a == 0.f)
@@ -605,6 +606,37 @@ PS_OUT PS_DISTORTION(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_GRAYSCALE(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector	vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	Out.vColor = vColor;
+	float		fGrayScaleWeight = g_GrayScaleTexture.Sample(LinearSampler, In.vTexUV).r;
+	if (0.f == fGrayScaleWeight)
+		return Out;
+
+
+
+	Out.vColor = vColor.r + ((vColor.r - vColor) * fGrayScaleWeight);
+	Out.vColor.a = vColor;
+
+	return Out;
+}
+
+PS_OUT PS_ADD(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector vAddColor = g_AddTexture.Sample(LinearSampler, In.vTexUV);
+
+	Out.vColor = vColor + vAddColor;
+	Out.vColor.a = vColor.a;
+
+	return Out;
+}
+
 RasterizerState RS_Default
 {
 	FillMode = solid;
@@ -771,6 +803,28 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_BLURXY();
+	}
+
+	pass GrayScale		//	12
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_GRAYSCALE();
+	}
+
+	pass Diffuse_Add		//	13
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_ADD();
 	}
 
 }

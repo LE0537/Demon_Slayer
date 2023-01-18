@@ -9,7 +9,9 @@ class ENGINE_DLL CRenderer final : public CComponent
 {
 public:
 	enum RENDERGROUP {RENDER_PRIORITY,RENDER_SHADOWDEPTH, RENDER_NONALPHABLEND, RENDER_NONLIGHT, RENDER_ALPHABLEND, 
-		RENDER_DISTORTION, RENDER_UI,RENDER_UIPOKE ,RENDER_END };
+		RENDER_GRAYSCALE, RENDER_BLUR, RENDER_DISTORTION, RENDER_UI,RENDER_UIPOKE ,RENDER_END };
+private:
+	enum RENDER_ORDER { ORDER_GLOW, ORDER_GRAYSCALE, ORDER_BLUR, ORDER_DISTORTION, ORDER_END };
 
 private:
 	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);	
@@ -27,6 +29,9 @@ public:
 public:
 	HRESULT Add_Debug(class CComponent* pDebugCom);
 
+
+
+//	member
 private:
 	list<class CGameObject*>				m_GameObjects[RENDER_END];
 	typedef list<class CGameObject*>		GAMEOBJECTS;
@@ -45,20 +50,25 @@ private:
 
 	_float				m_fFar = 0.f;
 
-//==Glow=============================================================
-private:
+private:/* Post Processing */
+	_tchar		m_strPPS_MRTName_1[MAX_PATH] = L"";
+	_tchar		m_strPPS_MRTName_2[MAX_PATH] = L"";
+
+	_tchar		m_strPPS_RTName_1[MAX_PATH] = L"";
+	_tchar		m_strPPS_RTName_2[MAX_PATH] = L"";
+
+private:/* For.Glow*/
 	_float						m_fGlowWinCX, m_fGlowWinCY;
 	ID3D11DepthStencilView*		m_pGlowDSV = nullptr;
-//==Glow=============================================================
 
 
 
-	//	Function
-//==Glow=============================================================
-private:
+
+
+//	Function
+private:/* For.Glow*/
 	HRESULT Ready_GlowDSV(_float fWinCX, _float fWinCY);
 	HRESULT Set_Viewport(_float fWinCX, _float fWinCY);
-//==Glow=============================================================
 
 private:
 	HRESULT Render_Priority();
@@ -66,14 +76,18 @@ private:
 	HRESULT Render_NonAlphaBlend();
 	HRESULT Render_Lights();
 	HRESULT Render_AO();
-	HRESULT Render_Glow();
 	HRESULT Render_Blend();
 	HRESULT Render_OutLine();
 	HRESULT Render_NonLight();
 	HRESULT Render_AlphaBlend();
-	HRESULT Render_Blur();
-	HRESULT Render_DistortionObjects();
-	HRESULT Render_Master();
+
+	//	Post Processing Objects Rendering
+	HRESULT	Ready_PostProcessing();
+	HRESULT Render_Glow(const _tchar* pTexName, const _tchar* pMRTName);
+	HRESULT Render_Blur(const _tchar* pTexName, const _tchar* pMRTName);
+	HRESULT Render_GrayScale(const _tchar* pTexName, const _tchar* pMRTName);
+	HRESULT Render_Distortion(const _tchar* pTexName, const _tchar* pMRTName);
+	HRESULT Render_Master(const _tchar* pTexName);
 	HRESULT Render_UI();
 	HRESULT Render_UIPOKE();
 

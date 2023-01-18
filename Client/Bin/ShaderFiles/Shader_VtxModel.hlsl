@@ -73,7 +73,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1300.f, 0.f, 0.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 500.f, 0.f, 0.f);
 
 
 	if (Out.vDiffuse.a <= 0.3f)
@@ -81,23 +81,25 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	return Out;
 }
+
 PS_OUT_SHADOW PS_SHADOW(PS_IN In)
 {
 	PS_OUT_SHADOW		Out = (PS_OUT_SHADOW)0;
 
-	Out.vLightDepth.r = In.vProjPos.w / 1300.f;
+	Out.vLightDepth.r = In.vProjPos.w / 500.f;
 
 	Out.vLightDepth.a = 1.f;
 
 	return Out;
 }
+
 PS_OUT PS_MAP(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1300.f, 0.f, 0.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 500.f, 0.f, 0.f);
 
 
 	if (Out.vDiffuse.a <= 0.3f)
