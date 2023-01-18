@@ -21,7 +21,7 @@ HRESULT CCollider::Initialize_Prototype(TYPE eType)
 {
 	m_eType = eType;
 
-#ifdef _DEBUG
+
 	m_pBatch = new PrimitiveBatch<VertexPositionColor>(m_pContext);
 	m_pEffect = new BasicEffect(m_pDevice);
 
@@ -35,7 +35,7 @@ HRESULT CCollider::Initialize_Prototype(TYPE eType)
 	if (FAILED(m_pDevice->CreateInputLayout(VertexPositionColor::InputElements, VertexPositionColor::InputElementCount, pShaderbyteCode, iShaderByteCodeLength, &m_pInputLayout)))
 		return E_FAIL;
 
-#endif
+
 
 	return S_OK;
 }
