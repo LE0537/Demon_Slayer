@@ -1,0 +1,210 @@
+Parent = Material3'/APK/Content/art/demo/Main/d050/c090/s030/cin/010/Materials/M_d_e_d050_c090_s030_cin_010_Multifunction001_DF.M_d_e_d050_c090_s030_cin_010_Multifunction001_DF'
+ScalarParameterValues[25] =
+{
+    ScalarParameterValues[0] =
+    {
+        ParameterInfo = { Name=00--00--Alpha Threshold00 }
+        ParameterValue = 1.5
+        ParameterName = None
+    }
+    ScalarParameterValues[1] =
+    {
+        ParameterInfo = { Name=00--00--Coordinate Index(0-1) }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[2] =
+    {
+        ParameterInfo = { Name=00--00--Alpha02_Ceil }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[3] =
+    {
+        ParameterInfo = { Name=00--01--Alpha02-Ceil Threshold }
+        ParameterValue = 0.495238
+        ParameterName = None
+    }
+    ScalarParameterValues[4] =
+    {
+        ParameterInfo = { Name=01--00--Alpha Threshold01 }
+        ParameterValue = 1
+        ParameterName = None
+    }
+    ScalarParameterValues[5] =
+    {
+        ParameterInfo = { Name=01--00--Coordinate Index(0-1) }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[6] =
+    {
+        ParameterInfo = { Name=01--02--Scale_V }
+        ParameterValue = 2
+        ParameterName = None
+    }
+    ScalarParameterValues[7] =
+    {
+        ParameterInfo = { Name=01--02--Speed_U }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[8] =
+    {
+        ParameterInfo = { Name=01--02--Speed_V }
+        ParameterValue = 0.1
+        ParameterName = None
+    }
+    ScalarParameterValues[9] =
+    {
+        ParameterInfo = { Name=01--02--TimeScale }
+        ParameterValue = 0.5
+        ParameterName = None
+    }
+    ScalarParameterValues[10] =
+    {
+        ParameterInfo = { Name=Dither_PixelResoluion(Masked Only) }
+        ParameterValue = 0.5
+        ParameterName = None
+    }
+    ScalarParameterValues[11] =
+    {
+        ParameterInfo = { Name=Dither_Threshold(Masked Only) }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[12] =
+    {
+        ParameterInfo = { Name=Depth Fade*Only Translucent }
+        ParameterValue = 5
+        ParameterName = None
+    }
+    ScalarParameterValues[13] =
+    {
+        ParameterInfo = { Name=05--00--Coordinate Index(0-1)A }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[14] =
+    {
+        ParameterInfo = { Name=05--00--Coordinate Index(0-1)B }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[15] =
+    {
+        ParameterInfo = { Name=05--00--Distortion Texture }
+        ParameterValue = 0.1
+        ParameterName = None
+    }
+    ScalarParameterValues[16] =
+    {
+        ParameterInfo = { Name=05--01--Blue Mask }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[17] =
+    {
+        ParameterInfo = { Name=05--01--Green Mask }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[18] =
+    {
+        ParameterInfo = { Name=05--01--Red Mask }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[19] =
+    {
+        ParameterInfo = { Name=05--02--Scale_U }
+        ParameterValue = 1
+        ParameterName = None
+    }
+    ScalarParameterValues[20] =
+    {
+        ParameterInfo = { Name=05--02--Scale_U_1 }
+        ParameterValue = 1
+        ParameterName = None
+    }
+    ScalarParameterValues[21] =
+    {
+        ParameterInfo = { Name=05--02--Scale_V }
+        ParameterValue = 1
+        ParameterName = None
+    }
+    ScalarParameterValues[22] =
+    {
+        ParameterInfo = { Name=05--02--Scale_V_1 }
+        ParameterValue = 1
+        ParameterName = None
+    }
+    ScalarParameterValues[23] =
+    {
+        ParameterInfo = { Name=05--02--Speed_V }
+        ParameterValue = 0.1
+        ParameterName = None
+    }
+    ScalarParameterValues[24] =
+    {
+        ParameterInfo = { Name=RefractionDepthBias }
+        ParameterValue = 0
+        ParameterName = None
+    }
+}
+TextureParameterValues[3] =
+{
+    TextureParameterValues[0] =
+    {
+        ParameterInfo = { Name=00--01--Texture_Alpha01 }
+        ParameterValue = Texture2D'/APK/Content/art/demo/cmn/Textures/T_d_e_cmn_Grd_03.T_d_e_cmn_Grd_03'
+        ParameterName = None
+    }
+    TextureParameterValues[1] =
+    {
+        ParameterInfo = { Name=01--01--Texture_Alpha02 }
+        ParameterValue = Texture2D'/APK/Content/art/demo/cmn/Textures/T_d_e_cmn_Smoke_22_A.T_d_e_cmn_Smoke_22_A'
+        ParameterName = None
+    }
+    TextureParameterValues[2] =
+    {
+        ParameterInfo = { Name=05--00--Texture_Distortion }
+        ParameterValue = Texture2D'/APK/Content/art/demo/cmn/Textures/T_d_e_cmn_Noise_29_A.T_d_e_cmn_Noise_29_A'
+        ParameterName = None
+    }
+}
+VectorParameterValues[0] = {}
+BasePropertyOverrides =
+{
+    bOverride_BlendMode = false
+    BlendMode = BLEND_Translucent (2)
+    bOverride_TwoSided = false
+    TwoSided = true
+    bOverride_OpacityMaskClipValue = false
+    OpacityMaskClipValue = 0.3333
+}
+StaticParameters =
+{
+    StaticSwitchParameters[0] = {}
+    StaticComponentMaskParameters[0] = {}
+    TerrainLayerWeightParameters[0] = {}
+    MaterialLayersParameters[0] = {}
+}
+RuntimeVirtualTextureParameterValues[0] = {}
+FontParameterValues[0] = {}
+FlattenedTexture = None
+MobileBaseTexture = None
+MobileNormalTexture = None
+bUseMobileSpecular = false
+MobileSpecularPower = 16
+MobileSpecularMask = MSM_Constant (0)
+MobileMaskTexture = None
+TextureStreamingData[1] =
+{
+    TextureStreamingData[0] =
+    {
+        SamplingScale = 1
+        UVChannelIndex = 0
+        TextureName = T_d_e_cmn_Noise_29_A
+    }
+}

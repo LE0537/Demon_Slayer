@@ -312,6 +312,14 @@ _float4x4 CGameInstance::Get_TransformFloat4x4(CPipeLine::TRANSFORMSTATE eState)
 	return m_pPipeLine->Get_TransformFloat4x4(eState);
 }
 
+_float4x4 CGameInstance::Get_TransformFloat4x4_Inverse(CPipeLine::TRANSFORMSTATE eState)
+{
+	if (nullptr == m_pPipeLine)
+		return _float4x4();
+
+	return m_pPipeLine->Get_TransformFloat4x4_Inverse(eState);
+}
+
 _float4x4 CGameInstance::Get_TransformFloat4x4_TP(CPipeLine::TRANSFORMSTATE eState)
 {
 	if (nullptr == m_pPipeLine)

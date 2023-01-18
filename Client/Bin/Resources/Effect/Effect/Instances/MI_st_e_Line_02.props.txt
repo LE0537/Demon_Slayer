@@ -1,0 +1,186 @@
+Parent = MaterialInstanceConstant'/APK/Content/art/demo/Stand/Cmn/Effect/Materials/M_st_e_cmn_Multifunction_01_DynUV.M_st_e_cmn_Multifunction_01_DynUV'
+ScalarParameterValues[20] =
+{
+    ScalarParameterValues[0] =
+    {
+        ParameterInfo = { Name=00--00--Alpha Threshold00 }
+        ParameterValue = 8
+        ParameterName = None
+    }
+    ScalarParameterValues[1] =
+    {
+        ParameterInfo = { Name=00--02--Offset_V }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[2] =
+    {
+        ParameterInfo = { Name=00--02--Scale_U }
+        ParameterValue = 0.1
+        ParameterName = None
+    }
+    ScalarParameterValues[3] =
+    {
+        ParameterInfo = { Name=00--02--Scale_V }
+        ParameterValue = 1
+        ParameterName = None
+    }
+    ScalarParameterValues[4] =
+    {
+        ParameterInfo = { Name=00--02--Speed_U }
+        ParameterValue = -5
+        ParameterName = None
+    }
+    ScalarParameterValues[5] =
+    {
+        ParameterInfo = { Name=00--00--Ceil }
+        ParameterValue = 0.8
+        ParameterName = None
+    }
+    ScalarParameterValues[6] =
+    {
+        ParameterInfo = { Name=00--01--Ceil Threshold }
+        ParameterValue = 10
+        ParameterName = None
+    }
+    ScalarParameterValues[7] =
+    {
+        ParameterInfo = { Name=00--00--Alpha02_Ceil }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[8] =
+    {
+        ParameterInfo = { Name=00--01--Alpha02-Ceil Threshold }
+        ParameterValue = 1
+        ParameterName = None
+    }
+    ScalarParameterValues[9] =
+    {
+        ParameterInfo = { Name=01--00--Alpha Threshold01 }
+        ParameterValue = 0.3
+        ParameterName = None
+    }
+    ScalarParameterValues[10] =
+    {
+        ParameterInfo = { Name=01--02--Offset_U }
+        ParameterValue = 0.125
+        ParameterName = None
+    }
+    ScalarParameterValues[11] =
+    {
+        ParameterInfo = { Name=01--02--Scale_U }
+        ParameterValue = 0.8
+        ParameterName = None
+    }
+    ScalarParameterValues[12] =
+    {
+        ParameterInfo = { Name=Dither_Threshold(Masked Only) }
+        ParameterValue = 0.5
+        ParameterName = None
+    }
+    ScalarParameterValues[13] =
+    {
+        ParameterInfo = { Name=Depth Fade*Only Translucent }
+        ParameterValue = 0
+        ParameterName = None
+    }
+    ScalarParameterValues[14] =
+    {
+        ParameterInfo = { Name=05--00--Distortion Texture }
+        ParameterValue = 0.1
+        ParameterName = None
+    }
+    ScalarParameterValues[15] =
+    {
+        ParameterInfo = { Name=05--02--Scale_U }
+        ParameterValue = 5
+        ParameterName = None
+    }
+    ScalarParameterValues[16] =
+    {
+        ParameterInfo = { Name=05--02--Scale_U_1 }
+        ParameterValue = 2
+        ParameterName = None
+    }
+    ScalarParameterValues[17] =
+    {
+        ParameterInfo = { Name=05--02--Scale_V }
+        ParameterValue = 0.1
+        ParameterName = None
+    }
+    ScalarParameterValues[18] =
+    {
+        ParameterInfo = { Name=05--02--Scale_V_1 }
+        ParameterValue = 2
+        ParameterName = None
+    }
+    ScalarParameterValues[19] =
+    {
+        ParameterInfo = { Name=RefractionDepthBias }
+        ParameterValue = 0
+        ParameterName = None
+    }
+}
+TextureParameterValues[3] =
+{
+    TextureParameterValues[0] =
+    {
+        ParameterInfo = { Name=00--01--Texture_Alpha01 }
+        ParameterValue = Texture2D'/APK/Content/art/demo/Stand/Cmn/Effect/Textures/T_st_e_cmn_Line_02.T_st_e_cmn_Line_02'
+        ParameterName = None
+    }
+    TextureParameterValues[1] =
+    {
+        ParameterInfo = { Name=01--01--Texture_Alpha02 }
+        ParameterValue = Texture2D'/APK/Content/art/demo/Stand/Cmn/Effect/Textures/T_st_e_Cmn_Circle_01.T_st_e_Cmn_Circle_01'
+        ParameterName = None
+    }
+    TextureParameterValues[2] =
+    {
+        ParameterInfo = { Name=05--00--Texture_Distortion }
+        ParameterValue = Texture2D'/APK/Content/art/demo/Stand/Cmn/Effect/Textures/T_st_e_cmn_WaveNormal001.T_st_e_cmn_WaveNormal001'
+        ParameterName = None
+    }
+}
+VectorParameterValues[0] = {}
+BasePropertyOverrides =
+{
+    bOverride_BlendMode = false
+    BlendMode = BLEND_Translucent (2)
+    bOverride_TwoSided = false
+    TwoSided = true
+    bOverride_OpacityMaskClipValue = false
+    OpacityMaskClipValue = 0.3333
+}
+StaticParameters =
+{
+    StaticSwitchParameters[0] = {}
+    StaticComponentMaskParameters[0] = {}
+    TerrainLayerWeightParameters[0] = {}
+    MaterialLayersParameters[0] = {}
+}
+RuntimeVirtualTextureParameterValues[0] = {}
+FontParameterValues[0] = {}
+FlattenedTexture = None
+MobileBaseTexture = None
+MobileNormalTexture = None
+bUseMobileSpecular = false
+MobileSpecularPower = 16
+MobileSpecularMask = MSM_Constant (0)
+MobileMaskTexture = None
+TextureStreamingData[2] =
+{
+    TextureStreamingData[0] =
+    {
+        SamplingScale = 1
+        UVChannelIndex = 0
+        TextureName = T_e_cmn_1pixel_Black001
+    }
+    TextureStreamingData[1] =
+    {
+        SamplingScale = 0.09375
+        UVChannelIndex = 0
+        TextureName = T_st_e_cmn_WaveNormal001
+    }
+}
