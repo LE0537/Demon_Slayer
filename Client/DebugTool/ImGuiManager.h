@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "Base.h"
+#include "Renderer.h"
 
 
 BEGIN(Engine)
@@ -26,11 +27,22 @@ public:
 	void		Render();
 
 
+
+
+
+private:
+	void		PostProcessing(_float fTimeDelta);
+
 private:
 	ID3D11Device*			m_pDevice = nullptr;
 	ID3D11DeviceContext*	m_pContext = nullptr;
 
 	_bool					m_bImguiEnable = true;
+
+	CRenderer*			m_pRendererCom = nullptr;
+
+private:/* For.PostProcessing */
+	_float				m_fPostProcessingValue[CRenderer::VALUE_END] = {1.f, };
 
 
 public:

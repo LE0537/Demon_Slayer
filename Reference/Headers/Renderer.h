@@ -10,6 +10,7 @@ class ENGINE_DLL CRenderer final : public CComponent
 public:
 	enum RENDERGROUP {RENDER_PRIORITY,RENDER_SHADOWDEPTH, RENDER_NONALPHABLEND, RENDER_NONLIGHT, RENDER_ALPHABLEND, 
 		RENDER_GRAYSCALE, RENDER_BLUR, RENDER_DISTORTION, RENDER_UI,RENDER_UIPOKE ,RENDER_END };
+	enum VALUETYPE { VALUE_AO, VALUE_AORADIUS, VALUE_GLOWBLURCOUNT, VALUE_DISTORTION, VALUE_END };
 private:
 	enum RENDER_ORDER { ORDER_GLOW, ORDER_GRAYSCALE, ORDER_BLUR, ORDER_DISTORTION, ORDER_END };
 
@@ -29,6 +30,14 @@ public:
 public:
 	HRESULT Add_Debug(class CComponent* pDebugCom);
 
+public:
+	void	Set_Value(VALUETYPE eValueType, _float fValue) 
+	{
+		if(eValueType >= VALUE_END) 
+			return; 
+		m_fValue[eValueType] = fValue; 
+	}
+	void	AO_OnOff(_bool bTrueisOn) { m_bRenderAO = bTrueisOn; }
 
 
 //	member
@@ -61,7 +70,9 @@ private:/* For.Glow*/
 	_float						m_fGlowWinCX, m_fGlowWinCY;
 	ID3D11DepthStencilView*		m_pGlowDSV = nullptr;
 
-
+private:/* For.PostProcessing Value */
+	_bool		m_bRenderAO = false;
+	_float		m_fValue[VALUE_END] = { 1.f,  };
 
 
 

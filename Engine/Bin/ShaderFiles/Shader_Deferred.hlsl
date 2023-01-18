@@ -36,7 +36,11 @@ texture2D		g_AddTexture;
 float			g_fWinSizeX = 1280.f;
 float			g_fWinSizeY = 720.f;
 float			g_fFar;
+
 float			g_fSSAORadius;
+float			g_fAOValue;
+float			g_fGlowBlurCount;
+float			g_fDistortionValue;
 
 const float		g_fWeight[13] =
 {
@@ -163,7 +167,7 @@ PS_OUT PS_SSAO(PS_IN In)
 		float	fDepth = (g_DepthTexture.Sample(LinearSampler, In.vTexUV)).y;
 		float	fOccNorm = (g_DepthTexture.Sample(LinearSampler, vRandomUV)).y;
 
-		iColor += -1.f * floor(fOccNorm - (fDepth + (0.005f * (g_DepthTexture.Sample(LinearSampler, In.vTexUV)).y)));
+		iColor += -1.f * floor(fOccNorm - (fDepth + (g_fAOValue * (g_DepthTexture.Sample(LinearSampler, In.vTexUV)).y)));
 	}
 
 	Out.vColor = abs((iColor / 16.f) - 1.f);
@@ -598,7 +602,7 @@ PS_OUT PS_DISTORTION(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	vector		vDistortionTexture = g_DistortionTexture.Sample(LinearSampler, In.vTexUV);
-	float		fDistortionValue = vDistortionTexture.x * 20.f * vDistortionTexture.a;
+	float		fDistortionValue = vDistortionTexture.x * g_fDistortionValue * vDistortionTexture.a;
 	float2		vDistortionUV = float2(In.vTexUV.x + (fDistortionValue / g_fWinSizeX), In.vTexUV.y);
 
 	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, vDistortionUV);

@@ -22,6 +22,11 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
+	m_fValue[VALUE_AO] = 1.f;
+	m_fValue[VALUE_AORADIUS] = 1.f;
+	m_fValue[VALUE_GLOWBLURCOUNT] = 1.f;
+	m_fValue[VALUE_DISTORTION] = 1.f;
+
 	D3D11_VIEWPORT		ViewportDesc;
 	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
 
@@ -115,9 +120,9 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 
 	/* For.MRT_AlphaDeferred */
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Diffuse"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Diffuse"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Glow"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Glow"))))
 		return E_FAIL;
 
 	/* For.MRT_GlowX */
@@ -250,6 +255,8 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 	if (FAILED(Render_Lights()))
 		return E_FAIL;
 
+	if (FAILED(Render_AO()))
+		return E_FAIL;
 	//	그려진 객체들을 아름답게 섞습니다.
 	if (FAILED(Render_Blend()))
 		return E_FAIL;
@@ -521,8 +528,11 @@ HRESULT CRenderer::Render_AO()
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_fFar", &m_fFar, sizeof(_float))))
 		return E_FAIL;
-	_float	fRadius = 0.005f;
+	_float	fRadius = 0.001f * m_fValue[VALUE_AORADIUS];
 	if (FAILED(m_pShader->Set_RawValue("g_fSSAORadius", &fRadius, sizeof(_float))))
+		return E_FAIL;
+	_float	fAOValue = 0.0002f * m_fValue[VALUE_AO];
+	if (FAILED(m_pShader->Set_RawValue("g_fAOValue", &fAOValue, sizeof(_float))))
 		return E_FAIL;
 
 	m_pShader->Begin(9);
@@ -542,15 +552,14 @@ HRESULT CRenderer::Render_Blend()
 
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
 		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
 		return E_FAIL;
-
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_AO"), m_pShader, "g_AOTexture")))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_ShadowDepth"), m_pShader, "g_ShadowDepthTexture")))
 		return E_FAIL;
 
@@ -918,6 +927,8 @@ HRESULT CRenderer::Render_Distortion(const _tchar* pTexName, const _tchar* pMRTN
 	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fDistortionValue", &m_fValue[VALUE_DISTORTION], sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, pMRTName)))
