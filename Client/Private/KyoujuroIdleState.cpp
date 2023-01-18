@@ -54,9 +54,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 
 
 
-	if (pGameInstance->Key_Down(DIK_B))
-		pKyoujuro->Take_Damage();
-	else if (pGameInstance->Key_Pressing(DIK_O))
+	if (pGameInstance->Key_Pressing(DIK_O))
 		return new CGuardState(STATE_TYPE::TYPE_START);
 	else if (pGameInstance->Key_Pressing(DIK_P))
 		return new CGuardHitState(STATE_TYPE::TYPE_START);

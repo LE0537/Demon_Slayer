@@ -56,9 +56,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 	else if (pGameInstance->Key_Down(DIK_J))
 		return new CAtk_1_State();
 
-	if (pGameInstance->Key_Down(DIK_M))
-		pTanjiro->Take_Damage();
-	else if (pGameInstance->Key_Pressing(DIK_O))
+	if (pGameInstance->Key_Pressing(DIK_O))
 		return new CGuardState(STATE_TYPE::TYPE_START);
 	else if (pGameInstance->Key_Pressing(DIK_P))
 		return new CGuardHitState(STATE_TYPE::TYPE_START);
