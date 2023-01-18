@@ -102,7 +102,7 @@ void CCamera_Dynamic::Set_CamPos()
 
 	_vector vAtPos = vPos;
 
-	vAtPos.m128_f32[1] += 1.f;
+	vAtPos.m128_f32[1] += 2.f;
 
 	m_pSubTransform->LookAt(vAtPos);
 

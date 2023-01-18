@@ -43,8 +43,9 @@ CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront();
-	pKyoujuro->Get_Transform()->LookAt(m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLooAt.m128_f32[1] = 0.f;
+	pKyoujuro->Get_Transform()->LookAt(vLooAt);
 	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 
 	m_fMove += fTimeDelta;
@@ -92,7 +93,7 @@ CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 			_float4 vTagetPos;
 			XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 			_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
+			vPos.m128_f32[1] = 0.f;
 			m_pTarget->Get_Transform()->LookAt(vPos);
 			m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg * 3);
 			dynamic_cast<CTanjiro*>(m_pTarget)->Take_Damage(0.5f);
