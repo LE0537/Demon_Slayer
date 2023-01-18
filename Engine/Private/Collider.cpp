@@ -157,7 +157,6 @@ _bool CCollider::Collision(CCollider * pTargetCollider)
 		if (TYPE_SPHERE == pTargetCollider->m_eType)
 			m_isCollision = m_pOBB[BOUNDING_WORLD]->Intersects(*pTargetCollider->m_pSphere[BOUNDING_WORLD]);
 	}
-
 	else if (TYPE_SPHERE == m_eType)
 	{
 	//	if (TYPE_AABB == pTargetCollider->m_eType)
