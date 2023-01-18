@@ -59,13 +59,11 @@ private:
 
 	_bool					m_isCollision = false;
 
-#ifdef _DEBUG
+
 private:
 	ID3D11InputLayout*								m_pInputLayout = nullptr;
 	PrimitiveBatch<VertexPositionColor>*			m_pBatch = nullptr;
 	BasicEffect*									m_pEffect = nullptr;
-#endif // _DEBUG
-
 
 
 private:

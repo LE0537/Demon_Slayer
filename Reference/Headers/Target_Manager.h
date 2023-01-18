@@ -29,12 +29,12 @@ public:
 public:
 	HRESULT Bind_ShaderResource(const _tchar* pTargetTag, class CShader* pShader, const char* pConstantName);
 	HRESULT Ready_ShadowDepthStencilRenderTargetView(ID3D11Device * pDevice, _uint iWinCX, _uint iWinCY);
-#ifdef _DEBUG
+
 public:
 	HRESULT Ready_Debug(const _tchar* pTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
 	HRESULT Render_Debug(const _tchar* pMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 	HRESULT Render_SoloTarget_Debug(const _tchar* pRenderTargetTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
-#endif // _DEBUG
+
 
 private:
 	map<const _tchar*, class CRenderTarget*>			m_RenderTargets;

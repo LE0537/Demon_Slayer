@@ -147,8 +147,8 @@ HRESULT CTarget_Manager::Begin_ShadowMRT(ID3D11DeviceContext * pContext, const _
 	ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
 	ViewPortDesc.TopLeftX = 0;
 	ViewPortDesc.TopLeftY = 0;
-	ViewPortDesc.Width = 1280.f * 10.f;
-	ViewPortDesc.Height = 720.f * 10.f;
+	ViewPortDesc.Width = 1280.f * 5.f;
+	ViewPortDesc.Height = 720.f * 5.f;
 	ViewPortDesc.MinDepth = 0.f;
 	ViewPortDesc.MaxDepth = 1.f;
 
@@ -250,7 +250,7 @@ HRESULT CTarget_Manager::Ready_Debug(const _tchar * pTargetTag, _float fX, _floa
 	return pRenderTarget->Ready_Debug(fX, fY, fSizeX, fSizeY);
 }
 
-#ifdef _DEBUG
+
 HRESULT CTarget_Manager::Render_Debug(const _tchar * pMRTTag, class CShader* pShader, CVIBuffer_Rect * pVIBuffer)
 {
 	list<class CRenderTarget*>*		pMRTList = Find_MRT(pMRTTag);
@@ -274,7 +274,7 @@ HRESULT CTarget_Manager::Render_SoloTarget_Debug(const _tchar * pRenderTargetTag
 
 	return S_OK;
 }
-#endif // _DEBUG
+
 
 CRenderTarget * CTarget_Manager::Find_RenderTarget(const _tchar * pTargetTag)
 {

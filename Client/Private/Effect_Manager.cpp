@@ -34,8 +34,6 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 	if (0 == hFile)
 		return;
 
-	_int iEffectSize;
-
 	//이펙트 정보 저장
 	CEffect::EFFECT_INFO EffectInfo;
 	ReadFile(hFile, &EffectInfo, sizeof(CEffect::EFFECT_INFO), &dwByte, nullptr);
@@ -46,7 +44,7 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 
 	vector<CEffect_Texture::TEXTURE_INFO> TexInfo;
 
-	for (_uint j = 0; j < iTextureSize; ++j) {
+	for (_int j = 0; j < iTextureSize; ++j) {
 		CEffect_Texture::TEXTURE_INFO TextureInfo;
 
 		ReadFile(hFile, &TextureInfo, sizeof(CEffect_Texture::TEXTURE_INFO), &dwByte, nullptr);

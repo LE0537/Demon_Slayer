@@ -32,8 +32,8 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	/* ·»´õÅ¸°ÙµéÀ» Ãß°¡ÇÑ´Ù. */
 
-	_uint		iShadowMapCX = ViewportDesc.Width * 10.f;
-	_uint		iShadowMapCY = ViewportDesc.Height * 10.f;
+	_uint		iShadowMapCX = ViewportDesc.Width * 5.f;
+	_uint		iShadowMapCY = ViewportDesc.Height * 5.f;
 
 	// For.Target_ShadowDepth
 	if (FAILED(m_pTarget_Manager->Ready_ShadowDepthStencilRenderTargetView(m_pDevice, iShadowMapCX, iShadowMapCY)))

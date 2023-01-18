@@ -65,29 +65,8 @@ void CTanjiro::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	Set_ShadowLightPos();
-
-	//m_fHpTime += fTimeDelta;
-
-	//if (m_fHpTime >= 3.f)
-	//{
-	//	if(m_tInfo.iHp > 700)
-	//		m_tInfo.iHp -= 100;
-
-	//	m_fHpTime = 0.f;
-	//}
-
-
 	HandleInput();
 	TickState(fTimeDelta);
-
-
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	//printf_s("anim index : %d \n", m_pTanjiroState->Get_TanjiroState());
-
-	RELEASE_INSTANCE(CGameInstance);
-	
 
 	m_pModelCom->Get_PivotFloat4x4();
 	m_pTransformCom->Get_World4x4Ptr();
@@ -98,8 +77,6 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 
 	m_pSphereCom->Update(matColl);
-
-
 }
 
 void CTanjiro::Late_Tick(_float fTimeDelta)
@@ -177,7 +154,7 @@ HRESULT CTanjiro::Render_ShadowDepth()
 	_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
 	_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
+ 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
