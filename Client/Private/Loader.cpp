@@ -61,11 +61,14 @@ unsigned int APIENTRY Thread_Main(void* pArg)
 	case LEVEL_LOGO:
 		pLoader->Loading_ForLogoLevel();
 		break;
+	case LEVEL_SELECTCHAR:
+		pLoader->Loading_ForSelectCharLevel();
+		break;
 	case LEVEL_GAMEPLAY:
 		pLoader->Loading_ForGamePlayLevel();
 		break;
 	}
-
+	
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
 
 	return 0;
@@ -424,6 +427,23 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 
 	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForSelectCharLevel()
+{
+
+	/* 텍스쳐 로딩 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+
+
+	/* 모델 로딩 중. */
+	lstrcpy(m_szLoadingText, TEXT("                     모델 로딩 중."));
+
+	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
+
+	m_isFinished = true;
+
+	return E_NOTIMPL;
 }
 
 HRESULT CLoader::Loading_ForGamePlayLevel()

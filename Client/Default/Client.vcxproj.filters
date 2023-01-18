@@ -229,6 +229,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit">
       <UniqueIdentifier>{2f6ae4d9-4e6b-4ae2-8ff4-fcb0b8917f52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\03.SelectChar">
+      <UniqueIdentifier>{e15be89c-08c2-4256-9fa5-d3b109d16f13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -435,6 +438,9 @@
     <ClInclude Include="..\Public\KyoujuroHitState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_SelectChar.h">
+      <Filter>01.Levels\03.SelectChar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -622,6 +628,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroHitState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_SelectChar.cpp">
+      <Filter>01.Levels\03.SelectChar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

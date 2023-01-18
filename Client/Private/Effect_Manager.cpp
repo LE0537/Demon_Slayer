@@ -75,8 +75,6 @@ void CEffect_Manager::Create_Effect(_uint iEffectNum, _float4 vPos)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-
-
 	if (FAILED(pGameInstance->Add_GameObject(m_Effect[iEffectNum], LEVEL_GAMEPLAY, TEXT("Layer_Effect"),&vPos)))
 		return ;
 
