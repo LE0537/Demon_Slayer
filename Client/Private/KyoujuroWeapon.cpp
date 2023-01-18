@@ -32,10 +32,9 @@ HRESULT CKyoujuroWeapon::Initialize(void * pArg)
 
 	m_pTransformCom->Set_Scale(XMVectorSet(0.033f, 0.033f, 0.033f, 0.f));
 
-	m_pTransformCom->Turn2(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(90.0f));
-	m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-20.0f));
-	//m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(5.0f));
-
+	m_pTransformCom->Turn2(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(85.f));
+	//m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(350.f));
+	//m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(180.f));
 
 
 	return S_OK;

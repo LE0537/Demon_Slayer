@@ -232,6 +232,12 @@
     <Filter Include="01.Levels\03.SelectChar">
       <UniqueIdentifier>{e15be89c-08c2-4256-9fa5-d3b109d16f13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Guard">
+      <UniqueIdentifier>{fb840bf1-1863-4bcc-9726-f89b57acaced}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard">
+      <UniqueIdentifier>{b6a0ca98-f4ec-48cc-888c-ccc14f0f7609}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -441,6 +447,24 @@
     <ClInclude Include="..\public\Level_SelectChar.h">
       <Filter>01.Levels\03.SelectChar</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroGuardState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroGuardState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroGuardAdvState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroGuardHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroGuardHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroGuardAdvState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -631,6 +655,24 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_SelectChar.cpp">
       <Filter>01.Levels\03.SelectChar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroGuardState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroGuardState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroGuardHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroGuardHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroGuardAdvState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
