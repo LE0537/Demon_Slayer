@@ -25,13 +25,14 @@ private:
 	virtual ~CEffect() = default;
 
 public:
-	HRESULT Initialize_Prototype(char* szEffectName, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo);
+	HRESULT Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo);
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
 	virtual void Late_Tick(_float fTimeDelta);
 
 private:
 	HRESULT Ready_Components();
+	HRESULT Ready_Parts();
 
 private:
 	//char										m_szEffectName[MAX_PATH];
@@ -49,7 +50,7 @@ private:
 	vector<CEffect_Texture::TEXTURE_INFO>		m_TextureInfo;
 
 public:
-	static CEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, char* szEffectName, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo);
+	static CEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };

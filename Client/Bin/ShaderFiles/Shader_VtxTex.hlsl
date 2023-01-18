@@ -6,6 +6,8 @@ texture2D		g_NormalTexture;
 
 vector			g_vCamPosition;
 
+float4			g_vColor;
+
 float			g_fCurrentHp;
 float			g_fMaxHp;
 float			g_fMinusHp;
@@ -136,6 +138,20 @@ PS_OUT PS_SkillBarMinus(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_COLOR(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vColor = g_vColor;
+	float4 InputColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+	Out.vColor.a = InputColor.a * Out.vColor.a;
+
+	if (Out.vColor.a == 0.0f)
+		discard;
+
+	return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -183,5 +199,14 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_SkillBarMinus();
 	}
 
-	
+	pass Color //4
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_COLOR();
+	}
 }

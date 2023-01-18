@@ -337,7 +337,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		CEffect_Manager* pEffect_Manager = GET_INSTANCE(CEffect_Manager);
 
-		pEffect_Manager->Load_Effect();
+		pEffect_Manager->Load_Effect(TEXT("HitEffect1"));
 
 		RELEASE_INSTANCE(CEffect_Manager);
 

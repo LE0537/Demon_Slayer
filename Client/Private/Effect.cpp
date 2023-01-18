@@ -17,7 +17,7 @@ CEffect::CEffect(const CEffect & rhs)
 {
 }
 
-HRESULT CEffect::Initialize_Prototype(char* szEffectName, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo)
+HRESULT CEffect::Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo)
 {
 	m_EffectInfo.fEffectStartTime = EffectInfo.fEffectStartTime;
 	m_EffectInfo.fEffectLifeTime = EffectInfo.fEffectLifeTime;
@@ -34,6 +34,9 @@ HRESULT CEffect::Initialize_Prototype(char* szEffectName, EFFECT_INFO EffectInfo
 HRESULT CEffect::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
+	if (FAILED(Ready_Parts()))
 		return E_FAIL;
 
 	return S_OK;
@@ -76,11 +79,35 @@ HRESULT CEffect::Ready_Components()
 	return S_OK;
 }
 
-CEffect * CEffect::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, char* szEffectName, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo)
+HRESULT CEffect::Ready_Parts()
+{
+	// 咆胶贸 积己
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	for (auto TexInfo : m_TextureInfo) {
+		CGameObject*		pTexture = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectTexture"));
+
+		static_cast<CEffect_Texture*>(pTexture)->Set_Parents(this);
+		static_cast<CEffect_Texture*>(pTexture)->Set_TexInfo(TexInfo);
+
+		m_Textures.push_back((CEffect_Texture*)pTexture);
+	}
+	
+
+	// 皋浆 积己
+
+	// 颇萍努 积己
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+CEffect * CEffect::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo)
 {
 	CEffect*	pInstance = new CEffect(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_Prototype(szEffectName, EffectInfo, TextureInfo)))
+	if (FAILED(pInstance->Initialize_Prototype(EffectInfo, TextureInfo)))
 	{
 		ERR_MSG(TEXT("Failed to Created : CEffect"));
 		Safe_Release(pInstance);

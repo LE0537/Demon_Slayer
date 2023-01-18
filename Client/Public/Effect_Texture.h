@@ -39,8 +39,11 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 
-private:
+public:
+	void Set_Parents(CGameObj* pParents) { m_pParents = pParents; }
+	void Set_TexInfo(TextureInfo TexInfo);
 
+private:
 	TEXTURE_INFO					m_TextureInfo;
 
 	_float							m_fTime = 0.f;
@@ -50,6 +53,8 @@ private:
 	CGameObj*						m_pParents = nullptr;
 
 	_bool							m_bDead = false;
+
+	vector<char *>					m_TextureName;
 
 private:
 	HRESULT SetUp_ShaderResources();

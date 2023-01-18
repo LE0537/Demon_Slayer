@@ -9,19 +9,43 @@ CEffect_Texture::CEffect_Texture(ID3D11Device * pDevice, ID3D11DeviceContext * p
 }
 
 CEffect_Texture::CEffect_Texture(const CEffect_Texture & rhs)
-	: CGameObj(rhs)
+	: CGameObj(rhs),
+	m_TextureName(rhs.m_TextureName)
 {
 }
 
 HRESULT CEffect_Texture::Initialize_Prototype()
 {
+	m_TextureName.push_back("Eff_Circle");
+	m_TextureName.push_back("Eff_Sprk");
+	m_TextureName.push_back("Xef_Base");
+	m_TextureName.push_back("Eff_Tap");
+	m_TextureName.push_back("Xef_Burst");
+	m_TextureName.push_back("Xef_Dust");
+	m_TextureName.push_back("Xef_Fade00");
+	m_TextureName.push_back("Xef_Fade01");
+	m_TextureName.push_back("Xef_Fade02");
+	m_TextureName.push_back("Xef_Fade03");
+	m_TextureName.push_back("Xef_Light00");
+	m_TextureName.push_back("Eff_Light00");
+	m_TextureName.push_back("Xef_Light01");
+	m_TextureName.push_back("Xef_Line01");
+	m_TextureName.push_back("Xef_Squ01");
+	m_TextureName.push_back("Xef_Sun00");
+	m_TextureName.push_back("Xef_Sun01");
+	m_TextureName.push_back("Xef_Sun02");
+	m_TextureName.push_back("Xef_Uzu00");
+	m_TextureName.push_back("Spike00");
+	m_TextureName.push_back("Spike01");
+	m_TextureName.push_back("Wind02");
+
 	return S_OK;
 }
 
 HRESULT CEffect_Texture::Initialize(void * pArg)
 {
-	if (pArg)
-		strcpy_s(m_TextureInfo.m_szTextureName, MAX_PATH, (char*)pArg);
+	//if (pArg)
+		//strcpy_s(m_TextureInfo.m_szTextureName, MAX_PATH, (char*)pArg);
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -108,10 +132,25 @@ HRESULT CEffect_Texture::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(4);
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+void CEffect_Texture::Set_TexInfo(TextureInfo TexInfo)
+{
+	m_TextureInfo = TexInfo;
+
+	/* For.Com_Texture */
+	char szName[MAX_PATH] = "Prototype_Component_Texture_";
+	strcat_s(szName, m_TextureName[TexInfo.iTextureType]);
+
+	_tchar			szRealPath[MAX_PATH] = TEXT("");
+	MultiByteToWideChar(CP_ACP, 0, szName, strlen(szName), szRealPath, MAX_PATH);
+
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pTextureCom)))
+		return;
 }
 
 HRESULT CEffect_Texture::SetUp_ShaderResources()
@@ -161,15 +200,7 @@ HRESULT CEffect_Texture::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
-	/* For.Com_Texture */
-	char szName[MAX_PATH] = "Prototype_Component_Texture_";
-	strcat_s(szName, m_TextureInfo.m_szTextureName);
-
-	_tchar			szRealPath[MAX_PATH] = TEXT("");
-	MultiByteToWideChar(CP_ACP, 0, szName, strlen(szName), szRealPath, MAX_PATH);
-
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
+	
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"), (CComponent**)&m_pVIBufferCom)))
