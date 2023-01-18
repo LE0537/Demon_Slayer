@@ -5,6 +5,8 @@
 #include "GameInstance.h"
 #include "TanjiroWeapon.h"
 #include "Layer.h"
+#include "Kyoujuro.h"
+#include "Effect_Manager.h"
 using namespace Tanjiro;
 
 
@@ -74,10 +76,20 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 			if (pMyCollider->Collision(pTargetCollider))
 			{
+				_float4 vTagetPos;
+				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 				m_pTarget->Get_Transform()->LookAt(vPos);
 				m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
+				dynamic_cast<CKyoujuro*>(m_pTarget)->Take_Damage(0.3f);
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				vTagetPos.y += 2.f;
+				pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT, vTagetPos);
+
+				RELEASE_INSTANCE(CEffect_Manager);
 
 				++m_iHit;
 			}
@@ -95,10 +107,19 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 			if (pMyCollider->Collision(pTargetCollider))
 			{
+				_float4 vTagetPos;
+				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 				m_pTarget->Get_Transform()->LookAt(vPos);
 				m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
+				dynamic_cast<CKyoujuro*>(m_pTarget)->Take_Damage(0.3f);
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				vTagetPos.y += 2.f;
+				pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT, vTagetPos);
+
+				RELEASE_INSTANCE(CEffect_Manager);
 
 				m_bHit = true;
 			}

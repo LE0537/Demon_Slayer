@@ -336,12 +336,12 @@ void CKyoujuro::Set_Info()
 	m_tInfo.iFriendMaxBar = 100;
 	m_tInfo.iFriendBar;
 }
-void CKyoujuro::Take_Damage()
+void CKyoujuro::Take_Damage(_float _fPow)
 {
 	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_HIT)
 		m_pModelCom->Reset_Anim(CKyoujuro::ANIMID::ANIM_HIT);
 
-	CKyoujuroState* pState = new CHitState();
+	CKyoujuroState* pState = new CHitState(_fPow);
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
 }

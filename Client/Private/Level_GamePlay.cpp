@@ -84,13 +84,6 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 	if (pGameInstance->Key_Down(DIK_F1))
 		g_bDebug = !g_bDebug;
 
-	if (pGameInstance->Key_Down(DIK_0)) {
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-		pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT);
-
-		RELEASE_INSTANCE(CEffect_Manager);
-	}
 
 	RELEASE_INSTANCE(CGameInstance);
 }

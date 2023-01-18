@@ -221,12 +221,12 @@ void CTanjiro::Set_ShadowLightPos()
 }
 
 
-void CTanjiro::Take_Damage()
+void CTanjiro::Take_Damage(_float _fPow)
 {
 	if(m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_HIT)
 		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_HIT);
 
-	CTanjiroState* pState = new CHitState();
+	CTanjiroState* pState = new CHitState(_fPow);
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
 

@@ -5,16 +5,13 @@
 
 using namespace Tanjiro;
 
-CHitState::CHitState()
+CHitState::CHitState(_float _fPow)
+	:m_fPow(_fPow)
 {
 }
 
 CTanjiroState * CHitState::HandleInput(CTanjiro * pTanjiro)
 {
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
-	if (pGameInstance->Key_Down(DIK_M))
-		pTanjiro->Take_Damage();
 
 	return nullptr;
 }
@@ -25,7 +22,10 @@ CTanjiroState * CHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_HIT);
 
 	fHitTime += fTimeDelta * 60.f;
-	printf("HitTime : %f \n", (float)fHitTime);
+
+
+	if (fHitTime <= 20.f)
+		pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
 
 	if (fHitTime >= 35.f)
 		return new CIdleState();

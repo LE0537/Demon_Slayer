@@ -50,10 +50,6 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 		return new CAtk_1_State();
 
 
-	if (pGameInstance->Key_Down(DIK_B))
-		pKyoujuro->Take_Damage();
-
-
 	return nullptr;
 }
 

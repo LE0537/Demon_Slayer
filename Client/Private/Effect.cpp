@@ -39,6 +39,8 @@ HRESULT CEffect::Initialize(void * pArg)
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
 
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMLoadFloat4((_float4*)pArg));
+
 	return S_OK;
 }
 
@@ -47,7 +49,6 @@ void CEffect::Tick(_float fTimeDelta)
 	m_fEffectTime += fTimeDelta;
 
 	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
 
 		for (auto& pTex : m_Textures)
 			pTex->Tick(fTimeDelta);

@@ -5,6 +5,8 @@
 #include "KyoujuroAtk_2_State.h"
 #include "KyoujuroWeapon.h"
 #include "Layer.h"
+#include "Tanjiro.h"
+#include "Effect_Manager.h"
 using namespace Kyoujuro;
 
 
@@ -76,12 +78,19 @@ CKyoujuroState * CAtk_1_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 
 			if (pMyCollider->Collision(pTargetCollider))
 			{
-
-				//_vector vTagetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_float4 vTagetPos;
+				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 				_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 				m_pTarget->Get_Transform()->LookAt(vPos);
 				m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg);
+				dynamic_cast<CTanjiro*>(m_pTarget)->Take_Damage(0.3f);
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				vTagetPos.y += 2.f;
+				pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT, vTagetPos);
+
+				RELEASE_INSTANCE(CEffect_Manager);
 
 				++m_iHit;
 			}

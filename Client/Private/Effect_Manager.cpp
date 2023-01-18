@@ -71,11 +71,13 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 	return;
 }
 
-void CEffect_Manager::Create_Effect(_uint iEffectNum)
+void CEffect_Manager::Create_Effect(_uint iEffectNum, _float4 vPos)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(pGameInstance->Add_GameObject(m_Effect[iEffectNum], LEVEL_GAMEPLAY, TEXT("Layer_Effect"))))
+
+
+	if (FAILED(pGameInstance->Add_GameObject(m_Effect[iEffectNum], LEVEL_GAMEPLAY, TEXT("Layer_Effect"),&vPos)))
 		return ;
 
 	RELEASE_INSTANCE(CGameInstance);

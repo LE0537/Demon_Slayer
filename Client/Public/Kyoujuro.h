@@ -77,7 +77,7 @@ private:
 	void	Set_Info();
 
 public:
-	void  Take_Damage();
+	void  Take_Damage(_float _fPow);
 
 private:
 	CModel*					m_pModelCom = nullptr;

@@ -7,7 +7,7 @@ BEGIN(Tanjiro)
 class CHitState : public CTanjiroState
 {
 public:
-	CHitState();
+	CHitState(_float _fPow);
 
 	virtual CTanjiroState* HandleInput(CTanjiro* pTanjiro) override;
 	virtual CTanjiroState* Tick(CTanjiro* pTanjiro, _float fTimeDelta) override;
@@ -20,7 +20,7 @@ public:
 
 private:
 	_float fHitTime = 0.f;
-
+	_float m_fPow = 0.f;
 };
 END
 END

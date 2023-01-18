@@ -7,7 +7,7 @@ BEGIN(Kyoujuro)
 class CHitState : public CKyoujuroState
 {
 public:
-	CHitState();
+	CHitState(_float _fPow);
 
 	virtual CKyoujuroState* HandleInput(CKyoujuro* pKyoujuro) override;
 	virtual CKyoujuroState* Tick(CKyoujuro* pKyoujuro, _float fTimeDelta) override;
@@ -20,7 +20,7 @@ public:
 
 private:
 	_float fHitTime = 0.f;
-
+	_float m_fPow = 0.f;
 };
 END
 END

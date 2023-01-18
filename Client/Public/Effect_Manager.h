@@ -21,7 +21,7 @@ public:
 
 public:
 	void Load_Effect(const _tchar* EffectName);
-	void Create_Effect(_uint iEffectNum);
+	void Create_Effect(_uint iEffectNum,_float4 vPos);
 
 private:
 	ID3D11Device* m_pDevice = nullptr;
