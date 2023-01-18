@@ -1,0 +1,26 @@
+Materials[1] =
+{
+    Materials[0] = Material3'/APK/Content/art/Effect/Cmn/Materials/Specific/M_e_cmn_Sampling001.M_e_cmn_Sampling001'
+}
+SourceModels[0] = {}
+StaticMaterials[1] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = Material3'/APK/Content/art/Effect/Cmn/Materials/Specific/M_e_cmn_Sampling001.M_e_cmn_Sampling001'
+        MaterialSlotName = lambert2
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 20.6598, 20.3225, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=9.99999, Y=-1.90735e-06, Z=3.72529e-09 }
+    BoxExtent = { X=10, Y=10, Z=3.72529e-09 }
+    SphereRadius = 14.1421
+}

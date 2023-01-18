@@ -171,6 +171,11 @@
   <ItemGroup>
     <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
     <ClInclude Include="..\Public\Akaza.h" />
+    <ClInclude Include="..\Public\Effect.h" />
+    <ClInclude Include="..\Public\Effect_Manager.h" />
+    <ClInclude Include="..\Public\Effect_Mesh.h" />
+    <ClInclude Include="..\Public\Effect_Particle.h" />
+    <ClInclude Include="..\Public\Effect_Texture.h" />
     <ClInclude Include="..\Public\KyoujuroAtk_1_State.h" />
     <ClInclude Include="..\Public\KyoujuroAtk_2_State.h" />
     <ClInclude Include="..\Public\KyoujuroAtk_3_State.h" />
@@ -232,6 +237,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Akaza.cpp" />
+    <ClCompile Include="..\Private\Effect.cpp" />
+    <ClCompile Include="..\Private\Effect_Manager.cpp" />
+    <ClCompile Include="..\Private\Effect_Mesh.cpp" />
+    <ClCompile Include="..\Private\Effect_Particle.cpp" />
+    <ClCompile Include="..\Private\Effect_Texture.cpp" />
     <ClCompile Include="..\Private\KyoujuroAtk_1_State.cpp" />
     <ClCompile Include="..\Private\KyoujuroAtk_2_State.cpp" />
     <ClCompile Include="..\Private\KyoujuroAtk_3_State.cpp" />

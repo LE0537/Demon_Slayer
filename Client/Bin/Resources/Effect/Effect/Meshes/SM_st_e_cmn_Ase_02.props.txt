@@ -1,0 +1,26 @@
+Materials[1] =
+{
+    Materials[0] = MaterialInstanceConstant'/APK/Content/art/demo/Stand/Cmn/Effect/Instances/MI_st_e_cmn_Ase_01.MI_st_e_cmn_Ase_01'
+}
+SourceModels[0] = {}
+StaticMaterials[1] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/APK/Content/art/demo/Stand/Cmn/Effect/Instances/MI_st_e_cmn_Ase_01.MI_st_e_cmn_Ase_01'
+        MaterialSlotName = lambert1
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 7.53564, 28.1778, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=-0.264305, Y=-31.841, Z=-1.81641e-15 }
+    BoxExtent = { X=62.5235, Y=32.5388, Z=2.2648e-15 }
+    SphereRadius = 66.3894
+}

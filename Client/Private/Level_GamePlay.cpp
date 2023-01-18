@@ -11,6 +11,8 @@
 #include "MeshObj_Static_Inst.h"
 #include "Terrain.h"
 
+#include "Effect_Manager.h"
+
 
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -81,6 +83,14 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_F1))
 		g_bDebug = !g_bDebug;
+
+	if (pGameInstance->Key_Down(DIK_0)) {
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+	}
 
 	RELEASE_INSTANCE(CGameInstance);
 }
