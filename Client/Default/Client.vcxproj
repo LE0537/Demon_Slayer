@@ -102,12 +102,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../Public/;../../Reference/Headers/;../Default/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Public/;../../Reference/Headers/;../Default/;../DebugTool/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -170,6 +170,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
+    <ClInclude Include="..\DebugTool\imconfig.h" />
+    <ClInclude Include="..\DebugTool\imgui.h" />
+    <ClInclude Include="..\DebugTool\ImGuiManager.h" />
+    <ClInclude Include="..\DebugTool\imgui_impl_dx11.h" />
+    <ClInclude Include="..\DebugTool\imgui_impl_win32.h" />
+    <ClInclude Include="..\DebugTool\imstb_rectpack.h" />
+    <ClInclude Include="..\DebugTool\imstb_textedit.h" />
+    <ClInclude Include="..\DebugTool\imstb_truetype.h" />
     <ClInclude Include="..\Public\Akaza.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\Effect_Manager.h" />
@@ -245,6 +253,18 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\DebugTool\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\DebugTool\ImGuiManager.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\DebugTool\imgui_demo.cpp" />
+    <ClCompile Include="..\DebugTool\imgui_draw.cpp" />
+    <ClCompile Include="..\DebugTool\imgui_impl_dx11.cpp" />
+    <ClCompile Include="..\DebugTool\imgui_impl_win32.cpp" />
+    <ClCompile Include="..\DebugTool\imgui_tables.cpp" />
+    <ClCompile Include="..\DebugTool\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\Akaza.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
     <ClCompile Include="..\Private\Effect_Manager.cpp" />

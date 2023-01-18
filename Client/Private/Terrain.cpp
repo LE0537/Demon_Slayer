@@ -10,7 +10,7 @@ CTerrain::CTerrain(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 
 CTerrain::CTerrain(const CTerrain & rhs)
 	: CGameObj(rhs)
-{	
+{
 }
 
 HRESULT CTerrain::Initialize_Prototype()
@@ -78,6 +78,8 @@ void CTerrain::Late_Tick(_float fTimeDelta)
 
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+	Compute_CamDistance(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
 }
 
 HRESULT CTerrain::Render()
@@ -153,38 +155,38 @@ HRESULT CTerrain::SetUp_ShaderResources()
 
 
 	/* For.Lights */
-	/*
+
 	const LIGHTDESC* pLightDesc = pGameInstance->Get_LightDesc(0);
 	if (nullptr == pLightDesc)
-	return E_FAIL;
+		return E_FAIL;
 
 	if (pLightDesc->eType == LIGHTDESC::TYPE_DIRECTIONAL)
 	{
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDir", &pLightDesc->vDirection, sizeof(_float4))))
-	return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDir", &pLightDesc->vDirection, sizeof(_float4))))
+			return E_FAIL;
 
-	m_iPassIndex = 0;
+		m_iPassIndex = 0;
 	}
 	else
 	{
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightPos", &pLightDesc->vPosition, sizeof(_float4))))
-	return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_vLightPos", &pLightDesc->vPosition, sizeof(_float4))))
+			return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fLightRange", &pLightDesc->fRange, sizeof(_float))))
-	return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_fLightRange", &pLightDesc->fRange, sizeof(_float))))
+			return E_FAIL;
 
-	m_iPassIndex = 1;
+		m_iPassIndex = 1;
 	}
 
 
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightDiffuse", &pLightDesc->vDiffuse, sizeof(_float4))))
-	return E_FAIL;
+		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightAmbient", &pLightDesc->vAmbient, sizeof(_float4))))
-	return E_FAIL;
+		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vLightSpecular", &pLightDesc->vSpecular, sizeof(_float4))))
-	return E_FAIL;
-	*/
+		return E_FAIL;
+
 	/*
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_BrushTexture", m_pTextureCom[TYPE_BRUSH]->Get_SRV())))
 	return E_FAIL;*/
@@ -208,21 +210,6 @@ HRESULT CTerrain::SetUp_ShaderResources()
 		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_FilterTexture", m_pFilterTexture)))
 			return E_FAIL;
 	}
-	/*else
-	{
-	ID3D11ShaderResourceView*		pSRVs[] = {
-	m_pVTXColor_TextureCom->Get_SRV(0),
-	m_pVTXColor_TextureCom->Get_SRV(1),
-	m_pVTXColor_TextureCom->Get_SRV(2),
-	};
-
-	if (FAILED(m_pShaderCom->Set_ShaderResourceViewArray("g_DiffuseTexture", pSRVs, 3)))
-	return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_FilterTexture", m_pFilterTexture)))
-	return E_FAIL;
-
-	}*/
-
 
 	RELEASE_INSTANCE(CGameInstance);
 

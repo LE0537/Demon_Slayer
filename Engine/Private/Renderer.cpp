@@ -22,6 +22,11 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
+	m_fValue[VALUE_AO] = 1.f;
+	m_fValue[VALUE_AORADIUS] = 1.f;
+	m_fValue[VALUE_GLOWBLURCOUNT] = 1.f;
+	m_fValue[VALUE_DISTORTION] = 1.f;
+
 	D3D11_VIEWPORT		ViewportDesc;
 	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
 
@@ -69,17 +74,25 @@ HRESULT CRenderer::Initialize_Prototype()
 	/* For.Target_GlowXY */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_GlowXY"), fGlowSizeX, fGlowSizeY, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 
+	/* For.Target_BlurX */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlurX"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
+	/* For.Target_BlurXY */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlurXY"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
+
+	/* For.Target_GrayScale */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_GrayScale"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 	/* For.Target_Distortion */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Distortion"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 
 	/* For.Target_AO */	//	Ambient Occlusion
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_AO"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(1.f, 1.f, 1.f, 1.f)))) return E_FAIL;
 
-	/* For.Target_BlurX */
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlurX"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
-	/* For.Target_BlurXY */
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlurXY"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
-
+	lstrcpy(m_strPPS_RTName_1, L"Target_PostProcessing_1");
+	lstrcpy(m_strPPS_RTName_2, L"Target_PostProcessing_2");
+	/* For.Target_PostProcessing_1 */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, m_strPPS_RTName_1, ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.f)))) return E_FAIL;
+	/* For.Target_PostProcessing_2 */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, m_strPPS_RTName_2, ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.f)))) return E_FAIL;
 	/* For.Target_Master */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Master"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.f)))) return E_FAIL;
 
@@ -106,23 +119,27 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_LightDepth"), TEXT("Target_ShadowDepth"))))
 		return E_FAIL;
 
-	/* For.MRT_GlowX */
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GlowX"), TEXT("Target_GlowX"))))
+	/* For.MRT_AlphaDeferred */
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Diffuse"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Glow"))))
 		return E_FAIL;
 
+	/* For.MRT_GlowX */
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GlowX"), TEXT("Target_GlowX")))) return E_FAIL; 
 	/* For.MRT_GlowXY */
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GlowXY"), TEXT("Target_GlowXY"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GlowXY"), TEXT("Target_GlowXY")))) return E_FAIL;
+
+	/* For.MRT_GrayScale */
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GrayScale"), TEXT("Target_GrayScale"))))
 		return E_FAIL;
 
 	/* For.MRT_Blur */
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Blur"), TEXT("Target_Blur"))))
-		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Blur"), TEXT("Target_Blur")))) return E_FAIL;
 	/* For.MRT_BlurX */
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlurX"), TEXT("Target_BlurX"))))
-		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlurX"), TEXT("Target_BlurX")))) return E_FAIL;
 	/* For.MRT_BlurXY */
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlurXY"), TEXT("Target_BlurXY"))))
-		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_BlurXY"), TEXT("Target_BlurXY")))) return E_FAIL;
 
 	/* For.MRT_Distortion*/
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Distortion"), TEXT("Target_Distortion"))))
@@ -132,6 +149,14 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AO"), TEXT("Target_AO"))))
 		return E_FAIL;
 
+	lstrcpy(m_strPPS_MRTName_1, L"MRT_PostProcessing_1");
+	lstrcpy(m_strPPS_MRTName_2, L"MRT_PostProcessing_2");
+	/* For.MRT_PostProcessing_1 */
+	if (FAILED(m_pTarget_Manager->Add_MRT(m_strPPS_MRTName_1, m_strPPS_RTName_1)))
+		return E_FAIL;
+	/* For.MRT_PostProcessing_2 */
+	if (FAILED(m_pTarget_Manager->Add_MRT(m_strPPS_MRTName_2, m_strPPS_RTName_2)))
+		return E_FAIL;
 	/* For.MRT_Master */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Master"), TEXT("Target_Master"))))
 		return E_FAIL;
@@ -169,16 +194,15 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Glow"), 1.5f * fVIBufferRadius, 1.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 1.5f * fVIBufferRadius, 2.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GrayScale"), 1.5f * fVIBufferRadius, 2.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_AO"), 1.5f * fVIBufferRadius, 3.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurXY"), 1.5f * fVIBufferRadius, 3.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Blur"), 2.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 2.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurX"), 2.5f * fVIBufferRadius, 1.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_AO"), 2.5f * fVIBufferRadius, 1.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurXY"), 2.5f * fVIBufferRadius, 2.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
-		return E_FAIL;
+
 
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Master"), ViewportDesc.Width - (0.5f * 2.f * fVIBufferRadius), 0.5f * 2.f * fVIBufferRadius, 2.f * fVIBufferRadius, 2.f * fVIBufferRadius)))
 		return E_FAIL;
@@ -201,7 +225,7 @@ HRESULT CRenderer::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject * pGame
 
 	m_GameObjects[eRenderGroup].push_back(pGameObject);
 
-	Safe_AddRef(pGameObject);	
+	Safe_AddRef(pGameObject);
 
 	return S_OK;
 }
@@ -231,15 +255,14 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 	if (FAILED(Render_Lights()))
 		return E_FAIL;
 
-	//	NonAlphablend 용 Glow를 Glow렌더타겟에 그립니다.
-	//	이 후 Render_Blend에서 Master타겟에 그립니다.
-	if (FAILED(Render_Glow()))
+	if (FAILED(Render_AO()))
 		return E_FAIL;
-
+	//	그려진 객체들을 아름답게 섞습니다.
 	if (FAILED(Render_Blend()))
 		return E_FAIL;
 
-	//	외곽선은 Alphablend 객체에는 적용하지 않습니다.
+
+
 	if (FAILED(Render_OutLine()))
 		return E_FAIL;
 
@@ -248,15 +271,54 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 	if (FAILED(Render_AlphaBlend()))
 		return E_FAIL;
 
-	//	포스트 프로세싱 : 외곽선, 글로우 등을 포함한 " 전체 " 에 효과를 먹입니다.
-	if (FAILED(Render_Blur()))
-		return E_FAIL;
-	if (FAILED(Render_DistortionObjects()))
+
+
+	//	포스트 프로세싱 : 외곽선을 포함한 " 전체 " 에 효과를 먹입니다.
+	//	postprocessing_1 = master
+	if (FAILED(Ready_PostProcessing()))
 		return E_FAIL;
 
+	_int	iIndex = 0;
+	_tchar	pRTName[MAX_PATH] = L"";
+	_tchar	pMRTName[MAX_PATH] = L"";
+	while (true)
+	{
+		if (0 == iIndex % 2)
+		{
+			lstrcpy(pRTName, m_strPPS_RTName_1);
+			lstrcpy(pMRTName, m_strPPS_MRTName_2);
+		}
+		else
+		{
+			lstrcpy(pRTName, m_strPPS_RTName_2);
+			lstrcpy(pMRTName, m_strPPS_MRTName_1);
+		}
+		if (ORDER_END <= iIndex)
+			break;
+
+		switch (iIndex)
+		{
+		case ORDER_GLOW:
+			if (FAILED(Render_Glow(pRTName, pMRTName))) return E_FAIL;
+			break;
+		case ORDER_GRAYSCALE:
+			if (FAILED(Render_GrayScale(pRTName, pMRTName))) return E_FAIL;
+			break;
+		case ORDER_BLUR:
+			if (FAILED(Render_Blur(pRTName, pMRTName))) return E_FAIL;
+			break;
+		case ORDER_DISTORTION:
+			if (FAILED(Render_Distortion(pRTName, pMRTName))) return E_FAIL;
+			break;
+		default: break;
+		}
+
+		++iIndex;
+	}
 	//	객체 Render가 끝나면 Master를 메인 버퍼에 그립니다.
-	if (FAILED(Render_Master()))
+	if (FAILED(Render_Master(pRTName)))
 		return E_FAIL;
+
 
 
 	if (_bDebug)
@@ -275,7 +337,7 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 	//	Clear MRT_Master
 	if (FAILED(m_pTarget_Manager->MRT_Clear(m_pContext, TEXT("MRT_Master"))))
 		return E_FAIL;
-	
+
 	return S_OK;
 }
 HRESULT CRenderer::Add_Debug(CComponent* pDebugCom)
@@ -466,8 +528,11 @@ HRESULT CRenderer::Render_AO()
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_fFar", &m_fFar, sizeof(_float))))
 		return E_FAIL;
-	_float	fRadius = 0.005f;
+	_float	fRadius = 0.001f * m_fValue[VALUE_AORADIUS];
 	if (FAILED(m_pShader->Set_RawValue("g_fSSAORadius", &fRadius, sizeof(_float))))
+		return E_FAIL;
+	_float	fAOValue = 0.0002f * m_fValue[VALUE_AO];
+	if (FAILED(m_pShader->Set_RawValue("g_fAOValue", &fAOValue, sizeof(_float))))
 		return E_FAIL;
 
 	m_pShader->Begin(9);
@@ -475,57 +540,6 @@ HRESULT CRenderer::Render_AO()
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
-
-	return S_OK;
-}
-
-HRESULT CRenderer::Render_Glow()
-{
-	if (nullptr == m_pTarget_Manager)
-		return E_FAIL;
-
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Glow"), m_pShader, "g_GlowTexture")))
-		return E_FAIL;
-
-	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
-		return E_FAIL;
-	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
-		return E_FAIL;
-	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
-		return E_FAIL;
-
-
-	Set_Viewport(m_fGlowWinCX, m_fGlowWinCY);
-
-	//	GlowX
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_GlowX"), m_pGlowDSV)))
-		return E_FAIL;
-
-	m_pContext->ClearDepthStencilView(m_pGlowDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
-
-	m_pShader->Begin(6);
-	m_pVIBuffer->Render();
-
-	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;
-
-
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_GlowX"), m_pShader, "g_GlowTexture")))
-		return E_FAIL;
-
-	//	BlurXY
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_GlowXY"), m_pGlowDSV)))
-		return E_FAIL;
-
-	m_pShader->Begin(7);
-	m_pVIBuffer->Render();
-
-	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;
-
-	Set_Viewport(1280.f, 720.f);
 
 	return S_OK;
 }
@@ -538,15 +552,14 @@ HRESULT CRenderer::Render_Blend()
 
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
 		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
 		return E_FAIL;
-
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_AO"), m_pShader, "g_AOTexture")))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_ShadowDepth"), m_pShader, "g_ShadowDepthTexture")))
 		return E_FAIL;
 
@@ -670,7 +683,7 @@ HRESULT CRenderer::Render_AlphaBlend()
 {
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
 		return E_FAIL;
-		
+
 	m_GameObjects[RENDER_ALPHABLEND].sort([](CGameObject* pSour, CGameObject* pDest)
 	{
 		return pSour->Get_CamDistance() > pDest->Get_CamDistance();
@@ -693,12 +706,117 @@ HRESULT CRenderer::Render_AlphaBlend()
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_Blur()
+HRESULT CRenderer::Ready_PostProcessing()
+{
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_PostProcessing_1"))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Master"), m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	m_pShader->Begin(0);		//	Default
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Glow(const _tchar * pTexName, const _tchar * pMRTName)
 {
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Master"), m_pShader, "g_DiffuseTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Glow"), m_pShader, "g_GlowTexture")))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+
+
+	Set_Viewport(m_fGlowWinCX, m_fGlowWinCY);
+
+	//	GlowX
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_GlowX"), m_pGlowDSV)))
+		return E_FAIL;
+
+	m_pContext->ClearDepthStencilView(m_pGlowDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+
+	m_pShader->Begin(6);
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+
+
+	//	BlurXY
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_GlowX"), m_pShader, "g_GlowTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_GlowXY"), m_pGlowDSV)))
+		return E_FAIL;
+
+	m_pShader->Begin(7);
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	Set_Viewport(1280.f, 720.f);
+
+
+
+
+	//	Render to MRT
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_GlowXY"), m_pShader, "g_AddTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, pMRTName)))
+		return E_FAIL;
+	m_pShader->Begin(13);
+	m_pVIBuffer->Render();
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+
+	return S_OK;
+
+}
+
+HRESULT CRenderer::Render_Blur(const _tchar* pTexName, const _tchar* pMRTName)
+{
+	if (nullptr == m_pTarget_Manager)
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Blur"))))
+		return E_FAIL;
+	for (auto& pGameObject : m_GameObjects[RENDER_BLUR])
+	{
+		if (nullptr != pGameObject)
+		{
+			pGameObject->Render();
+			Safe_Release(pGameObject);
+		}
+	}
+	m_GameObjects[RENDER_BLUR].clear();
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Blur"), m_pShader, "g_BlurTexture")))
 		return E_FAIL;
@@ -710,40 +828,31 @@ HRESULT CRenderer::Render_Blur()
 	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-
-
 	//	BlurX
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlurX"))))
 		return E_FAIL;
-
 	m_pShader->Begin(10);
 	m_pVIBuffer->Render();
-
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;
-
-
-
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_BlurX"), m_pShader, "g_BlurTexture")))
 		return E_FAIL;
 
 	//	BlurXY
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_BlurX"), m_pShader, "g_BlurTexture")))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_BlurXY"))))
 		return E_FAIL;
-
 	m_pShader->Begin(11);
 	m_pVIBuffer->Render();
-
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
-
-
-	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
+	//	Master
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_BlurTexture")))
 		return E_FAIL;
-
-
-
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, pMRTName)))
+		return E_FAIL;
+	m_pShader->Begin(0);
+	m_pVIBuffer->Render();
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
@@ -751,12 +860,12 @@ HRESULT CRenderer::Render_Blur()
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_DistortionObjects()
+HRESULT CRenderer::Render_GrayScale(const _tchar * pTexName, const _tchar * pMRTName)
 {
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Distortion"))))
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_GrayScale"))))
 		return E_FAIL;
 
-	for (auto& pGameObject : m_GameObjects[RENDER_DISTORTION])
+	for (auto& pGameObject : m_GameObjects[RENDER_GRAYSCALE])
 	{
 		if (nullptr != pGameObject)
 		{
@@ -765,7 +874,25 @@ HRESULT CRenderer::Render_DistortionObjects()
 		}
 	}
 
-	m_GameObjects[RENDER_DISTORTION].clear();
+	m_GameObjects[RENDER_GRAYSCALE].clear();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+
+
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_GrayScale"), m_pShader, "g_GrayScaleTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, pMRTName)))
+		return E_FAIL;
+
+	m_pShader->Begin(12);
+	m_pVIBuffer->Render();
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -773,7 +900,50 @@ HRESULT CRenderer::Render_DistortionObjects()
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_Master()
+HRESULT CRenderer::Render_Distortion(const _tchar* pTexName, const _tchar* pMRTName)
+{
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Distortion"))))
+		return E_FAIL;
+	for (auto& pGameObject : m_GameObjects[RENDER_DISTORTION])
+	{
+		if (nullptr != pGameObject)
+		{
+			pGameObject->Render();
+			Safe_Release(pGameObject);
+		}
+	}
+	m_GameObjects[RENDER_DISTORTION].clear();
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Distortion"), m_pShader, "g_DistortionTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fDistortionValue", &m_fValue[VALUE_DISTORTION], sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, pMRTName)))
+		return E_FAIL;
+
+	m_pShader->Begin(8);
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Master(const _tchar* pTexName)
 {
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Master"), m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
@@ -842,12 +1012,6 @@ HRESULT CRenderer::Render_Debug()
 	}
 
 	m_DebugComponents.clear();
-
-
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	if (pGameInstance->Get_DIKState(DIK_TAB))
-		m_bRenderDebug = !m_bRenderDebug;
-	RELEASE_INSTANCE(CGameInstance);
 
 
 	if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_Deferred"), m_pShader, m_pVIBuffer)))

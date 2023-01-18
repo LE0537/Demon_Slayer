@@ -10,7 +10,7 @@ class CGameInstance;
 END
 
 BEGIN(Client)
-
+class CImGuiManager;
 class CMainApp final : public CBase
 {
 private:
@@ -24,6 +24,7 @@ public:
 
 private:
 	CGameInstance*			m_pGameInstance = nullptr;
+	CImGuiManager*			m_pImGuiManager = nullptr;
 
 private:
 	ID3D11Device*			m_pDevice = nullptr;
