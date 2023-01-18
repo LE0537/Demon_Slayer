@@ -111,7 +111,7 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 void CEffect_Texture::Late_Tick(_float fTimeDelta)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_TextureInfo.vPosition.x, m_TextureInfo.vPosition.y, m_TextureInfo.vPosition.z, 1.f)
-		+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.001f * m_TextureInfo.fSortingFudge);
+		+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.001f * (_float)m_TextureInfo.fSortingFudge);
 
 	_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
 
@@ -147,7 +147,7 @@ void CEffect_Texture::Set_TexInfo(TextureInfo TexInfo)
 	strcat_s(szName, m_TextureName[TexInfo.iTextureType]);
 
 	_tchar			szRealPath[MAX_PATH] = TEXT("");
-	MultiByteToWideChar(CP_ACP, 0, szName, strlen(szName), szRealPath, MAX_PATH);
+	MultiByteToWideChar(CP_ACP, 0, szName, (_int)strlen(szName), szRealPath, MAX_PATH);
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pTextureCom)))
 		return;

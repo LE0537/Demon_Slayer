@@ -197,7 +197,7 @@ PS_OUT PS_FILTER(PS_DIRECTIONAL_IN In)
 		+ (g_vLightSpecular * g_vMtrlSpecular) * In.fSpecular;
 
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.1f);
-	Out.vDepth = vector(In.vWorldPos.z / In.vWorldPos.w, In.vWorldPos.w / 500.f, 0.f, 0.1f);
+	Out.vDepth = vector(In.vWorldPos.z / In.vWorldPos.w, In.vWorldPos.w / 500.f, 0.f, 0.f);
 
 	return Out;
 }

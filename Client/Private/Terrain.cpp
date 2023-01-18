@@ -242,7 +242,7 @@ HRESULT CTerrain::Load_FilterTexture(char* strName)
 	strcat_s(strFullPath_Multi, strFileExt);
 
 	_tchar	strFilePath_Wide[MAX_PATH] = L"";
-	MultiByteToWideChar(CP_ACP, 0, strFullPath_Multi, strlen(strFullPath_Multi), strFilePath_Wide, MAX_PATH);
+	MultiByteToWideChar(CP_ACP, 0, strFullPath_Multi, (_int)strlen(strFullPath_Multi), strFilePath_Wide, MAX_PATH);
 
 	if (FAILED(DirectX::CreateDDSTextureFromFileEx(m_pDevice, strFilePath_Wide,
 		0, D3D11_USAGE_DYNAMIC,
@@ -283,7 +283,7 @@ HRESULT CTerrain::Load_FilterTexNumber(char * strName)
 	strcat_s(strFullPath_Multi, strFileExt);
 
 	_tchar	strFilePath_Wide[MAX_PATH] = L"";
-	MultiByteToWideChar(CP_ACP, 0, strFullPath_Multi, strlen(strFullPath_Multi), strFilePath_Wide, MAX_PATH);
+	MultiByteToWideChar(CP_ACP, 0, strFullPath_Multi, (_int)strlen(strFullPath_Multi), strFilePath_Wide, MAX_PATH);
 
 	HANDLE		hFile = CreateFile(strFilePath_Wide, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 

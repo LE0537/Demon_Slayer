@@ -64,17 +64,9 @@ void CKyoujuro::Tick(_float fTimeDelta)
 
 	__super::Tick(fTimeDelta);
 
-	//Set_ShadowLightPos();
-
 
 	HandleInput();
 	TickState(fTimeDelta);
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
-	if (pGameInstance->Key_Pressing(DIK_R))
-	{
-		printf_s("ANIM: %d \n", (int)m_eAnimID);
-	}
 
 	m_pModelCom->Get_PivotFloat4x4();
 	m_pTransformCom->Get_World4x4Ptr();
@@ -83,9 +75,7 @@ void CKyoujuro::Tick(_float fTimeDelta)
 		return;
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 	
-
 	m_pSphereCom->Update(matColl);
-
 
 }
 

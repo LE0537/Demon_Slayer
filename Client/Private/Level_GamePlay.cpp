@@ -120,7 +120,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
 	LightDesc.eType = LIGHTDESC::TYPE_FIELDSHADOW;
 	LightDesc.vDirection = _float4(-30.f, 30.f, -30.f, 0.f);
-	LightDesc.vDiffuse = _float4(380.f, 0.f, -1180.f, 1.f);
+	LightDesc.vDiffuse = _float4(50.f, 0.f, 30.f, 1.f);
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
 
@@ -267,7 +267,7 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 		}
 
 
-		_uint	iCount = map_MeshIdx_World.count(*pMeshIndex);
+		_uint	iCount = (_uint)map_MeshIdx_World.count(*pMeshIndex);
 		if (!iCount)
 		{
 			std::vector<_float4x4>		vecWorld;
@@ -284,7 +284,7 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 			map_MeshIdx_World.emplace(*pMeshIndex, vecWorld);
 		}
 
-		iCount = map_MeshIdx_Num.count(*pMeshIndex);
+		iCount = (_uint)map_MeshIdx_Num.count(*pMeshIndex);
 		if (!iCount)
 			map_MeshIdx_Num.emplace(*pMeshIndex, 1);
 		else
@@ -343,7 +343,7 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 				auto Pair_World = map_MeshIdx_World.find(Pair.first);
 				std::vector<_float4x4>		vecWorld = Pair_World->second;
 
-				_uint	iCount = vecWorld.size();
+				_uint	iCount = (_uint)vecWorld.size();
 				_float4x4	matWorld4x4 = vecWorld[iCount - 1];
 				vecWorld.pop_back();
 
