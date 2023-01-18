@@ -211,6 +211,12 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_4">
       <UniqueIdentifier>{735d8c88-857f-47ff-9e99-cac2977f93d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit">
+      <UniqueIdentifier>{de32ec51-5739-4edb-a503-78eb5d647557}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit">
+      <UniqueIdentifier>{2f6ae4d9-4e6b-4ae2-8ff4-fcb0b8917f52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -396,6 +402,12 @@
     <ClInclude Include="..\Public\KyoujuroAtk_4_State.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_4</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -559,6 +571,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroAtk_4_State.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -160,7 +160,8 @@ CTanjiroState * CMoveJumpState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta
 	if (m_eStateType != TYPE_DEFAULT && m_eStateType != TYPE_CHANGE)
 		Jump(pTanjiro, fTimeDelta + m_fJumpTime);
 
-	Move(pTanjiro, fTimeDelta);
+	if (m_bMove == true)
+		Move(pTanjiro, fTimeDelta);
 
 	return nullptr;
 }

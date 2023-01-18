@@ -8,6 +8,7 @@
 #include "KyoujuroState.h"
 #include "KyoujuroIdleState.h"
 #include "KyoujuroMoveState.h"
+#include "KyoujuroHitState.h"
 
 using namespace Kyoujuro;
 
@@ -68,7 +69,12 @@ void CKyoujuro::Tick(_float fTimeDelta)
 
 	HandleInput();
 	TickState(fTimeDelta);
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
+	if (pGameInstance->Key_Pressing(DIK_R))
+	{
+		printf_s("ANIM: %d \n", (int)m_eAnimID);
+	}
 
 	m_pModelCom->Get_PivotFloat4x4();
 	m_pTransformCom->Get_World4x4Ptr();
@@ -329,6 +335,15 @@ void CKyoujuro::Set_Info()
 	m_tInfo.fPowerUpTime = 0.f;
 	m_tInfo.iFriendMaxBar = 100;
 	m_tInfo.iFriendBar;
+}
+void CKyoujuro::Take_Damage()
+{
+	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_HIT)
+		m_pModelCom->Reset_Anim(CKyoujuro::ANIMID::ANIM_HIT);
+
+	CKyoujuroState* pState = new CHitState();
+	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+
 }
 void CKyoujuro::HandleInput()
 {

@@ -6,8 +6,9 @@
 #include "KyoujuroAtk_1_State.h"
 using namespace Kyoujuro;
 
-CIdleState::CIdleState()
+CIdleState::CIdleState(STATE_ID eState)
 {
+	m_ePreState = eState;
 }
 
 CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
@@ -43,10 +44,15 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 	{
 		_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		_float fPositionY = XMVectorGetY(vPosition);
-		return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+		return new CJumpState(STATE_TYPE::TYPE_LOOP, fPositionY, 0.f);
 	}
 	else if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
 		return new CAtk_1_State();
+
+
+	if (pGameInstance->Key_Down(DIK_B))
+		pKyoujuro->Take_Damage();
+
 
 	return nullptr;
 }
@@ -62,8 +68,13 @@ CKyoujuroState * CIdleState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 CKyoujuroState * CIdleState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
 
+	if (m_ePreState == CKyoujuroState::STATE_JUMP)
+	{
+		pKyoujuro->Get_Model()->Play_Animation2(fTimeDelta);
+	}
+	else
+		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 
-	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 	return nullptr;
 }
 

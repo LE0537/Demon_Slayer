@@ -171,6 +171,8 @@
   <ItemGroup>
     <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
     <ClInclude Include="..\Public\Akaza.h" />
+    <ClInclude Include="..\Public\KyoujuroHitState.h" />
+    <ClInclude Include="..\Public\TanjiroHitState.h" />
     <ClInclude Include="..\Public\KyoujuroAtk_1_State.h" />
     <ClInclude Include="..\Public\KyoujuroAtk_2_State.h" />
     <ClInclude Include="..\Public\KyoujuroAtk_3_State.h" />
@@ -232,6 +234,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Akaza.cpp" />
+    <ClCompile Include="..\Private\KyoujuroHitState.cpp" />
+    <ClCompile Include="..\Private\TanjiroHitState.cpp" />
     <ClCompile Include="..\Private\KyoujuroAtk_1_State.cpp" />
     <ClCompile Include="..\Private\KyoujuroAtk_2_State.cpp" />
     <ClCompile Include="..\Private\KyoujuroAtk_3_State.cpp" />

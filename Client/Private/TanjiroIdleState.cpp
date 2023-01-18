@@ -54,6 +54,11 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 	else if (pGameInstance->Key_Down(DIK_J))
 		return new CAtk_1_State();
 
+
+
+	if (pGameInstance->Key_Down(DIK_M))
+		pTanjiro->Take_Damage();
+
 	return nullptr;
 }
 
