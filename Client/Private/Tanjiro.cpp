@@ -8,6 +8,7 @@
 #include "TanjiroState.h"
 #include "TanjiroIdleState.h"
 #include "TanjiroMoveState.h"
+#include "TanjiroHitState.h"
 #include "TanjiroWeapon.h"
 #include "TanjiroSheath.h"
 
@@ -218,6 +219,18 @@ void CTanjiro::Set_ShadowLightPos()
 
 	RELEASE_INSTANCE(CGameInstance);
 }
+
+
+void CTanjiro::Take_Damage()
+{
+	if(m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_HIT)
+		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_HIT);
+
+	CTanjiroState* pState = new CHitState();
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+}
+
+
 HRESULT CTanjiro::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)

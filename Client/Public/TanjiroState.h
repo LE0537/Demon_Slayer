@@ -26,6 +26,7 @@ public:
 		STATE_ATK_2,
 		STATE_ATK_3,
 		STATE_ATK_4,
+		STATE_HIT,
 		STATE_END
 	};
 

@@ -43,6 +43,9 @@ public:
 		ANIM_ATTACK_3 = 14,
 		ANIM_ATTACK_4 = 17,
 
+		// HIT
+		ANIM_HIT= 22,
+
 
 		ANIM_END = 100
 	};
@@ -66,6 +69,11 @@ public:
 	void   Set_AnimIndex(ANIMID iAnimIndex) {m_eAnimID = iAnimIndex;}
 	CCollider* Get_Collider() { return m_pSphereCom; }
 	CGameObject* Get_Weapon() { return m_pWeapon; }
+
+
+public:
+	void  Take_Damage();
+
 
 private:
 	HRESULT SetUp_ShaderResources();

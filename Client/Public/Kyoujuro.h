@@ -42,6 +42,9 @@ public:
 		ANIM_ATTACK_3 = 12,
 		ANIM_ATTACK_4 = 15,
 
+		// HIT
+		ANIM_HIT = 19,
+
 		ANIM_END = 100
 	};
 
@@ -72,6 +75,10 @@ private:
 	HRESULT Ready_Parts();
 	HRESULT Ready_Parts2();
 	void	Set_Info();
+
+public:
+	void  Take_Damage();
+
 private:
 	CModel*					m_pModelCom = nullptr;
 	CCollider*				m_pSphereCom = nullptr;
@@ -83,6 +90,7 @@ private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
 	void LateTickState(_float fTimeDelta);
+
 
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
