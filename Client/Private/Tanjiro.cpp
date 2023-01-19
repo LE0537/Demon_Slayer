@@ -75,7 +75,6 @@ void CTanjiro::Tick(_float fTimeDelta)
 		return;
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
-
 	m_pSphereCom->Update(matColl);
 }
 
@@ -90,10 +89,12 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 	dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);
 	dynamic_cast<CTanjiroSheath*>(m_pSheath)->Set_Render(true);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
 
-	if (g_bDebug)
+	if (g_bCollBox)
 	{
 		m_pRendererCom->Add_Debug(m_pSphereCom);
 	}
@@ -176,25 +177,7 @@ HRESULT CTanjiro::Render_ShadowDepth()
 
 	RELEASE_INSTANCE(CGameInstance);
 
-
-
 	return S_OK;
-}
-void CTanjiro::Set_ShadowLightPos()
-{
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-	_float4 vPos;
-	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
-	_float4 vAt = vPos;
-
-	vPos.x -= 15.f;
-	vPos.y += 30.f;
-	vPos.z -= 30.f;
-
-	pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW, vPos, vAt);
-
-	RELEASE_INSTANCE(CGameInstance);
 }
 
 

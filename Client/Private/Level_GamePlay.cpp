@@ -86,7 +86,9 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 	if (pGameInstance->Key_Down(DIK_F1))
 		g_bDebug = !g_bDebug;
 
-
+	if (pGameInstance->Key_Down(DIK_F2))
+		g_bCollBox = !g_bCollBox;
+	
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -119,7 +121,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
 	LightDesc.eType = LIGHTDESC::TYPE_FIELDSHADOW;
-	LightDesc.vDirection = _float4(-30.f, 30.f, -30.f, 0.f);
+	LightDesc.vDirection = _float4(-30.f, 60.f, -30.f, 0.f);
 	LightDesc.vDiffuse = _float4(50.f, 0.f, 30.f, 1.f);
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 

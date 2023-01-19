@@ -171,6 +171,8 @@
   <ItemGroup>
     <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
     <ClInclude Include="..\Public\Akaza.h" />
+    <ClInclude Include="..\public\BaseAtk.h" />
+    <ClInclude Include="..\public\CollBox.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\Effect_Manager.h" />
     <ClInclude Include="..\Public\Effect_Mesh.h" />
@@ -246,6 +248,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Akaza.cpp" />
+    <ClCompile Include="..\private\BaseAtk.cpp" />
+    <ClCompile Include="..\private\CollBox.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
     <ClCompile Include="..\Private\Effect_Manager.cpp" />
     <ClCompile Include="..\Private\Effect_Mesh.cpp" />

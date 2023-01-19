@@ -81,7 +81,6 @@ public:
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) {m_eAnimID = iAnimIndex;}
 	CCollider* Get_Collider() { return m_pSphereCom; }
-	CGameObject* Get_Weapon() { return m_pWeapon; }
 
 
 public:
@@ -91,9 +90,7 @@ public:
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
-	void	Set_ShadowLightPos();
-
-
+	
 
 
 private:

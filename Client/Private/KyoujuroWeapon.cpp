@@ -58,12 +58,8 @@ void CKyoujuroWeapon::Tick(_float fTimeDelta)
 		_vector vUp = matCollBox.r[1];
 		matCollBox.r[3] += XMVector3Normalize(vUp) * 2.f;
 
-		m_pOBBCom->Update(matCollBox);
 
-		if (g_bDebug)
-		{
-			m_pRendererCom->Add_Debug(m_pOBBCom);
-		}
+
 	}
 
 }
@@ -101,7 +97,47 @@ HRESULT CKyoujuroWeapon::Render()
 
 HRESULT CKyoujuroWeapon::Render_ShadowDepth()
 {
-	return E_NOTIMPL;
+	if (nullptr == m_pShaderCom ||
+		nullptr == m_pModelCom)
+		return E_FAIL;
+
+	_float4x4		WorldMatrix;
+	XMStoreFloat4x4(&WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_CombinedWorldMatrix)));
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+
+	_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
+	_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
+	_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
+	_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+		return E_FAIL;
+
+
+
+	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
+
+	for (_uint i = 0; i < iNumMeshes; ++i)
+	{
+		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+			return E_FAIL;
+
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 1)))
+			return E_FAIL;
+
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
 }
 
 HRESULT CKyoujuroWeapon::Ready_Components()
@@ -129,16 +165,7 @@ HRESULT CKyoujuroWeapon::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("KyoujuroWeapon"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 	
-	CCollider::COLLIDERDESC		ColliderDesc;
 
-	/* For.Com_AABB */
-	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
-
-	/* For.Com_OBB*/
-	ColliderDesc.vScale = _float3(50.f, 150.f, 50.f);
-	ColliderDesc.vPosition = _float3(0.f, 30.f, 0.f);
-	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -206,6 +233,5 @@ void CKyoujuroWeapon::Free()
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pRendererCom);
 }

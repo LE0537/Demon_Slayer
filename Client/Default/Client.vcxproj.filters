@@ -238,6 +238,12 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard">
       <UniqueIdentifier>{b6a0ca98-f4ec-48cc-888c-ccc14f0f7609}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox">
+      <UniqueIdentifier>{6c6371c4-224e-49ae-bac9-6bab46ee7b7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.CollBox\00.BaseAtk">
+      <UniqueIdentifier>{31165b9a-341b-45b7-9083-db4dc76b53af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -465,6 +471,12 @@
     <ClInclude Include="..\Public\KyoujuroGuardAdvState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BaseAtk.h">
+      <Filter>05.CollBox\00.BaseAtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CollBox.h">
+      <Filter>05.CollBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -673,6 +685,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroGuardAdvState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BaseAtk.cpp">
+      <Filter>05.CollBox\00.BaseAtk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CollBox.cpp">
+      <Filter>05.CollBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,6 @@
 BEGIN(Engine)
 class CTexture;
 class CShader;
-class CCollider;
 class CRenderer;
 class CTransform;
 class CModel;
@@ -45,7 +44,6 @@ private:
 	CTransform*				m_pTransformCom = nullptr;
 	CModel*					m_pModelCom = nullptr;
 
-	CCollider*				m_pOBBCom = nullptr;
 private:
 	WEAPONDESC				m_WeaponDesc;
 	_float4x4				m_CombinedWorldMatrix;
@@ -58,7 +56,6 @@ public:
 	void Set_Render(_bool _bRender) {
 		m_bRender = _bRender;
 	}
-	CCollider* Get_WeaponColl() { return m_pOBBCom; }
 private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
