@@ -30,7 +30,7 @@ CKyoujuroState * CGuardHitState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_HIT_0, 0.2f);
 	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_HIT_1, 0.2f);
 
-	printf_s("type : %d state : %d anim : %d \n", (int)m_eStateType, (int)m_eStateId, (int)pKyoujuro->Get_AnimIndex());
+	
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 

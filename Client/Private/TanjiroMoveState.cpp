@@ -6,6 +6,7 @@
 #include "TanjiroAtk_1_State.h"
 #include "Characters.h"
 #include "Layer.h"
+#include "TanjiroDashState.h"
 using namespace Tanjiro;
 
 
@@ -20,25 +21,35 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 
-	if(pGameInstance->Key_Down(DIK_J))
-			return new CAtk_1_State();
+	if (pGameInstance->Key_Down(DIK_J))
+		return new CAtk_1_State();
+
 
 
 
 	if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 	{
-		 if (pGameInstance->Key_Pressing(DIK_A)) // аб
+		if (pGameInstance->Key_Pressing(DIK_A)) // аб 
 		{
+
+		if (pGameInstance->Key_Pressing(DIK_L))
+			return new CDashState(DIR_LF);
+
 			if (pGameInstance->Key_Down(DIK_SPACE))
 			{
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
 				return new CMoveJumpState(OBJDIR::DIR_LF, CTanjiroState::TYPE_START, fPositionY, 0.f);
 			}
+
 			return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_LOOP);
 		}
+
 		else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
 		{
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_RF);
+
 			if (pGameInstance->Key_Down(DIK_SPACE))
 			{
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -49,6 +60,10 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 		}
 		else
 		{
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_STRAIGHT);
+
+
 			if (pGameInstance->Key_Down(DIK_SPACE))
 			{
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -62,8 +77,12 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 
 	else if (pGameInstance->Key_Pressing(DIK_S)) // ╣з
 	{
-		 if (pGameInstance->Key_Pressing(DIK_A)) // аб
+		if (pGameInstance->Key_Pressing(DIK_A)) // аб
 		{
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_LB);
+
+
 			if (pGameInstance->Key_Down(DIK_SPACE))
 			{
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -72,8 +91,13 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			}
 			return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_LOOP);
 		}
+
 		else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л 
 		{
+
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_RB);
+
 			if (pGameInstance->Key_Down(DIK_SPACE))
 			{
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -90,6 +114,10 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 				_float fPositionY = XMVectorGetY(vPosition);
 				return new CMoveJumpState(OBJDIR::DIR_BACK, CTanjiroState::TYPE_START, fPositionY, 0.f);
 			}
+
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_BACK);
+
 			return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_LOOP);
 		}
 	}
@@ -97,16 +125,24 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 
 	else if (pGameInstance->Key_Pressing(DIK_A)) // аб
 	{
+		if (pGameInstance->Key_Pressing(DIK_L))
+			return new CDashState(DIR_LEFT);
+
 		if (pGameInstance->Key_Down(DIK_SPACE))
 		{
 			_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_float fPositionY = XMVectorGetY(vPosition);
 			return new CMoveJumpState(OBJDIR::DIR_LEFT, CTanjiroState::TYPE_START, fPositionY, 0.f);
 		}
+
 		return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_LOOP);
 	}
 	else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
 	{
+		if (pGameInstance->Key_Pressing(DIK_L))
+			return new CDashState(DIR_RIGHT);
+
+
 		if (pGameInstance->Key_Down(DIK_SPACE))
 		{
 			_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -117,7 +153,6 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 	}
 	else
 		return new CIdleState();
-
 
 
 	return nullptr;

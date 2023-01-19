@@ -43,7 +43,7 @@ CKyoujuroState * CGuardState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_1, 0.01f);
 	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_2, 0.0f);
 
-	printf_s("type : %d state : %d anim : %d \n", (int)m_eStateType, (int)m_eStateId, (int)pKyoujuro->Get_AnimIndex());
+	
 
 	if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
 	{  
@@ -54,7 +54,6 @@ CKyoujuroState * CGuardState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 			return new CGuardState(STATE_TYPE::TYPE_LOOP);
 			break;
 		case Client::CKyoujuroState::TYPE_LOOP:
-			m_fTime = (pKyoujuro->Get_AnimIndex());
 			break;
 		case Client::CKyoujuroState::TYPE_END:
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());

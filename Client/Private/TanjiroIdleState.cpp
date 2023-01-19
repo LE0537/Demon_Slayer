@@ -7,6 +7,7 @@
 #include "TanjiroAtk_1_State.h"
 #include "TanjiroGuardState.h"
 #include "TanjiroGuardHitState.h"
+#include "TanjiroDashState.h"
 using namespace Tanjiro;
 
 
@@ -63,6 +64,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 	else if (pGameInstance->Key_Down(DIK_I))
 		return new CGuardHitState(STATE_TYPE::TYPE_LOOP);
 
+
 	return nullptr;
 }
 
@@ -96,6 +98,7 @@ void CIdleState::Enter(CTanjiro * pTanjiro)
 
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_IDLE);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_IDLE);
+
 
 }
 

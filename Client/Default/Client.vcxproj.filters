@@ -399,9 +399,6 @@
     <ClInclude Include="..\Public\KyoujuroJumpState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump</Filter>
     </ClInclude>
-    <ClInclude Include="KyoujuroMoveState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\TanjiroMoveJumpState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move\MoveJump</Filter>
     </ClInclude>
@@ -500,6 +497,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\TanjiroDashState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroMoveState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -629,9 +629,6 @@
     <ClCompile Include="..\Private\KyoujuroJumpState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump</Filter>
     </ClCompile>
-    <ClCompile Include="KyoujuroMoveState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Level_GamePlay.cpp">
       <Filter>01.Levels\02.GamePlay</Filter>
     </ClCompile>
@@ -736,6 +733,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroDashState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Public\KyoujuroMoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

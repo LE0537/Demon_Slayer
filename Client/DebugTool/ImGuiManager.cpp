@@ -30,7 +30,7 @@ HRESULT CImGuiManager::Initialize(ID3D11Device * pDevice, ID3D11DeviceContext * 
 	m_bImguiEnable = true;
 
 	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
-	m_pRendererCom = (CRenderer*)pOut;
+	m_pRendererCom = (CRenderer*)pOut; 
 
 	if(nullptr == m_pRendererCom)
 	{
