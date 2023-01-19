@@ -189,6 +189,7 @@
     <ClInclude Include="..\Public\KyoujuroGuardState.h" />
     <ClInclude Include="..\Public\KyoujuroHitState.h" />
     <ClInclude Include="..\public\Level_SelectChar.h" />
+    <ClInclude Include="..\Public\TanjiroDashState.h" />
     <ClInclude Include="..\Public\TanjiroGuardAdvState.h" />
     <ClInclude Include="..\Public\TanjiroGuardHitState.h" />
     <ClInclude Include="..\Public\TanjiroGuardState.h" />
@@ -276,6 +277,7 @@
     <ClCompile Include="..\Private\KyoujuroGuardState.cpp" />
     <ClCompile Include="..\Private\KyoujuroHitState.cpp" />
     <ClCompile Include="..\private\Level_SelectChar.cpp" />
+    <ClCompile Include="..\Private\TanjiroDashState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardHitState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardState.cpp" />

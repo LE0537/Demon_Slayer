@@ -244,6 +244,9 @@
     <Filter Include="95.DebugTool\Default">
       <UniqueIdentifier>{24790ce1-7b11-47d8-a96e-384f45a5e604}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Dash">
+      <UniqueIdentifier>{074c728c-0f61-42e6-b314-1bd3ccd109e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -495,6 +498,9 @@
     <ClInclude Include="..\DebugTool\ImGuiManager.h">
       <Filter>95.DebugTool</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroDashState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Dash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -727,6 +733,9 @@
     </ClCompile>
     <ClCompile Include="..\DebugTool\ImGuiManager.cpp">
       <Filter>95.DebugTool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroDashState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Dash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

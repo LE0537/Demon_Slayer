@@ -107,6 +107,7 @@ public:
 	void Set_Rotation(_float3 fAngle);
 	void Set_RotationY(_float fAngleY);
 	// 사용법 x축 기준으로  90도 회전하고 싶으면 _float3(90.f,0.f,0.f) 넣어주면 됨
+	void Set_PlayerLookAt(_fvector vAt);
 private:
 	_float m_fCurrentRotationX = 0.f;
 	_float m_fCurrentRotationY = 0.f;

@@ -60,6 +60,18 @@ public:
 		ANIM_GUARD_HIT_1 = 64,
 
 
+		// DASH
+		ANIM_DASH_AB = 75,
+		ANIM_DASH_AF = 76,
+		ANIM_DASH_AL = 77,
+		ANIM_DASH_AR = 78,
+		ANIM_DASH_B = 79,
+		ANIM_DASH_F = 80,
+		ANIM_DASH_L_01 = 81,
+		ANIM_DASH_L_02 = 82,
+		ANIM_DASH_R_01 = 83,
+		ANIM_DASH_R_02 = 84,
+
 		ANIM_END = 100
 	};
 
