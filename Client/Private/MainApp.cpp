@@ -11,7 +11,7 @@
 #include "ImGuiManager.h"
 
 bool			g_bDebug = false;
-
+bool			g_bCollBox = false;
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())
 	, m_pImGuiManager(CImGuiManager::Get_Instance())

@@ -179,6 +179,8 @@
     <ClInclude Include="..\DebugTool\imstb_textedit.h" />
     <ClInclude Include="..\DebugTool\imstb_truetype.h" />
     <ClInclude Include="..\Public\Akaza.h" />
+    <ClInclude Include="..\public\BaseAtk.h" />
+    <ClInclude Include="..\public\CollBox.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\Effect_Manager.h" />
     <ClInclude Include="..\Public\Effect_Mesh.h" />
@@ -267,6 +269,8 @@
     <ClCompile Include="..\DebugTool\imgui_tables.cpp" />
     <ClCompile Include="..\DebugTool\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\Akaza.cpp" />
+    <ClCompile Include="..\private\BaseAtk.cpp" />
+    <ClCompile Include="..\private\CollBox.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
     <ClCompile Include="..\Private\Effect_Manager.cpp" />
     <ClCompile Include="..\Private\Effect_Mesh.cpp" />

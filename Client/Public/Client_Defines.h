@@ -18,6 +18,6 @@ namespace Client
 extern HWND			g_hWnd;
 extern HINSTANCE	g_hInst;
 extern bool			g_bDebug;
-
+extern bool			g_bCollBox;
 
 using namespace Client;

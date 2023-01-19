@@ -11,6 +11,12 @@ using namespace Tanjiro;
 
 CAtk_4_State::CAtk_4_State()
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+		return;
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 CTanjiroState * CAtk_4_State::HandleInput(CTanjiro * pTanjiro)
@@ -76,37 +82,45 @@ CTanjiroState * CAtk_4_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
-
+			vPos.m128_f32[1] = 0.f;
 			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
 		}
 	}
-	if (!m_bHit)
+	else if (m_fMove > 0.15f)
 	{
-		CCollider*	pMyCollider = dynamic_cast<CTanjiroWeapon*>(pTanjiro->Get_Weapon())->Get_WeaponColl();
-		CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
-
-		if (nullptr == pTargetCollider)
-			return nullptr;
-
-		if (pMyCollider->Collision(pTargetCollider))
+		if (!m_bHit)
 		{
-			_float4 vTagetPos;
-			XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+			_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+			_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+			vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
+			vCollPos.m128_f32[1] = 1.f; //추가
+			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+			CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
 
-			_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			vPos.m128_f32[1] = 0.f;
-			m_pTarget->Get_Transform()->LookAt(vPos);
-			m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 3);
-			dynamic_cast<CKyoujuro*>(m_pTarget)->Take_Damage(0.5f);
+			if (nullptr == pTargetCollider)
+				return nullptr;
 
-			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-			vTagetPos.y += 2.f;
-			pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT, vTagetPos);
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_float4 vTagetPos;
+				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-			RELEASE_INSTANCE(CEffect_Manager);
+				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				vPos.m128_f32[1] = 0.f;
+				m_pTarget->Get_Transform()->LookAt(vPos);
+				m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 3);
+				dynamic_cast<CKyoujuro*>(m_pTarget)->Take_Damage(0.5f);
 
-			m_bHit = true;
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				vTagetPos.y += 2.f;
+				pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT, vTagetPos);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				m_bHit = true;
+			}
 		}
 	}
 	RELEASE_INSTANCE(CGameInstance);
@@ -125,5 +139,6 @@ void CAtk_4_State::Enter(CTanjiro * pTanjiro)
 
 void CAtk_4_State::Exit(CTanjiro * pTanjiro)
 {
+	m_pCollBox->Set_Dead(); //추가
 }
 

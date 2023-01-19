@@ -240,15 +240,11 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	}
 	vector			vLook = vWorldPos - g_vCamPosition;
 
-	if (vNormalDesc.w == 1.f)
-	{
-		Out.vSpecular = 0.f;
-	}
-	else
-	{
-		Out.vSpecular = (g_vLightSpecular * g_vMtrlSpecular) * pow(saturate(dot(normalize(vReflect) * -1.f, normalize(vLook))), 256.f);
-		Out.vSpecular.a = 0.f;
-	}
+	Out.vSpecular = 0.f;
+
+	//Out.vSpecular = (g_vLightSpecular * g_vMtrlSpecular) * pow(saturate(dot(normalize(vReflect) * -1.f, normalize(vLook))), 256.f);
+	//Out.vSpecular.a = 0.f;
+	
 
 	return Out;
 }

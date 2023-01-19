@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TanjiroState.h"
+#include "BaseAtk.h"
 
 BEGIN(Client)
 BEGIN(Tanjiro)
@@ -19,6 +20,8 @@ public:
 
 
 private:
+	CBaseAtk*	m_pCollBox = nullptr;
+
 	_bool m_bAtkCombo = false;
 	_float m_fTime = 0.f;
 	_float m_fComboDelay = 0.f;
