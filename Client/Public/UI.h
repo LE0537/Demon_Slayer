@@ -21,9 +21,11 @@ public:
 	{
 		_bool			bReversal;
 		_uint			iTextureNum;
+		_uint			iLayerNum;
 		_float2			vPos;
 		_float2			vScale;
 		_float			vRot;
+		_uint			iLevelIndex;
 		CCharacters*	pTarget;
 	}THROWUIINFO;
 

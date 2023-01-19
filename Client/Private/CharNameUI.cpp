@@ -29,7 +29,10 @@ HRESULT CCharNameUI::Initialize(void * pArg)
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
-	Name_Selected(m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName);
+	if (m_ThrowUIinfo.iLevelIndex != LEVEL_SELECTCHAR)
+	{
+		Name_Selected(m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName);
+	}
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
@@ -107,7 +110,7 @@ HRESULT CCharNameUI::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"), (CComponent**)&m_pShaderCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_UIVtxTex"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
