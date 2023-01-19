@@ -38,6 +38,8 @@ private:
 	void	Key_Input(_float fTimeDelta);
 	void	Set_ShadowLightPos();
 public:
+	virtual	void  Take_Damage(_float _fPow);
+	virtual	void  Get_GuardHit(_int eType);
 
 private:
 	CModel*					m_pModelCom = nullptr;

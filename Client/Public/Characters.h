@@ -47,17 +47,21 @@ protected:
 		_float		fPowerUpTime;
 		_int		iFriendMaxBar; //맥스친구게이지
 		_int		iFriendBar;    //친구게이지
-
+		_bool		bGuard;
 	}PLAYERINFO;
 
 public:
-	PLAYERINFO Get_PlayerInfo() { return m_tInfo; };
+	PLAYERINFO Get_PlayerInfo() { return m_tInfo; }
 	void	   Set_Hp(_int _iDmg) { m_tInfo.iHp += _iDmg; }
+	void	   Set_bGuard(_bool _bGuard) { m_tInfo.bGuard = _bGuard; }
+
+	virtual	void  Take_Damage(_float _fPow) = 0;
+	virtual	void  Get_GuardHit(_int eType) = 0;
 protected:
 	PLAYERINFO		m_tInfo;
 
 public:
-	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+//	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };

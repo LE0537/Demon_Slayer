@@ -23,7 +23,7 @@ CTanjiroState * CGuardHitState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CGuardHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-
+	pTanjiro->Set_bGuard(true);
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_GUARD_HIT_0);
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_GUARD_HIT_1);
 	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_GUARD_HIT_0, 0.2f);
@@ -53,16 +53,25 @@ CTanjiroState * CGuardHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	return nullptr;
 
-
-
-
-
-
-	return nullptr;
 }
 
 CTanjiroState * CGuardHitState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	m_fTime += fTimeDelta;
+	switch (m_eStateType)
+	{
+	case Client::CTanjiroState::TYPE_START:
+		pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.3f);
+		break;
+	case Client::CTanjiroState::TYPE_LOOP:
+		if (m_fTime < 0.3f)
+		{
+			pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.6f);
+		}
+		break;
+	default:
+		break;
+	}
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;

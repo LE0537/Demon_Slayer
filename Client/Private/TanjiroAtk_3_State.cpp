@@ -7,6 +7,7 @@
 #include "Layer.h"
 #include "Kyoujuro.h"
 #include "Effect_Manager.h"
+
 using namespace Tanjiro;
 
 
@@ -69,8 +70,6 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	vLooAt.m128_f32[1] = 0.f;
 	pTanjiro->Get_Transform()->LookAt(vLooAt);
 
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
-
 	m_fMove += fTimeDelta;
 
 	if (m_fMove < 0.5f)
@@ -104,7 +103,7 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
 		}
 	}
-	else
+	else if (m_fMove < 0.65f)
 	{
 		if (!m_bHit)
 		{
@@ -127,8 +126,16 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				vPos.m128_f32[1] = 0.f;
 				m_pTarget->Get_Transform()->LookAt(vPos);
-				m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 3);
-				dynamic_cast<CKyoujuro*>(m_pTarget)->Take_Damage(0.6f);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 2);
+					m_pTarget->Take_Damage(0.6f);
+				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				vTagetPos.y += 2.f;
@@ -142,6 +149,8 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
 
 	return nullptr;
 }

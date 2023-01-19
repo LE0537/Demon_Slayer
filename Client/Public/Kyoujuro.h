@@ -89,7 +89,8 @@ private:
 	void	Set_Info();
 
 public:
-	void  Take_Damage(_float _fPow);
+	virtual void  Take_Damage(_float _fPow);
+	virtual void  Get_GuardHit(_int eType);
 
 private:
 	CModel*					m_pModelCom = nullptr;

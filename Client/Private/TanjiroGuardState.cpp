@@ -3,6 +3,8 @@
 #include "TanjiroIdleState.h"
 #include "TanjiroGuardAdvState.h"
 #include "GameInstance.h"
+#include "Layer.h"
+
 using namespace Tanjiro;
 
 
@@ -18,6 +20,7 @@ CTanjiroState * CGuardState::HandleInput(CTanjiro * pTanjiro)
 
 	if (pGameInstance->Key_Pressing(DIK_O) && m_eStateType != STATE_TYPE::TYPE_END)
 	{
+		pTanjiro->Set_bGuard(true);
 		if (pGameInstance->Key_Down(DIK_W) || pGameInstance->Key_Down(DIK_S) || pGameInstance->Key_Down(DIK_A) || pGameInstance->Key_Down(DIK_D))
 			return new CGuardAdvState();
 		else
@@ -69,9 +72,17 @@ CTanjiroState * CGuardState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 CTanjiroState * CGuardState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"))->Get_LayerFront();
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLooAt.m128_f32[1] = 0.f;
+	pTanjiro->Get_Transform()->LookAt(vLooAt);
+
+
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 
-
+	RELEASE_INSTANCE(CGameInstance);
 	return nullptr;
 }
 

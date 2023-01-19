@@ -225,6 +225,14 @@ void CAkaza::Set_Info()
 	m_tInfo.iFriendBar;
 }
 
+void CAkaza::Take_Damage(_float _fPow)
+{
+}
+
+void CAkaza::Get_GuardHit(_int eType)
+{
+}
+
 CAkaza * CAkaza::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CAkaza*	pInstance = new CAkaza(pDevice, pContext);

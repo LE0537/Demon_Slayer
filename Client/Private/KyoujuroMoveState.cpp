@@ -8,7 +8,6 @@
 #include "Characters.h"
 #include "Layer.h"
 
-
 using namespace Kyoujuro;
 
 

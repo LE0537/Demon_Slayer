@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TanjiroState.h"
-
+#include "BaseAtk.h"
 BEGIN(Client)
 BEGIN(Tanjiro)
 class CGuardAdvState : public CTanjiroState
@@ -17,6 +17,11 @@ public:
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
 
+private:
+	CBaseAtk*	m_pCollBox = nullptr;
+
+	_float m_fMove = 0.f;
+	_bool  m_bHit = false;
 };
 END
 END

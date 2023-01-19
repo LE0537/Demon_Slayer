@@ -7,6 +7,7 @@
 #include "Layer.h"
 #include "Kyoujuro.h"
 #include "Effect_Manager.h"
+
 using namespace Tanjiro;
 
 
@@ -69,7 +70,6 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	vLooAt.m128_f32[1] = 0.f;
 	pTanjiro->Get_Transform()->LookAt(vLooAt);
 
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 0.7f);
 	m_fMove += fTimeDelta;
 	if (m_fMove < 0.3f)
 	{
@@ -95,8 +95,16 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				vPos.m128_f32[1] = 0.f;
 				m_pTarget->Get_Transform()->LookAt(vPos);
-				m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
-				dynamic_cast<CKyoujuro*>(m_pTarget)->Take_Damage(0.0f);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.3f);
+				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				vTagetPos.y += 2.f;
@@ -108,7 +116,7 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			}
 		}
 	}
-	else if (m_fMove >= 0.3f)
+	else if (m_fMove < 0.45f && m_fMove >= 0.3f)
 	{
 		if (!m_bHit)
 		{
@@ -130,8 +138,16 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				vPos.m128_f32[1] = 0.f;
 				m_pTarget->Get_Transform()->LookAt(vPos);
-				m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
-				dynamic_cast<CKyoujuro*>(m_pTarget)->Take_Damage(0.3f);
+				
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.f);
+				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				vTagetPos.y += 2.f;
@@ -146,6 +162,7 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	RELEASE_INSTANCE(CGameInstance);
 
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 0.7f);
 
 	return nullptr;
 }

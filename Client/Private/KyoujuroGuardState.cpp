@@ -18,8 +18,9 @@ CKyoujuroState * CGuardState::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	if (pGameInstance->Key_Pressing(DIK_O) && m_eStateType != STATE_TYPE::TYPE_END)
+	if (pGameInstance->Key_Pressing(DIK_C) && m_eStateType != STATE_TYPE::TYPE_END)
 	{
+		pKyoujuro->Set_bGuard(true);
 		if (pGameInstance->Key_Down(DIK_LEFT) || pGameInstance->Key_Down(DIK_UP) || pGameInstance->Key_Down(DIK_DOWN) || pGameInstance->Key_Down(DIK_RIGHT))
 			return new CGuardAdvState();
 		else
@@ -27,8 +28,6 @@ CKyoujuroState * CGuardState::HandleInput(CKyoujuro * pKyoujuro)
 	}
 	else
 		return new CGuardState(STATE_TYPE::TYPE_END);
-
-
 
 	return nullptr;
 }
@@ -74,9 +73,17 @@ CKyoujuroState * CGuardState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 
 CKyoujuroState * CGuardState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront();
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLooAt.m128_f32[1] = 0.f;
+	pKyoujuro->Get_Transform()->LookAt(vLooAt);
+
+
 	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 
-
+	RELEASE_INSTANCE(CGameInstance);
 
 	return nullptr;
 }

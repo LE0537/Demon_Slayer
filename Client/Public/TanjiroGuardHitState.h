@@ -17,7 +17,8 @@ public:
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
 
-
+private:
+	_float m_fTime = 0.f;
 };
 END
 END

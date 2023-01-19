@@ -19,7 +19,7 @@ CIdleState::CIdleState(STATE_ID eState)
 CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
+	pTanjiro->Set_bGuard(false);
 	if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 	{
 		if (pGameInstance->Key_Pressing(DIK_A)) // аб
@@ -51,17 +51,11 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		_float fPositionY = XMVectorGetY(vPosition);
 		return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 	}
-	//else if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
-	//	return new CAtk_1_State();
 	else if (pGameInstance->Key_Down(DIK_J))
 		return new CAtk_1_State();
-
-	if (pGameInstance->Key_Pressing(DIK_O))
+	else if (pGameInstance->Key_Pressing(DIK_O))
 		return new CGuardState(STATE_TYPE::TYPE_START);
-	else if (pGameInstance->Key_Pressing(DIK_P))
-		return new CGuardHitState(STATE_TYPE::TYPE_START);
-	else if (pGameInstance->Key_Down(DIK_I))
-		return new CGuardHitState(STATE_TYPE::TYPE_LOOP);
+
 
 	return nullptr;
 }

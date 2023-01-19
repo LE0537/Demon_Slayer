@@ -11,7 +11,7 @@
 #include "TanjiroHitState.h"
 #include "TanjiroWeapon.h"
 #include "TanjiroSheath.h"
-
+#include "TanjiroGuardHitState.h"
 using namespace Tanjiro;
 
 
@@ -190,6 +190,22 @@ void CTanjiro::Take_Damage(_float _fPow)
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
 
+void CTanjiro::Get_GuardHit(_int eType)
+{
+	CTanjiroState* pState;
+	if (eType == CTanjiroState::STATE_TYPE::TYPE_START)
+	{
+		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_GUARD_HIT_0);
+		pState = new CGuardHitState(CTanjiroState::STATE_TYPE::TYPE_START);
+	}
+	else
+	{
+		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_GUARD_HIT_1);
+		pState = new CGuardHitState(CTanjiroState::STATE_TYPE::TYPE_LOOP);
+	}
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+}
+
 
 HRESULT CTanjiro::SetUp_ShaderResources()
 {
@@ -332,7 +348,7 @@ void CTanjiro::Set_Info()
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
 	m_tInfo.iUnicMaxBar = 100;
 	m_tInfo.iUnicBar = 0;
-	m_tInfo.iDmg = 30;
+	m_tInfo.iDmg = 10;
 	m_tInfo.iCombo = 0;
 	m_tInfo.fComboTime = 0.f;
 	m_tInfo.bPowerUp = false;

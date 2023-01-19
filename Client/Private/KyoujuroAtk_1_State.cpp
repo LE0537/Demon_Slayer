@@ -7,6 +7,7 @@
 #include "Layer.h"
 #include "Tanjiro.h"
 #include "Effect_Manager.h"
+
 using namespace Kyoujuro;
 
 
@@ -24,7 +25,7 @@ CKyoujuroState * CAtk_1_State::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
+	if (pGameInstance->Key_Down(DIK_Z))
 		m_bAtkCombo = true;
 
 	//if (pGameInstance->Key_Down(DIK_J) && m_fComboDelay <= 43.f)
@@ -68,8 +69,6 @@ CKyoujuroState * CAtk_1_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 	vLooAt.m128_f32[1] = 0.f;
 	pKyoujuro->Get_Transform()->LookAt(vLooAt);
 
-	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
-
 	m_fMove += fTimeDelta;
 
 	if (m_fMove < 0.3f)
@@ -96,8 +95,16 @@ CKyoujuroState * CAtk_1_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 				_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				vPos.m128_f32[1] = 0.f;
 				m_pTarget->Get_Transform()->LookAt(vPos);
-				m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg);
-				dynamic_cast<CTanjiro*>(m_pTarget)->Take_Damage(0.3f);
+		
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.3f);
+				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				vTagetPos.y += 2.f;
@@ -134,6 +141,8 @@ CKyoujuroState * CAtk_1_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 
 	return nullptr;
 }

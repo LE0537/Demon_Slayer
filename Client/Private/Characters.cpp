@@ -43,31 +43,32 @@ HRESULT CCharacters::Render_ShadowDepth()
 	return S_OK;
 }
 
-CCharacters * CCharacters::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
-{
-	CCharacters*	pInstance = new CCharacters(pDevice, pContext);
-
-	if (FAILED(pInstance->Initialize_Prototype()))
-	{
-		ERR_MSG(TEXT("Failed to Created : CCharacters"));
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
+//CCharacters * CCharacters::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+//{
+//	CCharacters*	pInstance = new CCharacters(pDevice, pContext);
+//
+//	if (FAILED(pInstance->Initialize_Prototype()))
+//	{
+//		ERR_MSG(TEXT("Failed to Created : CCharacters"));
+//		Safe_Release(pInstance);
+//	}
+//
+//	return pInstance;
+//}
 
 
 CGameObject * CCharacters::Clone(void * pArg)
 {
-	CGameObject*	pInstance = new CCharacters(*this);
+	//CGameObject*	pInstance = new CCharacters(*this);
 
-	if (FAILED(pInstance->Initialize(pArg)))
-	{
-		ERR_MSG(TEXT("Failed to Cloned : CCharacters"));
-		Safe_Release(pInstance);
-	}
+	//if (FAILED(pInstance->Initialize(pArg)))
+	//{
+	//	ERR_MSG(TEXT("Failed to Cloned : CCharacters"));
+	//	Safe_Release(pInstance);
+	//}
 
-	return pInstance;
+	//return pInstance;
+	return nullptr;
 }
 
 void CCharacters::Free()

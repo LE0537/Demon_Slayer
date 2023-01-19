@@ -190,6 +190,7 @@
     <ClInclude Include="..\Public\KyoujuroGuardHitState.h" />
     <ClInclude Include="..\Public\KyoujuroGuardState.h" />
     <ClInclude Include="..\Public\KyoujuroHitState.h" />
+    <ClInclude Include="..\Public\KyoujuroMoveState.h" />
     <ClInclude Include="..\public\Level_SelectChar.h" />
     <ClInclude Include="..\Public\TanjiroDashState.h" />
     <ClInclude Include="..\Public\TanjiroGuardAdvState.h" />
@@ -250,7 +251,6 @@
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Manager.h" />
     <ClInclude Include="Client.h" />
-    <ClInclude Include="KyoujuroMoveState.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -280,6 +280,7 @@
     <ClCompile Include="..\Private\KyoujuroGuardHitState.cpp" />
     <ClCompile Include="..\Private\KyoujuroGuardState.cpp" />
     <ClCompile Include="..\Private\KyoujuroHitState.cpp" />
+    <ClCompile Include="..\Private\KyoujuroMoveState.cpp" />
     <ClCompile Include="..\private\Level_SelectChar.cpp" />
     <ClCompile Include="..\Private\TanjiroDashState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />
@@ -337,7 +338,6 @@
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Manager.cpp" />
     <ClCompile Include="Client.cpp" />
-    <ClCompile Include="KyoujuroMoveState.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -43,13 +43,9 @@ CTanjiroState * CAtk_1_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	m_fTime += fTimeDelta * 60;
 	m_fComboDelay += fTimeDelta * 60;
-	//printf_s("AttackTime : %f \n", (_float)m_fComboDelay);
-
 
 	if (m_bAtkCombo == true && m_fTime >= 33.f)
 		return new CAtk_2_State();
-
-
 
 	if (pTanjiro->Get_Model()->Get_End(CTanjiro::ANIM_ATTACK_1))
 	{
@@ -72,14 +68,12 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	vLooAt.m128_f32[1] = 0.f;
 	pTanjiro->Get_Transform()->LookAt(vLooAt);
 
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
-
 	m_fMove += fTimeDelta;
 	
 	if (m_fMove < 0.3f)
 	{
 		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
-	
+		
 		_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
@@ -95,14 +89,21 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 			if (pMyCollider->Collision(pTargetCollider))
 			{
-
 				_float4 vTagetPos;
 				XMStoreFloat4(&vTagetPos,m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				vPos.m128_f32[1] = 0.f;
 				m_pTarget->Get_Transform()->LookAt(vPos);
-				m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
-				dynamic_cast<CKyoujuro*>(m_pTarget)->Take_Damage(0.3f);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.3f);
+				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				vTagetPos.y += 2.f;
@@ -138,6 +139,8 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 
 	return nullptr;
 }

@@ -96,8 +96,8 @@ public:
 
 
 public:
-	void  Take_Damage(_float _fPow);
-
+	virtual	void  Take_Damage(_float _fPow);
+	virtual	void  Get_GuardHit(_int eType);
 
 private:
 	HRESULT SetUp_ShaderResources();
