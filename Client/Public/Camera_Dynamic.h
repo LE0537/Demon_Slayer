@@ -34,9 +34,9 @@ private:
 
 private:
 	void	Set_CamPos();
+	void	Move_CamPos(_float fTimeDelta);
 	void	Lerp_SubCam(_float fTimeDelta);
-	void	Check_Clockwise();
-
+	void	ConvertToViewPort();
 public:
 	void Set_Target(CGameObj* _pTarget) { m_pTarget = _pTarget; }
 
@@ -44,6 +44,11 @@ private:
 	CGameObj*				m_pPlayer = nullptr;
 	CGameObj*				m_pTarget = nullptr;
 
+	_float4					m_vPlayerPos, m_vTargetPos;
+	_float4					m_vPoint;
+	_float					m_f1pX = 0.f;
+	_float					m_f2pX = 0.f;
+	_float					m_fAngle = 0.f;
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 
