@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SelP1Cursor.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CSelP1Cursor::CSelP1Cursor(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -29,6 +30,9 @@ HRESULT CSelP1Cursor::Initialize(void * pArg)
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		m_iImgNum = 0;
+
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
@@ -44,6 +48,9 @@ HRESULT CSelP1Cursor::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 	
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	pUI_Manager->Set_1PCursor(this);
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
@@ -51,9 +58,38 @@ HRESULT CSelP1Cursor::Initialize(void * pArg)
 void CSelP1Cursor::Tick(_float fTimeDelta)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	_float fP2CursorX = pUI_Manager->Get_2PCursor()->Get_fX();
+	_float fP2CursorY = pUI_Manager->Get_2PCursor()->Get_fY();
+
+	if (fP2CursorX == m_fX && fP2CursorY == m_fY)
+		m_iImgNum = 2;
+	else
+		m_iImgNum = 0;
+
+	if (!m_bSelectCheck)
+	{
+		if (pGameInstance->Key_Down(DIK_D))
+		{
+			if (m_fX < 700.f)
+				m_fX += 65.f;
+		}
+		else if (pGameInstance->Key_Down(DIK_A))
+		{
+			if (m_fX > 505.f)
+				m_fX -= 65.f;
+		}
+	}
+
+	if (pGameInstance->Key_Down(DIK_E))
+		m_bSelectCheck = true;
+	else if(pGameInstance->Key_Down(DIK_Q))
+		m_bSelectCheck = false;
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 
+	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -77,7 +113,8 @@ HRESULT CSelP1Cursor::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	if (!m_bSelectCheck)
+		m_pVIBufferCom->Render();
 
 	return S_OK;
 }
@@ -97,7 +134,7 @@ HRESULT CSelP1Cursor::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_P1Cursor"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelCursor"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -119,7 +156,7 @@ HRESULT CSelP1Cursor::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;

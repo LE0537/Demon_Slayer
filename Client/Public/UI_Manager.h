@@ -33,6 +33,23 @@ public:
 	void	Set_1P(CCharacters* p1P) { m_p1P = p1P; }
 	void	Set_2P(CCharacters* p2P) { m_p2P = p2P; }
 
+	CUI*	Get_1PCursor() { return m_p1PUI; }
+	void	Set_1PCursor (CUI* p1PCursor) { m_p1PUI = p1PCursor; }
+
+	CUI*	Get_2PCursor() { return m_p2PUI; }
+	void	Set_2PCursor(CUI* p2PCursor) { m_p2PUI = p2PCursor; }
+
+	CUI*	Get_1PChar() { return m_p1PChar; } // 레벨 캐릭터 넘겨줄때 이거사용 Get_ImgNum() 사용
+	void	Set_1PChar(CUI* p1PChar) { m_p1PChar = p1PChar; }
+
+	CUI*	Get_2PChar() { return m_p2PChar; } //레벨 캐릭터 넘겨줄때 이거사용 Get_ImgNum() 사용
+	void	Set_2PChar(CUI* p2PChar) { m_p1PChar = p2PChar; }
+	//0일때 아카자
+	//1일때 루이
+	//2일때 쿄쥬로
+	//3일때 탄지로
+
+
 private:
 	ID3D11Device*					m_pDevice = nullptr;
 	ID3D11DeviceContext*			m_pContext = nullptr;
@@ -52,8 +69,13 @@ private:
 	string							m_sFilePath;
 	CCharacters*					m_p1P;
 	CCharacters*					m_p2P;
+	CUI*							m_p1PUI;
+	CUI*							m_p2PUI;
+	CUI*							m_p1PChar;
+	CUI*							m_p2PChar;
 	CUI::THROWUIINFO				m_ThrowInfo;
 	_uint							m_iCharIconLayerNum = 0;
+	_uint							m_iCharNameLayerNum = 0;
 
 public:
 	virtual void Free() override;

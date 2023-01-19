@@ -20,8 +20,8 @@ public:
 	virtual HRESULT Render();
 
 public:
-	void Icon_Selected(wstring strName);
-
+	void Icon_Selected_GamePlay(wstring strName);
+	void Icon_Selected_SelectChar(_uint iLayerNum);
 private:
 	CTexture*			m_pTextureMaskCom;
 

@@ -111,6 +111,7 @@ void CUI_Manager::Add_P1_PersonHpUI()
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
 
 		P1_P_DATALIST.push_back(m_ThrowInfo);	
 	}
@@ -134,7 +135,8 @@ void CUI_Manager::Add_P1_OniHpUI()
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
-		
+		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+
 		P1_O_DATALIST.push_back(m_ThrowInfo);	
 	}
 
@@ -157,6 +159,7 @@ void CUI_Manager::Add_P2_PersonHpUI()
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
 
 		P2_P_DATALIST.push_back(m_ThrowInfo);
 	}
@@ -180,6 +183,7 @@ void CUI_Manager::Add_P2_OniHpUI()
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
 
 		P2_O_DATALIST.push_back(m_ThrowInfo);
 	}
@@ -204,6 +208,9 @@ void CUI_Manager::Add_Select_CharUI()
 
 	for (auto iter : SELECT_DATALIST)
 		Add_SelectUI(iter);
+
+	m_iCharIconLayerNum = 0;
+	m_iCharNameLayerNum = 0;
 }
 
 HRESULT CUI_Manager::Add_Obj(CUI::THROWUIINFO iter)
@@ -424,12 +431,14 @@ HRESULT CUI_Manager::Add_SelectUI(CUI::THROWUIINFO iter)
 	}
 	case 20:
 	{
+		iter.iLayerNum = 0;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_P1Cursor"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	}
 	case 21:
 	{
+		iter.iLayerNum = 1;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_P2Cursor"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
@@ -472,8 +481,10 @@ HRESULT CUI_Manager::Add_SelectUI(CUI::THROWUIINFO iter)
 	}
 	case 28:
 	{
+		iter.iLayerNum = m_iCharNameLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharNameUI"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iCharNameLayerNum;
 		break;
 	}
 

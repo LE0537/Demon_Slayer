@@ -19,8 +19,6 @@ HRESULT CCharIcon::Initialize_Prototype()
 
 HRESULT CCharIcon::Initialize(void * pArg)
 {
-	
-
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
 	m_fSizeX = m_ThrowUIinfo.vScale.x;
@@ -31,13 +29,11 @@ HRESULT CCharIcon::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if (m_ThrowUIinfo.iLevelIndex != LEVEL_SELECTCHAR)
-	{
-		wstring strName = m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName;
-
-		Icon_Selected(strName);
-	}
-		
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+		Icon_Selected_GamePlay(m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName);
+	
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+		Icon_Selected_SelectChar(m_ThrowUIinfo.iLayerNum);
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
@@ -88,13 +84,25 @@ HRESULT CCharIcon::Render()
 	return S_OK;
 }
 
-void CCharIcon::Icon_Selected(wstring strName)
+void CCharIcon::Icon_Selected_GamePlay(wstring strName)
 {
 	if (strName == TEXT("ÄìÁÖ·Î"))
 		m_iImgNum = 19;
 	if (strName == TEXT("ÅºÁö·Î"))
 		m_iImgNum = 35;
 	
+}
+
+void CCharIcon::Icon_Selected_SelectChar(_uint iLayerNum)
+{
+	if (0 == iLayerNum)
+		m_iImgNum = 27;
+	else if(1 == iLayerNum)
+		m_iImgNum = 0;
+	else if (2 == iLayerNum)
+		m_iImgNum = 19;
+	else if (3 == iLayerNum)
+		m_iImgNum = 35;
 }
 
 HRESULT CCharIcon::Ready_Components()

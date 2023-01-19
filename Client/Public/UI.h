@@ -27,6 +27,7 @@ public:
 		_float			vRot;
 		_uint			iLevelIndex;
 		CCharacters*	pTarget;
+		CUI*			pUITarget;
 	}THROWUIINFO;
 
 protected:
@@ -34,6 +35,11 @@ protected:
 	CUI(const CUI& rhs);
 	virtual ~CUI() = default;
 
+public:
+	_float Get_fX() { return m_fX; }
+	_float Get_fY() { return m_fY; }
+	_uint  Get_ImgNum() { return m_iImgNum; }
+	_bool Get_SelectCheck() { return m_bSelectCheck; }
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -46,6 +52,7 @@ public:
 protected:
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
 	_float4x4				m_ViewMatrix, m_ProjMatrix;
+	_bool					m_bSelectCheck = false;
 	_uint					m_iImgNum = 0;
 	LOADUIINFO				m_LoadUIinfo;
 	THROWUIINFO				m_ThrowUIinfo;
