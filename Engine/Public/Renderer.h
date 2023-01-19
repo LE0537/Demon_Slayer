@@ -94,6 +94,7 @@ private:
 
 	//	Post Processing Objects Rendering
 	HRESULT	Ready_PostProcessing();
+	HRESULT Render_LightShaft(const _tchar* pTexName, const _tchar* pMRTName);
 	HRESULT Render_Glow(const _tchar* pTexName, const _tchar* pMRTName);
 	HRESULT Render_Blur(const _tchar* pTexName, const _tchar* pMRTName);
 	HRESULT Render_GrayScale(const _tchar* pTexName, const _tchar* pMRTName);

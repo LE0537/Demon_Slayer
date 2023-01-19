@@ -733,6 +733,20 @@ HRESULT CRenderer::Ready_PostProcessing()
 	return S_OK;
 }
 
+HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMRTName)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_float4 vCamPos = pGameInstance->Get_CamPosition();
+
+
+
+	RELEASE_INSTANCE(CGameInstance);
+
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Render_Glow(const _tchar * pTexName, const _tchar * pMRTName)
 {
 	if (nullptr == m_pTarget_Manager)
