@@ -105,7 +105,7 @@ struct PS_SHADOW_IN
 	float4		vPosition : SV_POSITION;
 	float4		vNormal : NORMAL;
 	float2		vTexUV : TEXCOORD0;
-	float4		vProjPos : TEXCOORD1;
+	float4		vWorldPos : TEXCOORD1;
 };
 
 struct PS_OUT
