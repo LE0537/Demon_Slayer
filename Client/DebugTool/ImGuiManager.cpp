@@ -119,7 +119,7 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->AO_OnOff(bAO_OnOff);
 
-	static float fAOValue[CRenderer::VALUE_END] = { 1.f };
+	static float fAOValue[CRenderer::VALUE_END] = { 1.36f, 0.4f, 1.f, 20.f };
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
 	ImGui::DragFloat("AO Value", &fAOValue[CRenderer::VALUE_AO], 0.02f, 0.f);
 	

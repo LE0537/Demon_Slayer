@@ -534,6 +534,8 @@ HRESULT CRenderer::Render_AO()
 	_float	fAOValue = 0.0002f * m_fValue[VALUE_AO];
 	if (FAILED(m_pShader->Set_RawValue("g_fAOValue", &fAOValue, sizeof(_float))))
 		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_bRenderAO", &m_bRenderAO, sizeof(_bool))))
+		return E_FAIL;
 
 	m_pShader->Begin(9);
 	m_pVIBuffer->Render();
