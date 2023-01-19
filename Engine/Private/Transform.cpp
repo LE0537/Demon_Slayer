@@ -174,6 +174,26 @@ void CTransform::Set_RotationY(_float fAngleY)
 	Set_Rotation(_float3(m_fCurrentRotationX, fAngleY, m_fCurrentRotationZ));
 }
 
+void CTransform::Set_PlayerLookAt(_fvector vAt)
+{
+	_vector		vPosition = Get_State(CTransform::STATE_TRANSLATION);
+
+	_vector		vLook = vAt - vPosition;
+
+	vLook = XMVectorSetY(vLook, 0.f);
+
+	_vector		vAxisY = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+
+	_vector		vRight = XMVector3Cross(vAxisY, vLook);
+	_vector		vUp = XMVector3Cross(vLook, vRight);
+
+	_float3		vScale = Get_Scale();
+
+	Set_State(STATE_RIGHT, XMVector3Normalize(vRight) * vScale.x);
+	Set_State(STATE_UP, XMVector3Normalize(vUp) * vScale.y);
+	Set_State(STATE_LOOK, XMVector3Normalize(vLook) * vScale.z);
+}
+
 CTransform * CTransform::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CTransform*	pInstance = new CTransform(pDevice, pContext);
