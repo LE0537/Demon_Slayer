@@ -178,6 +178,7 @@
     <ClInclude Include="..\DebugTool\imstb_rectpack.h" />
     <ClInclude Include="..\DebugTool\imstb_textedit.h" />
     <ClInclude Include="..\DebugTool\imstb_truetype.h" />
+    <ClInclude Include="..\Public\Akaza.h" />
     <ClInclude Include="..\public\BaseAtk.h" />
     <ClInclude Include="..\public\CollBox.h" />
     <ClInclude Include="..\Public\1PIcon.h" />
@@ -287,6 +288,7 @@
     <ClCompile Include="..\DebugTool\imgui_impl_win32.cpp" />
     <ClCompile Include="..\DebugTool\imgui_tables.cpp" />
     <ClCompile Include="..\DebugTool\imgui_widgets.cpp" />
+    <ClCompile Include="..\Private\Akaza.cpp" />
     <ClCompile Include="..\private\BaseAtk.cpp" />
     <ClCompile Include="..\private\CollBox.cpp" />
     <ClCompile Include="..\Private\1PIcon.cpp" />
