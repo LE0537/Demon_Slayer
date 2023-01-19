@@ -19,8 +19,7 @@ HRESULT CCharIcon::Initialize_Prototype()
 
 HRESULT CCharIcon::Initialize(void * pArg)
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
+	
 
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
@@ -29,9 +28,16 @@ HRESULT CCharIcon::Initialize(void * pArg)
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
-	wstring strName = m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName;
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
 
-	Icon_Selected(strName);
+	if (m_ThrowUIinfo.iLevelIndex != LEVEL_SELECTCHAR)
+	{
+		wstring strName = m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName;
+
+		Icon_Selected(strName);
+	}
+		
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
@@ -102,12 +108,18 @@ HRESULT CCharIcon::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"), (CComponent**)&m_pShaderCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_UIVtxTex"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharIcon"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
+
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharIcon"), (CComponent**)&m_pTextureMaskCom)))
+			return E_FAIL;
+	}
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"), (CComponent**)&m_pVIBufferCom)))
