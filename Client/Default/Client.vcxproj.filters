@@ -238,6 +238,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard">
       <UniqueIdentifier>{b6a0ca98-f4ec-48cc-888c-ccc14f0f7609}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Dash">
+      <UniqueIdentifier>{074c728c-0f61-42e6-b314-1bd3ccd109e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -465,6 +468,9 @@
     <ClInclude Include="..\Public\KyoujuroGuardAdvState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroDashState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Dash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -673,6 +679,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroGuardAdvState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroDashState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Dash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
