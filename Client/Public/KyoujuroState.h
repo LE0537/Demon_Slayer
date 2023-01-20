@@ -3,6 +3,7 @@
 #include "Engine_Defines.h"
 #include "Kyoujuro.h"
 
+
 BEGIN(Client)
 class CKyoujuroState
 {

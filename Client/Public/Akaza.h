@@ -36,6 +36,9 @@ private:
 	HRESULT Ready_Components();
 	void	Set_ShadowLightPos();
 	void	Set_Info();
+public:
+	virtual	void  Take_Damage(_float _fPow);
+	virtual	void  Get_GuardHit(_int eType);
 private:
 	CModel*					m_pModelCom = nullptr;
 	CCollider*				m_pAABBCom = nullptr;

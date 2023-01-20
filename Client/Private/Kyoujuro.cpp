@@ -9,7 +9,7 @@
 #include "KyoujuroIdleState.h"
 #include "KyoujuroMoveState.h"
 #include "KyoujuroHitState.h"
-
+#include "KyoujuroGuardHitState.h"
 using namespace Kyoujuro;
 
 #include "UI_Manager.h"
@@ -94,10 +94,12 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 	dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Set_Render(true);
 	dynamic_cast<CKyoujuroSheath*>(m_pSheath)->Set_Render(true);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
 
-	if (g_bDebug)
+	if (g_bCollBox)
 	{
 		m_pRendererCom->Add_Debug(m_pSphereCom);
 	}
@@ -322,7 +324,7 @@ void CKyoujuro::Set_Info()
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
 	m_tInfo.iUnicMaxBar = 100;
 	m_tInfo.iUnicBar = 0;
-	m_tInfo.iDmg = 30;
+	m_tInfo.iDmg = 10;
 	m_tInfo.iCombo = 0;
 	m_tInfo.fComboTime = 0.f;
 	m_tInfo.bPowerUp = false;
@@ -338,6 +340,22 @@ void CKyoujuro::Take_Damage(_float _fPow)
 	CKyoujuroState* pState = new CHitState(_fPow);
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
+}
+void CKyoujuro::Get_GuardHit(_int eType)
+{
+	CKyoujuroState* pState;
+	if (eType == CKyoujuroState::STATE_TYPE::TYPE_START)
+	{
+		m_pModelCom->Reset_Anim(CKyoujuro::ANIMID::ANIM_GUARD_HIT_0);
+		pState = new CGuardHitState(CKyoujuroState::STATE_TYPE::TYPE_START);
+	}
+	else
+	{
+		m_pModelCom->Reset_Anim(CKyoujuro::ANIMID::ANIM_GUARD_HIT_1);
+		pState = new CGuardHitState(CKyoujuroState::STATE_TYPE::TYPE_LOOP);
+	}
+	
+	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 }
 void CKyoujuro::HandleInput()
 {

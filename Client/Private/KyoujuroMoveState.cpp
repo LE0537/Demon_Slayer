@@ -8,7 +8,6 @@
 #include "Characters.h"
 #include "Layer.h"
 
-
 using namespace Kyoujuro;
 
 
@@ -245,7 +244,7 @@ void CMoveState::Move(CKyoujuro * pKyoujuro, _float fTimeDelta)
 
 		vPos += vMyLook * (fSpeed - fSpeed * fPow);
 		vTargetPos += vTargetLook * fSpeed * fPow;
-
+		vPos.m128_f32[1] = 0.f;
 		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
 	}

@@ -3,7 +3,7 @@
 #include "KyoujuroMoveState.h"
 #include "KyoujuroIdleState.h"
 #include "KyoujuroJumpState.h"
-
+#include "Layer.h"
 #include "GameInstance.h"
 
 using namespace Kyoujuro;
@@ -285,7 +285,6 @@ CKyoujuroState*  CMoveJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	} 
 
 	pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
-
 
 	return nullptr;
 }

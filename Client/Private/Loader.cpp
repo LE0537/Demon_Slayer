@@ -37,11 +37,33 @@
 #include "ChangeBaseDeco.h"
 #include "ChangeSprt.h"
 #include "ChangeIcon.h"
+#include "SelectBG.h"
+#include "PatternWind.h"
+#include "PatternOne.h"
+#include "CloudUI.h"
+#include "PlayerNumIcon.h"
+#include "CharSelBg.h"
+#include "WindowBase.h"
+#include "WindowRight.h"
+#include "WindowLeft.h"
+#include "CharFrameEff.h"
+#include "CharFrameShadow.h"
+#include "CharFrame.h"
+#include "SelP1Cursor.h"
+#include "SelP2Cursor.h"
+#include "OniIcon.h"
+#include "1PIcon.h"
+#include "2PIcon.h"
+#include "SelOniLight.h"
+#include "1PMainOnBase.h"
+#include "2PMainOnBase.h"
+
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
 #include "Effect_Texture.h"
-
+//CollBox
+#include "BaseAtk.h"
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -104,6 +126,121 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 	/* 텍스쳐 로딩 중. */
 	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+
+#pragma region UI
+	{
+#pragma region BattleUI
+		{
+		//Battle
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_HpBar"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Bar/Bar_Life_%d.png"), 1))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_HpBarDeco"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Deco/HpBar_Deco_%d.png"), 1))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_HpBarBack"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Bar/Bar_LifeBack_%d.png"), 1))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_HpBarBasePerson"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Base/Gauge_Base_%d.png"), 1))))
+			return E_FAIL;
+
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharIcon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Char_Icon/C_Icon_%d.png"), 52))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharNameUI"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Char_Name/Name_%d.png"), 4))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkillBar"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Bar/Bar_Skill_%d.png"), 1))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkillBarParts"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Bar/Gauge_Scaleparts.png"), 1))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeBaseDeco"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Change/Base_Deco.png"), 1))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeSprt"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Change/Base_Sprt.png"), 1))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeIcon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Change/Icon_Change_Btl_%d.png"), 3))))
+			return E_FAIL;
+		}
+#pragma endregion BattleUI
+#pragma region SelectUI
+		//SelectChar
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelectBG"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/CharSel_Bg.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PatternWind"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Wind00.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Pattern1"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Pattern00.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CloudUI"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Charsel_Cloud_%d.png"), 7))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PalyerNumIcon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/PlayerNumIcon_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSelBg"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/CharSel_Bg4.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WindowBase"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Char_Window_Base.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WindowRight"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Char_Window2.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WindowLeft"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Char_Window1.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelFrameEff"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Xef_Fade01.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelFrameShdow"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Icon_Chara_Shadow.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelFrame"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Char_Icon_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelCursor"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Char_Cursor_%d.png"), 3))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_OniIcon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Icon_Oni_Chara.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_1P_SelIcon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Cursor_1p_Icon.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_2P_SelIcon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Cursor_2p_Icon.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_OniLight"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Oni_Light.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_1P_MainOnBase"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/1PMain_On_Base.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_2P_MainOnBase"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/2PMain_On_Base.png"), 1))))
+			return E_FAIL;
+
+#pragma endregion SelectUI
+	}
+#pragma endregion UI
 
 
 	/* 모델 로딩 중. */
@@ -403,7 +540,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TanjiroSheath"),
 		CTanjiroSheath::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
+	//CollBox
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BaseAtk"),
+		CBaseAtk::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	//Map
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BattleField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 	//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BattleField"),
@@ -417,102 +557,95 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	//	CNavigation::Create(m_pDevice, m_pContext, TEXT("../Data/NaviPos.dat")))))
 	//	return E_FAIL;
 
-
-
-	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
-
-	m_isFinished = true;
-	RELEASE_INSTANCE(CData_Manager);
-	Safe_Release(pGameInstance);
-
-
-	return S_OK;
-}
-
-HRESULT CLoader::Loading_ForSelectCharLevel()
-{
-
-	/* 텍스쳐 로딩 중. */
-	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
-
-
-	/* 모델 로딩 중. */
-	lstrcpy(m_szLoadingText, TEXT("                     모델 로딩 중."));
-
-	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
-
-	m_isFinished = true;
-
-	return E_NOTIMPL;
-}
-
-HRESULT CLoader::Loading_ForGamePlayLevel()
-{
-	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
-	if (nullptr == pGameInstance)
+#pragma region UI객체
+	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelectBg"),
+		CSelectBG::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	Safe_AddRef(pGameInstance);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PatternWind"),
+		CPatternWind::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PatternOne"),
+		CPatternOne::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-	/* 텍스쳐 로딩 중. */
-	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CloudUI"),
+		CCloudUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-#pragma region UI
-	{
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_HpBar"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Bar/Bar_Life_%d.png"), 1))))
-			return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PlayerNumIcon"),
+		CPlayerNumIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_HpBarDeco"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Deco/HpBar_Deco_%d.png"), 1))))
-			return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharSelBg"),
+		CCharSelBg::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_HpBarBack"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Bar/Bar_LifeBack_%d.png"), 1))))
-			return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WindowBase"),
+		CWindowBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_HpBarBasePerson"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Base/Gauge_Base_%d.png"), 1))))
-			return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WindowLeft"),
+		CWindowLeft::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WindowRight"),
+		CWindowRight::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharIcon"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Char_Icon/C_Icon_%d.png"), 52))))
-			return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharFrameEff"),
+		CCharFrameEff::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharNameUI"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Char_Name/Name_%d.png"), 4))))
-			return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharFrameShadow"),
+		CCharFrameShadow::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkillBar"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Bar/Bar_Skill_%d.png"), 1))))
-			return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharFrame"),
+		CCharFrame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkillBarParts"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Bar/Gauge_Scaleparts.png"), 1))))
-			return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharIcon"),
+		CCharIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeBaseDeco"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Change/Base_Deco.png"), 1))))
-			return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_P1Cursor"),
+		CSelP1Cursor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeSprt"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Change/Base_Sprt.png"), 1))))
-			return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_P2Cursor"),
+		CSelP2Cursor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeIcon"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Change/Icon_Change_Btl_%d.png"), 3))))
-			return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_OniIcon"),
+		COniIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-	}
-#pragma endregion UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_1P_Icon"),
+		C1PIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_2P_Icon"),
+		C2PIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-	/* 객체 생성 중. */
-	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_OniLight"),
+		CSelOniLight::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
-	/* UI 객체 */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_1P_MainOnBase"),
+		C1PMainOnBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_2P_MainOnBase"),
+		C2PMainOnBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharNameUI"),
+		CCharNameUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_HpBar"),
 		CHpBar::Create(m_pDevice, m_pContext))))
@@ -528,15 +661,6 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GaugeBasePerson"),
 		CGaugeBasePerson::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharIcon"),
-		CCharIcon::Create(m_pDevice, m_pContext))))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharNameUI"),
-		CCharNameUI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkillBar"),
@@ -558,6 +682,57 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChangeIcon"),
 		CChangeIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+#pragma endregion UI객체
+
+	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
+
+	m_isFinished = true;
+	RELEASE_INSTANCE(CData_Manager);
+	Safe_Release(pGameInstance);
+
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForSelectCharLevel()
+{
+	/* 객체 생성 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
+	
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	
+
+	lstrcpy(m_szLoadingText, TEXT("                       로딩이 완료되었습니다."));
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForGamePlayLevel()
+{
+	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
+	if (nullptr == pGameInstance)
+		return E_FAIL;
+
+	Safe_AddRef(pGameInstance);
+
+
+	/* 텍스쳐 로딩 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+
+
+
+	/* 객체 생성 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
+
+	/* UI 객체 */
+
+
 
 	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
 	

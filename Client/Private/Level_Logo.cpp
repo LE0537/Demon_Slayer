@@ -3,6 +3,7 @@
 
 #include "GameInstance.h"
 #include "Level_Loading.h"
+#include "UI_Manager.h"
 
 CLevel_Logo::CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -13,6 +14,12 @@ HRESULT CLevel_Logo::Initialize()
 {
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
+
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	pUIManager->Load_Data("P1_Person_HpUI");
+	pUIManager->Load_Data("P2_Person_HpUI");
+	pUIManager->Load_Data("Change_Select");
+	RELEASE_INSTANCE(CUI_Manager);
 
 
 	return S_OK;

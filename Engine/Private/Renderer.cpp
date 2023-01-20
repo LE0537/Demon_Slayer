@@ -33,7 +33,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	_uint		iNumViewports = 1;
 
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-	m_fFar = 500.f;//ViewportDesc.MaxDepth;
+	m_fFar = 500.f;
 
 	/* ∑ª¥ı≈∏∞ŸµÈ¿ª √ﬂ∞°«—¥Ÿ. */
 

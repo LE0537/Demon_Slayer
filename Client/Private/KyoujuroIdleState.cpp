@@ -17,7 +17,7 @@ CIdleState::CIdleState(STATE_ID eState)
 CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
+	pKyoujuro->Set_bGuard(false);
 	if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 	{
 		if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
@@ -49,17 +49,11 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 		_float fPositionY = XMVectorGetY(vPosition);
 		return new CJumpState(STATE_TYPE::TYPE_LOOP, fPositionY, 0.f);
 	}
-	else if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
+	else if (pGameInstance->Key_Down(DIK_Z))
 		return new CAtk_1_State();
-
-
-
-	if (pGameInstance->Key_Pressing(DIK_O))
+	else if (pGameInstance->Key_Pressing(DIK_C))
 		return new CGuardState(STATE_TYPE::TYPE_START);
-	else if (pGameInstance->Key_Pressing(DIK_P))
-		return new CGuardHitState(STATE_TYPE::TYPE_START);
-	else if (pGameInstance->Key_Down(DIK_I))
-		return new CGuardHitState(STATE_TYPE::TYPE_LOOP);
+
 
 	return nullptr;
 }

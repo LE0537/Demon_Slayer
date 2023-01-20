@@ -21,6 +21,7 @@ public:
 
 public:
 	void Name_Selected(wstring strName);
+	void Set_Name_SelLevel();
 
 private:
 	HRESULT Ready_Components();

@@ -63,12 +63,11 @@ VS_OUT VS_MAIN(VS_IN In)
 	matWVP = mul(matWV, g_ProjMatrix);
 
 	vector		vWorldNormal = mul(vector(In.vNormal, 0.f), g_WorldMatrix);
-	vector		vWorldPos = mul(vector(In.vPosition, 1.f), g_WorldMatrix);
 
 	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
 	Out.vNormal = normalize(vWorldNormal);
 	Out.vTexUV = In.vTexUV;
-	Out.vWorldPos = vWorldPos;
+	Out.vWorldPos = Out.vPosition;
 
 	return Out;
 }
@@ -174,7 +173,8 @@ PS_OUT PS_MAIN(PS_IN In)
 	return Out;
 }
 
-PS_OUT PS_FILTER(PS_SHADOW_IN In)
+
+PS_OUT PS_FILTER(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
@@ -188,10 +188,13 @@ PS_OUT PS_FILTER(PS_SHADOW_IN In)
 	vector		vDiffuse = vSourDiffuse + vDestDiffuse1 * vFilter.r +
 		vDestDiffuse2 * vFilter.g + vDestDiffuse3 * vFilter.b;
 
-	Out.vDiffuse = (g_vLightDiffuse * vDiffuse);
+	Out.vDiffuse = vDiffuse;
 
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.1f);
 	Out.vDepth = vector(In.vWorldPos.z / In.vWorldPos.w, In.vWorldPos.w / 500.f, 0.f, 0.f);
+
+	if (Out.vDiffuse.a < 0.5f)
+		discard;
 
 	return Out;
 }
@@ -215,7 +218,7 @@ technique11 DefaultTechnique
 		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 
-		VertexShader = compile vs_5_0 VS_SHADOW();
+		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_FILTER();
 	}
