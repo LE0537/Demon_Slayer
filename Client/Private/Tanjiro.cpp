@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
 #include "UI_Manager.h"
+#include "ImGuiManager.h"
 // state
 #include "TanjiroState.h"
 #include "TanjiroIdleState.h"
@@ -57,6 +58,8 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	Set_Info();
 	CUI_Manager::Get_Instance()->Set_1P(this);
 
+
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 	return S_OK;
 }

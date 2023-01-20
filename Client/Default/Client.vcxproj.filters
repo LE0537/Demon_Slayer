@@ -328,6 +328,9 @@
     <Filter Include="03.UI\98.Char\Name">
       <UniqueIdentifier>{3587e0bc-3917-4980-bee1-1042c45a57e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash">
+      <UniqueIdentifier>{772b995d-4462-442f-b41d-7ccf548daaca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -651,6 +654,9 @@
     <ClInclude Include="..\Public\Akaza.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroDashState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -955,6 +961,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Akaza.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroDashState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

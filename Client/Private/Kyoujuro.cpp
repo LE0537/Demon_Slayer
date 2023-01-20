@@ -10,6 +10,7 @@
 #include "KyoujuroMoveState.h"
 #include "KyoujuroHitState.h"
 #include "KyoujuroGuardHitState.h"
+#include "ImGuiManager.h"
 using namespace Kyoujuro;
 
 #include "UI_Manager.h"
@@ -56,6 +57,8 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	Set_Info();
 	CUI_Manager::Get_Instance()->Set_2P(this);
 
+
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	return S_OK;
 }
 

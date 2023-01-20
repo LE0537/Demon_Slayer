@@ -7,6 +7,7 @@
 #include "KyoujuroAtk_1_State.h"
 #include "Characters.h"
 #include "Layer.h"
+#include "KyoujuroDashState.h"
 
 using namespace Kyoujuro;
 
@@ -22,13 +23,17 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 
-	if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
+	if (pGameInstance->Key_Down(DIK_Z))
 		return new CAtk_1_State();
 
 	if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 	{
 		if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
 		{
+			if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+				return new CDashState(DIR_LF);
+
+
 			if (pGameInstance->Key_Down(DIK_SLASH))
 			{
 				_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -39,6 +44,9 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
 		{
+			if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+				return new CDashState(DIR_RF);
+
 			if (pGameInstance->Key_Down(DIK_SLASH))
 			{
 				_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -49,6 +57,9 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 		}
 		else
 		{
+			if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+				return new CDashState(DIR_STRAIGHT);
+
 			if (pGameInstance->Key_Down(DIK_SLASH))
 			{
 				_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -64,6 +75,10 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 	{
 		if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
 		{
+
+			if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+				return new CDashState(DIR_LB);
+
 			if (pGameInstance->Key_Down(DIK_SLASH))
 			{
 				_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -74,6 +89,9 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л 
 		{
+			if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+				return new CDashState(DIR_RB);
+
 			if (pGameInstance->Key_Down(DIK_SLASH))
 			{
 				_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -90,6 +108,10 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 				_float fPositionY = XMVectorGetY(vPosition);
 				return new CMoveJumpState(OBJDIR::DIR_BACK, CKyoujuroState::TYPE_LOOP, fPositionY, 0.f);
 			}
+
+			if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+				return new CDashState(DIR_BACK);
+
 			return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
 		}
 	}
@@ -97,6 +119,10 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 
 	else if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
 	{
+		if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+			return new CDashState(DIR_LEFT);
+
+
 		if (pGameInstance->Key_Down(DIK_SLASH))
 		{
 			_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -107,6 +133,9 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 	}
 	else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
 	{
+		if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+			return new CDashState(DIR_RIGHT);
+
 		if (pGameInstance->Key_Down(DIK_SLASH))
 		{
 			_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

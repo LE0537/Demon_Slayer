@@ -2,6 +2,10 @@
 #include "ImGuiManager.h"
 #include "GameInstance.h"
 
+#include "Kyoujuro.h"
+#include "Tanjiro.h"
+
+
 IMPLEMENT_SINGLETON(CImGuiManager)
 
 CImGuiManager::CImGuiManager()
@@ -79,8 +83,9 @@ void CImGuiManager::ShowGui(_float fTimeDelta)
 			PostProcessing(fTimeDelta);
 			ImGui::EndTabItem();
 		}
-		if (ImGui::BeginTabItem("Object"))
+		if (ImGui::BeginTabItem("Animation"))
 		{
+			AnimationDebug(fTimeDelta);
 			ImGui::EndTabItem();
 		}
 		if (ImGui::BeginTabItem("Cam_Action"))
@@ -139,6 +144,101 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	}
 }
 
+
+
+void CImGuiManager::AnimationDebug(_float fTimeDelta)
+{
+	LiveCharacterList();
+	
+
+
+
+
+
+
+
+}
+
+void CImGuiManager::Add_LiveCharacter(CCharacters * pCharacter)
+{
+	if (pCharacter == nullptr)
+		return;
+
+	else if (pCharacter != nullptr)
+		m_vecObjList.push_back(pCharacter);
+
+}
+
+void CImGuiManager::LiveCharacterList()
+{
+
+	ImVec2 vListSize(200, 100);
+	ImVec2 vObjSize(100, 30);
+	static int selected = 999;
+
+
+	if (ImGui::BeginListBox("", vListSize))
+	{
+		for (_uint i = 0; i < m_vecObjList.size(); ++i)
+		{
+			wstring wStrName = m_vecObjList[i]->Get_PlayerInfo().strName;
+			string strName;
+			
+			if (wStrName == L"ÅºÁö·Î")
+				strName = "Tanjiro";
+			else if (wStrName == L"ÄìÁÖ·Î")
+				strName = "Kyoujuro";
+
+			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
+			{
+				selected = i;
+			}
+			ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndListBox();
+	}
+
+
+	if (selected != 999)
+		CharacterAnimationList(selected);
+}
+
+void CImGuiManager::CharacterAnimationList(_uint _iIndex)
+{
+	//ImVec2 vListSize(200, 300);
+	//ImVec2 vObjSize(100, 30);
+	//static int selected = 0;
+
+	///*if(_iIndex == 1)
+	//(CTanjiro*)(m_vecObjList[_iIndex])-*/
+
+	//
+	//if (ImGui::BeginListBox("", vListSize))
+	//{
+	//	for (_uint i = 0; i < m_vecObjList.size(); ++i)
+	//	{
+	//		//string strName = m_vecObjList[];
+
+	//		if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
+	//		{
+	//			selected = i;
+	//		}
+	//		ImGui::SetItemDefaultFocus();
+	//	}
+	//	ImGui::EndListBox();
+	//}
+
+}
+
+
+void CImGuiManager::Clear_CharacterList()
+{
+	for (auto& iter : m_vecObjList)
+		Safe_Release(iter);
+
+	m_vecObjList.clear();
+}
+
 void CImGuiManager::Free()
 {
 	ImGui_ImplDX11_Shutdown();
@@ -149,5 +249,7 @@ void CImGuiManager::Free()
 
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
+
+	Clear_CharacterList();
 
 }
