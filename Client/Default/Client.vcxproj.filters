@@ -734,7 +734,7 @@
     <ClCompile Include="..\Private\TanjiroDashState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Dash</Filter>
     </ClCompile>
-    <ClCompile Include="..\Public\KyoujuroMoveState.cpp">
+    <ClCompile Include="..\Private\KyoujuroMoveState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClCompile>
   </ItemGroup>

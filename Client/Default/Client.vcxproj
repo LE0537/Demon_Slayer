@@ -276,6 +276,7 @@
     <ClCompile Include="..\Private\KyoujuroGuardHitState.cpp" />
     <ClCompile Include="..\Private\KyoujuroGuardState.cpp" />
     <ClCompile Include="..\Private\KyoujuroHitState.cpp" />
+    <ClCompile Include="..\Private\KyoujuroMoveState.cpp" />
     <ClCompile Include="..\private\Level_SelectChar.cpp" />
     <ClCompile Include="..\Private\TanjiroDashState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />
@@ -332,7 +333,6 @@
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Manager.cpp" />
-    <ClCompile Include="..\Public\KyoujuroMoveState.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
