@@ -31,11 +31,28 @@ HRESULT CAnimation::Initialize(CModel* pModel, aiAnimation * pAIAnimation)
 
 void CAnimation::Invalidate_TransformationMatrix(_float fTimeDelta)
 {
-	/* 현재 재생중인 시간. */
-	m_fCurrentTime += m_fTickPerSecond * fTimeDelta;
 
-	if (m_fCurrentTime >= m_fDuration)
+	if (m_pFrames != nullptr)
 	{
+		if (m_fCurrentTime >= m_pFrames[m_iCurrentFrame].fStartTime &&
+			m_fCurrentTime < m_pFrames[m_iCurrentFrame].fEndTime)
+		{
+			m_fTestTime = m_pFrames[m_iCurrentFrame].fFrameTime;
+		}
+		else if (m_iCurrentFrame < m_iFrameNum && m_fCurrentTime > m_pFrames[m_iCurrentFrame].fEndTime)
+		{
+			++m_iCurrentFrame;
+		}
+	}
+
+	/* 현재 재생중인 시간. */
+	m_fCurrentTime += m_fTickPerSecond * fTimeDelta * m_fTestTime;
+
+	if (m_iCurrentFrame > m_iEndFrame || m_fCurrentTime >= m_fDuration)
+	{
+		//m_pFrames 초기화 하기.
+		m_iCurrentFrame = m_iStartFrame;
+
 		m_fCurrentTime = 0.f;
 
 		m_isFinished = true;
@@ -61,10 +78,16 @@ void CAnimation::Invalidate_TransformationMatrix2(_float fTimeDelta, vector<clas
 {
 	/* 현재 재생중인 시간. */
 	m_fCurrentTime2 += fTimeDelta;
-	
+
 	if (m_fCurrentTime2 >= m_flinearTime)
 	{
-		m_fCurrentTime2 = 0.f;
+		if (m_pFrames != nullptr)
+		{
+			m_fCurrentTime2 = m_pFrames[m_iStartFrame].fStartTime;
+		}
+		else
+			m_fCurrentTime2 = 0.f;
+
 		int a = 10;
 		m_bAnimEnd = true;
 
@@ -123,7 +146,58 @@ _bool CAnimation::Is_KeyFrame(char * pChannelName, _uint iKeyFrame)
 }
 
 
+HRESULT CAnimation::Set_FrameNum(_uint iFrameNum)
+{
+	if (iFrameNum < 0)
+		return E_FAIL;
 
+	m_iFrameNum = iFrameNum;
+	m_pFrames = new FRAMEDESC[iFrameNum];
+
+	for (_uint i = 0; i < iFrameNum; ++i)
+	{
+		FRAMEDESC FrameDesc;
+		FrameDesc.fStartTime = m_fDuration * i / iFrameNum;
+		FrameDesc.fEndTime = m_fDuration * (i + 1) / iFrameNum;
+
+		m_pFrames[i] = FrameDesc;
+	}
+	m_iStartFrame = 0;
+	m_iEndFrame = iFrameNum - 1;
+
+	m_vecFrames.push_back(m_pFrames);
+
+	return S_OK;
+}
+
+void CAnimation::Set_FrameTime(_uint iStartFrame, _uint iEndFrame, _float fFrameTime)
+{
+	if (iStartFrame < 0 || iEndFrame > m_iFrameNum || iStartFrame > m_iFrameNum)
+		return;
+
+	for (_uint i = iStartFrame; i < iEndFrame; ++i)
+	{
+		m_pFrames[i].fFrameTime = fFrameTime;
+	}
+
+}
+
+void CAnimation::Set_UsingFrame(_uint iStartFrame, _uint iEndFrame)
+{
+	m_iCurrentFrame = m_iStartFrame = iStartFrame;
+	m_iEndFrame = iEndFrame;
+	m_fCurrentTime = m_pFrames[m_iStartFrame].fStartTime;
+
+	Set_LinearStartTime();
+}
+
+void CAnimation::Set_LinearStartTime()
+{		/* 현재 재생중인 시간. */
+	if (m_pFrames != nullptr)
+	{
+		m_fCurrentTime2 = m_pFrames[m_iStartFrame].fStartTime;
+	}
+}
 
 
 CAnimation * CAnimation::Create(CModel* pModel, aiAnimation * pAIAnimation)
@@ -194,6 +268,11 @@ void CAnimation::Free()
 {
 	for (auto& pChannel : m_Channels)
 		Safe_Release(pChannel);
+
+	for (auto& iter : m_vecFrames)
+		Safe_Delete(iter);
+
+	m_vecFrames.clear();
 
 	m_Channels.clear();
 }

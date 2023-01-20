@@ -85,6 +85,11 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 	m_pWeapon->Tick(fTimeDelta);
 	m_pSheath->Tick(fTimeDelta);
 
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	
+	if(pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
+		printf_s("type : %d \n", (int)m_pTanjiroState->Get_TanjiroState());
+
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 	dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);

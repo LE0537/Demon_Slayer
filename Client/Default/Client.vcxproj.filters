@@ -648,6 +648,9 @@
     <ClInclude Include="..\Public\Akaza.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroMoveState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -949,6 +952,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Akaza.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroMoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
