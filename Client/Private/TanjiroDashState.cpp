@@ -7,7 +7,7 @@
 
 using namespace Tanjiro;
 
-CDashState::CDashState(OBJDIR eDir,_bool bSecondJump, _bool bJump)
+CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
 	: m_eDir(eDir), m_bSecondDash(bSecondJump), m_bJump(bJump)
 {
 }
@@ -20,32 +20,47 @@ CTanjiroState * CDashState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CDashState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	
+
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
 
 	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	{
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 
-		if (pGameInstance->Key_Pressing(DIK_L) && (CTanjiro::ANIMID::ANIM_DASH_L_01 == pTanjiro->Get_AnimIndex() || CTanjiro::ANIMID::ANIM_DASH_R_01 == pTanjiro->Get_AnimIndex()))
+		if (pGameInstance->Key_Pressing(DIK_L))
 		{
-			if (CTanjiro::ANIMID::ANIM_DASH_L_01 == pTanjiro->Get_AnimIndex() && m_bSecondDash == false)
-				return new CDashState(OBJDIR::DIR_LF, true);
-			else if (CTanjiro::ANIMID::ANIM_DASH_R_01 == pTanjiro->Get_AnimIndex() && m_bSecondDash == false)
-				return new CDashState(OBJDIR::DIR_RF , true);
+			if (CTanjiro::ANIMID::ANIM_DASH_L_01 == pTanjiro->Get_AnimIndex() || CTanjiro::ANIMID::ANIM_DASH_R_01 == pTanjiro->Get_AnimIndex())
+			{
+				if (m_bSecondDash == false)
+				{
+					if (CTanjiro::ANIMID::ANIM_DASH_L_01 == pTanjiro->Get_AnimIndex())
+						return new CDashState(OBJDIR::DIR_LF, true);
+					else if (CTanjiro::ANIMID::ANIM_DASH_R_01 == pTanjiro->Get_AnimIndex())
+						return new CDashState(OBJDIR::DIR_RF, true);
+				}
+			}
+			else if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex() || CTanjiro::ANIMID::ANIM_DASH_R_02 == pTanjiro->Get_AnimIndex())
+			{
+				if (m_bSecondDash == false)
+				{
+					if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex())
+						return new CDashState(OBJDIR::DIR_LF);
+					else if (CTanjiro::ANIMID::ANIM_DASH_R_02 == pTanjiro->Get_AnimIndex())
+						return new CDashState(OBJDIR::DIR_RF);
+				}
+				else
+				{
+					if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex())
+						return new CDashState(OBJDIR::DIR_LEFT);
+					else if (CTanjiro::ANIMID::ANIM_DASH_R_02 == pTanjiro->Get_AnimIndex())
+						return new CDashState(OBJDIR::DIR_RIGHT);
+				}
+			}
+			else
+				return new CDashState(m_eDir);
 		}
-		else if (pGameInstance->Key_Pressing(DIK_L) && (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex() || CTanjiro::ANIMID::ANIM_DASH_R_02 == pTanjiro->Get_AnimIndex()))
-		{
-			if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex() && m_bSecondDash == true)
-				return new CDashState(OBJDIR::DIR_LEFT, false);
-			else if (CTanjiro::ANIMID::ANIM_DASH_R_02 == pTanjiro->Get_AnimIndex() && m_bSecondDash == true)
-				return new CDashState(OBJDIR::DIR_RIGHT, false);
-		}
-
-
-		else if (pGameInstance->Key_Pressing(DIK_L))
-			return new CDashState(m_eDir);
 
 		else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
 			return new CMoveState(m_eDir, STATE_TYPE::TYPE_LOOP);
@@ -53,19 +68,18 @@ CTanjiroState * CDashState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			return new CIdleState();
 	}
 
-	
-	
-	
+
+
 	return nullptr;
 }
 
 CTanjiroState * CDashState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	
+
 	Move(pTanjiro, fTimeDelta);
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
-	
-	
+
+
 	return nullptr;
 }
 
@@ -147,7 +161,7 @@ void CDashState::Exit(CTanjiro * pTanjiro)
 void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 
-	
+
 
 }
 

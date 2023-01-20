@@ -236,6 +236,22 @@ void CModel::Reset_Anim(_uint iAnimIndex)
 	m_Animations[iAnimIndex]->Reset3();
 }
 
+HRESULT CModel::Set_FrameNum(_uint iAnimationNum, _uint iFrameNum)
+{
+	return m_Animations[iAnimationNum]->Set_FrameNum(iFrameNum);
+}
+
+void CModel::Set_FrameTime(_uint iAnimationNum, _uint iStartFrame, _uint iEndFrame, _float fFrameTime)
+{
+	return m_Animations[iAnimationNum]->Set_FrameTime(iStartFrame, iEndFrame, fFrameTime);
+}
+
+void CModel::Set_UsingFrame(_uint iAnimationNum, _uint iStartFrame, _uint iEndFrame)
+{
+
+	m_Animations[iAnimationNum]->Set_UsingFrame(iStartFrame, iEndFrame);
+}
+
 HRESULT CModel::Create_MeshContainer()
 {
 	if (nullptr == m_pAIScene)

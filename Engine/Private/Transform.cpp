@@ -176,6 +176,7 @@ void CTransform::Set_RotationY(_float fAngleY)
 
 void CTransform::Set_PlayerLookAt(_fvector vAt)
 {
+	//
 	_vector		vPosition = Get_State(CTransform::STATE_TRANSLATION);
 
 	_vector		vLook = vAt - vPosition;

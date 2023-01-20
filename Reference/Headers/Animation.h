@@ -6,6 +6,12 @@ BEGIN(Engine)
 
 class CAnimation final : public CBase
 {
+	typedef struct FrameDesc {
+		_float	fStartTime;
+		_float	fEndTime;
+		_float	fFrameTime = 1.f;
+	} FRAMEDESC;
+
 private:
 	CAnimation();
 	virtual ~CAnimation() = default;
@@ -44,7 +50,7 @@ private:
 	_uint							m_iNumChannels = 0;
 
 	vector<class CChannel*>			m_Channels;
-
+	
 	_bool							m_isFinished = false;
 	_bool							m_bAnimEnd = false;
 
@@ -60,6 +66,23 @@ public: // 민준 추가 키프레임 가져오기
 	_bool Is_KeyFrame(char* pChannelName, _uint iKeyFrame);
 	_float Get_Duration() { return m_fDuration; }
 	_float Get_CurrentTime() {return m_fCurrentTime;}
+
+	//Test
+	HRESULT	Set_FrameNum(_uint iFrameNum);
+	void	Set_FrameTime(_uint iStartFrame, _uint iEndFrame, _float fFrameTime);
+	void	Set_UsingFrame(_uint iStartFrame, _uint iEndFrame);
+	void	Set_LinearStartTime();
+private:
+	//Frame단위 제어 TEst
+	_uint							m_iFrameNum;
+	_uint							m_iCurrentFrame = 0;
+	FRAMEDESC*						m_pFrames = nullptr;
+	_float							m_fTestTime = 1.f;
+	_uint							m_iStartFrame = 0;
+	_uint							m_iEndFrame = 0;
+
+	vector<FRAMEDESC*>				m_vecFrames;
+
 public:
 	static CAnimation* Create(class CModel* pModel, aiAnimation* pAIAnimation);
 	static CAnimation* Bin_Create(DATA_BINANIM* pAIAnimation, class CModel* pModel); // 추가
