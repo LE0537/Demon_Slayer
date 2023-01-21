@@ -27,12 +27,10 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
 
-
-
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
@@ -41,8 +39,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Load_Map(L"Layer_BackGround", "11_Map_Ground")))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;
+//	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+//		return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 	//	return E_FAIL;	
@@ -137,14 +135,56 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	CGameInstance*			pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
 
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Player"), LEVEL_GAMEPLAY, pLayerTag, &m_pPlayer)))
-	//	return E_FAIL;
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &m_pPlayer)))
-		return E_FAIL;
-
+	_uint i1p = pUIManager->Get_1P();
+	_uint i2p = pUIManager->Get_2P();
+	_bool b1p = true;
+	_bool b2p = false;
+	switch (i1p)
+	{
+	case 0:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"),&b1p)))
+			return E_FAIL;
+		break;
+	case 1:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Kyoujuro"), LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), &b1p)))
+			return E_FAIL;
+		break;
+	case 2:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &b1p)))
+			return E_FAIL;
+		break;
+	case 3:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &b1p)))
+			return E_FAIL;
+		break;
+	default:
+		break;
+	}
+	switch (i2p)
+	{
+	case 0:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &b2p)))
+			return E_FAIL;
+		break;
+	case 1:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Kyoujuro"), LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), &b2p)))
+			return E_FAIL;
+		break;
+	case 2:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &b2p)))
+			return E_FAIL;
+		break;
+	case 3:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &b2p)))
+			return E_FAIL;
+		break;
+	default:
+		break;
+	}
+	RELEASE_INSTANCE(CUI_Manager);
 	Safe_Release(pGameInstance);
-
 
 	return S_OK;
 }
@@ -181,8 +221,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar * pLayerTag)
 	Safe_AddRef(pGameInstance);
 
 	ZeroMemory(&CameraDesc, sizeof(CCamera_Dynamic::CAMERADESC_DERIVED));
-
-	CameraDesc.CameraDesc.pTarget = m_pPlayer;
 
 	CameraDesc.CameraDesc.vEye = _float4(0.f, 0.f, 0.f, 1.f);
 	CameraDesc.CameraDesc.vAt = _float4(0.f, 0.f, 1.f, 1.f);

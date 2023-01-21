@@ -4,7 +4,7 @@
 
 
 BEGIN(Engine)
-
+class CCollider;
 class CShader;
 class CTexture;
 class CRenderer;
@@ -54,12 +54,17 @@ public:
 	PLAYERINFO Get_PlayerInfo() { return m_tInfo; }
 	void	   Set_Hp(_int _iDmg) { m_tInfo.iHp += _iDmg; }
 	void	   Set_bGuard(_bool _bGuard) { m_tInfo.bGuard = _bGuard; }
+	void	   Set_BattleTarget(CCharacters* _BattleTarget) { m_pBattleTarget = _BattleTarget; }
+	CCharacters*	Get_BattleTarget() { return m_pBattleTarget; }
+	CCollider* Get_SphereCollider() { return m_pSphereCom; }
 
 	virtual	void  Take_Damage(_float _fPow) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
 protected:
 	PLAYERINFO		m_tInfo;
+	CCharacters*	m_pBattleTarget = nullptr;
 
+	CCollider*				m_pSphereCom = nullptr;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

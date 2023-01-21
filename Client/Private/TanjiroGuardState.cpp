@@ -74,7 +74,7 @@ CTanjiroState * CGuardState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"))->Get_LayerFront();
+	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
 	pTanjiro->Get_Transform()->LookAt(vLooAt);

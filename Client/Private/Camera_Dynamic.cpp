@@ -23,7 +23,6 @@ HRESULT CCamera_Dynamic::Initialize_Prototype()
 
 HRESULT CCamera_Dynamic::Initialize(void* pArg)
 {
-	m_pPlayer = (CGameObj*)*(&((CAMERADESC_DERIVED*)pArg)->CameraDesc.pTarget);
 
 	if (FAILED(__super::Initialize(&((CAMERADESC_DERIVED*)pArg)->CameraDesc)))
 		return E_FAIL;
@@ -49,7 +48,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 
 	Move_CamPos(fTimeDelta);
 
-	Lerp_SubCam(fTimeDelta);
+	//Lerp_SubCam(fTimeDelta);
 
 	if (FAILED(Bind_OnPipeLine()))
 		return;
@@ -59,7 +58,11 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 {
 	__super::Late_Tick(fTimeDelta);
 
-
+	if (!m_bBattle)
+	{
+		Set_BattleTarget();
+		m_bBattle = true;
+	}
 }
 
 HRESULT CCamera_Dynamic::Render()
@@ -86,6 +89,20 @@ void CCamera_Dynamic::Set_CamPos()
 
 	_float fDist = XMVectorGetX(XMVector3Length(vLook2));
 
+	//맵의 임시 반지름
+	_float fDiameter = 30.f;
+	_float fCamDist = fDist / fDiameter;
+	if (fCamDist > 1.f)
+		fCamDist = 1.f;
+	_float fCamAt = 1.f - fCamDist;
+
+	_vector vAtPos = vPos;
+	vAtPos -= XMVector3Normalize(vLook2) * (fDist * fCamAt);
+	XMStoreFloat4(&m_v1pCamAt, vAtPos);
+	vAtPos = vTarget;
+	vAtPos += XMVector3Normalize(vLook2) * (fDist * fCamAt);
+	XMStoreFloat4(&m_v2pCamAt, vAtPos);
+
 	vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
 
 	XMStoreFloat4(&m_vPoint, vPos);
@@ -104,22 +121,14 @@ void CCamera_Dynamic::Set_CamPos()
 	//m_pSubTransform->Set_State(CTransform::STATE_UP, vUp);
 	//m_pSubTransform->Set_State(CTransform::STATE_LOOK, vLook);
 
-	_vector vAtPos = vPos;
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	m_pTransform->Set_Rotation(_float3(0.f, m_fAngle, 0.f));
 
-	vAtPos.m128_f32[1] += 2.f;
-
-	m_pSubTransform->LookAt(vAtPos);
-
-	m_pSubTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	m_pSubTransform->Set_Rotation(_float3(0.f, m_fAngle, 0.f));
-
-	_vector vLook = XMVector3Normalize(m_pSubTransform->Get_State(CTransform::STATE_LOOK));
+	_vector vLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
 	vPos -= vLook * 30.f;
 	vPos.m128_f32[1] = 0.f;
-	vPos.m128_f32[1] += 5.f;
-	m_pSubTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-
-	
+	vPos.m128_f32[1] += 5.5f;
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 }
 
 void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
@@ -130,11 +139,11 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 
 	if (m_f1pX < 200.f)
 	{
-		m_fAngle += 3.f;
+		m_fAngle += 0.8f;
 	}
 	else if (m_f1pX > 1080.f)
 	{
-		//m_fAngle -= 3.f;
+		m_fAngle -= 0.8f;
 	/*	m_pSubTransform->Set_State(CTransform::STATE_TRANSLATION, vPoint);
 		m_pSubTransform->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-2.f));
 		_vector vLook = XMVector3Normalize(m_pSubTransform->Get_State(CTransform::STATE_LOOK));
@@ -143,6 +152,9 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 		vPoint.m128_f32[1] += 10.f;
 		m_pSubTransform->Set_State(CTransform::STATE_TRANSLATION, vPoint);*/
 	}
+
+	m_pPlayer->Set_CamAngle(m_fAngle);
+	m_pTarget->Set_CamAngle(m_fAngle);
 }
 
 void CCamera_Dynamic::Lerp_SubCam(_float fTimeDelta)
@@ -168,7 +180,7 @@ void CCamera_Dynamic::ConvertToViewPort()
 {
 	_vector vPlayerPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	_vector vPos = m_pSubTransform->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
 
 	_vector vPlayerLook = vPos - vPlayerPos;
 	_vector vTargetLook = vPos - vTargetPos;
@@ -184,6 +196,9 @@ void CCamera_Dynamic::ConvertToViewPort()
 	_matrix matWVP2 = matTargetWorld * matView * matProj;
 	_float  m_fScalingbyDepth = XMVectorGetW(matWVP.r[3]);
 	matWVP.r[3] /= m_fScalingbyDepth;
+	_float  m_fScalingbyDepth2 = XMVectorGetW(matWVP2.r[3]);
+	matWVP2.r[3] /= m_fScalingbyDepth2;
+
 
 	XMStoreFloat4(&m_vPlayerPos, matWVP.r[3]);
 	
@@ -200,13 +215,23 @@ void CCamera_Dynamic::ConvertToViewPort()
 	{
 		m_f1pX = m_vPlayerPos.x;
 		m_f2pX = m_vTargetPos.x;
+		m_v2pCamAt.y = 1.f;
+		m_pTransform->LookAt(XMLoadFloat4(&m_v2pCamAt));
 	}
 	else
 	{
 		m_f1pX = m_vTargetPos.x;
 		m_f2pX = m_vPlayerPos.x;
+		m_v1pCamAt.y = 1.f;
+		m_pTransform->LookAt(XMLoadFloat4(&m_v1pCamAt));
 	}
 
+}
+
+void CCamera_Dynamic::Set_BattleTarget()
+{
+	m_pPlayer->Set_BattleTarget(m_pTarget);
+	m_pTarget->Set_BattleTarget(m_pPlayer);
 }
 
 

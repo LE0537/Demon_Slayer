@@ -31,6 +31,9 @@ HRESULT CKyoujuro::Initialize_Prototype()
 
 HRESULT CKyoujuro::Initialize(void * pArg)
 {
+	_bool b1p = false;
+	memcpy(&b1p, pArg, sizeof(_bool));
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -39,22 +42,29 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts2()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	
+	if (b1p)
+	{
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
-	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		Set_Info();
+		CUI_Manager::Get_Instance()->Set_1P(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
+	}
+	else
+	{
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 
+		Set_Info();
+		CUI_Manager::Get_Instance()->Set_2P(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
+	}
 	RELEASE_INSTANCE(CGameInstance);
-
-	//CKyoujuroState* pState = new CMoveState(OBJDIR::DIR_STOP, CKyoujuroState::STATE_TYPE::TYPE_DEFAULT);
-	//m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
-
-	Set_Info();
-	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	return S_OK;
 }

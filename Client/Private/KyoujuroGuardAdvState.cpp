@@ -62,7 +62,7 @@ CKyoujuroState * CGuardAdvState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeDel
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront();
+	CCharacters* m_pTarget = pKyoujuro->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
 	pKyoujuro->Get_Transform()->LookAt(vLooAt);
@@ -73,7 +73,7 @@ CKyoujuroState * CGuardAdvState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeDel
 	vCollPos.m128_f32[1] = 1.f; //추가
 	m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 	CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
-	CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), TEXT("Com_SPHERE"));
+	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 	m_fMove += fTimeDelta;
 	if (m_fMove > 0.1f && !m_bHit)
 	{

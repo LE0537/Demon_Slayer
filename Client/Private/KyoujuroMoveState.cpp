@@ -185,52 +185,52 @@ void CMoveState::Exit(CKyoujuro * pKyoujuro)
 
 void CMoveState::Move(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
+	_float fCamAngle = pKyoujuro->Get_CamAngle();
+
 	switch (m_eDirection)
 	{
 	case Client::DIR_STRAIGHT:
-		pKyoujuro->Get_Transform()->Set_RotationY(0.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(0.f + fCamAngle);
 		break;
 	case Client::DIR_LEFT:
-		pKyoujuro->Get_Transform()->Set_RotationY(270.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
 		break;
 	case Client::DIR_RIGHT:
-		pKyoujuro->Get_Transform()->Set_RotationY(90.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
 		break;
 	case Client::DIR_BACK:
-		pKyoujuro->Get_Transform()->Set_RotationY(180.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(180.f + fCamAngle);
 		break;
 	case Client::DIR_LF:
-		pKyoujuro->Get_Transform()->Set_RotationY(305.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(305.f + fCamAngle);
 		break;
 	case Client::DIR_RF:
-		pKyoujuro->Get_Transform()->Set_RotationY(45.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(45.f + fCamAngle);
 		break;
 	case Client::DIR_LB:
-		pKyoujuro->Get_Transform()->Set_RotationY(225.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(225.f + fCamAngle);
 		break;
 	case Client::DIR_RB:
-		pKyoujuro->Get_Transform()->Set_RotationY(135.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(135.f + fCamAngle);
 		break;
 	case Client::DIR_STOP:
 		break;
 	}
 
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
 	if (m_eDirection != DIR_STOP)
 		pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
 
-	CCollider*	pMyCollider = pKyoujuro->Get_Collider();
-	CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), TEXT("Com_SPHERE"));
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CCharacters* m_pTarget = pKyoujuro->Get_BattleTarget();
+	CCollider*	pMyCollider = pKyoujuro->Get_SphereCollider();
+	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
 	if (nullptr == pTargetCollider)
 		return;
 
 	if (pMyCollider->Collision(pTargetCollider))
 	{
-		CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront();
-
-		_float fSpeed = pKyoujuro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+		float fSpeed = pKyoujuro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
 
 		_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
