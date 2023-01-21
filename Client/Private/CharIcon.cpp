@@ -19,9 +19,6 @@ HRESULT CCharIcon::Initialize_Prototype()
 
 HRESULT CCharIcon::Initialize(void * pArg)
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
 	m_fSizeX = m_ThrowUIinfo.vScale.x;
@@ -29,9 +26,14 @@ HRESULT CCharIcon::Initialize(void * pArg)
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
-	wstring strName = m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName;
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
 
-	Icon_Selected(strName);
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+		Icon_Selected_GamePlay(m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName);
+	
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+		Icon_Selected_SelectChar(m_ThrowUIinfo.iLayerNum);
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
@@ -82,13 +84,25 @@ HRESULT CCharIcon::Render()
 	return S_OK;
 }
 
-void CCharIcon::Icon_Selected(wstring strName)
+void CCharIcon::Icon_Selected_GamePlay(wstring strName)
 {
 	if (strName == TEXT("ÄìÁÖ·Î"))
 		m_iImgNum = 19;
 	if (strName == TEXT("ÅºÁö·Î"))
 		m_iImgNum = 35;
 	
+}
+
+void CCharIcon::Icon_Selected_SelectChar(_uint iLayerNum)
+{
+	if (0 == iLayerNum)
+		m_iImgNum = 27;
+	else if(1 == iLayerNum)
+		m_iImgNum = 0;
+	else if (2 == iLayerNum)
+		m_iImgNum = 19;
+	else if (3 == iLayerNum)
+		m_iImgNum = 35;
 }
 
 HRESULT CCharIcon::Ready_Components()
@@ -102,12 +116,18 @@ HRESULT CCharIcon::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"), (CComponent**)&m_pShaderCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_UIVtxTex"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharIcon"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
+
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharIcon"), (CComponent**)&m_pTextureMaskCom)))
+			return E_FAIL;
+	}
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"), (CComponent**)&m_pVIBufferCom)))
@@ -165,9 +185,13 @@ void CCharIcon::Free()
 {
 	__super::Free();
 
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+		Safe_Release(m_pTextureMaskCom);
+
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);
+
 }

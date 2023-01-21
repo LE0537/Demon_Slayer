@@ -27,10 +27,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
 
-	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	pUIManager->Load_Data("P1_Person_HpUI");
-	pUIManager->Load_Data("P2_Person_HpUI");
-	RELEASE_INSTANCE(CUI_Manager);
+
 
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;

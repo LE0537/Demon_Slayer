@@ -142,15 +142,6 @@
     <Filter Include="03.UI\99.Manager">
       <UniqueIdentifier>{f30887ed-41c5-43ee-9de2-cd419502f0d9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\02.Battle\BattleTop\Char">
-      <UniqueIdentifier>{955ca6ee-1347-44cd-847c-959852508e75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleTop\Char\Icon">
-      <UniqueIdentifier>{d015f0f5-6528-41fa-83fe-766cf371466c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleTop\Char\Name">
-      <UniqueIdentifier>{3587e0bc-3917-4980-bee1-1042c45a57e0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\02.Battle\BattleTop\Gague\BarParts">
       <UniqueIdentifier>{325d52ad-5cbf-4fb0-8c10-03bfc1fc4c5a}</UniqueIdentifier>
     </Filter>
@@ -253,6 +244,90 @@
     <Filter Include="05.CollBox\00.BaseAtk">
       <UniqueIdentifier>{31165b9a-341b-45b7-9083-db4dc76b53af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\03. SelectChar">
+      <UniqueIdentifier>{51a62fac-a8d4-4e91-a94f-a7c70fedc199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Select_Bg">
+      <UniqueIdentifier>{1a9411bc-1fc0-4987-adae-fd558dd17059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Select_Bg\Pattern">
+      <UniqueIdentifier>{3cf064a8-3708-4e2d-bd5b-43d16e2d0b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Select_Bg\Cloud">
+      <UniqueIdentifier>{3062c8a9-bdd3-4cad-9544-918dc706214e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Select_Bg\BaseBg">
+      <UniqueIdentifier>{a4d838b3-729b-4a16-b066-ecba904e116b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Select_Bg\CharselBg">
+      <UniqueIdentifier>{fb3fae7a-f068-43e1-81fb-05d1e21ccf4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Window">
+      <UniqueIdentifier>{fcfe9c9a-f807-4bb3-87f5-ac78753c1868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Window\Base">
+      <UniqueIdentifier>{9d0bae83-a6f7-45d1-a178-9a0df739f4c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Window\Window">
+      <UniqueIdentifier>{315d9100-c25b-46ab-890d-a72e79a33367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\CharSelIcon">
+      <UniqueIdentifier>{c559eabb-a09b-403f-aca1-fb216c52e988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\CharSelIcon\Eff">
+      <UniqueIdentifier>{c7d5bfc0-d47f-4415-9c0b-40ac29181e39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\CharSelIcon\Shdow">
+      <UniqueIdentifier>{060bfa0e-9df7-416f-bfd7-86b189cd2018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\CharSelIcon\Frame">
+      <UniqueIdentifier>{0d8a6e00-7bff-4de1-9e2c-17f211aff0c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Cursor">
+      <UniqueIdentifier>{fcc73dbf-7d86-4c15-8be7-38a6388f1bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Cursor\P2">
+      <UniqueIdentifier>{c41a8232-df66-455c-af88-074dc89187c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Cursor\P1">
+      <UniqueIdentifier>{0adf80e9-0ae2-4393-bf25-19bf891c3148}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Icon">
+      <UniqueIdentifier>{df8aa9ad-704c-48ae-bbc3-5ce295edaac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Icon\PlayerNumIcon">
+      <UniqueIdentifier>{6bd37a3f-66ea-4b02-aac8-16ed831df2ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Icon\OniIcon">
+      <UniqueIdentifier>{2e3c6548-2848-4043-9cd6-cb72b3545bd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Icon\1PIcon">
+      <UniqueIdentifier>{97b64fde-0376-41ef-be44-bb0bc7e615ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Icon\2PIcon">
+      <UniqueIdentifier>{6daea4c0-09ce-4e9e-b306-140e9d89767e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Main">
+      <UniqueIdentifier>{08e8b062-44c9-43c0-8538-68f6b49e331c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Main\Light">
+      <UniqueIdentifier>{592eb789-d87f-4c15-ab04-9584249d08ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Main\1PMain">
+      <UniqueIdentifier>{8c5555d4-f6a8-4b22-aad1-1c5e4a713a9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03. SelectChar\Main\2PMain">
+      <UniqueIdentifier>{dd0ae4e7-b9a0-4173-b526-461a40a776b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\98.Char">
+      <UniqueIdentifier>{955ca6ee-1347-44cd-847c-959852508e75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\98.Char\Icon">
+      <UniqueIdentifier>{d015f0f5-6528-41fa-83fe-766cf371466c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\98.Char\Name">
+      <UniqueIdentifier>{3587e0bc-3917-4980-bee1-1042c45a57e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -321,9 +396,6 @@
     <ClInclude Include="..\Public\MeshObj_Static_Inst.h">
       <Filter>02.GameObjects\02.Map\02.MeshObj_Instancing_Static</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Akaza.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\TanjiroState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState</Filter>
     </ClInclude>
@@ -379,10 +451,10 @@
       <Filter>03.UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CharNameUI.h">
-      <Filter>03.UI\02.Battle\BattleTop\Char\Name</Filter>
+      <Filter>03.UI\98.Char\Name</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CharIcon.h">
-      <Filter>03.UI\02.Battle\BattleTop\Char\Icon</Filter>
+      <Filter>03.UI\98.Char\Icon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SkillBarParts.h">
       <Filter>03.UI\02.Battle\BattleTop\Gague\BarParts\SkillBarParts</Filter>
@@ -513,6 +585,69 @@
     <ClInclude Include="..\Public\KyoujuroMoveState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\PatternOne.h">
+      <Filter>03.UI\03. SelectChar\Select_Bg\Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PatternWind.h">
+      <Filter>03.UI\03. SelectChar\Select_Bg\Pattern</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CloudUI.h">
+      <Filter>03.UI\03. SelectChar\Select_Bg\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlayerNumIcon.h">
+      <Filter>03.UI\03. SelectChar\Icon\PlayerNumIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SelectBG.h">
+      <Filter>03.UI\03. SelectChar\Select_Bg\BaseBg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CharSelBg.h">
+      <Filter>03.UI\03. SelectChar\Select_Bg\CharselBg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WindowBase.h">
+      <Filter>03.UI\03. SelectChar\Window\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WindowLeft.h">
+      <Filter>03.UI\03. SelectChar\Window\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\WindowRight.h">
+      <Filter>03.UI\03. SelectChar\Window\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CharFrameShadow.h">
+      <Filter>03.UI\03. SelectChar\CharSelIcon\Shdow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CharFrameEff.h">
+      <Filter>03.UI\03. SelectChar\CharSelIcon\Eff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CharFrame.h">
+      <Filter>03.UI\03. SelectChar\CharSelIcon\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SelP1Cursor.h">
+      <Filter>03.UI\03. SelectChar\Cursor\P1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SelP2Cursor.h">
+      <Filter>03.UI\03. SelectChar\Cursor\P2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\OniIcon.h">
+      <Filter>03.UI\03. SelectChar\Icon\OniIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\1PIcon.h">
+      <Filter>03.UI\03. SelectChar\Icon\1PIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\2PIcon.h">
+      <Filter>03.UI\03. SelectChar\Icon\2PIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SelOniLight.h">
+      <Filter>03.UI\03. SelectChar\Main\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\1PMainOnBase.h">
+      <Filter>03.UI\03. SelectChar\Main\1PMain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\2PMainOnBase.h">
+      <Filter>03.UI\03. SelectChar\Main\2PMain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Akaza.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -562,9 +697,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\MeshObj_Static_Inst.cpp">
       <Filter>02.GameObjects\02.Map\02.MeshObj_Instancing_Static</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Akaza.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Tanjiro.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro</Filter>
@@ -618,10 +750,10 @@
       <Filter>03.UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CharNameUI.cpp">
-      <Filter>03.UI\02.Battle\BattleTop\Char\Name</Filter>
+      <Filter>03.UI\98.Char\Name</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CharIcon.cpp">
-      <Filter>03.UI\02.Battle\BattleTop\Char\Icon</Filter>
+      <Filter>03.UI\98.Char\Icon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SkillBarParts.cpp">
       <Filter>03.UI\02.Battle\BattleTop\Gague\BarParts\SkillBarParts</Filter>
@@ -755,6 +887,69 @@
     <ClCompile Include="..\Private\KyoujuroMoveState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\PatternOne.cpp">
+      <Filter>03.UI\03. SelectChar\Select_Bg\Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PatternWind.cpp">
+      <Filter>03.UI\03. SelectChar\Select_Bg\Pattern</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CloudUI.cpp">
+      <Filter>03.UI\03. SelectChar\Select_Bg\Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PlayerNumIcon.cpp">
+      <Filter>03.UI\03. SelectChar\Icon\PlayerNumIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SelectBG.cpp">
+      <Filter>03.UI\03. SelectChar\Select_Bg\BaseBg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CharSelBg.cpp">
+      <Filter>03.UI\03. SelectChar\Select_Bg\CharselBg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WindowBase.cpp">
+      <Filter>03.UI\03. SelectChar\Window\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WindowLeft.cpp">
+      <Filter>03.UI\03. SelectChar\Window\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\WindowRight.cpp">
+      <Filter>03.UI\03. SelectChar\Window\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CharFrame.cpp">
+      <Filter>03.UI\03. SelectChar\CharSelIcon\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CharFrameShadow.cpp">
+      <Filter>03.UI\03. SelectChar\CharSelIcon\Shdow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CharFrameEff.cpp">
+      <Filter>03.UI\03. SelectChar\CharSelIcon\Eff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SelP1Cursor.cpp">
+      <Filter>03.UI\03. SelectChar\Cursor\P1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SelP2Cursor.cpp">
+      <Filter>03.UI\03. SelectChar\Cursor\P2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\OniIcon.cpp">
+      <Filter>03.UI\03. SelectChar\Icon\OniIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\1PIcon.cpp">
+      <Filter>03.UI\03. SelectChar\Icon\1PIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\2PIcon.cpp">
+      <Filter>03.UI\03. SelectChar\Icon\2PIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SelOniLight.cpp">
+      <Filter>03.UI\03. SelectChar\Main\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\1PMainOnBase.cpp">
+      <Filter>03.UI\03. SelectChar\Main\1PMain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\2pMainOnBase.cpp">
+      <Filter>03.UI\03. SelectChar\Main\2PMain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Akaza.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -792,6 +987,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModelInstance.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_UIVtxTex.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

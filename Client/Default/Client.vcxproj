@@ -181,6 +181,15 @@
     <ClInclude Include="..\Public\Akaza.h" />
     <ClInclude Include="..\public\BaseAtk.h" />
     <ClInclude Include="..\public\CollBox.h" />
+    <ClInclude Include="..\Public\1PIcon.h" />
+    <ClInclude Include="..\Public\1PMainOnBase.h" />
+    <ClInclude Include="..\Public\2PIcon.h" />
+    <ClInclude Include="..\Public\2PMainOnBase.h" />
+    <ClInclude Include="..\Public\CharFrame.h" />
+    <ClInclude Include="..\Public\CharFrameEff.h" />
+    <ClInclude Include="..\Public\CharFrameShadow.h" />
+    <ClInclude Include="..\Public\CharSelBg.h" />
+    <ClInclude Include="..\Public\CloudUI.h" />
     <ClInclude Include="..\Public\Effect.h" />
     <ClInclude Include="..\Public\Effect_Manager.h" />
     <ClInclude Include="..\Public\Effect_Mesh.h" />
@@ -196,6 +205,14 @@
     <ClInclude Include="..\Public\TanjiroGuardAdvState.h" />
     <ClInclude Include="..\Public\TanjiroGuardHitState.h" />
     <ClInclude Include="..\Public\TanjiroGuardState.h" />
+    <ClInclude Include="..\Public\OniIcon.h" />
+    <ClInclude Include="..\Public\PatternOne.h" />
+    <ClInclude Include="..\Public\PatternWind.h" />
+    <ClInclude Include="..\Public\PlayerNumIcon.h" />
+    <ClInclude Include="..\Public\SelectBG.h" />
+    <ClInclude Include="..\Public\SelOniLight.h" />
+    <ClInclude Include="..\Public\SelP1Cursor.h" />
+    <ClInclude Include="..\Public\SelP2Cursor.h" />
     <ClInclude Include="..\Public\TanjiroHitState.h" />
     <ClInclude Include="..\Public\KyoujuroAtk_1_State.h" />
     <ClInclude Include="..\Public\KyoujuroAtk_2_State.h" />
@@ -250,6 +267,9 @@
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Manager.h" />
+    <ClInclude Include="..\Public\WindowBase.h" />
+    <ClInclude Include="..\Public\WindowLeft.h" />
+    <ClInclude Include="..\Public\WindowRight.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -271,6 +291,15 @@
     <ClCompile Include="..\Private\Akaza.cpp" />
     <ClCompile Include="..\private\BaseAtk.cpp" />
     <ClCompile Include="..\private\CollBox.cpp" />
+    <ClCompile Include="..\Private\1PIcon.cpp" />
+    <ClCompile Include="..\Private\1PMainOnBase.cpp" />
+    <ClCompile Include="..\Private\2PIcon.cpp" />
+    <ClCompile Include="..\Private\2pMainOnBase.cpp" />
+    <ClCompile Include="..\Private\CharFrame.cpp" />
+    <ClCompile Include="..\Private\CharFrameEff.cpp" />
+    <ClCompile Include="..\Private\CharFrameShadow.cpp" />
+    <ClCompile Include="..\Private\CharSelBg.cpp" />
+    <ClCompile Include="..\Private\CloudUI.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
     <ClCompile Include="..\Private\Effect_Manager.cpp" />
     <ClCompile Include="..\Private\Effect_Mesh.cpp" />
@@ -286,6 +315,14 @@
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardHitState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardState.cpp" />
+    <ClCompile Include="..\Private\OniIcon.cpp" />
+    <ClCompile Include="..\Private\PatternOne.cpp" />
+    <ClCompile Include="..\Private\PatternWind.cpp" />
+    <ClCompile Include="..\Private\PlayerNumIcon.cpp" />
+    <ClCompile Include="..\Private\SelectBG.cpp" />
+    <ClCompile Include="..\Private\SelOniLight.cpp" />
+    <ClCompile Include="..\Private\SelP1Cursor.cpp" />
+    <ClCompile Include="..\Private\SelP2Cursor.cpp" />
     <ClCompile Include="..\Private\TanjiroHitState.cpp" />
     <ClCompile Include="..\Private\KyoujuroAtk_1_State.cpp" />
     <ClCompile Include="..\Private\KyoujuroAtk_2_State.cpp" />
@@ -337,6 +374,9 @@
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Manager.cpp" />
+    <ClCompile Include="..\Private\WindowBase.cpp" />
+    <ClCompile Include="..\Private\WindowLeft.cpp" />
+    <ClCompile Include="..\Private\WindowRight.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -353,6 +393,7 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_UIVtxTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModelInstance.hlsl" />
