@@ -25,12 +25,19 @@ CTanjiroState * CAtk_3_State::HandleInput(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	
-
-	//if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
-	//	m_bAtkCombo = true;
-
-	if (pGameInstance->Key_Down(DIK_J))
-		m_bAtkCombo = true;
+	switch (pTanjiro->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Down(DIK_J) && m_fComboDelay <= 43.f)
+			m_bAtkCombo = true;
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_Z) && m_fComboDelay <= 43.f)
+			m_bAtkCombo = true;
+		break;
+	default:
+		break;
+	}
 
 
 	return nullptr;

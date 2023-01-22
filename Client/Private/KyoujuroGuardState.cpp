@@ -18,16 +18,36 @@ CKyoujuroState * CGuardState::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	if (pGameInstance->Key_Pressing(DIK_C) && m_eStateType != STATE_TYPE::TYPE_END)
+	switch (pKyoujuro->Get_i1P())
 	{
-		pKyoujuro->Set_bGuard(true);
-		if (pGameInstance->Key_Down(DIK_LEFT) || pGameInstance->Key_Down(DIK_UP) || pGameInstance->Key_Down(DIK_DOWN) || pGameInstance->Key_Down(DIK_RIGHT))
-			return new CGuardAdvState();
+	case 1:
+		if (pGameInstance->Key_Pressing(DIK_O) && m_eStateType != STATE_TYPE::TYPE_END)
+		{
+			pKyoujuro->Set_bGuard(true);
+			if (pGameInstance->Key_Down(DIK_A) || pGameInstance->Key_Down(DIK_W) || pGameInstance->Key_Down(DIK_S) || pGameInstance->Key_Down(DIK_D))
+				return new CGuardAdvState();
+			else
+				return new CGuardState(STATE_TYPE::TYPE_LOOP);
+		}
 		else
-			return new CGuardState(STATE_TYPE::TYPE_LOOP);
+			return new CGuardState(STATE_TYPE::TYPE_END);
+		break;
+	case 2:
+		if (pGameInstance->Key_Pressing(DIK_C) && m_eStateType != STATE_TYPE::TYPE_END)
+		{
+			pKyoujuro->Set_bGuard(true);
+			if (pGameInstance->Key_Down(DIK_LEFT) || pGameInstance->Key_Down(DIK_UP) || pGameInstance->Key_Down(DIK_DOWN) || pGameInstance->Key_Down(DIK_RIGHT))
+				return new CGuardAdvState();
+			else
+				return new CGuardState(STATE_TYPE::TYPE_LOOP);
+		}
+		else
+			return new CGuardState(STATE_TYPE::TYPE_END);
+		break;
+	default:
+		break;
 	}
-	else
-		return new CGuardState(STATE_TYPE::TYPE_END);
+	
 
 	return nullptr;
 }

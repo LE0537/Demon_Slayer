@@ -32,8 +32,7 @@ HRESULT CTanjiro::Initialize_Prototype()
 
 HRESULT CTanjiro::Initialize(void * pArg)
 {
-	_bool b1p = false;
-	memcpy(&b1p, pArg, sizeof(_bool));
+	memcpy(&m_i1p, pArg, sizeof(_int));
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -46,7 +45,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (b1p)
+	if (m_i1p == 1)
 	{
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
@@ -54,7 +53,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		CUI_Manager::Get_Instance()->Set_1P(this);
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
 	}
-	else
+	else if (m_i1p == 2)
 	{
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 

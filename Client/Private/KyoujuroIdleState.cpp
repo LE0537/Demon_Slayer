@@ -18,41 +18,87 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pKyoujuro->Set_bGuard(false);
-	if (pGameInstance->Key_Pressing(DIK_UP)) // 菊
+
+	switch (pKyoujuro->Get_i1P())
 	{
-		if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
-			return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+	case 1:
+		if (pGameInstance->Key_Pressing(DIK_W)) // 菊
+		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+			else
+				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+		}
+
+		else if (pGameInstance->Key_Pressing(DIK_S)) // 第
+		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
+				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+			else
+				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+		}
+
+
+		else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_SPACE))
+		{
+			_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_float fPositionY = XMVectorGetY(vPosition);
+			return new CJumpState(STATE_TYPE::TYPE_LOOP, fPositionY, 0.f);
+		}
+		else if (pGameInstance->Key_Down(DIK_J))
+			return new CAtk_1_State();
+		else if (pGameInstance->Key_Pressing(DIK_O))
+			return new CGuardState(STATE_TYPE::TYPE_START);
+		break;
+	case 2:
+		if (pGameInstance->Key_Pressing(DIK_UP)) // 菊
+		{
+			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+			else
+				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+		}
+
+		else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 第
+		{
+			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
+				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+			else
+				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+		}
+
+
+		else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
-			return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
-		else
-			return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_RCONTROL))
+		{
+			_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_float fPositionY = XMVectorGetY(vPosition);
+			return new CJumpState(STATE_TYPE::TYPE_LOOP, fPositionY, 0.f);
+		}
+		else if (pGameInstance->Key_Down(DIK_Z))
+			return new CAtk_1_State();
+		else if (pGameInstance->Key_Pressing(DIK_C))
+			return new CGuardState(STATE_TYPE::TYPE_START);
+		break;
+	default:
+		break;
 	}
 
-	else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 第
-	{
-		if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
-			return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
-		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
-			return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
-		else
-			return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
-	}
-
-
-	else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
-		return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
-	else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
-		return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
-	else if (pGameInstance->Key_Down(DIK_RCONTROL))
-	{
-		_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		_float fPositionY = XMVectorGetY(vPosition);
-		return new CJumpState(STATE_TYPE::TYPE_LOOP, fPositionY, 0.f);
-	}
-	else if (pGameInstance->Key_Down(DIK_Z))
-		return new CAtk_1_State();
-	else if (pGameInstance->Key_Pressing(DIK_C))
-		return new CGuardState(STATE_TYPE::TYPE_START);
 
 
 	return nullptr;

@@ -26,16 +26,33 @@ CTanjiroState * CGuardAdvState::HandleInput(CTanjiro * pTanjiro)
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	if (pTanjiro->Get_Model()->Get_End(CTanjiro::ANIM_GUARD_ADV))
+	switch (pTanjiro->Get_i1P())
 	{
-		pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_GUARD_ADV);
+	case 1:
+		if (pTanjiro->Get_Model()->Get_End(CTanjiro::ANIM_GUARD_ADV))
+		{
+			pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_GUARD_ADV);
 
-		if (pGameInstance->Key_Pressing(DIK_O))
-			return new CGuardState(STATE_TYPE::TYPE_LOOP);
-		else
-			return new CGuardState(STATE_TYPE::TYPE_END);
+			if (pGameInstance->Key_Pressing(DIK_O))
+				return new CGuardState(STATE_TYPE::TYPE_LOOP);
+			else
+				return new CGuardState(STATE_TYPE::TYPE_END);
+		}
+		break;
+	case 2:
+		if (pTanjiro->Get_Model()->Get_End(CTanjiro::ANIM_GUARD_ADV))
+		{
+			pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_GUARD_ADV);
+
+			if (pGameInstance->Key_Pressing(DIK_C))
+				return new CGuardState(STATE_TYPE::TYPE_LOOP);
+			else
+				return new CGuardState(STATE_TYPE::TYPE_END);
+		}
+		break;
+	default:
+		break;
 	}
-
 
 	return nullptr;
 }

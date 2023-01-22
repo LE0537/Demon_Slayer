@@ -139,8 +139,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 
 	_uint i1p = pUIManager->Get_1P();
 	_uint i2p = pUIManager->Get_2P();
-	_bool b1p = true;
-	_bool b2p = false;
+	_int b1p = 1;
+	_int b2p = 2;
 	switch (i1p)
 	{
 	case 0:

@@ -57,6 +57,7 @@ public:
 	void	   Set_BattleTarget(CCharacters* _BattleTarget) { m_pBattleTarget = _BattleTarget; }
 	CCharacters*	Get_BattleTarget() { return m_pBattleTarget; }
 	CCollider* Get_SphereCollider() { return m_pSphereCom; }
+	_int	   Get_i1P() { return m_i1p; }
 
 	virtual	void  Take_Damage(_float _fPow) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
@@ -65,6 +66,7 @@ protected:
 	CCharacters*	m_pBattleTarget = nullptr;
 
 	CCollider*				m_pSphereCom = nullptr;
+	_int					m_i1p = 0;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

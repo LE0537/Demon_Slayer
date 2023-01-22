@@ -30,10 +30,24 @@ CKyoujuroState * CGuardAdvState::HandleInput(CKyoujuro* pKyoujuro)
 	{
 		pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_GUARD_ADV);
 
-		if (pGameInstance->Key_Pressing(DIK_O))
-			return new CGuardState(STATE_TYPE::TYPE_LOOP);
-		else
-			return new CGuardState(STATE_TYPE::TYPE_END);
+		switch (pKyoujuro->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Pressing(DIK_O))
+				return new CGuardState(STATE_TYPE::TYPE_LOOP);
+			else
+				return new CGuardState(STATE_TYPE::TYPE_END);
+			break;
+		case 2:
+			if (pGameInstance->Key_Pressing(DIK_C))
+				return new CGuardState(STATE_TYPE::TYPE_LOOP);
+			else
+				return new CGuardState(STATE_TYPE::TYPE_END);
+			break;
+		default:
+			break;
+		}
+	
 	}
 
 
