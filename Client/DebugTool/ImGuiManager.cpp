@@ -152,11 +152,6 @@ void CImGuiManager::AnimationDebug(_float fTimeDelta)
 	
 
 
-
-
-
-
-
 }
 
 void CImGuiManager::Add_LiveCharacter(CCharacters * pCharacter)
@@ -177,7 +172,7 @@ void CImGuiManager::LiveCharacterList()
 	static int selected = 999;
 
 
-	if (ImGui::BeginListBox("", vListSize))
+	if (ImGui::BeginListBox("Character", vListSize))
 	{
 		for (_uint i = 0; i < m_vecObjList.size(); ++i)
 		{
@@ -205,7 +200,38 @@ void CImGuiManager::LiveCharacterList()
 
 void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 {
+	ImVec2 vListSize(300, 400);
+	ImVec2 vObjSize(300, 30);
+	static int selected = 0;
 
+	if (_iIndex == 0)
+		m_vecAnimation = ((CTanjiro*)(m_vecObjList[_iIndex]))->Get_Model()->Get_Animation();
+	else if (_iIndex == 1)
+		m_vecAnimation = ((CKyoujuro*)(m_vecObjList[_iIndex]))->Get_Model()->Get_Animation();
+
+
+	if (ImGui::BeginListBox("Animation", vListSize))
+	{
+		for (_uint i = 0; i < m_vecAnimation.size(); ++i)
+		{
+			string Temp = to_string(i) + ". ";
+			string strName = m_vecAnimation[i]->Get_AnimName();
+
+			if (_iIndex == 0)
+				strName.erase(strName.begin(), strName.begin() + 38);
+			else if(_iIndex == 1)
+				strName.erase(strName.begin(), strName.begin() + 53);
+
+			strName = Temp + strName;
+
+			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
+			{
+				selected = i;
+			}
+			ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndListBox();
+	}
 
 }
 
@@ -216,6 +242,14 @@ void CImGuiManager::Clear_CharacterList()
 		Safe_Release(iter);
 
 	m_vecObjList.clear();
+}
+
+void CImGuiManager::Clear_AnimationList()
+{
+	for (auto& iter : m_vecAnimation)
+		Safe_Release(iter);
+
+	m_vecAnimation.clear();
 }
 
 void CImGuiManager::Free()
@@ -230,5 +264,6 @@ void CImGuiManager::Free()
 	Safe_Release(m_pContext);
 
 	Clear_CharacterList();
+//	Clear_AnimationList();
 
 }

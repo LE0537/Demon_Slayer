@@ -12,6 +12,7 @@
 #include "TanjiroWeapon.h"
 #include "TanjiroSheath.h"
 #include "TanjiroGuardHitState.h"
+#include "ImGuiManager.h"
 using namespace Tanjiro;
 
 
@@ -65,6 +66,9 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	CTanjiroState* pState = new CIdleState();
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
+
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 	return S_OK;
 }
