@@ -205,28 +205,7 @@ void CImGuiManager::LiveCharacterList()
 
 void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 {
-	//ImVec2 vListSize(200, 300);
-	//ImVec2 vObjSize(100, 30);
-	//static int selected = 0;
 
-	///*if(_iIndex == 1)
-	//(CTanjiro*)(m_vecObjList[_iIndex])-*/
-
-	//
-	//if (ImGui::BeginListBox("", vListSize))
-	//{
-	//	for (_uint i = 0; i < m_vecObjList.size(); ++i)
-	//	{
-	//		//string strName = m_vecObjList[];
-
-	//		if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
-	//		{
-	//			selected = i;
-	//		}
-	//		ImGui::SetItemDefaultFocus();
-	//	}
-	//	ImGui::EndListBox();
-	//}
 
 }
 
