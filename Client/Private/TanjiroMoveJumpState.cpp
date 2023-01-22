@@ -21,68 +21,140 @@ CTanjiroState * CMoveJumpState::HandleInput(CTanjiro * pTanjiro)
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	if (m_eStateType != STATE_TYPE::TYPE_DEFAULT)
+	switch (pTanjiro->Get_i1P())
 	{
-		if (pGameInstance->Key_Pressing(DIK_W)) // 菊
+	case 1:
+		if (m_eStateType != STATE_TYPE::TYPE_DEFAULT)
 		{
-			if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+			if (pGameInstance->Key_Pressing(DIK_W)) // 菊
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LF;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RF;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_STRAIGHT;
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_S)) // 第
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LB;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RB;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_BACK;
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
 			{
 				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_LF;
+				m_eNextDir = OBJDIR::DIR_LEFT;
 			}
 			else if (pGameInstance->Key_Pressing(DIK_D)) // 快
 			{
 				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_RF;
+				m_eNextDir = OBJDIR::DIR_RIGHT;
 			}
 			else
 			{
-				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_STRAIGHT;
+				m_bMove = false;
+				m_eNextDir = OBJDIR::DIR_STOP;
 			}
-		}
-
-		else if (pGameInstance->Key_Pressing(DIK_S)) // 第
-		{
-			if (pGameInstance->Key_Pressing(DIK_A)) // 谅
-			{
-				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_LB;
-			}
-			else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
-			{
-				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_RB;
-			}
-			else
-			{
-				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_BACK;
-			}
-		}
-
-
-		else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
-		{
-			m_bMove = true;
-			m_eNextDir = OBJDIR::DIR_LEFT;
-		}
-		else if (pGameInstance->Key_Pressing(DIK_D)) // 快
-		{
-			m_bMove = true;
-			m_eNextDir = OBJDIR::DIR_RIGHT;
 		}
 		else
 		{
 			m_bMove = false;
 			m_eNextDir = OBJDIR::DIR_STOP;
 		}
+		break;
+	case 2:
+		if (m_eStateType != STATE_TYPE::TYPE_DEFAULT)
+		{
+			if (pGameInstance->Key_Pressing(DIK_UP)) // 菊
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LF;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RF;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_STRAIGHT;
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 第
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LB;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RB;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_BACK;
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+			{
+				m_bMove = true;
+				m_eNextDir = OBJDIR::DIR_LEFT;
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+			{
+				m_bMove = true;
+				m_eNextDir = OBJDIR::DIR_RIGHT;
+			}
+			else
+			{
+				m_bMove = false;
+				m_eNextDir = OBJDIR::DIR_STOP;
+			}
+		}
+		else
+		{
+			m_bMove = false;
+			m_eNextDir = OBJDIR::DIR_STOP;
+		}
+		break;
+	default:
+		break;
 	}
-	else
-	{
-		m_bMove = false;
-		m_eNextDir = OBJDIR::DIR_STOP;
-	}
+
 
 
 	return nullptr;
@@ -209,31 +281,33 @@ void CMoveJumpState::Exit(CTanjiro * pTanjiro)
 
 void CMoveJumpState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	_float fCamAngle = pTanjiro->Get_CamAngle();
+
 	switch (m_eDirection)
 	{
 	case Client::DIR_STRAIGHT:
-		pTanjiro->Get_Transform()->Set_RotationY(0.f);
+		pTanjiro->Get_Transform()->Set_RotationY(0.f + fCamAngle);
 		break;
 	case Client::DIR_LEFT:
-		pTanjiro->Get_Transform()->Set_RotationY(270.f);
+		pTanjiro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
 		break;
 	case Client::DIR_RIGHT:
-		pTanjiro->Get_Transform()->Set_RotationY(90.f);
+		pTanjiro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
 		break;
 	case Client::DIR_BACK:
-		pTanjiro->Get_Transform()->Set_RotationY(180.f);
+		pTanjiro->Get_Transform()->Set_RotationY(180.f + fCamAngle);
 		break;
 	case Client::DIR_LF:
-		pTanjiro->Get_Transform()->Set_RotationY(305.f);
+		pTanjiro->Get_Transform()->Set_RotationY(305.f + fCamAngle);
 		break;
 	case Client::DIR_RF:
-		pTanjiro->Get_Transform()->Set_RotationY(45.f);
+		pTanjiro->Get_Transform()->Set_RotationY(45.f + fCamAngle);
 		break;
 	case Client::DIR_LB:
-		pTanjiro->Get_Transform()->Set_RotationY(225.f);
+		pTanjiro->Get_Transform()->Set_RotationY(225.f + fCamAngle);
 		break;
 	case Client::DIR_RB:
-		pTanjiro->Get_Transform()->Set_RotationY(135.f);
+		pTanjiro->Get_Transform()->Set_RotationY(135.f + fCamAngle);
 		break;
 	case Client::DIR_STOP:
 		break;

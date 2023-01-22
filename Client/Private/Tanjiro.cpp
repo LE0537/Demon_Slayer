@@ -32,7 +32,7 @@ HRESULT CTanjiro::Initialize_Prototype()
 
 HRESULT CTanjiro::Initialize(void * pArg)
 {
-	*(CGameObject**)pArg = this;
+	memcpy(&m_i1p, pArg, sizeof(_int));
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -42,21 +42,29 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts2()))
 		return E_FAIL;
 
-	
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (m_i1p == 1)
+	{
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+
+		Set_Info();
+		CUI_Manager::Get_Instance()->Set_1P(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
+	}
+	else if (m_i1p == 2)
+	{
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+		Set_Info();
+		CUI_Manager::Get_Instance()->Set_2P(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
+	}
+	RELEASE_INSTANCE(CGameInstance);
 
 	CTanjiroState* pState = new CIdleState();
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
-
-
-	//CTanjiroState* pState = new CMoveState(OBJDIR::DIR_STOP, CTanjiroState::STATE_TYPE::TYPE_DEFAULT);
-	//m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
-
-
-	Set_Info();
-	CUI_Manager::Get_Instance()->Set_1P(this);
-
 
 	return S_OK;
 }

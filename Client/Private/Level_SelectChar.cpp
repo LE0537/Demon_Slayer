@@ -21,12 +21,11 @@ HRESULT CLevel_SelectChar::Initialize()
 void CLevel_SelectChar::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
 	if (!m_bCreateUI)
 	{
-		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 		pUIManager->Add_Select_CharUI();
-		RELEASE_INSTANCE(CUI_Manager);
 		m_bCreateUI = true;
 	}
 
@@ -34,11 +33,17 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 	Safe_AddRef(pGameInstance);
 	if (pGameInstance->Key_Down(DIK_T))
 	{
+		_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
+		_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
+
+		pUIManager->Set_1P(i1p);
+		pUIManager->Set_2P(i2p);
+
 		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
 			return;
 	}
 	Safe_Release(pGameInstance);
-
+	RELEASE_INSTANCE(CUI_Manager);
 
 
 }

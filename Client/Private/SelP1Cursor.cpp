@@ -84,7 +84,8 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_E))
 		m_bSelectCheck = true;
-	else if(pGameInstance->Key_Down(DIK_Q))
+
+	else if (pGameInstance->Key_Down(DIK_Q))
 		m_bSelectCheck = false;
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));

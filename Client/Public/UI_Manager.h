@@ -43,10 +43,15 @@ public:
 	void	Set_1PChar(CUI* p1PChar) { m_p1PChar = p1PChar; }
 
 	CUI*	Get_2PChar() { return m_p2PChar; } //레벨 캐릭터 넘겨줄때 이거사용 Get_ImgNum() 사용
-	void	Set_2PChar(CUI* p2PChar) { m_p1PChar = p2PChar; }
+	void	Set_2PChar(CUI* p2PChar) { m_p2PChar = p2PChar; }
+
+	_uint   Get_1P() { return m_i1p; }
+	void	Set_1P(_uint _i1p) { m_i1p = _i1p; }
+	_uint   Get_2P() { return m_i2p; }
+	void	Set_2P(_uint _i2p) { m_i2p = _i2p; }
 	//0일때 아카자
-	//1일때 루이
-	//2일때 쿄쥬로
+	//1일때 쿄쥬로
+	//2일때 루이
 	//3일때 탄지로
 
 
@@ -76,7 +81,8 @@ private:
 	CUI::THROWUIINFO				m_ThrowInfo;
 	_uint							m_iCharIconLayerNum = 0;
 	_uint							m_iCharNameLayerNum = 0;
-
+	_uint                           m_i1p = 0;
+	_uint                           m_i2p = 0;
 public:
 	virtual void Free() override;
 };

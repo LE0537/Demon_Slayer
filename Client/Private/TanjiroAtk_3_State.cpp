@@ -25,12 +25,19 @@ CTanjiroState * CAtk_3_State::HandleInput(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	
-
-	//if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
-	//	m_bAtkCombo = true;
-
-	if (pGameInstance->Key_Down(DIK_J))
-		m_bAtkCombo = true;
+	switch (pTanjiro->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Down(DIK_J) && m_fComboDelay <= 43.f)
+			m_bAtkCombo = true;
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_Z) && m_fComboDelay <= 43.f)
+			m_bAtkCombo = true;
+		break;
+	default:
+		break;
+	}
 
 
 	return nullptr;
@@ -65,7 +72,7 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"))->Get_LayerFront();
+	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
 	pTanjiro->Get_Transform()->LookAt(vLooAt);
@@ -76,8 +83,8 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	{
 		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
 
-		CCollider*	pMyCollider = pTanjiro->Get_Collider();
-		CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
+		CCollider*	pMyCollider = pTanjiro->Get_SphereCollider();
+		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
 		if (nullptr == pTargetCollider)
 			return nullptr;
@@ -113,7 +120,7 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
-			CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
+			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
 			if (nullptr == pTargetCollider)
 				return nullptr;

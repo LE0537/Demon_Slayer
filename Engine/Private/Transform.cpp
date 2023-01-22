@@ -1,5 +1,6 @@
 #include "..\Public\Transform.h"
 #include "Navigation.h"
+#include "PipeLine.h"
 
 CTransform::CTransform(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CComponent(pDevice, pContext)
@@ -50,6 +51,7 @@ void CTransform::Go_StraightNoNavi(_float fTimeDelta)
 	_vector		vLook = Get_State(CTransform::STATE_LOOK);
 
 	vPosition += XMVector3Normalize(vLook) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
+
 	Set_State(CTransform::STATE_TRANSLATION, vPosition);
 }
 
@@ -93,6 +95,7 @@ void CTransform::Go_Backward(_float fTimeDelta)
 
 void CTransform::Go_Left(_float fTimeDelta)
 {
+
 	_vector		vPosition = Get_State(CTransform::STATE_TRANSLATION);
 	_vector		vRight = Get_State(CTransform::STATE_RIGHT);
 
