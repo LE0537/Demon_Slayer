@@ -57,6 +57,18 @@ public:
 		ANIM_GUARD_HIT_0 = 51,
 		ANIM_GUARD_HIT_1 = 52,
 
+		// DASH
+		ANIM_DASH_AB = 65,
+		ANIM_DASH_AF = 66,
+		ANIM_DASH_AL = 67,
+		ANIM_DASH_AR = 68,
+		ANIM_DASH_B = 69,
+		ANIM_DASH_F = 70,
+		ANIM_DASH_L_01 = 71,
+		ANIM_DASH_L_02 = 72,
+		ANIM_DASH_R_01 = 73,
+		ANIM_DASH_R_02 = 74,
+
 		ANIM_END = 100
 	};
 
@@ -78,8 +90,7 @@ public:
 
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
-	CCollider* Get_Collider() { return m_pSphereCom; }
-	CGameObject* Get_Weapon() { return m_pWeapon; }
+
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -89,11 +100,11 @@ private:
 	void	Set_Info();
 
 public:
-	void  Take_Damage(_float _fPow);
+	virtual void  Take_Damage(_float _fPow);
+	virtual void  Get_GuardHit(_int eType);
 
 private:
 	CModel*					m_pModelCom = nullptr;
-	CCollider*				m_pSphereCom = nullptr;
 	
 	CGameObject*			m_pWeapon = nullptr;
 	CGameObject*			m_pSheath = nullptr;

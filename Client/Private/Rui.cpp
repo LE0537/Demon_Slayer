@@ -244,6 +244,14 @@ void CRui::Set_Info()
 	m_tInfo.iFriendBar;
 }
 
+void CRui::Take_Damage(_float _fPow)
+{
+}
+
+void CRui::Get_GuardHit(_int eType)
+{
+}
+
 HRESULT CRui::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)

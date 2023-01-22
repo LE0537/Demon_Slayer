@@ -7,23 +7,37 @@
 #include "Layer.h"
 #include "Kyoujuro.h"
 #include "Effect_Manager.h"
+
 using namespace Tanjiro;
 
 
 CAtk_3_State::CAtk_3_State()
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+		return;
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 CTanjiroState * CAtk_3_State::HandleInput(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	
-
-	//if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
-	//	m_bAtkCombo = true;
-
-	if (pGameInstance->Key_Down(DIK_J))
-		m_bAtkCombo = true;
+	switch (pTanjiro->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Down(DIK_J) && m_fComboDelay <= 43.f)
+			m_bAtkCombo = true;
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_Z) && m_fComboDelay <= 43.f)
+			m_bAtkCombo = true;
+		break;
+	default:
+		break;
+	}
 
 
 	return nullptr;
@@ -58,12 +72,10 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"))->Get_LayerFront();
+	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
 	pTanjiro->Get_Transform()->LookAt(vLooAt);
-
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
 
 	m_fMove += fTimeDelta;
 
@@ -71,8 +83,8 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	{
 		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
 
-		CCollider*	pMyCollider = pTanjiro->Get_Collider();
-		CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
+		CCollider*	pMyCollider = pTanjiro->Get_SphereCollider();
+		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
 		if (nullptr == pTargetCollider)
 			return nullptr;
@@ -93,17 +105,22 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
-
+			vPos.m128_f32[1] = 0.f;
 			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
 		}
 	}
-	else
+	else if (m_fMove < 0.65f)
 	{
 		if (!m_bHit)
 		{
-			CCollider*	pMyCollider = dynamic_cast<CTanjiroWeapon*>(pTanjiro->Get_Weapon())->Get_WeaponColl();
-			CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
+			_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+			_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+			vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
+			vCollPos.m128_f32[1] = 1.f; //추가
+			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
 			if (nullptr == pTargetCollider)
 				return nullptr;
@@ -116,21 +133,31 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				vPos.m128_f32[1] = 0.f;
 				m_pTarget->Get_Transform()->LookAt(vPos);
-				m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 3);
-				dynamic_cast<CKyoujuro*>(m_pTarget)->Take_Damage(0.6f);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 2);
+					m_pTarget->Take_Damage(0.6f);
+				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				vTagetPos.y += 2.f;
 				pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT, vTagetPos);
 
 				RELEASE_INSTANCE(CEffect_Manager);
-
+			
 				m_bHit = true;
 			}
 		}
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
 
 	return nullptr;
 }
@@ -146,5 +173,6 @@ void CAtk_3_State::Enter(CTanjiro * pTanjiro)
 
 void CAtk_3_State::Exit(CTanjiro * pTanjiro)
 {
+	m_pCollBox->Set_Dead(); //추가
 }
 

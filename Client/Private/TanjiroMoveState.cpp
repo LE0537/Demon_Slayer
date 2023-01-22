@@ -6,6 +6,8 @@
 #include "TanjiroAtk_1_State.h"
 #include "Characters.h"
 #include "Layer.h"
+#include "TanjiroGuardState.h"
+#include "TanjiroDashState.h"
 using namespace Tanjiro;
 
 
@@ -19,104 +21,267 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-
-	if(pGameInstance->Key_Down(DIK_J))
-			return new CAtk_1_State();
-
-
-
-	if (pGameInstance->Key_Pressing(DIK_W)) // 菊
+	switch (pTanjiro->Get_i1P())
 	{
-		 if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+	case 1:
+		if (pGameInstance->Key_Down(DIK_J))
+			return new CAtk_1_State();
+		else if (pGameInstance->Key_Pressing(DIK_O))
+			return new CGuardState(STATE_TYPE::TYPE_START);
+
+		if (pGameInstance->Key_Pressing(DIK_W)) // 菊
 		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LF);
+
+				if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_LF, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_LOOP);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RF);
+
+				if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_RF, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_LOOP);
+			}
+			else
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_STRAIGHT);
+
+				if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_STRAIGHT, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+
+				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_LOOP);
+			}
+		}
+
+		else if (pGameInstance->Key_Pressing(DIK_S)) // 第
+		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LB);
+
+				if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_LB, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_LOOP);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RB);
+
+				if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_RB, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_LOOP);
+			}
+			else
+			{
+				if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_BACK, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_BACK);
+
+				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_LOOP);
+			}
+		}
+
+
+		else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+		{
+
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_LEFT);
+
 			if (pGameInstance->Key_Down(DIK_SPACE))
 			{
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
-				return new CMoveJumpState(OBJDIR::DIR_LF, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				return new CMoveJumpState(OBJDIR::DIR_LEFT, CTanjiroState::TYPE_START, fPositionY, 0.f);
 			}
-			return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_LOOP);
+			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_LOOP);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_D)) // 快
 		{
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_RIGHT);
+
 			if (pGameInstance->Key_Down(DIK_SPACE))
 			{
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
-				return new CMoveJumpState(OBJDIR::DIR_RF, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				return new CMoveJumpState(OBJDIR::DIR_RIGHT, CTanjiroState::TYPE_START, fPositionY, 0.f);
 			}
-			return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_LOOP);
+			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
 		}
 		else
-		{
-			if (pGameInstance->Key_Down(DIK_SPACE))
-			{
-				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				_float fPositionY = XMVectorGetY(vPosition);
-				return new CMoveJumpState(OBJDIR::DIR_STRAIGHT, CTanjiroState::TYPE_START, fPositionY, 0.f);
-			}
+			return new CIdleState();
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_Z))
+			return new CAtk_1_State();
+		else if (pGameInstance->Key_Pressing(DIK_C))
+			return new CGuardState(STATE_TYPE::TYPE_START);
 
-			return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_LOOP);
-		}
-	}
+		if (pGameInstance->Key_Pressing(DIK_UP)) // 菊
+		{
+			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+			{
 
-	else if (pGameInstance->Key_Pressing(DIK_S)) // 第
-	{
-		 if (pGameInstance->Key_Pressing(DIK_A)) // 谅
-		{
-			if (pGameInstance->Key_Down(DIK_SPACE))
-			{
-				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				_float fPositionY = XMVectorGetY(vPosition);
-				return new CMoveJumpState(OBJDIR::DIR_LB, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LF);
+
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_LF, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_LOOP);
 			}
-			return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_LOOP);
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RF);
+
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_RF, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_LOOP);
+			}
+			else
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_STRAIGHT);
+
+
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_STRAIGHT, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+
+				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_LOOP);
+			}
 		}
-		else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
+
+		else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 第
 		{
-			if (pGameInstance->Key_Down(DIK_SPACE))
+			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LB);
+
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_LB, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_LOOP);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RB);
+
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_RB, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_LOOP);
+			}
+			else
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_BACK);
+
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+					return new CMoveJumpState(OBJDIR::DIR_BACK, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				}
+				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_LOOP);
+			}
+		}
+
+
+		else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+		{
+			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CDashState(DIR_LEFT);
+
+			if (pGameInstance->Key_Down(DIK_LCONTROL))
 			{
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
-				return new CMoveJumpState(OBJDIR::DIR_RB, CTanjiroState::TYPE_START, fPositionY, 0.f);
+				return new CMoveJumpState(OBJDIR::DIR_LEFT, CTanjiroState::TYPE_START, fPositionY, 0.f);
 			}
-			return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_LOOP);
+			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_LOOP);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+		{
+			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CDashState(DIR_RIGHT);
+
+			if (pGameInstance->Key_Down(DIK_LCONTROL))
+			{
+				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_float fPositionY = XMVectorGetY(vPosition);
+				return new CMoveJumpState(OBJDIR::DIR_RIGHT, CTanjiroState::TYPE_START, fPositionY, 0.f);
+			}
+			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
 		}
 		else
-		{
-			if (pGameInstance->Key_Down(DIK_SPACE))
-			{
-				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				_float fPositionY = XMVectorGetY(vPosition);
-				return new CMoveJumpState(OBJDIR::DIR_BACK, CTanjiroState::TYPE_START, fPositionY, 0.f);
-			}
-			return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_LOOP);
-		}
+			return new CIdleState();
+		break;
+	default:
+		break;
 	}
 
-
-	else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
-	{
-		if (pGameInstance->Key_Down(DIK_SPACE))
-		{
-			_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			_float fPositionY = XMVectorGetY(vPosition);
-			return new CMoveJumpState(OBJDIR::DIR_LEFT, CTanjiroState::TYPE_START, fPositionY, 0.f);
-		}
-		return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_LOOP);
-	}
-	else if (pGameInstance->Key_Pressing(DIK_D)) // 快
-	{
-		if (pGameInstance->Key_Down(DIK_SPACE))
-		{
-			_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			_float fPositionY = XMVectorGetY(vPosition);
-			return new CMoveJumpState(OBJDIR::DIR_RIGHT, CTanjiroState::TYPE_START, fPositionY, 0.f);
-		}
-		return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
-	}
-	else
-		return new CIdleState();
 
 
 
@@ -189,32 +354,33 @@ void CMoveState::Exit(CTanjiro * pTanjiro)
 
 void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	_float fCamAngle = pTanjiro->Get_CamAngle();
 
 	switch (m_eDirection)
 	{
 	case Client::DIR_STRAIGHT:
-		pTanjiro->Get_Transform()->Set_RotationY(0.f);
+		pTanjiro->Get_Transform()->Set_RotationY(0.f + fCamAngle);
 		break;
 	case Client::DIR_LEFT:
-		pTanjiro->Get_Transform()->Set_RotationY(270.f);
+		pTanjiro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
 		break;
 	case Client::DIR_RIGHT:
-		pTanjiro->Get_Transform()->Set_RotationY(90.f);
+		pTanjiro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
 		break;
 	case Client::DIR_BACK:
-		pTanjiro->Get_Transform()->Set_RotationY(180.f);
+		pTanjiro->Get_Transform()->Set_RotationY(180.f + fCamAngle);
 		break;
 	case Client::DIR_LF:
-		pTanjiro->Get_Transform()->Set_RotationY(305.f);
+		pTanjiro->Get_Transform()->Set_RotationY(305.f + fCamAngle);
 		break;
 	case Client::DIR_RF:
-		pTanjiro->Get_Transform()->Set_RotationY(45.f);
+		pTanjiro->Get_Transform()->Set_RotationY(45.f + fCamAngle);
 		break;
 	case Client::DIR_LB:
-		pTanjiro->Get_Transform()->Set_RotationY(225.f);
+		pTanjiro->Get_Transform()->Set_RotationY(225.f + fCamAngle);
 		break;
 	case Client::DIR_RB:
-		pTanjiro->Get_Transform()->Set_RotationY(135.f);
+		pTanjiro->Get_Transform()->Set_RotationY(135.f + fCamAngle);
 		break;
 	case Client::DIR_STOP:
 		break;
@@ -224,17 +390,16 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	if (m_eDirection != DIR_STOP)
 		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
-
-	CCollider*	pMyCollider = pTanjiro->Get_Collider();
-	CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), TEXT("Com_SPHERE"));
+	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
+	CCollider*	pMyCollider = pTanjiro->Get_SphereCollider();
+	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
 	if (nullptr == pTargetCollider)
 		return;
 
 	if (pMyCollider->Collision(pTargetCollider))
 	{
-		CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"))->Get_LayerFront();
-
+	
 		_float fSpeed = pTanjiro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
 
 		_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -249,7 +414,7 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 
 		vPos += vMyLook * (fSpeed - fSpeed * fPow);
 		vTargetPos += vTargetLook * fSpeed * fPow;
-
+		vPos.m128_f32[1] = 0.f;
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
 	}

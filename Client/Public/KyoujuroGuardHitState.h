@@ -17,7 +17,8 @@ public:
 	virtual void Enter(CKyoujuro* pKyoujuro) override;
 	virtual void Exit(CKyoujuro* pKyoujuro) override;
 
-
+private:
+	_float m_fTime = 0.f;
 };
 END
 END

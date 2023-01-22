@@ -3,6 +3,7 @@
 
 #include "GameInstance.h"
 #include "Level_Loading.h"
+#include "UI_Manager.h"
 
 CLevel_SelectChar::CLevel_SelectChar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -14,23 +15,35 @@ HRESULT CLevel_SelectChar::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
-
 	return S_OK;
 }
 
 void CLevel_SelectChar::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+
+	if (!m_bCreateUI)
+	{
+		pUIManager->Add_Select_CharUI();
+		m_bCreateUI = true;
+	}
 
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
 	if (pGameInstance->Key_Down(DIK_T))
 	{
+		_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
+		_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
+
+		pUIManager->Set_1P(i1p);
+		pUIManager->Set_2P(i2p);
+
 		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
 			return;
 	}
 	Safe_Release(pGameInstance);
-
+	RELEASE_INSTANCE(CUI_Manager);
 
 
 }

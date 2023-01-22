@@ -92,20 +92,15 @@ public:
 
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) {m_eAnimID = iAnimIndex;}
-	CCollider* Get_Collider() { return m_pSphereCom; }
-	CGameObject* Get_Weapon() { return m_pWeapon; }
-
 
 public:
-	void  Take_Damage(_float _fPow);
-
+	virtual	void  Take_Damage(_float _fPow);
+	virtual	void  Get_GuardHit(_int eType);
 
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
-	void	Set_ShadowLightPos();
-
-
+	
 
 
 private:
@@ -117,8 +112,6 @@ private:
 	void	Set_Info();
 private:
 	CModel*					m_pModelCom = nullptr;
-
-	CCollider*				m_pSphereCom = nullptr;
 
 	CGameObject*			m_pWeapon = nullptr;
 	CGameObject*			m_pSheath = nullptr;

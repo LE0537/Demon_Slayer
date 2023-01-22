@@ -2,7 +2,7 @@
 
 #include "Client_Defines.h"
 #include "Camera.h"
-#include "GameObj.h"
+#include "Characters.h"
 
 BEGIN(Engine)
 END
@@ -34,16 +34,24 @@ private:
 
 private:
 	void	Set_CamPos();
+	void	Move_CamPos(_float fTimeDelta);
 	void	Lerp_SubCam(_float fTimeDelta);
-	void	Check_Clockwise();
-
+	void	ConvertToViewPort();
+	void	Set_BattleTarget();
 public:
-	void Set_Target(CGameObj* _pTarget) { m_pTarget = _pTarget; }
-
+	void Set_Player(CCharacters* _pPlayer) { m_pPlayer = _pPlayer; }
+	void Set_Target(CCharacters* _pTarget) { m_pTarget = _pTarget; }
 private:
-	CGameObj*				m_pPlayer = nullptr;
-	CGameObj*				m_pTarget = nullptr;
+	CCharacters*				m_pPlayer = nullptr;
+	CCharacters*				m_pTarget = nullptr;
 
+	_float4					m_vPlayerPos, m_vTargetPos;
+	_float4					m_vPoint;
+	_float					m_f1pX = 0.f;
+	_float					m_f2pX = 0.f;
+	_float					m_fAngle = 0.f;
+	_float4					m_v1pCamAt, m_v2pCamAt;
+	_bool					m_bBattle = false;
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 

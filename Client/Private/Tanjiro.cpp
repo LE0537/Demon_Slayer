@@ -11,7 +11,7 @@
 #include "TanjiroHitState.h"
 #include "TanjiroWeapon.h"
 #include "TanjiroSheath.h"
-
+#include "TanjiroGuardHitState.h"
 using namespace Tanjiro;
 
 
@@ -32,7 +32,7 @@ HRESULT CTanjiro::Initialize_Prototype()
 
 HRESULT CTanjiro::Initialize(void * pArg)
 {
-	*(CGameObject**)pArg = this;
+	memcpy(&m_i1p, pArg, sizeof(_int));
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -42,21 +42,29 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts2()))
 		return E_FAIL;
 
-	
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (m_i1p == 1)
+	{
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+
+		Set_Info();
+		CUI_Manager::Get_Instance()->Set_1P(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
+	}
+	else if (m_i1p == 2)
+	{
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+		Set_Info();
+		CUI_Manager::Get_Instance()->Set_2P(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
+	}
+	RELEASE_INSTANCE(CGameInstance);
 
 	CTanjiroState* pState = new CIdleState();
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
-
-
-	//CTanjiroState* pState = new CMoveState(OBJDIR::DIR_STOP, CTanjiroState::STATE_TYPE::TYPE_DEFAULT);
-	//m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
-
-
-	Set_Info();
-	CUI_Manager::Get_Instance()->Set_1P(this);
-
 
 	return S_OK;
 }
@@ -75,7 +83,6 @@ void CTanjiro::Tick(_float fTimeDelta)
 		return;
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
-
 	m_pSphereCom->Update(matColl);
 }
 
@@ -86,14 +93,21 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 	m_pWeapon->Tick(fTimeDelta);
 	m_pSheath->Tick(fTimeDelta);
 
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	
+	if(pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
+		printf_s("type : %d \n", (int)m_pTanjiroState->Get_TanjiroState());
+
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 	dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);
 	dynamic_cast<CTanjiroSheath*>(m_pSheath)->Set_Render(true);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
 
-	if (g_bDebug)
+	if (g_bCollBox)
 	{
 		m_pRendererCom->Add_Debug(m_pSphereCom);
 	}
@@ -176,25 +190,7 @@ HRESULT CTanjiro::Render_ShadowDepth()
 
 	RELEASE_INSTANCE(CGameInstance);
 
-
-
 	return S_OK;
-}
-void CTanjiro::Set_ShadowLightPos()
-{
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-	_float4 vPos;
-	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
-	_float4 vAt = vPos;
-
-	vPos.x -= 15.f;
-	vPos.y += 30.f;
-	vPos.z -= 30.f;
-
-	pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW, vPos, vAt);
-
-	RELEASE_INSTANCE(CGameInstance);
 }
 
 
@@ -204,6 +200,22 @@ void CTanjiro::Take_Damage(_float _fPow)
 		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_HIT);
 
 	CTanjiroState* pState = new CHitState(_fPow);
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+}
+
+void CTanjiro::Get_GuardHit(_int eType)
+{
+	CTanjiroState* pState;
+	if (eType == CTanjiroState::STATE_TYPE::TYPE_START)
+	{
+		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_GUARD_HIT_0);
+		pState = new CGuardHitState(CTanjiroState::STATE_TYPE::TYPE_START);
+	}
+	else
+	{
+		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_GUARD_HIT_1);
+		pState = new CGuardHitState(CTanjiroState::STATE_TYPE::TYPE_LOOP);
+	}
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
 
@@ -349,7 +361,7 @@ void CTanjiro::Set_Info()
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
 	m_tInfo.iUnicMaxBar = 100;
 	m_tInfo.iUnicBar = 0;
-	m_tInfo.iDmg = 30;
+	m_tInfo.iDmg = 10;
 	m_tInfo.iCombo = 0;
 	m_tInfo.fComboTime = 0.f;
 	m_tInfo.bPowerUp = false;

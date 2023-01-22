@@ -3,6 +3,7 @@
 #include "Engine_Defines.h"
 #include "Tanjiro.h"
 
+
 BEGIN(Client)
 class CTanjiroState
 {

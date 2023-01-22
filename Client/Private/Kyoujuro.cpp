@@ -9,7 +9,7 @@
 #include "KyoujuroIdleState.h"
 #include "KyoujuroMoveState.h"
 #include "KyoujuroHitState.h"
-
+#include "KyoujuroGuardHitState.h"
 using namespace Kyoujuro;
 
 #include "UI_Manager.h"
@@ -31,6 +31,8 @@ HRESULT CKyoujuro::Initialize_Prototype()
 
 HRESULT CKyoujuro::Initialize(void * pArg)
 {
+	memcpy(&m_i1p, pArg, sizeof(_int));
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -39,22 +41,29 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts2()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	
+	if (m_i1p == 1)
+	{
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
-	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		Set_Info();
+		CUI_Manager::Get_Instance()->Set_1P(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
+	}
+	else if (m_i1p == 2)
+	{
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 
+		Set_Info();
+		CUI_Manager::Get_Instance()->Set_2P(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
+	}
 	RELEASE_INSTANCE(CGameInstance);
-
-	//CKyoujuroState* pState = new CMoveState(OBJDIR::DIR_STOP, CKyoujuroState::STATE_TYPE::TYPE_DEFAULT);
-	//m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
-
-	Set_Info();
-	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	return S_OK;
 }
@@ -94,10 +103,12 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 	dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Set_Render(true);
 	dynamic_cast<CKyoujuroSheath*>(m_pSheath)->Set_Render(true);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
 
-	if (g_bDebug)
+	if (g_bCollBox)
 	{
 		m_pRendererCom->Add_Debug(m_pSphereCom);
 	}
@@ -322,7 +333,7 @@ void CKyoujuro::Set_Info()
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
 	m_tInfo.iUnicMaxBar = 100;
 	m_tInfo.iUnicBar = 0;
-	m_tInfo.iDmg = 30;
+	m_tInfo.iDmg = 10;
 	m_tInfo.iCombo = 0;
 	m_tInfo.fComboTime = 0.f;
 	m_tInfo.bPowerUp = false;
@@ -338,6 +349,22 @@ void CKyoujuro::Take_Damage(_float _fPow)
 	CKyoujuroState* pState = new CHitState(_fPow);
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
+}
+void CKyoujuro::Get_GuardHit(_int eType)
+{
+	CKyoujuroState* pState;
+	if (eType == CKyoujuroState::STATE_TYPE::TYPE_START)
+	{
+		m_pModelCom->Reset_Anim(CKyoujuro::ANIMID::ANIM_GUARD_HIT_0);
+		pState = new CGuardHitState(CKyoujuroState::STATE_TYPE::TYPE_START);
+	}
+	else
+	{
+		m_pModelCom->Reset_Anim(CKyoujuro::ANIMID::ANIM_GUARD_HIT_1);
+		pState = new CGuardHitState(CKyoujuroState::STATE_TYPE::TYPE_LOOP);
+	}
+	
+	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 }
 void CKyoujuro::HandleInput()
 {

@@ -38,12 +38,12 @@ protected:
 	CVIBuffer_Rect*			m_pVIBufferCom = nullptr;
 
 protected:
+	_float		m_fCamAngle = 0.f;
 	
-
 public:
 	CTransform* Get_Transform() { return m_pTransformCom; }
-	
-
+	void	Set_CamAngle(_float _fCamAngle) { m_fCamAngle = _fCamAngle; }
+	_float  Get_CamAngle() { return m_fCamAngle; }
 public:
 	static CGameObj* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

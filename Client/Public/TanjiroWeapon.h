@@ -45,7 +45,6 @@ private:
 	CRenderer*				m_pRendererCom = nullptr;
 	CTransform*				m_pTransformCom = nullptr;
 	CModel*					m_pModelCom = nullptr;
-	CCollider*				m_pOBBCom = nullptr;
 
 private:
 	WEAPONDESC				m_WeaponDesc;
@@ -59,7 +58,7 @@ public:
 	void Set_Render(_bool _bRender) {
 		m_bRender = _bRender;
 	}
-	CCollider* Get_WeaponColl() { return m_pOBBCom; }
+
 private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */

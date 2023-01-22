@@ -258,6 +258,14 @@ void CPlayer::Set_ShadowLightPos()
 	RELEASE_INSTANCE(CGameInstance);
 }
 
+void CPlayer::Take_Damage(_float _fPow)
+{
+}
+
+void CPlayer::Get_GuardHit(_int eType)
+{
+}
+
 HRESULT CPlayer::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)

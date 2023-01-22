@@ -7,22 +7,37 @@
 #include "Layer.h"
 #include "Tanjiro.h"
 #include "Effect_Manager.h"
+
 using namespace Kyoujuro;
 
 
 CAtk_2_State::CAtk_2_State()
 {
+	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+		return;
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 CKyoujuroState * CAtk_2_State::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	if (pGameInstance->Mouse_Down(DIMK_LBUTTON))
-		m_bAtkCombo = true;
-
-	//if (pGameInstance->Key_Down(DIK_J) && m_fComboDelay <= 43.f)
-	//	m_bAtkCombo = true;
+	switch (pKyoujuro->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Down(DIK_J))
+			m_bAtkCombo = true;
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_Z))
+			m_bAtkCombo = true;
+		break;
+	default:
+		break;
+	}
 
 	return nullptr;
 }
@@ -35,8 +50,7 @@ CKyoujuroState * CAtk_2_State::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 
 	m_fTime += fTimeDelta * 60;
 	m_fComboDelay += fTimeDelta * 60;
-	//printf_s("AttackTime : %f \n", (_float)m_fComboDelay);
-	//printf_s("AttackTime : %f \n", (_float)m_fTime);
+
 
 	if (m_bAtkCombo == true && m_fTime >= 30.f)
 		return new CAtk_3_State();
@@ -57,19 +71,23 @@ CKyoujuroState * CAtk_2_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront();
+	CCharacters* m_pTarget = pKyoujuro->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
 	pKyoujuro->Get_Transform()->LookAt(vLooAt);
-	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
+
 	m_fMove += fTimeDelta;
 	if (m_fMove < 0.3f)
 	{
 		if (m_iHit < 1)
 		{
-
-			CCollider*	pMyCollider = dynamic_cast<CKyoujuroWeapon*>(pKyoujuro->Get_Weapon())->Get_WeaponColl();
-			CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), TEXT("Com_SPHERE"));
+			_vector vCollPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+			_vector vCollLook = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+			vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
+			vCollPos.m128_f32[1] = 1.f; //추가
+			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
 			if (nullptr == pTargetCollider)
 				return nullptr;
@@ -81,8 +99,16 @@ CKyoujuroState * CAtk_2_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 				_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				vPos.m128_f32[1] = 0.f;
 				m_pTarget->Get_Transform()->LookAt(vPos);
-				m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg);
-				dynamic_cast<CTanjiro*>(m_pTarget)->Take_Damage(0.3f);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.f);
+				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				vTagetPos.y += 2.f;
@@ -94,12 +120,17 @@ CKyoujuroState * CAtk_2_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 			}
 		}
 	}
-	else if (m_fMove >= 0.3f)
+	else if (m_fMove < 0.45f && m_fMove >= 0.3f)
 	{
 		if (!m_bHit)
 		{
-			CCollider*	pMyCollider = dynamic_cast<CKyoujuroWeapon*>(pKyoujuro->Get_Weapon())->Get_WeaponColl();
-			CCollider*	pTargetCollider = (CCollider*)pGameInstance->Get_Component(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), TEXT("Com_SPHERE"));
+			_vector vCollPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+			_vector vCollLook = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+			vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
+			vCollPos.m128_f32[1] = 1.f; //추가
+			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
 			if (nullptr == pTargetCollider)
 				return nullptr;
@@ -111,8 +142,16 @@ CKyoujuroState * CAtk_2_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 				_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				vPos.m128_f32[1] = 0.f;
 				m_pTarget->Get_Transform()->LookAt(vPos);
-				m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg);
-				dynamic_cast<CTanjiro*>(m_pTarget)->Take_Damage(0.3f);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.f);
+				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				vTagetPos.y += 2.f;
@@ -126,6 +165,8 @@ CKyoujuroState * CAtk_2_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 
 	return nullptr;
 }
@@ -141,5 +182,6 @@ void CAtk_2_State::Enter(CKyoujuro * pKyoujuro)
 
 void CAtk_2_State::Exit(CKyoujuro * pKyoujuro)
 {
+	m_pCollBox->Set_Dead(); //추가
 }
 

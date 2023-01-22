@@ -24,13 +24,13 @@ CKyoujuroState * CGuardHitState::HandleInput(CKyoujuro * pKyoujuro)
 
 CKyoujuroState * CGuardHitState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
-
+	pKyoujuro->Set_bGuard(true);
 	pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_GUARD_HIT_0);
 	pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_GUARD_HIT_1);
 	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_HIT_0, 0.2f);
 	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_HIT_1, 0.2f);
 
-	printf_s("type : %d state : %d anim : %d \n", (int)m_eStateType, (int)m_eStateId, (int)pKyoujuro->Get_AnimIndex());
+	
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
@@ -64,6 +64,21 @@ CKyoujuroState * CGuardHitState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 
 CKyoujuroState * CGuardHitState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
+	m_fTime += fTimeDelta;
+	switch (m_eStateType)
+	{
+	case Client::CKyoujuroState::TYPE_START:
+		pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.3f);
+		break;
+	case Client::CKyoujuroState::TYPE_LOOP:
+		if (m_fTime < 0.3f)
+		{
+			pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.6f);
+		}
+		break;
+	default:
+		break;
+	}
 	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;

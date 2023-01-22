@@ -7,7 +7,7 @@ BEGIN(Tanjiro)
 class CDashState : public CTanjiroState
 {
 public:
-	CDashState(OBJDIR eDir, _bool bJump = false);
+	CDashState(OBJDIR eDir, _bool bSecondDash = false, _bool bJump = false);
 
 	virtual CTanjiroState* HandleInput(CTanjiro* pTanjiro) override;
 	virtual CTanjiroState* Tick(CTanjiro* pTanjiro, _float fTimeDelta) override;
@@ -19,8 +19,15 @@ public:
 
 
 private:
+	void Move(CTanjiro* pTanjiro, _float fTimeDelta);
+
+private:
 	OBJDIR m_eDir = OBJDIR::DIR_END;
 	_bool m_bJump = false;
+	_bool m_bSecondDash = false;
+	_float m_fDashTime = 1.f;
+	_float m_fSpeed = 0.f;
+
 };
 END
 END

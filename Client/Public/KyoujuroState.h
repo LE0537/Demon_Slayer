@@ -3,6 +3,7 @@
 #include "Engine_Defines.h"
 #include "Kyoujuro.h"
 
+
 BEGIN(Client)
 class CKyoujuroState
 {
@@ -30,6 +31,7 @@ public:
 		STATE_GUARD,
 		STATE_GUARD_ADV,
 		STATE_GUARD_HIT,
+		STATE_DASH,
 		STATE_END
 	};
 

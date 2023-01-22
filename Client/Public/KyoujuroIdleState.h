@@ -17,7 +17,6 @@ public:
 	virtual void Enter(CKyoujuro* pTanjiro) override;
 	virtual void Exit(CKyoujuro* pTanjiro) override;
 
-
 private:
 	STATE_ID m_ePreState = STATE_END;
 };

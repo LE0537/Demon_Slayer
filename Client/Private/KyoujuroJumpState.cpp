@@ -34,25 +34,21 @@ CKyoujuroState * CJumpState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		switch (m_eStateType)
 		{
 		case Client::CKyoujuroState::TYPE_START:
-			printf_s("Start Jump \n");
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 
 			return new CJumpState(STATE_TYPE::TYPE_LOOP, m_fCurrentPosY, m_fJumpTime);
 			break;
 		case Client::CKyoujuroState::TYPE_LOOP:
-			printf_s("Loop Jump \n");
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 
 			return new CJumpState(STATE_TYPE::TYPE_END, m_fCurrentPosY, m_fJumpTime);
 			break;
 		case Client::CKyoujuroState::TYPE_END:
-			printf_s("End jump \n");
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 
 			//return new CJumpstate(STATE_TYPE::TYPE_DEFAULT, m_fCurrentPosY, m_fJumpTime);
 			break;
 		case Client::CKyoujuroState::TYPE_DEFAULT:
-			printf_s("Default Jump \n");
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 			return new CIdleState(STATE_ID::STATE_JUMP);
 			break;

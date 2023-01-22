@@ -3,7 +3,7 @@
 #include "KyoujuroMoveState.h"
 #include "KyoujuroIdleState.h"
 #include "KyoujuroJumpState.h"
-
+#include "Layer.h"
 #include "GameInstance.h"
 
 using namespace Kyoujuro;
@@ -22,72 +22,141 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-
-	if (m_eStateType != CKyoujuroState::TYPE_DEFAULT)
+	switch (pKyoujuro->Get_i1P())
 	{
-		if (pGameInstance->Key_Pressing(DIK_UP)) // 菊
+	case 1:
+		if (m_eStateType != CKyoujuroState::TYPE_DEFAULT)
 		{
-			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+			if (pGameInstance->Key_Pressing(DIK_W)) // 菊
 			{
-				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_LF;
+				if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LF;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RF;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_STRAIGHT;
+				}
 			}
-			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+
+			else if (pGameInstance->Key_Pressing(DIK_S)) // 第
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LB;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RB;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_BACK;
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
 			{
 				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_RF;
+				m_eNextDir = OBJDIR::DIR_LEFT;
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+			{
+				m_bMove = true;
+				m_eNextDir = OBJDIR::DIR_RIGHT;
 			}
 			else
 			{
-				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_STRAIGHT;
+				m_bMove = false;
+				m_eNextDir = OBJDIR::DIR_STOP;
 			}
-		}
-
-		else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 第
-		{
-			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
-			{
-				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_LB;
-			}
-			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
-			{
-				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_RB;
-			}
-			else
-			{
-				m_bMove = true;
-				m_eNextDir = OBJDIR::DIR_BACK;
-			}
-		}
-
-
-		else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
-		{
-			m_bMove = true;
-			m_eNextDir = OBJDIR::DIR_LEFT;
-		}
-		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
-		{
-			m_bMove = true;
-			m_eNextDir = OBJDIR::DIR_RIGHT;
 		}
 		else
 		{
 			m_bMove = false;
 			m_eNextDir = OBJDIR::DIR_STOP;
 		}
-	}
-	else
-	{
-		m_bMove = false;
-		m_eNextDir = OBJDIR::DIR_STOP;
-	}
+
+		break;
+	case 2:
+		if (m_eStateType != CKyoujuroState::TYPE_DEFAULT)
+		{
+			if (pGameInstance->Key_Pressing(DIK_UP)) // 菊
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LF;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RF;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_STRAIGHT;
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 第
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LB;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RB;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_BACK;
+				}
+			}
 
 
-	
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+			{
+				m_bMove = true;
+				m_eNextDir = OBJDIR::DIR_LEFT;
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+			{
+				m_bMove = true;
+				m_eNextDir = OBJDIR::DIR_RIGHT;
+			}
+			else
+			{
+				m_bMove = false;
+				m_eNextDir = OBJDIR::DIR_STOP;
+			}
+		}
+		else
+		{
+			m_bMove = false;
+			m_eNextDir = OBJDIR::DIR_STOP;
+		}
+
+		break;
+	default:
+		break;
+	}
 
 	return nullptr;
 }
@@ -211,31 +280,33 @@ void CMoveJumpState::Exit(CKyoujuro * pKyoujuro)
 
 void CMoveJumpState::Move(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
+	_float fCamAngle = pKyoujuro->Get_CamAngle();
+
 	switch (m_eDirection)
 	{
 	case Client::DIR_STRAIGHT:
-		pKyoujuro->Get_Transform()->Set_RotationY(0.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(0.f + fCamAngle);
 		break;
 	case Client::DIR_LEFT:
-		pKyoujuro->Get_Transform()->Set_RotationY(270.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
 		break;
 	case Client::DIR_RIGHT:
-		pKyoujuro->Get_Transform()->Set_RotationY(90.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
 		break;
 	case Client::DIR_BACK:
-		pKyoujuro->Get_Transform()->Set_RotationY(180.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(180.f + fCamAngle);
 		break;
 	case Client::DIR_LF:
-		pKyoujuro->Get_Transform()->Set_RotationY(305.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(305.f + fCamAngle);
 		break;
 	case Client::DIR_RF:
-		pKyoujuro->Get_Transform()->Set_RotationY(45.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(45.f + fCamAngle);
 		break;
 	case Client::DIR_LB:
-		pKyoujuro->Get_Transform()->Set_RotationY(225.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(225.f + fCamAngle);
 		break;
 	case Client::DIR_RB:
-		pKyoujuro->Get_Transform()->Set_RotationY(135.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(135.f + fCamAngle);
 		break;
 	case Client::DIR_STOP:
 		break;
@@ -285,7 +356,6 @@ CKyoujuroState*  CMoveJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	} 
 
 	pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
-
 
 	return nullptr;
 }
