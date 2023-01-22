@@ -29,7 +29,7 @@ CKyoujuroState * CDashState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	{
 		pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 
-		if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+		if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 		{
 			if (CKyoujuro::ANIMID::ANIM_DASH_L_01 == pKyoujuro->Get_AnimIndex() || CKyoujuro::ANIMID::ANIM_DASH_R_01 == pKyoujuro->Get_AnimIndex())
 			{
