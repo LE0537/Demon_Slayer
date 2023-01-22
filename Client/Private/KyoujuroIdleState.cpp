@@ -84,7 +84,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
-		else if (pGameInstance->Key_Down(DIK_RCONTROL))
+		else if (pGameInstance->Key_Down(DIK_LCONTROL))
 		{
 			_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_float fPositionY = XMVectorGetY(vPosition);

@@ -280,31 +280,33 @@ void CMoveJumpState::Exit(CKyoujuro * pKyoujuro)
 
 void CMoveJumpState::Move(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
+	_float fCamAngle = pKyoujuro->Get_CamAngle();
+
 	switch (m_eDirection)
 	{
 	case Client::DIR_STRAIGHT:
-		pKyoujuro->Get_Transform()->Set_RotationY(0.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(0.f + fCamAngle);
 		break;
 	case Client::DIR_LEFT:
-		pKyoujuro->Get_Transform()->Set_RotationY(270.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
 		break;
 	case Client::DIR_RIGHT:
-		pKyoujuro->Get_Transform()->Set_RotationY(90.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
 		break;
 	case Client::DIR_BACK:
-		pKyoujuro->Get_Transform()->Set_RotationY(180.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(180.f + fCamAngle);
 		break;
 	case Client::DIR_LF:
-		pKyoujuro->Get_Transform()->Set_RotationY(305.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(305.f + fCamAngle);
 		break;
 	case Client::DIR_RF:
-		pKyoujuro->Get_Transform()->Set_RotationY(45.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(45.f + fCamAngle);
 		break;
 	case Client::DIR_LB:
-		pKyoujuro->Get_Transform()->Set_RotationY(225.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(225.f + fCamAngle);
 		break;
 	case Client::DIR_RB:
-		pKyoujuro->Get_Transform()->Set_RotationY(135.f);
+		pKyoujuro->Get_Transform()->Set_RotationY(135.f + fCamAngle);
 		break;
 	case Client::DIR_STOP:
 		break;

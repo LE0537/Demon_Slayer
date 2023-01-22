@@ -86,7 +86,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 우
 			return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
-		else if (pGameInstance->Key_Down(DIK_RCONTROL)) // 점프
+		else if (pGameInstance->Key_Down(DIK_LCONTROL)) // 점프
 		{
 			_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_float fPositionY = XMVectorGetY(vPosition);

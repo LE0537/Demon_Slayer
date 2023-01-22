@@ -131,7 +131,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
 			{
-				if (pGameInstance->Key_Down(DIK_RCONTROL))
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
 				{
 					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					_float fPositionY = XMVectorGetY(vPosition);
@@ -141,7 +141,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
 			{
-				if (pGameInstance->Key_Down(DIK_RCONTROL))
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
 				{
 					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					_float fPositionY = XMVectorGetY(vPosition);
@@ -151,7 +151,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else
 			{
-				if (pGameInstance->Key_Down(DIK_RCONTROL))
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
 				{
 					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					_float fPositionY = XMVectorGetY(vPosition);
@@ -166,7 +166,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
 			{
-				if (pGameInstance->Key_Down(DIK_RCONTROL))
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
 				{
 					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					_float fPositionY = XMVectorGetY(vPosition);
@@ -176,7 +176,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л 
 			{
-				if (pGameInstance->Key_Down(DIK_RCONTROL))
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
 				{
 					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					_float fPositionY = XMVectorGetY(vPosition);
@@ -186,7 +186,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else
 			{
-				if (pGameInstance->Key_Down(DIK_RCONTROL))
+				if (pGameInstance->Key_Down(DIK_LCONTROL))
 				{
 					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					_float fPositionY = XMVectorGetY(vPosition);
@@ -199,7 +199,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 
 		else if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
 		{
-			if (pGameInstance->Key_Down(DIK_RCONTROL))
+			if (pGameInstance->Key_Down(DIK_LCONTROL))
 			{
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
@@ -209,7 +209,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
 		{
-			if (pGameInstance->Key_Down(DIK_RCONTROL))
+			if (pGameInstance->Key_Down(DIK_LCONTROL))
 			{
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
