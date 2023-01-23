@@ -132,10 +132,10 @@ HRESULT CMeshObj_Static_Inst::Render_ShadowDepth()
 	{
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
-
+/*
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 1)))
 			return E_FAIL;
-
+*/
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
