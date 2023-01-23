@@ -83,6 +83,8 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_GrayScale"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 	/* For.Target_Distortion */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Distortion"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
+	/* For.Target_LightShaft */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_LightShaft"), ViewportDesc.Width / 5.f, ViewportDesc.Height / 5.f, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 
 	/* For.Target_AO */	//	Ambient Occlusion
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_AO"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(1.f, 1.f, 1.f, 1.f)))) return E_FAIL;
@@ -144,6 +146,9 @@ HRESULT CRenderer::Initialize_Prototype()
 	/* For.MRT_Distortion*/
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Distortion"), TEXT("Target_Distortion"))))
 		return E_FAIL;
+	/* For.MRT_LightShaft */
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_LightShaft"), TEXT("Target_LightShaft"))))
+		return E_FAIL;
 
 	/* For.MRT_AO*/
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AO"), TEXT("Target_AO"))))
@@ -201,6 +206,8 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 2.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_AO"), 2.5f * fVIBufferRadius, 1.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_LightShaft"), 2.5f * fVIBufferRadius, 2.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
 
 
@@ -306,6 +313,9 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 			break;
 		case ORDER_BLUR:
 			if (FAILED(Render_Blur(pRTName, pMRTName))) return E_FAIL;
+			break;
+		case ORDER_LIGHTSHAFT:
+			if (FAILED(Render_LightShaft(pRTName, pMRTName))) return E_FAIL;
 			break;
 		case ORDER_DISTORTION:
 			if (FAILED(Render_Distortion(pRTName, pMRTName))) return E_FAIL;
@@ -737,12 +747,81 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	_float4 vCamPos = pGameInstance->Get_CamPosition();
+	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
+	if (nullptr == pLightDesc)
+	{
+		RELEASE_INSTANCE(CGameInstance);
+		return S_OK;
+	}
+
+	_vector	vLightDir = XMLoadFloat4(&pLightDesc->vDirection);
+
+	 
+
+	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	CPipeLine*			pPipeLine = GET_INSTANCE(CPipeLine);
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_ShadowDepth"), m_pShader, "g_ShadowDepthTexture")))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_vLightDir", &vLightDir, sizeof(_float4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
+		return E_FAIL;
+
+	_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
+	_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
+	_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
+	_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+	if (FAILED(m_pShader->Set_RawValue("g_vLightPos", &vLightEye, sizeof(_float4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_matLightView", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_matLightProj", &pPipeLine->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_vCamPosition", &pPipeLine->Get_CamPosition(), sizeof(_float4))))
+		return E_FAIL;
 
 
 
+	RELEASE_INSTANCE(CPipeLine);
 	RELEASE_INSTANCE(CGameInstance);
 
+	Set_Viewport(m_fGlowWinCX, m_fGlowWinCY);
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_LightShaft"), m_pGlowDSV)))
+		return E_FAIL;
+
+	m_pShader->Begin(14);		//	LightShaft
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	Set_Viewport(1280.f, 720.f);
+
+
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_LightShaft"), m_pShader, "g_AddTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
+		return E_FAIL;
+
+	m_pShader->Begin(13);
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -801,7 +880,7 @@ HRESULT CRenderer::Render_Glow(const _tchar * pTexName, const _tchar * pMRTName)
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_GlowXY"), m_pShader, "g_AddTexture")))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, pMRTName)))
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
 	m_pShader->Begin(13);
 	m_pVIBuffer->Render();
@@ -865,7 +944,7 @@ HRESULT CRenderer::Render_Blur(const _tchar* pTexName, const _tchar* pMRTName)
 	//	Master
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_BlurTexture")))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, pMRTName)))
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
 	m_pShader->Begin(0);
 	m_pVIBuffer->Render();
@@ -904,7 +983,7 @@ HRESULT CRenderer::Render_GrayScale(const _tchar * pTexName, const _tchar * pMRT
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_GrayScale"), m_pShader, "g_GrayScaleTexture")))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, pMRTName)))
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
 
 	m_pShader->Begin(12);
@@ -947,7 +1026,7 @@ HRESULT CRenderer::Render_Distortion(const _tchar* pTexName, const _tchar* pMRTN
 	if (FAILED(m_pShader->Set_RawValue("g_fDistortionValue", &m_fValue[VALUE_DISTORTION], sizeof(_float))))
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, pMRTName)))
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
 
 	m_pShader->Begin(8);
@@ -961,9 +1040,7 @@ HRESULT CRenderer::Render_Distortion(const _tchar* pTexName, const _tchar* pMRTN
 
 HRESULT CRenderer::Render_Master(const _tchar* pTexName)
 {
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Master"), m_pShader, "g_DiffuseTexture")))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Distortion"), m_pShader, "g_DistortionTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
 
 	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
@@ -973,7 +1050,7 @@ HRESULT CRenderer::Render_Master(const _tchar* pTexName)
 	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	m_pShader->Begin(8);
+	m_pShader->Begin(0);
 	m_pVIBuffer->Render();
 
 	return S_OK;
@@ -1037,6 +1114,8 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_LightDepth"), m_pShader, m_pVIBuffer)))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GrayScale"), m_pShader, m_pVIBuffer)))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_Distortion"), m_pShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_AO"), m_pShader, m_pVIBuffer)))
@@ -1045,7 +1124,7 @@ HRESULT CRenderer::Render_Debug()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_BlurXY"), m_pShader, m_pVIBuffer)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("TargetBlurX"), m_pShader, m_pVIBuffer)))
+	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_LightShaft"), m_pShader, m_pVIBuffer)))
 		return E_FAIL;
 
 	return S_OK;

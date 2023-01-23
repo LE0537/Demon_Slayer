@@ -21,6 +21,7 @@ public:
 	HRESULT Begin_MRT(ID3D11DeviceContext* pContext, const _tchar* pMRTTag, ID3D11DepthStencilView* pDSV);
 
 	HRESULT Begin_MRT_NonClear(ID3D11DeviceContext* pContext, const _tchar* pMRTTag);
+	HRESULT Begin_MRT_NonClear(ID3D11DeviceContext* pContext, const _tchar* pMRTTag, ID3D11DepthStencilView* pDSV);
 	HRESULT Begin_ShadowMRT(ID3D11DeviceContext* pContext, const _tchar* pMRTTag);
 	HRESULT End_MRT(ID3D11DeviceContext* pContext);
 

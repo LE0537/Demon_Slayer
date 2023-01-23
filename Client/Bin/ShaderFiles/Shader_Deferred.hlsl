@@ -637,6 +637,60 @@ PS_OUT PS_ADD(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_LIGHTSHAFT(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector			vDepthDesc = g_DepthTexture.Sample(DepthSampler, In.vTexUV);
+
+	float			fViewZ = vDepthDesc.y * g_fFar;
+
+	vector			vWorldPos = (vector)0.f;
+
+	vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
+	vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
+	vWorldPos.z = vDepthDesc.r;
+	vWorldPos.w = 1.0f;
+
+	vWorldPos *= fViewZ;
+
+	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+
+
+	//	vector		vViewPos_InLight = mul(vWorldPos, g_matLightView);
+	//	matrix		matLightVP = mul(g_matLightView, g_matLightProj);
+	
+	int			iValue = 0;
+	float		fNumSamples = 100.f;
+
+	vector		vLightDir = -g_vLightDir;
+
+	for (int i = 0; i < fNumSamples; ++i)
+	{
+		vector		vRayPos = g_vCamPosition + (i * normalize(vWorldPos - g_vCamPosition) * 0.5f);
+		vector		vWorldPos_InLight = mul(vRayPos, g_matLightView);
+
+		vector		vUVPos = mul(vWorldPos_InLight, g_matLightProj);
+		float2		vNewUV = (float2)0.f;
+		vNewUV.x = (vUVPos.x / vUVPos.w) * 0.5f + 0.5f;
+		vNewUV.y = (vUVPos.y / vUVPos.w) * -0.5f + 0.5f;
+		vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(DepthSampler, vNewUV);
+
+		if (vWorldPos_InLight.z < vShadowDepthInfo.x * g_fFar)
+			++iValue;
+
+	}
+
+	float		fLightPower = 0.3f;
+
+	Out.vColor.rgb = fLightPower * (iValue / fNumSamples);
+	Out.vColor.a = 1.f;
+
+	
+	return Out;
+}
+
 RasterizerState RS_Default
 {
 	FillMode = solid;
@@ -825,6 +879,17 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_ADD();
+	}
+
+	pass LightShaft		//	14
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_LIGHTSHAFT();
 	}
 
 }

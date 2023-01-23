@@ -12,7 +12,7 @@ public:
 		RENDER_GRAYSCALE, RENDER_BLUR, RENDER_DISTORTION, RENDER_UI,RENDER_UIPOKE ,RENDER_END };
 	enum VALUETYPE { VALUE_AO, VALUE_AORADIUS, VALUE_GLOWBLURCOUNT, VALUE_DISTORTION, VALUE_END };
 private:
-	enum RENDER_ORDER { ORDER_GLOW, ORDER_GRAYSCALE, ORDER_BLUR, ORDER_DISTORTION, ORDER_END };
+	enum RENDER_ORDER { ORDER_GLOW, ORDER_GRAYSCALE, ORDER_BLUR, ORDER_LIGHTSHAFT, ORDER_DISTORTION, ORDER_END };
 
 private:
 	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);	
@@ -94,6 +94,7 @@ private:
 
 	//	Post Processing Objects Rendering
 	HRESULT	Ready_PostProcessing();
+	HRESULT Render_LightShaft(const _tchar* pTexName, const _tchar* pMRTName);
 	HRESULT Render_Glow(const _tchar* pTexName, const _tchar* pMRTName);
 	HRESULT Render_Blur(const _tchar* pTexName, const _tchar* pMRTName);
 	HRESULT Render_GrayScale(const _tchar* pTexName, const _tchar* pMRTName);
