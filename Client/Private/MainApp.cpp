@@ -227,12 +227,12 @@ void CMainApp::Free()
 	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pImGuiManager);
 
-	CImGuiManager::Destroy_Instance();
+	CImGuiManager::Get_Instance()->Destroy_Instance();
+	CData_Manager::Get_Instance()->Destroy_Instance();	// 추가
+	//CUI_Manager::Destroy_Instance();
+	CUI_Manager::Get_Instance()->Destroy_Instance();
+	CEffect_Manager::Get_Instance()->Destroy_Instance();
 
-	CGameInstance::Release_Engine();
-	CData_Manager::Destroy_Instance();	// 추가
-	CUI_Manager::Destroy_Instance();
-	CUI_Manager::Destroy_Instance();
-	CEffect_Manager::Destroy_Instance();
+	CGameInstance::Get_Instance()->Release_Engine();
 }
 

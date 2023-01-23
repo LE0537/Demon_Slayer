@@ -331,6 +331,21 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash">
       <UniqueIdentifier>{772b995d-4462-442f-b41d-7ccf548daaca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill">
+      <UniqueIdentifier>{f3973e7a-64eb-4a0a-9f82-80080ec224a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\Common">
+      <UniqueIdentifier>{cc97d132-fb0a-4f3a-9257-675adae97772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\WindMill">
+      <UniqueIdentifier>{df515cb9-685e-470e-bcd1-756d85526e03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\WaterMill">
+      <UniqueIdentifier>{1bd7af16-45c0-475e-9da8-147d42d10b75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Tool">
+      <UniqueIdentifier>{b699106b-fa36-4dbf-8c0a-2c314863f061}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -660,6 +675,12 @@
     <ClInclude Include="..\Public\KyoujuroDashState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroSkill_WaterMill.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\WaterMill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroToolState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -970,6 +991,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroDashState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroSkill_WaterMill.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\WaterMill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroToolState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

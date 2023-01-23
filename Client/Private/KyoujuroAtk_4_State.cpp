@@ -6,6 +6,7 @@
 #include "Layer.h"
 #include "Tanjiro.h"
 #include "Effect_Manager.h"
+#include "KyoujuroDashState.h"
 
 using namespace Kyoujuro;
 
@@ -25,6 +26,130 @@ CKyoujuroState * CAtk_4_State::HandleInput(CKyoujuro * pKyoujuro)
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 
+	if (m_fComboDelay <= 35.f)
+	{
+		switch (pKyoujuro->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Pressing(DIK_W)) // 菊
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RF);
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_S)) // 第
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LB);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_BACK);
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RIGHT);
+			}
+			break;
+		case 2:
+			if (pGameInstance->Key_Pressing(DIK_UP)) // 菊
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RF);
+
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 第
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LB);
+
+
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_BACK);
+
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RIGHT);
+
+			}
+			break;
+		}
+	}
 	return nullptr;
 }
 
@@ -41,6 +166,7 @@ CKyoujuroState * CAtk_4_State::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		return new CIdleState();
 	}
 
+	m_fComboDelay += fTimeDelta * 60.f;
 
 	return nullptr;
 }

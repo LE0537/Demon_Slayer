@@ -5,10 +5,10 @@
 
 BEGIN(Client)
 BEGIN(Tanjiro)
-class CAtk_4_State : public CTanjiroState
+class CSkill_WaterMillState : public CTanjiroState
 {
 public:
-	CAtk_4_State();
+	CSkill_WaterMillState(STATE_TYPE eType);
 
 	virtual CTanjiroState* HandleInput(CTanjiro* pTanjiro) override;
 	virtual CTanjiroState* Tick(CTanjiro* pTanjiro, _float fTimeDelta) override;
@@ -19,11 +19,8 @@ public:
 	virtual void Exit(CTanjiro* pTanjiro) override;
 
 private:
-	CBaseAtk*	m_pCollBox = nullptr;
 
-	_float m_fMove = 0.f;
-	_bool  m_bHit = false;
-	_float m_fComboDelay = 0.f;
+
 };
 END
 END

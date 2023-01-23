@@ -57,6 +57,7 @@ public:
 private:
 	vector<CCharacters*> m_vecObjList;
 	vector<CAnimation*> m_vecAnimation;
+	vector<_uint> m_vecAnimIndex;
 public:
 	virtual void Free() override;
 };
