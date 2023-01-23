@@ -57,6 +57,10 @@
 #include "SelOniLight.h"
 #include "1PMainOnBase.h"
 #include "2PMainOnBase.h"
+#include "LogoBackEff.h"
+#include "LogoBackLight.h"
+#include "LogoButton.h"
+#include "LogoFixedImg.h"
 
 //Effect
 #include "Effect.h"
@@ -239,6 +243,21 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 
 #pragma endregion SelectUI
+#pragma region LogoTitleUI
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LogoFixedImg"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Logo/Logo_FixedImg_%d.png"), 4))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LogoBackEff"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Logo/Back_Eff.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LogoBackLight"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Logo/Back_Light.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LogoButton"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Logo/Logo_Button_%d.png"), 2))))
+			return E_FAIL;
+#pragma endregion LogoTitleUI
+
 	}
 #pragma endregion UI
 
@@ -559,6 +578,22 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LogoBackEff"),
+		CLogoBackEff::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LogoBackLight"),
+		CLogoBackLight::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LogoButton"),
+		CLogoButton::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LogoFixedImg"),
+		CLogoFixedImg::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelectBg"),
 		CSelectBG::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

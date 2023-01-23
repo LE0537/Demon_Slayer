@@ -59,7 +59,7 @@ void CUI_Manager::Load_Data(string sLoadName)
 	{
 		// 팝업 창을 출력해주는 기능의 함수
 		// 1. 핸들 2. 팝업 창에 띄우고자하는 메시지 3. 팝업 창 이름 4. 버튼 속성
-		MessageBox(g_hWnd, _T("Load File"), _T("Fail"), MB_OK);
+		//MessageBox(g_hWnd, _T("Load File"), _T("Fail"), MB_OK);
 		return;
 	}
 
@@ -94,6 +94,8 @@ void CUI_Manager::Load_Data(string sLoadName)
 			P2_O_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "Change_Select")
 			SELECT_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
+		else if (sLoadName == "LogoTitle")
+			LOGOTITLE_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -118,11 +120,6 @@ void CUI_Manager::Add_P1_PersonHpUI()
 
 	for (auto iter : P1_P_DATALIST)
 		Add_Obj(iter);
-
-	//for (auto iter : P1_P_LOADDATALIST)
-	//	Safe_Release(iter);
-
-	//P1_P_LOADDATALIST.clear();
 }
 
 void CUI_Manager::Add_P1_OniHpUI()
@@ -211,6 +208,27 @@ void CUI_Manager::Add_Select_CharUI()
 
 	m_iCharIconLayerNum = 0;
 	m_iCharNameLayerNum = 0;
+}
+
+void CUI_Manager::Add_Logo_Title()
+{
+	for (auto iter : LOGOTITLE_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_SELECTCHAR;
+
+		LOGOTITLE_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : LOGOTITLE_DATALIST)
+		Add_LogoUI(iter);
+
+	
+
 }
 
 HRESULT CUI_Manager::Add_Obj(CUI::THROWUIINFO iter)
@@ -493,6 +511,66 @@ HRESULT CUI_Manager::Add_SelectUI(CUI::THROWUIINFO iter)
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_LogoUI(CUI::THROWUIINFO iter)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	switch (iter.iTextureNum)
+	{
+	case 0: 
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_LOGO, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 1:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackLight"), LEVEL_LOGO, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 2:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackEff"), LEVEL_LOGO, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 3:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_LOGO, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 4:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_LOGO, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 5:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_LOGO, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 6:
+	{
+		iter.iLayerNum = m_iLogoButtonNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoButton"), LEVEL_LOGO, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iLogoButtonNum;
+		break;
+	}
+	default:
+		break;
+	}
+
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }

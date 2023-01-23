@@ -202,6 +202,10 @@
     <ClInclude Include="..\Public\KyoujuroHitState.h" />
     <ClInclude Include="..\Public\KyoujuroMoveState.h" />
     <ClInclude Include="..\public\Level_SelectChar.h" />
+    <ClInclude Include="..\Public\LogoBackEff.h" />
+    <ClInclude Include="..\Public\LogoBackLight.h" />
+    <ClInclude Include="..\Public\LogoButton.h" />
+    <ClInclude Include="..\Public\LogoFixedImg.h" />
     <ClInclude Include="..\Public\TanjiroDashState.h" />
     <ClInclude Include="..\Public\TanjiroGuardAdvState.h" />
     <ClInclude Include="..\Public\TanjiroGuardHitState.h" />
@@ -313,6 +317,10 @@
     <ClCompile Include="..\Private\KyoujuroHitState.cpp" />
     <ClCompile Include="..\Private\KyoujuroMoveState.cpp" />
     <ClCompile Include="..\private\Level_SelectChar.cpp" />
+    <ClCompile Include="..\Private\LogoBackEff.cpp" />
+    <ClCompile Include="..\Private\LogoBackLight.cpp" />
+    <ClCompile Include="..\Private\LogoButton.cpp" />
+    <ClCompile Include="..\Private\LogoFixedImg.cpp" />
     <ClCompile Include="..\Private\TanjiroDashState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardHitState.cpp" />

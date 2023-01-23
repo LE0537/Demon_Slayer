@@ -331,6 +331,15 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash">
       <UniqueIdentifier>{772b995d-4462-442f-b41d-7ccf548daaca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\00.Logo\FixedImg">
+      <UniqueIdentifier>{73568ffb-62c9-4e36-8006-ec716443defd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\00.Logo\MoveImg">
+      <UniqueIdentifier>{925fe9bb-f239-4b13-84fe-5f8357094c19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\00.Logo\Button">
+      <UniqueIdentifier>{71401fb6-93b3-4dc7-9cf7-de8d7dd33848}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -660,6 +669,18 @@
     <ClInclude Include="..\Public\KyoujuroDashState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\LogoButton.h">
+      <Filter>03.UI\00.Logo\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LogoBackLight.h">
+      <Filter>03.UI\00.Logo\MoveImg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LogoBackEff.h">
+      <Filter>03.UI\00.Logo\MoveImg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LogoFixedImg.h">
+      <Filter>03.UI\00.Logo\FixedImg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -970,6 +991,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroDashState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LogoFixedImg.cpp">
+      <Filter>03.UI\00.Logo\FixedImg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LogoBackLight.cpp">
+      <Filter>03.UI\00.Logo\MoveImg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LogoBackEff.cpp">
+      <Filter>03.UI\00.Logo\MoveImg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LogoButton.cpp">
+      <Filter>03.UI\00.Logo\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
