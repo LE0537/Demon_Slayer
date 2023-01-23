@@ -7,6 +7,7 @@
 #include "TanjiroAtk_1_State.h"
 #include "TanjiroGuardState.h"
 #include "TanjiroGuardHitState.h"
+#include "TanjiroSkill_WaterMill.h"
 using namespace Tanjiro;
 
 
@@ -59,6 +60,8 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Pressing(DIK_I))
+			return new CSkill_WaterMillState(CTanjiroState::TYPE_START);
 		break;
 	case 2:
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
@@ -96,6 +99,8 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Pressing(DIK_X))
+			return new CSkill_WaterMillState(CTanjiroState::TYPE_START);
 		break;
 	default:
 		break;

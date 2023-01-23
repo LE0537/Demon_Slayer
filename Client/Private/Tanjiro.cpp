@@ -12,6 +12,8 @@
 #include "TanjiroWeapon.h"
 #include "TanjiroSheath.h"
 #include "TanjiroGuardHitState.h"
+#include "TanjiroToolState.h"
+#include "ImGuiManager.h"
 using namespace Tanjiro;
 
 
@@ -65,6 +67,9 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	CTanjiroState* pState = new CIdleState();
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
+
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 	return S_OK;
 }
@@ -216,6 +221,12 @@ void CTanjiro::Get_GuardHit(_int eType)
 		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_GUARD_HIT_1);
 		pState = new CGuardHitState(CTanjiroState::STATE_TYPE::TYPE_LOOP);
 	}
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+}
+
+void CTanjiro::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
+{
+	CTanjiroState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CTanjiroState::STATE_TYPE>(iTypeIndex), bIsContinue);
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
 

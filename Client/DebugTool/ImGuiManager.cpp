@@ -152,11 +152,6 @@ void CImGuiManager::AnimationDebug(_float fTimeDelta)
 	
 
 
-
-
-
-
-
 }
 
 void CImGuiManager::Add_LiveCharacter(CCharacters * pCharacter)
@@ -172,12 +167,12 @@ void CImGuiManager::Add_LiveCharacter(CCharacters * pCharacter)
 void CImGuiManager::LiveCharacterList()
 {
 
-	ImVec2 vListSize(200, 100);
+	ImVec2 vListSize(100, 60);
 	ImVec2 vObjSize(100, 30);
 	static int selected = 999;
 
 
-	if (ImGui::BeginListBox("", vListSize))
+	if (ImGui::BeginListBox("Character", vListSize))
 	{
 		for (_uint i = 0; i < m_vecObjList.size(); ++i)
 		{
@@ -205,7 +200,172 @@ void CImGuiManager::LiveCharacterList()
 
 void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 {
+	ImVec2 vListSize(250, 300);
+	ImVec2 vObjSize(200, 30);
+	static int selected = 0;
 
+	if (_iIndex == 0)
+	{
+		if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
+		{
+			m_vecAnimation = ((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Get_Animation();
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
+		{
+			m_vecAnimation = ((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Get_Animation();
+		}
+		
+	}
+	else if (_iIndex == 1)
+	{
+		if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
+		{
+			m_vecAnimation = ((CKyoujuro*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
+		}
+		else if(m_vecObjList[1]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
+		{
+			m_vecAnimation = ((CTanjiro*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
+		}
+	}
+
+
+	if (ImGui::BeginListBox("Animation", vListSize))
+	{
+		for (_uint i = 0; i < m_vecAnimation.size(); ++i)
+		{
+			string Temp = to_string(i) + ". ";
+			string strName = m_vecAnimation[i]->Get_AnimName();
+
+			if (_iIndex == 0)
+			{
+				if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
+				{
+					strName.erase(strName.begin(), strName.begin() + 38);
+				}
+				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
+				{
+					strName.erase(strName.begin(), strName.begin() + 53);
+				}
+				//strName.erase(strName.begin(), strName.begin() + 38);
+			}
+			else if (_iIndex == 1)
+			{
+				if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
+				{
+					strName.erase(strName.begin(), strName.begin() + 53);
+				}
+				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
+				{
+					strName.erase(strName.begin(), strName.begin() + 38);
+				}
+
+				//strName.erase(strName.begin(), strName.begin() + 53);
+			}
+
+			strName = Temp + strName;
+
+			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
+			{
+				selected = i;
+			}
+			ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndListBox();
+	}
+
+	ImGui::SameLine();
+	if (ImGui::BeginListBox("add Animation", vListSize))
+	{
+
+		for (_uint i = 0; i < m_vecAnimIndex.size(); ++i)
+		{
+			string str = to_string(i);
+
+			if (ImGui::Selectable(str.c_str(), stoi(str) == i, 0, vObjSize))
+			{
+
+			}
+			ImGui::SetItemDefaultFocus();
+		}
+
+		ImGui::EndListBox();
+	}
+
+	if (ImGui::Button("Play Animation"))
+	{
+		if (_iIndex == 0)
+		{
+			if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
+			{
+				((CTanjiro*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0,0,0 , false);
+			}
+			else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
+			{
+			}
+		}
+		else if (_iIndex == 1)
+		{
+			if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
+			{
+			}
+			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
+			{
+				((CTanjiro*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
+			}
+		}
+	}
+
+
+
+
+
+
+	if(ImGui::Button("Add Animation"))
+	{
+		if (_iIndex == 0)
+		{
+			if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
+			{
+				m_vecAnimIndex.push_back(selected);
+			}
+			else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
+			{
+				m_vecAnimIndex.push_back(selected);
+			}
+		}
+		else if (_iIndex == 1)
+		{
+			if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
+			{
+				m_vecAnimIndex.push_back(selected);
+			}
+			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
+			{
+				m_vecAnimIndex.push_back(selected);
+			}
+		}
+	}
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Clear Animation"))
+	{
+		m_vecAnimIndex.clear();
+	}
+
+
+	if (ImGui::Button("Play All Animation"))
+	{
+		if (!m_vecAnimIndex.empty())
+		{
+			_uint iIndexSize = m_vecAnimIndex.size();
+
+			((CTanjiro*)(m_vecObjList[_iIndex]))->
+				Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0 ,true);
+		}
+	}
+
+	
 
 }
 
@@ -216,6 +376,14 @@ void CImGuiManager::Clear_CharacterList()
 		Safe_Release(iter);
 
 	m_vecObjList.clear();
+}
+
+void CImGuiManager::Clear_AnimationList()
+{
+	for (auto& iter : m_vecAnimation)
+		Safe_Release(iter);
+
+	m_vecAnimation.clear();
 }
 
 void CImGuiManager::Free()
@@ -229,6 +397,7 @@ void CImGuiManager::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
-	Clear_CharacterList();
+//	Clear_CharacterList();
+//	Clear_AnimationList();
 
 }

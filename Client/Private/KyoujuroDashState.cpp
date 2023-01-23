@@ -25,47 +25,96 @@ CKyoujuroState * CDashState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 
-	if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
+	switch (pKyoujuro->Get_i1P())
 	{
-		pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-
-		if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+	case 1:
+		if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
 		{
-			if (CKyoujuro::ANIMID::ANIM_DASH_L_01 == pKyoujuro->Get_AnimIndex() || CKyoujuro::ANIMID::ANIM_DASH_R_01 == pKyoujuro->Get_AnimIndex())
+			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+
+			if (pGameInstance->Key_Pressing(DIK_L))
 			{
-				if (m_bSecondDash == false)
+				if (CKyoujuro::ANIMID::ANIM_DASH_L_01 == pKyoujuro->Get_AnimIndex() || CKyoujuro::ANIMID::ANIM_DASH_R_01 == pKyoujuro->Get_AnimIndex())
 				{
-					if (CKyoujuro::ANIMID::ANIM_DASH_L_01 == pKyoujuro->Get_AnimIndex())
-						return new CDashState(OBJDIR::DIR_LF, true);
-					else if (CKyoujuro::ANIMID::ANIM_DASH_R_01 == pKyoujuro->Get_AnimIndex())
-						return new CDashState(OBJDIR::DIR_RF, true);
+					if (m_bSecondDash == false)
+					{
+						if (CKyoujuro::ANIMID::ANIM_DASH_L_01 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_LF, true);
+						else if (CKyoujuro::ANIMID::ANIM_DASH_R_01 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_RF, true);
+					}
 				}
-			}
-			else if (CKyoujuro::ANIMID::ANIM_DASH_L_02 == pKyoujuro->Get_AnimIndex() || CKyoujuro::ANIMID::ANIM_DASH_R_02 == pKyoujuro->Get_AnimIndex())
-			{
-				if (m_bSecondDash == false)
+				else if (CKyoujuro::ANIMID::ANIM_DASH_L_02 == pKyoujuro->Get_AnimIndex() || CKyoujuro::ANIMID::ANIM_DASH_R_02 == pKyoujuro->Get_AnimIndex())
 				{
-					if (CKyoujuro::ANIMID::ANIM_DASH_L_02 == pKyoujuro->Get_AnimIndex())
-						return new CDashState(OBJDIR::DIR_LF);
-					else if (CKyoujuro::ANIMID::ANIM_DASH_R_02 == pKyoujuro->Get_AnimIndex())
-						return new CDashState(OBJDIR::DIR_RF);
+					if (m_bSecondDash == false)
+					{
+						if (CKyoujuro::ANIMID::ANIM_DASH_L_02 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_LF);
+						else if (CKyoujuro::ANIMID::ANIM_DASH_R_02 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_RF);
+					}
+					else
+					{
+						if (CKyoujuro::ANIMID::ANIM_DASH_L_02 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_LEFT);
+						else if (CKyoujuro::ANIMID::ANIM_DASH_R_02 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_RIGHT);
+					}
 				}
 				else
-				{
-					if (CKyoujuro::ANIMID::ANIM_DASH_L_02 == pKyoujuro->Get_AnimIndex())
-						return new CDashState(OBJDIR::DIR_LEFT);
-					else if (CKyoujuro::ANIMID::ANIM_DASH_R_02 == pKyoujuro->Get_AnimIndex())
-						return new CDashState(OBJDIR::DIR_RIGHT);
-				}
+					return new CDashState(m_eDir);
 			}
-			else
-				return new CDashState(m_eDir);
-		}
 
-		else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
-			return new CMoveState(m_eDir, STATE_TYPE::TYPE_LOOP);
-		else
-			return new CIdleState();
+			else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_D))
+				return new CMoveState(m_eDir, STATE_TYPE::TYPE_LOOP);
+			else
+				return new CIdleState();
+		}
+		break;
+	case 2:
+		if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
+		{
+			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+
+			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+			{
+				if (CKyoujuro::ANIMID::ANIM_DASH_L_01 == pKyoujuro->Get_AnimIndex() || CKyoujuro::ANIMID::ANIM_DASH_R_01 == pKyoujuro->Get_AnimIndex())
+				{
+					if (m_bSecondDash == false)
+					{
+						if (CKyoujuro::ANIMID::ANIM_DASH_L_01 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_LF, true);
+						else if (CKyoujuro::ANIMID::ANIM_DASH_R_01 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_RF, true);
+					}
+				}
+				else if (CKyoujuro::ANIMID::ANIM_DASH_L_02 == pKyoujuro->Get_AnimIndex() || CKyoujuro::ANIMID::ANIM_DASH_R_02 == pKyoujuro->Get_AnimIndex())
+				{
+					if (m_bSecondDash == false)
+					{
+						if (CKyoujuro::ANIMID::ANIM_DASH_L_02 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_LF);
+						else if (CKyoujuro::ANIMID::ANIM_DASH_R_02 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_RF);
+					}
+					else
+					{
+						if (CKyoujuro::ANIMID::ANIM_DASH_L_02 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_LEFT);
+						else if (CKyoujuro::ANIMID::ANIM_DASH_R_02 == pKyoujuro->Get_AnimIndex())
+							return new CDashState(OBJDIR::DIR_RIGHT);
+					}
+				}
+				else
+					return new CDashState(m_eDir);
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+				return new CMoveState(m_eDir, STATE_TYPE::TYPE_LOOP);
+			else
+				return new CIdleState();
+		}
+		break;
 	}
 
 
@@ -88,7 +137,7 @@ void CDashState::Enter(CKyoujuro* pKyoujuro)
 	m_eStateId = STATE_ID::STATE_DASH;
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	CCharacters* m_pTarget = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront();
+	CCharacters* m_pTarget = pKyoujuro->Get_BattleTarget();
 	pKyoujuro->Get_Transform()->Set_PlayerLookAt(m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 	// 나중에 룩방향
 
