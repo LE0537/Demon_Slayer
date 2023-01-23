@@ -64,7 +64,7 @@ CTanjiroState * CGuardAdvState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_GUARD_ADV, 0.02f);
 
 
-	printf_s("type : %d state : %d anim : %d \n", (int)m_eStateType, (int)m_eStateId, (int)pTanjiro->Get_AnimIndex());
+	
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 

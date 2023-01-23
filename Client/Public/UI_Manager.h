@@ -24,8 +24,10 @@ public:
 	void Add_P2_PersonHpUI();
 	void Add_P2_OniHpUI();
 	void Add_Select_CharUI();
+	void Add_Logo_Title();
 	HRESULT Add_Obj(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
+	HRESULT Add_LogoUI(CUI::THROWUIINFO iter);
 
 
 	_bool P1_Oni_Check();
@@ -63,12 +65,14 @@ private:
 	list<CUI::LOADUIINFO>				P2_P_LOADDATALIST;
 	list<CUI::LOADUIINFO>				P2_O_LOADDATALIST;
 	list<CUI::LOADUIINFO>				SELECT_LOADDATALIST;
+	list<CUI::LOADUIINFO>				LOGOTITLE_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
 	list<CUI::THROWUIINFO>				P2_P_DATALIST;
 	list<CUI::THROWUIINFO>				P2_O_DATALIST;
 	list<CUI::THROWUIINFO>				SELECT_DATALIST;
+	list<CUI::THROWUIINFO>				LOGOTITLE_DATALIST;
 	
 
 	string							m_sFilePath;
@@ -83,6 +87,8 @@ private:
 	_uint							m_iCharNameLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
+	_uint							m_iLogoButtonNum = 0;
+
 public:
 	virtual void Free() override;
 };

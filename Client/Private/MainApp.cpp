@@ -232,7 +232,6 @@ void CMainApp::Free()
 	CGameInstance::Release_Engine();
 	CData_Manager::Destroy_Instance();	// Ãß°¡
 	CUI_Manager::Destroy_Instance();
-	CUI_Manager::Destroy_Instance();
 	CEffect_Manager::Destroy_Instance();
 }
 
