@@ -58,12 +58,15 @@ public:
 	CCharacters*	Get_BattleTarget() { return m_pBattleTarget; }
 	CCollider* Get_SphereCollider() { return m_pSphereCom; }
 	_int	   Get_i1P() { return m_i1p; }
+	void	   Set_iTargetIndex(_int _iTargetIndex) { m_iTargetIndex = _iTargetIndex; }
+	_int       Get_iTargetIndex() { return m_iTargetIndex; }
 
 	virtual	void  Take_Damage(_float _fPow) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
 protected:
 	PLAYERINFO		m_tInfo;
 	CCharacters*	m_pBattleTarget = nullptr;
+	_int			m_iTargetIndex = 0;
 
 	CCollider*				m_pSphereCom = nullptr;
 	_int					m_i1p = 0;

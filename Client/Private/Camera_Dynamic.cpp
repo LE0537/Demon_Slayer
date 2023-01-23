@@ -217,6 +217,21 @@ void CCamera_Dynamic::ConvertToViewPort()
 		m_f2pX = m_vTargetPos.x;
 		m_v2pCamAt.y = 1.f;
 		m_pTransform->LookAt(XMLoadFloat4(&m_v2pCamAt));
+
+		switch (m_pPlayer->Get_i1P())
+		{
+		case 1:
+			m_pPlayer->Set_iTargetIndex(1);
+			m_pTarget->Set_iTargetIndex(2);
+			break;
+		case 2:
+			m_pTarget->Set_iTargetIndex(1);
+			m_pPlayer->Set_iTargetIndex(2);
+			break;
+		default:
+			break;
+		}
+		
 	}
 	else
 	{
@@ -224,6 +239,20 @@ void CCamera_Dynamic::ConvertToViewPort()
 		m_f2pX = m_vPlayerPos.x;
 		m_v1pCamAt.y = 1.f;
 		m_pTransform->LookAt(XMLoadFloat4(&m_v1pCamAt));
+
+		switch (m_pPlayer->Get_i1P())
+		{
+		case 1:
+			m_pTarget->Set_iTargetIndex(1);
+			m_pPlayer->Set_iTargetIndex(2);
+			break;
+		case 2:
+			m_pPlayer->Set_iTargetIndex(1);
+			m_pTarget->Set_iTargetIndex(2);
+			break;
+		default:
+			break;
+		}
 	}
 
 }
