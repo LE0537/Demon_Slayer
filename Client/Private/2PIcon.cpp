@@ -56,8 +56,8 @@ void C2PIcon::Tick(_float fTimeDelta)
 	_float fP2CursorX = pUI_Manager->Get_2PCursor()->Get_fX();
 	_float fP2CursorY = pUI_Manager->Get_2PCursor()->Get_fY();
 	
-	m_fX = fP2CursorX - 20.f;
-	m_fY = fP2CursorY - 18.f;
+	m_fX = fP2CursorX + 20.f;
+	m_fY = fP2CursorY + 18.f;
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 

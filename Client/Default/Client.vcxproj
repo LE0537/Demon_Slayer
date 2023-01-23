@@ -206,6 +206,13 @@
     <ClInclude Include="..\Public\LogoBackLight.h" />
     <ClInclude Include="..\Public\LogoButton.h" />
     <ClInclude Include="..\Public\LogoFixedImg.h" />
+    <ClInclude Include="..\Public\MenuBackDeco.h" />
+    <ClInclude Include="..\Public\MenuChar.h" />
+    <ClInclude Include="..\Public\MenuCursor.h" />
+    <ClInclude Include="..\Public\MenuDarkCloud.h" />
+    <ClInclude Include="..\Public\MenuFixedImg.h" />
+    <ClInclude Include="..\Public\MenuFrontCloud.h" />
+    <ClInclude Include="..\Public\MenuTitle.h" />
     <ClInclude Include="..\Public\TanjiroDashState.h" />
     <ClInclude Include="..\Public\TanjiroGuardAdvState.h" />
     <ClInclude Include="..\Public\TanjiroGuardHitState.h" />
@@ -321,6 +328,13 @@
     <ClCompile Include="..\Private\LogoBackLight.cpp" />
     <ClCompile Include="..\Private\LogoButton.cpp" />
     <ClCompile Include="..\Private\LogoFixedImg.cpp" />
+    <ClCompile Include="..\Private\MenuBackDeco.cpp" />
+    <ClCompile Include="..\Private\MenuChar.cpp" />
+    <ClCompile Include="..\Private\MenuCursor.cpp" />
+    <ClCompile Include="..\Private\MenuDarkCloud.cpp" />
+    <ClCompile Include="..\Private\MenuFixedImg.cpp" />
+    <ClCompile Include="..\Private\MenuFrontCloud.cpp" />
+    <ClCompile Include="..\Private\MenuTitle.cpp" />
     <ClCompile Include="..\Private\TanjiroDashState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardHitState.cpp" />

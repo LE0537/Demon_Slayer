@@ -24,6 +24,7 @@ public:
 	void Tick(_float fTimeDelta);
 	void Late_Tick(_float fTimeDelta);
 	void Clear(_uint iLevelIndex);
+	void Clear_List(_uint iLevelIndex, const _tchar * pLayerTag);
 
 
 private:

@@ -110,6 +110,18 @@ void CObject_Manager::Clear(_uint iLevelIndex)
 	
 }
 
+void CObject_Manager::Clear_List(_uint iLevelIndex, const _tchar * pLayerTag)
+{
+	if (iLevelIndex >= m_iNumLevels)
+		return;
+
+	auto	iter = find_if(m_pLayers[iLevelIndex].begin(), m_pLayers[iLevelIndex].end(), CTag_Finder(pLayerTag));
+	if (iter == m_pLayers[iLevelIndex].end())
+		return;
+
+	iter->second->Clear_List();
+}
+
 CGameObject * CObject_Manager::Find_Prototype(const _tchar * pPrototypeTag)
 {
 	auto	iter = find_if(m_Prototypes.begin(), m_Prototypes.end(), CTag_Finder(pPrototypeTag));
