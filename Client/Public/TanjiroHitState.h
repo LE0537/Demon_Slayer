@@ -21,6 +21,7 @@ public:
 private:
 	_float fHitTime = 0.f;
 	_float m_fPow = 0.f;
+	_bool  m_bReset = false;
 };
 END
 END
