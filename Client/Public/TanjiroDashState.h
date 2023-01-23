@@ -27,7 +27,9 @@ private:
 	_bool m_bSecondDash = false;
 	_float m_fDashTime = 1.f;
 	_float m_fSpeed = 0.f;
-
+	_float m_fTime = 0.f;
+	_int   iIndex = 0;
+	_bool  m_bTrue = false;
 };
 END
 END

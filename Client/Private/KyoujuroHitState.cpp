@@ -18,9 +18,12 @@ CKyoujuroState * CHitState::HandleInput(CKyoujuro* pKyoujuro)
 
 CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
-
-	pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_HIT);
-
+	if (!m_bReset)
+	{
+		pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro::ANIM_HIT);
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_HIT);
+		m_bReset = true;
+	}
 	fHitTime += fTimeDelta * 60.f;
 
 

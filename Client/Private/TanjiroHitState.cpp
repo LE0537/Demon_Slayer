@@ -18,9 +18,12 @@ CTanjiroState * CHitState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-
-	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_HIT);
-
+	if (!m_bReset)
+	{
+		pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_HIT);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_HIT);
+		m_bReset = true;
+	}
 	fHitTime += fTimeDelta * 60.f;
 
 
