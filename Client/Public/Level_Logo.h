@@ -17,6 +17,8 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 
 
+private:
+	_bool			 m_bCreateUI = false;
 
 public:
 	static CLevel_Logo* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

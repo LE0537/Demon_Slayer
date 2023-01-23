@@ -72,6 +72,25 @@ public:
 		ANIM_DASH_R_01 = 83,
 		ANIM_DASH_R_02 = 84,
 
+
+
+		// SKILL
+
+		// WATER MILL
+		ANIM_SKILL_WATERMILL_0 = 25,
+		ANIM_SKILL_WATERMILL_1 = 26,
+		ANIM_SKILL_WATERMILL_2 = 27,
+
+		// WIND MILL
+		ANIM_SKILL_WINDMILL_0 = 29,
+		ANIM_SKILL_WINDMILL_1 = 30,
+		ANIM_SKILL_WINDMILL_2 = 31,
+
+		// COMMON
+		ANIM_SKILL_COMMON_0 = 34,
+		ANIM_SKILL_COMMON_1 = 35,
+		ANIM_SKILL_COMMON_2 = 36,
+
 		ANIM_END = 100
 	};
 
@@ -96,6 +115,9 @@ public:
 public:
 	virtual	void  Take_Damage(_float _fPow);
 	virtual	void  Get_GuardHit(_int eType);
+
+public:
+	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 
 private:
 	HRESULT SetUp_ShaderResources();

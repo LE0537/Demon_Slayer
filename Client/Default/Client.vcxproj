@@ -202,6 +202,10 @@
     <ClInclude Include="..\Public\KyoujuroHitState.h" />
     <ClInclude Include="..\Public\KyoujuroMoveState.h" />
     <ClInclude Include="..\public\Level_SelectChar.h" />
+    <ClInclude Include="..\Public\LogoBackEff.h" />
+    <ClInclude Include="..\Public\LogoBackLight.h" />
+    <ClInclude Include="..\Public\LogoButton.h" />
+    <ClInclude Include="..\Public\LogoFixedImg.h" />
     <ClInclude Include="..\Public\TanjiroDashState.h" />
     <ClInclude Include="..\Public\TanjiroGuardAdvState.h" />
     <ClInclude Include="..\Public\TanjiroGuardHitState.h" />
@@ -263,7 +267,9 @@
     <ClInclude Include="..\Public\TanjiroJumpState.h" />
     <ClInclude Include="..\Public\TanjiroMoveState.h" />
     <ClInclude Include="..\Public\TanjiroSheath.h" />
+    <ClInclude Include="..\Public\TanjiroSkill_WaterMill.h" />
     <ClInclude Include="..\Public\TanjiroState.h" />
+    <ClInclude Include="..\Public\TanjiroToolState.h" />
     <ClInclude Include="..\Public\TanjiroWeapon.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\public\UI.h" />
@@ -313,6 +319,10 @@
     <ClCompile Include="..\Private\KyoujuroHitState.cpp" />
     <ClCompile Include="..\Private\KyoujuroMoveState.cpp" />
     <ClCompile Include="..\private\Level_SelectChar.cpp" />
+    <ClCompile Include="..\Private\LogoBackEff.cpp" />
+    <ClCompile Include="..\Private\LogoBackLight.cpp" />
+    <ClCompile Include="..\Private\LogoButton.cpp" />
+    <ClCompile Include="..\Private\LogoFixedImg.cpp" />
     <ClCompile Include="..\Private\TanjiroDashState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardHitState.cpp" />
@@ -372,6 +382,8 @@
     <ClCompile Include="..\Private\TanjiroJumpState.cpp" />
     <ClCompile Include="..\Private\TanjiroMoveState.cpp" />
     <ClCompile Include="..\Private\TanjiroSheath.cpp" />
+    <ClCompile Include="..\Private\TanjiroSkill_WaterMill.cpp" />
+    <ClCompile Include="..\Private\TanjiroToolState.cpp" />
     <ClCompile Include="..\Private\TanjiroWeapon.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\private\UI.cpp" />

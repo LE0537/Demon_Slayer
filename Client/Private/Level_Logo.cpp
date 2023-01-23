@@ -19,8 +19,8 @@ HRESULT CLevel_Logo::Initialize()
 	pUIManager->Load_Data("P1_Person_HpUI");
 	pUIManager->Load_Data("P2_Person_HpUI");
 	pUIManager->Load_Data("Change_Select");
+	pUIManager->Load_Data("LogoTitle");
 	RELEASE_INSTANCE(CUI_Manager);
-
 
 	return S_OK;
 }
@@ -31,13 +31,23 @@ void CLevel_Logo::Tick(_float fTimeDelta)
 
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
-	if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTCHAR))))
-		return;
-
+	if (!m_bCreateUI)
+	{
+		pUIManager->Add_Logo_Title();
+		m_bCreateUI = true;
+	}
+	
+	if (pGameInstance->Key_Down(DIK_T))
+	{
+		m_bCreateUI = false;
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTCHAR))))
+			return;
+	}
 	Safe_Release(pGameInstance);
 
-
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CLevel_Logo::Late_Tick(_float fTimeDelta)

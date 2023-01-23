@@ -4,6 +4,7 @@
 #include "Base.h"
 #include "Renderer.h"
 #include "Characters.h"
+#include "Animation.h"
 
 BEGIN(Engine)
 class CGraphic_Device;
@@ -52,9 +53,11 @@ public:
 	void		LiveCharacterList();
 	void		CharacterAnimationList(_uint _iIndex);
 	void		Clear_CharacterList();
+	void		Clear_AnimationList();
 private:
 	vector<CCharacters*> m_vecObjList;
-
+	vector<CAnimation*> m_vecAnimation;
+	vector<_uint> m_vecAnimIndex;
 public:
 	virtual void Free() override;
 };

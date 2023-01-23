@@ -5,10 +5,10 @@
 
 BEGIN(Client)
 BEGIN(Tanjiro)
-class CAtk_4_State : public CTanjiroState
+class CToolState : public CTanjiroState
 {
 public:
-	CAtk_4_State();
+	CToolState(_uint iAnimIndex, _uint iAnimIndex_2 = 0, _uint iAnimIndex_3 = 0, STATE_TYPE eType = TYPE_START, _bool bIsContinue = false);
 
 	virtual CTanjiroState* HandleInput(CTanjiro* pTanjiro) override;
 	virtual CTanjiroState* Tick(CTanjiro* pTanjiro, _float fTimeDelta) override;
@@ -18,12 +18,14 @@ public:
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
 
-private:
-	CBaseAtk*	m_pCollBox = nullptr;
 
-	_float m_fMove = 0.f;
-	_bool  m_bHit = false;
-	_float m_fComboDelay = 0.f;
+private:
+	_uint m_iAnimIndex = 0;
+	_uint m_iAnimIndex_Second = 0;
+	_uint m_iAnimIndex_Third = 0;
+
+	STATE_TYPE m_eStateType = STATE_TYPE::TYPE_DEFAULT;
+	_bool m_bIsContinue = false;
 };
 END
 END
