@@ -364,6 +364,24 @@
     <Filter Include="03.UI\00.Logo\Menu\MenuChar">
       <UniqueIdentifier>{2c3045c0-c88a-4559-99c6-1fa534f4ec55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\01.Loading\Bg">
+      <UniqueIdentifier>{dc1cfa5f-81b5-4ca5-96ae-fbb541dfbd21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading\Cloud">
+      <UniqueIdentifier>{7eccb990-de0d-4294-b052-38a698ccb1e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading\Shoji">
+      <UniqueIdentifier>{ea6d7832-2c69-44a5-81f5-ac40ba33ffb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading\Txt">
+      <UniqueIdentifier>{f6cdf743-47b8-4456-b4c9-58559dd224f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading\Anim">
+      <UniqueIdentifier>{73c9cde5-12fd-4682-bb15-3a79c3fdb32f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading\Bar">
+      <UniqueIdentifier>{b1f56b00-156e-4327-b339-fbfc510927c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -726,6 +744,33 @@
     <ClInclude Include="..\Public\MenuTitle.h">
       <Filter>03.UI\00.Logo\Menu\Title</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\LoadingAnim.h">
+      <Filter>03.UI\01.Loading\Anim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingBar.h">
+      <Filter>03.UI\01.Loading\Bar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingBaseTitle.h">
+      <Filter>03.UI\01.Loading\Txt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingShoji.h">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingShojiLeft.h">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingShojiRight.h">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingCloud.h">
+      <Filter>03.UI\01.Loading\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingBaseTxt.h">
+      <Filter>03.UI\01.Loading\Txt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingFixedImg.h">
+      <Filter>03.UI\01.Loading\Bg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1069,6 +1114,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\MenuChar.cpp">
       <Filter>03.UI\00.Logo\Menu\MenuChar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingCloud.cpp">
+      <Filter>03.UI\01.Loading\Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingShoji.cpp">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingShojiLeft.cpp">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingShojiRight.cpp">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingBaseTxt.cpp">
+      <Filter>03.UI\01.Loading\Txt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingBaseTitle.cpp">
+      <Filter>03.UI\01.Loading\Txt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingBar.cpp">
+      <Filter>03.UI\01.Loading\Bar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingAnim.cpp">
+      <Filter>03.UI\01.Loading\Anim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingFixedImg.cpp">
+      <Filter>03.UI\01.Loading\Bg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

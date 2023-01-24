@@ -5,15 +5,12 @@
 
 BEGIN(Client)
 
-class CLogoButton final : public CUI
+class CLoadingShoji final : public CUI
 {
 private:
-	CLogoButton(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CLogoButton(const CLogoButton& rhs);
-	virtual ~CLogoButton() = default;
-
-public:
-	void Set_MenuOff() { m_bMenuOn = false; }
+	CLoadingShoji(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CLoadingShoji(const CLoadingShoji& rhs);
+	virtual ~CLoadingShoji() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -22,20 +19,13 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 
-public:
-	void Font_Color();
-
 private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
-private:
-	_float4				m_vFontColor;
-	_bool				m_bMenuOn = false;
-
 
 public:
-	static CLogoButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CLoadingShoji* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };

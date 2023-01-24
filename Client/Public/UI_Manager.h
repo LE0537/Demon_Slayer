@@ -26,10 +26,12 @@ public:
 	void Add_Select_CharUI();
 	void Add_Logo_Title();
 	void Add_Menu();
+	void Add_Loading();
 	HRESULT Add_Obj(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LogoUI(CUI::THROWUIINFO iter);
 	HRESULT Add_MenuUI(CUI::THROWUIINFO iter);
+	HRESULT Add_LoadingUI(CUI::THROWUIINFO iter);
 
 	_bool P1_Oni_Check();
 	_bool P2_Oni_Check();
@@ -57,6 +59,10 @@ public:
 	//2일때 루이
 	//3일때 탄지로
 
+	CUI*   Get_MenuCursor() { return m_pMenuCursor; }
+	void	Set_MenuCursor(CUI* MenuCursor) { m_pMenuCursor = MenuCursor; }
+
+
 	void	Set_CharNameUIZero() { m_iCharNameLayerNum = 0; }
 
 private:
@@ -69,6 +75,7 @@ private:
 	list<CUI::LOADUIINFO>				SELECT_LOADDATALIST;
 	list<CUI::LOADUIINFO>				LOGOTITLE_LOADDATALIST;
 	list<CUI::LOADUIINFO>				MENU_LOADDATALIST;
+	list<CUI::LOADUIINFO>				LOADING_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
@@ -77,6 +84,7 @@ private:
 	list<CUI::THROWUIINFO>				SELECT_DATALIST;
 	list<CUI::THROWUIINFO>				LOGOTITLE_DATALIST;
 	list<CUI::THROWUIINFO>				MENU_DATALIST;
+	list<CUI::THROWUIINFO>				LOADING_DATALIST;
 
 	string							m_sFilePath;
 	CCharacters*					m_p1P;
@@ -85,6 +93,8 @@ private:
 	CUI*							m_p2PUI;
 	CUI*							m_p1PChar;
 	CUI*							m_p2PChar;
+	CUI*							m_pMenuCursor = nullptr;
+
 	CUI::THROWUIINFO				m_ThrowInfo;
 	_uint							m_iCharIconLayerNum = 0;
 	_uint							m_iCharNameLayerNum = 0;

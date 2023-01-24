@@ -294,6 +294,36 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 #pragma endregion MenuUI
 
+#pragma region LoadingUI
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingFixedImg"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Fixed_%d.png"), 4))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingCloud"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Cloud_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingShoji"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Shoji%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingShojiL"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Shoji_L.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingShojiR"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Shoji_R.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingBaseTitle"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Base_Title01.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingTxt"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Base_Txt.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingBar"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Gauge_Nakami.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingAnim"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Load_Anim.png"), 1))))
+			return E_FAIL;
+#pragma endregion LoadingUI
+
 	}
 #pragma endregion UI
 

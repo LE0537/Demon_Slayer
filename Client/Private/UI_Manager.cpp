@@ -98,6 +98,8 @@ void CUI_Manager::Load_Data(string sLoadName)
 			LOGOTITLE_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "Menu")
 			MENU_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
+		else if (sLoadName == "Loading")
+			LOADING_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -244,6 +246,24 @@ void CUI_Manager::Add_Menu()
 
 	for (auto iter : MENU_DATALIST)
 		Add_MenuUI(iter);
+}
+
+void CUI_Manager::Add_Loading()
+{
+	for (auto iter : LOADING_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_LOADING;
+
+		LOADING_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : LOADING_DATALIST)
+		Add_LoadingUI(iter);
 }
 
 HRESULT CUI_Manager::Add_Obj(CUI::THROWUIINFO iter)
@@ -686,6 +706,100 @@ HRESULT CUI_Manager::Add_MenuUI(CUI::THROWUIINFO iter)
 	case 18:
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PatternOne"), LEVEL_LOGO, TEXT("Layer_MenuUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	default:
+		break;
+	}
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_LoadingUI(CUI::THROWUIINFO iter)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	switch (iter.iTextureNum)
+	{
+	case 0:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingFixedImg"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 1:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingCloud"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 2:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingCloud"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 3:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingShoji"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 4:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingShojiLeft"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 5:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingShojiRight"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 6:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingBaseTxt"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 7:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingBaseTitle"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 8:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingFixedImg"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 9:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingAnim"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 10:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingFixedImg"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 11:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingFixedImg"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 12:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingBar"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
 			return E_FAIL;
 		break;
 	}

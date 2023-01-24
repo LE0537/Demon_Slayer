@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MenuCursor.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CMenuCursor::CMenuCursor(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -44,13 +45,43 @@ HRESULT CMenuCursor::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 	
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	pUIManager->Set_MenuCursor(this);
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
 
 void CMenuCursor::Tick(_float fTimeDelta)
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (pGameInstance->Key_Down(DIK_UP))
+	{
+		if (m_fX != 55.f && m_fY != 167.f)
+		{
+			m_fX = 55.f;
+			m_fY = 167.f;
+		}
+	}
+	else if (pGameInstance->Key_Down(DIK_DOWN))
+	{
+		if (m_fX != 75.f && m_fY != 252.f)
+		{
+			m_fX = 75.f;
+			m_fY = 252.f;
+		}
+	}
+
+	if (pGameInstance->Key_Down(DIK_E))
+	{
+		if (m_fX == 75.f && m_fY == 252.f)
+			m_bSelectVS = true;
+	}
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CMenuCursor::Late_Tick(_float fTimeDelta)

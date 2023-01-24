@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MenuChar.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CMenuChar::CMenuChar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,7 +51,19 @@ HRESULT CMenuChar::Initialize(void * pArg)
 
 void CMenuChar::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	_float fMenuCursorX = pUIManager->Get_MenuCursor()->Get_fX();
+	_float fMenuCursorY = pUIManager->Get_MenuCursor()->Get_fY();
+
+	if (fMenuCursorX == 55.f && fMenuCursorY == 167.f)
+		m_iImgNum = 0;
+	else if (fMenuCursorX == 75.f && fMenuCursorY == 252.f)
+		m_iImgNum = 1;
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CMenuChar::Late_Tick(_float fTimeDelta)
@@ -115,7 +128,7 @@ HRESULT CMenuChar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;

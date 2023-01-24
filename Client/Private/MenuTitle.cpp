@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MenuTitle.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CMenuTitle::CMenuTitle(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,7 +51,37 @@ HRESULT CMenuTitle::Initialize(void * pArg)
 
 void CMenuTitle::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	
+	_float fMenuCursorX = pUIManager->Get_MenuCursor()->Get_fX();
+	_float fMenuCursorY = pUIManager->Get_MenuCursor()->Get_fY();
+	
+	if (m_ThrowUIinfo.iTextureNum == 11)
+	{
+		if (fMenuCursorX == 55.f && fMenuCursorY == 167.f)
+		{
+			m_iImgNum = 1;
+			m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY * 1.2f, 0.f, 1.f));
+		}
+		else
+		{
+			m_iImgNum = 0;
+			m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
+		}
+	}
+	else if (m_ThrowUIinfo.iTextureNum == 16)
+	{
+		if (fMenuCursorX == 75.f && fMenuCursorY == 252.f)
+			m_iImgNum = 1;
+		else
+			m_iImgNum = 0;
+
+		
+	}
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CMenuTitle::Late_Tick(_float fTimeDelta)
@@ -149,12 +180,12 @@ HRESULT CMenuTitle::SetUp_ShaderResources()
 		return E_FAIL;
 	if (m_ThrowUIinfo.iTextureNum == 11)
 	{
-		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 			return E_FAIL;
 	}
 	else if (m_ThrowUIinfo.iTextureNum == 16)
 	{
-		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom1->Get_SRV(0))))
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom1->Get_SRV(m_iImgNum))))
 			return E_FAIL;
 	}
 	

@@ -10,6 +10,17 @@
 #include "UI_Manager.h"
 #include "ImGuiManager.h"
 
+//·Îµù°´Ã¼
+#include "LoadingAnim.h"
+#include "LoadingBar.h"
+#include "LoadingBaseTitle.h"
+#include "LoadingBaseTxt.h"
+#include "LoadingCloud.h"
+#include "LoadingFixedImg.h"
+#include "LoadingShoji.h"
+#include "LoadingShojiLeft.h"
+#include "LoadingShojiRight.h"
+
 bool			g_bDebug = false;
 bool			g_bCollBox = false;
 CMainApp::CMainApp()
@@ -184,6 +195,34 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/Shaderfiles/Shader_VtxModelInstance.hlsl"), VTXMODELINSTANCE_DECLARATION::Elements, VTXMODELINSTANCE_DECLARATION::iNumElements))))
 		return E_FAIL;
 
+	//·Îµù°´Ã¼
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingAnim"),
+		CLoadingAnim::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingBar"),
+		CLoadingBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingBaseTitle"),
+		CLoadingBaseTitle::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingBaseTxt"),
+		CLoadingBaseTxt::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingCloud"),
+		CLoadingCloud::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingFixedImg"),
+		CLoadingFixedImg::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingShoji"),
+		CLoadingShoji::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingShojiLeft"),
+		CLoadingShojiL::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingShojiRight"),
+		CLoadingShojiR::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	Safe_AddRef(m_pRenderer);
 

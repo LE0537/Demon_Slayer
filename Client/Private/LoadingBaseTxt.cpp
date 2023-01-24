@@ -1,24 +1,23 @@
 #include "stdafx.h"
-#include "LogoButton.h"
+#include "LoadingBaseTxt.h"
 #include "GameInstance.h"
-#include "UI_Manager.h"
 
-CLogoButton::CLogoButton(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CLoadingBaseTxt::CLoadingBaseTxt(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CLogoButton::CLogoButton(const CLogoButton & rhs)
+CLoadingBaseTxt::CLoadingBaseTxt(const CLoadingBaseTxt & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CLogoButton::Initialize_Prototype()
+HRESULT CLoadingBaseTxt::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CLogoButton::Initialize(void * pArg)
+HRESULT CLoadingBaseTxt::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -29,11 +28,6 @@ HRESULT CLogoButton::Initialize(void * pArg)
 	m_fSizeY = m_ThrowUIinfo.vScale.y;
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
-
-	if (m_ThrowUIinfo.iLayerNum == 0)
-		m_iImgNum = 1;
-	else if (m_ThrowUIinfo.iLayerNum == 1)
-		m_iImgNum = 0;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
@@ -54,54 +48,18 @@ HRESULT CLogoButton::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CLogoButton::Tick(_float fTimeDelta)
+void CLoadingBaseTxt::Tick(_float fTimeDelta)
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-	CUI_Manager*		pUI_Manager = GET_INSTANCE(CUI_Manager);
-
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
-
-	if (!m_bMenuOn)
-	{
-		if (pGameInstance->Key_Down(DIK_UP))
-		{
-			if (m_ThrowUIinfo.iLayerNum == 0)
-				m_iImgNum = 1;
-			else if (m_ThrowUIinfo.iLayerNum == 1)
-				m_iImgNum = 0;
-		}
-		else if (pGameInstance->Key_Down(DIK_DOWN))
-		{
-			if (m_ThrowUIinfo.iLayerNum == 0)
-				m_iImgNum = 0;
-			else if (m_ThrowUIinfo.iLayerNum == 1)
-				m_iImgNum = 1;
-		}
-
-		if (pGameInstance->Key_Down(DIK_E))
-		{
-			if (m_ThrowUIinfo.iLayerNum == 0 && m_iImgNum == 1)
-			{
-				//pGameInstance->Clear_List_InLayer(LEVEL_LOGO, TEXT("Layer_LogoUI"));
-				pUI_Manager->Add_Menu();
-				m_bMenuOn = false;
-			}
-
-		}
-	}
-	
-	
-	RELEASE_INSTANCE(CGameInstance);
-	RELEASE_INSTANCE(CUI_Manager);
 }
 
-void CLogoButton::Late_Tick(_float fTimeDelta)
+void CLoadingBaseTxt::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CLogoButton::Render()
+HRESULT CLoadingBaseTxt::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -117,37 +75,10 @@ HRESULT CLogoButton::Render()
 
 	m_pVIBufferCom->Render();
 
-	Font_Color();
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	if(m_ThrowUIinfo.iLayerNum == 0)
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("게임 시작"), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(m_vFontColor.x, m_vFontColor.y, m_vFontColor.z, m_vFontColor.w), XMVectorSet(500.f, 300.f, 0.f, 1.f));
-	else if(m_ThrowUIinfo.iLayerNum == 1)
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("게임 종료"), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(m_vFontColor.x, m_vFontColor.y, m_vFontColor.z, m_vFontColor.w), XMVectorSet(200.f, 100.f, 0.f, 1.f));
-
-	RELEASE_INSTANCE(CGameInstance);
-
 	return S_OK;
 }
 
-void CLogoButton::Font_Color()
-{
-	if (m_iImgNum == 0)
-	{
-		m_vFontColor.x = 1;
-		m_vFontColor.y = 1;
-		m_vFontColor.z = 1;
-		m_vFontColor.w = 1;
-	}
-	else if (m_iImgNum == 1)
-	{
-		m_vFontColor.x = 0;
-		m_vFontColor.y = 0;
-		m_vFontColor.z = 0;
-		m_vFontColor.w = 1;
-	}
-}
-
-HRESULT CLogoButton::Ready_Components()
+HRESULT CLoadingBaseTxt::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -162,7 +93,7 @@ HRESULT CLogoButton::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_LogoButton"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingTxt"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -172,7 +103,7 @@ HRESULT CLogoButton::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CLogoButton::SetUp_ShaderResources()
+HRESULT CLoadingBaseTxt::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -184,19 +115,19 @@ HRESULT CLogoButton::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CLogoButton * CLogoButton::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CLoadingBaseTxt * CLoadingBaseTxt::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CLogoButton*	pInstance = new CLogoButton(pDevice, pContext);
+	CLoadingBaseTxt*	pInstance = new CLoadingBaseTxt(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CLogoButton"));
+		ERR_MSG(TEXT("Failed to Created : CLoadingBaseTxt"));
 		Safe_Release(pInstance);
 	}
 
@@ -204,20 +135,20 @@ CLogoButton * CLogoButton::Create(ID3D11Device * pDevice, ID3D11DeviceContext * 
 }
 
 
-CGameObject * CLogoButton::Clone(void * pArg)
+CGameObject * CLoadingBaseTxt::Clone(void * pArg)
 {
-	CLogoButton*	pInstance = new CLogoButton(*this);
+	CLoadingBaseTxt*	pInstance = new CLoadingBaseTxt(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CLogoButton"));
+		ERR_MSG(TEXT("Failed to Cloned : CLoadingBaseTxt"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CLogoButton::Free()
+void CLoadingBaseTxt::Free()
 {
 	__super::Free();
 
