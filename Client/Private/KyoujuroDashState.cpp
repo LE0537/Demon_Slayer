@@ -39,9 +39,9 @@ CKyoujuroState * CDashState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 					if (m_bSecondDash == false)
 					{
 						if (CKyoujuro::ANIMID::ANIM_DASH_L_01 == pKyoujuro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_LF, true);
+							return new CDashState(OBJDIR::DIR_LEFT_DASH, true);
 						else if (CKyoujuro::ANIMID::ANIM_DASH_R_01 == pKyoujuro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_RF, true);
+							return new CDashState(OBJDIR::DIR_RIGHT_DASH, true);
 					}
 				}
 				else if (CKyoujuro::ANIMID::ANIM_DASH_L_02 == pKyoujuro->Get_AnimIndex() || CKyoujuro::ANIMID::ANIM_DASH_R_02 == pKyoujuro->Get_AnimIndex())
@@ -83,9 +83,9 @@ CKyoujuroState * CDashState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 					if (m_bSecondDash == false)
 					{
 						if (CKyoujuro::ANIMID::ANIM_DASH_L_01 == pKyoujuro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_LF, true);
+							return new CDashState(OBJDIR::DIR_LEFT_DASH, true);
 						else if (CKyoujuro::ANIMID::ANIM_DASH_R_01 == pKyoujuro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_RF, true);
+							return new CDashState(OBJDIR::DIR_RIGHT_DASH, true);
 					}
 				}
 				else if (CKyoujuro::ANIMID::ANIM_DASH_L_02 == pKyoujuro->Get_AnimIndex() || CKyoujuro::ANIMID::ANIM_DASH_R_02 == pKyoujuro->Get_AnimIndex())
@@ -186,6 +186,18 @@ void CDashState::Enter(CKyoujuro* pKyoujuro)
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_DASH_L_02);
 		break;
 	case Client::DIR_RB:
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_DASH_R_02);
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_DASH_R_02);
+		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_DASH_R_02, 0.01f);
+		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_DASH_R_02);
+		break;
+	case Client::DIR_LEFT_DASH:
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_DASH_L_02);
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_DASH_L_02);
+		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_DASH_L_02, 0.01f);
+		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_DASH_L_02);
+		break;
+	case Client::DIR_RIGHT_DASH:
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_DASH_R_02);
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_DASH_R_02);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_DASH_R_02, 0.01f);
