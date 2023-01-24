@@ -20,6 +20,7 @@ public:
 	void Tick(_float fTimeDelta);
 	void Late_Tick(_float fTimeDelta);
 	CGameObject* Get_LayerFront() { return m_GameObjects.front(); }
+	void Clear_List();
 private:
 	list<class CGameObject*>			m_GameObjects;
 	typedef list<class CGameObject*>	GAMEOBJECTS;

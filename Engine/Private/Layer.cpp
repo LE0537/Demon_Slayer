@@ -55,6 +55,14 @@ void CLayer::Late_Tick(_float fTimeDelta)
 	}
 }
 
+void CLayer::Clear_List()
+{
+	for (auto& pGameObject : m_GameObjects)
+		Safe_Release(pGameObject);
+
+	m_GameObjects.clear();
+}
+
 CLayer * CLayer::Create()
 {
 	CLayer*	pInstance = new CLayer();

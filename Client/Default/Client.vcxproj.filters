@@ -331,14 +331,56 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash">
       <UniqueIdentifier>{772b995d-4462-442f-b41d-7ccf548daaca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\00.Logo\FixedImg">
-      <UniqueIdentifier>{73568ffb-62c9-4e36-8006-ec716443defd}</UniqueIdentifier>
+    <Filter Include="03.UI\00.Logo\Logo">
+      <UniqueIdentifier>{a69a1082-ad50-45be-95a2-7dc263815093}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\00.Logo\MoveImg">
+    <Filter Include="03.UI\00.Logo\Logo\Button">
+      <UniqueIdentifier>{71401fb6-93b3-4dc7-9cf7-de8d7dd33848}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\00.Logo\Logo\MoveImg">
       <UniqueIdentifier>{925fe9bb-f239-4b13-84fe-5f8357094c19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\00.Logo\Button">
-      <UniqueIdentifier>{71401fb6-93b3-4dc7-9cf7-de8d7dd33848}</UniqueIdentifier>
+    <Filter Include="03.UI\00.Logo\Logo\FixedImg">
+      <UniqueIdentifier>{73568ffb-62c9-4e36-8006-ec716443defd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\00.Logo\Menu">
+      <UniqueIdentifier>{59619527-2d03-4f0c-9592-e2b87cbc72f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\00.Logo\Menu\Cursor">
+      <UniqueIdentifier>{9569da02-8e5e-4ee0-ace3-487f6f03577e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\00.Logo\Menu\Cloud">
+      <UniqueIdentifier>{fdf5e444-f307-4863-921f-7290c70917ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\00.Logo\Menu\FixedImg">
+      <UniqueIdentifier>{cb0d21f9-7aeb-47be-9745-046a89a7b5f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\00.Logo\Menu\MenuBackDeco">
+      <UniqueIdentifier>{feff26cc-376a-4e49-a4f0-e1060a7bf9e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\00.Logo\Menu\Title">
+      <UniqueIdentifier>{2965ef00-9624-4011-868c-3be8af894d19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\00.Logo\Menu\MenuChar">
+      <UniqueIdentifier>{2c3045c0-c88a-4559-99c6-1fa534f4ec55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading\Bg">
+      <UniqueIdentifier>{dc1cfa5f-81b5-4ca5-96ae-fbb541dfbd21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading\Cloud">
+      <UniqueIdentifier>{7eccb990-de0d-4294-b052-38a698ccb1e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading\Shoji">
+      <UniqueIdentifier>{ea6d7832-2c69-44a5-81f5-ac40ba33ffb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading\Txt">
+      <UniqueIdentifier>{f6cdf743-47b8-4456-b4c9-58559dd224f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading\Anim">
+      <UniqueIdentifier>{73c9cde5-12fd-4682-bb15-3a79c3fdb32f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\01.Loading\Bar">
+      <UniqueIdentifier>{b1f56b00-156e-4327-b339-fbfc510927c5}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill">
       <UniqueIdentifier>{f3973e7a-64eb-4a0a-9f82-80080ec224a2}</UniqueIdentifier>
@@ -685,16 +727,64 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\LogoButton.h">
-      <Filter>03.UI\00.Logo\Button</Filter>
+      <Filter>03.UI\00.Logo\Logo\Button</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\LogoBackLight.h">
-      <Filter>03.UI\00.Logo\MoveImg</Filter>
+      <Filter>03.UI\00.Logo\Logo\MoveImg</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\LogoBackEff.h">
-      <Filter>03.UI\00.Logo\MoveImg</Filter>
+      <Filter>03.UI\00.Logo\Logo\MoveImg</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\LogoFixedImg.h">
-      <Filter>03.UI\00.Logo\FixedImg</Filter>
+      <Filter>03.UI\00.Logo\Logo\FixedImg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MenuCursor.h">
+      <Filter>03.UI\00.Logo\Menu\Cursor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MenuDarkCloud.h">
+      <Filter>03.UI\00.Logo\Menu\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MenuFrontCloud.h">
+      <Filter>03.UI\00.Logo\Menu\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MenuFixedImg.h">
+      <Filter>03.UI\00.Logo\Menu\FixedImg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MenuBackDeco.h">
+      <Filter>03.UI\00.Logo\Menu\MenuBackDeco</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MenuChar.h">
+      <Filter>03.UI\00.Logo\Menu\MenuChar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MenuTitle.h">
+      <Filter>03.UI\00.Logo\Menu\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingAnim.h">
+      <Filter>03.UI\01.Loading\Anim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingBar.h">
+      <Filter>03.UI\01.Loading\Bar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingBaseTitle.h">
+      <Filter>03.UI\01.Loading\Txt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingShoji.h">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingShojiLeft.h">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingShojiRight.h">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingCloud.h">
+      <Filter>03.UI\01.Loading\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingBaseTxt.h">
+      <Filter>03.UI\01.Loading\Txt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\LoadingFixedImg.h">
+      <Filter>03.UI\01.Loading\Bg</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TanjiroSkill_WaterMill.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\WaterMill</Filter>
@@ -1014,16 +1104,64 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\LogoFixedImg.cpp">
-      <Filter>03.UI\00.Logo\FixedImg</Filter>
+      <Filter>03.UI\00.Logo\Logo\FixedImg</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\LogoBackLight.cpp">
-      <Filter>03.UI\00.Logo\MoveImg</Filter>
+      <Filter>03.UI\00.Logo\Logo\MoveImg</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\LogoBackEff.cpp">
-      <Filter>03.UI\00.Logo\MoveImg</Filter>
+      <Filter>03.UI\00.Logo\Logo\MoveImg</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\LogoButton.cpp">
-      <Filter>03.UI\00.Logo\Button</Filter>
+      <Filter>03.UI\00.Logo\Logo\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MenuCursor.cpp">
+      <Filter>03.UI\00.Logo\Menu\Cursor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MenuDarkCloud.cpp">
+      <Filter>03.UI\00.Logo\Menu\Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MenuFrontCloud.cpp">
+      <Filter>03.UI\00.Logo\Menu\Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MenuFixedImg.cpp">
+      <Filter>03.UI\00.Logo\Menu\FixedImg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MenuBackDeco.cpp">
+      <Filter>03.UI\00.Logo\Menu\MenuBackDeco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MenuTitle.cpp">
+      <Filter>03.UI\00.Logo\Menu\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MenuChar.cpp">
+      <Filter>03.UI\00.Logo\Menu\MenuChar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingCloud.cpp">
+      <Filter>03.UI\01.Loading\Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingShoji.cpp">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingShojiLeft.cpp">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingShojiRight.cpp">
+      <Filter>03.UI\01.Loading\Shoji</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingBaseTxt.cpp">
+      <Filter>03.UI\01.Loading\Txt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingBaseTitle.cpp">
+      <Filter>03.UI\01.Loading\Txt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingBar.cpp">
+      <Filter>03.UI\01.Loading\Bar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingAnim.cpp">
+      <Filter>03.UI\01.Loading\Anim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\LoadingFixedImg.cpp">
+      <Filter>03.UI\01.Loading\Bg</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroSkill_WaterMill.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\WaterMill</Filter>

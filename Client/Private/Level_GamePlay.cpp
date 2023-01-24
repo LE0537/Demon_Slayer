@@ -21,6 +21,10 @@ CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 HRESULT CLevel_GamePlay::Initialize()
 {
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	pUIManager->Set_CharNameUIZero();
+	RELEASE_INSTANCE(CUI_Manager);
+
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 

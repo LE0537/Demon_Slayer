@@ -6,7 +6,7 @@
 #include "Level_Logo.h"
 #include "Level_SelectChar.h"
 #include "Level_GamePlay.h"
-
+#include "UI_Manager.h"
 
 CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -18,12 +18,17 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevel)
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
-
 	m_eNextLevel = eNextLevel;
+
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	pUIManager->Add_Loading();
+	RELEASE_INSTANCE(CUI_Manager);
 
 	m_pLoader = CLoader::Create(m_pDevice, m_pContext, eNextLevel);
 	if (nullptr == m_pLoader)
 		return E_FAIL;
+
+	
 
 	return S_OK;
 }

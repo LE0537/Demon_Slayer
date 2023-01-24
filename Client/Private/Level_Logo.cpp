@@ -5,6 +5,7 @@
 #include "Level_Loading.h"
 #include "UI_Manager.h"
 
+
 CLevel_Logo::CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -20,6 +21,8 @@ HRESULT CLevel_Logo::Initialize()
 	pUIManager->Load_Data("P2_Person_HpUI");
 	pUIManager->Load_Data("Change_Select");
 	pUIManager->Load_Data("LogoTitle");
+	pUIManager->Load_Data("Menu");
+	pUIManager->Load_Data("Loading");
 	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
@@ -39,12 +42,16 @@ void CLevel_Logo::Tick(_float fTimeDelta)
 		m_bCreateUI = true;
 	}
 	
-	if (pGameInstance->Key_Down(DIK_T))
+	if (pUIManager->Get_MenuCursor() != nullptr)
 	{
-		m_bCreateUI = false;
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTCHAR))))
-			return;
+		if (pUIManager->Get_MenuCursor()->Get_SelectVS())
+		{
+			m_bCreateUI = false;
+			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTCHAR))))
+				return;
+		}
 	}
+	
 	Safe_Release(pGameInstance);
 
 	RELEASE_INSTANCE(CUI_Manager);
