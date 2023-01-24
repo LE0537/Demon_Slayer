@@ -29,6 +29,15 @@ HRESULT CLoadingFixedImg::Initialize(void * pArg)
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
+	if (m_ThrowUIinfo.iTextureNum == 0)
+		m_iImgNum = 0;
+	else if (m_ThrowUIinfo.iTextureNum == 8)
+		m_iImgNum = 1;
+	else if (m_ThrowUIinfo.iTextureNum == 10)
+		m_iImgNum = 3;
+	else if (m_ThrowUIinfo.iTextureNum == 11)
+		m_iImgNum = 2;
+
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
@@ -115,7 +124,7 @@ HRESULT CLoadingFixedImg::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;
