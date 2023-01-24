@@ -133,7 +133,7 @@ void CCamera_Dynamic::Set_CamPos()
 
 void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 {
-	ConvertToViewPort();
+	ConvertToViewPort(fTimeDelta);
 
 	_vector vPoint = XMLoadFloat4(&m_vPoint);
 
@@ -159,7 +159,7 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 
 void CCamera_Dynamic::Lerp_SubCam(_float fTimeDelta)
 {
-	_float	fWeight = 5.f;
+	_float	fWeight = 1.f;
 	_matrix matWorld = XMMatrixIdentity();
 
 	_vector vLerp = XMVector3Normalize(XMVectorLerp(m_pTransform->Get_State(CTransform::STATE_LOOK), m_pSubTransform->Get_State(CTransform::STATE_LOOK), fTimeDelta * fWeight));
@@ -176,7 +176,27 @@ void CCamera_Dynamic::Lerp_SubCam(_float fTimeDelta)
 	m_pTransform->Set_WorldMatrix(matWorld);
 }
 
-void CCamera_Dynamic::ConvertToViewPort()
+void CCamera_Dynamic::Lerp_LookAt(_float fTimeDelta, _int _iIndex)
+{
+	_vector vLerp;
+	_float	fSpeed = 3.f;
+
+	switch (_iIndex)
+	{
+	case 1:
+		vLerp = XMVectorLerp(XMLoadFloat4(&m_vPrevCamAt), XMLoadFloat4(&m_v2pCamAt), fTimeDelta * fSpeed);
+		break;
+	case 2:
+		vLerp = XMVectorLerp(XMLoadFloat4(&m_vPrevCamAt), XMLoadFloat4(&m_v1pCamAt), fTimeDelta * fSpeed);
+		break;
+	default:
+		break;
+	}
+
+	m_pTransform->LookAt(vLerp);
+}
+
+void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 {
 	_vector vPlayerPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -216,8 +236,15 @@ void CCamera_Dynamic::ConvertToViewPort()
 		m_f1pX = m_vPlayerPos.x;
 		m_f2pX = m_vTargetPos.x;
 		m_v2pCamAt.y = 1.f;
-		m_pTransform->LookAt(XMLoadFloat4(&m_v2pCamAt));
-
+		
+		if (!m_bFirstAt)
+		{
+			m_vPrevCamAt = m_v2pCamAt;
+			m_bFirstAt = true;
+		}
+		Lerp_LookAt(fTimeDelta, 1);
+		m_vPrevCamAt = m_v2pCamAt;
+	
 		switch (m_pPlayer->Get_i1P())
 		{
 		case 1:
@@ -238,8 +265,15 @@ void CCamera_Dynamic::ConvertToViewPort()
 		m_f1pX = m_vTargetPos.x;
 		m_f2pX = m_vPlayerPos.x;
 		m_v1pCamAt.y = 1.f;
-		m_pTransform->LookAt(XMLoadFloat4(&m_v1pCamAt));
-
+		
+		if (!m_bFirstAt)
+		{
+			m_vPrevCamAt = m_v1pCamAt;
+			m_bFirstAt = true;
+		}
+		Lerp_LookAt(fTimeDelta, 2);
+		m_vPrevCamAt = m_v1pCamAt;
+	
 		switch (m_pPlayer->Get_i1P())
 		{
 		case 1:
