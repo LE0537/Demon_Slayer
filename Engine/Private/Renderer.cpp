@@ -25,7 +25,9 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fValue[VALUE_AO] = 1.f;
 	m_fValue[VALUE_AORADIUS] = 1.f;
 	m_fValue[VALUE_GLOWBLURCOUNT] = 1.f;
-	m_fValue[VALUE_DISTORTION] = 1.f;
+	m_fValue[VALUE_DISTORTION] = 20.f;
+	m_fValue[VALUE_OUTLINE] = 1.f;
+	m_fValue[VALUE_INNERLINE] = 0.2f;
 
 	D3D11_VIEWPORT		ViewportDesc;
 	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
@@ -632,27 +634,28 @@ HRESULT CRenderer::Render_OutLine()
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
-		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
-
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
 		return E_FAIL;
-
-
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
 		return E_FAIL;
 
 
 	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
 		return E_FAIL;
-
 	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
-
 	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_RawValue("g_fOutLineValue", &m_fValue[VALUE_OUTLINE], sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fInnerLineValue", &m_fValue[VALUE_INNERLINE], sizeof(_float))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
 		return E_FAIL;
 
 	//	OutLine

@@ -132,10 +132,16 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	ImGui::DragFloat("AO Radius", &fAOValue[CRenderer::VALUE_AORADIUS], 0.02f, 0.f);
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("AO Glow Blurring Count", &fAOValue[CRenderer::VALUE_GLOWBLURCOUNT], 0.02f, 0.f);
+	ImGui::DragFloat("Glow Blurring Count", &fAOValue[CRenderer::VALUE_GLOWBLURCOUNT], 0.02f, 0.f);
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("AO Distortion", &fAOValue[CRenderer::VALUE_DISTORTION], 0.02f, 0.f);
+	ImGui::DragFloat("Distortion", &fAOValue[CRenderer::VALUE_DISTORTION], 0.02f, 0.f);
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("OutLine", &fAOValue[CRenderer::VALUE_OUTLINE], 0.02f, 0.f);
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("InnerLine", &fAOValue[CRenderer::VALUE_INNERLINE], 0.001f, 0.f);
 
 	if (nullptr != m_pRendererCom)
 	{
