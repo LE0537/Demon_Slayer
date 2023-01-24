@@ -33,26 +33,19 @@ CTanjiroState * CDashState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 			if (pGameInstance->Key_Pressing(DIK_L))
 			{
-				if (CTanjiro::ANIMID::ANIM_DASH_L_01 == pTanjiro->Get_AnimIndex() || CTanjiro::ANIMID::ANIM_DASH_R_01 == pTanjiro->Get_AnimIndex())
+				if (m_eDir == DIR_LEFT || m_eDir == DIR_RIGHT)
 				{
 					if (m_bSecondDash == false)
 					{
 						if (CTanjiro::ANIMID::ANIM_DASH_L_01 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_LF, true);
+							return new CDashState(OBJDIR::DIR_LEFT_DASH, true);
 						else if (CTanjiro::ANIMID::ANIM_DASH_R_01 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_RF, true);
+							return new CDashState(OBJDIR::DIR_RIGHT_DASH, true);
 					}
 				}
-				else if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex() || CTanjiro::ANIMID::ANIM_DASH_R_02 == pTanjiro->Get_AnimIndex())
+				else if(m_eDir == DIR_LEFT_DASH || m_eDir == DIR_RIGHT_DASH)
 				{
-					if (m_bSecondDash == false)
-					{
-						if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_LF);
-						else if (CTanjiro::ANIMID::ANIM_DASH_R_02 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_RF);
-					}
-					else
+					if (m_bSecondDash == true)
 					{
 						if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex())
 							return new CDashState(OBJDIR::DIR_LEFT);
@@ -60,8 +53,9 @@ CTanjiroState * CDashState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 							return new CDashState(OBJDIR::DIR_RIGHT);
 					}
 				}
-				else
-					return new CDashState(m_eDir);
+
+			else
+				return new CDashState(m_eDir);
 			}
 
 			else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
@@ -77,26 +71,19 @@ CTanjiroState * CDashState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 			{
-				if (CTanjiro::ANIMID::ANIM_DASH_L_01 == pTanjiro->Get_AnimIndex() || CTanjiro::ANIMID::ANIM_DASH_R_01 == pTanjiro->Get_AnimIndex())
+				if (m_eDir == DIR_LEFT || m_eDir == DIR_RIGHT)
 				{
 					if (m_bSecondDash == false)
 					{
 						if (CTanjiro::ANIMID::ANIM_DASH_L_01 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_LF, true);
+							return new CDashState(OBJDIR::DIR_LEFT_DASH, true);
 						else if (CTanjiro::ANIMID::ANIM_DASH_R_01 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_RF, true);
+							return new CDashState(OBJDIR::DIR_RIGHT_DASH, true);
 					}
 				}
-				else if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex() || CTanjiro::ANIMID::ANIM_DASH_R_02 == pTanjiro->Get_AnimIndex())
+				else if (m_eDir == DIR_LEFT_DASH || m_eDir == DIR_RIGHT_DASH)
 				{
-					if (m_bSecondDash == false)
-					{
-						if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_LF);
-						else if (CTanjiro::ANIMID::ANIM_DASH_R_02 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_RF);
-					}
-					else
+					if (m_bSecondDash == true)
 					{
 						if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex())
 							return new CDashState(OBJDIR::DIR_LEFT);
@@ -104,6 +91,7 @@ CTanjiroState * CDashState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 							return new CDashState(OBJDIR::DIR_RIGHT);
 					}
 				}
+
 				else
 					return new CDashState(m_eDir);
 			}
@@ -169,24 +157,36 @@ void CDashState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_DASH_B);
 		break;
 	case Client::DIR_LF:
-		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_DASH_L_02);
-		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_DASH_L_02);
-		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_DASH_L_02, 0.01f);
-		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_DASH_L_02);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_DASH_L_01);
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_DASH_L_01);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_DASH_L_01, 0.01f);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_DASH_L_01);
 		break;
 	case Client::DIR_RF:
-		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_DASH_R_02);
-		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_DASH_R_02);
-		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_DASH_R_02, 0.01f);
-		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_DASH_R_02);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_DASH_R_01);
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_DASH_R_01);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_DASH_R_01, 0.01f);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_DASH_R_01);
 		break;
 	case Client::DIR_LB:
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_DASH_L_01);
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_DASH_L_01);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_DASH_L_01, 0.01f);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_DASH_L_01);
+		break;
+	case Client::DIR_RB:
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_DASH_R_01);
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_DASH_R_01);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_DASH_R_01, 0.01f);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_DASH_R_01);
+		break;
+	case Client::DIR_LEFT_DASH:
 		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_DASH_L_02);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_DASH_L_02);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_DASH_L_02, 0.01f);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_DASH_L_02);
 		break;
-	case Client::DIR_RB:
+	case Client::DIR_RIGHT_DASH:
 		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_DASH_R_02);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_DASH_R_02);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_DASH_R_02, 0.01f);
