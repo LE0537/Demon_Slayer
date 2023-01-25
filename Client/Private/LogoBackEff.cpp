@@ -24,10 +24,10 @@ HRESULT CLogoBackEff::Initialize(void * pArg)
 
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
-	m_fSizeX = m_ThrowUIinfo.vScale.x;
-	m_fSizeY = m_ThrowUIinfo.vScale.y;
-	m_fX = m_ThrowUIinfo.vPos.x;
-	m_fY = m_ThrowUIinfo.vPos.y;
+	m_fSizeX = 640.f;
+	m_fSizeY = 480.f;
+	m_fX = 960.f;
+	m_fY = 480.f;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
@@ -50,6 +50,22 @@ HRESULT CLogoBackEff::Initialize(void * pArg)
 
 void CLogoBackEff::Tick(_float fTimeDelta)
 {
+	if (m_fUvMoveTime < 1.f)
+		m_fUvMoveTime += fTimeDelta * 0.1f;
+	else
+		m_fUvMoveTime = 0.f;
+
+	if (!m_bAlphaValueCheck)
+		m_fAlphaTime += fTimeDelta * 0.1f;
+
+	else if (m_bAlphaValueCheck)
+		m_fAlphaTime -= fTimeDelta * 0.1f;
+
+	if (m_fAlphaTime >= 0.5f)
+		m_bAlphaValueCheck = true;
+	else if (m_fAlphaTime <= 0.f)
+		m_bAlphaValueCheck = false;
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -68,10 +84,7 @@ HRESULT CLogoBackEff::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(7);
 
 	m_pVIBufferCom->Render();
 
@@ -114,7 +127,13 @@ HRESULT CLogoBackEff::SetUp_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
+	
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fUvMoveTime", &m_fUvMoveTime, sizeof(_float))))
+		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlphaTime", &m_fAlphaTime, sizeof(_float))))
+		return E_FAIL;
+	
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
 

@@ -99,18 +99,18 @@ void CCharNameUI::Name_Selected(wstring strName)
 		m_iImgNum = 1;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
 		if(m_ThrowUIinfo.iLayerNum == 0)
-			m_fX += 30.f;
+			m_fX += 60.f;
 		else if(m_ThrowUIinfo.iLayerNum == 1)
-			m_fX -= 40.f;
+			m_fX -= 60.f;
 	}
 	else if (strName == TEXT("ÅºÁö·Î"))
 	{
 		m_iImgNum = 3;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
 		if (m_ThrowUIinfo.iLayerNum == 0)
-			m_fX += 30.f;
+			m_fX += 50.f;
 		if (m_ThrowUIinfo.iLayerNum == 1)
-			m_fX -= 40.f;
+			m_fX -= 50.f;
 	}
 }
 

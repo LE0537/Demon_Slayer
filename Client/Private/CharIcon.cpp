@@ -33,7 +33,11 @@ HRESULT CCharIcon::Initialize(void * pArg)
 		Icon_Selected_GamePlay(m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName);
 	
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
 		Icon_Selected_SelectChar(m_ThrowUIinfo.iLayerNum);
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.7f;
+	}
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
@@ -74,10 +78,15 @@ HRESULT CCharIcon::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	{
+		if (!m_ThrowUIinfo.bReversal)
+			m_pShaderCom->Begin();
+		else
+			m_pShaderCom->Begin(1);
+	}
+	else if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+		m_pShaderCom->Begin(9);
 
 	m_pVIBufferCom->Render();
 
@@ -125,7 +134,7 @@ HRESULT CCharIcon::Ready_Components()
 
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 	{
-		if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharIcon"), (CComponent**)&m_pTextureMaskCom)))
+		if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharIconMaskMap"), (CComponent**)&m_pTextureMaskCom)))
 			return E_FAIL;
 	}
 
@@ -150,6 +159,12 @@ HRESULT CCharIcon::SetUp_ShaderResources()
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
+	
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pTextureMaskCom->Get_SRV(0))))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
