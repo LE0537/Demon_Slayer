@@ -182,7 +182,9 @@
     <ClInclude Include="..\DebugTool\imstb_truetype.h" />
     <ClInclude Include="..\Public\Akaza.h" />
     <ClInclude Include="..\Public\AkazaIdleState.h" />
+    <ClInclude Include="..\Public\AkazaMoveState.h" />
     <ClInclude Include="..\Public\AkazaState.h" />
+    <ClInclude Include="..\Public\AkazaToolState.h" />
     <ClInclude Include="..\public\BaseAtk.h" />
     <ClInclude Include="..\public\CollBox.h" />
     <ClInclude Include="..\Public\1PIcon.h" />
@@ -232,7 +234,9 @@
     <ClInclude Include="..\Public\MenuFrontCloud.h" />
     <ClInclude Include="..\Public\MenuTitle.h" />
     <ClInclude Include="..\Public\RuiIdleState.h" />
+    <ClInclude Include="..\Public\RuiMoveState.h" />
     <ClInclude Include="..\Public\RuiState.h" />
+    <ClInclude Include="..\Public\RuiToolState.h" />
     <ClInclude Include="..\Public\TanjiroDashState.h" />
     <ClInclude Include="..\Public\TanjiroGuardAdvState.h" />
     <ClInclude Include="..\Public\TanjiroGuardHitState.h" />
@@ -326,6 +330,8 @@
     <ClCompile Include="..\DebugTool\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\Akaza.cpp" />
     <ClCompile Include="..\Private\AkazaIdleState.cpp" />
+    <ClCompile Include="..\Private\AkazaMoveState.cpp" />
+    <ClCompile Include="..\Private\AkazaToolState.cpp" />
     <ClCompile Include="..\private\BaseAtk.cpp" />
     <ClCompile Include="..\private\CollBox.cpp" />
     <ClCompile Include="..\Private\1PIcon.cpp" />
@@ -375,6 +381,8 @@
     <ClCompile Include="..\Private\MenuFrontCloud.cpp" />
     <ClCompile Include="..\Private\MenuTitle.cpp" />
     <ClCompile Include="..\Private\RuiIdleState.cpp" />
+    <ClCompile Include="..\Private\RuiMoveState.cpp" />
+    <ClCompile Include="..\Private\RuiToolState.cpp" />
     <ClCompile Include="..\Private\TanjiroDashState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardHitState.cpp" />

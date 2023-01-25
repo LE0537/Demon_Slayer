@@ -178,6 +178,9 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
+
+
+	return S_OK;
 }
 
 HRESULT CEffect_Texture::Ready_Components()

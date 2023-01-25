@@ -4,6 +4,8 @@
 
 #include "Kyoujuro.h"
 #include "Tanjiro.h"
+#include "Akaza.h"
+#include "Rui.h"
 
 
 IMPLEMENT_SINGLETON(CImGuiManager)
@@ -189,6 +191,10 @@ void CImGuiManager::LiveCharacterList()
 				strName = "Tanjiro";
 			else if (wStrName == L"쿄주로")
 				strName = "Kyoujuro";
+			else if (wStrName == L"루이")
+				strName = "Rui";
+			else if (wStrName == L"아카자")
+				strName = "Akaza";
 
 			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
 			{
@@ -220,7 +226,16 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 		{
 			m_vecAnimation = ((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Get_Animation();
 		}
-		
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"루이")
+		{
+			m_vecAnimation = ((CRui*)(m_vecObjList[0]))->Get_Model()->Get_Animation();
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"아카자")
+		{
+			m_vecAnimation = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_Animation();
+		}
+
+
 	}
 	else if (_iIndex == 1)
 	{
@@ -231,6 +246,14 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 		else if(m_vecObjList[1]->Get_PlayerInfo().strName == L"탄지로")
 		{
 			m_vecAnimation = ((CTanjiro*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"루이")
+		{
+			m_vecAnimation = ((CRui*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
+		{
+			m_vecAnimation = ((CAkaza*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
 		}
 	}
 
@@ -252,6 +275,14 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				{
 					strName.erase(strName.begin(), strName.begin() + 53);
 				}
+				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"루이")
+				{
+					strName.erase(strName.begin(), strName.begin() + 38);
+				}
+				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"아카자")
+				{
+					strName.erase(strName.begin(), strName.begin() + 38);
+				}
 				//strName.erase(strName.begin(), strName.begin() + 38);
 			}
 			else if (_iIndex == 1)
@@ -264,7 +295,14 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				{
 					strName.erase(strName.begin(), strName.begin() + 38);
 				}
-
+				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"루이")
+				{
+					strName.erase(strName.begin(), strName.begin() + 38);
+				}
+				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
+				{
+					strName.erase(strName.begin(), strName.begin() + 38);
+				}
 				//strName.erase(strName.begin(), strName.begin() + 53);
 			}
 
@@ -318,6 +356,14 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			{
 				((CKyoujuro*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
 			}
+			else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"루이")
+			{
+				((CRui*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
+			}
+			else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"아카자")
+			{
+				((CAkaza*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
+			}
 		}
 		else if (_iIndex == 1)
 		{
@@ -328,6 +374,14 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"탄지로")
 			{
 				((CTanjiro*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
+			}
+			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"루이")
+			{
+				((CRui*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
+			}
+			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
+			{
+				((CAkaza*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
 			}
 		}
 	}
@@ -347,6 +401,14 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			{
 				m_vecAnimIndex.push_back(selected);
 			}
+			else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"루이")
+			{
+				m_vecAnimIndex.push_back(selected);
+			}
+			else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"아카자")
+			{
+				m_vecAnimIndex.push_back(selected);
+			}
 		}
 		else if (_iIndex == 1)
 		{
@@ -355,6 +417,14 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				m_vecAnimIndex.push_back(selected);
 			}
 			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"탄지로")
+			{
+				m_vecAnimIndex.push_back(selected);
+			}
+			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"루이")
+			{
+				m_vecAnimIndex.push_back(selected);
+			}
+			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
 			{
 				m_vecAnimIndex.push_back(selected);
 			}
@@ -387,6 +457,16 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 					((CKyoujuro*)(m_vecObjList[_iIndex]))->
 						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
 				}
+				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"루이")
+				{
+					((CRui*)(m_vecObjList[_iIndex]))->
+						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
+				}
+				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"아카자")
+				{
+					((CAkaza*)(m_vecObjList[_iIndex]))->
+						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
+				}
 			}
 			else if (_iIndex == 1)
 			{
@@ -398,6 +478,16 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"탄지로")
 				{
 					((CTanjiro*)(m_vecObjList[_iIndex]))->
+						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
+				}
+				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"루이")
+				{
+					((CRui*)(m_vecObjList[_iIndex]))->
+						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
+				}
+				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
+				{
+					((CAkaza*)(m_vecObjList[_iIndex]))->
 						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
 				}
 			}

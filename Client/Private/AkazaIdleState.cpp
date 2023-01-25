@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "AkazaIdleState.h"
+#include "AkazaMoveState.h"
 #include "GameInstance.h"
 
 using namespace Akaza;
@@ -12,7 +13,97 @@ CIdleState::CIdleState(STATE_ID eState)
 CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	
+
+	switch (pAkaza->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Pressing(DIK_W)) // 菊
+		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+			{
+				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+			{
+				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+			}
+			else
+			{
+				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+			}
+		}
+
+		else if (pGameInstance->Key_Pressing(DIK_S)) // 第
+		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+			{
+				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
+			{
+				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+			}
+			else
+			{
+				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+			}
+		}
+
+
+		else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+		{
+			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+		{
+			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+		}
+		else
+			return new CIdleState();
+		break;
+	case 2:
+		if (pGameInstance->Key_Pressing(DIK_UP)) // 菊
+		{
+			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+			{
+				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+			{
+				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+			}
+			else
+			{
+				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+			}
+		}
+
+		else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 第
+		{
+			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+			{
+				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
+			{
+				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+			}
+			else
+			{
+				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+			}
+		}
+
+
+		else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+		{
+			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+		{
+			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+		}
+	}
 
 	return nullptr;
 }
@@ -27,7 +118,7 @@ CAkazaState * CIdleState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 CAkazaState * CIdleState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
-
+	pAkaza->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;
 }
@@ -35,6 +126,9 @@ CAkazaState * CIdleState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 void CIdleState::Enter(CAkaza* pAkaza)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
+
+	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_IDLE);
+	pAkaza->Set_AnimIndex(CAkaza::ANIM_IDLE);
 
 }
 

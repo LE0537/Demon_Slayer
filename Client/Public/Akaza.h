@@ -20,6 +20,18 @@ BEGIN(Client)
 
 class CAkaza : public CCharacters
 {
+public:
+	enum ANIMID
+	{
+		// IDLE
+		ANIM_IDLE = 48,
+
+		// MOVE
+		ANIM_MOVE_START = 51,
+		ANIM_MOVE_END = 52,
+
+		ANIM_END = 100
+	};
 private:
 	CAkaza(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CAkaza(const CAkaza& rhs);
@@ -31,6 +43,21 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
+
+
+public:
+	//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
+	CModel* Get_Model() const { return m_pModelCom; }
+
+	ANIMID Get_AnimIndex() const { return m_eAnimID; }
+	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
+public:
+	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
+private:
+	void HandleInput();
+	void TickState(_float fTimeDelta);
+	void LateTickState(_float fTimeDelta);
+
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -44,7 +71,11 @@ private:
 	CCollider*				m_pAABBCom = nullptr;
 	CCollider*				m_pOBBCom = nullptr;
 
+private:
+	OBJDIR m_eDirection = OBJDIR::DIR_END;
+	ANIMID m_eAnimID = ANIMID::ANIM_END;
 
+	class CAkazaState* m_pAkazaState = nullptr;
 public:
 	static CAkaza* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

@@ -4,6 +4,7 @@
 #include "Akaza.h"
 
 BEGIN(Client)
+
 class CAkazaState
 {
 public:

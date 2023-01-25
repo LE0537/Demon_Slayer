@@ -4,6 +4,12 @@
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
 #include "UI_Manager.h"
+#include "ImGuiManager.h"
+#include "AkazaState.h"
+#include "AkazaIdleState.h"
+#include "AkazaToolState.h"
+using namespace Akaza;
+
 
 CAkaza::CAkaza(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -49,7 +55,12 @@ HRESULT CAkaza::Initialize(void * pArg)
 	RELEASE_INSTANCE(CGameInstance);
 
 	//m_pTransformCom->Set_Scale(XMVectorSet(0.01f, 0.01f, 0.01f, 0.f));
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-9.f, 0.f, 0.f, 1.f));
+	//m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-9.f, 0.f, 0.f, 1.f));
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+
+
+	CAkazaState* pState = new CIdleState();
+	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 
 	return S_OK;
 }
@@ -60,16 +71,29 @@ void CAkaza::Tick(_float fTimeDelta)
 
 	Set_ShadowLightPos();
 
-	m_pModelCom->Play_Animation(fTimeDelta);
+	HandleInput();
+	TickState(fTimeDelta);
 
-	m_pAABBCom->Update(m_pTransformCom->Get_WorldMatrix());
-	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+	if (nullptr == pSocket)
+		return;
+	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+
+	m_pSphereCom->Update(matColl);
+
 }
 
 void CAkaza::Late_Tick(_float fTimeDelta)
 {
+	LateTickState(fTimeDelta);
+
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+	if (g_bCollBox)
+	{
+		m_pRendererCom->Add_Debug(m_pSphereCom);
+	}
 }
 
 HRESULT CAkaza::Render()
@@ -95,6 +119,7 @@ HRESULT CAkaza::Render()
 
 		//aiTextureType_AMBIENT
 	}
+
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -146,6 +171,38 @@ HRESULT CAkaza::Render_ShadowDepth()
 	return S_OK;
 }
 
+void CAkaza::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
+{
+	CAkazaState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CAkazaState::STATE_TYPE>(iTypeIndex), bIsContinue);
+	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+}
+
+void CAkaza::HandleInput()
+{
+	CAkazaState* pNewState = m_pAkazaState->HandleInput(this);
+
+	if (pNewState)
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pNewState);
+
+
+}
+
+void CAkaza::TickState(_float fTimeDelta)
+{
+	CAkazaState* pNewState = m_pAkazaState->Tick(this, fTimeDelta);
+
+	if (pNewState)
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pNewState);
+}
+
+void CAkaza::LateTickState(_float fTimeDelta)
+{
+	CAkazaState* pNewState = m_pAkazaState->Late_Tick(this, fTimeDelta);
+
+	if (pNewState)
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pNewState);
+}
+
 HRESULT CAkaza::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
@@ -192,20 +249,14 @@ HRESULT CAkaza::Ready_Components()
 		return E_FAIL;
 
 
+
 	CCollider::COLLIDERDESC		ColliderDesc;
 
-	/* For.Com_AABB */
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
-	ColliderDesc.vScale = _float3(4.f, 4.f, 4.f);
-	ColliderDesc.vPosition = _float3(0.f, 2.f, 0.f);
-	if (FAILED(__super::Add_Components(TEXT("Com_AABB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"), (CComponent**)&m_pAABBCom, &ColliderDesc)))
-		return E_FAIL;
-
-	/* For.Com_OBB*/
-	ColliderDesc.vScale = _float3(4.f, 4.f, 4.f);
-	ColliderDesc.vPosition = _float3(0.f, 2.f, 0.f);
-	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
+	ColliderDesc.vScale = _float3(100.f, 100.f, 100.f);
+	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
+	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
 
 
@@ -289,4 +340,6 @@ void CAkaza::Free()
 	Safe_Release(m_pAABBCom);
 	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pSphereCom);
+	Safe_Delete(m_pAkazaState);
 }

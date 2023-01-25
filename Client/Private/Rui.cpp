@@ -1,13 +1,15 @@
 #include "stdafx.h"
 #include "..\Public\Rui.h"
 #include "GameInstance.h"
-#include "Level_GamePlay.h"
-#include "SoundMgr.h"
-#include "VIBuffer_Navigation.h"
-#include "Data_Manager.h"	
 #include "Layer.h"
 #include "Camera_Dynamic.h"
 #include "UI_Manager.h"
+#include "ImGuiManager.h"
+#include "RuiState.h"
+#include "RuiIdleState.h"
+#include "RuiToolState.h"
+using namespace Rui;
+
 
 CRui::CRui(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -51,14 +53,13 @@ HRESULT CRui::Initialize(void * pArg)
 	}
 	RELEASE_INSTANCE(CGameInstance);
 
-	//m_pTransformCom->Set_Scale(XMVectorSet(0.01f, 0.01f, 0.01f, 0.f));
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
 
-	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CRuiState* pState = new CIdleState();
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 
-	//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 
-	//RELEASE_INSTANCE(CGameInstance);
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+
 
 	return S_OK;
 }
@@ -81,28 +82,31 @@ void CRui::Tick(_float fTimeDelta)
 
 	RELEASE_INSTANCE(CGameInstance);
 */
-	__super::Tick(fTimeDelta);
-
-	Key_Input(fTimeDelta);
 
 	Set_ShadowLightPos();
 
-	m_pModelCom->Play_Animation(fTimeDelta);
+	HandleInput(); 
+	TickState(fTimeDelta);
 
-	m_pAABBCom->Update(m_pTransformCom->Get_WorldMatrix());
-	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
+	
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+	if (nullptr == pSocket)
+		return;
+	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+
+	m_pSphereCom->Update(matColl);
 }
 
 void CRui::Late_Tick(_float fTimeDelta)
 {
+	LateTickState(fTimeDelta);
 
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 
-	if (g_bDebug)
+	if (g_bCollBox)
 	{
-		m_pRendererCom->Add_Debug(m_pAABBCom);
-		m_pRendererCom->Add_Debug(m_pOBBCom);
+		m_pRendererCom->Add_Debug(m_pSphereCom);
 	}
 }
 
@@ -173,6 +177,7 @@ HRESULT CRui::Render_ShadowDepth()
 
 	}
 
+
 	RELEASE_INSTANCE(CGameInstance);
 
 
@@ -204,33 +209,22 @@ HRESULT CRui::Ready_Components()
 		return E_FAIL;
 
 
+
+
 	CCollider::COLLIDERDESC		ColliderDesc;
 
-	/* For.Com_AABB */
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
-	ColliderDesc.vScale = _float3(4.f, 4.f, 4.f);
-	ColliderDesc.vPosition = _float3(0.f, 2.f, 0.f);
-	if (FAILED(__super::Add_Components(TEXT("Com_AABB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"), (CComponent**)&m_pAABBCom, &ColliderDesc)))
-		return E_FAIL;
-
-	/* For.Com_OBB*/
-	ColliderDesc.vScale = _float3(4.f, 4.f, 4.f);
-	ColliderDesc.vPosition = _float3(0.f, 2.f, 0.f);
-	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
+	ColliderDesc.vScale = _float3(100.f, 100.f, 100.f);
+	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
+	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
 
 
 	return S_OK;
 }
-void CRui::Key_Input(_float fTimeDelta)
-{
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 
-	RELEASE_INSTANCE(CGameInstance);
-
-}
 void CRui::Set_ShadowLightPos()
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
@@ -265,6 +259,38 @@ void CRui::Set_Info()
 	m_tInfo.fPowerUpTime = 0.f;
 	m_tInfo.iFriendMaxBar = 100;
 	m_tInfo.iFriendBar;
+}
+
+void CRui::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
+{
+	CRuiState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CRuiState::STATE_TYPE>(iTypeIndex), bIsContinue);
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+}
+
+void CRui::HandleInput()
+{
+	CRuiState* pNewState = m_pRuiState->HandleInput(this);
+
+	if (pNewState)
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pNewState);
+}
+
+
+void CRui::TickState(_float fTimeDelta)
+{
+	CRuiState* pNewState = m_pRuiState->Tick(this, fTimeDelta);
+
+	if (pNewState)
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pNewState);
+}
+
+void CRui::LateTickState(_float fTimeDelta)
+{
+	CRuiState* pNewState = m_pRuiState->Late_Tick(this, fTimeDelta);
+
+	if (pNewState)
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pNewState);
+
 }
 
 void CRui::Take_Damage(_float _fPow)
@@ -333,4 +359,6 @@ void CRui::Free()
 	Safe_Release(m_pAABBCom);
 	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pSphereCom);
+	Safe_Delete(m_pRuiState);
 }

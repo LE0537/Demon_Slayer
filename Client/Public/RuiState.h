@@ -4,6 +4,7 @@
 #include "Rui.h"
 
 BEGIN(Client)
+
 class CRuiState
 {
 public:

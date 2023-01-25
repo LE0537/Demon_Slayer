@@ -427,6 +427,18 @@
     <Filter Include="03.UI\UIEff">
       <UniqueIdentifier>{d4e953b2-c98d-47ef-ac82-dd3e0c4d68a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Tool">
+      <UniqueIdentifier>{892ab90c-ecc5-44e6-97b0-a09fdceca372}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Tool">
+      <UniqueIdentifier>{8a3af083-7059-4d6c-9e0a-c1222aa3d14b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Move">
+      <UniqueIdentifier>{eb3872d1-6462-4a65-b64d-cdffe718147d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Move">
+      <UniqueIdentifier>{6d67c9ee-c63b-472e-9c89-2a755cccb518}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -853,9 +865,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\AkazaIdleState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Idle</Filter>
-   </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\InkEff.h">
       <Filter>03.UI\UIEff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaToolState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiToolState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiMoveState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaMoveState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Move</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1260,6 +1284,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\InkEff.cpp">
       <Filter>03.UI\UIEff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaToolState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiToolState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiMoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaMoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Move</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
