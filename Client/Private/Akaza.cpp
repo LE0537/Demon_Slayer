@@ -2,7 +2,8 @@
 #include "..\Public\Akaza.h"
 #include "Layer.h"
 #include "GameInstance.h"
-
+#include "Camera_Dynamic.h"
+#include "UI_Manager.h"
 
 CAkaza::CAkaza(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -21,9 +22,31 @@ HRESULT CAkaza::Initialize_Prototype()
 
 HRESULT CAkaza::Initialize(void * pArg)
 {
+	memcpy(&m_i1p, pArg, sizeof(_int));
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (m_i1p == 1)
+	{
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+
+		Set_Info();
+		CUI_Manager::Get_Instance()->Set_1P(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
+	}
+	else if (m_i1p == 2)
+	{
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+		Set_Info();
+		CUI_Manager::Get_Instance()->Set_2P(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
+	}
+	RELEASE_INSTANCE(CGameInstance);
 
 	//m_pTransformCom->Set_Scale(XMVectorSet(0.01f, 0.01f, 0.01f, 0.f));
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-9.f, 0.f, 0.f, 1.f));
@@ -37,7 +60,7 @@ void CAkaza::Tick(_float fTimeDelta)
 
 	Set_ShadowLightPos();
 
-
+	m_pModelCom->Play_Animation(fTimeDelta);
 
 	m_pAABBCom->Update(m_pTransformCom->Get_WorldMatrix());
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
