@@ -9,6 +9,8 @@
 #include "Layer.h"
 #include "KyoujuroGuardState.h"
 #include "KyoujuroDashState.h"
+#include "KyoujuroSkill_DashSlash.h"
+#include "KyoujuroSkill_DoubleUpper.h"
 
 using namespace Kyoujuro;
 
@@ -30,6 +32,13 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_I))
+		{
+			if (pGameInstance->Key_Down(DIK_O))
+				return new CSkill_DoubleUpperState();
+			else
+				return new CSkill_DashSlashState();
+		}
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 		{
@@ -154,6 +163,16 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_X))
+		{
+			if(pGameInstance->Key_Down(DIK_C))
+				return new CSkill_DoubleUpperState();
+			else
+				return new CSkill_DashSlashState();
+		}
+			
+
+
 
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 		{

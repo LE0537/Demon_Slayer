@@ -61,6 +61,13 @@
 #include "LogoBackLight.h"
 #include "LogoButton.h"
 #include "LogoFixedImg.h"
+#include "MenuBackDeco.h"
+#include "MenuCursor.h"
+#include "MenuDarkCloud.h"
+#include "MenuFrontCloud.h"
+#include "MenuFixedImg.h"
+#include "MenuChar.h"
+#include "MenuTitle.h"
 
 //Effect
 #include "Effect.h"
@@ -182,6 +189,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 		}
 #pragma endregion BattleUI
+
 #pragma region SelectUI
 		//SelectChar
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelectBG"),
@@ -243,6 +251,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 
 #pragma endregion SelectUI
+
 #pragma region LogoTitleUI
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LogoFixedImg"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Logo/Logo_FixedImg_%d.png"), 4))))
@@ -257,6 +266,63 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Logo/Logo_Button_%d.png"), 2))))
 			return E_FAIL;
 #pragma endregion LogoTitleUI
+
+#pragma region MenuUI
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuFixedImg"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/MenuFixedImg_%d.png"), 4))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuDarkCloud"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Cloud_Dark_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuFrontCloud"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Cloud_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuCursor"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Cursor.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuBackDeco"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Mode_Back_Deco00_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ModeTitle_Adv"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Lang_ModeTitle_Adv_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ModeTitle_Vs"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Lang_ModeTitle_Vs_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuChar"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/MenuChar_%d.png"), 2))))
+			return E_FAIL;
+#pragma endregion MenuUI
+
+#pragma region LoadingUI
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingFixedImg"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Fixed_%d.png"), 4))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingCloud"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Cloud_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingShoji"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Shoji%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingShojiL"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Shoji_L.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingShojiR"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Shoji_R.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingBaseTitle"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Base_Title01.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingTxt"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Base_Txt.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingBar"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Gauge_Nakami.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingAnim"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Load_Anim.png"), 1))))
+			return E_FAIL;
+#pragma endregion LoadingUI
 
 	}
 #pragma endregion UI
@@ -578,6 +644,34 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuBackDeco"),
+		CMenuBackDeco::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuChar"),
+		CMenuChar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuCursor"),
+		CMenuCursor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuDarkCloud"),
+		CMenuDarkCloud::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuFixedImg"),
+		CMenuFixedImg::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuFrontCloud"),
+		CMenuFrontCloud::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuTitle"),
+		CMenuTitle::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LogoBackEff"),
 		CLogoBackEff::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

@@ -8,6 +8,8 @@
 #include "Layer.h"
 #include "TanjiroGuardState.h"
 #include "TanjiroDashState.h"
+#include "TanjiroSkill_WaterMill.h"
+#include "TanjiroSkill_WindMill.h"
 using namespace Tanjiro;
 
 
@@ -28,6 +30,14 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_I))
+		{
+			if(pGameInstance->Key_Down(DIK_O))
+				return new CSkill_WindMillState();
+			else
+				return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+		}
+			
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 		{
@@ -155,6 +165,13 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_X))
+		{
+			if (pGameInstance->Key_Down(DIK_C))
+				return new CSkill_WindMillState();
+			else
+				return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+		}
 
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 		{

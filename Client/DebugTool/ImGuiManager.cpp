@@ -301,12 +301,14 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			}
 			else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
 			{
+				((CKyoujuro*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
 			}
 		}
 		else if (_iIndex == 1)
 		{
 			if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
 			{
+				((CKyoujuro*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
 			}
 			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
 			{
@@ -360,8 +362,32 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 		{
 			_uint iIndexSize = m_vecAnimIndex.size();
 
-			((CTanjiro*)(m_vecObjList[_iIndex]))->
-				Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0 ,true);
+			if (_iIndex == 0)
+			{
+				if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
+				{
+					((CTanjiro*)(m_vecObjList[_iIndex]))->
+						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
+				}
+				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
+				{
+					((CKyoujuro*)(m_vecObjList[_iIndex]))->
+						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
+				}
+			}
+			else if (_iIndex == 1)
+			{
+				if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
+				{
+					((CKyoujuro*)(m_vecObjList[_iIndex]))->
+						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
+				}
+				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
+				{
+					((CTanjiro*)(m_vecObjList[_iIndex]))->
+						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
+				}
+			}
 		}
 	}
 

@@ -60,6 +60,7 @@ public: /* For.Object_Manager */
 	class CGameObject* Clone_GameObject(const _tchar* pPrototypeTag, void* pArg = nullptr);
 	class CComponent* Get_Component(_uint iLevelIndex, const _tchar* pLayerTag, const _tchar* pComponentTag, _uint iIndex = 0);
 	class CLayer* Find_Layer(_uint iLevelIndex, const _tchar* pLayerTag);
+	void Clear_List_InLayer(_uint iLevelIndex, const _tchar * pLayerTag);
 
 public: /* For.Component_Manager */
 	HRESULT Add_Prototype(_uint iLevelIndex, const _tchar* pPrototypeTag, class CComponent* pPrototype);

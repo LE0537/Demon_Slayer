@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "LogoButton.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CLogoButton::CLogoButton(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -56,22 +57,42 @@ HRESULT CLogoButton::Initialize(void * pArg)
 void CLogoButton::Tick(_float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-	if (pGameInstance->Key_Down(DIK_UP))
-	{
-		if (m_ThrowUIinfo.iLayerNum == 0)
-			m_iImgNum = 1;
-		else if (m_ThrowUIinfo.iLayerNum == 1)
-			m_iImgNum = 0;
-	}
-	else if (pGameInstance->Key_Down(DIK_DOWN))
-	{
-		if(m_ThrowUIinfo.iLayerNum == 0)
-			m_iImgNum = 0;
-		else if(m_ThrowUIinfo.iLayerNum == 1)
-			m_iImgNum = 1;
-	}
+	CUI_Manager*		pUI_Manager = GET_INSTANCE(CUI_Manager);
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	if (!m_bMenuOn)
+	{
+		if (pGameInstance->Key_Down(DIK_UP))
+		{
+			if (m_ThrowUIinfo.iLayerNum == 0)
+				m_iImgNum = 1;
+			else if (m_ThrowUIinfo.iLayerNum == 1)
+				m_iImgNum = 0;
+		}
+		else if (pGameInstance->Key_Down(DIK_DOWN))
+		{
+			if (m_ThrowUIinfo.iLayerNum == 0)
+				m_iImgNum = 0;
+			else if (m_ThrowUIinfo.iLayerNum == 1)
+				m_iImgNum = 1;
+		}
+
+		if (pGameInstance->Key_Down(DIK_E))
+		{
+			if (m_ThrowUIinfo.iLayerNum == 0 && m_iImgNum == 1)
+			{
+				//pGameInstance->Clear_List_InLayer(LEVEL_LOGO, TEXT("Layer_LogoUI"));
+				pUI_Manager->Add_Menu();
+				m_bMenuOn = false;
+			}
+
+		}
+	}
+	
+	
 	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CLogoButton::Late_Tick(_float fTimeDelta)
