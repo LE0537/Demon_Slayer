@@ -115,7 +115,16 @@ HRESULT CCharFrame::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		m_iImgNum = 0;
+	else if (m_ThrowUIinfo.iLayerNum == 1)
+		m_iImgNum = 0;
+	else if (m_ThrowUIinfo.iLayerNum == 2)
+		m_iImgNum = 1;
+	else if (m_ThrowUIinfo.iLayerNum == 3)
+		m_iImgNum = 1;
+
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;

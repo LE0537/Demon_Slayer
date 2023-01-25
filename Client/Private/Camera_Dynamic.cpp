@@ -36,7 +36,6 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 
 	m_pSubTransform->Set_WorldMatrix(m_pTransform->Get_WorldMatrix());
 
-	  
 	return S_OK;
 }
 

@@ -68,6 +68,7 @@
 #include "MenuFixedImg.h"
 #include "MenuChar.h"
 #include "MenuTitle.h"
+#include "InkEff.h"
 
 //Effect
 #include "Effect.h"
@@ -297,6 +298,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 #pragma endregion MenuUI
 
+#pragma region UIEff
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_InkEff"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/UIEff/Xcmn_Ink_%d.png"), 2))))
+			return E_FAIL;
+#pragma endregion UIEff
+
 #pragma region LoadingUI
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingFixedImg"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Fixed_%d.png"), 4))))
@@ -333,7 +340,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 	/* ¸ðµ¨ ·Îµù Áß. */
 	lstrcpy(m_szLoadingText, TEXT("                     ¸ðµ¨ ·Îµù Áß."));
-
 
 
 #pragma region Static Objects
@@ -647,6 +653,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_InkEff"),
+		CInkEff::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuBackDeco"),
 		CMenuBackDeco::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

@@ -59,6 +59,11 @@ void CLogoButton::Tick(_float fTimeDelta)
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 	CUI_Manager*		pUI_Manager = GET_INSTANCE(CUI_Manager);
 
+	m_fAlpha += fTimeDelta;
+
+	if (m_fAlpha >= 1)
+		m_fAlpha = 1.f;
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
 	if (!m_bMenuOn)
@@ -82,14 +87,13 @@ void CLogoButton::Tick(_float fTimeDelta)
 		{
 			if (m_ThrowUIinfo.iLayerNum == 0 && m_iImgNum == 1)
 			{
-				//pGameInstance->Clear_List_InLayer(LEVEL_LOGO, TEXT("Layer_LogoUI"));
 				pUI_Manager->Add_Menu();
+				Add_InkEff();
 				m_bMenuOn = false;
 			}
 
 		}
 	}
-	
 	
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
@@ -110,19 +114,16 @@ HRESULT CLogoButton::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(12);
 
 	m_pVIBufferCom->Render();
 
 	Font_Color();
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	if(m_ThrowUIinfo.iLayerNum == 0)
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("게임 시작"), XMVectorSet(m_fX - 70.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(m_vFontColor.x, m_vFontColor.y, m_vFontColor.z, m_vFontColor.w), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("게임 시작"), XMVectorSet(m_fX - 70.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(m_vFontColor.x, m_vFontColor.y, m_vFontColor.z, m_fAlpha), XMVectorSet(1.f, 1.f, 0.f, 1.f));
 	else if(m_ThrowUIinfo.iLayerNum == 1)
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("게임 종료"), XMVectorSet(m_fX - 70.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(m_vFontColor.x, m_vFontColor.y, m_vFontColor.z, m_vFontColor.w), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("게임 종료"), XMVectorSet(m_fX - 70.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(m_vFontColor.x, m_vFontColor.y, m_vFontColor.z, m_fAlpha), XMVectorSet(1.f, 1.f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -145,6 +146,17 @@ void CLogoButton::Font_Color()
 		m_vFontColor.z = 0;
 		m_vFontColor.w = 1;
 	}
+}
+
+HRESULT CLogoButton::Add_InkEff()
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InkEff"), LEVEL_LOGO, TEXT("Layer_LogoUI"))))
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+	return S_OK;
 }
 
 HRESULT CLogoButton::Ready_Components()
@@ -182,6 +194,9 @@ HRESULT CLogoButton::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fAlpha, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))

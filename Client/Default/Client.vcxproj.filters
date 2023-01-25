@@ -424,6 +424,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Idle">
       <UniqueIdentifier>{b4ec914d-d77c-42b3-87bd-9acff5e6c13b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\UIEff">
+      <UniqueIdentifier>{d4e953b2-c98d-47ef-ac82-dd3e0c4d68a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -850,6 +853,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\AkazaIdleState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Idle</Filter>
+   </ClInclude>
+    <ClInclude Include="..\Public\InkEff.h">
+      <Filter>03.UI\UIEff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1251,6 +1257,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\AkazaIdleState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InkEff.cpp">
+      <Filter>03.UI\UIEff</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

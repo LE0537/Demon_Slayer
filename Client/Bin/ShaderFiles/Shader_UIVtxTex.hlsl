@@ -9,6 +9,10 @@ vector			g_vCamPosition;
 
 float4			g_vColor;
 
+int				g_iFrame;
+int				g_iNumTexU;
+int				g_iNumTexV;
+float			g_fAlpha;
 float			g_fUvMoveTime;
 float			g_fAlphaTime;
 float			g_fCurrentHp;
@@ -17,18 +21,6 @@ float			g_fMinusHp;
 float			g_fMinus_BeforeHp;
 float			g_fCurSkillGauge;
 float			g_fMaxSkillGauge;
-
-float4			g_vLightDiffuse = float4(1.f, 1.f, 1.f, 1.f); //빛의색
-float4			g_vLightAmbient = float4(0.5f, 0.5f, 0.5f, 1.f); //빛의 최소 밝기
-float4			g_vLightSpecular = float4(1.f, 1.f, 1.f, 1.f); //빛의 하이라이트 (빤딱거리는 흰색)
-
-float4			g_vLightDir = float4(3.f, -3.f, -3.f, 0.f); // 빛의방향 //방향성광원 // 해
-
-float4			g_vMtrlAmbient = float4(1.f, 1.f, 1.f, 1.f);  // 재질의 고유색
-float4			g_vMtrlSpecular = float4(0.1f, 0.1f, 0.1f, 1.f);  // 재질의 하이라이트 (빤딱거리는느낌)
-
-
-float g_fHP;
 
 struct VS_IN
 {
@@ -70,8 +62,25 @@ VS_OUT VS_MAIN(VS_IN In)
 	return Out;
 }
 
+VS_OUT VS_Sprite(VS_IN In)
+{
+	VS_OUT		Out = (VS_OUT)0;
 
+	matrix		matWV, matWVP;
 
+	matWV = mul(g_WorldMatrix, g_ViewMatrix);
+	matWVP = mul(matWV, g_ProjMatrix);
+
+	/* 정점의 위치에 월드 뷰 투영행렬을 곱한다. 현재 정점은 ViewSpace에 존재하낟. */
+	/* 투영행렬까지 곱하면 정점위치의 w에 뷰스페이스 상의 z를 보관한다. == Out.vPosition이 반드시 float4이어야하는 이유. */
+	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
+
+	float         fTexU = ((g_iFrame % g_iNumTexU) + In.vTexUV.x) / g_iNumTexU;
+	float         fTexV = ((g_iFrame / g_iNumTexU) + In.vTexUV.y) / g_iNumTexV;
+	Out.vTexUV = float2(fTexU, fTexV);
+
+	return Out;
+}
 
 /* TriangleList로 그렸다면 정점 세개가 VS_MAIN의 수행을 모두 마친 이후. */
 
@@ -205,7 +214,8 @@ PS_OUT PS_IconShadow(PS_IN In)
 
 	Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
 
-	Out.vColor.a = 0.3f;
+	if(Out.vColor.a > 0)
+		Out.vColor.a = 0.2f;
 
 	return Out;
 }
@@ -216,7 +226,24 @@ PS_OUT PS_SelIconEff(PS_IN In)
 
 	Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
 
-	Out.vColor.r = 0.7f;
+	if (Out.vColor.a > 0)
+	{
+		Out.vColor.r = 0.7f;
+		Out.vColor.g = 0.f;
+		Out.vColor.b = 0.f;
+	}
+
+	return Out;
+}
+
+PS_OUT PS_Fade(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float4 vFade = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+
+	Out.vColor.a = vFade.a * g_fAlpha;
+	Out.vColor.rgb = vFade.rgb;
 
 	return Out;
 }
@@ -235,6 +262,8 @@ PS_OUT PS_COLOR(PS_IN In)
 
 	return Out;
 }
+
+
 
 technique11 DefaultTechnique
 {
@@ -369,6 +398,28 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_SelIconEff();
+	}
+
+	pass Fade //12
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_Fade();
+	}
+
+	pass Sprite //13
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_Sprite();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN();
 	}
 
 	

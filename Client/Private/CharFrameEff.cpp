@@ -69,7 +69,7 @@ HRESULT CCharFrameEff::Render()
 		return E_FAIL;
 
 
-	m_pShaderCom->Begin(0);
+	m_pShaderCom->Begin(11);
 
 	m_pVIBufferCom->Render();
 
