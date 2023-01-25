@@ -412,6 +412,9 @@
     <Filter Include="03.UI\03.SelectChar\Main\2PMain">
       <UniqueIdentifier>{dd0ae4e7-b9a0-4173-b526-461a40a776b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\UIEff">
+      <UniqueIdentifier>{d4e953b2-c98d-47ef-ac82-dd3e0c4d68a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -825,6 +828,9 @@
     <ClInclude Include="..\Public\KyoujuroSkill_DoubleUpper.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\InkEff.h">
+      <Filter>03.UI\UIEff</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1219,6 +1225,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroSkill_DoubleUpper.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InkEff.cpp">
+      <Filter>03.UI\UIEff</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

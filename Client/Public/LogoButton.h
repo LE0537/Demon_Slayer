@@ -24,6 +24,7 @@ public:
 
 public:
 	void Font_Color();
+	HRESULT Add_InkEff();
 
 private:
 	HRESULT Ready_Components();
@@ -32,7 +33,7 @@ private:
 private:
 	_float4				m_vFontColor;
 	_bool				m_bMenuOn = false;
-
+	_float				m_fAlpha = 0.f;
 
 public:
 	static CLogoButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

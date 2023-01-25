@@ -68,7 +68,7 @@ HRESULT CCharFrameShadow::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(0);
+	m_pShaderCom->Begin(10);
 
 	m_pVIBufferCom->Render();
 

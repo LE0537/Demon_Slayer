@@ -81,7 +81,7 @@ HRESULT CLogoBackLight::Render()
 
 	m_pShaderCom->Begin(8);
 	
-	//m_pVIBufferCom->Render();
+	m_pVIBufferCom->Render();
 
 	return S_OK;
 }

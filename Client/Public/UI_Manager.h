@@ -98,6 +98,7 @@ private:
 	CUI::THROWUIINFO				m_ThrowInfo;
 	_uint							m_iCharIconLayerNum = 0;
 	_uint							m_iCharNameLayerNum = 0;
+	_uint							m_iCharFrameLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint							m_iLogoButtonNum = 0;

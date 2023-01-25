@@ -42,6 +42,7 @@ HRESULT CObject_Manager::Add_Prototype(const _tchar * pPrototypeTag, CGameObject
 HRESULT CObject_Manager::Add_GameObject(const _tchar * pPrototypeTag, _uint iLevelIndex, const _tchar * pLayerTag, void* pArg)
 {
 	CGameObject*		pPrototype = Find_Prototype(pPrototypeTag);
+
 	if (nullptr == pPrototype)
 		return E_FAIL;
 

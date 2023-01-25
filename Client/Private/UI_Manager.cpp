@@ -210,6 +210,7 @@ void CUI_Manager::Add_Select_CharUI()
 
 	m_iCharIconLayerNum = 0;
 	m_iCharNameLayerNum = 0;
+	m_iCharFrameLayerNum = 0;
 }
 
 void CUI_Manager::Add_Logo_Title()
@@ -472,8 +473,10 @@ HRESULT CUI_Manager::Add_SelectUI(CUI::THROWUIINFO iter)
 	}
 	case 18:
 	{
+		iter.iLayerNum = m_iCharFrameLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharFrame"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iCharFrameLayerNum;
 		break;
 	}
 	case 19:
@@ -567,13 +570,13 @@ HRESULT CUI_Manager::Add_LogoUI(CUI::THROWUIINFO iter)
 	}
 	case 1:
 	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackLight"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackEff"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
 		break;
 	}
 	case 2:
 	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackEff"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackLight"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
 		break;
 	}
