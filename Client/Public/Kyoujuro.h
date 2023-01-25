@@ -69,6 +69,18 @@ public:
 		ANIM_DASH_R_01 = 73,
 		ANIM_DASH_R_02 = 74,
 
+
+		// SKILL
+
+		// DASH SLASH
+		ANIM_SKILL_DASHSLASH = 27,
+
+		// DOUBLE UPPER
+		ANIM_SKILL_DOUBLEUPPER = 36,
+
+		// COMMON
+		ANIM_SKILL_COMMON = 21,
+
 		ANIM_END = 100
 	};
 
@@ -102,7 +114,8 @@ private:
 public:
 	virtual void  Take_Damage(_float _fPow);
 	virtual void  Get_GuardHit(_int eType);
-
+public:
+	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:
 	CModel*					m_pModelCom = nullptr;
 	

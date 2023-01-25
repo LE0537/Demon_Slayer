@@ -6,6 +6,8 @@
 #include "KyoujuroAtk_1_State.h"
 #include "KyoujuroGuardState.h"
 #include "KyoujuroGuardHitState.h"
+#include "KyoujuroSkill_Common.h"
+#include "KyoujuroSkill_DoubleUpper.h"
 
 using namespace Kyoujuro;
 
@@ -57,6 +59,15 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_I))
+		{
+			if (pGameInstance->Key_Down(DIK_O))
+			{
+				return new CSkill_DoubleUpperState();
+			}
+			else
+				return new CSkill_CommonState();
+		}
 		break;
 	case 2:
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
@@ -94,6 +105,15 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_X))
+		{
+			if (pGameInstance->Key_Down(DIK_C))
+			{
+				return new CSkill_DoubleUpperState();
+			}
+			else
+				return new CSkill_CommonState();
+		}
 		break;
 	default:
 		break;

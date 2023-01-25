@@ -10,6 +10,7 @@
 #include "KyoujuroMoveState.h"
 #include "KyoujuroHitState.h"
 #include "KyoujuroGuardHitState.h"
+#include "KyoujuroToolState.h"
 #include "ImGuiManager.h"
 using namespace Kyoujuro;
 
@@ -369,6 +370,15 @@ void CKyoujuro::Get_GuardHit(_int eType)
 	
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 }
+
+
+void CKyoujuro::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
+{
+	CKyoujuroState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CKyoujuroState::STATE_TYPE>(iTypeIndex), bIsContinue);
+	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+}
+
+
 void CKyoujuro::HandleInput()
 {
 	CKyoujuroState* pNewState = m_pKyoujuroState->HandleInput(this);
