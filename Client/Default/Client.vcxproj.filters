@@ -412,6 +412,18 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper">
       <UniqueIdentifier>{e21190c1-9328-4668-838f-7976627ab0f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState">
+      <UniqueIdentifier>{73de4100-bd5f-4f34-9809-c5014a8703e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState">
+      <UniqueIdentifier>{98a320b5-1a25-4fde-ab6d-2cb9f5aef7a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Idle">
+      <UniqueIdentifier>{e67a9bc7-3739-44cc-ba23-15192296b406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Idle">
+      <UniqueIdentifier>{b4ec914d-d77c-42b3-87bd-9acff5e6c13b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -825,6 +837,20 @@
     <ClInclude Include="..\Public\KyoujuroSkill_DoubleUpper.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\Demon_Slayer\Client\Public\AkazaState.h" />
+    <ClInclude Include="..\..\..\..\Demon_Slayer\Client\Public\RuiState.h" />
+    <ClInclude Include="..\Public\RuiState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiIdleState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaIdleState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Idle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1219,6 +1245,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroSkill_DoubleUpper.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiIdleState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaIdleState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Idle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

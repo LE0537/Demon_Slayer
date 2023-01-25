@@ -168,7 +168,7 @@ void CImGuiManager::LiveCharacterList()
 {
 
 	ImVec2 vListSize(100, 60);
-	ImVec2 vObjSize(100, 30);
+	ImVec2 vObjSize(100, 20);
 	static int selected = 999;
 
 
@@ -200,8 +200,8 @@ void CImGuiManager::LiveCharacterList()
 
 void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 {
-	ImVec2 vListSize(250, 300);
-	ImVec2 vObjSize(200, 30);
+	ImVec2 vListSize(300, 200);
+	ImVec2 vObjSize(300, 15);
 	static int selected = 0;
 
 	if (_iIndex == 0)
@@ -229,7 +229,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 	}
 
 
-	if (ImGui::BeginListBox("Animation", vListSize))
+	if (ImGui::BeginListBox("..", vListSize))
 	{
 		for (_uint i = 0; i < m_vecAnimation.size(); ++i)
 		{
@@ -273,17 +273,26 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 		ImGui::EndListBox();
 	}
 
-	ImGui::SameLine();
-	if (ImGui::BeginListBox("add Animation", vListSize))
+
+	ImGui::Text("-----------add animation------------");
+	
+
+	ImVec2 vListSize1(300, 100);
+	ImVec2 vObjSize1(300, 20);
+	static int selected1 = 0;
+	if (ImGui::BeginListBox(".", vListSize1))
 	{
 
 		for (_uint i = 0; i < m_vecAnimIndex.size(); ++i)
 		{
 			string str = to_string(i);
+			string Temp = to_string(i) + ". ";
 
-			if (ImGui::Selectable(str.c_str(), stoi(str) == i, 0, vObjSize))
+			str = Temp + str;
+
+			if (ImGui::Selectable(str.c_str(), stoi(str) == i, 0, vObjSize1))
 			{
-
+				selected1 = i;
 			}
 			ImGui::SetItemDefaultFocus();
 		}
@@ -316,8 +325,6 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			}
 		}
 	}
-
-
 
 
 

@@ -271,6 +271,10 @@ void CAtk_4_State::Enter(CTanjiro * pTanjiro)
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_ATTACK_4);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_ATTACK_4);
 
+	pTanjiro->Get_Model()->Set_FrameNum(CTanjiro::ANIMID::ANIM_ATTACK_4, 20);
+	pTanjiro->Get_Model()->Set_FrameTime(CTanjiro::ANIMID::ANIM_ATTACK_4, 14, 17, 0.3f);
+	//pTanjiro->Get_Model()->Set_UsingFrame(CTanjiro::ANIMID::ANIM_ATTACK_4, 10, 20);
+
 }
 
 void CAtk_4_State::Exit(CTanjiro * pTanjiro)
