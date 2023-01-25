@@ -8,6 +8,8 @@
 #include "TanjiroGuardState.h"
 #include "TanjiroGuardHitState.h"
 #include "TanjiroSkill_WaterMill.h"
+#include "TanjiroSkill_Common.h"
+#include "TanjiroSkill_WindMill.h"
 using namespace Tanjiro;
 
 
@@ -60,8 +62,15 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
-		else if (pGameInstance->Key_Pressing(DIK_I))
-			return new CSkill_WaterMillState(CTanjiroState::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_I))
+		{
+			if (pGameInstance->Key_Down(DIK_O))
+			{
+				return new CSkill_WindMillState();
+			}
+			else
+			return new CSkill_CommonState();
+		}
 		break;
 	case 2:
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
@@ -99,8 +108,8 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
-		else if (pGameInstance->Key_Pressing(DIK_X))
-			return new CSkill_WaterMillState(CTanjiroState::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_X))
+			return new CSkill_CommonState();
 		break;
 	default:
 		break;

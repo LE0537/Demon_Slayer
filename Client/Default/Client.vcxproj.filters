@@ -397,6 +397,21 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Tool">
       <UniqueIdentifier>{b699106b-fa36-4dbf-8c0a-2c314863f061}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Tool">
+      <UniqueIdentifier>{ed6166fe-f7c0-4579-9484-da1351a6b58d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill">
+      <UniqueIdentifier>{7708309f-7d1e-476e-80d5-a2d38a15b832}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\Common">
+      <UniqueIdentifier>{1bf3e3b1-cd36-4ff4-be5d-837f0d498384}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DashSlash">
+      <UniqueIdentifier>{cec25342-11ec-4ffa-87fa-647e81ce47b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper">
+      <UniqueIdentifier>{e21190c1-9328-4668-838f-7976627ab0f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -792,6 +807,24 @@
     <ClInclude Include="..\Public\TanjiroToolState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Tool</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroSkill_WindMill.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\WindMill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroToolState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroSkill_DashSlash.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DashSlash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroSkill_DoubleUpper.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1168,6 +1201,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroToolState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroSkill_WindMill.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\WindMill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroToolState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroSkill_DashSlash.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DashSlash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroSkill_DoubleUpper.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

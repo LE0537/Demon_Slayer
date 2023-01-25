@@ -201,6 +201,10 @@
     <ClInclude Include="..\Public\KyoujuroGuardState.h" />
     <ClInclude Include="..\Public\KyoujuroHitState.h" />
     <ClInclude Include="..\Public\KyoujuroMoveState.h" />
+    <ClInclude Include="..\Public\KyoujuroSkill_Common.h" />
+    <ClInclude Include="..\Public\KyoujuroSkill_DashSlash.h" />
+    <ClInclude Include="..\Public\KyoujuroSkill_DoubleUpper.h" />
+    <ClInclude Include="..\Public\KyoujuroToolState.h" />
     <ClInclude Include="..\public\Level_SelectChar.h" />
     <ClInclude Include="..\Public\LoadingAnim.h" />
     <ClInclude Include="..\Public\LoadingBar.h" />
@@ -283,7 +287,9 @@
     <ClInclude Include="..\Public\TanjiroJumpState.h" />
     <ClInclude Include="..\Public\TanjiroMoveState.h" />
     <ClInclude Include="..\Public\TanjiroSheath.h" />
+    <ClInclude Include="..\Public\TanjiroSkill_Common.h" />
     <ClInclude Include="..\Public\TanjiroSkill_WaterMill.h" />
+    <ClInclude Include="..\Public\TanjiroSkill_WindMill.h" />
     <ClInclude Include="..\Public\TanjiroState.h" />
     <ClInclude Include="..\Public\TanjiroToolState.h" />
     <ClInclude Include="..\Public\TanjiroWeapon.h" />
@@ -334,6 +340,10 @@
     <ClCompile Include="..\Private\KyoujuroGuardState.cpp" />
     <ClCompile Include="..\Private\KyoujuroHitState.cpp" />
     <ClCompile Include="..\Private\KyoujuroMoveState.cpp" />
+    <ClCompile Include="..\Private\KyoujuroSkill_Common.cpp" />
+    <ClCompile Include="..\Private\KyoujuroSkill_DashSlash.cpp" />
+    <ClCompile Include="..\Private\KyoujuroSkill_DoubleUpper.cpp" />
+    <ClCompile Include="..\Private\KyoujuroToolState.cpp" />
     <ClCompile Include="..\private\Level_SelectChar.cpp" />
     <ClCompile Include="..\Private\LoadingAnim.cpp" />
     <ClCompile Include="..\Private\LoadingBar.cpp" />
@@ -414,7 +424,9 @@
     <ClCompile Include="..\Private\TanjiroJumpState.cpp" />
     <ClCompile Include="..\Private\TanjiroMoveState.cpp" />
     <ClCompile Include="..\Private\TanjiroSheath.cpp" />
+    <ClCompile Include="..\Private\TanjiroSkill_Common.cpp" />
     <ClCompile Include="..\Private\TanjiroSkill_WaterMill.cpp" />
+    <ClCompile Include="..\Private\TanjiroSkill_WindMill.cpp" />
     <ClCompile Include="..\Private\TanjiroToolState.cpp" />
     <ClCompile Include="..\Private\TanjiroWeapon.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
