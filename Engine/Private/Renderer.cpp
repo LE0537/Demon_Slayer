@@ -26,8 +26,8 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fValue[VALUE_AORADIUS] = 1.f;
 	m_fValue[VALUE_GLOWBLURCOUNT] = 1.f;
 	m_fValue[VALUE_DISTORTION] = 20.f;
-	m_fValue[VALUE_OUTLINE] = 1.f;
-	m_fValue[VALUE_INNERLINE] = 0.2f;
+	m_fValue[VALUE_OUTLINE] = 5.f;
+	m_fValue[VALUE_INNERLINE] = 0.7f;
 
 	D3D11_VIEWPORT		ViewportDesc;
 	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
@@ -62,6 +62,10 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	/* For.Target_Glow */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Glow"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
+	/* For.Target_AlphaGlow */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_AlphaGlow"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
+	/* For.Target_GlowAll */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_GlowAll"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 
 	/* For.Target_Blur */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Blur"), ViewportDesc.Width, ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
@@ -123,12 +127,20 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_LightDepth"), TEXT("Target_ShadowDepth"))))
 		return E_FAIL;
 
-	/* For.MRT_AlphaDeferred */
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Diffuse"))))
+	/* For.MRT_NonLight */
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_NonLight"), TEXT("Target_Master"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Glow"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_NonLight"), TEXT("Target_Glow"))))
 		return E_FAIL;
 
+	/* For.MRT_AlphaDeferred */
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Master"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_AlphaGlow"))))
+		return E_FAIL;
+
+	/* For.MRT_GlowAll */
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GlowAll"), TEXT("Target_GlowAll")))) return E_FAIL;
 	/* For.MRT_GlowX */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GlowX"), TEXT("Target_GlowX")))) return E_FAIL; 
 	/* For.MRT_GlowXY */
@@ -188,7 +200,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	XMStoreFloat4x4(&m_WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_WorldMatrix)));
 
 
-	_float		fVIBufferRadius = 155.f;
+	_float		fVIBufferRadius = 120.f;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), 0.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Normal"), 0.5f * fVIBufferRadius, 1.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
@@ -199,17 +211,28 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 1.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Glow"), 1.5f * fVIBufferRadius, 1.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Glow"), 1.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GrayScale"), 1.5f * fVIBufferRadius, 2.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_AlphaGlow"), 1.5f * fVIBufferRadius, 1.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurXY"), 1.5f * fVIBufferRadius, 3.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GlowAll"), 1.5f * fVIBufferRadius, 2.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 2.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GlowX"), 1.5f * fVIBufferRadius, 3.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_AO"), 2.5f * fVIBufferRadius, 1.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GlowXY"), 1.5f * fVIBufferRadius, 4.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_LightShaft"), 2.5f * fVIBufferRadius, 2.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurXY"), 1.5f * fVIBufferRadius, 50.f + (4.5f * fVIBufferRadius), fVIBufferRadius, fVIBufferRadius)))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GrayScale"), 2.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 2.5f * fVIBufferRadius, 1.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_AO"), 2.5f * fVIBufferRadius, 2.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_LightShaft"), 2.5f * fVIBufferRadius, 3.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
 
 
@@ -217,6 +240,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), ViewportDesc.Width - (0.5f * fVIBufferRadius), 2.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
+
 
 
 	return S_OK;
@@ -281,6 +305,10 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 		return E_FAIL;
 
 
+
+	//	NonAlpha의 Glow, Alpha의 Glow를 취합합니다.
+	if (FAILED(Ready_GlowTexture()))
+		return E_FAIL;
 
 	//	포스트 프로세싱 : 외곽선을 포함한 " 전체 " 에 효과를 먹입니다.
 	//	postprocessing_1 = master
@@ -675,7 +703,7 @@ HRESULT CRenderer::Render_OutLine()
 
 HRESULT CRenderer::Render_NonLight()
 {
-	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_NonLight"))))
 		return E_FAIL;
 
 	for (auto& pGameObject : m_GameObjects[RENDER_NONLIGHT])
@@ -694,9 +722,10 @@ HRESULT CRenderer::Render_NonLight()
 
 	return S_OK;
 }
+
 HRESULT CRenderer::Render_AlphaBlend()
 {
-	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_AlphaDeferred"))))
 		return E_FAIL;
 
 	m_GameObjects[RENDER_ALPHABLEND].sort([](CGameObject* pSour, CGameObject* pDest)
@@ -715,6 +744,33 @@ HRESULT CRenderer::Render_AlphaBlend()
 
 	m_GameObjects[RENDER_ALPHABLEND].clear();
 
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Ready_GlowTexture()
+{
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Glow"), m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_AlphaGlow"), m_pShader, "g_AddTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+
+
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_GlowAll"))))
+		return E_FAIL;
+	m_pShader->Begin(13);
+	m_pVIBuffer->Render();
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
@@ -834,7 +890,7 @@ HRESULT CRenderer::Render_Glow(const _tchar * pTexName, const _tchar * pMRTName)
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Glow"), m_pShader, "g_GlowTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_GlowAll"), m_pShader, "g_GlowTexture")))
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
 		return E_FAIL;
@@ -859,9 +915,13 @@ HRESULT CRenderer::Render_Glow(const _tchar * pTexName, const _tchar * pMRTName)
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
+	Set_Viewport(1280.f, 720.f);
 
 
-	//	BlurXY
+
+	Set_Viewport(m_fGlowWinCX, m_fGlowWinCY);
+
+	//	GlowXY
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_GlowX"), m_pShader, "g_GlowTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_GlowXY"), m_pGlowDSV)))

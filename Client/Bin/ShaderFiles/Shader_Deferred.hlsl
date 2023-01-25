@@ -395,6 +395,7 @@ PS_OUT PS_OUTLINE(PS_IN In)
 	for (int i = 0; i < 9; ++i)
 		color += g_fOutLineValue * (mask[i] * (g_DepthTexture.Sample(LinearSampler, In.vTexUV + float2(coord[i % 3] / g_fWinSizeX, coord[i / 3] / g_fWinSizeY))));
 
+	color = abs(color);
 	//	float gray = 1 - (color.r * 0.3f + color.g * 0.59f + color.b *	0.11f);
 	float gray = saturate(1.f - 3.f * (color.r + color.g + color.b));
 	Out.vColor = vector(gray, gray, gray, 1);
@@ -423,6 +424,7 @@ PS_OUT PS_INNERLINE(PS_IN In)
 	for (int i = 0; i < 9; ++i)
 		inline_color += g_fInnerLineValue * (mask[i] * (g_NormalTexture.Sample(LinearSampler, In.vTexUV + float2(coord[i % 3] / g_fWinSizeX, coord[i / 3] / g_fWinSizeY))));
 
+	inline_color = abs(inline_color);
 	float gray_normal = saturate(1 - 3.f * (inline_color.r + inline_color.g + inline_color.b));
 	Out.vColor = vector(gray_normal, gray_normal, gray_normal, 1);
 
@@ -600,8 +602,9 @@ PS_OUT PS_DISTORTION(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	vector		vDistortionTexture = g_DistortionTexture.Sample(LinearSampler, In.vTexUV);
-	float		fDistortionValue = vDistortionTexture.x * g_fDistortionValue * vDistortionTexture.a;
-	float2		vDistortionUV = float2(In.vTexUV.x + (fDistortionValue / g_fWinSizeX), In.vTexUV.y);
+	float		fDistortionValueX = vDistortionTexture.x * g_fDistortionValue;
+	float		fDistortionValueY = vDistortionTexture.y * g_fDistortionValue;
+	float2		vDistortionUV = float2(In.vTexUV.x + (fDistortionValueX / g_fWinSizeX), In.vTexUV.y + (fDistortionValueY / g_fWinSizeY));
 
 	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, vDistortionUV);
 
@@ -680,7 +683,7 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 		vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(DepthSampler, vNewUV);
 
 		if (vWorldPos_InLight.z > vShadowDepthInfo.x * g_fFar)
-			iValue -= 4;
+			iValue -= 6;
 
 	}
 
