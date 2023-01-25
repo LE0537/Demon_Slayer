@@ -109,7 +109,14 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_X))
-			return new CSkill_CommonState();
+		{
+			if (pGameInstance->Key_Down(DIK_C))
+			{
+				return new CSkill_WindMillState();
+			}
+			else
+				return new CSkill_CommonState();
+		}
 		break;
 	default:
 		break;

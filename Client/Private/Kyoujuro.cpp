@@ -69,6 +69,8 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
+
+
 	return S_OK;
 }
 

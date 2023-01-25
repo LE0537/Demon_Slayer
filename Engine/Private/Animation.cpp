@@ -124,7 +124,12 @@ void CAnimation::Reset3()
 	{
 		pChannel->Reset();
 	}
-	m_fCurrentTime = 0.f;
+	if (m_pFrames != nullptr)
+	{
+		m_fCurrentTime = m_pFrames[m_iStartFrame].fStartTime;
+	}
+	else
+		m_fCurrentTime = 0.f;
 }
 
 _bool CAnimation::Is_KeyFrame(char * pChannelName, _uint iKeyFrame)
