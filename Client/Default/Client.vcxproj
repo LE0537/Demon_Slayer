@@ -169,8 +169,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Demon_Slayer\Client\Public\AkazaState.h" />
-    <ClInclude Include="..\..\..\..\Demon_Slayer\Client\Public\RuiState.h" />
     <ClInclude Include="..\Bin\ShaderFiles\Client_Shader_Defines.hpp" />
     <ClInclude Include="..\DebugTool\imconfig.h" />
     <ClInclude Include="..\DebugTool\imgui.h" />

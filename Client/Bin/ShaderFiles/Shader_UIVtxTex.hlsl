@@ -248,6 +248,18 @@ PS_OUT PS_Fade(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_InkEff(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float4 vMask = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+
+	Out.vColor.a = vMask.r;
+	Out.vColor.rgb = vMask.rgb;
+
+	return Out;
+}
+
 PS_OUT PS_COLOR(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
@@ -419,7 +431,7 @@ technique11 DefaultTechnique
 
 		VertexShader = compile vs_5_0 VS_Sprite();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN();
+		PixelShader = compile ps_5_0 PS_InkEff();
 	}
 
 	

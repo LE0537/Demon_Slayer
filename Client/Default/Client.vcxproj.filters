@@ -840,8 +840,6 @@
     <ClInclude Include="..\Public\KyoujuroSkill_DoubleUpper.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Demon_Slayer\Client\Public\AkazaState.h" />
-    <ClInclude Include="..\..\..\..\Demon_Slayer\Client\Public\RuiState.h" />
     <ClInclude Include="..\Public\RuiState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState</Filter>
     </ClInclude>
@@ -853,7 +851,7 @@
     </ClInclude>
     <ClInclude Include="..\Public\AkazaIdleState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Idle</Filter>
-   </ClInclude>
+    </ClInclude>
     <ClInclude Include="..\Public\InkEff.h">
       <Filter>03.UI\UIEff</Filter>
     </ClInclude>
