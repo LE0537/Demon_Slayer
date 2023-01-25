@@ -50,6 +50,17 @@ HRESULT CLogoBackLight::Initialize(void * pArg)
 
 void CLogoBackLight::Tick(_float fTimeDelta)
 {
+	/*if (!m_bAlphaValueCheck)
+		m_fAlphaTime += fTimeDelta * 0.05f;
+
+	else if (m_bAlphaValueCheck)
+		m_fAlphaTime -= fTimeDelta * 0.05f;
+
+	if (m_fAlphaTime >= 0.3f)
+		m_bAlphaValueCheck = true;
+	else if (m_fAlphaTime <= 0.f)
+		m_bAlphaValueCheck = false;*/
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -68,12 +79,9 @@ HRESULT CLogoBackLight::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
-
-	m_pVIBufferCom->Render();
+	m_pShaderCom->Begin(8);
+	
+	//m_pVIBufferCom->Render();
 
 	return S_OK;
 }
@@ -113,6 +121,9 @@ HRESULT CLogoBackLight::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlphaTime", &m_fAlphaTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

@@ -195,6 +195,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelectBG"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/CharSel_Bg.png"), 1))))
 			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharIconMaskMap"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Icon_Chara_Shadow.png"), 1))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PatternWind"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Wind00.png"), 1))))
 			return E_FAIL;

@@ -3,11 +3,14 @@
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;	
 texture2D		g_NormalTexture;
+texture2D		g_MaskTexture;
 
 vector			g_vCamPosition;
 
 float4			g_vColor;
 
+float			g_fUvMoveTime;
+float			g_fAlphaTime;
 float			g_fCurrentHp;
 float			g_fMaxHp;
 float			g_fMinusHp;
@@ -138,6 +141,86 @@ PS_OUT PS_SkillBarMinus(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_LogoEff(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float2 vNewUV = In.vTexUV;
+
+	vNewUV.x -= g_fUvMoveTime;
+
+	Out.vColor = g_DiffuseTexture.Sample(PointSampler, vNewUV);
+
+	//if (Out.vColor.r < 200)
+	//	Out.vColor.r = Out.vColor.r * 0.5f;
+	/*if (Out.vColor.b < 200)
+		Out.vColor.b = Out.vColor.b * 0.5f;*/
+
+	Out.vColor.a += g_fAlphaTime;
+
+	//if(Out.vColor.r <)
+	Out.vColor.a -= 0.95f;
+
+	return Out;
+}
+
+PS_OUT PS_LogoLight(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+
+	Out.vColor.a += g_fAlphaTime;
+
+	Out.vColor.a = 0.f;
+
+	return Out;
+}
+
+PS_OUT PS_SelCharIcon(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float4 DiffuseTexture = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+	float4 vMaskTexture = g_MaskTexture.Sample(PointSampler, In.vTexUV);
+	
+	Out.vColor.a = vMaskTexture.a;
+
+	if(DiffuseTexture.a == 0.f)
+		Out.vColor.a = DiffuseTexture.a;
+
+	if (DiffuseTexture.r > 0.3f)
+		Out.vColor.r = DiffuseTexture.r;
+	if (DiffuseTexture.g > 0.3f)
+		Out.vColor.g = DiffuseTexture.g;
+	if (DiffuseTexture.b > 0.3f)
+		Out.vColor.b = DiffuseTexture.b;
+	
+	return Out;
+}
+
+PS_OUT PS_IconShadow(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+
+	Out.vColor.a = 0.3f;
+
+	return Out;
+}
+
+PS_OUT PS_SelIconEff(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+
+	Out.vColor.r = 0.7f;
+
+	return Out;
+}
+
 PS_OUT PS_COLOR(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
@@ -232,4 +315,61 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_HpBarMinus();
 	}
+
+	pass LogoEff //7
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_LogoEff();
+	}
+
+	pass LogoLight //8
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_LogoLight();
+	}
+
+	pass SelCharIcon //9
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_SelCharIcon();
+	}
+
+	pass SelIconShadow //10
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_IconShadow();
+	}
+
+	pass SelFameEff //11
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_SelIconEff();
+	}
+
+	
 }
