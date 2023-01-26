@@ -28,7 +28,13 @@ public:
 	void	Set_Loop(_bool bIsLoop = false) { m_isLoop = bIsLoop; }
 
 	void    Set_LinearTime(_float flinearTime) { m_flinearTime = flinearTime; }
+	void	Clear_Frame()
+	{
+		for (auto& iter : m_vecFrames)
+			Safe_Delete(iter);
 
+		m_vecFrames.clear();
+	};
 	vector<class CChannel*> Get_Channel() { return m_Channels; }
 	void	Reset2();
 	void	Reset3();

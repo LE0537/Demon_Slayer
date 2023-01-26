@@ -31,7 +31,7 @@ HRESULT CAnimation::Initialize(CModel* pModel, aiAnimation * pAIAnimation)
 
 void CAnimation::Invalidate_TransformationMatrix(_float fTimeDelta)
 {
-
+	//
 	if (m_pFrames != nullptr)
 	{
 		if (m_fCurrentTime >= m_pFrames[m_iCurrentFrame].fStartTime &&
