@@ -46,14 +46,14 @@ private:
 	CCharacters*				m_pTarget = nullptr;
 
 	_float4					m_vPlayerPos, m_vTargetPos;
-	_float4					m_vPoint;
 	_float					m_f1pX, m_f1pY = 0.f;
 	_float					m_f2pX, m_f2pY = 0.f;
 	_float					m_fAngle = 0.f;
 	_bool					m_bBattle = false;
 	_float					m_fCamDist = 0.f;
 	_float					m_fLookY = 0.f;
-	_bool					m_b1P = false;
+	CCharacters*			m_p1P = nullptr;
+
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 

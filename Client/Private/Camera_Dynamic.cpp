@@ -88,15 +88,13 @@ void CCamera_Dynamic::Set_CamPos()
 	_float fDist = XMVectorGetX(XMVector3Length(vLook2));
 
 	//맵의 임시 반지름
-	_float fDiameter = 50.f;
+	_float fDiameter = 85.f;
 	m_fCamDist = fDist / fDiameter;
 	if (m_fCamDist > 1.f)
 		m_fCamDist = 1.f;
 	else if (m_fCamDist < 0.33f)
 		m_fCamDist = 0.33f;
 	vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
-
-	XMStoreFloat4(&m_vPoint, vPos);
 
 	_vector vRight = XMVector3Normalize(vPos - vTarget);
 
@@ -105,17 +103,16 @@ void CCamera_Dynamic::Set_CamPos()
 
 	_vector vLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
 	_float fTime = 1.f;
-	vPos -= vLook * (fTime + m_fLookY) * fDiameter * m_fCamDist;
+	vPos -= vLook * (fTime + m_fLookY) * (fDiameter * 0.5f) * m_fCamDist;
 	vPos.m128_f32[1] = 0.f;
 	vPos.m128_f32[1] += 5.5f;
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+
 }
 
 void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 {
 	ConvertToViewPort(fTimeDelta);
-
-	_vector vPoint = XMLoadFloat4(&m_vPoint);
 
 	if (m_f1pX < 200.f)
 	{
@@ -139,31 +136,37 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 			ConvertToViewPort(fTimeDelta);
 		}
 	}
-
-	if (m_f1pY > 630.f)
+	if (!m_p1P->Get_PlayerInfo().bJump)
 	{
-		while (true)
+		if (m_f1pY > 630.f)
 		{
-			if (m_f1pY <= 630.f)
-				break;
-			
-			m_fLookY += fTimeDelta / 7.f;
-			Set_CamPos();
-		
-			ConvertToViewPort(fTimeDelta);
+			while (true)
+			{
+				if (m_f1pY <= 630.f)
+					break;
+
+				m_fLookY += fTimeDelta / 7.f;
+				if (m_fLookY > 85.f)
+					m_fLookY = 85.f;
+				Set_CamPos();
+
+				ConvertToViewPort(fTimeDelta);
+			}
 		}
-	}
-	else if (m_f1pY < 580.f)
-	{
-		while (true)
+		else if (m_f1pY < 580.f)
 		{
-			if (m_f1pY >= 580.f)
-				break;
+			while (true)
+			{
+				if (m_f1pY >= 580.f)
+					break;
 
-			m_fLookY -= fTimeDelta / 7.f;
-			Set_CamPos();
+				m_fLookY -= fTimeDelta / 7.f;
+				if (m_fLookY < 0.f)
+					m_fLookY = 0.f;
+				Set_CamPos();
 
-			ConvertToViewPort(fTimeDelta);
+				ConvertToViewPort(fTimeDelta);
+			}
 		}
 	}
 	m_pPlayer->Set_CamAngle(m_fAngle);
@@ -260,7 +263,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 		default:
 			break;
 		}
-		m_b1P = true;
+		m_p1P = m_pPlayer;
 	}
 	else
 	{
@@ -282,7 +285,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 		default:
 			break;
 		}
-		m_b1P = false;
+		m_p1P = m_pTarget;
 	}
 
 }

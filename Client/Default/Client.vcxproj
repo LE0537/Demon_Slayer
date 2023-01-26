@@ -308,6 +308,7 @@
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Manager.h" />
+    <ClInclude Include="..\public\WaterMill.h" />
     <ClInclude Include="..\Public\WindowBase.h" />
     <ClInclude Include="..\Public\WindowLeft.h" />
     <ClInclude Include="..\Public\WindowRight.h" />
@@ -452,6 +453,7 @@
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Manager.cpp" />
+    <ClCompile Include="..\private\WaterMill.cpp" />
     <ClCompile Include="..\Private\WindowBase.cpp" />
     <ClCompile Include="..\Private\WindowLeft.cpp" />
     <ClCompile Include="..\Private\WindowRight.cpp" />

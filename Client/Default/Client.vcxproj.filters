@@ -439,6 +439,9 @@
     <Filter Include="02.GameObjects\03.SkyBox">
       <UniqueIdentifier>{4efa3a96-a710-452c-8d57-17ca0ec3a834}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\01.WaterMill">
+      <UniqueIdentifier>{e64144cc-3be0-44f8-a32b-974e3069d22a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -884,6 +887,9 @@
     <ClInclude Include="..\Public\SkyBox.h">
       <Filter>02.GameObjects\03.SkyBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\WaterMill.h">
+      <Filter>05.CollBox\01.WaterMill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1302,6 +1308,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\SkyBox.cpp">
       <Filter>02.GameObjects\03.SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WaterMill.cpp">
+      <Filter>05.CollBox\01.WaterMill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

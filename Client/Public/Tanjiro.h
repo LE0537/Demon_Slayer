@@ -117,7 +117,9 @@ public:
 
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
-
+	_int Get_WaterMillHit() { return m_iWaterMillHit; }
+	void Set_WaterMillHit() { ++m_iWaterMillHit; }
+	void Reset_WaterMillHit() { m_iWaterMillHit = 0; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -137,6 +139,7 @@ private:
 	CGameObject*			m_pWeapon = nullptr;
 	CGameObject*			m_pSheath = nullptr;
 	_float					m_fHpTime = 0.f;
+	_int					m_iWaterMillHit = 0;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
