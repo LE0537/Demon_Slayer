@@ -44,6 +44,8 @@ float			g_fDistortionValue;
 float			g_fOutLineValue;
 float			g_fInnerLineValue;
 
+float			g_fAddValue;
+
 const float		g_fWeight[13] =
 {
 	0.0561f, 0.1353f, 0.278f, 0.4868f, 0.7261f, 0.9231f, 1.0f,
@@ -636,7 +638,7 @@ PS_OUT PS_ADD(PS_IN In)
 	vector vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector vAddColor = g_AddTexture.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor = vColor + vAddColor;
+	Out.vColor = vColor + (vAddColor * g_fAddValue);
 	Out.vColor.a = vColor.a;
 
 	return Out;
@@ -666,14 +668,14 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 	//	vector		vViewPos_InLight = mul(vWorldPos, g_matLightView);
 	//	matrix		matLightVP = mul(g_matLightView, g_matLightProj);
 	
-	float		fNumSamples = 150.f;
-	int			iValue = fNumSamples;
+	float		fNumSamples = 100.f;
+	int			iValue = 0;
 
 	vector		vLightDir = -g_vLightDir;
 
 	for (int i = 0; i < fNumSamples; ++i)
 	{
-		vector		vRayPos = vWorldPos + (i * normalize(g_vCamPosition - vWorldPos) * 0.35f);
+		vector		vRayPos = vWorldPos + (i * normalize(g_vCamPosition - vWorldPos) * 0.3f);
 		vector		vWorldPos_InLight = mul(vRayPos, g_matLightView);
 
 		vector		vUVPos = mul(vWorldPos_InLight, g_matLightProj);
@@ -683,13 +685,13 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 		vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(DepthSampler, vNewUV);
 
 		if (vWorldPos_InLight.z > vShadowDepthInfo.x * g_fFar)
-			iValue -= 10;
+			iValue += 6;
 
 	}
 
 	float		fLightPower = 0.3f;
 
-	iValue = max(0, iValue);
+	iValue = min(fNumSamples, iValue);
 
 	Out.vColor.rgb = fLightPower * (iValue / fNumSamples);
 	Out.vColor.a = 1.f;

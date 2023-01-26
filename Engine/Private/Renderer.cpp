@@ -767,6 +767,9 @@ HRESULT CRenderer::Ready_GlowTexture()
 
 
 
+	_float fAddValue = 1.f;
+	if (FAILED(m_pShader->Set_RawValue("g_fAddValue", &fAddValue, sizeof(_float))))
+		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_GlowAll"))))
 		return E_FAIL;
 	m_pShader->Begin(13);
@@ -872,6 +875,9 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_LightShaft"), m_pShader, "g_AddTexture")))
 		return E_FAIL;
+	_float fAddValue = -1.f;
+	if (FAILED(m_pShader->Set_RawValue("g_fAddValue", &fAddValue, sizeof(_float))))
+		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
@@ -943,6 +949,10 @@ HRESULT CRenderer::Render_Glow(const _tchar * pTexName, const _tchar * pMRTName)
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_GlowXY"), m_pShader, "g_AddTexture")))
 		return E_FAIL;
+	_float fAddValue = 1.f;
+	if (FAILED(m_pShader->Set_RawValue("g_fAddValue", &fAddValue, sizeof(_float))))
+		return E_FAIL;
+
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
 	m_pShader->Begin(13);
