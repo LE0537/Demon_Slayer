@@ -270,10 +270,10 @@ void CAtk_4_State::Enter(CKyoujuro * pKyoujuro)
 
 
 
-	pKyoujuro->Get_Model()->Set_FrameNum(CKyoujuro::ANIMID::ANIM_ATTACK_4, 20);
-	pKyoujuro->Get_Model()->Set_FrameTime(CKyoujuro::ANIMID::ANIM_ATTACK_4, 14, 17, 0.3f);
-	
-	pKyoujuro->Get_Model()->Set_UsingFrame(CKyoujuro::ANIMID::ANIM_ATTACK_4, 10, 20);
+	//pKyoujuro->Get_Model()->Set_FrameNum(CKyoujuro::ANIMID::ANIM_ATTACK_4, 20);
+	//pKyoujuro->Get_Model()->Set_FrameTime(CKyoujuro::ANIMID::ANIM_ATTACK_4, 14, 17, 0.3f);
+	//
+	//pKyoujuro->Get_Model()->Set_UsingFrame(CKyoujuro::ANIMID::ANIM_ATTACK_4, 10, 20);
 }
 
 void CAtk_4_State::Exit(CKyoujuro * pKyoujuro)
