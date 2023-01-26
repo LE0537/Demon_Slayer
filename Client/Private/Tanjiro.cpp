@@ -90,6 +90,13 @@ void CTanjiro::Tick(_float fTimeDelta)
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
 	m_pSphereCom->Update(matColl);
+
+
+	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP)
+		m_tInfo.bJump = true;
+	else
+		m_tInfo.bJump = false;
+
 }
 
 void CTanjiro::Late_Tick(_float fTimeDelta)

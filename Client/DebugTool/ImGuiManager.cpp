@@ -444,10 +444,17 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 	{
 		if (!m_vecAnimIndex.empty())
 		{
-			_uint iIndexSize = m_vecAnimIndex.size();
+			size_t iIndexSize = m_vecAnimIndex.size();
 
 			if (_iIndex == 0)
 			{
+				if (iIndexSize < 3)
+				{
+					m_vecAnimIndex.push_back(-1);
+					m_vecAnimIndex.push_back(-1);
+					m_vecAnimIndex.push_back(-1);
+				}
+
 				if (m_vecObjList[0]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
 				{
 					((CTanjiro*)(m_vecObjList[_iIndex]))->
@@ -471,6 +478,14 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			}
 			else if (_iIndex == 1)
 			{
+
+				if (iIndexSize < 3)
+				{
+					m_vecAnimIndex.push_back(-1);
+					m_vecAnimIndex.push_back(-1);
+					m_vecAnimIndex.push_back(-1);
+				}
+
 				if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
 				{
 					((CKyoujuro*)(m_vecObjList[_iIndex]))->
@@ -496,6 +511,8 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 	}
 
 	
+	//ImGui::SliderFloat("slider Animation", &m_fDuration, 0.f, m_vecAnimation[]->);
+
 
 }
 
