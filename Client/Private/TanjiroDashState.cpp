@@ -505,9 +505,9 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
 			else
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
 		}
 		else if (iIndex == 2)
 		{
@@ -521,9 +521,9 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
 			else
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
 		}
 		else if (iIndex == 2)
 		{

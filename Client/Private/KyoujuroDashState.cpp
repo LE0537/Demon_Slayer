@@ -507,9 +507,9 @@ void CDashState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
 			else
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f);
 		}
 		else if (iIndex == 2)
 		{
@@ -523,9 +523,9 @@ void CDashState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
 			else
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f);
 		}
 		else if (iIndex == 2)
 		{

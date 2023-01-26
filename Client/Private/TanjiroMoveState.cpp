@@ -51,6 +51,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 				{
 					_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					_float fPositionY = XMVectorGetY(vPosition);
+
 					return new CMoveJumpState(OBJDIR::DIR_LF, CTanjiroState::TYPE_START, fPositionY, 0.f);
 				}
 				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_LOOP);
