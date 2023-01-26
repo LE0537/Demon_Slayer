@@ -202,7 +202,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 	vTargetPos.m128_f32[1] += 3.f;
 	
 	_vector vAtPos = XMVectorLerp(vPlayerPos, vTargetPos, 0.5f);
-
+	vAtPos.m128_f32[1] = 3.f;
 	m_pTransform->LookAt(vAtPos);
 
 	_float fPlayerDist = XMVectorGetX(XMVector3Length(vPlayerLook));
