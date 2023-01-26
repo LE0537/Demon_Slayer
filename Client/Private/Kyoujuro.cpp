@@ -92,6 +92,12 @@ void CKyoujuro::Tick(_float fTimeDelta)
 	
 	m_pSphereCom->Update(matColl);
 
+
+	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_JUMP)
+		m_tInfo.bJump = true;
+	else
+		m_tInfo.bJump = false;
+
 }
 
 void CKyoujuro::Late_Tick(_float fTimeDelta)
