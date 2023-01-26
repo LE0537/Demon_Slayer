@@ -20,7 +20,7 @@ CRuiState * CToolState::HandleInput(CRui* pRui)
 {
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
+	Set_OriginalFrame(pRui);
 
 	return nullptr;
 }
@@ -47,14 +47,23 @@ CRuiState * CToolState::Tick(CRui* pRui, _float fTimeDelta)
 			{
 			case Client::CRuiState::TYPE_START:
 				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-				return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_LOOP, true);
+				if (m_iAnimIndex == -1)
+					return new CIdleState();
+				else
+					return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_LOOP, true);
 				break;
 			case Client::CRuiState::TYPE_LOOP:
 				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-				return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_END, true);
+				if (m_iAnimIndex_Second == -1)
+					return new CIdleState();
+				else
+					return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_END, true);
 				break;
 			case Client::CRuiState::TYPE_END:
-				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+				if (m_iAnimIndex_Third == -1)
+					return new CIdleState();
+				else
+					pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 				return new CIdleState();
 				break;
 			}
@@ -76,6 +85,14 @@ CRuiState * CToolState::Late_Tick(CRui* pRui, _float fTimeDelta)
 void CToolState::Enter(CRui * pRui)
 {
 	m_eStateId = STATE_END;
+
+
+	if (m_iAnimIndex == -1)
+		m_iAnimIndex = CRui::ANIM_IDLE;
+	else if (m_iAnimIndex_Second == -1)
+		m_iAnimIndex_Second = CRui::ANIM_IDLE;
+	else if (m_iAnimIndex_Third == -1)
+		m_iAnimIndex_Third = CRui::ANIM_IDLE;
 
 	switch (m_eStateType)
 	{

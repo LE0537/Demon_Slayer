@@ -58,6 +58,15 @@ private:
 	vector<CCharacters*> m_vecObjList;
 	vector<CAnimation*> m_vecAnimation;
 	vector<_uint> m_vecAnimIndex;
+
+	_uint m_iFrame = 100;
+	_uint m_iStartFrame = 0;
+	_uint m_iEndFrame = m_iFrame;
+	_float m_fFrameTime = 1.f;
+	_uint m_iUsingStartFrame = 0;
+	_uint m_iUsingEndFrame = m_iFrame;
+	_float m_fDuration = 0.f;
+
 public:
 	virtual void Free() override;
 };

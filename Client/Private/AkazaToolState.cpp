@@ -21,7 +21,7 @@ CAkazaState * CToolState::HandleInput(CAkaza* pAkaza)
 {
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
+	Set_OriginalFrame(pAkaza);
 
 	return nullptr;
 }
@@ -48,15 +48,24 @@ CAkazaState * CToolState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 			{
 			case Client::CAkazaState::TYPE_START:
 				pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-				return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_LOOP, true);
+				if (m_iAnimIndex == -1)
+					return new CIdleState();
+				else
+					return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_LOOP, true);
 				break;
 			case Client::CAkazaState::TYPE_LOOP:
 				pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-				return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_END, true);
+				if (m_iAnimIndex_Second == -1)
+					return new CIdleState();
+				else
+					return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_END, true);
 				break;
 			case Client::CAkazaState::TYPE_END:
 				pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-				return new CIdleState();
+				if (m_iAnimIndex_Third == -1)
+					return new CIdleState();
+				else
+					return new CIdleState();
 				break;
 			}
 		}
@@ -77,6 +86,15 @@ CAkazaState * CToolState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 void CToolState::Enter(CAkaza* pAkaza)
 {
 	m_eStateId = STATE_END;
+
+
+
+	if (m_iAnimIndex == -1)
+		m_iAnimIndex = CAkaza::ANIM_IDLE;
+	else if (m_iAnimIndex_Second == -1)
+		m_iAnimIndex_Second = CAkaza::ANIM_IDLE;
+	else if (m_iAnimIndex_Third == -1)
+		m_iAnimIndex_Third = CAkaza::ANIM_IDLE;
 
 	switch (m_eStateType)
 	{

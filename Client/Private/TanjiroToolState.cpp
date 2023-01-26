@@ -20,7 +20,7 @@ CTanjiroState * CToolState::HandleInput(CTanjiro * pTanjiro)
 {
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
+	Set_OriginalFrame(pTanjiro);
 
 	return nullptr;
 }
@@ -47,14 +47,23 @@ CTanjiroState * CToolState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			{
 			case Client::CTanjiroState::TYPE_START:
 				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-				return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_LOOP, true);
+				if (m_iAnimIndex == -1)
+					return new CIdleState();
+				else
+					return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_LOOP, true);
 				break;
 			case Client::CTanjiroState::TYPE_LOOP:
 				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-				return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_END, true);
+				if (m_iAnimIndex_Second == -1)
+					return new CIdleState();
+				else
+					return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_END, true);
 				break;
 			case Client::CTanjiroState::TYPE_END:
-				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+				if (m_iAnimIndex_Third == -1)
+					return new CIdleState();
+				else
+					pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 				return new CIdleState();
 				break;
 			}
@@ -76,6 +85,13 @@ CTanjiroState * CToolState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 void CToolState::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_END;
+
+	if (m_iAnimIndex == -1)
+		m_iAnimIndex = CTanjiro::ANIM_IDLE;
+	else if (m_iAnimIndex_Second == -1)
+		m_iAnimIndex_Second = CTanjiro::ANIM_IDLE;
+	else if (m_iAnimIndex_Third == -1)
+		m_iAnimIndex_Third = CTanjiro::ANIM_IDLE;
 
 	switch (m_eStateType)
 	{
@@ -101,5 +117,12 @@ void CToolState::Enter(CTanjiro * pTanjiro)
 void CToolState::Exit(CTanjiro * pTanjiro)
 {
 
+}
+
+void CToolState::Set_OriginalFrame(CTanjiro * pTanjiro)
+{
+	pTanjiro->Get_Model()->Set_FrameNum(pTanjiro->Get_AnimIndex(), m_tStateFrame.m_iFrame);
+	pTanjiro->Get_Model()->Set_FrameTime(pTanjiro->Get_AnimIndex(), m_tStateFrame.m_iStartFrame, m_tStateFrame.m_iEndFrame, m_tStateFrame.m_fFrameTime);
+	pTanjiro->Get_Model()->Set_UsingFrame(pTanjiro->Get_AnimIndex(), m_tStateFrame.m_iUsingStartFrame, m_tStateFrame.m_iUsingEndFrame);
 }
 

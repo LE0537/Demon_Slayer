@@ -21,7 +21,7 @@ CKyoujuroState * CToolState::HandleInput(CKyoujuro * pKyoujuro)
 {
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
+	Set_OriginalFrame(pKyoujuro);
 
 	return nullptr;
 }
@@ -48,15 +48,24 @@ CKyoujuroState * CToolState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 			{
 			case Client::CKyoujuroState::TYPE_START:
 				pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-				return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_LOOP, true);
+				if (m_iAnimIndex == -1)
+					return new CIdleState();
+				else
+					return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_LOOP, true);
 				break;
 			case Client::CKyoujuroState::TYPE_LOOP:
 				pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-				return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_END, true);
+				if (m_iAnimIndex_Second == -1)
+					return new CIdleState();
+				else
+					return new CToolState(m_iAnimIndex, m_iAnimIndex_Second, m_iAnimIndex_Third, TYPE_END, true);
 				break;
 			case Client::CKyoujuroState::TYPE_END:
 				pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-				return new CIdleState();
+				if (m_iAnimIndex_Third == -1)
+					return new CIdleState();
+				else
+					return new CIdleState();
 				break;
 			}
 		}
@@ -77,6 +86,14 @@ CKyoujuroState * CToolState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 void CToolState::Enter(CKyoujuro * pKyoujuro)
 {
 	m_eStateId = STATE_END;
+
+
+	if (m_iAnimIndex == -1)
+		m_iAnimIndex = CKyoujuro::ANIM_IDLE;
+	else if (m_iAnimIndex_Second == -1)
+		m_iAnimIndex_Second = CKyoujuro::ANIM_IDLE;
+	else if (m_iAnimIndex_Third == -1)
+		m_iAnimIndex_Third = CKyoujuro::ANIM_IDLE;
 
 	switch (m_eStateType)
 	{
