@@ -36,7 +36,6 @@ private:
 	void	Set_CamPos();
 	void	Move_CamPos(_float fTimeDelta);
 	void	Lerp_SubCam(_float fTimeDelta);
-	void	Lerp_LookAt(_float fTimeDelta,_int _iIndex);
 	void	ConvertToViewPort(_float fTimeDelta);
 	void	Set_BattleTarget();
 public:
@@ -46,16 +45,15 @@ private:
 	CCharacters*				m_pPlayer = nullptr;
 	CCharacters*				m_pTarget = nullptr;
 
-	_bool					m_bFirstAt = false;
 	_float4					m_vPlayerPos, m_vTargetPos;
 	_float4					m_vPoint;
-	_float					m_f1pX = 0.f;
-	_float					m_f2pX = 0.f;
+	_float					m_f1pX, m_f1pY = 0.f;
+	_float					m_f2pX, m_f2pY = 0.f;
 	_float					m_fAngle = 0.f;
-	_float4					m_v1pCamAt, m_v2pCamAt;
-	_float4					m_vPrevCamAt;
 	_bool					m_bBattle = false;
-	
+	_float					m_fCamDist = 0.f;
+	_float					m_fLookY = 0.f;
+	_bool					m_b1P = false;
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 
