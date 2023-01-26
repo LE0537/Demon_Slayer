@@ -1,17 +1,16 @@
 #include "stdafx.h"
-#include "KyoujuroAtk_4_State.h"
-#include "KyoujuroIdleState.h"
+#include "RuiAtk_3_State.h"
+#include "RuiIdleState.h"
 #include "GameInstance.h"
-#include "KyoujuroWeapon.h"
+#include "RuiAtk_4_State.h"
 #include "Layer.h"
-#include "Tanjiro.h"
 #include "Effect_Manager.h"
-#include "KyoujuroDashState.h"
+#include "RuiDashState.h"
 
-using namespace Kyoujuro;
+using namespace Rui;
 
 
-CAtk_4_State::CAtk_4_State()
+CAtk_3_State::CAtk_3_State()
 {
 	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
@@ -21,14 +20,27 @@ CAtk_4_State::CAtk_4_State()
 	RELEASE_INSTANCE(CGameInstance);
 }
 
-CKyoujuroState * CAtk_4_State::HandleInput(CKyoujuro * pKyoujuro)
+CRuiState * CAtk_3_State::HandleInput(CRui* pRui)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
+	switch (pRui->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Down(DIK_J) && m_fComboDelay <= 43.f)
+			m_bAtkCombo = true;
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_Z) && m_fComboDelay <= 43.f)
+			m_bAtkCombo = true;
+		break;
+	default:
+		break;
+	}
 
 	if (m_fComboDelay <= 35.f)
 	{
-		switch (pKyoujuro->Get_i1P())
+		switch (pRui->Get_i1P())
 		{
 		case 1:
 			if (pGameInstance->Key_Pressing(DIK_W)) // 앞
@@ -150,80 +162,62 @@ CKyoujuroState * CAtk_4_State::HandleInput(CKyoujuro * pKyoujuro)
 			break;
 		}
 	}
+
+
 	return nullptr;
 }
 
-CKyoujuroState * CAtk_4_State::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
+CRuiState * CAtk_3_State::Tick(CRui* pRui, _float fTimeDelta)
 {
 
-	pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_ATTACK_4);
-	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_ATTACK_4, 0.01f);
+	pRui->Get_Model()->Set_Loop(CRui::ANIM_ATTACK_3);
+	pRui->Get_Model()->Set_LinearTime(CRui::ANIM_ATTACK_3, 0.01f);
+
+	m_fTime += fTimeDelta * 60;
+	m_fComboDelay += fTimeDelta * 60;
+	//printf_s("AttackTime : %f \n", (_float)m_fTime);
 
 
-	if (pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_ATTACK_4))
+	if (m_bAtkCombo == true && m_fTime >= 40.f)
+		return new CAtk_4_State();
+
+
+
+	if (pRui->Get_Model()->Get_End(CRui::ANIM_ATTACK_3))
 	{
-		pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_ATTACK_4);
+		pRui->Get_Model()->Set_End(CRui::ANIM_ATTACK_3);
 		return new CIdleState();
 	}
 
-	m_fComboDelay += fTimeDelta * 60.f;
 
 	return nullptr;
 }
 
-CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
+CRuiState * CAtk_3_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	CCharacters* m_pTarget = pKyoujuro->Get_BattleTarget();
+	CCharacters* m_pTarget = pRui->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
-	pKyoujuro->Get_Transform()->LookAt(vLooAt);
+	pRui->Get_Transform()->LookAt(vLooAt);
 
 	m_fMove += fTimeDelta;
 
 	if (m_fMove < 0.3f)
 	{
-		pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.5f);
-		CCollider*	pMyCollider = pKyoujuro->Get_SphereCollider();
+		pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+
+		_vector vCollPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-
-		if (nullptr == pTargetCollider)
-			return nullptr;
-
-		if (pMyCollider->Collision(pTargetCollider))
+		CCollider*	pMyCollider2 = pRui->Get_SphereCollider();
+		if (m_fMove > 0.1f && m_iHit == 0)
 		{
-			_float fSpeed = pKyoujuro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
-
-			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
-			_vector vMyLook = vTargetLook * -1.f;
-
-			_vector vPow = XMVector3Dot(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
-
-			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
-
-			vPos += vMyLook * (fSpeed - fSpeed * fPow);
-			vTargetPos += vTargetLook * fSpeed * fPow;
-			vPos.m128_f32[1] = 0.f;
-			pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
-		}
-	}
-	else if (m_fMove < 0.45f && m_fMove >= 0.3f)
-	{
-		if (!m_bHit)
-		{
-			_vector vCollPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
-			_vector vCollLook = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-			vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
-			vCollPos.m128_f32[1] = 1.f; //추가
-			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
-			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-
 			if (nullptr == pTargetCollider)
 				return nullptr;
 
@@ -231,17 +225,18 @@ CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 			{
 				_float4 vTagetPos;
 				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-				_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				vPos.m128_f32[1] = 0.f;
 				m_pTarget->Get_Transform()->LookAt(vPos);
+		
 				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{
-					m_pTarget->Get_GuardHit(1);
+					m_pTarget->Get_GuardHit(0);
 				}
 				else
 				{
-					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg * 2);
-					m_pTarget->Take_Damage(0.5f);
+					m_pTarget->Set_Hp(-pRui->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.3f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -250,27 +245,51 @@ CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 
 				RELEASE_INSTANCE(CEffect_Manager);
 
-				m_bHit = true;
+				++m_iHit;
 			}
+
+		}
+
+
+		if (pMyCollider2->Collision(pTargetCollider))
+		{
+			_float fSpeed = pRui->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			vPos.m128_f32[1] = 0.f;
+			pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
 		}
 	}
+
 	RELEASE_INSTANCE(CGameInstance);
 
-	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
+	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 
 	return nullptr;
 }
 
-void CAtk_4_State::Enter(CKyoujuro * pKyoujuro)
+void CAtk_3_State::Enter(CRui* pRui)
 {
-	m_eStateId = STATE_ID::STATE_ATK_4;
+	m_eStateId = STATE_ID::STATE_ATK_3;
 
-	pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_ATTACK_4);
-	pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_ATTACK_4);
+	pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_ATTACK_3);
+	pRui->Set_AnimIndex(CRui::ANIM_ATTACK_3);
 
 }
 
-void CAtk_4_State::Exit(CKyoujuro * pKyoujuro)
+void CAtk_3_State::Exit(CRui* pRui)
 {
 	m_pCollBox->Set_Dead(); //추가
 }

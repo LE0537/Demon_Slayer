@@ -157,8 +157,6 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 void CImGuiManager::AnimationDebug(_float fTimeDelta)
 {
 	LiveCharacterList();
-	
-
 
 }
 
@@ -510,7 +508,24 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 	}
 
 	
-	//ImGui::SliderFloat("slider Animation", &m_fDuration, 0.f, m_vecAnimation[]->);
+	Character_Compare_Duration(_iIndex);
+	Character_Compare_Frame(_iIndex);
+
+	if (ImGui::SliderFloat("Duration : ", &m_fCurrentDuration, 0.f, m_fDuration))
+	{
+		Character_Set_Duration(_iIndex);
+	}
+
+	ImGui::SameLine();
+	ImGui::Text("%f", m_fDuration);
+
+	if (ImGui::SliderInt("Frame : ", &m_iCurrentFrame, 0.f, m_iFrame))
+	{
+		Character_Set_Frame(_iIndex);
+	}
+	ImGui::SameLine();
+	ImGui::Text("%d", m_iFrame);
+	
 
 
 }
@@ -530,6 +545,340 @@ void CImGuiManager::Clear_AnimationList()
 		Safe_Release(iter);
 
 	m_vecAnimation.clear();
+}
+
+void CImGuiManager::Character_Compare_Duration(_uint _iIndex)
+{
+	if (_iIndex == 0)
+	{
+		if (m_vecObjList[0]->Get_PlayerInfo().strName == L"탄지로")
+		{
+			_uint iAnimIndex = ((CTanjiro*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			m_fCurrentDuration = ((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Get_CurrentTime();
+			m_fDuration = ((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Get_Duration();
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"쿄주로")
+		{
+			_uint iAnimIndex = ((CKyoujuro*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			m_fCurrentDuration = ((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Get_CurrentTime();
+			m_fDuration = ((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Get_Duration();
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"루이")
+		{
+			_uint iAnimIndex = ((CRui*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			m_fCurrentDuration = ((CRui*)(m_vecObjList[0]))->Get_Model()->Get_CurrentTime();
+			m_fDuration = ((CRui*)(m_vecObjList[0]))->Get_Model()->Get_Duration();
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"아카자")
+		{
+			_uint iAnimIndex = ((CAkaza*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			m_fCurrentDuration = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_CurrentTime();
+			m_fDuration = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_Duration();
+		}
+
+
+	}
+	else if (_iIndex == 1)
+	{
+		if (m_vecObjList[1]->Get_PlayerInfo().strName == L"쿄주로")
+		{
+			_uint iAnimIndex = ((CKyoujuro*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_fCurrentDuration = ((CKyoujuro*)(m_vecObjList[1]))->Get_Model()->Get_CurrentTime();
+			m_fDuration = ((CKyoujuro*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"탄지로")
+		{
+			_uint iAnimIndex = ((CTanjiro*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_fCurrentDuration = ((CTanjiro*)(m_vecObjList[1]))->Get_Model()->Get_CurrentTime();
+			m_fDuration = ((CTanjiro*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"루이")
+		{
+			_uint iAnimIndex = ((CRui*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_fCurrentDuration = ((CRui*)(m_vecObjList[1]))->Get_Model()->Get_CurrentTime();
+			m_fDuration = ((CRui*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
+		{
+			_uint iAnimIndex = ((CAkaza*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_fCurrentDuration = ((CAkaza*)(m_vecObjList[1]))->Get_Model()->Get_CurrentTime();
+			m_fDuration = ((CAkaza*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
+		}
+	}
+}
+
+void CImGuiManager::Character_Set_Duration(_uint _iIndex)
+{
+	if (_iIndex == 0)
+	{
+		if (m_vecObjList[0]->Get_PlayerInfo().strName == L"탄지로")
+		{
+			_uint iAnimIndex = ((CTanjiro*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
+		
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"쿄주로")
+		{
+			_uint iAnimIndex = ((CKyoujuro*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"루이")
+		{
+			_uint iAnimIndex = ((CRui*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			((CRui*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CRui*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"아카자")
+		{
+			_uint iAnimIndex = ((CAkaza*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			((CAkaza*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CAkaza*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
+		}
+
+
+	}
+	else if (_iIndex == 1)
+	{
+		if (m_vecObjList[1]->Get_PlayerInfo().strName == L"쿄주로")
+		{
+			_uint iAnimIndex = ((CKyoujuro*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			((CKyoujuro*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CKyoujuro*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"탄지로")
+		{
+			_uint iAnimIndex = ((CTanjiro*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			((CTanjiro*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CTanjiro*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"루이")
+		{
+			_uint iAnimIndex = ((CRui*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			((CRui*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CRui*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
+		{
+			_uint iAnimIndex = ((CAkaza*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			((CAkaza*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CAkaza*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
+		}
+	}
+
+
+}
+
+void CImGuiManager::Character_Compare_Frame(_uint _iIndex)
+{
+	if (_iIndex == 0)
+	{
+		if (m_vecObjList[0]->Get_PlayerInfo().strName == L"탄지로")
+		{
+			_uint iAnimIndex = ((CTanjiro*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			m_iCurrentFrame = ((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Get_CurrentFrame();
+			m_iFrame = ((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Get_AllFrame();
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"쿄주로")
+		{
+			_uint iAnimIndex = ((CKyoujuro*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			m_iCurrentFrame = ((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Get_CurrentFrame();
+			m_iFrame = ((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Get_AllFrame();
+			
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"루이")
+		{
+			_uint iAnimIndex = ((CRui*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			m_iCurrentFrame = ((CRui*)(m_vecObjList[0]))->Get_Model()->Get_CurrentFrame();
+			m_iFrame = ((CRui*)(m_vecObjList[0]))->Get_Model()->Get_AllFrame();
+	
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"아카자")
+		{
+			_uint iAnimIndex = ((CAkaza*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			m_iCurrentFrame = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_CurrentFrame();
+			m_iFrame = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_AllFrame();
+		
+		}
+
+
+	}
+	else if (_iIndex == 1)
+	{
+		if (m_vecObjList[1]->Get_PlayerInfo().strName == L"쿄주로")
+		{
+			_uint iAnimIndex = ((CKyoujuro*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_iCurrentFrame = ((CKyoujuro*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
+			m_iFrame = ((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Get_AllFrame();
+		
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"탄지로")
+		{
+			_uint iAnimIndex = ((CTanjiro*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_iCurrentFrame = ((CTanjiro*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
+			m_iFrame = ((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Get_AllFrame();
+			
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"루이")
+		{
+			_uint iAnimIndex = ((CRui*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_iCurrentFrame = ((CRui*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
+			m_iFrame = ((CRui*)(m_vecObjList[0]))->Get_Model()->Get_AllFrame();
+	
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
+		{
+			_uint iAnimIndex = ((CAkaza*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_iCurrentFrame = ((CAkaza*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
+			m_iFrame = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_AllFrame();
+		
+		}
+	}
+
+
+}
+
+void CImGuiManager::Character_Set_Frame(_uint _iIndex)
+{
+
+	if (_iIndex == 0)
+	{
+		if (m_vecObjList[0]->Get_PlayerInfo().strName == L"탄지로")
+		{
+			_uint iAnimIndex = ((CTanjiro*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			int iFrame = ((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Get_CurrentFrame();
+
+			_float fCurDuration = ((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Get_Duration();
+
+			m_fSettingFrameTime = (m_iCurrentFrame + 1) * ((fCurDuration) / m_iFrame);
+
+			((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CTanjiro*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
+
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"쿄주로")
+		{
+			_uint iAnimIndex = ((CKyoujuro*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			int iFrame = ((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Get_CurrentFrame();
+
+			_float fCurDuration = ((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Get_Duration();
+
+			m_fSettingFrameTime = (m_iCurrentFrame + 1) * ((fCurDuration) / m_iFrame);
+
+			((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"루이")
+		{
+			_uint iAnimIndex = ((CRui*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			int iFrame = ((CRui*)(m_vecObjList[0]))->Get_Model()->Get_CurrentFrame();
+
+			_float fCurDuration = ((CRui*)(m_vecObjList[0]))->Get_Model()->Get_Duration();
+
+			m_fSettingFrameTime = (m_iCurrentFrame + 1) * ((fCurDuration) / m_iFrame);
+
+			((CRui*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CRui*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
+		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"아카자")
+		{
+			_uint iAnimIndex = ((CAkaza*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			int iFrame = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_CurrentFrame();
+
+			_float fCurDuration = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_Duration();
+
+			m_fSettingFrameTime = (m_iCurrentFrame + 1) * ((fCurDuration) / m_iFrame);
+
+			((CAkaza*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CAkaza*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
+		}
+
+
+	}
+	else if (_iIndex == 1)
+	{
+		if (m_vecObjList[1]->Get_PlayerInfo().strName == L"쿄주로")
+		{
+			_uint iAnimIndex = ((CKyoujuro*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			int iFrame = ((CKyoujuro*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
+
+			_float fCurDuration = ((CKyoujuro*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
+
+			m_fSettingFrameTime = (m_iCurrentFrame + 1) * ((fCurDuration) / m_iFrame);
+
+			((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CKyoujuro*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"탄지로")
+		{
+			_uint iAnimIndex = ((CTanjiro*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			int iFrame = ((CTanjiro*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
+
+			_float fCurDuration = ((CTanjiro*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
+
+			m_fSettingFrameTime = (m_iCurrentFrame + 1) * ((fCurDuration) / m_iFrame);
+
+			((CTanjiro*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CTanjiro*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"루이")
+		{
+			_uint iAnimIndex = ((CRui*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			int iFrame = ((CRui*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
+
+			_float fCurDuration = ((CRui*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
+
+			m_fSettingFrameTime = (m_iCurrentFrame + 1) * ((fCurDuration) / m_iFrame);
+
+			((CRui*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CRui*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
+		{
+			_uint iAnimIndex = ((CAkaza*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			int iFrame = ((CAkaza*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
+
+			_float fCurDuration = ((CAkaza*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
+
+			m_fSettingFrameTime = (m_iCurrentFrame + 1) * ((fCurDuration) / m_iFrame);
+
+			((CAkaza*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CAkaza*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
+		}
+	}
 }
 
 void CImGuiManager::Free()

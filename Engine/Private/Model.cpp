@@ -66,9 +66,24 @@ _float CModel::Get_Duration()
 	return  m_Animations[m_iCurrentAnimIndex]->Get_Duration();
 }
 
+void CModel::Set_CurrentTime(_float fCurrentTime)
+{
+	 m_Animations[m_iCurrentAnimIndex]->Set_CurrentTime(fCurrentTime);
+}
+
 _float CModel::Get_CurrentTime()
 {
 	return m_Animations[m_iCurrentAnimIndex]->Get_CurrentTime();
+}
+
+_uint CModel::Get_AllFrame()
+{
+	return m_Animations[m_iCurrentAnimIndex]->Get_AllFrame();
+}
+
+_uint CModel::Get_CurrentFrame()
+{
+	return m_Animations[m_iCurrentAnimIndex]->Get_CurrentFrame();
 }
 
 HRESULT CModel::Initialize_Prototype(TYPE eModelType, const char * pModelFilePath, _fmatrix PivotMatrix)

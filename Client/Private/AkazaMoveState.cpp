@@ -5,6 +5,7 @@
 #include "GameInstance.h"
 #include "Characters.h"
 #include "Layer.h"
+#include "AkazaDashState.h"
 
 
 using namespace Akaza;
@@ -27,15 +28,24 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 		{
 			if (pGameInstance->Key_Pressing(DIK_A)) // 谅
 			{
-				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LF);
+				else
+					return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_D)) // 快
 			{
-				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RF);
+				else
+					return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
 			}
 			else
 			{
-				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_STRAIGHT);
+				else
+					return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 			}
 		}
 
@@ -43,26 +53,42 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 		{
 			if (pGameInstance->Key_Pressing(DIK_A)) // 谅
 			{
-				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LB);
+				else
+					return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
 			{
-				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RB);
+				else
+					return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
 			}
 			else
 			{
-				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_BACK);
+				else
+					return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
 			}
+
 		}
 
 
 		else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
 		{
-			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_LEFT);
+			else
+				return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_D)) // 快
 		{
-			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_RIGHT);
+			else
+				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
 			return new CIdleState();
@@ -72,15 +98,24 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 		{
 			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
 			{
-				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LF);
+				else
+					return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
 			{
-				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RF);
+				else
+					return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
 			}
 			else
 			{
-				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_STRAIGHT);
+				else
+					return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 			}
 		}
 
@@ -88,31 +123,45 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 		{
 			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
 			{
-				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LB);
+				else
+					return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
 			{
-				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RB);
+				else
+					return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
 			}
 			else
 			{
-				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_BACK);
+				else
+					return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
 			}
 		}
 
 
 		else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
 		{
-			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CDashState(DIR_LEFT);
+			else
+				return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
 		{
-			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CDashState(DIR_RIGHT);
+			else
+				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
 			return new CIdleState();
-		break;
-	default:
+
 		break;
 	}
 

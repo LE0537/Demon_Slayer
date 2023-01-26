@@ -23,6 +23,8 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Client</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>
+    </ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -181,6 +183,7 @@
     <ClInclude Include="..\DebugTool\imstb_textedit.h" />
     <ClInclude Include="..\DebugTool\imstb_truetype.h" />
     <ClInclude Include="..\Public\Akaza.h" />
+    <ClInclude Include="..\Public\AkazaDashState.h" />
     <ClInclude Include="..\Public\AkazaIdleState.h" />
     <ClInclude Include="..\Public\AkazaMoveState.h" />
     <ClInclude Include="..\Public\AkazaState.h" />
@@ -233,6 +236,11 @@
     <ClInclude Include="..\Public\MenuFixedImg.h" />
     <ClInclude Include="..\Public\MenuFrontCloud.h" />
     <ClInclude Include="..\Public\MenuTitle.h" />
+    <ClInclude Include="..\Public\RuiAtk_1_State.h" />
+    <ClInclude Include="..\Public\RuiAtk_2_State.h" />
+    <ClInclude Include="..\Public\RuiAtk_3_State.h" />
+    <ClInclude Include="..\Public\RuiAtk_4_State.h" />
+    <ClInclude Include="..\Public\RuiDashState.h" />
     <ClInclude Include="..\Public\RuiIdleState.h" />
     <ClInclude Include="..\Public\RuiMoveState.h" />
     <ClInclude Include="..\Public\RuiState.h" />
@@ -329,6 +337,7 @@
     <ClCompile Include="..\DebugTool\imgui_tables.cpp" />
     <ClCompile Include="..\DebugTool\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\Akaza.cpp" />
+    <ClCompile Include="..\Private\AkazaDashState.cpp" />
     <ClCompile Include="..\Private\AkazaIdleState.cpp" />
     <ClCompile Include="..\Private\AkazaMoveState.cpp" />
     <ClCompile Include="..\Private\AkazaToolState.cpp" />
@@ -380,6 +389,11 @@
     <ClCompile Include="..\Private\MenuFixedImg.cpp" />
     <ClCompile Include="..\Private\MenuFrontCloud.cpp" />
     <ClCompile Include="..\Private\MenuTitle.cpp" />
+    <ClCompile Include="..\Private\RuiAtk_1_State.cpp" />
+    <ClCompile Include="..\Private\RuiAtk_2_State.cpp" />
+    <ClCompile Include="..\Private\RuiAtk_3_State.cpp" />
+    <ClCompile Include="..\Private\RuiAtk_4_State.cpp" />
+    <ClCompile Include="..\Private\RuiDashState.cpp" />
     <ClCompile Include="..\Private\RuiIdleState.cpp" />
     <ClCompile Include="..\Private\RuiMoveState.cpp" />
     <ClCompile Include="..\Private\RuiToolState.cpp" />
