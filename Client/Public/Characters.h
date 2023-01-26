@@ -61,7 +61,9 @@ public:
 	_int	   Get_i1P() { return m_i1p; }
 	void	   Set_iTargetIndex(_int _iTargetIndex) { m_iTargetIndex = _iTargetIndex; }
 	_int       Get_iTargetIndex() { return m_iTargetIndex; }
-	
+	void	   Set_SkillBar(_int _iSkill) { m_tInfo.iSkBar += _iSkill; }
+
+
 	virtual	void  Take_Damage(_float _fPow) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
 protected:

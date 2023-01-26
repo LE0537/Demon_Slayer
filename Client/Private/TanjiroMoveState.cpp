@@ -35,7 +35,13 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			if(pGameInstance->Key_Down(DIK_O))
 				return new CSkill_WindMillState();
 			else
-				return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+			{
+				if (20 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				{
+					pTanjiro->Set_SkillBar(-20);
+					return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+				}
+			}
 		}
 			
 
@@ -171,7 +177,13 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			if (pGameInstance->Key_Down(DIK_C))
 				return new CSkill_WindMillState();
 			else
-				return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+			{
+				if (20 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				{
+					pTanjiro->Set_SkillBar(-20);
+					return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+				}
+			}
 		}
 
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
