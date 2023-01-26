@@ -15,13 +15,6 @@ CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
 CTanjiroState * CDashState::HandleInput(CTanjiro * pTanjiro)
 {
 
-	return nullptr;
-}
-
-CTanjiroState * CDashState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
-{
-
-
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 	switch (pTanjiro->Get_i1P())
@@ -31,35 +24,90 @@ CTanjiroState * CDashState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 
-			if (pGameInstance->Key_Pressing(DIK_L))
+			if (pGameInstance->Key_Pressing(DIK_W)) // 菊
 			{
-				if (m_eDir == DIR_LEFT || m_eDir == DIR_RIGHT)
+				if (pGameInstance->Key_Pressing(DIK_A)) // 谅
 				{
-					if (m_bSecondDash == false)
-					{
-						if (CTanjiro::ANIMID::ANIM_DASH_L_01 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_LEFT_DASH, true);
-						else if (CTanjiro::ANIMID::ANIM_DASH_R_01 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_RIGHT_DASH, true);
-					}
-				}
-				else if(m_eDir == DIR_LEFT_DASH || m_eDir == DIR_RIGHT_DASH)
-				{
-					if (m_bSecondDash == true)
-					{
-						if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_LEFT);
-						else if (CTanjiro::ANIMID::ANIM_DASH_R_02 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_RIGHT);
-					}
-				}
 
-			else
-				return new CDashState(m_eDir);
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LF);
+
+					else
+						return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_LOOP);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RF);
+
+					else
+						return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_LOOP);
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_STRAIGHT);
+
+					else
+						return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_LOOP);
+				}
 			}
 
-			else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
-				return new CMoveState(m_eDir, STATE_TYPE::TYPE_LOOP);
+			else if (pGameInstance->Key_Pressing(DIK_S)) // 第
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LB);
+
+					else
+						return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_LOOP);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RB);
+
+					else
+						return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_LOOP);
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_BACK);
+
+					return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_LOOP);
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_L))
+				{
+					if (m_eDir == DIR_LEFT)
+						return new CDashState(DIR_LEFT_DASH);
+					else
+						return new CDashState(DIR_LEFT);
+				}
+
+				else
+					return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_LOOP);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+				{
+					if (m_eDir == DIR_RIGHT)
+						return new CDashState(DIR_RIGHT_DASH);
+					else
+						return new CDashState(DIR_RIGHT);
+				}
+				else
+					return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
+			}
 			else
 				return new CIdleState();
 		}
@@ -69,44 +117,104 @@ CTanjiroState * CDashState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 
-			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+			if (pGameInstance->Key_Pressing(DIK_UP)) // 菊
 			{
-				if (m_eDir == DIR_LEFT || m_eDir == DIR_RIGHT)
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
 				{
-					if (m_bSecondDash == false)
-					{
-						if (CTanjiro::ANIMID::ANIM_DASH_L_01 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_LEFT_DASH, true);
-						else if (CTanjiro::ANIMID::ANIM_DASH_R_01 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_RIGHT_DASH, true);
-					}
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LF);
+
+					else
+						return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_LOOP);
 				}
-				else if (m_eDir == DIR_LEFT_DASH || m_eDir == DIR_RIGHT_DASH)
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
 				{
-					if (m_bSecondDash == true)
-					{
-						if (CTanjiro::ANIMID::ANIM_DASH_L_02 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_LEFT);
-						else if (CTanjiro::ANIMID::ANIM_DASH_R_02 == pTanjiro->Get_AnimIndex())
-							return new CDashState(OBJDIR::DIR_RIGHT);
-					}
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RF);
+
+					else
+						return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_LOOP);
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_STRAIGHT);
+
+					else
+						return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_LOOP);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 第
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LB);
+
+					else
+						return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_LOOP);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RB);
+
+					else
+						return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_LOOP);
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_BACK);
+
+					else
+						return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_LOOP);
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				{
+					if (m_eDir == DIR_LEFT)
+						return new CDashState(DIR_RIGHT_DASH);
+					else
+						return new CDashState(DIR_LEFT);
 				}
 
 				else
-					return new CDashState(m_eDir);
+					return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_LOOP);
 			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				{
+					if (m_eDir == DIR_RIGHT)
+						return new CDashState(DIR_LEFT_DASH);
+					else
+						return new CDashState(DIR_RIGHT);
+				}
 
-			else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_DOWN))
-				return new CMoveState(m_eDir, STATE_TYPE::TYPE_LOOP);
+				else
+					return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
+			}
 			else
 				return new CIdleState();
 		}
 		break;
 	}
 
+	return nullptr;
+}
 
-
-
+CTanjiroState * CDashState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
+{
 
 	return nullptr;
 }
@@ -512,9 +620,9 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
 			else
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
 		}
 		break;
 	case Client::DIR_RIGHT_DASH:
@@ -528,9 +636,9 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
 			else
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
 		}
 		break;
 	case Client::DIR_STOP:
