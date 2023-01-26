@@ -237,6 +237,7 @@
     <ClInclude Include="..\Public\RuiMoveState.h" />
     <ClInclude Include="..\Public\RuiState.h" />
     <ClInclude Include="..\Public\RuiToolState.h" />
+    <ClInclude Include="..\Public\SkyBox.h" />
     <ClInclude Include="..\Public\TanjiroDashState.h" />
     <ClInclude Include="..\Public\TanjiroGuardAdvState.h" />
     <ClInclude Include="..\Public\TanjiroGuardHitState.h" />
@@ -383,6 +384,7 @@
     <ClCompile Include="..\Private\RuiIdleState.cpp" />
     <ClCompile Include="..\Private\RuiMoveState.cpp" />
     <ClCompile Include="..\Private\RuiToolState.cpp" />
+    <ClCompile Include="..\Private\SkyBox.cpp" />
     <ClCompile Include="..\Private\TanjiroDashState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardHitState.cpp" />
@@ -471,6 +473,7 @@
   <ItemGroup>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_UIVtxTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCubeTexture.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModelInstance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />

@@ -58,9 +58,6 @@
     <Filter Include="02.GameObjects\02.Map\02.MeshObj_Instancing_Static">
       <UniqueIdentifier>{08b0d043-af6d-454f-97f3-a99aa70574c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\02.Map\99.Terrain">
-      <UniqueIdentifier>{7a4aff2a-9f9c-48f3-b326-ed6a6b776aea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\00.Logo">
       <UniqueIdentifier>{2f8e4730-5ebe-4023-af42-d66e6ab5488b}</UniqueIdentifier>
     </Filter>
@@ -438,6 +435,9 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Move">
       <UniqueIdentifier>{6d67c9ee-c63b-472e-9c89-2a755cccb518}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\03.SkyBox">
+      <UniqueIdentifier>{4efa3a96-a710-452c-8d57-17ca0ec3a834}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -881,6 +881,9 @@
     <ClInclude Include="..\Public\AkazaMoveState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Move</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\SkyBox.h">
+      <Filter>02.GameObjects\03.SkyBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1297,6 +1300,9 @@
     <ClCompile Include="..\Private\AkazaMoveState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Move</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\SkyBox.cpp">
+      <Filter>02.GameObjects\03.SkyBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1337,6 +1343,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_UIVtxTex.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCubeTexture.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

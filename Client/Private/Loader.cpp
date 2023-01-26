@@ -7,6 +7,7 @@
 #include "Camera_Dynamic.h"
 #include "BackGround.h"
 #include "Terrain.h"
+#include "SkyBox.h"
 
 //Map
 #include "BattleField.h"
@@ -449,6 +450,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region Map
 	{
+	//	Skybox
+		/*For.Prototype_Component_Texture_SkyBox */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkyBox"), CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/SkyBox/SkyBox_11.dds", 1)))) return E_FAIL;
+		/*For.Prototype_GameObject_NewTerrain */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyBox"), CSkyBox::Create(m_pDevice, m_pContext)))) return E_FAIL;
+
+
+		//	Terrain
 		/*For.Prototype_Component_Texture_TerrainDiffuse */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TerrainDiffuse"),
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Map/Textures/Diffuse_%d.png", 12))))

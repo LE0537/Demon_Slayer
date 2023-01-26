@@ -62,7 +62,8 @@ void CImGuiManager::Tick(_float fTimeDelta)
 			m_bImguiEnable = !m_bImguiEnable;
 
 
-	if (m_bImguiEnable)
+	if (m_bImguiEnable && 
+		true == g_bDebug)
 	{
 		ShowGui(fTimeDelta);
 	}

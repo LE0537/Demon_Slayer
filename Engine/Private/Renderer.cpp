@@ -22,12 +22,12 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
-	m_fValue[VALUE_AO] = 1.f;
-	m_fValue[VALUE_AORADIUS] = 1.f;
+	m_fValue[VALUE_AO] = 1.36f;
+	m_fValue[VALUE_AORADIUS] = 0.4f;
 	m_fValue[VALUE_GLOWBLURCOUNT] = 1.f;
 	m_fValue[VALUE_DISTORTION] = 20.f;
 	m_fValue[VALUE_OUTLINE] = 5.f;
-	m_fValue[VALUE_INNERLINE] = 0.7f;
+	m_fValue[VALUE_INNERLINE] = 0.07f;
 
 	D3D11_VIEWPORT		ViewportDesc;
 	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
@@ -439,7 +439,7 @@ HRESULT CRenderer::Set_Viewport(_float fWinCX, _float fWinCY)
 }
 HRESULT CRenderer::Render_Priority()
 {
-	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Master"))))
 		return E_FAIL;
 
 	for (auto& pGameObject : m_GameObjects[RENDER_PRIORITY])
@@ -644,7 +644,7 @@ HRESULT CRenderer::Render_Blend()
 		RELEASE_INSTANCE(CPipeLine);
 	}
 
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Master"))))
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
 		return E_FAIL;
 
 	m_pShader->Begin(3);

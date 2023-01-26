@@ -46,8 +46,8 @@ HRESULT CLevel_GamePlay::Initialize()
 //	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 //		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
-	//	return E_FAIL;	
+	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
+		return E_FAIL;	
 
 
 	if (FAILED(Load_StaticObjects("11Test")))
@@ -198,15 +198,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_BackGround(const _tchar * pLayerTag)
 	CGameInstance*			pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
 
-
-
-//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BattleField"), LEVEL_GAMEPLAY, pLayerTag)))
-//		return E_FAIL;
-
-
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkyBox"), LEVEL_GAMEPLAY, pLayerTag)))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
-
 
 
 	return S_OK;

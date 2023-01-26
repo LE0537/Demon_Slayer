@@ -148,6 +148,9 @@
     <ClCompile Include="..\Private\VIBuffer_NewTerrain.cpp">
       <Filter>01.Utility\03.Components\02.VIBuffer\02.Terrain\NewTerrain</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
+      <Filter>01.Utility\03.Components\02.VIBuffer\07.Cube</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -309,6 +312,9 @@
     <ClInclude Include="..\Public\VIBuffer_NewTerrain.h">
       <Filter>01.Utility\03.Components\02.VIBuffer\02.Terrain\NewTerrain</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Cube.h">
+      <Filter>01.Utility\03.Components\02.VIBuffer\07.Cube</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00.System">
@@ -466,6 +472,9 @@
     </Filter>
     <Filter Include="01.Utility\03.Components\02.VIBuffer\02.Terrain\NewTerrain">
       <UniqueIdentifier>{6ad9327b-e127-4507-878e-b0b2a7dba141}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Components\02.VIBuffer\07.Cube">
+      <UniqueIdentifier>{eea80b3d-636e-488f-892d-fd321c76018e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

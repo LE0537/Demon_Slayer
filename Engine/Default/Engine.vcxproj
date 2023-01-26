@@ -209,6 +209,7 @@
     <ClCompile Include="..\Private\Timer_Manager.cpp" />
     <ClCompile Include="..\private\Transform.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_Hexagon.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Instance.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Navigation.cpp" />
@@ -265,6 +266,7 @@
     <ClInclude Include="..\Public\Timer_Manager.h" />
     <ClInclude Include="..\public\Transform.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
+    <ClInclude Include="..\Public\VIBuffer_Cube.h" />
     <ClInclude Include="..\public\VIBuffer_Hexagon.h" />
     <ClInclude Include="..\Public\VIBuffer_Instance.h" />
     <ClInclude Include="..\Public\VIBuffer_Navigation.h" />
