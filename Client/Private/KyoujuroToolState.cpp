@@ -21,7 +21,7 @@ CKyoujuroState * CToolState::HandleInput(CKyoujuro * pKyoujuro)
 {
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	Set_OriginalFrame(pKyoujuro);
+	
 
 	return nullptr;
 }

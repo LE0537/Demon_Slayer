@@ -20,7 +20,7 @@ CRuiState * CToolState::HandleInput(CRui* pRui)
 {
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	Set_OriginalFrame(pRui);
+
 
 	return nullptr;
 }

@@ -20,7 +20,7 @@ CTanjiroState * CToolState::HandleInput(CTanjiro * pTanjiro)
 {
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	Set_OriginalFrame(pTanjiro);
+	
 
 	return nullptr;
 }
@@ -119,10 +119,5 @@ void CToolState::Exit(CTanjiro * pTanjiro)
 
 }
 
-void CToolState::Set_OriginalFrame(CTanjiro * pTanjiro)
-{
-	pTanjiro->Get_Model()->Set_FrameNum(pTanjiro->Get_AnimIndex(), m_tStateFrame.m_iFrame);
-	pTanjiro->Get_Model()->Set_FrameTime(pTanjiro->Get_AnimIndex(), m_tStateFrame.m_iStartFrame, m_tStateFrame.m_iEndFrame, m_tStateFrame.m_fFrameTime);
-	pTanjiro->Get_Model()->Set_UsingFrame(pTanjiro->Get_AnimIndex(), m_tStateFrame.m_iUsingStartFrame, m_tStateFrame.m_iUsingEndFrame);
-}
+
 

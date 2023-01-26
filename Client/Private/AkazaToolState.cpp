@@ -21,7 +21,7 @@ CAkazaState * CToolState::HandleInput(CAkaza* pAkaza)
 {
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	Set_OriginalFrame(pAkaza);
+	
 
 	return nullptr;
 }
