@@ -622,9 +622,9 @@ PS_OUT PS_GRAYSCALE(PS_IN In)
 		return Out;
 
 
-
-	Out.vColor = vColor.r + ((vColor.r - vColor) * fGrayScaleWeight);
-	Out.vColor.a = vColor;
+	
+	Out.vColor.rgb = vColor.rgb + ((vColor.r - vColor) * fGrayScaleWeight);
+	Out.vColor.a = vColor.a;
 
 	return Out;
 }
@@ -673,7 +673,7 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 
 	for (int i = 0; i < fNumSamples; ++i)
 	{
-		vector		vRayPos = g_vCamPosition + (i * normalize(vWorldPos - g_vCamPosition) * 0.35f);
+		vector		vRayPos = vWorldPos + (i * normalize(g_vCamPosition - vWorldPos) * 0.35f);
 		vector		vWorldPos_InLight = mul(vRayPos, g_matLightView);
 
 		vector		vUVPos = mul(vWorldPos_InLight, g_matLightProj);
@@ -683,7 +683,7 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 		vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(DepthSampler, vNewUV);
 
 		if (vWorldPos_InLight.z > vShadowDepthInfo.x * g_fFar)
-			iValue -= 6;
+			iValue -= 10;
 
 	}
 
