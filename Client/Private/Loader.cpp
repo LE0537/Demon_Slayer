@@ -620,6 +620,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		pEffect_Manager->Load_Effect(TEXT("HitEffect1"));
 		pEffect_Manager->Load_Effect(TEXT("Attack1"));
+		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack2_1"));
+		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack2_2"));
+		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack3"));
+		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack4"));
 
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
