@@ -202,20 +202,21 @@ CAkazaState * CAtk_1_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	pAkaza->Get_Transform()->LookAt(vLooAt);
 
 	m_fMove += fTimeDelta;
-
-	if (m_fMove < 0.3f)
-	{
+	if (m_fMove < 0.5f && m_fMove > 0.3f)
 		pAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
 
+	if (m_fMove < 0.5f)
+	{
 		_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 2.f; //추가
 		vCollPos.m128_f32[1] = 1.f; //추가
 		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		m_pCollBox->Get_Transform()->Set_PlayerLookAt(m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 		CCollider*	pMyCollider2 = pAkaza->Get_SphereCollider();
-		if (m_fMove > 0.1f && m_iHit == 0)
+		if (m_fMove > 0.3f && m_iHit == 0)
 		{
 			if (nullptr == pTargetCollider)
 				return nullptr;
