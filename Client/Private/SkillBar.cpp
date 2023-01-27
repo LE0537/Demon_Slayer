@@ -50,6 +50,15 @@ HRESULT CSkillBar::Initialize(void * pArg)
 
 void CSkillBar::Tick(_float fTimeDelta)
 {
+	m_iSkillMaxBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkMaxBar;
+	m_iSkillCurBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
+
+	m_fSkillTime += fTimeDelta;
+
+	if (m_fSkillTime >= 1.f && m_iSkillCurBar < 100)
+		m_iSkillCurBar += 1;
+	
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -116,8 +125,7 @@ HRESULT CSkillBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	m_iSkillMaxBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkMaxBar;
-	m_iSkillCurBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
+
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_iMaxBar", &m_iSkillMaxBar, sizeof(_uint))))
 		return E_FAIL;
