@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "LogoButton.h"
 #include "GameInstance.h"
-#include "UI_Manager.h"
+
 
 CLogoButton::CLogoButton(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -57,7 +57,7 @@ HRESULT CLogoButton::Initialize(void * pArg)
 void CLogoButton::Tick(_float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-	CUI_Manager*		pUI_Manager = GET_INSTANCE(CUI_Manager);
+	
 
 	m_fAlpha += fTimeDelta;
 
@@ -87,16 +87,14 @@ void CLogoButton::Tick(_float fTimeDelta)
 		{
 			if (m_ThrowUIinfo.iLayerNum == 0 && m_iImgNum == 1)
 			{
-				pUI_Manager->Add_Menu();
 				Add_InkEff();
-				m_bMenuOn = false;
+				m_bMenuOn = true;
 			}
 
 		}
 	}
 	
 	RELEASE_INSTANCE(CGameInstance);
-	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CLogoButton::Late_Tick(_float fTimeDelta)

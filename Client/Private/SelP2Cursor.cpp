@@ -69,7 +69,7 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 	else
 		m_iImgNum = 1;
 
-	if (!m_bSelectCheck)
+	if (!m_bSelComplete)
 	{
 		if (pGameInstance->Key_Down(DIK_RIGHT))
 		{
@@ -83,11 +83,36 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 		}
 	}
 	
+	if (m_iSelCount < 2)
+	{
+		if (pGameInstance->Key_Down(DIK_SLASH))
+		{
+			if (m_iSelCount == 0)
+				m_bSelectFirst = true;
+			else if (m_iSelCount == 1)
+				m_bSelectSecond = true;
 
-	if (pGameInstance->Key_Down(DIK_SLASH))
-		m_bSelectCheck = true;
-	else if (pGameInstance->Key_Down(DIK_PERIOD))
-		m_bSelectCheck = false;
+			++m_iSelCount;
+		}
+	}
+	if (m_iSelCount > 0)
+	{
+		if (pGameInstance->Key_Down(DIK_PERIOD))
+		{
+			if (m_iSelCount == 1)
+				m_bSelectFirst = false;
+			else if (m_iSelCount == 2)
+				m_bSelectSecond = false;
+
+			--m_iSelCount;
+		}
+	}
+
+	if (m_iSelCount >= 2)
+		m_bSelComplete = true;
+	else
+		m_bSelComplete = false;
+
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 
@@ -115,7 +140,7 @@ HRESULT CSelP2Cursor::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	if(!m_bSelectCheck)
+	if(!m_bSelComplete)
 		m_pVIBufferCom->Render();
 
 	return S_OK;

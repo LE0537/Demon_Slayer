@@ -20,6 +20,7 @@ public:
 	typedef struct tagThrowUIInfo
 	{
 		_bool			bReversal;
+		_bool			bSelCheck;
 		_uint			iTextureNum;
 		_uint			iLayerNum;
 		_float2			vPos;
@@ -39,7 +40,7 @@ public:
 	_float Get_fX() { return m_fX; }
 	_float Get_fY() { return m_fY; }
 	_uint  Get_ImgNum() { return m_iImgNum; }
-	_bool Get_SelectCheck() { return m_bSelectCheck; }
+	//_bool Get_SelectCheck() { return m_bSelectCheck; }
 	_bool Get_SelectVS() { return m_bSelectVS; }
 
 public:
@@ -53,7 +54,9 @@ public:
 protected:
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
 	_float4x4				m_ViewMatrix, m_ProjMatrix;
-	_bool					m_bSelectCheck = false;
+	_bool					m_bSelectFirst = false;
+	_bool					m_bSelectSecond = false;
+	_bool					m_bSelComplete = false;
 	_bool					m_bSelectVS = false;
 	_uint					m_iImgNum = 0;
 	LOADUIINFO				m_LoadUIinfo;

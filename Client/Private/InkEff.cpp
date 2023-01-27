@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "InkEff.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CInkEff::CInkEff(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -25,36 +26,47 @@ HRESULT CInkEff::Initialize(void * pArg)
 	m_fSizeX = 1280.f;
 	m_fSizeY = 720.f;
 	m_fX = 640.f;
-	m_fY = 320.f;
-
-	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
+	m_fY = 360.f;
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
+	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
+	
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 	return S_OK;
 }
 
 void CInkEff::Tick(_float fTimeDelta)
 {
+	CUI_Manager*		pUI_Manager = GET_INSTANCE(CUI_Manager);
+
 	m_fSpriteTime += fTimeDelta;
 
-	if (m_fSpriteTime >= 0.01f)
+	if (m_fSpriteTime >= 0.05f)
 	{
 		++m_iFrame;
 		m_fSpriteTime = 0.f;
 	}
 
-	if (m_iFrame == 47 && m_iImgNum == 0)
-		m_bDead = true;
+	if (m_iFrame == 47 && m_iImgNum == 0 && !m_bDownCheck)
+	{
+		pUI_Manager->Add_Menu();
+		m_iFrame = 0;
+		m_bDownCheck = true;
+	}
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+	if (m_bDownCheck && m_iFrame == 47)
+		m_bDead = true;
+	
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CInkEff::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
 }
 
 HRESULT CInkEff::Render()
@@ -125,6 +137,9 @@ HRESULT CInkEff::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumTexU", &m_iNumTextureU, sizeof(_uint))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumTexV", &m_iNumTextureV, sizeof(_uint))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_bInkEffDownCheck", &m_bDownCheck, sizeof(_bool))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))

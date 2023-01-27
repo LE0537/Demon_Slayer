@@ -28,6 +28,7 @@ public:
 	void Add_Menu();
 	void Add_Loading();
 	HRESULT Add_Obj(CUI::THROWUIINFO iter);
+	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LogoUI(CUI::THROWUIINFO iter);
 	HRESULT Add_MenuUI(CUI::THROWUIINFO iter);
@@ -99,6 +100,7 @@ private:
 	_uint							m_iCharIconLayerNum = 0;
 	_uint							m_iCharNameLayerNum = 0;
 	_uint							m_iCharFrameLayerNum = 0;
+	_uint							m_iUltBarLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint							m_iLogoButtonNum = 0;
