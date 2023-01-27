@@ -22,7 +22,6 @@ private:
 	CWaterMill*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;
 	_float m_fHitTime = 0.f;
-	
 };
 END
 END

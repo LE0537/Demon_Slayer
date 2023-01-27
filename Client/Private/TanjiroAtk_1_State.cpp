@@ -195,8 +195,17 @@ CTanjiroState * CAtk_1_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	if (!m_bEffect)
+	{
+		_matrix vPlayerWorld = pTanjiro->Get_Transform()->Get_WorldMatrix();
 
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1, vPlayerWorld);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();

@@ -18,7 +18,7 @@ CSkill_WindMillState::CSkill_WindMillState()
 		return;
 
 	RELEASE_INSTANCE(CGameInstance);
-	m_fHitTime = 0.1;
+	m_fHitTime = 0.13;
 }
 
 CTanjiroState * CSkill_WindMillState::HandleInput(CTanjiro * pTanjiro)
@@ -72,11 +72,11 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 			
-			//m_pCollBox->Get_Transform()->LookAt(vLooAt);
+		//	m_pCollBox->Get_Transform()->LookAt(vLooAt);
 			m_pCollBox->Get_Transform()->Set_PlayerLookAt(vLooAt);
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 
-			if (m_fHitTime > 0.08f && iHit < 5)
+			if (m_fHitTime > 0.13f && iHit < 3)
 			{
 				if (nullptr == pTargetCollider)
 					return nullptr;
@@ -94,7 +94,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 					}
 					else
 					{
-						m_pTarget->Set_Hp(-10);
+						m_pTarget->Set_Hp(-30);
 						if (!m_bHit)
 						{
 							m_pTarget->Take_Damage(0.3f,true);
@@ -168,7 +168,7 @@ CTanjiroState* CSkill_WindMillState::Jump(CTanjiro* pTanjiro, _float fTimeDelta)
 	fSpeed = fStartHeight + fVelocity * fTimeDelta - (0.5f * fGravity * fTimeDelta * fTimeDelta);
 	vPosition = XMVectorSetY(vPosition, fSpeed);
 	_float y = XMVectorGetY(vPosition);
-	m_fCurrentPosY = y;
+	//m_fCurrentPosY = y;
 
 	if (y <= fEndHeight)
 	{
