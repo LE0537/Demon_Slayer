@@ -23,6 +23,11 @@ private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
+private:
+	_uint				m_iSkillMaxBar = 0;
+	_uint				m_iSkillCurBar = 0;
+	_float				m_fSkillTime = 0.f;
+	_bool				m_bSKillCheck = false;
 
 public:
 	static CSkillBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
