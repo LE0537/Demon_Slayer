@@ -87,7 +87,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
+				//pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 
@@ -163,7 +163,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
+				//pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 				m_fHitTime = 0.f;
