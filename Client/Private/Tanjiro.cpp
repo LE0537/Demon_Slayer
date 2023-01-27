@@ -204,7 +204,7 @@ HRESULT CTanjiro::Render_ShadowDepth()
 }
 
 
-void CTanjiro::Take_Damage(_float _fPow)
+void CTanjiro::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
 	if(m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_HIT)
 		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_HIT);

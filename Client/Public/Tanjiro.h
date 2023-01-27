@@ -112,7 +112,7 @@ public:
 	void   Set_AnimIndex(ANIMID iAnimIndex) {m_eAnimID = iAnimIndex;}
 
 public:
-	virtual	void  Take_Damage(_float _fPow);
+	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit);
 	virtual	void  Get_GuardHit(_int eType);
 
 public:
@@ -120,6 +120,9 @@ public:
 	_int Get_WaterMillHit() { return m_iWaterMillHit; }
 	void Set_WaterMillHit() { ++m_iWaterMillHit; }
 	void Reset_WaterMillHit() { m_iWaterMillHit = 0; }
+	_int Get_WindMillHit() { return m_iWindMillHit; }
+	void Set_WindMillHit() { ++m_iWindMillHit; }
+	void Reset_WindMillHit() { m_iWindMillHit = 0; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -140,6 +143,7 @@ private:
 	CGameObject*			m_pSheath = nullptr;
 	_float					m_fHpTime = 0.f;
 	_int					m_iWaterMillHit = 0;
+	_int					m_iWindMillHit = 0;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

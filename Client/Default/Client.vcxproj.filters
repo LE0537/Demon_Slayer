@@ -472,6 +472,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack4">
       <UniqueIdentifier>{f5dba6ce-3af0-479b-9f6f-6a33d466c4b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\02.WindMill">
+      <UniqueIdentifier>{0e7a4710-3228-48ba-8356-bddd194d1a52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -941,6 +944,9 @@
     <ClInclude Include="..\Public\AkazaAtk_1_State.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack1</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\WindMill.h">
+      <Filter>05.CollBox\02.WindMill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1383,6 +1389,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\AkazaAtk_1_State.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WindMill.cpp">
+      <Filter>05.CollBox\02.WindMill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
