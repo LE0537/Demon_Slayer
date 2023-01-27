@@ -6,7 +6,7 @@
 #include "Characters.h"
 #include "Layer.h"
 #include "AkazaDashState.h"
-
+#include "AkazaAtk_1_State.h"
 
 using namespace Akaza;
 
@@ -24,6 +24,9 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 	switch (pAkaza->Get_i1P())
 	{
 	case 1:
+		if (pGameInstance->Key_Down(DIK_J))
+			return new CAtk_1_State();
+
 		if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 		{
 			if (pGameInstance->Key_Pressing(DIK_A)) // аб
@@ -94,6 +97,9 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 			return new CIdleState();
 		break;
 	case 2:
+		if (pGameInstance->Key_Down(DIK_Z))
+			return new CAtk_1_State();
+
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 		{
 			if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

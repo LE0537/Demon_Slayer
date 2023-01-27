@@ -1,15 +1,15 @@
 #include "stdafx.h"
-#include "AkazaAtk_1_State.h"
+#include "AkazaAtk_3_State.h"
 #include "AkazaIdleState.h"
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "AkazaDashState.h"
-#include "AkazaAtk_2_State.h"
+#include "AkazaAtk_4_State.h"
 using namespace Akaza;
 
 
-CAtk_1_State::CAtk_1_State()
+CAtk_3_State::CAtk_3_State()
 {
 	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
@@ -19,7 +19,7 @@ CAtk_1_State::CAtk_1_State()
 	RELEASE_INSTANCE(CGameInstance);
 }
 
-CAkazaState * CAtk_1_State::HandleInput(CAkaza* pAkaza)
+CAkazaState * CAtk_3_State::HandleInput(CAkaza* pAkaza)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
@@ -166,25 +166,25 @@ CAkazaState * CAtk_1_State::HandleInput(CAkaza* pAkaza)
 	return nullptr;
 }
 
-CAkazaState * CAtk_1_State::Tick(CAkaza* pAkaza, _float fTimeDelta)
+CAkazaState * CAtk_3_State::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
 
-	pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_ATTACK_1);
-	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_ATTACK_1, 0.01f);
+	pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_ATTACK_3);
+	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_ATTACK_3, 0.01f);
 
 	m_fTime += fTimeDelta * 60;
 	m_fComboDelay += fTimeDelta * 60;
 	//printf_s("AttackTime : %f \n", (_float)m_fTime);
 
 
-	if (m_bAtkCombo == true && m_fTime >= 40.f)
-		return new CAtk_2_State();
+	if (m_bAtkCombo == true && m_fTime >= 70.f)
+		return new CAtk_4_State();
 
 
 
-	if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_ATTACK_1))
+	if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_ATTACK_3))
 	{
-		pAkaza->Get_Model()->Set_End(CAkaza::ANIM_ATTACK_1);
+		pAkaza->Get_Model()->Set_End(CAkaza::ANIM_ATTACK_3);
 		return new CIdleState();
 	}
 
@@ -192,7 +192,7 @@ CAkazaState * CAtk_1_State::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	return nullptr;
 }
 
-CAkazaState * CAtk_1_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
+CAkazaState * CAtk_3_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
@@ -280,16 +280,16 @@ CAkazaState * CAtk_1_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	return nullptr;
 }
 
-void CAtk_1_State::Enter(CAkaza* pAkaza)
+void CAtk_3_State::Enter(CAkaza* pAkaza)
 {
-	m_eStateId = STATE_ID::STATE_ATK_1;
+	m_eStateId = STATE_ID::STATE_ATK_3;
 
-	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_ATTACK_1);
-	pAkaza->Set_AnimIndex(CAkaza::ANIM_ATTACK_1);
+	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_ATTACK_3);
+	pAkaza->Set_AnimIndex(CAkaza::ANIM_ATTACK_3);
 
 }
 
-void CAtk_1_State::Exit(CAkaza* pAkaza)
+void CAtk_3_State::Exit(CAkaza* pAkaza)
 {
 	m_pCollBox->Set_Dead(); //Ãß°¡
 }

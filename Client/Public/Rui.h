@@ -50,6 +50,15 @@ public:
 		ANIM_ATTACK_3 = 18,
 		ANIM_ATTACK_4 = 24,
 
+		// JUMP
+		ANIM_JUMP_START = 57,
+		ANIM_JUMP_LOOP = 58,
+		ANIM_JUMP_END = 59,
+
+		// Hit
+
+		ANIM_HIT = 0,
+
 		ANIM_END = 100
 	};
 

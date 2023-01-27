@@ -2,6 +2,8 @@
 #include "AkazaIdleState.h"
 #include "AkazaMoveState.h"
 #include "GameInstance.h"
+#include "AkazaAtk_1_State.h"
+#include "AkazaJumpState.h"
 
 using namespace Akaza;
 
@@ -58,8 +60,15 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 		{
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
-		else
-			return new CIdleState();
+		else if (pGameInstance->Key_Down(DIK_J))
+			return new CAtk_1_State();
+		else if (pGameInstance->Key_Down(DIK_SPACE)) // 점프
+		{
+			_vector vPosition = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_float fPositionY = XMVectorGetY(vPosition);
+			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+		}
+
 		break;
 	case 2:
 		if (pGameInstance->Key_Pressing(DIK_UP)) // 앞
@@ -102,6 +111,15 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 우
 		{
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+		}
+		else if (pGameInstance->Key_Down(DIK_Z))
+			return new CAtk_1_State();
+
+		else if (pGameInstance->Key_Down(DIK_LCONTROL)) // 점프
+		{
+			_vector vPosition = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_float fPositionY = XMVectorGetY(vPosition);
+			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 		}
 	}
 

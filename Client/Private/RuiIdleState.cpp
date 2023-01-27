@@ -3,7 +3,7 @@
 #include "GameInstance.h"
 #include "RuiMoveState.h"
 #include "RuiAtk_1_State.h"
-
+#include "RuiJumpState.h"
 using namespace Rui;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -59,7 +59,12 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 		{
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
-
+		else if (pGameInstance->Key_Down(DIK_SPACE)) // 점프
+		{
+			_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_float fPositionY = XMVectorGetY(vPosition);
+			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+		}
 		else if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
 		break;
@@ -105,7 +110,12 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 		{
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
-
+		else if (pGameInstance->Key_Down(DIK_LCONTROL)) // 점프
+		{
+			_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_float fPositionY = XMVectorGetY(vPosition);
+			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+		}
 		else if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
 

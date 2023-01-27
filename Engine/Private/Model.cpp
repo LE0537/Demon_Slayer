@@ -166,8 +166,9 @@ HRESULT CModel::SetUp_Material(CShader * pShader, const char * pConstantName, _u
 	return pShader->Set_ShaderResourceView(pConstantName, m_Materials[m_Meshes[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType]->Get_SRV());
 }
 
-HRESULT CModel::Play_Animation(_float fTimeDelta)
+HRESULT CModel::Play_Animation(_float fTimeDelta, _bool bRemoveTranslation)
 {
+	// 왜 또 오류
 	if (m_iCurrentAnimIndex != m_iPrevAnimIndex)
 	{
 		if (m_bAnimReset)
@@ -192,7 +193,7 @@ HRESULT CModel::Play_Animation(_float fTimeDelta)
 	for (auto& pBoneNode : m_Bones)
 	{
 		/* 뼈의 m_CombinedTransformationMatrix행렬을 갱신한다. */
-		pBoneNode->Invalidate_CombinedTransformationmatrix();
+		pBoneNode->Invalidate_CombinedTransformationmatrix(bRemoveTranslation);
 	}
 
 	return S_OK;
@@ -203,7 +204,7 @@ HRESULT CModel::Play_Animation2(_float fTimeDelta)
 	
 	for (auto& pBoneNode : m_Bones)
 	{
-		pBoneNode->Invalidate_CombinedTransformationmatrix();
+		pBoneNode->Invalidate_CombinedTransformationmatrix(false);
 	}
 
 	return S_OK;
