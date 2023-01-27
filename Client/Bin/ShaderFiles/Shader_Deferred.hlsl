@@ -53,6 +53,15 @@ const float		g_fWeight[13] =
 };
 const float		g_fWeightTotal = 6.2108;
 
+
+const float		g_fWeight29[29] =
+{
+	0.018f, 0.031f, 0.052f, 0.083f, 0.128f, 0.189f, 0.268f, 0.365f, 0.477f, 0.598f, 0.719f, 0.831f, 0.921f, 0.98f, 1.0f,
+	0.98f, 0.921f, 0.831f, 0.719f, 0.598f, 0.477f, 0.365f, 0.268f, 0.189f, 0.128f, 0.083f, 0.052f, 0.031f, 0.018f
+};
+const float		g_fWeight29Total = 12.339f;
+
+
 float3 g_vRandom[16] =
 {
 	float3(0.2024537f, 0.841204f, -0.9060141f),
@@ -439,59 +448,20 @@ PS_OUT PS_INNERLINE(PS_IN In)
 PS_OUT PS_GLOWX(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
+	
+	float2	vNewUV = 0;
+	vector	vColor = 0;
+	vector	vAccColor = 0;
 
-	//	GlowX
-	float weight0, weight1, weight2, weight3, weight4, weight5, weight6;
+	for (int i = -14; i < 14; ++i)
+	{
+		vNewUV = In.vTexUV + float2(i / g_fWinSizeX, 0.f);
 
-	weight0 = 1.0f;
-	weight1 = 0.9231f;
-	weight2 = 0.7261f;
-	weight3 = 0.4868f;
-	weight4 = 0.278f;
-	weight5 = 0.1353f;
-	weight6 = 0.0561f;
+		vAccColor += g_fWeight29[14 + i] * g_GlowTexture.Sample(LinearSampler, vNewUV);
+	}
 
-	float normalization = (weight0 + 2.0f * (weight1 + weight2 + weight3 + weight4 + weight5 + weight6));
-	// Normalize the weights.
-
-	weight0 = weight0 / normalization;
-	weight1 = weight1 / normalization;
-	weight2 = weight2 / normalization;
-	weight3 = weight3 / normalization;
-	weight4 = weight4 / normalization;
-	weight5 = weight5 / normalization;
-	weight6 = weight6 / normalization;
-
-	float2 texCoord1 = In.vTexUV + float2(-6.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord2 = In.vTexUV + float2(-5.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord3 = In.vTexUV + float2(-4.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord4 = In.vTexUV + float2(-3.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord5 = In.vTexUV + float2(-2.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord6 = In.vTexUV + float2(-1.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord7 = In.vTexUV + float2(0.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord8 = In.vTexUV + float2(1.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord9 = In.vTexUV + float2(2.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord10 = In.vTexUV + float2(3.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord11 = In.vTexUV + float2(4.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord12 = In.vTexUV + float2(5.0f / g_fWinSizeX, 0.0f);
-	float2 texCoord13 = In.vTexUV + float2(6.0f / g_fWinSizeX, 0.0f);
-
-	float3 colorTest = 0;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord1) * weight6;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord2) * weight5;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord3) * weight4;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord4) * weight3;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord5) * weight2;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord6) * weight1;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord7) * weight0;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord8) * weight1;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord9) * weight2;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord10) * weight3;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord11) * weight4;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord12) * weight5;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord13) * weight6;
-
-	Out.vColor.rgb = colorTest;
+	Out.vColor.rgb = vAccColor / g_fWeight29Total;
+	//
 
 	return Out;
 }
@@ -500,60 +470,19 @@ PS_OUT PS_GLOWXY(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	//	GlowX
-	float weight0, weight1, weight2, weight3, weight4, weight5, weight6;
+	float2	vNewUV = 0;
+	vector	vColor = 0;
+	vector	vAccColor = 0;
 
-	weight0 = 1.0f;
-	weight1 = 0.9231f;
-	weight2 = 0.7261f;
-	weight3 = 0.4868f;
-	weight4 = 0.278f;
-	weight5 = 0.1353f;
-	weight6 = 0.0561f;
+	for (int i = -14; i < 14; ++i)
+	{
+		vNewUV = In.vTexUV + float2(0.f, i / (g_fWinSizeY / 2.f));
 
-	float normalization = (weight0 + 2.0f * (weight1 + weight2 + weight3 + weight4 + weight5 + weight6));
-	// Normalize the weights.
+		vAccColor += g_fWeight29[14 + i] * g_GlowTexture.Sample(LinearSampler, vNewUV);
+	}
 
-	weight0 = weight0 / normalization;
-	weight1 = weight1 / normalization;
-	weight2 = weight2 / normalization;
-	weight3 = weight3 / normalization;
-	weight4 = weight4 / normalization;
-	weight5 = weight5 / normalization;
-	weight6 = weight6 / normalization;
-
-	float2 texCoord1 = In.vTexUV + float2(0.0f, -6.0f / g_fWinSizeY);
-	float2 texCoord2 = In.vTexUV + float2(0.0f, -5.0f / g_fWinSizeY);
-	float2 texCoord3 = In.vTexUV + float2(0.0f, -4.0f / g_fWinSizeY);
-	float2 texCoord4 = In.vTexUV + float2(0.0f, -3.0f / g_fWinSizeY);
-	float2 texCoord5 = In.vTexUV + float2(0.0f, -2.0f / g_fWinSizeY);
-	float2 texCoord6 = In.vTexUV + float2(0.0f, -1.0f / g_fWinSizeY);
-	float2 texCoord7 = In.vTexUV + float2(0.0f, 0.0f / g_fWinSizeY);
-	float2 texCoord8 = In.vTexUV + float2(0.0f, 1.0f / g_fWinSizeY);
-	float2 texCoord9 = In.vTexUV + float2(0.0f, 2.0f / g_fWinSizeY);
-	float2 texCoord10 = In.vTexUV + float2(0.0f, 3.0f / g_fWinSizeY);
-	float2 texCoord11 = In.vTexUV + float2(0.0f, 4.0f / g_fWinSizeY);
-	float2 texCoord12 = In.vTexUV + float2(0.0f, 5.0f / g_fWinSizeY);
-	float2 texCoord13 = In.vTexUV + float2(0.0f, 6.0f / g_fWinSizeY);
-
-	float3 colorTest = 0;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord1) * weight6;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord2) * weight5;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord3) * weight4;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord4) * weight3;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord5) * weight2;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord6) * weight1;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord7) * weight0;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord8) * weight1;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord9) * weight2;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord10) * weight3;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord11) * weight4;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord12) * weight5;
-	colorTest += g_GlowTexture.Sample(LinearSampler, texCoord13) * weight6;
-
-	//	colorTest += g_GlowTexture.Sample(LinearSampler, In.vTexUV);
-	Out.vColor.rgb = colorTest;
-
+	Out.vColor.rgb = vAccColor / g_fWeight29Total;
+	//
 	return Out;
 }
 
