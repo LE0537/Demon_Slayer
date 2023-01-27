@@ -29,7 +29,28 @@ HRESULT CUltStockEff::Initialize(void * pArg)
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
+	if (m_ThrowUIinfo.iTextureNum == 24)
+		m_iImgNum = 0;
+	else if (m_ThrowUIinfo.iTextureNum == 25)
+		m_iImgNum = 1;
+	else if (m_ThrowUIinfo.iTextureNum == 26)
+		m_iImgNum = 2;
+	else if (m_ThrowUIinfo.iTextureNum == 27)
+	{
+		if (!m_ThrowUIinfo.pTarget->Get_PlayerInfo().bOni)
+			m_iImgNum = 3;
+		else if (m_ThrowUIinfo.pTarget->Get_PlayerInfo().bOni)
+			m_iImgNum = 4;
+	}
+	else if (m_ThrowUIinfo.iTextureNum == 28)
+		m_iImgNum = 5;
+	else if (m_ThrowUIinfo.iTextureNum == 32)
+		m_iImgNum = 6;
+
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
+
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -38,12 +59,9 @@ HRESULT CUltStockEff::Initialize(void * pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
-
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
-	
+
 
 	return S_OK;
 }
@@ -115,7 +133,7 @@ HRESULT CUltStockEff::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;

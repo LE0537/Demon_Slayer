@@ -31,15 +31,15 @@ HRESULT CSkillBar::Initialize(void * pArg)
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
 	if (!m_ThrowUIinfo.bReversal)
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
-
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
@@ -49,6 +49,7 @@ HRESULT CSkillBar::Initialize(void * pArg)
 
 void CSkillBar::Tick(_float fTimeDelta)
 {
+
 	m_fSkillMaxBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkMaxBar;
 	m_fSkillCurBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
 

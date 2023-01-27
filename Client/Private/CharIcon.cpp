@@ -21,6 +21,7 @@ HRESULT CCharIcon::Initialize(void * pArg)
 {
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
+
 	m_fSizeX = m_ThrowUIinfo.vScale.x;
 	m_fSizeY = m_ThrowUIinfo.vScale.y;
 	m_fX = m_ThrowUIinfo.vPos.x;
@@ -41,6 +42,9 @@ HRESULT CCharIcon::Initialize(void * pArg)
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
 	if (!m_ThrowUIinfo.bReversal)
@@ -48,12 +52,9 @@ HRESULT CCharIcon::Initialize(void * pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	if(m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
-
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
-	
+
 
 	return S_OK;
 }
@@ -97,8 +98,12 @@ void CCharIcon::Icon_Selected_GamePlay(wstring strName)
 {
 	if (strName == TEXT("쿄주로"))
 		m_iImgNum = 19;
-	if (strName == TEXT("탄지로"))
+	else if (strName == TEXT("탄지로"))
 		m_iImgNum = 35;
+	else if (strName == TEXT("루이"))
+		m_iImgNum = 27;
+	else if (strName == TEXT("아카자"))
+		m_iImgNum = 0;
 	
 }
 

@@ -287,7 +287,7 @@ technique11 DefaultTechnique
 {
 	pass Default //0
 	{ 
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_UI);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 
@@ -298,7 +298,7 @@ technique11 DefaultTechnique
 
 	pass DefaultRenderBack //1
 	{
-		SetRasterizerState(RS_SkyBox);
+		SetRasterizerState(RS_UI);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 

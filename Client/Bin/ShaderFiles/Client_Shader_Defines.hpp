@@ -25,6 +25,12 @@ RasterizerState RS_Default
 	CullMode = back;
 	FrontCounterClockwise = false;
 };
+RasterizerState RS_UI
+{
+	FillMode = solid;
+	CullMode = none;
+	FrontCounterClockwise = false;
+};
 RasterizerState RS_Effect
 {
 	FillMode = solid;
