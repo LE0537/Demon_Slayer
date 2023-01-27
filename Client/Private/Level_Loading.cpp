@@ -5,7 +5,7 @@
 #include "Loader.h"
 #include "Level_Logo.h"
 #include "Level_SelectChar.h"
-#include "Level_GamePlay.h"          
+#include "Level_GamePlay.h"
 #include "UI_Manager.h"
 
 CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

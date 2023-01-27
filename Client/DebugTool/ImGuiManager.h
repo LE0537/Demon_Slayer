@@ -54,26 +54,18 @@ public:
 	void		CharacterAnimationList(_uint _iIndex);
 	void		Clear_CharacterList();
 	void		Clear_AnimationList();
-	void		Character_Compare_Duration(_uint _iIndex);
-	void		Character_Set_Duration(_uint _iIndex);
-
-	void		Character_Compare_Frame(_uint _iIndex);
-	void		Character_Set_Frame(_uint _iIndex);
 private:
 	vector<CCharacters*> m_vecObjList;
 	vector<CAnimation*> m_vecAnimation;
 	vector<_uint> m_vecAnimIndex;
 
-	int m_iFrame = 100;
-	int m_iCurrentFrame = 0;
-	int m_iStartFrame = 0;
-	int m_iEndFrame = m_iFrame;
+	_uint m_iFrame = 100;
+	_uint m_iStartFrame = 0;
+	_uint m_iEndFrame = m_iFrame;
 	_float m_fFrameTime = 1.f;
-	_float m_fSettingFrameTime = 0.f;
-	int m_iUsingStartFrame = 0;
-	int m_iUsingEndFrame = m_iFrame;
+	_uint m_iUsingStartFrame = 0;
+	_uint m_iUsingEndFrame = m_iFrame;
 	_float m_fDuration = 0.f;
-	_float m_fCurrentDuration = 0.f;
 
 public:
 	virtual void Free() override;

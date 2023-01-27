@@ -20,8 +20,6 @@ CTanjiroState * CSkill_WindMillState::HandleInput(CTanjiro * pTanjiro)
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-
-
 	return nullptr;
 }
 
@@ -61,5 +59,7 @@ void CSkill_WindMillState::Enter(CTanjiro * pTanjiro)
 
 void CSkill_WindMillState::Exit(CTanjiro * pTanjiro)
 {
+
+
 }
 

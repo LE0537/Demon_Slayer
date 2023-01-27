@@ -28,11 +28,11 @@ CKyoujuroState * CAtk_3_State::HandleInput(CKyoujuro * pKyoujuro)
 	switch (pKyoujuro->Get_i1P())
 	{
 	case 1:
-		if (pGameInstance->Key_Down(DIK_J) && m_fComboDelay <= 43.f)
+		if (pGameInstance->Key_Down(DIK_J))
 			m_bAtkCombo = true;
 		break;
 	case 2:
-		if (pGameInstance->Key_Down(DIK_Z) && m_fComboDelay <= 43.f)
+		if (pGameInstance->Key_Down(DIK_Z))
 			m_bAtkCombo = true;
 		break;
 	default:
