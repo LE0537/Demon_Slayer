@@ -20,6 +20,7 @@ HRESULT CLevel_Logo::Initialize()
 	pUIManager->Load_Data("P1_Person_HpUI");
 	pUIManager->Load_Data("P1_Oni_BtlUI");
 	pUIManager->Load_Data("P2_Person_HpUI");
+	pUIManager->Load_Data("P2_Oni_BtlUI");
 	pUIManager->Load_Data("Change_Select");
 	pUIManager->Load_Data("LogoTitle");
 	pUIManager->Load_Data("Menu");
