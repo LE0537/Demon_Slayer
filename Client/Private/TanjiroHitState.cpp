@@ -81,7 +81,7 @@ CTanjiroState * CHitState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 	fSpeed = fStartHeight + fVelocity * fTimeDelta - (0.5f * fGravity * fTimeDelta * fTimeDelta);
 	vPosition = XMVectorSetY(vPosition, fSpeed);
 	_float y = XMVectorGetY(vPosition);
-	m_fCurrentPosY = y;
+	//m_fCurrentPosY = y;
 
 	if (y <= fEndHeight)
 	{
