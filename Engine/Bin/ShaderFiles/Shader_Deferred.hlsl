@@ -597,14 +597,14 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 	//	vector		vViewPos_InLight = mul(vWorldPos, g_matLightView);
 	//	matrix		matLightVP = mul(g_matLightView, g_matLightProj);
 	
-	float		fNumSamples = 100.f;
+	float		fNumSamples = 120.f;
 	int			iValue = 0;
 
 	vector		vLightDir = -g_vLightDir;
 
 	for (int i = 0; i < fNumSamples; ++i)
 	{
-		vector		vRayPos = vWorldPos + (i * normalize(g_vCamPosition - vWorldPos) * 0.3f);
+		vector		vRayPos = vWorldPos + (i * normalize(g_vCamPosition - vWorldPos) * 0.5f);
 		vector		vWorldPos_InLight = mul(vRayPos, g_matLightView);
 
 		vector		vUVPos = mul(vWorldPos_InLight, g_matLightProj);
