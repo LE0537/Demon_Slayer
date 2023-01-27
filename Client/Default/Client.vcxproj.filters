@@ -475,6 +475,18 @@
     <Filter Include="05.CollBox\02.WindMill">
       <UniqueIdentifier>{0e7a4710-3228-48ba-8356-bddd194d1a52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit">
+      <UniqueIdentifier>{f6ea7561-ddb3-42de-8bf2-e5d709d969a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit">
+      <UniqueIdentifier>{4ee4b442-203d-48c1-9a59-bf735149e5e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Jump">
+      <UniqueIdentifier>{68c7c7e0-9a4d-4cda-a6f8-9f77dbad4d10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Jump">
+      <UniqueIdentifier>{7eb6786f-d95c-45a7-9a25-79a9fd5468f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -947,6 +959,24 @@
     <ClInclude Include="..\public\WindMill.h">
       <Filter>05.CollBox\02.WindMill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\AkazaAtk_2_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaAtk_3_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaAtk_4_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiJumpState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Jump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaJumpState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Jump</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1392,6 +1422,24 @@
     </ClCompile>
     <ClCompile Include="..\private\WindMill.cpp">
       <Filter>05.CollBox\02.WindMill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaAtk_2_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaAtk_3_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaAtk_4_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiJumpState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaJumpState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Jump</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

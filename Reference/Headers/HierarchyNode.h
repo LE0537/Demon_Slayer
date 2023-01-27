@@ -48,7 +48,7 @@ public:
 	HRESULT Bin_Initialize(DATA_BINNODE* pNode); // 추가
 
 
-	void Invalidate_CombinedTransformationmatrix();
+	void Invalidate_CombinedTransformationmatrix(_bool bRemoveTranslation);
 	void Set_FindParent(CHierarchyNode* pNode); // 추가
 private:
 	char				m_szName[MAX_PATH] = "";
@@ -64,6 +64,8 @@ private:
 	/* m_TransformationMatrix * m_pParent->m_CombinedTransformationMatrix */
 	_float4x4			m_CombinedTransformationMatrix;
 
+	// 민준 추가 루트 노드 행렬
+	_float4x4			m_RootNodeMatrix;
 public:
 	static CHierarchyNode* Create(const aiNode* pNode, CHierarchyNode* pParent);
 	static CHierarchyNode* Bin_Create(DATA_BINNODE* pNode); // 추가
