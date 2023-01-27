@@ -112,7 +112,7 @@ private:
 	void	Set_Info();
 
 public:
-	virtual void  Take_Damage(_float _fPow,_bool _bJumpHit);
+	virtual void  Take_Damage(_float _fPow,_bool _bJumpHit = 0);
 	virtual void  Get_GuardHit(_int eType);
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);

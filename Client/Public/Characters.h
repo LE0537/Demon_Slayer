@@ -64,7 +64,7 @@ public:
 	void	   Set_SkillBar(_int _iSkill) { m_tInfo.iSkBar += _iSkill; }
 
 
-	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit) = 0;
+	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
 protected:
 	PLAYERINFO		m_tInfo;

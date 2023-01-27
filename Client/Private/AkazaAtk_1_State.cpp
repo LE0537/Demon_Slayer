@@ -235,7 +235,7 @@ CAkazaState * CAtk_1_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg);
-					m_pTarget->Take_Damage(0.3f);
+					m_pTarget->Take_Damage(0.3f,false);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
