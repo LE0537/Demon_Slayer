@@ -157,25 +157,86 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2001: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree1"); break;
 	case 2002: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree2"); break;
 	case 2003: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree3"); break;
+	case 2004: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeFar1"); break;
+	case 2005: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeWillow"); break;
 
-	case 2004: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff1"); break;
-	case 2005: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff2"); break;
-	case 2006: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff3"); break;
-	case 2007: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff_Small"); break;
+	case 2006: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken1"); break;
+	case 2007: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken2"); break;
+	case 2008: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken3"); break;
+	case 2009: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken4"); break;
+	case 2010: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken5"); break;
+	case 2011: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken6"); break;
+	case 2012: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken7"); break;
+	case 2013: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken8"); break;
+	case 2014: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken9"); break;
+	case 2015: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken10"); break;
 
-	case 2008: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass1"); break;
-	case 2009: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass2"); break;
-	case 2010: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass3"); break;
-	case 2011: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass4"); break;
+	case 2016: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeRoot1"); break;
+	case 2017: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeRoot2"); break;
+	case 2018: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeRoot3"); break;
 
-	case 2012: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far1"); break;
-	case 2013: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far2"); break;
+	case 2019: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock1"); break;
+	case 2020: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock2"); break;
+	case 2021: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock3"); break;
+	case 2022: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock4"); break;
+	case 2023: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock5"); break;
+	case 2024: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock6"); break;
+	case 2025: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock7"); break;
+	case 2026: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RockSmall"); break;
 
-	case 2014: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb1"); break;
-	case 2015: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb2"); break;
-	case 2016: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb3"); break;
+	case 2027: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff1"); break;
+	case 2028: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff2"); break;
+	case 2029: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff3"); break;
+	case 2030: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff_Small"); break;
 
-	case 2017: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround"); break;
+	case 2031: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass1"); break;
+	case 2032: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass2"); break;
+	case 2033: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass3"); break;
+	case 2034: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass4"); break;
+	case 2035: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass5"); break;
+	case 2036: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass6"); break;
+
+	case 2037: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Lavender"); break;
+	case 2038: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Flower1"); break;
+	case 2039: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Flower2"); break;
+	case 2040: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Flower3"); break;
+
+	case 2041: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Leaf1"); break;
+	case 2042: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Leaf2"); break;
+	case 2043: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Leaf3"); break;
+	case 2044: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Leaf4"); break;
+
+	case 2045: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far1"); break;
+	case 2046: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far2"); break;
+	case 2047: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far3"); break;
+	case 2048: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far4"); break;
+	case 2049: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far5"); break;
+	case 2050: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far6"); break;
+
+	case 2051: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Wall1"); break;
+	case 2052: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Wall2"); break;
+
+	case 2053: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb1"); break;
+	case 2054: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb2"); break;
+	case 2055: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb3"); break;
+
+	case 2056: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Bush1"); break;
+	case 2057: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Bush2"); break;
+	case 2058: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Bush3"); break;
+	case 2059: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Bush4"); break;
+	case 2060: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Bush5"); break;
+	case 2061: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Bush6"); break;
+	case 2062: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Bush7"); break;
+	case 2063: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Bush8"); break;
+	case 2064: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Bush9"); break;
+
+	case 2065: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_HomeSmall1"); break;
+	case 2066: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_HomeSmall2"); break;
+
+	case 2067: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RiceField1"); break;
+
+	case 2068: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround"); break;
+	case 2069: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_UrokodakiGround"); break;
 	}
 
 
