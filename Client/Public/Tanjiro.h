@@ -112,7 +112,7 @@ public:
 	void   Set_AnimIndex(ANIMID iAnimIndex) {m_eAnimID = iAnimIndex;}
 
 public:
-	virtual	void  Take_Damage(_float _fPow);
+	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit);
 	virtual	void  Get_GuardHit(_int eType);
 
 public:

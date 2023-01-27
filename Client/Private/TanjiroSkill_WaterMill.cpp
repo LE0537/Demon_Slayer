@@ -68,8 +68,8 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 
 	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-	pTanjiro->Get_Transform()->LookAt(vLooAt);
+	pTanjiro->Get_Transform()->Set_PlayerLookAt(vLooAt);
+	//pTanjiro->Get_Transform()->LookAt(vLooAt);
 	_int iHit = pTanjiro->Get_WaterMillHit();
 	m_fTime += fTimeDelta;
 	m_fHitTime += fTimeDelta;
@@ -84,7 +84,8 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 			_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			m_pCollBox->Get_Transform()->LookAt(vLooAt);
+			//m_pCollBox->Get_Transform()->LookAt(vLooAt);
+			m_pCollBox->Get_Transform()->Set_PlayerLookAt(vLooAt);
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			
 			if (m_fHitTime > 0.1f && iHit < 3)
@@ -107,7 +108,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 					else
 					{
 						m_pTarget->Set_Hp(-30);
-						m_pTarget->Take_Damage(0.3f);
+						m_pTarget->Take_Damage(0.3f,false);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

@@ -23,7 +23,7 @@ private:
 	CWindMill*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;
 	_float m_fHitTime = 0.f;
-
+	_bool  m_bHit = false;
 	//Jump
 private:
 	_float m_fJumpPower = 15.f;

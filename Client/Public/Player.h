@@ -38,7 +38,7 @@ private:
 	void	Key_Input(_float fTimeDelta);
 	void	Set_ShadowLightPos();
 public:
-	virtual	void  Take_Damage(_float _fPow);
+	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit);
 	virtual	void  Get_GuardHit(_int eType);
 
 private:

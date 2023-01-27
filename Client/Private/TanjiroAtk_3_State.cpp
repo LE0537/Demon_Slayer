@@ -141,7 +141,7 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 2);
-					m_pTarget->Take_Damage(0.6f);
+					m_pTarget->Take_Damage(0.6f,false);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
