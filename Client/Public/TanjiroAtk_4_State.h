@@ -24,6 +24,7 @@ private:
 	_float m_fMove = 0.f;
 	_bool  m_bHit = false;
 	_float m_fComboDelay = 0.f;
+	_bool  m_bEffect = false;
 };
 END
 END
