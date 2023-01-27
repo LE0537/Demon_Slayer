@@ -182,8 +182,13 @@
     <ClInclude Include="..\DebugTool\imstb_truetype.h" />
     <ClInclude Include="..\Public\Akaza.h" />
     <ClInclude Include="..\Public\AkazaAtk_1_State.h" />
+    <ClInclude Include="..\Public\AkazaAtk_2_State.h" />
+    <ClInclude Include="..\Public\AkazaAtk_3_State.h" />
+    <ClInclude Include="..\Public\AkazaAtk_4_State.h" />
     <ClInclude Include="..\Public\AkazaDashState.h" />
+    <ClInclude Include="..\Public\AkazaHitState.h" />
     <ClInclude Include="..\Public\AkazaIdleState.h" />
+    <ClInclude Include="..\Public\AkazaJumpState.h" />
     <ClInclude Include="..\Public\AkazaMoveState.h" />
     <ClInclude Include="..\Public\AkazaState.h" />
     <ClInclude Include="..\Public\AkazaToolState.h" />
@@ -247,6 +252,7 @@
     <ClInclude Include="..\Public\OniChanBarEff.h" />
     <ClInclude Include="..\Public\PlyChanBarEff.h" />
     <ClInclude Include="..\Public\RuiIdleState.h" />
+    <ClInclude Include="..\Public\RuiJumpState.h" />
     <ClInclude Include="..\Public\RuiMoveState.h" />
     <ClInclude Include="..\Public\RuiState.h" />
     <ClInclude Include="..\Public\RuiToolState.h" />
@@ -351,8 +357,13 @@
     <ClCompile Include="..\DebugTool\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\Akaza.cpp" />
     <ClCompile Include="..\Private\AkazaAtk_1_State.cpp" />
+    <ClCompile Include="..\Private\AkazaAtk_2_State.cpp" />
+    <ClCompile Include="..\Private\AkazaAtk_3_State.cpp" />
+    <ClCompile Include="..\Private\AkazaAtk_4_State.cpp" />
     <ClCompile Include="..\Private\AkazaDashState.cpp" />
+    <ClCompile Include="..\Private\AkazaHitState.cpp" />
     <ClCompile Include="..\Private\AkazaIdleState.cpp" />
+    <ClCompile Include="..\Private\AkazaJumpState.cpp" />
     <ClCompile Include="..\Private\AkazaMoveState.cpp" />
     <ClCompile Include="..\Private\AkazaToolState.cpp" />
     <ClCompile Include="..\private\BaseAtk.cpp" />
@@ -415,6 +426,7 @@
     <ClCompile Include="..\Private\OniChanBarEff.cpp" />
     <ClCompile Include="..\Private\PlyChanBarEff.cpp" />
     <ClCompile Include="..\Private\RuiIdleState.cpp" />
+    <ClCompile Include="..\Private\RuiJumpState.cpp" />
     <ClCompile Include="..\Private\RuiMoveState.cpp" />
     <ClCompile Include="..\Private\RuiToolState.cpp" />
     <ClCompile Include="..\Private\SkyBox.cpp" />

@@ -30,6 +30,35 @@ public:
 		ANIM_MOVE_START = 65,
 		ANIM_MOVE_END = 66,
 
+
+		// DASH
+		ANIM_DASH_AB = 67,
+		ANIM_DASH_AF = 68,
+		ANIM_DASH_AL = 69,
+		ANIM_DASH_AR = 70,
+		ANIM_DASH_B = 71,
+		ANIM_DASH_F = 72,
+		ANIM_DASH_L_01 = 73,
+		ANIM_DASH_L_02 = 74,
+		ANIM_DASH_R_01 = 75,
+		ANIM_DASH_R_02 = 76,
+
+
+		// ATTACK
+		ANIM_ATTACK_1 = 13,
+		ANIM_ATTACK_2 = 15,
+		ANIM_ATTACK_3 = 18,
+		ANIM_ATTACK_4 = 24,
+
+		// JUMP
+		ANIM_JUMP_START = 57,
+		ANIM_JUMP_LOOP = 58,
+		ANIM_JUMP_END = 59,
+
+		// Hit
+
+		ANIM_HIT = 0,
+
 		ANIM_END = 100
 	};
 
