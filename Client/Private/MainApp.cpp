@@ -63,10 +63,10 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pGameInstance->Add_Fonts(m_pDevice, m_pContext, TEXT("Font_Nexon"), TEXT("../Bin/Resources/Fonts/130.spritefont"))))
 		return E_FAIL;
-/*
-	if (FAILED(Open_DebugCMD()))
-		return E_FAIL;
-*/
+
+	//if (FAILED(Open_DebugCMD()))
+	//	return E_FAIL;
+
 	if (FAILED(m_pImGuiManager->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
 
@@ -94,9 +94,7 @@ HRESULT CMainApp::Render()
 
 	m_pRenderer->Render_GameObjects(g_bDebug);
 
-	if (true == g_bDebug)
-		m_pImGuiManager->Render();
-
+	m_pImGuiManager->Render();
 	m_pGameInstance->Present();
 
 	++m_iNumRender;
@@ -144,8 +142,6 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_NewTerrain"), CVIBuffer_NewTerrain::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"), CVIBuffer_Cube::Create(m_pDevice, m_pContext)))) 
-		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Hexagon"),
 		CVIBuffer_Hexagon::Create(m_pDevice, m_pContext))))
@@ -179,9 +175,6 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNorTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/Shaderfiles/Shader_VtxNorTex.hlsl"), VTXNORTEX_DECLARATION::Elements, VTXNORTEX_DECLARATION::iNumElements))))
-		return E_FAIL;
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxCubeTex"),
-		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/Shaderfiles/Shader_VtxCubeTexture.hlsl"), VTXCUBETEX_DECLARATION::Elements, VTXCUBETEX_DECLARATION::iNumElements))))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/Shaderfiles/Shader_VtxModel.hlsl"), VTXMODEL_DECLARATION::Elements, VTXMODEL_DECLARATION::iNumElements))))

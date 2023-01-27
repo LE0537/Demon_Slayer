@@ -93,7 +93,7 @@ private:
 	HRESULT Render_AlphaBlend();
 
 	HRESULT Ready_GlowTexture();
-	//	Post Processing Objects Rendering
+	//	Post Processing Objects Rendering	
 	HRESULT	Ready_PostProcessing();
 	HRESULT Render_LightShaft(const _tchar* pTexName, const _tchar* pMRTName);
 	HRESULT Render_Glow(const _tchar* pTexName, const _tchar* pMRTName);

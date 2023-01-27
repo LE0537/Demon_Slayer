@@ -442,6 +442,36 @@
     <Filter Include="05.CollBox\01.WaterMill">
       <UniqueIdentifier>{e64144cc-3be0-44f8-a32b-974e3069d22a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Dash">
+      <UniqueIdentifier>{59196645-d889-4c6c-9dc8-975771a86174}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Dash">
+      <UniqueIdentifier>{abe94a4f-fe15-426d-a9f5-b3b2d4800087}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack1">
+      <UniqueIdentifier>{d620f84d-f836-4ceb-a6fc-6d1a12184ba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack1">
+      <UniqueIdentifier>{e2bbb81a-a845-4900-8a60-9946af1809c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack2">
+      <UniqueIdentifier>{40c2c36e-e199-48a9-a7b8-1832b1705227}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack2">
+      <UniqueIdentifier>{f998836f-67b9-474c-8b50-2c94a0f66149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack3">
+      <UniqueIdentifier>{cd1930f9-8cb7-465f-9127-9b817f0b2f76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack3">
+      <UniqueIdentifier>{909a4953-dae3-4946-94ab-becba579c457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack4">
+      <UniqueIdentifier>{2100825b-ae7e-4236-8f76-9bb0e2d58c0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack4">
+      <UniqueIdentifier>{f5dba6ce-3af0-479b-9f6f-6a33d466c4b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -890,6 +920,27 @@
     <ClInclude Include="..\public\WaterMill.h">
       <Filter>05.CollBox\01.WaterMill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RuiDashState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaDashState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiAtk_1_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiAtk_2_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiAtk_3_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiAtk_4_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaAtk_1_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1311,6 +1362,27 @@
     </ClCompile>
     <ClCompile Include="..\private\WaterMill.cpp">
       <Filter>05.CollBox\01.WaterMill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDashState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaDashState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiAtk_1_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiAtk_2_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiAtk_3_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiAtk_4_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaAtk_1_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -49,11 +49,12 @@ void CSkill_CommonState::Enter(CKyoujuro * pKyojuro)
 
 	pKyojuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_SKILL_COMMON);
 	pKyojuro->Set_AnimIndex(CKyoujuro::ANIM_SKILL_COMMON);
+	pKyojuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_SKILL_COMMON, 0.01f);
 
 }
 
 void CSkill_CommonState::Exit(CKyoujuro * pKyojuro)
 {
-
+	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_COMMON);
 }
 
