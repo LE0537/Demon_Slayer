@@ -58,7 +58,7 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 
 	vector<CEffect_Mesh::MESH_INFO> MeshInfos;
 
-	for (_int j = 0; j < iTextureSize; ++j) {
+	for (_int j = 0; j < iMeshSize; ++j) {
 		CEffect_Mesh::MESH_INFO MeshInfo;
 
 		ReadFile(hFile, &MeshInfo, sizeof(CEffect_Mesh::MESH_INFO), &dwByte, nullptr);
@@ -83,13 +83,14 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 
 void CEffect_Manager::Create_Effect(_uint iEffectNum, _matrix mtrWorld)
 {
+	// 아뉘 나한테 왜그러는데
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (FAILED(pGameInstance->Add_GameObject(m_Effect[iEffectNum], LEVEL_GAMEPLAY, TEXT("Layer_Effect"),&mtrWorld)))
 		return ;
 
 	RELEASE_INSTANCE(CGameInstance);
-}
+} 
 
 void CEffect_Manager::Free()
 {

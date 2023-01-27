@@ -93,7 +93,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1, vTagetWorld);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 	}

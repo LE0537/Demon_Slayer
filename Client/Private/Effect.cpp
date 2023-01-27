@@ -13,7 +13,8 @@ CEffect::CEffect(const CEffect & rhs)
 	m_Textures(rhs.m_Textures),
 	m_Meshes(rhs.m_Meshes),
 	m_Particle(rhs.m_Particle),
-	m_TextureInfo(rhs.m_TextureInfo)
+	m_TextureInfo(rhs.m_TextureInfo),
+	m_MeshInfo(rhs.m_MeshInfo)
 {
 }
 
@@ -39,9 +40,6 @@ HRESULT CEffect::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Parts()))
-		return E_FAIL;
-
 	if(nullptr != pArg)
 		m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * (*(_matrix*)pArg));
 
@@ -56,6 +54,8 @@ HRESULT CEffect::Initialize(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
 
+	if (FAILED(Ready_Parts()))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -74,6 +74,16 @@ void CEffect::Tick(_float fTimeDelta)
 
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime + m_EffectInfo.fEffectLifeTime) {
 			m_bDead = true;
+			Set_Dead();
+
+			for (auto& pTex : m_Textures)
+				pTex->Set_Dead();
+
+			for (auto& pMesh : m_Meshes)
+				pMesh->Set_Dead();
+
+			for (auto& pParticle : m_Particle)
+				pParticle->Set_Dead();
 		}
 	}
 }
@@ -104,9 +114,9 @@ HRESULT CEffect::Ready_Components()
 
 HRESULT CEffect::Ready_Parts()
 {
-	// 咆胶贸 积己
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+	// 咆胶贸 积己
 	for (auto TexInfo : m_TextureInfo) {
 		CGameObject*		pTexture = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectTexture"));
 
@@ -116,8 +126,15 @@ HRESULT CEffect::Ready_Parts()
 		m_Textures.push_back((CEffect_Texture*)pTexture);
 	}
 	
-
 	// 皋浆 积己
+	for (auto MeshInfo : m_MeshInfo) {
+		CGameObject*		pMesh = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectMesh"));
+
+		static_cast<CEffect_Mesh*>(pMesh)->Set_Parents(this);
+		static_cast<CEffect_Mesh*>(pMesh)->Set_MeshInfo(MeshInfo);
+
+		m_Meshes.push_back((CEffect_Mesh*)pMesh);
+	}
 
 	// 颇萍努 积己
 
