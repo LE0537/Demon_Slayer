@@ -197,80 +197,81 @@ CRuiState * CAtk_2_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	//CCharacters* m_pTarget = pRui->Get_BattleTarget();
-	//_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	//m_pTarget->Get_Transform()->Set_PlayerLookAt(vLooAt);
+	CCharacters* m_pTarget = pRui->Get_BattleTarget();
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLooAt.m128_f32[1] = 0.f;
+	pRui->Get_Transform()->LookAt(vLooAt);
 
-	//m_fMove += fTimeDelta;
+	m_fMove += fTimeDelta;
 
-	//if (m_fMove < 0.3f)
-	//{
-	//	pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+	if (m_fMove < 0.3f)
+	{
+		pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
 
-	//	_vector vCollPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
-	//	_vector vCollLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-	//	vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
-	//	vCollPos.m128_f32[1] = 1.f; //추가
-	//	m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-	//	CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
-	//	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-	//	CCollider*	pMyCollider2 = pRui->Get_SphereCollider();
-	//	if (m_fMove > 0.1f && m_iHit == 0)
-	//	{
-	//		if (nullptr == pTargetCollider)
-	//			return nullptr;
+		_vector vCollPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+		CCollider*	pMyCollider2 = pRui->Get_SphereCollider();
+		if (m_fMove > 0.1f && m_iHit == 0)
+		{
+			if (nullptr == pTargetCollider)
+				return nullptr;
 
-	//		if (pMyCollider->Collision(pTargetCollider))
-	//		{
-	//			_float4 vTagetPos;
-	//			XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-	//			_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	//			m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
-	//	
-	//			if (m_pTarget->Get_PlayerInfo().bGuard)
-	//			{
-	//				m_pTarget->Get_GuardHit(0);
-	//			}
-	//			else
-	//			{
-	//				m_pTarget->Set_Hp(-pRui->Get_PlayerInfo().iDmg);
-	//				m_pTarget->Take_Damage(0.3f,false);
-	//			}
-	//			_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_float4 vTagetPos;
+				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				vPos.m128_f32[1] = 0.f;
+				m_pTarget->Get_Transform()->LookAt(vPos);
 
-	//			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pRui->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.3f, false);
+				}
 
-	//			pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-	//			RELEASE_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
-	//			++m_iHit;
-	//		}
+				RELEASE_INSTANCE(CEffect_Manager);
 
-	//	}
+				++m_iHit;
+			}
+
+		}
 
 
-	//	if (pMyCollider2->Collision(pTargetCollider))
-	//	{
-	//		_float fSpeed = pRui->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+		if (pMyCollider2->Collision(pTargetCollider))
+		{
+			_float fSpeed = pRui->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
 
-	//		_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	//		_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-	//		_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
-	//		_vector vMyLook = vTargetLook * -1.f;
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
 
-	//		_vector vPow = XMVector3Dot(pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+			_vector vPow = XMVector3Dot(pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
 
-	//		_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
 
-	//		vPos += vMyLook * (fSpeed - fSpeed * fPow);
-	//		vTargetPos += vTargetLook * fSpeed * fPow;
-	//		vPos.m128_f32[1] = 0.f;
-	//		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	//		m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
-	//	}
-	//}
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			vPos.m128_f32[1] = 0.f;
+			pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+		}
+	}
 
 	RELEASE_INSTANCE(CGameInstance);
 

@@ -81,13 +81,13 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 				else
 				{
 					m_pTarget->Set_Hp(-50);
-					m_pTarget->Take_Damage(1.f, true);
+					m_pTarget->Take_Damage(0.8f, true);
 				}
 				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-				//pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 
@@ -156,14 +156,15 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 				else
 				{
 					m_pTarget->Set_Hp(-50);
-					//m_pTarget->Take_Damage(0.25f, false);
+					if(!m_bHit)
+						m_pTarget->Take_Damage(0.5f, true);
 				}
 
 				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-				//pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 				m_fHitTime = 0.f;

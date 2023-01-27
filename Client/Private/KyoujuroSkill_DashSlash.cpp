@@ -88,7 +88,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-				//pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 
@@ -163,7 +163,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-				//pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 				m_fHitTime = 0.f;

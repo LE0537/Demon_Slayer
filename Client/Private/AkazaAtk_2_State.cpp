@@ -211,9 +211,10 @@ CAkazaState * CAtk_2_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 		_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 2.f; //추가
 		vCollPos.m128_f32[1] = 1.f; //추가
 		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		m_pCollBox->Get_Transform()->Set_PlayerLookAt(m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 		CCollider*	pMyCollider2 = pAkaza->Get_SphereCollider();
