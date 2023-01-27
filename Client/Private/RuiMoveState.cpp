@@ -8,6 +8,7 @@
 #include "RuiDashState.h"
 #include "RuiAtk_1_State.h"
 #include "RuiMoveJumpState.h"
+#include "RuiGuardState.h"
 using namespace Rui;
 
 
@@ -26,6 +27,8 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 	case 1:
 		if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
+		else if (pGameInstance->Key_Pressing(DIK_O))
+			return new CGuardState(STATE_TYPE::TYPE_START);
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 		{
@@ -159,6 +162,8 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
+		else if (pGameInstance->Key_Pressing(DIK_C))
+			return new CGuardState(STATE_TYPE::TYPE_START);
 
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 		{

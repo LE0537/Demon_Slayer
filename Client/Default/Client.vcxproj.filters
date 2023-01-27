@@ -526,6 +526,12 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Move\MoveJump">
       <UniqueIdentifier>{bd438627-da8f-4e8a-9399-661f5d830662}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Guard">
+      <UniqueIdentifier>{7a44c8d5-82b4-4f59-8a48-ec75ff413bb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Guard">
+      <UniqueIdentifier>{ea432c67-84cb-4e17-9073-f5a3f524d0a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1053,6 +1059,24 @@
     <ClInclude Include="..\Public\AkazaMoveJumpState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Move\MoveJump</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RuiGuardState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiGuardHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiGuardAdvState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaGuardState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaGuardHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaGuardAdvState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Guard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1555,6 +1579,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\AkazaMoveJumpState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Move\MoveJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiGuardState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiGuardHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiGuardAdvState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaGuardState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaGuardHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaGuardAdvState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Guard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

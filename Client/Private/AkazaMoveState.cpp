@@ -8,6 +8,7 @@
 #include "AkazaDashState.h"
 #include "AkazaAtk_1_State.h"
 #include "AkazaMoveJumpState.h"
+#include "AkazaGuardState.h"
 
 using namespace Akaza;
 
@@ -27,6 +28,8 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 	case 1:
 		if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
+		else if (pGameInstance->Key_Pressing(DIK_O))
+			return new CGuardState(STATE_TYPE::TYPE_START);
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 		{
@@ -160,6 +163,8 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
+		else if (pGameInstance->Key_Pressing(DIK_C))
+			return new CGuardState(STATE_TYPE::TYPE_START);
 
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 		{
