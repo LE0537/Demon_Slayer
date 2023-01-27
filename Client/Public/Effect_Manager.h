@@ -10,7 +10,7 @@ class CEffect_Manager :
 	DECLARE_SINGLETON(CEffect_Manager)
 
 public:
-	enum EFFECT { EFF_HIT, EFF_TANJIRO_ATTACK1, EFF_END };
+	enum EFFECT { EFF_HIT, EFF_TANATTACK1, EFF_END };
 
 public:
 	CEffect_Manager();
