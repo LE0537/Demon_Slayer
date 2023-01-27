@@ -308,8 +308,8 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1, vPlayerWorld);
-
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK2_1, vPlayerWorld);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK2_2, vPlayerWorld);
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
 	}
