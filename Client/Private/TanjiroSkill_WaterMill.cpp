@@ -71,7 +71,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 	pTanjiro->Get_Transform()->Set_PlayerLookAt(vLooAt);
 	//pTanjiro->Get_Transform()->LookAt(vLooAt);
 	_int iHit = pTanjiro->Get_WaterMillHit();
-	m_fTime += fTimeDelta;
+	m_fTime += fTimeDelta; 
 	m_fHitTime += fTimeDelta;
 	if (m_fTime < 0.35f)
 	{

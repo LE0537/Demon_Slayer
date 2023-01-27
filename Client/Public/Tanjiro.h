@@ -123,6 +123,9 @@ public:
 	_int Get_WindMillHit() { return m_iWindMillHit; }
 	void Set_WindMillHit() { ++m_iWindMillHit; }
 	void Reset_WindMillHit() { m_iWindMillHit = 0; }
+	_int Get_SkillHit() { return m_iSkillHit; }
+	void Set_SkillHit() { ++m_iSkillHit; }
+	void Reset_SkillHit() { m_iSkillHit = 0; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -142,6 +145,7 @@ private:
 	CGameObject*			m_pWeapon = nullptr;
 	CGameObject*			m_pSheath = nullptr;
 	_float					m_fHpTime = 0.f;
+	_int					m_iSkillHit = 0;
 	_int					m_iWaterMillHit = 0;
 	_int					m_iWindMillHit = 0;
 private:
