@@ -532,6 +532,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Guard">
       <UniqueIdentifier>{ea432c67-84cb-4e17-9073-f5a3f524d0a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\03.KyoujuroSkill">
+      <UniqueIdentifier>{e0bc9a06-de95-4b4c-ac42-9873e77d922f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1077,6 +1080,9 @@
     <ClInclude Include="..\Public\AkazaGuardAdvState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Guard</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\KyoujuroSkill.h">
+      <Filter>05.CollBox\03.KyoujuroSkill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1597,6 +1603,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\AkazaGuardAdvState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\KyoujuroSkill.cpp">
+      <Filter>05.CollBox\03.KyoujuroSkill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

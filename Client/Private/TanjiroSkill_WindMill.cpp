@@ -97,7 +97,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 						m_pTarget->Set_Hp(-30);
 						if (!m_bHit)
 						{
-							m_pTarget->Take_Damage(0.3f,true);
+							m_pTarget->Take_Damage(0.6f,true);
 							m_bHit = true;
 						}
 					}
