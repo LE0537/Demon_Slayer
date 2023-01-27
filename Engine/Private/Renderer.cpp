@@ -209,7 +209,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Shade"), 0.5f * fVIBufferRadius, 3.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 1.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Specular"), 0.5f * fVIBufferRadius, 4.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Glow"), 1.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
@@ -376,6 +376,8 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 
 	//	Clear MRT_Master
 	if (FAILED(m_pTarget_Manager->MRT_Clear(m_pContext, TEXT("MRT_Master"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->MRT_Clear(m_pContext, TEXT("MRT_AlphaDeferred"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -1198,6 +1200,17 @@ HRESULT CRenderer::Render_Debug()
 	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_BlurXY"), m_pShader, m_pVIBuffer)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_LightShaft"), m_pShader, m_pVIBuffer)))
+		return E_FAIL;
+
+	//	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_Glow"), m_pShader, m_pVIBuffer)))
+	//	return E_FAIL;		by MRT_Deferred
+	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_AlphaGlow"), m_pShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowX"), m_pShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowXY"), m_pShader, m_pVIBuffer)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowAll"), m_pShader, m_pVIBuffer)))
 		return E_FAIL;
 
 	return S_OK;
