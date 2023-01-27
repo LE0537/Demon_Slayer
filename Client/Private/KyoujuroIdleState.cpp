@@ -63,10 +63,20 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 		{
 			if (pGameInstance->Key_Down(DIK_O))
 			{
-				return new CSkill_DoubleUpperState();
+				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_DoubleUpperState();
+				}
 			}
 			else
-				return new CSkill_CommonState();
+			{
+				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_CommonState();
+				}
+			}
 		}
 		break;
 	case 2:
@@ -109,17 +119,25 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 		{
 			if (pGameInstance->Key_Down(DIK_C))
 			{
-				return new CSkill_DoubleUpperState();
+				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_DoubleUpperState();
+				}
 			}
 			else
-				return new CSkill_CommonState();
+			{
+				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_CommonState();
+				}
+			}
 		}
 		break;
 	default:
 		break;
 	}
-
-
 
 	return nullptr;
 }

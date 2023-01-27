@@ -17,7 +17,13 @@ public:
 
 	virtual void Enter(CKyoujuro* pKyoujuro) override;
 	virtual void Exit(CKyoujuro* pKyoujuro) override;
-
+private:
+	CBaseAtk*	m_pCollBox = nullptr;
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_float m_fDelay = 0.f;
+	_int   m_iHit = 0;
+	_bool  m_bHit = false;
 };
 END
 END

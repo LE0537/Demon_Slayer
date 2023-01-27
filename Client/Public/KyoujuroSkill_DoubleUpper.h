@@ -1,7 +1,7 @@
 #pragma once
 
 #include "KyoujuroState.h"
-#include "BaseAtk.h"
+#include "WaterMill.h"
 
 BEGIN(Client)
 BEGIN(Kyoujuro)
@@ -17,7 +17,21 @@ public:
 
 	virtual void Enter(CKyoujuro* pKyoujuro) override;
 	virtual void Exit(CKyoujuro* pKyoujuro) override;
+private:
+	CKyoujuroState* Jump(CKyoujuro* pKyoujuro, _float fTimeDelta);
+private:
+	CWaterMill*	m_pCollBox = nullptr;
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_float m_fDelay = 0.f;
+	_int   m_iHit = 0;
+	_bool  m_bHit = false;
 
+private:
+	_float m_fJumpPower = 15.f;
+	_float m_fJumpTime = 0.f;
+	_float m_fCurrentPosY = 0.f;
+	_bool  m_bJump = false;
 };
 END
 END

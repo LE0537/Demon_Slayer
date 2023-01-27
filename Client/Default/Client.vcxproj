@@ -214,6 +214,7 @@
     <ClInclude Include="..\Public\KyoujuroGuardState.h" />
     <ClInclude Include="..\Public\KyoujuroHitState.h" />
     <ClInclude Include="..\Public\KyoujuroMoveState.h" />
+    <ClInclude Include="..\public\KyoujuroSkill.h" />
     <ClInclude Include="..\Public\KyoujuroSkill_Common.h" />
     <ClInclude Include="..\Public\KyoujuroSkill_DashSlash.h" />
     <ClInclude Include="..\Public\KyoujuroSkill_DoubleUpper.h" />
@@ -382,6 +383,7 @@
     <ClCompile Include="..\Private\KyoujuroGuardState.cpp" />
     <ClCompile Include="..\Private\KyoujuroHitState.cpp" />
     <ClCompile Include="..\Private\KyoujuroMoveState.cpp" />
+    <ClCompile Include="..\private\KyoujuroSkill.cpp" />
     <ClCompile Include="..\Private\KyoujuroSkill_Common.cpp" />
     <ClCompile Include="..\Private\KyoujuroSkill_DashSlash.cpp" />
     <ClCompile Include="..\Private\KyoujuroSkill_DoubleUpper.cpp" />

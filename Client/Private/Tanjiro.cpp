@@ -209,7 +209,7 @@ void CTanjiro::Take_Damage(_float _fPow, _bool _bJumpHit)
 	if(m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_HIT)
 		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_HIT);
 
-	CTanjiroState* pState = new CHitState(_fPow);
+	CTanjiroState* pState = new CHitState(_fPow, _bJumpHit);
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
 

@@ -508,6 +508,9 @@
     <Filter Include="03.UI\02.Battle\BattleButtom\Bar">
       <UniqueIdentifier>{540e57b6-b12a-42b3-bc39-19453d9bad87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\03.KyoujuroSkill">
+      <UniqueIdentifier>{e0bc9a06-de95-4b4c-ac42-9873e77d922f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1011,6 +1014,9 @@
     <ClInclude Include="..\Public\KeyUI.h">
       <Filter>03.UI\97.KeyUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\KyoujuroSkill.h">
+      <Filter>05.CollBox\03.KyoujuroSkill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1489,6 +1495,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\UltBar.cpp">
       <Filter>03.UI\02.Battle\BattleButtom\Bar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\KyoujuroSkill.cpp">
+      <Filter>05.CollBox\03.KyoujuroSkill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

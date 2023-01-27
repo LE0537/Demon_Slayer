@@ -35,9 +35,21 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 		else if (pGameInstance->Key_Down(DIK_I))
 		{
 			if (pGameInstance->Key_Down(DIK_O))
-				return new CSkill_DoubleUpperState();
+			{
+				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_DoubleUpperState();
+				}
+			}
 			else
-				return new CSkill_DashSlashState();
+			{
+				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_DashSlashState();
+				}
+			}
 		}
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
@@ -165,10 +177,22 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_X))
 		{
-			if(pGameInstance->Key_Down(DIK_C))
-				return new CSkill_DoubleUpperState();
+			if (pGameInstance->Key_Down(DIK_C))
+			{
+				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_DoubleUpperState();
+				}
+			}
 			else
-				return new CSkill_DashSlashState();
+			{
+				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_DashSlashState();
+				}
+			}
 		}
 			
 
