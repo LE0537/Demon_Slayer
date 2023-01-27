@@ -81,12 +81,11 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 	return;
 }
 
-void CEffect_Manager::Create_Effect(_uint iEffectNum, _matrix mtrWorld)
+void CEffect_Manager::Create_Effect(_uint iEffectNum, CCharacters* pTarget)
 {
-	// 아뉘 나한테 왜그러는데
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(pGameInstance->Add_GameObject(m_Effect[iEffectNum], LEVEL_GAMEPLAY, TEXT("Layer_Effect"),&mtrWorld)))
+	if (FAILED(pGameInstance->Add_GameObject(m_Effect[iEffectNum], LEVEL_GAMEPLAY, TEXT("Layer_Effect"), pTarget)))
 		return ;
 
 	RELEASE_INSTANCE(CGameInstance);

@@ -96,11 +96,9 @@ CKyoujuroState * CGuardAdvState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeDel
 
 		if (pMyCollider->Collision(pTargetCollider))
 		{
-			_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
-
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-			
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 			RELEASE_INSTANCE(CEffect_Manager);
 
