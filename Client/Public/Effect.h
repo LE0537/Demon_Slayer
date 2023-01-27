@@ -4,6 +4,7 @@
 #include "Effect_Mesh.h"
 #include "Effect_Particle.h"
 #include "Effect_Texture.h"
+#include "Characters.h"
 
 BEGIN(Client)
 
@@ -52,6 +53,10 @@ private:
 	_float										m_fEffectTime = 0.f;
 
 	EFFECT_INFO									m_EffectInfo;
+
+	_bool										m_bStart;
+
+	CCharacters*								m_pTarget;
 
 	vector<class CEffect_Texture*>				m_Textures;
 	vector<class CEffect_Mesh*>					m_Meshes;

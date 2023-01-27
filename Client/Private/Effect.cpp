@@ -40,10 +40,9 @@ HRESULT CEffect::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-
+	if (nullptr != pArg)
+		m_pTarget = (CCharacters*)pArg;
 	
-	//m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMLoadFloat4((_float4*)pArg));
-
 	_float3 vRadian;
 	vRadian.x = XMConvertToRadians(m_EffectInfo.vRotation.x);
 	vRadian.y = XMConvertToRadians(m_EffectInfo.vRotation.y);
@@ -52,11 +51,14 @@ HRESULT CEffect::Initialize(void * pArg)
 	m_pTransformCom->RotationAll(vRadian);
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
-	if (nullptr != pArg)
-		m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * (*(_matrix*)pArg));
+	
+	
+
 	m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(180.f));
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
+
+	m_bStart = true;
 
 	return S_OK;
 }
@@ -66,6 +68,10 @@ void CEffect::Tick(_float fTimeDelta)
 	m_fEffectTime += fTimeDelta;
 
 	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
+		if (m_bStart) {
+			m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
+			m_bStart = false;
+		}
 
 		for (auto& pTex : m_Textures)
 			pTex->Tick(fTimeDelta);
@@ -74,7 +80,6 @@ void CEffect::Tick(_float fTimeDelta)
 			pMesh->Tick(fTimeDelta);
 
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime + m_EffectInfo.fEffectLifeTime) {
-			m_bDead = true;
 			Set_Dead();
 
 			for (auto& pTex : m_Textures)
@@ -91,11 +96,13 @@ void CEffect::Tick(_float fTimeDelta)
 
 void CEffect::Late_Tick(_float fTimeDelta)
 {
-	for (auto& pTex : m_Textures)
-		pTex->Late_Tick(fTimeDelta);
+	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
+		for (auto& pTex : m_Textures)
+			pTex->Late_Tick(fTimeDelta);
 
-	for (auto& pMesh : m_Meshes)
-		pMesh->Late_Tick(fTimeDelta);
+		for (auto& pMesh : m_Meshes)
+			pMesh->Late_Tick(fTimeDelta);
+	}
 }
 
 HRESULT CEffect::Ready_Components()

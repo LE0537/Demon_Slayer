@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "Base.h"
+#include "Characters.h"
 
 BEGIN(Client)
 
@@ -21,7 +22,7 @@ public:
 
 public:
 	void Load_Effect(const _tchar* EffectName);
-	void Create_Effect(_uint iEffectNum, _matrix mtrWorld);
+	void Create_Effect(_uint iEffectNum, CCharacters* pTarget);
 
 private:
 	ID3D11Device* m_pDevice = nullptr;

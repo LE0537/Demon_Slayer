@@ -89,13 +89,11 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 		g_bCollBox = !g_bCollBox;
 
 	if (pGameInstance->Key_Down(DIK_0)) {
-		_matrix vTagetWorld = XMMatrixIdentity();
+		/*CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1, m_pTarget);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1, vTagetWorld);
-
-		RELEASE_INSTANCE(CEffect_Manager);
+		RELEASE_INSTANCE(CEffect_Manager)*/;
 	}
 		
 	
