@@ -136,7 +136,8 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 			ConvertToViewPort(fTimeDelta);
 		}
 	}
-	if (!m_p1P->Get_PlayerInfo().bJump)
+	_vector v1PY = m_p1P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	if (!m_p1P->Get_PlayerInfo().bJump && v1PY.m128_f32[1] < 0.1f)
 	{
 		if (m_f1pY > 630.f)
 		{
@@ -169,6 +170,9 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 			}
 		}
 	}
+	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
+	vPos.m128_f32[1] += v1PY.m128_f32[1] / 2.f;
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pPlayer->Set_CamAngle(m_fAngle);
 	m_pTarget->Set_CamAngle(m_fAngle);
 }

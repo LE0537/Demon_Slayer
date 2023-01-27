@@ -442,6 +442,9 @@
     <Filter Include="05.CollBox\01.WaterMill">
       <UniqueIdentifier>{e64144cc-3be0-44f8-a32b-974e3069d22a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\02.WindMill">
+      <UniqueIdentifier>{0e7a4710-3228-48ba-8356-bddd194d1a52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -890,6 +893,9 @@
     <ClInclude Include="..\public\WaterMill.h">
       <Filter>05.CollBox\01.WaterMill</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\WindMill.h">
+      <Filter>05.CollBox\02.WindMill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1311,6 +1317,9 @@
     </ClCompile>
     <ClCompile Include="..\private\WaterMill.cpp">
       <Filter>05.CollBox\01.WaterMill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WindMill.cpp">
+      <Filter>05.CollBox\02.WindMill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
