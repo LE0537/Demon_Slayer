@@ -929,6 +929,9 @@
     <ClInclude Include="..\Public\RuiAtk_4_State.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack4</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\AkazaAtk_1_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1362,6 +1365,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiAtk_4_State.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Attack4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaAtk_1_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

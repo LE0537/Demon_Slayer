@@ -106,7 +106,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 
-		else if (pGameInstance->Key_Down(DIK_J))
+		else if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
 
 		break;

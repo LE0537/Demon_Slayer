@@ -6,6 +6,7 @@
 #include "Characters.h"
 #include "Layer.h"
 #include "RuiDashState.h"
+#include "RuiAtk_1_State.h"
 
 using namespace Rui;
 
@@ -23,6 +24,9 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 	switch (pRui->Get_i1P())
 	{
 	case 1:
+		if (pGameInstance->Key_Down(DIK_J))
+			return new CAtk_1_State();
+
 		if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 		{
 			if (pGameInstance->Key_Pressing(DIK_A)) // аб
@@ -93,6 +97,9 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			return new CIdleState();
 		break;
 	case 2:
+		if (pGameInstance->Key_Down(DIK_Z))
+			return new CAtk_1_State();
+
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 		{
 			if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

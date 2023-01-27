@@ -183,6 +183,7 @@
     <ClInclude Include="..\DebugTool\imstb_textedit.h" />
     <ClInclude Include="..\DebugTool\imstb_truetype.h" />
     <ClInclude Include="..\Public\Akaza.h" />
+    <ClInclude Include="..\Public\AkazaAtk_1_State.h" />
     <ClInclude Include="..\Public\AkazaDashState.h" />
     <ClInclude Include="..\Public\AkazaIdleState.h" />
     <ClInclude Include="..\Public\AkazaMoveState.h" />
@@ -337,6 +338,7 @@
     <ClCompile Include="..\DebugTool\imgui_tables.cpp" />
     <ClCompile Include="..\DebugTool\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\Akaza.cpp" />
+    <ClCompile Include="..\Private\AkazaAtk_1_State.cpp" />
     <ClCompile Include="..\Private\AkazaDashState.cpp" />
     <ClCompile Include="..\Private\AkazaIdleState.cpp" />
     <ClCompile Include="..\Private\AkazaMoveState.cpp" />

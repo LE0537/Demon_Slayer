@@ -206,7 +206,7 @@ CRuiState * CAtk_3_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 	if (m_fMove < 0.3f)
 	{
-		pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+		pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
 
 		_vector vCollPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
@@ -275,7 +275,7 @@ CRuiState * CAtk_3_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
+	pRui->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;
 }

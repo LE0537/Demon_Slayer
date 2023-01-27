@@ -178,7 +178,7 @@ CRuiState * CAtk_2_State::Tick(CRui* pRui, _float fTimeDelta)
 	//printf_s("AttackTime : %f \n", (_float)m_fTime);
 
 
-	if (m_bAtkCombo == true && m_fTime >= 30.f)
+	if (m_bAtkCombo == true && m_fTime >= 50.f)
 		return new CAtk_3_State();
 
 
@@ -199,8 +199,7 @@ CRuiState * CAtk_2_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 	CCharacters* m_pTarget = pRui->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vLooAt.m128_f32[1] = 0.f;
-	pRui->Get_Transform()->LookAt(vLooAt);
+	m_pTarget->Get_Transform()->Set_PlayerLookAt(vLooAt);
 
 	m_fMove += fTimeDelta;
 
@@ -226,8 +225,7 @@ CRuiState * CAtk_2_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 				_float4 vTagetPos;
 				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				vPos.m128_f32[1] = 0.f;
-				m_pTarget->Get_Transform()->LookAt(vPos);
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 		
 				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{
@@ -275,7 +273,7 @@ CRuiState * CAtk_2_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	pRui->Get_Model()->Play_Animation(fTimeDelta * 0.7f);
+	pRui->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;
 }

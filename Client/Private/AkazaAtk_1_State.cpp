@@ -1,13 +1,12 @@
 #include "stdafx.h"
-#include "RuiAtk_1_State.h"
-#include "RuiIdleState.h"
+#include "AkazaAtk_1_State.h"
+#include "AkazaIdleState.h"
 #include "GameInstance.h"
-#include "RuiAtk_2_State.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-#include "RuiDashState.h"
+#include "AkazaDashState.h"
 
-using namespace Rui;
+using namespace Akaza;
 
 
 CAtk_1_State::CAtk_1_State()
@@ -20,11 +19,11 @@ CAtk_1_State::CAtk_1_State()
 	RELEASE_INSTANCE(CGameInstance);
 }
 
-CRuiState * CAtk_1_State::HandleInput(CRui* pRui)
+CAkazaState * CAtk_1_State::HandleInput(CAkaza* pAkaza)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	switch (pRui->Get_i1P())
+	switch (pAkaza->Get_i1P())
 	{
 	case 1:
 		if (pGameInstance->Key_Down(DIK_J) && m_fComboDelay <= 43.f)
@@ -40,7 +39,7 @@ CRuiState * CAtk_1_State::HandleInput(CRui* pRui)
 
 	if (m_fComboDelay <= 35.f)
 	{
-		switch (pRui->Get_i1P())
+		switch (pAkaza->Get_i1P())
 		{
 		case 1:
 			if (pGameInstance->Key_Pressing(DIK_W)) // 앞
@@ -167,25 +166,25 @@ CRuiState * CAtk_1_State::HandleInput(CRui* pRui)
 	return nullptr;
 }
 
-CRuiState * CAtk_1_State::Tick(CRui* pRui, _float fTimeDelta)
+CAkazaState * CAtk_1_State::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
 
-	pRui->Get_Model()->Set_Loop(CRui::ANIM_ATTACK_1);
-	pRui->Get_Model()->Set_LinearTime(CRui::ANIM_ATTACK_1, 0.01f);
+	pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_ATTACK_1);
+	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_ATTACK_1, 0.01f);
 
 	m_fTime += fTimeDelta * 60;
 	m_fComboDelay += fTimeDelta * 60;
 	//printf_s("AttackTime : %f \n", (_float)m_fTime);
 
 
-	if (m_bAtkCombo == true && m_fTime >= 40.f)
-		return new CAtk_2_State();
+	//if (m_bAtkCombo == true && m_fTime >= 40.f)
+	//	return new CAtk_2_State();
 
 
 
-	if (pRui->Get_Model()->Get_End(CRui::ANIM_ATTACK_1))
+	if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_ATTACK_1))
 	{
-		pRui->Get_Model()->Set_End(CRui::ANIM_ATTACK_1);
+		pAkaza->Get_Model()->Set_End(CAkaza::ANIM_ATTACK_1);
 		return new CIdleState();
 	}
 
@@ -193,29 +192,29 @@ CRuiState * CAtk_1_State::Tick(CRui* pRui, _float fTimeDelta)
 	return nullptr;
 }
 
-CRuiState * CAtk_1_State::Late_Tick(CRui* pRui, _float fTimeDelta)
+CAkazaState * CAtk_1_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	CCharacters* m_pTarget = pRui->Get_BattleTarget();
+	CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
-	pRui->Get_Transform()->LookAt(vLooAt);
+	pAkaza->Get_Transform()->LookAt(vLooAt);
 
 	m_fMove += fTimeDelta;
 
 	if (m_fMove < 0.3f)
 	{
-		pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+		pAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
 
-		_vector vCollPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
-		_vector vCollLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
 		vCollPos.m128_f32[1] = 1.f; //추가
 		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-		CCollider*	pMyCollider2 = pRui->Get_SphereCollider();
+		CCollider*	pMyCollider2 = pAkaza->Get_SphereCollider();
 		if (m_fMove > 0.1f && m_iHit == 0)
 		{
 			if (nullptr == pTargetCollider)
@@ -225,7 +224,7 @@ CRuiState * CAtk_1_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 			{
 				_float4 vTagetPos;
 				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				vPos.m128_f32[1] = 0.f;
 				m_pTarget->Get_Transform()->LookAt(vPos);
 		
@@ -235,7 +234,7 @@ CRuiState * CAtk_1_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 				}
 				else
 				{
-					m_pTarget->Set_Hp(-pRui->Get_PlayerInfo().iDmg);
+					m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.3f);
 				}
 
@@ -253,43 +252,43 @@ CRuiState * CAtk_1_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 		if (pMyCollider2->Collision(pTargetCollider))
 		{
-			_float fSpeed = pRui->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+			_float fSpeed = pAkaza->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
 
 			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
 			_vector vMyLook = vTargetLook * -1.f;
 
-			_vector vPow = XMVector3Dot(pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+			_vector vPow = XMVector3Dot(pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
 
 			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
 
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
 			vPos.m128_f32[1] = 0.f;
-			pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
 		}
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
+	pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 
 	return nullptr;
 }
 
-void CAtk_1_State::Enter(CRui* pRui)
+void CAtk_1_State::Enter(CAkaza* pAkaza)
 {
 	m_eStateId = STATE_ID::STATE_ATK_1;
 
-	pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_ATTACK_1);
-	pRui->Set_AnimIndex(CRui::ANIM_ATTACK_1);
+	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_ATTACK_1);
+	pAkaza->Set_AnimIndex(CAkaza::ANIM_ATTACK_1);
 
 }
 
-void CAtk_1_State::Exit(CRui* pRui)
+void CAtk_1_State::Exit(CAkaza* pAkaza)
 {
 	m_pCollBox->Set_Dead(); //추가
 }
