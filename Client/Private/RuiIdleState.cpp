@@ -4,6 +4,7 @@
 #include "RuiMoveState.h"
 #include "RuiAtk_1_State.h"
 #include "RuiJumpState.h"
+#include "RuiGuardState.h"
 using namespace Rui;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -67,6 +68,8 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 		}
 		else if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
+		else if (pGameInstance->Key_Pressing(DIK_O))
+			return new CGuardState(STATE_TYPE::TYPE_START);
 		break;
 	case 2:
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
@@ -118,7 +121,8 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 		}
 		else if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
-
+		else if (pGameInstance->Key_Pressing(DIK_C))
+			return new CGuardState(STATE_TYPE::TYPE_START);
 		break;
 	}
 

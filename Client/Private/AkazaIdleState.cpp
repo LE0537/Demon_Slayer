@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "AkazaAtk_1_State.h"
 #include "AkazaJumpState.h"
+#include "AkazaGuardState.h"
 
 using namespace Akaza;
 
@@ -68,6 +69,8 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			_float fPositionY = XMVectorGetY(vPosition);
 			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 		}
+		else if (pGameInstance->Key_Pressing(DIK_O))
+			return new CGuardState(STATE_TYPE::TYPE_START);
 
 		break;
 	case 2:
@@ -121,6 +124,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			_float fPositionY = XMVectorGetY(vPosition);
 			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 		}
+
+		else if (pGameInstance->Key_Pressing(DIK_C))
+			return new CGuardState(STATE_TYPE::TYPE_START);
 	}
 
 	return nullptr;
