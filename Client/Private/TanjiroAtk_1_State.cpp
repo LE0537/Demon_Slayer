@@ -241,9 +241,11 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 					m_pTarget->Take_Damage(0.3f,false);
 				}
 
+				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
+
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-				vTagetPos.y += 2.f;
-				pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT, vTagetPos);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 

@@ -30,15 +30,7 @@ HRESULT CEffect::Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Tex
 		m_MeshInfo.push_back(MeshInfo);
 	}
 
-	_float3 vRadian;
-	vRadian.x = XMConvertToRadians(m_EffectInfo.vRotation.x);
-	vRadian.y = XMConvertToRadians(m_EffectInfo.vRotation.y);
-	vRadian.z = XMConvertToRadians(m_EffectInfo.vRotation.z);
-
-	m_pTransformCom->RotationAll(vRadian);
-
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
-
+	
 	return S_OK;
 }
 
@@ -54,6 +46,16 @@ HRESULT CEffect::Initialize(void * pArg)
 		m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * (*(_matrix*)pArg));
 
 	//m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMLoadFloat4((_float4*)pArg));
+
+	_float3 vRadian;
+	vRadian.x = XMConvertToRadians(m_EffectInfo.vRotation.x);
+	vRadian.y = XMConvertToRadians(m_EffectInfo.vRotation.y);
+	vRadian.z = XMConvertToRadians(m_EffectInfo.vRotation.z);
+
+	m_pTransformCom->RotationAll(vRadian);
+
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
+
 
 	return S_OK;
 }
