@@ -476,6 +476,9 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_UIVtxTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxCubeTexture.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxEffModel.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxEffPointInstance.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxEffTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModelInstance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />

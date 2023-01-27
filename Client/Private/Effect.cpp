@@ -17,16 +17,27 @@ CEffect::CEffect(const CEffect & rhs)
 {
 }
 
-HRESULT CEffect::Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo)
+HRESULT CEffect::Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
+	, vector<CEffect_Mesh::MESH_INFO> MeshInfo)
 {
-	m_EffectInfo.fEffectStartTime = EffectInfo.fEffectStartTime;
-	m_EffectInfo.fEffectLifeTime = EffectInfo.fEffectLifeTime;
-	m_EffectInfo.vPosition = EffectInfo.vPosition;
-	m_EffectInfo.vRotation = EffectInfo.vRotation;
+	m_EffectInfo = EffectInfo;
 
 	for (auto TexInfo : TextureInfo) {
 		m_TextureInfo.push_back(TexInfo);
 	}
+
+	for (auto MeshInfo : MeshInfo) {
+		m_MeshInfo.push_back(MeshInfo);
+	}
+
+	_float3 vRadian;
+	vRadian.x = XMConvertToRadians(m_EffectInfo.vRotation.x);
+	vRadian.y = XMConvertToRadians(m_EffectInfo.vRotation.y);
+	vRadian.z = XMConvertToRadians(m_EffectInfo.vRotation.z);
+
+	m_pTransformCom->RotationAll(vRadian);
+
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
 
 	return S_OK;
 }
@@ -39,7 +50,10 @@ HRESULT CEffect::Initialize(void * pArg)
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMLoadFloat4((_float4*)pArg));
+	if(nullptr != pArg)
+		m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * (*(_matrix*)pArg));
+
+	//m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMLoadFloat4((_float4*)pArg));
 
 	return S_OK;
 }
@@ -53,6 +67,9 @@ void CEffect::Tick(_float fTimeDelta)
 		for (auto& pTex : m_Textures)
 			pTex->Tick(fTimeDelta);
 
+		for (auto& pMesh : m_Meshes)
+			pMesh->Tick(fTimeDelta);
+
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime + m_EffectInfo.fEffectLifeTime) {
 			m_bDead = true;
 		}
@@ -63,6 +80,9 @@ void CEffect::Late_Tick(_float fTimeDelta)
 {
 	for (auto& pTex : m_Textures)
 		pTex->Late_Tick(fTimeDelta);
+
+	for (auto& pMesh : m_Meshes)
+		pMesh->Late_Tick(fTimeDelta);
 }
 
 HRESULT CEffect::Ready_Components()
@@ -104,11 +124,12 @@ HRESULT CEffect::Ready_Parts()
 	return S_OK;
 }
 
-CEffect * CEffect::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo)
+CEffect * CEffect::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
+	, vector<CEffect_Mesh::MESH_INFO> MeshInfo)
 {
 	CEffect*	pInstance = new CEffect(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_Prototype(EffectInfo, TextureInfo)))
+	if (FAILED(pInstance->Initialize_Prototype(EffectInfo, TextureInfo, MeshInfo)))
 	{
 		ERR_MSG(TEXT("Failed to Created : CEffect"));
 		Safe_Release(pInstance);

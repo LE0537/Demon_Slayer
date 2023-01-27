@@ -17,7 +17,16 @@ public:
 		_float3										vPosition;
 		_float3										vRotation;
 
+		_bool										bRoof;
+
 	}EFFECT_INFO;
+
+	enum DISAPPEAR { DISAPPEAR_DISJOLVE, DISAPPEAR_ALPHA, DISAPPEAR_NONE, DISAPPEAR_END };
+	enum EFFECTSHADER {
+		SHADER_BLUR, SHADER_DISTORTION, SHADER_ALPHABLEND, SHADER_ALPHATEST,
+		SHADER_GRAYSCALE, SHADER_END
+	};
+	enum PARTICLETYPE { PART_SPHERER, PART_CIRCLE1, PART_LINE, PART_CONE, PART_END };
 
 private:
 	CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -25,7 +34,8 @@ private:
 	virtual ~CEffect() = default;
 
 public:
-	HRESULT Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo);
+	HRESULT Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
+		, vector<CEffect_Mesh::MESH_INFO> MeshInfo);
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
 	virtual void Late_Tick(_float fTimeDelta);
@@ -48,9 +58,11 @@ private:
 	vector<class CEffect_Particle*>				m_Particle;
 
 	vector<CEffect_Texture::TEXTURE_INFO>		m_TextureInfo;
+	vector<CEffect_Mesh::MESH_INFO>				m_MeshInfo;
 
 public:
-	static CEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo);
+	static CEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
+		, vector<CEffect_Mesh::MESH_INFO> MeshInfo);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };

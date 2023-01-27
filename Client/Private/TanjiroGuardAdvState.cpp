@@ -106,7 +106,7 @@ CTanjiroState * CGuardAdvState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta
 
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			vTagetPos2.y += 2.f;
-			pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT, vTagetPos2);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetPos2);
 
 			RELEASE_INSTANCE(CEffect_Manager);
 

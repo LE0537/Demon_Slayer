@@ -149,6 +149,17 @@ void CTransform::LookAt(_fvector vAt)
 	Set_State(STATE_LOOK, XMVector3Normalize(vLook) * vScale.z);
 }
 
+void CTransform::RotationAll(_float3 vAxis)
+{
+	_matrix		RotationMatrix = XMMatrixRotationAxis(XMVectorSet(1.f, 0.f, 0.f, 0.f), vAxis.x) *
+		XMMatrixRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), vAxis.y) *
+		XMMatrixRotationAxis(XMVectorSet(0.f, 0.f, 1.f, 0.f), vAxis.z);
+
+	Set_State(CTransform::STATE_RIGHT, XMVector3TransformNormal(XMVectorSet(1.f, 0.f, 0.f, 0.f) * Get_Scale().x, RotationMatrix));
+	Set_State(CTransform::STATE_UP, XMVector3TransformNormal(XMVectorSet(0.f, 1.f, 0.f, 0.f) * Get_Scale().y, RotationMatrix));
+	Set_State(CTransform::STATE_LOOK, XMVector3TransformNormal(XMVectorSet(0.f, 0.f, 1.f, 0.f) * Get_Scale().z, RotationMatrix));
+}
+
 void CTransform::Set_Rotation(_float3 fAngle)
 {
 	// Get current RotationMatrix from the WorldMatrix by decomposition.

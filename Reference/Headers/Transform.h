@@ -101,6 +101,7 @@ public:
 	void Turn(_fvector vAxis, _float fTimeDelta);
 	void Turn2(_fvector vAxis, _float fAngle);
 	void LookAt(_fvector vAt);
+	void RotationAll(_float3 vAxis);
 
 
 public:
