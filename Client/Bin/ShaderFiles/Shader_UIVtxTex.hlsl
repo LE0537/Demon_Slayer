@@ -144,11 +144,10 @@ PS_OUT PS_SkillBarMinus(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
 
-	if (g_iCurBar / g_iMaxBar < In.vTexUV.x)
+	if (g_fCurSkillGauge / g_fMaxSkillGauge < In.vTexUV.x)
 		discard;
 	else
 		Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
-
 
 	return Out;
 }

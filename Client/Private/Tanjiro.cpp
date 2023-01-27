@@ -373,9 +373,9 @@ void CTanjiro::Set_Info()
 	m_tInfo.bOni = false;
 	m_tInfo.iMaxHp = 1000;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
-	m_tInfo.iSkMaxBar = 100;
+	m_tInfo.iSkMaxBar = 1000;
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
-	m_tInfo.iUnicMaxBar = 100;
+	m_tInfo.iUnicMaxBar = 1000;
 	m_tInfo.iUnicBar = 0;
 	m_tInfo.iDmg = 10;
 	m_tInfo.iCombo = 0;
