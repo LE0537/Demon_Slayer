@@ -7,7 +7,7 @@
 #include "Layer.h"
 #include "RuiDashState.h"
 #include "RuiAtk_1_State.h"
-
+#include "RuiMoveJumpState.h"
 using namespace Rui;
 
 
@@ -33,6 +33,15 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_L))
 					return new CDashState(DIR_LF);
+
+				else if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
+
 				else
 					return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
 			}
@@ -40,6 +49,14 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_L))
 					return new CDashState(DIR_RF);
+
+				else if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
 				else
 					return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
 			}
@@ -47,6 +64,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_L))
 					return new CDashState(DIR_STRAIGHT);
+				else if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
 				else
 					return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 			}
@@ -58,6 +82,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_L))
 					return new CDashState(DIR_LB);
+				else if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
 				else
 					return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
 			}
@@ -65,6 +96,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_L))
 					return new CDashState(DIR_RB);
+				else if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
 				else
 					return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
 			}
@@ -72,6 +110,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_L))
 					return new CDashState(DIR_BACK);
+				else if (pGameInstance->Key_Down(DIK_SPACE))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
 				else
 					return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
 			}
@@ -83,6 +128,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		{
 			if (pGameInstance->Key_Pressing(DIK_L))
 				return new CDashState(DIR_LEFT);
+			else if (pGameInstance->Key_Down(DIK_SPACE))
+			{
+				_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_float fPositionY = XMVectorGetY(vPosition);
+
+				return new CMoveJumpState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+			}
 			else
 				return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
 		}
@@ -90,6 +142,14 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		{
 			if (pGameInstance->Key_Pressing(DIK_L))
 				return new CDashState(DIR_RIGHT);
+
+			else if (pGameInstance->Key_Down(DIK_SPACE))
+			{
+				_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_float fPositionY = XMVectorGetY(vPosition);
+
+				return new CMoveJumpState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+			}
 			else
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
@@ -106,6 +166,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 					return new CDashState(DIR_LF);
+				else if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
 				else
 					return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
 			}
@@ -113,6 +180,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 					return new CDashState(DIR_RF);
+				else if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
 				else
 					return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
 			}
@@ -120,6 +194,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 					return new CDashState(DIR_STRAIGHT);
+				else if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
 				else
 					return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 			}
@@ -131,6 +212,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 					return new CDashState(DIR_LB);
+				else if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
 				else
 					return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
 			}
@@ -138,6 +226,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 					return new CDashState(DIR_RB);
+				else if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
 				else
 					return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
 			}
@@ -145,6 +240,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 					return new CDashState(DIR_BACK);
+				else if (pGameInstance->Key_Down(DIK_LCONTROL))
+				{
+					_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					_float fPositionY = XMVectorGetY(vPosition);
+
+					return new CMoveJumpState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+				}
 				else
 					return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
 			}
@@ -155,6 +257,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		{
 			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 				return new CDashState(DIR_LEFT);
+			else if (pGameInstance->Key_Down(DIK_LCONTROL))
+			{
+				_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_float fPositionY = XMVectorGetY(vPosition);
+
+				return new CMoveJumpState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+			}
 			else
 				return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
 		}
@@ -162,6 +271,13 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		{
 			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 				return new CDashState(DIR_RIGHT);
+			else if (pGameInstance->Key_Down(DIK_LCONTROL))
+			{
+				_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_float fPositionY = XMVectorGetY(vPosition);
+
+				return new CMoveJumpState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START, fPositionY, 0.f);
+			}
 			else
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
