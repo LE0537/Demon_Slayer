@@ -37,8 +37,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
 		return E_FAIL;
 
-//	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
-//		return E_FAIL;
+	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
+		return E_FAIL;
 
 	if (FAILED(Load_Map(L"Layer_BackGround", "11_Map")))
 		return E_FAIL;
