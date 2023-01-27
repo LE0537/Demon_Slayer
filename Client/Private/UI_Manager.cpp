@@ -86,7 +86,7 @@ void CUI_Manager::Load_Data(string sLoadName)
 
 		if (sLoadName == "P1_Person_HpUI")
 			P1_P_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
-		else if (sLoadName == "P1_Oni_HpUI")
+		else if (sLoadName == "P1_Oni_BtlUI")
 			P1_O_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "P2_Person_HpUI")
 			P2_P_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
@@ -144,9 +144,8 @@ void CUI_Manager::Add_P1_OniHpUI()
 	}
 
 	for (auto iter : P1_O_DATALIST)
-		Add_Obj(iter);
+		Add_Btl_PlayerUI(iter);
 
-	//m_iCharNameLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_PersonHpUI()
@@ -167,7 +166,7 @@ void CUI_Manager::Add_P2_PersonHpUI()
 	for (auto iter : P2_P_DATALIST)
 		Add_Obj(iter);
 
-	//m_iCharNameLayerNum = 0;
+	//m_iUltDecoLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_OniHpUI()
@@ -186,9 +185,9 @@ void CUI_Manager::Add_P2_OniHpUI()
 	}
 
 	for (auto iter : P2_O_DATALIST)
-		Add_Obj(iter);
+		Add_Btl_PlayerUI(iter);
 
-	//m_iCharNameLayerNum = 0;
+	m_iCharNameLayerNum = 0;
 }
 
 void CUI_Manager::Add_Select_CharUI()
@@ -294,7 +293,7 @@ HRESULT CUI_Manager::Add_Obj(CUI::THROWUIINFO iter)
 		}
 	case 3:
 		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBasePerson"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
 				return E_FAIL;
 			break;
 		}
@@ -348,6 +347,248 @@ HRESULT CUI_Manager::Add_Obj(CUI::THROWUIINFO iter)
 				return E_FAIL;
 			break;
 		}
+	default:
+		break;
+	}
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	switch (iter.iTextureNum)
+	{
+	case 0:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeLight"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 1:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 2: //ChangeBase 0
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 3: // ChangeSprt 1
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 4:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 5:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 6://HpbarBack 2
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 7: //SkillBarBack 3
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 8:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 9:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 10: //HpBarDeco 4
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 11: //SkillBarParts 5
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 12: //SkillBarDeco 6
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 13:
+	{
+		iter.iLayerNum = m_iCharNameLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharNameUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iCharNameLayerNum;
+		break;
+	}
+	case 14: // PersonChangeBarBack 7
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 15: // PersonChangeBarFrame 8
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 16:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PersonChanBarEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 17: // OniChangeBarFrame 9
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 18:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniChanBarEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 19:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniChanBarEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 20:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 21:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_KeyUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 22: // 사람 얼티밋 게이지 베이스 10 
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 23: //오니 얼티밋 게이지 베이스 11
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 24:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 25:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 26:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 27:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 28:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 29:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockFrame"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 30:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 31:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockNum"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 32:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 33:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 34:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 35:
+	{
+		iter.iLayerNum = m_iUltBarLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iUltBarLayerNum;
+		break;
+	}
+	case 36: //UltBarDeco 12
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
 	default:
 		break;
 	}

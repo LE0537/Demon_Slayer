@@ -427,6 +427,39 @@
     <Filter Include="03.UI\UIEff">
       <UniqueIdentifier>{d4e953b2-c98d-47ef-ac82-dd3e0c4d68a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\02.Battle\BattleFixedImg">
+      <UniqueIdentifier>{b95e8293-8260-4b85-81ff-eb2ba20b852a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Gague\GaugeLight">
+      <UniqueIdentifier>{0d3492cd-00da-4bf7-95df-d6dc8f2d3094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Change\BarEff">
+      <UniqueIdentifier>{8e4d6831-946b-4b4a-ac1f-e1e11b6df947}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\97.KeyUI">
+      <UniqueIdentifier>{0cb9cd9c-57b7-4f91-8731-6230b0738e23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleButtom">
+      <UniqueIdentifier>{f5b5bc51-153b-4f35-bf58-ee601f650688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleButtom\Eff">
+      <UniqueIdentifier>{f637d0e3-3b27-4327-a37a-9ce57cb29392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleButtom\Frame">
+      <UniqueIdentifier>{1a6214d1-de4b-4eff-bf75-13f1043d127d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleButtom\Base">
+      <UniqueIdentifier>{a45f935c-bd8e-4481-8524-6b6cbfc3404f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleButtom\StockNum">
+      <UniqueIdentifier>{3d0da459-111a-430d-abbd-57116203dd98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleButtom\Deco">
+      <UniqueIdentifier>{11a3a066-48ad-4f45-a7d4-3e5b6f4a677e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleButtom\Bar">
+      <UniqueIdentifier>{540e57b6-b12a-42b3-bc39-19453d9bad87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -542,9 +575,6 @@
     </ClInclude>
     <ClInclude Include="..\public\UI_Manager.h">
       <Filter>03.UI\99.Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\GaugeBasePerson.h">
-      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeBase</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI.h">
       <Filter>03.UI</Filter>
@@ -855,6 +885,42 @@
     <ClInclude Include="..\Public\InkEff.h">
       <Filter>03.UI\UIEff</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BtlFixedImg.h">
+      <Filter>03.UI\02.Battle\BattleFixedImg</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GaugeBase.h">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GaugeLight.h">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\OniChanBarEff.h">
+      <Filter>03.UI\02.Battle\BattleTop\Change\BarEff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\PlyChanBarEff.h">
+      <Filter>03.UI\02.Battle\BattleTop\Change\BarEff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltStockEff.h">
+      <Filter>03.UI\02.Battle\BattleButtom\Eff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltStockFrame.h">
+      <Filter>03.UI\02.Battle\BattleButtom\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltStockBase.h">
+      <Filter>03.UI\02.Battle\BattleButtom\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltGaugeDeco.h">
+      <Filter>03.UI\02.Battle\BattleButtom\Deco</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltBar.h">
+      <Filter>03.UI\02.Battle\BattleButtom\Bar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltStockNum.h">
+      <Filter>03.UI\02.Battle\BattleButtom\StockNum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KeyUI.h">
+      <Filter>03.UI\97.KeyUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -949,9 +1015,6 @@
     </ClCompile>
     <ClCompile Include="..\private\UI_Manager.cpp">
       <Filter>03.UI\99.Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\GaugeBasePerson.cpp">
-      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeBase</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI.cpp">
       <Filter>03.UI</Filter>
@@ -1258,6 +1321,42 @@
     </ClCompile>
     <ClCompile Include="..\Private\InkEff.cpp">
       <Filter>03.UI\UIEff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BtlFixedImg.cpp">
+      <Filter>03.UI\02.Battle\BattleFixedImg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GaugeBase.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\GaugeLight.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Gague\GaugeLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\PlyChanBarEff.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Change\BarEff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\OniChanBarEff.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Change\BarEff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KeyUI.cpp">
+      <Filter>03.UI\97.KeyUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltStockEff.cpp">
+      <Filter>03.UI\02.Battle\BattleButtom\Eff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltStockFrame.cpp">
+      <Filter>03.UI\02.Battle\BattleButtom\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltStockBase.cpp">
+      <Filter>03.UI\02.Battle\BattleButtom\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltStockNum.cpp">
+      <Filter>03.UI\02.Battle\BattleButtom\StockNum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltGaugeDeco.cpp">
+      <Filter>03.UI\02.Battle\BattleButtom\Deco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltBar.cpp">
+      <Filter>03.UI\02.Battle\BattleButtom\Bar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

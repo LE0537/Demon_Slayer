@@ -116,6 +116,14 @@ HRESULT CSkillBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
+	m_iSkillMaxBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkMaxBar;
+	m_iSkillCurBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iMaxBar", &m_iSkillMaxBar, sizeof(_uint))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iCurBar", &m_iSkillCurBar, sizeof(_uint))))
+		return E_FAIL;
+
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
 
