@@ -75,7 +75,7 @@ HRESULT CWaterMill::Ready_Components()
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
 	/* For.Com_OBB*/
-	ColliderDesc.vScale = _float3(5.f, 15.f, 15.f);
+	ColliderDesc.vScale = _float3(5.f, 10.f, 10.f);
 	ColliderDesc.vPosition = _float3(0.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
 		return E_FAIL;

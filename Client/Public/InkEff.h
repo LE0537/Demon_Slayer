@@ -24,6 +24,7 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 private:
+	_bool				m_bDownCheck = false;
 	_uint				m_iFrame = 0;
 	_uint				m_iNumTextureU = 0;
 	_uint				m_iNumTextureV = 0;

@@ -66,10 +66,21 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Down(DIK_O))
 			{
-				return new CSkill_WindMillState();
+				pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+				if (20 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				{
+					pTanjiro->Set_SkillBar(-20);
+					return new CSkill_WindMillState();
+				}
 			}
 			else
-			return new CSkill_CommonState();
+			{
+				if (20 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				{
+					pTanjiro->Set_SkillBar(-20);
+					return new CSkill_CommonState();
+				}
+			}
 		}
 		break;
 	case 2:
@@ -112,10 +123,21 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Down(DIK_C))
 			{
-				return new CSkill_WindMillState();
+				pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+				if (20 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				{
+					pTanjiro->Set_SkillBar(-20);
+					return new CSkill_WindMillState();
+				}
 			}
 			else
-				return new CSkill_CommonState();
+			{
+				if (20 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				{
+					pTanjiro->Set_SkillBar(-20);
+					return new CSkill_CommonState();
+				}
+			}
 		}
 		break;
 	default:
@@ -155,6 +177,8 @@ void CIdleState::Enter(CTanjiro * pTanjiro)
 
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_IDLE);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_IDLE);
+
+	pTanjiro->Get_Model()->Set_FrameNum(pTanjiro->Get_AnimIndex(), 100);
 
 }
 

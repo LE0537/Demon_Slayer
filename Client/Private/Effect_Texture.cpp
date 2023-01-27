@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Effect_Texture.h"
 #include "GameInstance.h"
+#include "Effect.h"
 
 
 CEffect_Texture::CEffect_Texture(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -111,7 +112,7 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 void CEffect_Texture::Late_Tick(_float fTimeDelta)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_TextureInfo.vPosition.x, m_TextureInfo.vPosition.y, m_TextureInfo.vPosition.z, 1.f)
-		+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.001f * (_float)m_TextureInfo.fSortingFudge);
+		+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.001f * (_float)m_TextureInfo.iSortingFudge);
 
 	_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
 
@@ -132,7 +133,30 @@ HRESULT CEffect_Texture::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(4);
+	if (m_TextureInfo.iShader == CEffect::SHADER_DISTORTION) {
+		m_pShaderCom->Begin(3);
+		m_pVIBufferCom->Render();
+		return S_OK;
+	}
+	if (m_TextureInfo.iShader == CEffect::SHADER_GRAYSCALE) {
+		m_pShaderCom->Begin(4);
+		m_pVIBufferCom->Render();
+		return S_OK;
+	}
+
+
+	if (m_TextureInfo.iShader == CEffect::SHADER_ALPHABLEND) {
+		if (true == m_TextureInfo.bUseFlowMap)
+			m_pShaderCom->Begin(6);		//	FlowMap
+		else
+			m_pShaderCom->Begin(5);
+	}
+	else if (m_TextureInfo.iShader == CEffect::SHADER_ALPHATEST) {
+		if (true == m_TextureInfo.bUseFlowMap)
+			m_pShaderCom->Begin(7);		//	FlowMap_AlphaTest
+		else
+			m_pShaderCom->Begin(2);
+	}
 	m_pVIBufferCom->Render();
 
 	return S_OK;
@@ -179,6 +203,42 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
 
+	_float Time = 1.f;
+
+	if (m_TextureInfo.iDisappear == CEffect::DISAPPEAR_ALPHA) {
+		Time = 1 - m_fTime / m_TextureInfo.fLifeTime + m_TextureInfo.fStartTime;
+	}
+
+	if (m_TextureInfo.iDisappear == CEffect::DISAPPEAR_DISJOLVE) {
+	}
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndALPHA", &Time, sizeof(_float))))
+		return E_FAIL;
+
+	m_pShaderCom->Set_RawValue("g_bUseRGB", &m_TextureInfo.bUseRGB, sizeof(_bool));//	Color * (RGB or A)
+	m_pShaderCom->Set_RawValue("g_bUseColor", &m_TextureInfo.bUseColor, sizeof(_bool));//	Color = g_vColor or DiffuseTexture
+	m_pShaderCom->Set_RawValue("g_bGlow", &m_TextureInfo.bGlow, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_fPostProcesesingValue", &m_TextureInfo.fPostProcessingValue, sizeof(_float));
+
+	m_pShaderCom->Set_RawValue("g_bUseGlowColor", &m_TextureInfo.bUseGlowColor, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_vGlowColor", &m_TextureInfo.vGlowColor, sizeof(_float3));
+
+	_float		fAccTime = m_fTime - m_TextureInfo.fStartTime;
+	_float		fAllLifeTime = m_TextureInfo.fLifeTime - m_TextureInfo.fStartTime;
+	_float		fAliveTimeRatio = max(fAccTime / fAllLifeTime, 0.f);
+	m_pShaderCom->Set_RawValue("g_fAliveTimeRatio", &fAliveTimeRatio, sizeof(_float));
+
+	ID3D11ShaderResourceView*		pSRVs[] = {
+		m_pNoiseTextureCom->Get_SRV()
+	};
+
+	if (FAILED(m_pShaderCom->Set_ShaderResourceViewArray("g_NoiseTexture", pSRVs, 1)))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionScale", &m_TextureInfo.fDistortionScale, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionBias", &m_TextureInfo.fDistortionBias, sizeof(_float))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -200,11 +260,13 @@ HRESULT CEffect_Texture::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Shader */
-	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxTex"), (CComponent**)&m_pShaderCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_Shader_VtxEffTex"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
+	/* For.Com_NoiseTexture */
+	if (FAILED(__super::Add_Components(TEXT("Com_NoiseTexture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_Noise"), (CComponent**)&m_pNoiseTextureCom)))
+		return E_FAIL;
 	
-
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
@@ -247,4 +309,5 @@ void CEffect_Texture::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pNoiseTextureCom);
 }

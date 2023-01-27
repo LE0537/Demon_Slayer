@@ -65,7 +65,7 @@ private:
 	void	Set_Info();
 
 public:
-	virtual	void  Take_Damage(_float _fPow);
+	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);
 
 private:

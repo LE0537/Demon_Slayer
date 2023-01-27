@@ -53,13 +53,25 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 	}
 
 	// 메쉬 정보 저장 
+	_int iMeshSize;
+	ReadFile(hFile, &iMeshSize, sizeof(_int), &dwByte, nullptr);
+
+	vector<CEffect_Mesh::MESH_INFO> MeshInfos;
+
+	for (_int j = 0; j < iMeshSize; ++j) {
+		CEffect_Mesh::MESH_INFO MeshInfo;
+
+		ReadFile(hFile, &MeshInfo, sizeof(CEffect_Mesh::MESH_INFO), &dwByte, nullptr);
+
+		MeshInfos.push_back(MeshInfo);
+	}
 
 	// 파티클 정보 저장
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (FAILED(pGameInstance->Add_Prototype(EffectName,
-		CEffect::Create(m_pDevice, m_pContext, EffectInfo, TexInfo))))
+		CEffect::Create(m_pDevice, m_pContext, EffectInfo, TexInfo, MeshInfos))))
 		return;
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -69,15 +81,16 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 	return;
 }
 
-void CEffect_Manager::Create_Effect(_uint iEffectNum, _float4 vPos)
+void CEffect_Manager::Create_Effect(_uint iEffectNum, _matrix mtrWorld)
 {
+	// 아뉘 나한테 왜그러는데
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(pGameInstance->Add_GameObject(m_Effect[iEffectNum], LEVEL_GAMEPLAY, TEXT("Layer_Effect"),&vPos)))
+	if (FAILED(pGameInstance->Add_GameObject(m_Effect[iEffectNum], LEVEL_GAMEPLAY, TEXT("Layer_Effect"),&mtrWorld)))
 		return ;
 
 	RELEASE_INSTANCE(CGameInstance);
-}
+} 
 
 void CEffect_Manager::Free()
 {

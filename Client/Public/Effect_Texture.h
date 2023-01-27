@@ -10,20 +10,33 @@ public:
 	typedef struct TextureInfo {
 		char							m_szTextureName[MAX_PATH];
 
+		_bool							bBillboard;
+		_bool							bGlow;
+		_bool							bUseRGB;
+		_bool							bUseColor;
+		_bool							bUseFlowMap;
+		_bool							bUseGlowColor;
+
+		_int							iSortingFudge;
+
+		_uint							iDisappear;
+		_uint							iShader;
+		_uint							iTexLoad;
 		_uint							iTextureType;
-		_int							fSortingFudge;
 
 		_float							fLifeTime;
+		_float							fPostProcessingValue;
 		_float							fStartTime;
 		_float							fRotation;
+		_float							fDistortionScale;
+		_float							fDistortionBias;
 
 		_float2							vSize[4];
 
 		_float3							vPosition;
+		_float3							vGlowColor;
 
 		_float4							vColor;
-
-		_bool							bBillboard = true;
 
 	}TEXTURE_INFO;
 
@@ -42,6 +55,9 @@ public:
 public:
 	void Set_Parents(CGameObj* pParents) { m_pParents = pParents; }
 	void Set_TexInfo(TextureInfo TexInfo);
+
+private:
+	CTexture*						m_pNoiseTextureCom = nullptr;
 
 private:
 	TEXTURE_INFO					m_TextureInfo;

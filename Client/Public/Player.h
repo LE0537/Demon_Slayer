@@ -38,16 +38,13 @@ private:
 	void	Key_Input(_float fTimeDelta);
 	void	Set_ShadowLightPos();
 public:
-	virtual	void  Take_Damage(_float _fPow);
+	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);
 
 private:
 	CModel*					m_pModelCom = nullptr;
 	CCollider*				m_pAABBCom = nullptr;
 	CCollider*				m_pOBBCom = nullptr;
-
-
-
 
 public:
 	static CPlayer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -241,12 +241,14 @@ CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 				else
 				{
 					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg * 2);
-					m_pTarget->Take_Damage(0.5f);
+					m_pTarget->Take_Damage(0.5f,false);
 				}
 
+				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
+
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-				vTagetPos.y += 2.f;
-				pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT, vTagetPos);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 
@@ -268,12 +270,6 @@ void CAtk_4_State::Enter(CKyoujuro * pKyoujuro)
 	pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_ATTACK_4);
 	pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_ATTACK_4);
 
-
-
-	//pKyoujuro->Get_Model()->Set_FrameNum(CKyoujuro::ANIMID::ANIM_ATTACK_4, 20);
-	//pKyoujuro->Get_Model()->Set_FrameTime(CKyoujuro::ANIMID::ANIM_ATTACK_4, 14, 17, 0.3f);
-	//
-	//pKyoujuro->Get_Model()->Set_UsingFrame(CKyoujuro::ANIMID::ANIM_ATTACK_4, 10, 20);
 }
 
 void CAtk_4_State::Exit(CKyoujuro * pKyoujuro)

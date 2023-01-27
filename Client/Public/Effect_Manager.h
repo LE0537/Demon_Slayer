@@ -10,7 +10,7 @@ class CEffect_Manager :
 	DECLARE_SINGLETON(CEffect_Manager)
 
 public:
-	enum EFFECT { EFFECT_HIT, EFFECT_END };
+	enum EFFECT { EFF_HIT, EFF_TANATTACK1, EFF_TANATTACK2_1, EFF_TANATTACK2_2, EFF_TANATTACK3, EFF_TANATTACK4, EFF_END };
 
 public:
 	CEffect_Manager();
@@ -21,7 +21,7 @@ public:
 
 public:
 	void Load_Effect(const _tchar* EffectName);
-	void Create_Effect(_uint iEffectNum,_float4 vPos);
+	void Create_Effect(_uint iEffectNum, _matrix mtrWorld);
 
 private:
 	ID3D11Device* m_pDevice = nullptr;

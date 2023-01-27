@@ -244,12 +244,14 @@ CTanjiroState * CAtk_4_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 2);
-					m_pTarget->Take_Damage(0.5f);
+					m_pTarget->Take_Damage(0.5f,false);
 				}
 
+				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
+
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-				vTagetPos.y += 2.f;
-				pEffectManger->Create_Effect(CEffect_Manager::EFFECT_HIT, vTagetPos);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 
@@ -260,7 +262,17 @@ CTanjiroState * CAtk_4_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	RELEASE_INSTANCE(CGameInstance);
 
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	if (!m_bEffect)
+	{
+		_matrix vPlayerWorld = pTanjiro->Get_Transform()->Get_WorldMatrix();
 
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1, vPlayerWorld);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 	return nullptr;
 }
 
@@ -271,10 +283,8 @@ void CAtk_4_State::Enter(CTanjiro * pTanjiro)
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_ATTACK_4);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_ATTACK_4);
 
-	//pTanjiro->Get_Model()->Set_FrameNum(CTanjiro::ANIMID::ANIM_ATTACK_4, 20);
-	//pTanjiro->Get_Model()->Set_FrameTime(CTanjiro::ANIMID::ANIM_ATTACK_4, 14, 17, 0.3f);
-	//pTanjiro->Get_Model()->Set_UsingFrame(CTanjiro::ANIMID::ANIM_ATTACK_4, 10, 20);
-
+	pTanjiro->Get_Model()->Set_FrameNum(pTanjiro->Get_AnimIndex(), 100);
+	
 }
 
 void CAtk_4_State::Exit(CTanjiro * pTanjiro)
