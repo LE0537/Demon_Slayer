@@ -121,12 +121,12 @@ HRESULT CUltBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	
-	m_iUltMaxBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicMaxBar;
-	m_iUltCurBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicBar;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iMaxBar", &m_iUltMaxBar, sizeof(_uint))))
+	m_fUltMaxBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicMaxBar;
+	m_fUltCurBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicBar;
+	
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxBar", &m_fUltMaxBar, sizeof(_float))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iCurBar", &m_iUltCurBar, sizeof(_uint))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurBar", &m_fUltCurBar, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

@@ -145,9 +145,9 @@ HRESULT CHpBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurrentHp", &m_fCurHp, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurBar", &m_fCurHp, sizeof(_float))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxHp", &m_fMaxHp, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxBar", &m_fMaxHp, sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fMinusHp", &m_fMinusHp, sizeof(_float))))
 		return E_FAIL;

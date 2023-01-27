@@ -126,9 +126,9 @@ HRESULT CSkillBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxSkillGauge", &m_fSkillMaxBar, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxBar", &m_fSkillMaxBar, sizeof(_float))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurSkillGauge", &m_fSkillCurBar, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurBar", &m_fSkillCurBar, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

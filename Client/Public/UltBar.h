@@ -24,8 +24,8 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 private:
-	_uint				m_iUltMaxBar = 0;
-	_uint				m_iUltCurBar = 0;
+	_float				m_fUltMaxBar = 0;
+	_float				m_fUltCurBar = 0;
 
 public:
 	static CUltBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
