@@ -15,7 +15,21 @@ CJumpstate::CJumpstate(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
 
 CTanjiroState * CJumpstate::HandleInput(CTanjiro * pTanjiro)
 {
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
+	switch (pTanjiro->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Down(DIK_I))
+			
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_Z))
+			
+		break;
+	default:
+		break;
+	}
 
 	return nullptr;
 }
@@ -37,25 +51,18 @@ CTanjiroState * CJumpstate::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		switch (m_eStateType)
 		{
 		case Client::CTanjiroState::TYPE_START:
-			printf_s("Start Jump \n");
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-
 			return new CJumpstate(STATE_TYPE::TYPE_LOOP, m_fCurrentPosY, m_fJumpTime);
 			break;
 		case Client::CTanjiroState::TYPE_LOOP:
-			printf_s("Loop Jump \n");
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-
 			return new CJumpstate(STATE_TYPE::TYPE_END, m_fCurrentPosY, m_fJumpTime);
 			break;
 		case Client::CTanjiroState::TYPE_END:
-			printf_s("End jump \n");
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-
 			//return new CJumpstate(STATE_TYPE::TYPE_DEFAULT, m_fCurrentPosY, m_fJumpTime);
 			break;
 		case Client::CTanjiroState::TYPE_DEFAULT:
-			printf_s("Default Jump \n");
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 			return new CIdleState(STATE_ID::STATE_JUMP);
 			break;

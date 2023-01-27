@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TanjiroState.h"
-#include "BaseAtk.h"
+#include "WindMill.h"
 
 BEGIN(Client)
 BEGIN(Tanjiro)
@@ -17,7 +17,19 @@ public:
 
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
-
+private:
+	CTanjiroState* Jump(CTanjiro* pTanjiro, _float fTimeDelta);
+private:
+	CWindMill*	m_pCollBox = nullptr;
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_bool  m_bHit = false;
+	//Jump
+private:
+	_float m_fJumpPower = 15.f;
+	_float m_fJumpTime = 0.f;
+	_float m_fCurrentPosY = 0.f;
+	_bool  m_bJump = false;
 };
 END
 END

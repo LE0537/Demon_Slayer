@@ -5,7 +5,8 @@
 #include "GameInstance.h"
 #include "Characters.h"
 #include "Layer.h"
-
+#include "RuiDashState.h"
+#include "RuiAtk_1_State.h"
 
 using namespace Rui;
 
@@ -23,19 +24,31 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 	switch (pRui->Get_i1P())
 	{
 	case 1:
+		if (pGameInstance->Key_Down(DIK_J))
+			return new CAtk_1_State();
+
 		if (pGameInstance->Key_Pressing(DIK_W)) // 擅
 		{
 			if (pGameInstance->Key_Pressing(DIK_A)) // 謝
 			{
-				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LF);
+				else
+					return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_D)) // 辦
 			{
-				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RF);
+				else
+					return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
 			}
 			else
 			{
-				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_STRAIGHT);
+				else
+					return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 			}
 		}
 
@@ -43,44 +56,72 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		{
 			if (pGameInstance->Key_Pressing(DIK_A)) // 謝
 			{
-				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LB);
+				else
+					return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_D)) // 辦 
 			{
-				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RB);
+				else
+					return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
 			}
 			else
 			{
-				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_BACK);
+				else
+					return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
 			}
+
 		}
 
 
 		else if (pGameInstance->Key_Pressing(DIK_A)) // 謝
 		{
-			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_LEFT);
+			else
+				return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_D)) // 辦
 		{
-			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_RIGHT);
+			else
+				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
 			return new CIdleState();
 		break;
 	case 2:
+		if (pGameInstance->Key_Down(DIK_Z))
+			return new CAtk_1_State();
+
 		if (pGameInstance->Key_Pressing(DIK_UP)) // 擅
 		{
 			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 謝
 			{
-				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LF);
+				else
+					return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 辦
 			{
-				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RF);
+				else
+					return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
 			}
 			else
 			{
-				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_STRAIGHT);
+				else
+					return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 			}
 		}
 
@@ -88,31 +129,45 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		{
 			if (pGameInstance->Key_Pressing(DIK_LEFT)) // 謝
 			{
-				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LB);
+				else
+					return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 辦 
 			{
-				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RB);
+				else
+					return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
 			}
 			else
 			{
-				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_BACK);
+				else
+					return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
 			}
 		}
 
 
 		else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 謝
 		{
-			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CDashState(DIR_LEFT);
+			else
+				return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 辦
 		{
-			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CDashState(DIR_RIGHT);
+			else
+				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
 			return new CIdleState();
-		break;
-	default:
+
 		break;
 	}
 

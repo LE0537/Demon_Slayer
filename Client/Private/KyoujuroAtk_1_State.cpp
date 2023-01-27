@@ -29,11 +29,11 @@ CKyoujuroState * CAtk_1_State::HandleInput(CKyoujuro * pKyoujuro)
 	switch (pKyoujuro->Get_i1P())
 	{
 	case 1:
-		if (pGameInstance->Key_Down(DIK_J))
+		if (pGameInstance->Key_Down(DIK_J) && m_fComboDelay <= 43.f)
 			m_bAtkCombo = true;
 		break;
 	case 2:
-		if (pGameInstance->Key_Down(DIK_Z))
+		if (pGameInstance->Key_Down(DIK_Z) && m_fComboDelay <= 43.f)
 			m_bAtkCombo = true;
 		break;
 	default:
@@ -238,7 +238,7 @@ CKyoujuroState * CAtk_1_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 				else
 				{
 					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg);
-					m_pTarget->Take_Damage(0.3f);
+					m_pTarget->Take_Damage(0.3f,false);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

@@ -258,7 +258,7 @@ void CPlayer::Set_ShadowLightPos()
 	RELEASE_INSTANCE(CGameInstance);
 }
 
-void CPlayer::Take_Damage(_float _fPow)
+void CPlayer::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
 }
 

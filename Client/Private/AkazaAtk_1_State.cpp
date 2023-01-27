@@ -1,33 +1,45 @@
 #include "stdafx.h"
-#include "TanjiroAtk_4_State.h"
-#include "TanjiroIdleState.h"
+#include "AkazaAtk_1_State.h"
+#include "AkazaIdleState.h"
 #include "GameInstance.h"
-#include "TanjiroWeapon.h"
 #include "Layer.h"
-#include "Kyoujuro.h"
 #include "Effect_Manager.h"
-#include "TanjiroDashState.h"
-using namespace Tanjiro;
+#include "AkazaDashState.h"
+
+using namespace Akaza;
 
 
-CAtk_4_State::CAtk_4_State()
+CAtk_1_State::CAtk_1_State()
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
 		return;
 
 	RELEASE_INSTANCE(CGameInstance);
 }
 
-CTanjiroState * CAtk_4_State::HandleInput(CTanjiro * pTanjiro)
+CAkazaState * CAtk_1_State::HandleInput(CAkaza* pAkaza)
 {
-
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	switch (pAkaza->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Down(DIK_J) && m_fComboDelay <= 43.f)
+			m_bAtkCombo = true;
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_Z) && m_fComboDelay <= 43.f)
+			m_bAtkCombo = true;
+		break;
+	default:
+		break;
+	}
 
 	if (m_fComboDelay <= 35.f)
 	{
-		switch (pTanjiro->Get_i1P())
+		switch (pAkaza->Get_i1P())
 		{
 		case 1:
 			if (pGameInstance->Key_Pressing(DIK_W)) // 앞
@@ -149,82 +161,62 @@ CTanjiroState * CAtk_4_State::HandleInput(CTanjiro * pTanjiro)
 			break;
 		}
 	}
+
+
 	return nullptr;
 }
 
-CTanjiroState * CAtk_4_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
+CAkazaState * CAtk_1_State::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
 
-	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_ATTACK_4);
-	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_ATTACK_4, 0.01f);
+	pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_ATTACK_1);
+	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_ATTACK_1, 0.01f);
+
+	m_fTime += fTimeDelta * 60;
+	m_fComboDelay += fTimeDelta * 60;
+	//printf_s("AttackTime : %f \n", (_float)m_fTime);
 
 
-	if (pTanjiro->Get_Model()->Get_End(CTanjiro::ANIM_ATTACK_4))
+	//if (m_bAtkCombo == true && m_fTime >= 40.f)
+	//	return new CAtk_2_State();
+
+
+
+	if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_ATTACK_1))
 	{
-		pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_ATTACK_4);
+		pAkaza->Get_Model()->Set_End(CAkaza::ANIM_ATTACK_1);
 		return new CIdleState();
 	}
 
-	m_fComboDelay += fTimeDelta * 60.f;
-
 
 	return nullptr;
 }
 
-CTanjiroState * CAtk_4_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
+CAkazaState * CAtk_1_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
+	CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
-	pTanjiro->Get_Transform()->LookAt(vLooAt);
+	pAkaza->Get_Transform()->LookAt(vLooAt);
 
 	m_fMove += fTimeDelta;
 
-
 	if (m_fMove < 0.3f)
 	{
-		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.5f);
-		CCollider*	pMyCollider = pTanjiro->Get_SphereCollider();
+		pAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+
+		_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-
-		if (nullptr == pTargetCollider)
-			return nullptr;
-
-		if (pMyCollider->Collision(pTargetCollider))
+		CCollider*	pMyCollider2 = pAkaza->Get_SphereCollider();
+		if (m_fMove > 0.1f && m_iHit == 0)
 		{
-			_float fSpeed = pTanjiro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
-
-			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
-			_vector vMyLook = vTargetLook * -1.f;
-
-			_vector vPow = XMVector3Dot(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
-
-			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
-
-			vPos += vMyLook * (fSpeed - fSpeed * fPow);
-			vTargetPos += vTargetLook * fSpeed * fPow;
-			vPos.m128_f32[1] = 0.f;
-			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
-		}
-	}
-	else if (m_fMove < 0.45f && m_fMove >= 0.3f)
-	{
-		if (!m_bHit)
-		{
-			_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
-			_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-			vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
-			vCollPos.m128_f32[1] = 1.f; //추가
-			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
-			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-
 			if (nullptr == pTargetCollider)
 				return nullptr;
 
@@ -232,19 +224,18 @@ CTanjiroState * CAtk_4_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			{
 				_float4 vTagetPos;
 				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-
-				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				vPos.m128_f32[1] = 0.f;
 				m_pTarget->Get_Transform()->LookAt(vPos);
-
+		
 				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{
-					m_pTarget->Get_GuardHit(1);
+					m_pTarget->Get_GuardHit(0);
 				}
 				else
 				{
-					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 2);
-					m_pTarget->Take_Damage(0.5f,false);
+					m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.3f,false);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -253,29 +244,51 @@ CTanjiroState * CAtk_4_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 				RELEASE_INSTANCE(CEffect_Manager);
 
-				m_bHit = true;
+				++m_iHit;
 			}
+
+		}
+
+
+		if (pMyCollider2->Collision(pTargetCollider))
+		{
+			_float fSpeed = pAkaza->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			vPos.m128_f32[1] = 0.f;
+			pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
 		}
 	}
+
 	RELEASE_INSTANCE(CGameInstance);
 
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 
 	return nullptr;
 }
 
-void CAtk_4_State::Enter(CTanjiro * pTanjiro)
+void CAtk_1_State::Enter(CAkaza* pAkaza)
 {
-	m_eStateId = STATE_ID::STATE_ATK_4;
+	m_eStateId = STATE_ID::STATE_ATK_1;
 
-	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_ATTACK_4);
-	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_ATTACK_4);
+	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_ATTACK_1);
+	pAkaza->Set_AnimIndex(CAkaza::ANIM_ATTACK_1);
 
-	pTanjiro->Get_Model()->Set_FrameNum(pTanjiro->Get_AnimIndex(), 100);
-	
 }
 
-void CAtk_4_State::Exit(CTanjiro * pTanjiro)
+void CAtk_1_State::Exit(CAkaza* pAkaza)
 {
 	m_pCollBox->Set_Dead(); //추가
 }

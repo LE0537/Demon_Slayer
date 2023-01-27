@@ -293,7 +293,7 @@ void CRui::LateTickState(_float fTimeDelta)
 
 }
 
-void CRui::Take_Damage(_float _fPow)
+void CRui::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
 }
 

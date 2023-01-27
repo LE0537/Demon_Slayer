@@ -299,7 +299,7 @@ void CAkaza::Set_Info()
 	m_tInfo.iFriendBar;
 }
 
-void CAkaza::Take_Damage(_float _fPow)
+void CAkaza::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
 }
 
