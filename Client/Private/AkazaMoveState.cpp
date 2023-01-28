@@ -361,7 +361,7 @@ void CMoveState::Exit(CAkaza* pAkaza)
 void CMoveState::Move(CAkaza* pAkaza, _float fTimeDelta)
 {
 	_float fCamAngle = pAkaza->Get_CamAngle();
-
+	
 	switch (m_eDirection)
 	{
 	case Client::DIR_STRAIGHT:
@@ -393,7 +393,7 @@ void CMoveState::Move(CAkaza* pAkaza, _float fTimeDelta)
 	}
 
 	if (m_eDirection != DIR_STOP)
-		pAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		pAkaza->Get_Transform()->Go_Straight(fTimeDelta, pAkaza->Get_NavigationCom());
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 	CCharacters* m_pTarget = pAkaza->Get_BattleTarget();

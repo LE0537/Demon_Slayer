@@ -33,7 +33,7 @@ CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	if (!m_bJumpHit)
 	{
 		if (fHitTime <= 20.f)
-			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
+			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pAkaza->Get_NavigationCom());
 
 		if (fHitTime >= 38.f)
 			return new CIdleState();
@@ -41,7 +41,7 @@ CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	else if(m_bJumpHit)
 	{
 		if (fHitTime <= 35.f)
-			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
+			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pAkaza->Get_NavigationCom());
 
 		if(pAkaza->Get_Model()->Get_End(CAkaza::ANIM_HIT))
 		{

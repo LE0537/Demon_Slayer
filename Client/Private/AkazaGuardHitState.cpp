@@ -67,12 +67,12 @@ CAkazaState * CGuardHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CAkazaState::TYPE_START:
-		pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 0.3f);
+		pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 0.3f, pAkaza->Get_NavigationCom());
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		if (m_fTime < 0.3f)
 		{
-			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 0.6f);
+			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 0.6f, pAkaza->Get_NavigationCom());
 		}
 		break;
 	default:

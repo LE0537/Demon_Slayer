@@ -67,12 +67,12 @@ CRuiState * CGuardHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CRuiState::TYPE_START:
-		pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.3f);
+		pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.3f, pRui->Get_NavigationCom());
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		if (m_fTime < 0.3f)
 		{
-			pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.6f);
+			pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.6f, pRui->Get_NavigationCom());
 		}
 		break;
 	default:

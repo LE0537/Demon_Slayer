@@ -294,6 +294,21 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 
 	case 2068: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround_Instancing"); break;
 	case 2069: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_UrokodakiGround_Instancing"); break;
+
+	case 2070: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround2_Instancing"); break;
+	case 2071: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Home1_Instancing"); break;
+	case 2072: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rubble1_Instancing"); break;
+	case 2073: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rubble2_Instancing"); break;
+	case 2074: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb4_Instancing"); break;
+	case 2075: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb5_Instancing"); break;
+	case 2076: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb6_Instancing"); break;
+	case 2077: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb7_Instancing"); break;
+	case 2078: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb8_Instancing"); break;
+	case 2079: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb9_Instancing"); break;
+	case 2080: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Tree_Jenitsu_Instancing"); break;
+	case 2081: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeFar2_Instancing"); break;
+	case 2082: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeFar3_Instancing"); break;
+
 	}
 
 

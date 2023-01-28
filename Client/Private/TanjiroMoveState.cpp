@@ -433,7 +433,7 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (m_eDirection != DIR_STOP)
-		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
 	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
 	CCollider*	pMyCollider = pTanjiro->Get_SphereCollider();
 	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();

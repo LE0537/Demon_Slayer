@@ -191,7 +191,7 @@ CRuiState * CAtk_4_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 	m_fMove += fTimeDelta;
 
 	if (m_fMove >= 1.f && m_fMove < 1.3f)
-		pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+		pRui->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pRui->Get_NavigationCom());
 	if (m_fMove < 0.5f)
 	{
 		_vector vCollPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //Ãß°¡

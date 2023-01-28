@@ -10,6 +10,7 @@ class CTexture;
 class CRenderer;
 class CTransform;
 class CVIBuffer_Rect;
+class CNavigation;
 
 END
 
@@ -62,6 +63,7 @@ public:
 	void	   Set_iTargetIndex(_int _iTargetIndex) { m_iTargetIndex = _iTargetIndex; }
 	_int       Get_iTargetIndex() { return m_iTargetIndex; }
 	void	   Set_SkillBar(_int _iSkill) { m_tInfo.iSkBar += _iSkill; }
+	CNavigation*	Get_NavigationCom() { return m_pNavigationCom; }
 
 
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
@@ -73,6 +75,9 @@ protected:
 
 	CCollider*				m_pSphereCom = nullptr;
 	_int					m_i1p = 0;
+
+	CNavigation*		m_pNavigationCom = nullptr;
+
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

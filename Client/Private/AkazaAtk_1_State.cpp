@@ -203,7 +203,7 @@ CAkazaState * CAtk_1_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 	m_fMove += fTimeDelta;
 	if (m_fMove < 0.5f && m_fMove > 0.3f)
-		pAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+		pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pAkaza->Get_NavigationCom());
 
 	if (m_fMove < 0.5f)
 	{

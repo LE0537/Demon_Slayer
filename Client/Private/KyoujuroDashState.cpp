@@ -443,64 +443,64 @@ void CDashState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_LEFT:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_RIGHT:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_BACK:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_LF:
@@ -508,26 +508,26 @@ void CDashState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta, pKyoujuro->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.2f);
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta);
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta, pKyoujuro->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f);
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
 			}
 		}
 		break;
@@ -536,26 +536,26 @@ void CDashState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta, pKyoujuro->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.2f);
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta);
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta, pKyoujuro->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f);
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
 			}
 		}
 		break;
@@ -564,26 +564,26 @@ void CDashState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta);
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta, pKyoujuro->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f);
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta, pKyoujuro->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.2f);
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
 			}
 		}
 		break;
@@ -592,26 +592,26 @@ void CDashState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta);
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta, pKyoujuro->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f);
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f);
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta, pKyoujuro->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.2f);
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f);
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
 			}
 		}
 		break;
@@ -619,32 +619,32 @@ void CDashState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_RIGHT_DASH:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
 			else
-				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f);
+				pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_STOP:

@@ -53,7 +53,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 
 	if (m_fTime < 0.5f)
 	{
-		pKyojuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.7);
+		pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.7, pKyojuro->Get_NavigationCom());
 
 		if (!m_bHit && m_fTime > 0.3f)
 		{
@@ -128,7 +128,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 	else if (m_fTime >= 0.5f)
 	{
 		if(m_fTime < 0.9f)
-			pKyojuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+			pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pKyojuro->Get_NavigationCom());
 		m_fHitTime += fTimeDelta;
 		if (m_iHit < 5 && m_fHitTime > 0.08f)
 		{

@@ -206,7 +206,7 @@ CRuiState * CAtk_3_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 	if (m_fMove < 0.3f)
 	{
-		pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+		pRui->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pRui->Get_NavigationCom());
 
 		if (m_iHit < 1)
 		{

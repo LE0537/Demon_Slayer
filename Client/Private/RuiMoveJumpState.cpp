@@ -283,7 +283,7 @@ void CMoveJumpState::Move(CRui* pRui, _float fTimeDelta)
 	}
 
 	if (m_eDirection != DIR_STOP && m_bMove == true)
-		pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
 }
 
 CRuiState*  CMoveJumpState::Jump(CRui* pRui, _float fTimeDelta)

@@ -81,7 +81,7 @@ CKyoujuroState * CAtk_3_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 
 	if (m_fMove < 0.7f)
 	{
-		pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
 
 		if (m_iHit < 1)
 		{

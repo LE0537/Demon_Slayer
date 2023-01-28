@@ -12,6 +12,7 @@ class CTransform;
 class CVIBuffer_Rect;
 class CModel;
 class CCollider;
+class CNavigation;
 
 END
 

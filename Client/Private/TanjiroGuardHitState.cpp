@@ -61,12 +61,12 @@ CTanjiroState * CGuardHitState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta
 	switch (m_eStateType)
 	{
 	case Client::CTanjiroState::TYPE_START:
-		pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.3f);
+		pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.3f, pTanjiro->Get_NavigationCom());
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		if (m_fTime < 0.3f)
 		{
-			pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.6f);
+			pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.6f, pTanjiro->Get_NavigationCom());
 		}
 		break;
 	default:

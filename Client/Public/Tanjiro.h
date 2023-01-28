@@ -148,6 +148,7 @@ private:
 	_int					m_iSkillHit = 0;
 	_int					m_iWaterMillHit = 0;
 	_int					m_iWindMillHit = 0;
+
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

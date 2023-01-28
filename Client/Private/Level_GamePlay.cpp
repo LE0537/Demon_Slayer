@@ -47,12 +47,10 @@ HRESULT CLevel_GamePlay::Initialize()
 //		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
-		return E_FAIL;	
-
+		return E_FAIL;
 
 	if (FAILED(Load_StaticObjects("11_Rui")))
 		return E_FAIL;
-
 
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("hov.wav"), 0.45f);
 
@@ -150,26 +148,96 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
+
+
+
+	//===================================================================================
+	//================================== Load AnimObjs ==================================
+	//===================================================================================
+	char		pFileName[MAX_PATH] = "11_Rui";			//	파일 이름
+	char		szFilePath[MAX_PATH] = "../Bin/Resources/Data/AnimObjs/";
+	strcat_s(szFilePath, pFileName);
+	strcat_s(szFilePath, ".units");
+
+	_tchar		szRealPath[MAX_PATH] = L"";
+	MultiByteToWideChar(CP_ACP, 0, szFilePath, (_int)strlen(szFilePath), szRealPath, MAX_PATH);
+
+	HANDLE		hFile = CreateFile(szRealPath, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		ERR_MSG(L"Failed to Load : Units");
+
+		return S_OK;
+	}
+
+	CHARACTERDESC	tCharacterDesc1p;
+	CHARACTERDESC	tCharacterDesc2p;
+
+	DWORD			dwByte = 0;
+	_int*			pObjNumber = new _int;
+	_int*			pNaviIndex = new _int;
+	_float4x4*		pWorld = new _float4x4;
+
+	vector<vector<CGameObject*>>	vecUnits;
+	vecUnits.resize(10);
+
+	while (true)
+	{
+		ReadFile(hFile, pObjNumber, sizeof(_int), &dwByte, nullptr);
+		ReadFile(hFile, pNaviIndex, sizeof(_int), &dwByte, nullptr);
+		ReadFile(hFile, pWorld, sizeof(_float4x4), &dwByte, nullptr);
+
+		if (0 == dwByte)
+			break;
+
+
+		_uint		iNaviIndex = *pNaviIndex;
+		_float4x4	matWorld = *pWorld;
+
+		if (1001 == *pObjNumber)
+		{
+			//	Player 1
+			tCharacterDesc1p.i1P2P = 1;
+			tCharacterDesc1p.iNaviIndex = *pNaviIndex;
+			tCharacterDesc1p.matWorld = *pWorld;
+		}
+		else
+		{
+			//	Player 2
+			tCharacterDesc2p.i1P2P = 2;
+			tCharacterDesc2p.iNaviIndex = *pNaviIndex;
+			tCharacterDesc2p.matWorld = *pWorld;
+		}
+	}
+
+	Safe_Delete(pObjNumber);
+	Safe_Delete(pNaviIndex);
+	Safe_Delete(pWorld);
+
+	CloseHandle(hFile);
+	//===================================================================================
+	//================================== Load AnimObjs ==================================
+	//===================================================================================
+
+
 	_uint i1p = pUIManager->Get_1P();
 	_uint i2p = pUIManager->Get_2P();
-	_int b1p = 1;
-	_int b2p = 2;
 	switch (i1p)
 	{
 	case 0:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"),&b1p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"),&tCharacterDesc1p)))
 			return E_FAIL;
 		break;
 	case 1:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Kyoujuro"), LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), &b1p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Kyoujuro"), LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), &tCharacterDesc1p)))
 			return E_FAIL;
 		break;
 	case 2:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &b1p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc1p)))
 			return E_FAIL;
 		break;
 	case 3:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &b1p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &tCharacterDesc1p)))
 			return E_FAIL;
 		break;
 	default:
@@ -178,19 +246,19 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	switch (i2p)
 	{
 	case 0:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &b2p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	case 1:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Kyoujuro"), LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), &b2p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Kyoujuro"), LEVEL_GAMEPLAY, TEXT("Layer_Kyoujuro"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	case 2:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &b2p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	case 3:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &b2p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	default:
