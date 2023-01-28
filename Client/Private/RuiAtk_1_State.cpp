@@ -14,7 +14,7 @@ CAtk_1_State::CAtk_1_State()
 {
 	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
 		return;
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -204,13 +204,15 @@ CRuiState * CAtk_1_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 	m_fMove += fTimeDelta;
 
-	if (m_fMove < 0.3f)
-	{
+	if(m_fMove >= 1.f && m_fMove < 1.3f)
 		pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
 
+	if (m_fMove < 0.5f)
+	{
+	
 		_vector vCollPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 4.f; //추가
 		vCollPos.m128_f32[1] = 1.f; //추가
 		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
@@ -238,11 +240,10 @@ CRuiState * CAtk_1_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 					m_pTarget->Set_Hp(-pRui->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.3f,false);
 				}
-				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
-
+				
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 

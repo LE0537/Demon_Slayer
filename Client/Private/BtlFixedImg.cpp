@@ -22,6 +22,7 @@ HRESULT CBtlFixedImg::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
 	m_fSizeX = m_ThrowUIinfo.vScale.x;
@@ -33,6 +34,9 @@ HRESULT CBtlFixedImg::Initialize(void * pArg)
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
 	if (!m_ThrowUIinfo.bReversal)
@@ -40,12 +44,9 @@ HRESULT CBtlFixedImg::Initialize(void * pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
-
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
-	
+
 
 	return S_OK;
 }
@@ -107,10 +108,7 @@ void CBtlFixedImg::Sel_Texture()
 	else if (m_ThrowUIinfo.iTextureNum == 23)
 		m_iImgNum = 11;
 	else if (m_ThrowUIinfo.iTextureNum == 36)
-	{
 		m_iImgNum = 12;
-		m_ThrowUIinfo.bReversal = false;
-	}
 }
 
 HRESULT CBtlFixedImg::Ready_Components()

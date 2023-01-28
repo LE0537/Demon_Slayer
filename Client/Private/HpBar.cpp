@@ -31,6 +31,9 @@ HRESULT CHpBar::Initialize(void * pArg)
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
 	if (!m_ThrowUIinfo.bReversal)
@@ -38,12 +41,9 @@ HRESULT CHpBar::Initialize(void * pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
-
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
-	
+
 
 	return S_OK;
 }
@@ -145,9 +145,9 @@ HRESULT CHpBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurrentHp", &m_fCurHp, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurBar", &m_fCurHp, sizeof(_float))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxHp", &m_fMaxHp, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxBar", &m_fMaxHp, sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fMinusHp", &m_fMinusHp, sizeof(_float))))
 		return E_FAIL;

@@ -31,6 +31,9 @@ HRESULT CSkillBar::Initialize(void * pArg)
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
 	if (!m_ThrowUIinfo.bReversal)
@@ -38,27 +41,26 @@ HRESULT CSkillBar::Initialize(void * pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
-
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
-
 
 	return S_OK;
 }
 
 void CSkillBar::Tick(_float fTimeDelta)
 {
-	m_iSkillMaxBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkMaxBar;
-	m_iSkillCurBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
+
+	m_fSkillMaxBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkMaxBar;
+	m_fSkillCurBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
 
 	m_fSkillTime += fTimeDelta;
 
-	if (m_fSkillTime >= 1.f && m_iSkillCurBar < 100)
-		m_iSkillCurBar += 1;
+	if (m_fSkillTime >= 0.01f && m_fSkillCurBar < 1000)
+	{
+		m_ThrowUIinfo.pTarget->Set_SkillBar(1);
+		m_fSkillTime = 0.f;
+	}
 	
-
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -125,11 +127,9 @@ HRESULT CSkillBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iMaxBar", &m_iSkillMaxBar, sizeof(_uint))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxBar", &m_fSkillMaxBar, sizeof(_float))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iCurBar", &m_iSkillCurBar, sizeof(_uint))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurBar", &m_fSkillCurBar, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

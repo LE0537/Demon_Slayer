@@ -10,20 +10,17 @@ vector			g_vCamPosition;
 float4			g_vColor;
 
 bool			g_bInkEffDownCheck;
-int				g_iMaxBar;
-int				g_iCurBar;
+float			g_fMaxBar;
+float			g_fCurBar;
 int				g_iFrame;
 int				g_iNumTexU;
 int				g_iNumTexV;
 float			g_fAlpha;
 float			g_fUvMoveTime;
 float			g_fAlphaTime;
-float			g_fCurrentHp;
-float			g_fMaxHp;
 float			g_fMinusHp;
 float			g_fMinus_BeforeHp;
-float			g_fCurSkillGauge;
-float			g_fMaxSkillGauge;
+
 
 struct VS_IN
 {
@@ -123,7 +120,7 @@ PS_OUT PS_HpBarMinus(PS_IN In)
 	PS_OUT      Out = (PS_OUT)0;
 
 	
-	if (g_fCurrentHp / g_fMaxHp < In.vTexUV.x)
+	if (g_fCurBar / g_fMaxBar < In.vTexUV.x)
 	{
 		Out.vColor.r = 1.f;
 		Out.vColor.g = 0.f;
@@ -144,11 +141,10 @@ PS_OUT PS_SkillBarMinus(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
 
-	if (g_iCurBar / g_iMaxBar < In.vTexUV.x)
+	if (g_fCurBar / g_fMaxBar < In.vTexUV.x)
 		discard;
 	else
 		Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
-
 
 	return Out;
 }
@@ -270,21 +266,6 @@ PS_OUT PS_InkEff(PS_IN In)
 	return Out;
 }
 
-PS_OUT PS_UltBar(PS_IN In)
-{
-	PS_OUT      Out = (PS_OUT)0;
-
-	Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
-
-	if (g_iCurBar / g_iMaxBar < In.vTexUV.x)
-		discard;
-	else
-		Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
-
-	return Out;
-}
-
-
 PS_OUT PS_COLOR(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
@@ -306,7 +287,7 @@ technique11 DefaultTechnique
 {
 	pass Default //0
 	{ 
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_UI);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 
@@ -317,7 +298,7 @@ technique11 DefaultTechnique
 
 	pass DefaultRenderBack //1
 	{
-		SetRasterizerState(RS_SkyBox);
+		SetRasterizerState(RS_UI);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 
@@ -478,7 +459,7 @@ technique11 DefaultTechnique
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_UltBar();
+		PixelShader = compile ps_5_0 PS_SkillBarMinus();
 	}
 	
 }

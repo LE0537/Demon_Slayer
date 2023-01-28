@@ -90,7 +90,7 @@ void CUI_Manager::Load_Data(string sLoadName)
 			P1_O_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "P2_Person_HpUI")
 			P2_P_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
-		else if (sLoadName == "P2_Oni_HpUI")
+		else if (sLoadName == "P2_Oni_BtlUI")
 			P2_O_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "Change_Select")
 			SELECT_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
@@ -125,7 +125,8 @@ void CUI_Manager::Add_P1_PersonHpUI()
 	for (auto iter : P1_P_DATALIST)
 		Add_Obj(iter);
 
-	//m_iCharNameLayerNum = 0;
+	m_iUltBarLayerNum = 0;
+	m_iCharNameLayerNum = 0;
 }
 
 void CUI_Manager::Add_P1_OniHpUI()
@@ -145,7 +146,9 @@ void CUI_Manager::Add_P1_OniHpUI()
 
 	for (auto iter : P1_O_DATALIST)
 		Add_Btl_PlayerUI(iter);
-
+	
+	m_iUltBarLayerNum = 0;
+	m_iCharNameLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_PersonHpUI()
@@ -165,8 +168,9 @@ void CUI_Manager::Add_P2_PersonHpUI()
 
 	for (auto iter : P2_P_DATALIST)
 		Add_Obj(iter);
-
-	//m_iUltDecoLayerNum = 0;
+	
+	m_iUltBarLayerNum = 0;
+	m_iCharNameLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_OniHpUI()
@@ -187,6 +191,7 @@ void CUI_Manager::Add_P2_OniHpUI()
 	for (auto iter : P2_O_DATALIST)
 		Add_Btl_PlayerUI(iter);
 
+	m_iUltBarLayerNum = 0;
 	m_iCharNameLayerNum = 0;
 }
 

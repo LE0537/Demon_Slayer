@@ -5,7 +5,7 @@
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "AkazaDashState.h"
-
+#include "AkazaAtk_2_State.h"
 using namespace Akaza;
 
 
@@ -177,8 +177,8 @@ CAkazaState * CAtk_1_State::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	//printf_s("AttackTime : %f \n", (_float)m_fTime);
 
 
-	//if (m_bAtkCombo == true && m_fTime >= 40.f)
-	//	return new CAtk_2_State();
+	if (m_bAtkCombo == true && m_fTime >= 40.f)
+		return new CAtk_2_State();
 
 
 
@@ -202,20 +202,21 @@ CAkazaState * CAtk_1_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	pAkaza->Get_Transform()->LookAt(vLooAt);
 
 	m_fMove += fTimeDelta;
-
-	if (m_fMove < 0.3f)
-	{
+	if (m_fMove < 0.5f && m_fMove > 0.3f)
 		pAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
 
+	if (m_fMove < 0.5f)
+	{
 		_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 2.f; //추가
 		vCollPos.m128_f32[1] = 1.f; //추가
 		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		m_pCollBox->Get_Transform()->Set_PlayerLookAt(m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 		CCollider*	pMyCollider2 = pAkaza->Get_SphereCollider();
-		if (m_fMove > 0.1f && m_iHit == 0)
+		if (m_fMove > 0.3f && m_iHit == 0)
 		{
 			if (nullptr == pTargetCollider)
 				return nullptr;
@@ -237,11 +238,10 @@ CAkazaState * CAtk_1_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 					m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.3f,false);
 				}
-				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, vTagetWorld);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 

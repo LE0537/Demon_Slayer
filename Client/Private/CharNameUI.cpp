@@ -33,8 +33,10 @@ HRESULT CCharNameUI::Initialize(void * pArg)
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
 		Name_Selected(m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName);
 	
-
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
+
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -43,12 +45,9 @@ HRESULT CCharNameUI::Initialize(void * pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
-
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
-	
+
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	if (m_ThrowUIinfo.iLayerNum == 1)		
 		pUI_Manager->Set_1PChar(this);
@@ -111,6 +110,24 @@ void CCharNameUI::Name_Selected(wstring strName)
 			m_fX += 50.f;
 		if (m_ThrowUIinfo.iLayerNum == 1)
 			m_fX -= 50.f;
+	}
+	else if (strName == TEXT("루이"))
+	{
+		m_iImgNum = 2;
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.75f;
+	/*	if (m_ThrowUIinfo.iLayerNum == 0)
+			m_fX += 50.f;
+		if (m_ThrowUIinfo.iLayerNum == 1)
+			m_fX -= 50.f;*/
+	}
+	else if (strName == TEXT("아카자"))
+	{
+		m_iImgNum = 0;
+		m_fSizeX = m_ThrowUIinfo.vScale.x;
+	/*	if (m_ThrowUIinfo.iLayerNum == 0)
+			m_fX += 50.f;
+		if (m_ThrowUIinfo.iLayerNum == 1)
+			m_fX -= 50.f;*/
 	}
 }
 

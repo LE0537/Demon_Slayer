@@ -41,7 +41,6 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 	m_fTime += fTimeDelta;
 
 	if (m_fTime > m_MeshInfo.fStartTime && m_fTime < m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime) {
-		m_bDead = false;
 		_float fLife = m_MeshInfo.fLifeTime / 3.f;
 		_vector vSize = XMVectorSet(1.f, 1.f, 1.f, 0.f);
 
@@ -72,9 +71,6 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 		m_pTransformCom->Set_Scale(vSize);
 		m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_MeshInfo.fTurn);
 	}
-	else if (m_fTime > m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime) {
-		m_bDead = true;
-	}
 }
 
 void CEffect_Mesh::Late_Tick(_float fTimeDelta)
@@ -87,7 +83,7 @@ void CEffect_Mesh::Late_Tick(_float fTimeDelta)
 
 	Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
 
-	if (nullptr != m_pRendererCom && !m_bDead) {
+	if (nullptr != m_pRendererCom ) {
 		switch (m_MeshInfo.iShader)
 		{
 		case CEffect::SHADER_DISTORTION:

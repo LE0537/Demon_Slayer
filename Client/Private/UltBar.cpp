@@ -31,21 +31,18 @@ HRESULT CUltBar::Initialize(void * pArg)
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
-	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
 
-	m_ThrowUIinfo.bReversal = false;
+	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
 	if (!m_ThrowUIinfo.bReversal)
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
-
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
-	
 
 	return S_OK;
 }
@@ -121,12 +118,20 @@ HRESULT CUltBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	
-	m_iUltMaxBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicMaxBar;
-	m_iUltCurBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicBar;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iMaxBar", &m_iUltMaxBar, sizeof(_uint))))
+	if (m_ThrowUIinfo.iLayerNum == 1)
+	{
+		m_fUltMaxBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicMaxBar;
+		m_fUltCurBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicBar;
+	}
+	else 
+	{
+		m_fUltMaxBar = 100.f;
+		m_fUltCurBar = 100.f;
+	}
+	
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxBar", &m_fUltMaxBar, sizeof(_float))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iCurBar", &m_iUltCurBar, sizeof(_uint))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurBar", &m_fUltCurBar, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

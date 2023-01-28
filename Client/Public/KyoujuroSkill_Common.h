@@ -1,8 +1,8 @@
 #pragma once
 
 #include "KyoujuroState.h"
+#include "KyoujuroSkill.h"
 #include "BaseAtk.h"
-
 BEGIN(Client)
 BEGIN(Kyoujuro)
 class CSkill_CommonState : public CKyoujuroState
@@ -17,7 +17,14 @@ public:
 
 	virtual void Enter(CKyoujuro* pKyoujuro) override;
 	virtual void Exit(CKyoujuro* pKyoujuro) override;
-
+private:
+	CKyoujuroSkill*	m_pCollBox2 = nullptr;
+	CBaseAtk*	m_pCollBox = nullptr;
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_float m_fDelay = 0.f;
+	_int   m_iHit = 0;
+	_bool  m_bHit = false;
 };
 END
 END

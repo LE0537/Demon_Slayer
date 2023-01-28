@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RuiState.h"
-#include "BaseAtk.h"
+#include "RuiAtk.h"
 BEGIN(Client)
 BEGIN(Rui)
 class CAtk_4_State : public CRuiState
@@ -19,7 +19,7 @@ public:
 
 
 private:
-	CBaseAtk*	m_pCollBox = nullptr;
+	CRuiAtk*	m_pCollBox = nullptr;
 	_bool m_bAtkCombo = false;
 	_float m_fTime = 0.f;
 	_float m_fComboDelay = 0.f;

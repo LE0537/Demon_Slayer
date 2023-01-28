@@ -95,6 +95,11 @@ void CRui::Tick(_float fTimeDelta)
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
 	m_pSphereCom->Update(matColl);
+
+	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP)
+		m_tInfo.bJump = true;
+	else
+		m_tInfo.bJump = false;
 }
 
 void CRui::Late_Tick(_float fTimeDelta)
@@ -194,7 +199,7 @@ HRESULT CRui::Ready_Components()
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
-	TransformDesc.fSpeedPerSec = 10.f;
+	TransformDesc.fSpeedPerSec = 15.f;
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
@@ -248,9 +253,9 @@ void CRui::Set_Info()
 	m_tInfo.bOni = true;
 	m_tInfo.iMaxHp = 1000;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
-	m_tInfo.iSkMaxBar = 100;
+	m_tInfo.iSkMaxBar = 1000;
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
-	m_tInfo.iUnicMaxBar = 100;
+	m_tInfo.iUnicMaxBar = 1000;
 	m_tInfo.iUnicBar = 0;
 	m_tInfo.iDmg = 30;
 	m_tInfo.iCombo = 0;
@@ -259,6 +264,7 @@ void CRui::Set_Info()
 	m_tInfo.fPowerUpTime = 0.f;
 	m_tInfo.iFriendMaxBar = 100;
 	m_tInfo.iFriendBar;
+	m_tInfo.bGuard = false;
 }
 
 void CRui::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)

@@ -49,6 +49,28 @@ public:
 		ANIM_ATTACK_3 = 13,
 		ANIM_ATTACK_4 = 16,
 
+		// JUMP
+		ANIM_JUMP_START = 45,
+		ANIM_JUMP_LOOP = 46,
+		ANIM_JUMP_END = 47,
+
+
+		// GUARD
+		ANIM_GUARD_0 = 38,
+		ANIM_GUARD_1 = 39,
+		ANIM_GUARD_2 = 40,
+
+		// GUARD ADV
+		ANIM_GUARD_ADV = 41,
+
+		// GUARD STATE -> HIT
+		ANIM_GUARD_HIT_0 = 42,
+		ANIM_GUARD_HIT_1 = 43,
+
+		// Hit
+
+		ANIM_HIT = 65,
+
 		ANIM_END = 100
 	};
 private:

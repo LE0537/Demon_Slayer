@@ -104,7 +104,7 @@ private:
 	HRESULT Render_UI();
 	HRESULT Render_UIPOKE();
 
-	HRESULT Render_Debug();
+	HRESULT Render_Debug(_bool _bDebug);
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(void* pArg = nullptr)override;

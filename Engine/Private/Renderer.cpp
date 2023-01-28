@@ -361,11 +361,10 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 
 
 
-	if (_bDebug)
-	{
-		if (FAILED(Render_Debug()))
-			return E_FAIL;
-	}
+
+	if (FAILED(Render_Debug(_bDebug)))
+		return E_FAIL;
+	
 
 	if (FAILED(Render_UI()))
 		return E_FAIL;
@@ -1159,60 +1158,64 @@ HRESULT CRenderer::Render_UIPOKE()
 	m_GameObjects[RENDER_UIPOKE].clear();
 	return S_OK;
 }
-HRESULT CRenderer::Render_Debug()
+HRESULT CRenderer::Render_Debug(_bool _bDebug)
 {
 	if (nullptr == m_pShader ||
 		nullptr == m_pVIBuffer)
 		return E_FAIL;
+	if (_bDebug)
+	{
+		if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+			return E_FAIL;
 
-	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
-		return E_FAIL;
-
+		if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+	}
 	for (auto& pComponent : m_DebugComponents)
 	{
 		if (nullptr != pComponent)
-			pComponent->Render();
-
+		{
+			if(_bDebug)
+				pComponent->Render();
+		}
 		Safe_Release(pComponent);
 	}
 
 	m_DebugComponents.clear();
 
+	if (_bDebug)
+	{
+		if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_Deferred"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_LightDepth"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_Deferred"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_LightAcc"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_LightDepth"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GrayScale"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_Distortion"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_AO"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_Master"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_BlurXY"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_LightShaft"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
 
-	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GrayScale"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_Distortion"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_AO"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render_Debug(TEXT("MRT_Master"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_BlurXY"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_LightShaft"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-
-	//	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_Glow"), m_pShader, m_pVIBuffer)))
-	//	return E_FAIL;		by MRT_Deferred
-	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_AlphaGlow"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowX"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowXY"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowAll"), m_pShader, m_pVIBuffer)))
-		return E_FAIL;
-
+		//	if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_Glow"), m_pShader, m_pVIBuffer)))
+		//	return E_FAIL;		by MRT_Deferred
+		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_AlphaGlow"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowX"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowXY"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowAll"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

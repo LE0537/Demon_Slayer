@@ -34,18 +34,18 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Down(DIK_O))
 			{
-				if (20 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 				{
 					pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
-					pTanjiro->Set_SkillBar(-20);
+					pTanjiro->Set_SkillBar(-200);
 					return new CSkill_WindMillState();
 				}
 			}
 			else
 			{
-				if (20 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 				{
-					pTanjiro->Set_SkillBar(-20);
+					pTanjiro->Set_SkillBar(-200);
 					return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
 				}
 			}
@@ -183,18 +183,18 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Down(DIK_C))
 			{
-				if (20 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 				{
 					pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
-					pTanjiro->Set_SkillBar(-20);
+					pTanjiro->Set_SkillBar(-200);
 					return new CSkill_WindMillState();
 				}
 			}
 			else
 			{
-				if (20 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 				{
-					pTanjiro->Set_SkillBar(-20);
+					pTanjiro->Set_SkillBar(-200);
 					return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
 				}
 			}

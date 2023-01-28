@@ -166,8 +166,10 @@ HRESULT CModel::SetUp_Material(CShader * pShader, const char * pConstantName, _u
 	return pShader->Set_ShaderResourceView(pConstantName, m_Materials[m_Meshes[iMeshIndex]->Get_MaterialIndex()].pMaterials[eType]->Get_SRV());
 }
 
-HRESULT CModel::Play_Animation(_float fTimeDelta)
+HRESULT CModel::Play_Animation(_float fTimeDelta, _bool bRemoveTranslation)
 {
+
+	// 왜 또 오류
 	if (m_iCurrentAnimIndex != m_iPrevAnimIndex)
 	{
 		if (m_bAnimReset)
@@ -192,7 +194,7 @@ HRESULT CModel::Play_Animation(_float fTimeDelta)
 	for (auto& pBoneNode : m_Bones)
 	{
 		/* 뼈의 m_CombinedTransformationMatrix행렬을 갱신한다. */
-		pBoneNode->Invalidate_CombinedTransformationmatrix();
+		pBoneNode->Invalidate_CombinedTransformationmatrix(bRemoveTranslation);
 	}
 
 	return S_OK;
@@ -203,11 +205,44 @@ HRESULT CModel::Play_Animation2(_float fTimeDelta)
 	
 	for (auto& pBoneNode : m_Bones)
 	{
-		pBoneNode->Invalidate_CombinedTransformationmatrix();
+		pBoneNode->Invalidate_CombinedTransformationmatrix(false);
 	}
 
 	return S_OK;
 }
+HRESULT CModel::Play_Animation_ReMoveTranslation(_float fTimeDelta, _fvector vPosition, _bool bRemoveTranslation)
+{
+	if (m_iCurrentAnimIndex != m_iPrevAnimIndex)
+	{
+		if (m_bAnimReset)
+		{
+			m_Animations[m_iCurrentAnimIndex]->Reset2();
+			m_bAnimReset = false;
+		}
+		if (!m_Animations[m_iCurrentAnimIndex]->Get_AnimEnd())
+			m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix2(fTimeDelta, m_Animations[m_iPrevAnimIndex]->Get_Channel());
+		if (m_Animations[m_iCurrentAnimIndex]->Get_AnimEnd())
+		{
+			m_Animations[m_iCurrentAnimIndex]->Set_AnimEnd();
+			m_Animations[m_iPrevAnimIndex]->Reset3();
+			m_iCurrentAnimIndex = m_iPrevAnimIndex;
+			m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta);
+		}
+	}
+	else
+	{
+		m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta);
+	}
+	for (auto& pBoneNode : m_Bones)
+	{
+		/* 뼈의 m_CombinedTransformationMatrix행렬을 갱신한다. */
+		pBoneNode->Invalidate_CombinedTransformationmatrix(bRemoveTranslation, vPosition);
+	}
+
+	return S_OK;
+}
+
+
 HRESULT CModel::Render(CShader * pShader, _uint iMeshIndex, _uint iPassIndex)
 {
 	if (TYPE_ANIM == m_eModelType)

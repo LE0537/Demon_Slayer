@@ -90,6 +90,8 @@
 #include "BaseAtk.h"
 #include "WaterMill.h"
 #include "WindMill.h"
+#include "KyoujuroSkill.h"
+#include "RuiAtk.h"
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -170,7 +172,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltStockEff"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Stock_Eff_%d.png"), 6))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Stock_Eff_%d.png"), 7))))
 			return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeDeco"),
@@ -937,7 +939,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CEffect_Manager* pEffect_Manager = GET_INSTANCE(CEffect_Manager);
 
 		pEffect_Manager->Load_Effect(TEXT("HitEffect1"));
-		pEffect_Manager->Load_Effect(TEXT("Attack1"));
+		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack2_1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack2_2"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack3"));
@@ -1019,6 +1021,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WindMill"),
 		CWindMill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroSkill"),
+		CKyoujuroSkill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiAtk"),
+		CRuiAtk::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	//Map
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BattleField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);

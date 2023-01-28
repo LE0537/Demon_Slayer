@@ -8,6 +8,7 @@
 #include "AkazaState.h"
 #include "AkazaIdleState.h"
 #include "AkazaToolState.h"
+#include "AkazaHitState.h"
 using namespace Akaza;
 
 
@@ -59,6 +60,7 @@ HRESULT CAkaza::Initialize(void * pArg)
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 
+	//CAkazaState* pState = new CHitState(0.f);
 	CAkazaState* pState = new CIdleState();
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 
@@ -80,6 +82,12 @@ void CAkaza::Tick(_float fTimeDelta)
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
 	m_pSphereCom->Update(matColl);
+
+
+	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP)
+		m_tInfo.bJump = true;
+	else
+		m_tInfo.bJump = false;
 
 }
 
@@ -234,7 +242,7 @@ HRESULT CAkaza::Ready_Components()
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
-	TransformDesc.fSpeedPerSec = 10.f;
+	TransformDesc.fSpeedPerSec = 15.f;
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
@@ -286,9 +294,9 @@ void CAkaza::Set_Info()
 	m_tInfo.bOni = true;
 	m_tInfo.iMaxHp = 1000;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
-	m_tInfo.iSkMaxBar = 100;
+	m_tInfo.iSkMaxBar = 1000;
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
-	m_tInfo.iUnicMaxBar = 100;
+	m_tInfo.iUnicMaxBar = 1000;
 	m_tInfo.iUnicBar = 0;
 	m_tInfo.iDmg = 30;
 	m_tInfo.iCombo = 0;
@@ -297,10 +305,17 @@ void CAkaza::Set_Info()
 	m_tInfo.fPowerUpTime = 0.f;
 	m_tInfo.iFriendMaxBar = 100;
 	m_tInfo.iFriendBar;
+	m_tInfo.bGuard = false;
 }
 
 void CAkaza::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_HIT)
+		m_pModelCom->Reset_Anim(CAkaza::ANIMID::ANIM_HIT);
+
+	CAkazaState* pState = new CHitState(_fPow, _bJumpHit);
+	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+
 }
 
 void CAkaza::Get_GuardHit(_int eType)
