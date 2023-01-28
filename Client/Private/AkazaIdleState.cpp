@@ -6,6 +6,8 @@
 #include "AkazaJumpState.h"
 #include "AkazaGuardState.h"
 #include "AkazaHitState.h"
+#include "AkazaSkill_Shoot.h"
+#include "AkazaSkill_Destroy.h"
 
 using namespace Akaza;
 
@@ -72,8 +74,27 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
-		else if(pGameInstance->Key_Down(DIK_F3))
-			return new CHitState(0.f);
+		else if (pGameInstance->Key_Down(DIK_I))
+		{
+			if (pGameInstance->Key_Down(DIK_O))
+			{
+				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
+				}
+			}
+			else
+			{
+				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CSkill_ShootState(STATE_TYPE::TYPE_START);
+				}
+			}
+		}
+
+
 		break;
 	case 2:
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
@@ -129,6 +150,26 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_X))
+		{
+			if (pGameInstance->Key_Down(DIK_C))
+			{
+				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
+				}
+			}
+			else
+			{
+				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CSkill_ShootState(STATE_TYPE::TYPE_START);
+				}
+			}	
+		}
+
 	}
 
 	return nullptr;

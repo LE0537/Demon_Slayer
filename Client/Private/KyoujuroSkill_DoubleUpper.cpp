@@ -214,6 +214,8 @@ void CSkill_DoubleUpperState::Enter(CKyoujuro * pKyojuro)
 	pKyojuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER);
 	pKyojuro->Set_AnimIndex(CKyoujuro::ANIM_SKILL_DOUBLEUPPER);
 
+	m_fCurrentPosY = XMVectorGetY(pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
 }
 CKyoujuroState* CSkill_DoubleUpperState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
