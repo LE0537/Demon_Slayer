@@ -75,7 +75,6 @@ HRESULT CUltBar::Render()
 	if (m_ThrowUIinfo.iLayerNum == 1)
 		m_pShaderCom->Begin(15);
 
-
 	m_pVIBufferCom->Render();
 
 	return S_OK;

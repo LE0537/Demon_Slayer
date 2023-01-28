@@ -84,11 +84,11 @@ void CUI_Manager::Load_Data(string sLoadName)
 		//List.push_back(CUI::UIINFO(tInfo));
 
 
-		if (sLoadName == "P1_Person_HpUI")
+		if (sLoadName == "P1_Person_BtlUI")
 			P1_P_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "P1_Oni_BtlUI")
 			P1_O_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
-		else if (sLoadName == "P2_Person_HpUI")
+		else if (sLoadName == "P2_Person_BtlUI")
 			P2_P_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "P2_Oni_BtlUI")
 			P2_O_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
@@ -123,7 +123,7 @@ void CUI_Manager::Add_P1_PersonHpUI()
 	}
 
 	for (auto iter : P1_P_DATALIST)
-		Add_Obj(iter);
+		Add_Btl_PlayerUI(iter);
 
 	m_iUltBarLayerNum = 0;
 	m_iCharNameLayerNum = 0;
@@ -167,7 +167,7 @@ void CUI_Manager::Add_P2_PersonHpUI()
 	}
 
 	for (auto iter : P2_P_DATALIST)
-		Add_Obj(iter);
+		Add_Btl_PlayerUI(iter);
 	
 	m_iUltBarLayerNum = 0;
 	m_iCharNameLayerNum = 0;
