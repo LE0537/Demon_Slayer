@@ -47,12 +47,10 @@ HRESULT CLevel_GamePlay::Initialize()
 //		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
-		return E_FAIL;	
-
+		return E_FAIL;
 
 	if (FAILED(Load_StaticObjects("11_Rui")))
 		return E_FAIL;
-
 
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("hov.wav"), 0.45f);
 
@@ -151,6 +149,69 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	Safe_AddRef(pGameInstance);
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+
+
+
+
+	//===================================================================================
+	//================================== Load AnimObjs ==================================
+	//===================================================================================
+	char		pFileName[MAX_PATH] = "11_Rui";			//	파일 이름
+	char		szFilePath[MAX_PATH] = "../Bin/Resources/Data/AnimObjs/";
+	strcat_s(szFilePath, pFileName);
+	strcat_s(szFilePath, ".units");
+
+	_tchar		szRealPath[MAX_PATH] = L"";
+	MultiByteToWideChar(CP_ACP, 0, szFilePath, (_int)strlen(szFilePath), szRealPath, MAX_PATH);
+
+	HANDLE		hFile = CreateFile(szRealPath, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		ERR_MSG(L"Failed to Load : Units");
+
+		return S_OK;
+	}
+
+	DWORD			dwByte = 0;
+	_int*			pObjNumber = new _int;
+	_int*			pNaviIndex = new _int;
+	_float4x4*		pWorld = new _float4x4;
+
+	vector<vector<CGameObject*>>	vecUnits;
+	vecUnits.resize(10);
+
+	while (true)
+	{
+		ReadFile(hFile, pObjNumber, sizeof(_int), &dwByte, nullptr);
+		ReadFile(hFile, pNaviIndex, sizeof(_int), &dwByte, nullptr);
+		ReadFile(hFile, pWorld, sizeof(_float4x4), &dwByte, nullptr);
+
+		if (0 == dwByte)
+			break;
+
+
+		_uint		iNaviIndex = *pNaviIndex;
+		_float4x4	matWorld = *pWorld;
+
+		if (1001 == *pObjNumber)
+		{
+			//	Player 1
+		}
+		else
+		{
+			//	Player 2
+		}
+	}
+
+	Safe_Delete(pObjNumber);
+	Safe_Delete(pNaviIndex);
+	Safe_Delete(pWorld);
+
+	CloseHandle(hFile);
+	//===================================================================================
+	//================================== Load AnimObjs ==================================
+	//===================================================================================
+
 
 	_uint i1p = pUIManager->Get_1P();
 	_uint i2p = pUIManager->Get_2P();
