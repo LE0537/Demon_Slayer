@@ -15,7 +15,7 @@ CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
 CAkazaState * CDashState::HandleInput(CAkaza* pAkaza)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
+	pAkaza->Set_bGuard(false);
 	switch (pAkaza->Get_i1P())
 	{
 	case 1:

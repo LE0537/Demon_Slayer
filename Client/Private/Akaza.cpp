@@ -305,10 +305,17 @@ void CAkaza::Set_Info()
 	m_tInfo.fPowerUpTime = 0.f;
 	m_tInfo.iFriendMaxBar = 100;
 	m_tInfo.iFriendBar;
+	m_tInfo.bGuard = false;
 }
 
 void CAkaza::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_HIT)
+		m_pModelCom->Reset_Anim(CAkaza::ANIMID::ANIM_HIT);
+
+	CAkazaState* pState = new CHitState(_fPow, _bJumpHit);
+	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+
 }
 
 void CAkaza::Get_GuardHit(_int eType)

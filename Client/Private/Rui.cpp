@@ -264,6 +264,7 @@ void CRui::Set_Info()
 	m_tInfo.fPowerUpTime = 0.f;
 	m_tInfo.iFriendMaxBar = 100;
 	m_tInfo.iFriendBar;
+	m_tInfo.bGuard = false;
 }
 
 void CRui::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)

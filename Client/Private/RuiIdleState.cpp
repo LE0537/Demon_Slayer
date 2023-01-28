@@ -15,7 +15,7 @@ CIdleState::CIdleState(STATE_ID eState)
 CRuiState * CIdleState::HandleInput(CRui * pRui)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	
+	pRui->Set_bGuard(false);
 	switch (pRui->Get_i1P())
 	{
 	case 1:

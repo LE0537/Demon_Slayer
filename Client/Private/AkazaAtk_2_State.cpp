@@ -24,7 +24,7 @@ CAtk_2_State::CAtk_2_State()
 CAkazaState * CAtk_2_State::HandleInput(CAkaza* pAkaza)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
+	
 	switch (pAkaza->Get_i1P())
 	{
 	case 1:

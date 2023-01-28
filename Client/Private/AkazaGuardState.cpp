@@ -132,5 +132,6 @@ void CGuardState::Enter(CAkaza* pAkaza)
 
 void CGuardState::Exit(CAkaza* pAkaza)
 {
+	
 }
 

@@ -106,6 +106,7 @@ void CGuardHitState::Enter(CAkaza* pAkaza)
 
 void CGuardHitState::Exit(CAkaza* pAkaza)
 {
+
 	//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_GUARD_ADV);
 }
 
