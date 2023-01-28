@@ -49,6 +49,7 @@ public:
 
 
 	void Invalidate_CombinedTransformationmatrix(_bool bRemoveTranslation);
+	void Invalidate_CombinedTransformationmatrix(_bool bRemoveTranslation,_fvector vPosition);
 	void Set_FindParent(CHierarchyNode* pNode); // Ãß°¡
 private:
 	char				m_szName[MAX_PATH] = "";
