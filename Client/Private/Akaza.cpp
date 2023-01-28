@@ -8,6 +8,7 @@
 #include "AkazaState.h"
 #include "AkazaIdleState.h"
 #include "AkazaToolState.h"
+#include "AkazaHitState.h"
 using namespace Akaza;
 
 
@@ -59,6 +60,7 @@ HRESULT CAkaza::Initialize(void * pArg)
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 
+	//CAkazaState* pState = new CHitState(0.f);
 	CAkazaState* pState = new CIdleState();
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 
@@ -80,6 +82,12 @@ void CAkaza::Tick(_float fTimeDelta)
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
 	m_pSphereCom->Update(matColl);
+
+
+	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP)
+		m_tInfo.bJump = true;
+	else
+		m_tInfo.bJump = false;
 
 }
 

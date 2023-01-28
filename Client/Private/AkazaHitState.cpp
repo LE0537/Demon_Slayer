@@ -13,12 +13,16 @@ CHitState::CHitState(_float _fPow, _bool _bJump)
 CAkazaState * CHitState::HandleInput(CAkaza* pAkaza)
 {
 
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	if (pGameInstance->Key_Down(DIK_F3))
+		return new CHitState(0.f);
+
 	return nullptr;
 }
 
 CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
-	if (!m_bReset)
+	/*if (!m_bReset)
 	{
 		pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_HIT);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_HIT);
@@ -45,7 +49,9 @@ CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 			pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_HIT);
 			return new CIdleState();
 		}
-	}
+	}*/
+
+
 	return nullptr;
 }
 
@@ -56,10 +62,21 @@ CAkazaState * CHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	{
 		Jump(pAkaza, m_fJumpTime);
 	}
-	pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
 
+	_vector vPosition = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+
+	if (pAkaza->Get_Model()->Get_CurrentFrame() <= 22)
+	{
+		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.5f , false);
+
+		if (pAkaza->Get_Model()->Get_CurrentFrame() == 20)
+			return new CIdleState();
+	}
 	return nullptr;
 }
+	
+
 
 void CHitState::Enter(CAkaza* pAkaza)
 {
@@ -67,6 +84,15 @@ void CHitState::Enter(CAkaza* pAkaza)
 
 	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_HIT);
 	pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT);
+	pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_HIT);
+	//pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
+	//pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.0f);
+
+	pAkaza->Get_Model()->Set_FrameNum(pAkaza->Get_AnimIndex(), 100);
+
+	//pAkaza->Get_Model()->Set_FrameTime(pAkaza->Get_AnimIndex(), 0, 20, 1.f);
+	pAkaza->Get_Model()->Set_UsingFrame(CAkaza::ANIM_HIT, 8,  20);
+
 
 }
 CAkazaState * CHitState::Jump(CAkaza* pAkaza, _float fTimeDelta)
@@ -99,7 +125,6 @@ CAkazaState * CHitState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 }
 void CHitState::Exit(CAkaza* pAkaza)
 {
-	
 }
 
 

@@ -535,6 +535,12 @@
     <Filter Include="05.CollBox\03.KyoujuroSkill">
       <UniqueIdentifier>{e0bc9a06-de95-4b4c-ac42-9873e77d922f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill">
+      <UniqueIdentifier>{1482c971-77b3-4f8d-a3e0-2c79dfadd06e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill">
+      <UniqueIdentifier>{d419443c-09df-4a99-8ec8-7a19c02e1e27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

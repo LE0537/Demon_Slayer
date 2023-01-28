@@ -5,6 +5,7 @@
 #include "AkazaAtk_1_State.h"
 #include "AkazaJumpState.h"
 #include "AkazaGuardState.h"
+#include "AkazaHitState.h"
 
 using namespace Akaza;
 
@@ -71,7 +72,8 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
-
+		else if(pGameInstance->Key_Down(DIK_F3))
+			return new CHitState(0.f);
 		break;
 	case 2:
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ

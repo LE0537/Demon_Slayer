@@ -69,7 +69,7 @@ public:
 
 		// Hit
 
-		ANIM_HIT = 0,
+		ANIM_HIT = 65,
 
 		ANIM_END = 100
 	};
