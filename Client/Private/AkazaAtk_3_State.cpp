@@ -205,7 +205,7 @@ CAkazaState * CAtk_3_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 	if (m_fMove < 0.6f)
 	{
-		pAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
+		pAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
 
 		if (m_iHit < 1)
 		{
@@ -236,7 +236,7 @@ CAkazaState * CAtk_3_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg);
-					m_pTarget->Take_Damage(0.3f, false);
+					m_pTarget->Take_Damage(0.1f, false);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -258,7 +258,7 @@ CAkazaState * CAtk_3_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 		if (pMyCollider->Collision(pTargetCollider))
 		{
-			_float fSpeed = pAkaza->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 1.5f;
+			_float fSpeed = pAkaza->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
 
 			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -308,7 +308,7 @@ CAkazaState * CAtk_3_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg * 2);
-					m_pTarget->Take_Damage(0.6f, false);
+					m_pTarget->Take_Damage(0.1f, false);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

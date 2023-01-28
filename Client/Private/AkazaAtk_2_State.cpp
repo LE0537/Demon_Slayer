@@ -205,9 +205,9 @@ CAkazaState * CAtk_2_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 	m_fMove += fTimeDelta;
 
-	if (m_fMove < 0.3f)
+	if (m_fMove < 0.5f)
 	{
-		pAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+		pAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.3f);
 
 		_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
@@ -255,7 +255,7 @@ CAkazaState * CAtk_2_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 		if (pMyCollider2->Collision(pTargetCollider))
 		{
-			_float fSpeed = pAkaza->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+			_float fSpeed = pAkaza->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 1.3f;
 
 			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

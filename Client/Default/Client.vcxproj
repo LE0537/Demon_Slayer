@@ -249,6 +249,7 @@
     <ClInclude Include="..\Public\MenuFixedImg.h" />
     <ClInclude Include="..\Public\MenuFrontCloud.h" />
     <ClInclude Include="..\Public\MenuTitle.h" />
+    <ClInclude Include="..\public\RuiAtk.h" />
     <ClInclude Include="..\Public\RuiAtk_1_State.h" />
     <ClInclude Include="..\Public\RuiAtk_2_State.h" />
     <ClInclude Include="..\Public\RuiAtk_3_State.h" />
@@ -432,6 +433,7 @@
     <ClCompile Include="..\Private\MenuFixedImg.cpp" />
     <ClCompile Include="..\Private\MenuFrontCloud.cpp" />
     <ClCompile Include="..\Private\MenuTitle.cpp" />
+    <ClCompile Include="..\private\RuiAtk.cpp" />
     <ClCompile Include="..\Private\RuiAtk_1_State.cpp" />
     <ClCompile Include="..\Private\RuiAtk_2_State.cpp" />
     <ClCompile Include="..\Private\RuiAtk_3_State.cpp" />

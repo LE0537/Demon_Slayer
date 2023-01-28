@@ -535,6 +535,9 @@
     <Filter Include="05.CollBox\03.KyoujuroSkill">
       <UniqueIdentifier>{e0bc9a06-de95-4b4c-ac42-9873e77d922f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\04.RuiAtk">
+      <UniqueIdentifier>{60c89556-1ffe-497f-b807-ccca12f8f652}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1083,6 +1086,9 @@
     <ClInclude Include="..\public\KyoujuroSkill.h">
       <Filter>05.CollBox\03.KyoujuroSkill</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RuiAtk.h">
+      <Filter>05.CollBox\04.RuiAtk</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1606,6 +1612,9 @@
     </ClCompile>
     <ClCompile Include="..\private\KyoujuroSkill.cpp">
       <Filter>05.CollBox\03.KyoujuroSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiAtk.cpp">
+      <Filter>05.CollBox\04.RuiAtk</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
