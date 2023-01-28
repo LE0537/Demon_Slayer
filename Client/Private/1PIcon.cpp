@@ -53,11 +53,15 @@ void C1PIcon::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	_float fP1CursorX = pUI_Manager->Get_1PCursor()->Get_fX();
-	_float fP1CursorY = pUI_Manager->Get_1PCursor()->Get_fY();
+	if (!m_ThrowUIinfo.bSelCheck)
+	{
+		_float fP1CursorX = pUI_Manager->Get_1PCursor()->Get_fX();
+		_float fP1CursorY = pUI_Manager->Get_1PCursor()->Get_fY();
 
-	m_fX = fP1CursorX - 20.f;
-	m_fY = fP1CursorY - 18.f;
+		m_fX = fP1CursorX - 20.f;
+		m_fY = fP1CursorY - 18.f;
+	}
+	
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 	

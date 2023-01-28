@@ -87,9 +87,15 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 		if (pGameInstance->Key_Down(DIK_E))
 		{
 			if (m_iSelCount == 0)
+			{
+				Add_1PIcon(m_ThrowUIinfo);
 				m_bSelectFirst = true;
-			else if(m_iSelCount == 1)
+			}
+			else if (m_iSelCount == 1)
+			{
 				m_bSelectSecond = true;
+				m_bSelectFirst = false;
+			}
 			
 			++m_iSelCount;
 		}
@@ -99,9 +105,15 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 		if (pGameInstance->Key_Down(DIK_Q))
 		{
 			if (m_iSelCount == 1)
+			{
 				m_bSelectFirst = false;
+
+			}
 			else if (m_iSelCount == 2)
+			{
 				m_bSelectSecond = false;
+				m_bSelectFirst = true;
+			}
 
 			--m_iSelCount;
 		}
@@ -141,6 +153,23 @@ HRESULT CSelP1Cursor::Render()
 
 	if (!m_bSelComplete)
 		m_pVIBufferCom->Render();
+
+	return S_OK;
+}
+
+HRESULT CSelP1Cursor::Add_1PIcon(THROWUIINFO ThrowInfo)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	
+	ThrowInfo.bSelCheck = true;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_1P_Icon"), LEVEL_SELECTCHAR, TEXT("Layer_1PIcon"), &ThrowInfo)))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_1P_MainOnBase"), LEVEL_SELECTCHAR, TEXT("Layer_1PMain"), &ThrowInfo)))
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }

@@ -28,6 +28,7 @@ public:
 		_float			vRot;
 		_uint			iLevelIndex;
 		CCharacters*	pTarget;
+		CCharacters*	pTargetSecond;
 		CUI*			pUITarget;
 	}THROWUIINFO;
 
@@ -42,6 +43,9 @@ public:
 	_uint  Get_ImgNum() { return m_iImgNum; }
 	//_bool Get_SelectCheck() { return m_bSelectCheck; }
 	_bool Get_SelectVS() { return m_bSelectVS; }
+	THROWUIINFO Get_ThrowInfo() { return m_ThrowUIinfo; }
+	_bool Get_SelFirstCheck() { return m_bSelFirstCheck; }
+
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -58,9 +62,12 @@ protected:
 	_bool					m_bSelectSecond = false;
 	_bool					m_bSelComplete = false;
 	_bool					m_bSelectVS = false;
+	_bool					m_bSelFirstCheck = false;
 	_uint					m_iImgNum = 0;
+	_uint					m_iSelCount = 0;
 	LOADUIINFO				m_LoadUIinfo;
 	THROWUIINFO				m_ThrowUIinfo;
+	
 
 public:
 	static CUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -27,7 +27,6 @@ public:
 	void Add_Logo_Title();
 	void Add_Menu();
 	void Add_Loading();
-	HRESULT Add_Obj(CUI::THROWUIINFO iter);
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LogoUI(CUI::THROWUIINFO iter);
@@ -38,6 +37,9 @@ public:
 	_bool P2_Oni_Check();
 	void	Set_1P(CCharacters* p1P) { m_p1P = p1P; }
 	void	Set_2P(CCharacters* p2P) { m_p2P = p2P; }
+
+	void	Set_1P_2(CCharacters* p1P_2) { m_p1P_2 = p1P_2; }
+	void	Set_2P_2(CCharacters* p2P_2) { m_p2P_2 = p2P_2; }
 
 	CUI*	Get_1PCursor() { return m_p1PUI; }
 	void	Set_1PCursor (CUI* p1PCursor) { m_p1PUI = p1PCursor; }
@@ -51,10 +53,21 @@ public:
 	CUI*	Get_2PChar() { return m_p2PChar; } //레벨 캐릭터 넘겨줄때 이거사용 Get_ImgNum() 사용
 	void	Set_2PChar(CUI* p2PChar) { m_p2PChar = p2PChar; }
 
+	CUI*	Get_Sel1PMain() { return m_pSel1PMain; }
+	void	Set_Sel1PMain(CUI* p1PMain) { m_pSel1PMain = p1PMain; }
+
+	CUI*	Get_Sel2PMain() { return m_pSel2PMain; }
+	void	Set_Sel2PMain(CUI* p2PMain) { m_pSel2PMain = p2PMain; }
+
 	_uint   Get_1P() { return m_i1p; }
 	void	Set_1P(_uint _i1p) { m_i1p = _i1p; }
+	_uint   Get_1P_2() { return m_i1p_2; }
+	void	Set_1P_2(_uint _i1p_2) { m_i1p_2 = _i1p_2; }
+	
 	_uint   Get_2P() { return m_i2p; }
 	void	Set_2P(_uint _i2p) { m_i2p = _i2p; }
+	_uint   Get_2P_2() { return m_i2p_2; }
+	void	Set_2P_2(_uint _i2p_2) { m_i2p_2 = _i2p_2; }
 	//0일때 아카자
 	//1일때 쿄쥬로
 	//2일때 루이
@@ -90,10 +103,14 @@ private:
 	string							m_sFilePath;
 	CCharacters*					m_p1P;
 	CCharacters*					m_p2P;
+	CCharacters*					m_p1P_2;
+	CCharacters*					m_p2P_2;
 	CUI*							m_p1PUI;
 	CUI*							m_p2PUI;
 	CUI*							m_p1PChar;
 	CUI*							m_p2PChar;
+	CUI*							m_pSel1PMain;
+	CUI*							m_pSel2PMain;
 	CUI*							m_pMenuCursor = nullptr;
 
 	CUI::THROWUIINFO				m_ThrowInfo;
@@ -103,6 +120,8 @@ private:
 	_uint							m_iUltBarLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
+	_uint                           m_i1p_2 = 0;
+	_uint                           m_i2p_2 = 0;
 	_uint							m_iLogoButtonNum = 0;
 
 public:

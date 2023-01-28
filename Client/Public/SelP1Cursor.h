@@ -19,12 +19,14 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 
+public:
+	HRESULT Add_1PIcon(THROWUIINFO ThrowInfo);
+
 private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
-private:
-	_uint			m_iSelCount = 0;
+
 
 
 public:
