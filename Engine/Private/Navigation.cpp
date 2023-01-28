@@ -65,7 +65,7 @@ HRESULT CNavigation::Initialize(void * pArg)
 	return S_OK;
 }
 
-_bool CNavigation::isMove(_fvector vPosition)
+_bool CNavigation::isMove(_fvector vPosition, _fvector vMoveDir, _Out_ _float3 * pOut)
 {
 	_int		iNeighborIndex = -1;
 
@@ -96,6 +96,8 @@ _bool CNavigation::isMove(_fvector vPosition)
 		else
 		{
 			/*슬라이딩을 위한 리턴을 정의해도 된다. */		
+			XMStoreFloat3(pOut, m_Cells[m_NaviDesc.iCurrentCellIndex]->Sliding_Wall(vPosition, vMoveDir));
+
 			return false;
 		}
 		

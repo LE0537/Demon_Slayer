@@ -313,7 +313,7 @@ void CMoveJumpState::Move(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	}
 
 	if (m_eDirection != DIR_STOP && m_bMove == true)
-		pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
 }
 
 CKyoujuroState*  CMoveJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)

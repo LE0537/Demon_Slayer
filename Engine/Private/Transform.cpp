@@ -59,59 +59,130 @@ void CTransform::Go_Straight(_float fTimeDelta, CNavigation* pNavigation)
 {
 	_vector		vPosition = Get_State(CTransform::STATE_TRANSLATION);
 	_vector		vLook = Get_State(CTransform::STATE_LOOK);
+	_vector		vPrePosition = vPosition;
+
+	_float3		vSliding = _float3(0.f, 0.f, 0.f);
 
 	vPosition += XMVector3Normalize(vLook) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
 
 	if (nullptr == pNavigation)
+	{
 		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		return;
+	}
 
-	else if (true == pNavigation->isMove(vPosition))
+	_bool	bMoveCheck = pNavigation->isMove(vPosition, vLook, &vSliding);
+
+	if (true == bMoveCheck)
+	{
 		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	}
+	else
+	{
+		
+		vPrePosition += XMLoadFloat3(&vSliding) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
+		if (true == pNavigation->isMove(vPrePosition, vLook, &vSliding))
+		{
+			Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
+		}
+	}
 }
 
-void CTransform::Go_MonsterStraight(_float fTimeDelta, CNavigation * pNavigation, _fvector vTargetPos)
-{
-	_vector		vPosition = Get_State(CTransform::STATE_TRANSLATION);
-	_vector		vLook = vTargetPos - vPosition;
-
-	vPosition += XMVector3Normalize(vLook) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
-
-	if (nullptr == pNavigation)
-		Set_State(CTransform::STATE_TRANSLATION, vPosition);
-
-	else if (true == pNavigation->isMove(vPosition))
-		Set_State(CTransform::STATE_TRANSLATION, vPosition);
-}
-
-void CTransform::Go_Backward(_float fTimeDelta)
+void CTransform::Go_Backward(_float fTimeDelta, class CNavigation* pNavigation)
 {
 	_vector		vPosition = Get_State(CTransform::STATE_TRANSLATION);
 	_vector		vLook = Get_State(CTransform::STATE_LOOK);
+	_vector		vPrePosition = vPosition;
+
+	_float3		vSliding = _float3(0.f, 0.f, 0.f);
 
 	vPosition -= XMVector3Normalize(vLook) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
 
-	Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	if (nullptr == pNavigation)
+	{
+		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		return;
+	}
+
+	_bool	bMoveCheck = pNavigation->isMove(vPosition, vLook, &vSliding);
+
+	if (true == bMoveCheck)
+	{
+		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	}
+	else
+	{
+		vPrePosition += XMLoadFloat3(&vSliding) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
+		if (true == pNavigation->isMove(vPrePosition, vLook, &vSliding))
+		{
+			Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
+		}
+	}
 }
 
-void CTransform::Go_Left(_float fTimeDelta)
+void CTransform::Go_Left(_float fTimeDelta, class CNavigation* pNavigation)
 {
 
 	_vector		vPosition = Get_State(CTransform::STATE_TRANSLATION);
 	_vector		vRight = Get_State(CTransform::STATE_RIGHT);
+	_vector		vPrePosition = vPosition;
+
+	_float3		vSliding = _float3(0.f, 0.f, 0.f);
 
 	vPosition -= XMVector3Normalize(vRight) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
 
-	Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	if (nullptr == pNavigation)
+	{
+		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		return;
+	}
+
+	_bool	bMoveCheck = pNavigation->isMove(vPosition, vRight, &vSliding);
+
+	if (true == bMoveCheck)
+	{
+		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	}
+	else
+	{
+		vPrePosition += XMLoadFloat3(&vSliding) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
+		if (true == pNavigation->isMove(vPrePosition, vRight, &vSliding))
+		{
+			Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
+		}
+	}
 }
 
-void CTransform::Go_Right(_float fTimeDelta)
+void CTransform::Go_Right(_float fTimeDelta, class CNavigation* pNavigation)
 {
 	_vector		vPosition = Get_State(CTransform::STATE_TRANSLATION);
 	_vector		vRight = Get_State(CTransform::STATE_RIGHT);
+	_vector		vPrePosition = vPosition;
+
+	_float3		vSliding = _float3(0.f, 0.f, 0.f);
 
 	vPosition += XMVector3Normalize(vRight) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
 
-	Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	if (nullptr == pNavigation)
+	{
+		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		return;
+	}
+
+	_bool	bMoveCheck = pNavigation->isMove(vPosition, vRight, &vSliding);
+
+	if (true == bMoveCheck)
+	{
+		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	}
+	else
+	{
+		vPrePosition += XMLoadFloat3(&vSliding) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
+		if (true == pNavigation->isMove(vPrePosition, vRight, &vSliding))
+		{
+			Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
+		}
+	}
 }
 
 void CTransform::Turn(_fvector vAxis, _float fTimeDelta)

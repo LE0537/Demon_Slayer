@@ -443,64 +443,64 @@ void CDashState::Move(CRui* pRui, _float fTimeDelta)
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_Backward(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_LEFT:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_RIGHT:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_BACK:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_Backward(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_LF:
@@ -508,26 +508,26 @@ void CDashState::Move(CRui* pRui, _float fTimeDelta)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
-				pRui->Get_Transform()->Go_Left(fTimeDelta);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Left(fTimeDelta, pRui->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.2f);
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.2f);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pRui->Get_Transform()->Go_Backward(fTimeDelta);
-				pRui->Get_Transform()->Go_Right(fTimeDelta);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Right(fTimeDelta, pRui->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.2f);
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.2f);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
 			}
 		}
 		break;
@@ -536,26 +536,26 @@ void CDashState::Move(CRui* pRui, _float fTimeDelta)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
-				pRui->Get_Transform()->Go_Right(fTimeDelta);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Right(fTimeDelta, pRui->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.2f);
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.2f);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pRui->Get_Transform()->Go_Backward(fTimeDelta);
-				pRui->Get_Transform()->Go_Left(fTimeDelta);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Left(fTimeDelta, pRui->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.2f);
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.2f);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
 			}
 		}
 		break;
@@ -564,26 +564,26 @@ void CDashState::Move(CRui* pRui, _float fTimeDelta)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pRui->Get_Transform()->Go_Backward(fTimeDelta);
-				pRui->Get_Transform()->Go_Left(fTimeDelta);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Left(fTimeDelta, pRui->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.2f);
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.2f);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
-				pRui->Get_Transform()->Go_Right(fTimeDelta);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Right(fTimeDelta, pRui->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.2f);
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.2f);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
 			}
 		}
 		break;
@@ -592,26 +592,26 @@ void CDashState::Move(CRui* pRui, _float fTimeDelta)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pRui->Get_Transform()->Go_Backward(fTimeDelta);
-				pRui->Get_Transform()->Go_Right(fTimeDelta);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Right(fTimeDelta, pRui->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.2f);
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.2f);
+				pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.4f)
 			{
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
-				pRui->Get_Transform()->Go_Left(fTimeDelta);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Left(fTimeDelta, pRui->Get_NavigationCom());
 			}
 			else if (m_fTime >= 0.4f && m_fTime < 0.55f)
 			{
-				pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.2f);
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.2f);
+				pRui->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pRui->Get_NavigationCom());
 			}
 		}
 		break;
@@ -619,32 +619,32 @@ void CDashState::Move(CRui* pRui, _float fTimeDelta)
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_RIGHT_DASH:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pRui->Get_NavigationCom());
 			else
-				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.4f);
+				pRui->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pRui->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_STOP:

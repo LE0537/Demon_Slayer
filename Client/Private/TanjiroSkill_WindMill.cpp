@@ -63,7 +63,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 	m_fHitTime += fTimeDelta;
 	if (m_fTime < 0.4f)
 	{
-		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.5f);
+		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.5f, pTanjiro->Get_NavigationCom());
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 		CCollider*	pMyCollider2 = pTanjiro->Get_SphereCollider();
 		

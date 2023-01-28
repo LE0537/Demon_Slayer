@@ -421,7 +421,7 @@ void CMoveState::Move(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	}
 
 	if (m_eDirection != DIR_STOP)
-		pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 	CCharacters* m_pTarget = pKyoujuro->Get_BattleTarget();

@@ -207,7 +207,7 @@ CAkazaState * CAtk_2_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 	if (m_fMove < 0.5f)
 	{
-		pAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.3f);
+		pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 1.3f, pAkaza->Get_NavigationCom());
 
 		_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가

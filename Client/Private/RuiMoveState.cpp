@@ -393,7 +393,7 @@ void CMoveState::Move(CRui* pRui, _float fTimeDelta)
 	}
 
 	if (m_eDirection != DIR_STOP)
-		pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 	CCharacters* m_pTarget = pRui->Get_BattleTarget();

@@ -437,64 +437,64 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_LEFT:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_RIGHT:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_BACK:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_LF:
@@ -502,26 +502,26 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 			if (m_fTime < 0.25f)
 			{
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.25f);
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.25f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
 			}
 			else 
 			{
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.1f);
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
 			{
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.25f);
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.25f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
 			}
 			else
 			{
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f);
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 			}
 		}
 		break;
@@ -530,26 +530,26 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 			if (m_fTime < 0.25f)
 			{
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.25f);
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.25f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
 			}
 			else
 			{
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.1f);
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
 			{
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.25f);
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.25f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
 			}
 			else
 			{
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f);
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 			}
 		}
 		break;
@@ -558,26 +558,26 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 			if (m_fTime < 0.25f)
 			{
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.25f);
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.25f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
 			}
 			else
 			{
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f);
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
 			{
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.25f);
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.25f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
 			}
 			else
 			{
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.1f);
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 			}
 		}
 		break;
@@ -586,26 +586,26 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 			if (m_fTime < 0.25f)
 			{
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.25f);
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.25f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
 			}
 			else
 			{
-				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f);
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 			}
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
 			{
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.25f);
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.25f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.25f, pTanjiro->Get_NavigationCom());
 			}
 			else
 			{
-				pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.1f);
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 			}
 		}
 		break;
@@ -613,32 +613,32 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_RIGHT_DASH:
 		if (iIndex == 1)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Right(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		else if (iIndex == 2)
 		{
 			if (m_fTime < 0.25f)
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 			else
-				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f);
+				pTanjiro->Get_Transform()->Go_Left(fTimeDelta * 0.1f, pTanjiro->Get_NavigationCom());
 		}
 		break;
 	case Client::DIR_STOP:

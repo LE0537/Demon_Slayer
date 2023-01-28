@@ -8,6 +8,8 @@
 #include "RuiState.h"
 #include "RuiIdleState.h"
 #include "RuiToolState.h"
+#include "Level_GamePlay.h"
+
 using namespace Rui;
 
 
@@ -28,10 +30,17 @@ HRESULT CRui::Initialize_Prototype()
 
 HRESULT CRui::Initialize(void * pArg)
 {
-	memcpy(&m_i1p, pArg, sizeof(_int));
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
+	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
+	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
+
+	m_i1p = tCharacterDesc.i1P2P;
+	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
+	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
+
+	Set_Info();
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
@@ -39,17 +48,13 @@ HRESULT CRui::Initialize(void * pArg)
 	{
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
-		Set_Info();
 		CUI_Manager::Get_Instance()->Set_1P(this);
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
 	}
 	else if (m_i1p == 2)
 	{
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 
-		Set_Info();
 		CUI_Manager::Get_Instance()->Set_2P(this);
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
 	}
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -225,6 +230,9 @@ HRESULT CRui::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -366,5 +374,7 @@ void CRui::Free()
 	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pSphereCom);
+	Safe_Release(m_pNavigationCom);
+
 	Safe_Delete(m_pRuiState);
 }

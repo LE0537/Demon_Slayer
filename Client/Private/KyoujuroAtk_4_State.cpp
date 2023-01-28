@@ -184,7 +184,7 @@ CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 
 	if (m_fMove < 0.3f)
 	{
-		pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.5f);
+		pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.5f, pKyoujuro->Get_NavigationCom());
 		CCollider*	pMyCollider = pKyoujuro->Get_SphereCollider();
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 

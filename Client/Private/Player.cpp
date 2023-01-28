@@ -220,12 +220,10 @@ void CPlayer::Key_Input(_float fTimeDelta)
 
 	if (pGameInstance->Key_Pressing(DIK_UP))
 	{
-		m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
 	}
 
 	if (pGameInstance->Key_Pressing(DIK_DOWN))
 	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
 	}
 
 

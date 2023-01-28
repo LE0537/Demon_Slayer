@@ -81,7 +81,7 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	if (m_fMove < 0.5f)
 	{
-		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
 
 		CCollider*	pMyCollider = pTanjiro->Get_SphereCollider();
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
