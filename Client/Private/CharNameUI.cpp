@@ -98,7 +98,7 @@ void CCharNameUI::Name_Selected(wstring strName)
 		m_iImgNum = 1;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
 		if(m_ThrowUIinfo.iLayerNum == 0)
-			m_fX += 60.f;
+			m_fX -= 30.f;
 		else if(m_ThrowUIinfo.iLayerNum == 1)
 			m_fX -= 60.f;
 	}
@@ -109,7 +109,7 @@ void CCharNameUI::Name_Selected(wstring strName)
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_fX += 50.f;
 		if (m_ThrowUIinfo.iLayerNum == 1)
-			m_fX -= 50.f;
+			m_fX -= 100.f;
 	}
 	else if (strName == TEXT("∑Á¿Ã"))
 	{
