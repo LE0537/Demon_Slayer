@@ -165,7 +165,7 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
 			}
 		}
-		else if (m_fMove > 0.6f && m_fMove < 1.f)
+		else if (m_fMove > 0.5f && m_fMove < 1.f)
 		{
 			if (!m_bHit)
 			{
