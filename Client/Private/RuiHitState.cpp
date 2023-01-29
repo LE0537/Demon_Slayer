@@ -1,16 +1,16 @@
 #include "stdafx.h"
-#include "AkazaHitState.h"
-#include "AkazaIdleState.h"
+#include "RuiHitState.h"
+#include "RuiIdleState.h"
 #include "GameInstance.h"
 
-using namespace Akaza;
+using namespace Rui;
 
 CHitState::CHitState(_float _fPow, _bool _bJump)
 	:m_fPow(_fPow), m_bJumpHit(_bJump) 
 {
 }
 
-CAkazaState * CHitState::HandleInput(CAkaza* pAkaza)
+CRuiState * CHitState::HandleInput(CRui* pRui)
 {
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
@@ -20,7 +20,7 @@ CAkazaState * CHitState::HandleInput(CAkaza* pAkaza)
 	return nullptr;
 }
 
-CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
+CRuiState * CHitState::Tick(CRui* pRui, _float fTimeDelta)
 {
 	//if (!m_bReset)
 	//{
@@ -56,42 +56,42 @@ CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	return nullptr;
 }
 
-CAkazaState * CHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
+CRuiState * CHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
 
 	m_fJumpTime += 0.035f;
 	if (m_bJumpHit && !m_bJump)
 	{
-		Jump(pAkaza, m_fJumpTime);
+		Jump(pRui, m_fJumpTime);
 	}
 
-	_vector vPosition = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 
 	if (m_bJumpHit == false)
 	{
-		if (pAkaza->Get_Model()->Get_CurrentFrame() <= 20)
+		if (pRui->Get_Model()->Get_CurrentFrame() <= 20)
 		{
-			pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
-			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
+			pRui->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
+			pRui->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
 
-			if (pAkaza->Get_Model()->Get_CurrentFrame() == 19)
+			if (pRui->Get_Model()->Get_CurrentFrame() == 19)
 				return new CIdleState();
 		}
 	}
 	else
 	{
-		if (pAkaza->Get_Model()->Get_CurrentFrame() <= 60)
+		if (pRui->Get_Model()->Get_CurrentFrame() <= 60)
 		{
-			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
+			pRui->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
 		}
 
-		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
+		pRui->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
 
 
-		if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 		{
-			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 			return new CIdleState();
 		}
 
@@ -107,40 +107,40 @@ CAkazaState * CHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	
 
 
-void CHitState::Enter(CAkaza* pAkaza)
+void CHitState::Enter(CRui* pRui)
 {
 	m_eStateId = STATE_ID::STATE_HIT;
 
-	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_HIT);
-	pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT);
-	pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_HIT);
+	pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_HIT);
+	pRui->Set_AnimIndex(CRui::ANIM_HIT);
+	pRui->Get_Model()->Reset_Anim(CRui::ANIM_HIT);
 	//pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
 	//pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.0f);
 
 	if (m_bJumpHit == false)
 	{
-		pAkaza->Get_Model()->Set_FrameNum(pAkaza->Get_AnimIndex(), 100);
+		pRui->Get_Model()->Set_FrameNum(pRui->Get_AnimIndex(), 100);
 		//pAkaza->Get_Model()->Set_FrameTime(pAkaza->Get_AnimIndex(), 0, 20, 1.f);
-		pAkaza->Get_Model()->Set_UsingFrame(CAkaza::ANIM_HIT, 8, 20);
+		pRui->Get_Model()->Set_UsingFrame(CRui::ANIM_HIT, 8, 20);
 	}
 	else
 	{
-		pAkaza->Get_Model()->Set_FrameNum(pAkaza->Get_AnimIndex(), 100);
+		pRui->Get_Model()->Set_FrameNum(pRui->Get_AnimIndex(), 100);
 		//pAkaza->Get_Model()->Set_FrameTime(pAkaza->Get_AnimIndex(), 0, 20, 1.f);
-		pAkaza->Get_Model()->Set_UsingFrame(CAkaza::ANIM_HIT, 25, 100);
+		pRui->Get_Model()->Set_UsingFrame(CRui::ANIM_HIT, 25, 100);
 	}
 
 
 }
-CAkazaState * CHitState::Jump(CAkaza* pAkaza, _float fTimeDelta)
+CRuiState * CHitState::Jump(CRui* pRui, _float fTimeDelta)
 {
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
-	static _float fVelocity = 7.f;
+	static _float fVelocity = 8.f;
 	static _float fGravity = 14.f;
 
 
-	_vector      vPosition = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector      vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_float fSpeed = 0.f;
 	fSpeed = fStartHeight + fVelocity * fTimeDelta - (0.5f * fGravity * fTimeDelta * fTimeDelta);
 	vPosition = XMVectorSetY(vPosition, fSpeed);
@@ -151,18 +151,18 @@ CAkazaState * CHitState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 	{
 		vPosition = XMVectorSetY(vPosition, fEndHeight);
 		m_fJumpTime = 0.f;
-		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		m_bJump = true;
 	}
 
-	pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
-
+	pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	
 
 	return nullptr;
 }
-void CHitState::Exit(CAkaza* pAkaza)
+void CHitState::Exit(CRui* pRui)
 {
-	pAkaza->Get_Model()->Set_UsingFrame(CAkaza::ANIM_HIT, 0, 100);
+	pRui->Get_Model()->Set_UsingFrame(CRui::ANIM_HIT, 0, 100);
 }
 
 

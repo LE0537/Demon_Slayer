@@ -72,6 +72,26 @@ public:
 
 		ANIM_HIT = 65,
 
+
+		// SKILL
+
+		// SHOOT
+		ANIM_SKILL_SHOOT_0 = 17,
+		ANIM_SKILL_SHOOT_1 = 18,
+		ANIM_SKILL_SHOOT_2 = 19,
+
+		// PUNCH
+
+		ANIM_SKILL_PUNCH_0 = 25,
+		ANIM_SKILL_PUNCH_1 = 26,
+		ANIM_SKILL_PUNCH_2 = 27,
+
+		// DESTROY
+
+		ANIM_SKILL_DESTROY_0 = 32,
+		ANIM_SKILL_DESTROY_1 = 15,
+
+
 		ANIM_END = 100
 	};
 private:
