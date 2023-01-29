@@ -541,18 +541,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill">
       <UniqueIdentifier>{1482c971-77b3-4f8d-a3e0-2c79dfadd06e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill">
-      <UniqueIdentifier>{d419443c-09df-4a99-8ec8-7a19c02e1e27}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Shoot">
-      <UniqueIdentifier>{9a956b3f-4bec-483f-ba73-ece9546e1530}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Punch">
-      <UniqueIdentifier>{46972fc0-a4e1-486e-a842-a5a6e7a3160b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Destroy">
-      <UniqueIdentifier>{59245c16-b9c3-4cde-8307-83549f4f0759}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Sphere">
       <UniqueIdentifier>{fa593b6e-22c5-499f-b0a3-a19e55a0ce2d}</UniqueIdentifier>
     </Filter>
@@ -561,6 +549,27 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Common">
       <UniqueIdentifier>{3c553323-2323-4f11-ac48-83d47ceb6d5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko">
+      <UniqueIdentifier>{cb180b3d-3e4a-4ac4-b7a7-906b4b3b9a0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu">
+      <UniqueIdentifier>{df7afd57-d44f-4572-a8af-5f8ad1075e47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill">
+      <UniqueIdentifier>{d419443c-09df-4a99-8ec8-7a19c02e1e27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Shoot">
+      <UniqueIdentifier>{9a956b3f-4bec-483f-ba73-ece9546e1530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Punch">
+      <UniqueIdentifier>{46972fc0-a4e1-486e-a842-a5a6e7a3160b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Destroy">
+      <UniqueIdentifier>{59245c16-b9c3-4cde-8307-83549f4f0759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.CollBox\0.5AkazaShoot">
+      <UniqueIdentifier>{a442e0a6-99c6-49e0-bf5f-f786771273c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1117,13 +1126,13 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AkazaSkill_Shoot.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Shoot</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Shoot</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AkazaSkill_Punch.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Punch</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Punch</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AkazaSkill_Destroy.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Destroy</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Destroy</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\RuiSkill_ShootNet.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Net</Filter>
@@ -1133,6 +1142,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\RuiSkill_Sphere.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Nezuko.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AkazaShoot.h">
+      <Filter>05.CollBox\0.5AkazaShoot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1665,13 +1680,13 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AkazaSkill_Shoot.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Shoot</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Shoot</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AkazaSkill_Punch.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Punch</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Punch</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AkazaSkill_Destroy.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Destroy</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Destroy</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\RuiSkill_ShootNet.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Net</Filter>
@@ -1681,6 +1696,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiSkill_Sphere.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Nezuko.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AkazaShoot.cpp">
+      <Filter>05.CollBox\0.5AkazaShoot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

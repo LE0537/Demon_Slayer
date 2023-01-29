@@ -358,8 +358,9 @@ void CKyoujuro::Set_Info()
 	m_tInfo.fComboTime = 0.f;
 	m_tInfo.bPowerUp = false;
 	m_tInfo.fPowerUpTime = 0.f;
-	m_tInfo.iFriendMaxBar = 100;
-	m_tInfo.iFriendBar;
+	m_tInfo.iFriendMaxBar = 1000;
+	m_tInfo.iFriendBar = 0;
+	m_tInfo.bGuard = false;
 }
 void CKyoujuro::Take_Damage(_float _fPow, _bool _bJumpHit)
 {

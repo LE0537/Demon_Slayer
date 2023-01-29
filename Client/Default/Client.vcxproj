@@ -194,6 +194,7 @@
     <ClInclude Include="..\Public\AkazaJumpState.h" />
     <ClInclude Include="..\Public\AkazaMoveJumpState.h" />
     <ClInclude Include="..\Public\AkazaMoveState.h" />
+    <ClInclude Include="..\public\AkazaShoot.h" />
     <ClInclude Include="..\Public\AkazaSkill_Destroy.h" />
     <ClInclude Include="..\Public\AkazaSkill_Punch.h" />
     <ClInclude Include="..\Public\AkazaSkill_Shoot.h" />
@@ -252,6 +253,7 @@
     <ClInclude Include="..\Public\MenuFixedImg.h" />
     <ClInclude Include="..\Public\MenuFrontCloud.h" />
     <ClInclude Include="..\Public\MenuTitle.h" />
+    <ClInclude Include="..\public\Nezuko.h" />
     <ClInclude Include="..\public\RuiAtk.h" />
     <ClInclude Include="..\Public\RuiAtk_1_State.h" />
     <ClInclude Include="..\Public\RuiAtk_2_State.h" />
@@ -386,6 +388,7 @@
     <ClCompile Include="..\Private\AkazaJumpState.cpp" />
     <ClCompile Include="..\Private\AkazaMoveJumpState.cpp" />
     <ClCompile Include="..\Private\AkazaMoveState.cpp" />
+    <ClCompile Include="..\private\AkazaShoot.cpp" />
     <ClCompile Include="..\Private\AkazaSkill_Destroy.cpp" />
     <ClCompile Include="..\Private\AkazaSkill_Punch.cpp" />
     <ClCompile Include="..\Private\AkazaSkill_Shoot.cpp" />
@@ -443,6 +446,7 @@
     <ClCompile Include="..\Private\MenuFixedImg.cpp" />
     <ClCompile Include="..\Private\MenuFrontCloud.cpp" />
     <ClCompile Include="..\Private\MenuTitle.cpp" />
+    <ClCompile Include="..\private\Nezuko.cpp" />
     <ClCompile Include="..\private\RuiAtk.cpp" />
     <ClCompile Include="..\Private\RuiAtk_1_State.cpp" />
     <ClCompile Include="..\Private\RuiAtk_2_State.cpp" />

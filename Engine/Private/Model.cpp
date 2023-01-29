@@ -247,9 +247,9 @@ HRESULT CModel::Render(CShader * pShader, _uint iMeshIndex, _uint iPassIndex)
 {
 	if (TYPE_ANIM == m_eModelType)
 	{
-		_float4x4		BoneMatrix[570];
+		_float4x4		BoneMatrix[630];
 		m_Meshes[iMeshIndex]->Get_BoneMatrices(BoneMatrix, XMLoadFloat4x4(&m_PivotMatrix));
-		pShader->Set_MatrixArray("g_BoneMatrices", BoneMatrix, 570);
+		pShader->Set_MatrixArray("g_BoneMatrices", BoneMatrix, 630);
 	}
 	pShader->Begin(iPassIndex);
 

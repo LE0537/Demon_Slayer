@@ -3,7 +3,7 @@
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;
 texture2D		g_MaskTexture;
-matrix			g_BoneMatrices[570];
+matrix			g_BoneMatrices[630];
 
 struct VS_IN
 {

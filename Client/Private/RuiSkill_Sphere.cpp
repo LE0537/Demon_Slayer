@@ -58,7 +58,7 @@ CRuiState * CSkill_SphereState::Tick(CRui* pRui, _float fTimeDelta)
 
 CRuiState * CSkill_SphereState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
-	pRui->Get_Model()->Play_Animation(fTimeDelta);
+	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.3f);
 
 	return nullptr;
 }
