@@ -41,6 +41,8 @@ private:
 private:
 	MESHOBJ_STATIC_DESC			m_tMyDesc;
 
+	_float		m_fFrustumRadiusRatio = 1.f;
+
 private:
 	HRESULT Delete_Component(const _tchar* pComponentTag);
 

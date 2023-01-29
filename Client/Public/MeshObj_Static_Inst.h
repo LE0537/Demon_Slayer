@@ -41,6 +41,9 @@ private:
 	CModel*		m_pModelCom = nullptr;
 	vector<VTXMATRIX>		m_vecMatrix;
 
+	_bool		m_bFrustum = true;
+	_float		m_fFrustumRadiusRatio = 1.f;
+
 private:
 	MESHOBJ_STATIC_INSTANCING_DESC			m_tMyDesc;
 

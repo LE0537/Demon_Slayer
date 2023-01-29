@@ -171,14 +171,14 @@ HRESULT CMeshInstance::Render()
 	return S_OK;
 }
 
-void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fTimeDelta)
+void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _float fTimeDelta)
 {
 	vector<VTXMATRIX>	vecRenderMatrix;
 
 	CFrustum*	pFrustum= GET_INSTANCE(CFrustum);
 	for (auto & iter : vecMatrix)
 	{
-		_float	fLength = max(max(XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vRight))), XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vUp)))), XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vLook))));
+		_float	fLength = fRadiusRatio * max(max(XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vRight))), XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vUp)))), XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vLook))));
 
 		if (true == pFrustum->IsinFrustum(XMLoadFloat4(&iter.vPosition), fLength))
 			vecRenderMatrix.push_back(iter);

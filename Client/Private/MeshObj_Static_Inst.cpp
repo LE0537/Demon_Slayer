@@ -51,7 +51,7 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 		m_vecMatrix.push_back(VtxMatrix);
 	}
 
-	m_pModelCom->Update_Instancing(m_vecMatrix, 1.f / 60.f);
+	m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, 1.f / 60.f);
 
 	return S_OK;
 }
@@ -60,7 +60,7 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	m_pModelCom->Update_Instancing(m_vecMatrix, fTimeDelta);
+	m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
 }
 
 void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
@@ -212,40 +212,40 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	tMeshInstancingDesc.iNumMeshInstancing = m_tMyDesc.iNumInstancing;
 	switch (m_tMyDesc.iModelIndex)
 	{
-	case 2001: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree1_Instancing"); break;
-	case 2002: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree2_Instancing"); break;
-	case 2003: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree3_Instancing"); break;
-	case 2004: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeFar1_Instancing"); break;
-	case 2005: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeWillow_Instancing"); break;
+	case 2001: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree1_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2002: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree2_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2003: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BigTree3_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2004: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeFar1_Instancing"); m_fFrustumRadiusRatio = 7.f;  break;
+	case 2005: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeWillow_Instancing"); m_fFrustumRadiusRatio = 20.f; break;
 
-	case 2006: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken1_Instancing"); break;
-	case 2007: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken2_Instancing"); break;
-	case 2008: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken3_Instancing"); break;
-	case 2009: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken4_Instancing"); break;
-	case 2010: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken5_Instancing"); break;
-	case 2011: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken6_Instancing"); break;
-	case 2012: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken7_Instancing"); break;
-	case 2013: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken8_Instancing"); break;
-	case 2014: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken9_Instancing"); break;
-	case 2015: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken10_Instancing"); break;
+	case 2006: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken1_Instancing"); m_fFrustumRadiusRatio = 6.f; break;
+	case 2007: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken2_Instancing"); m_fFrustumRadiusRatio = 6.f; break;
+	case 2008: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken3_Instancing"); m_fFrustumRadiusRatio = 6.f; break;
+	case 2009: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken4_Instancing"); m_fFrustumRadiusRatio = 6.f; break;
+	case 2010: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken5_Instancing"); m_fFrustumRadiusRatio = 6.f; break;
+	case 2011: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken6_Instancing"); m_fFrustumRadiusRatio = 6.f; break;
+	case 2012: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken7_Instancing"); m_fFrustumRadiusRatio = 6.f; break;
+	case 2013: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken8_Instancing"); m_fFrustumRadiusRatio = 6.f; break;
+	case 2014: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken9_Instancing"); m_fFrustumRadiusRatio = 6.f; break;
+	case 2015: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeBroken10_Instancing"); m_fFrustumRadiusRatio = 6.f; break;
 
-	case 2016: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeRoot1_Instancing"); break;
-	case 2017: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeRoot2_Instancing"); break;
-	case 2018: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeRoot3_Instancing"); break;
+	case 2016: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeRoot1_Instancing"); m_fFrustumRadiusRatio = 10.f; break;
+	case 2017: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeRoot2_Instancing"); m_fFrustumRadiusRatio = 10.f; break;
+	case 2018: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeRoot3_Instancing"); m_fFrustumRadiusRatio = 10.f; break;
 
-	case 2019: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock1_Instancing"); break;
-	case 2020: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock2_Instancing"); break;
-	case 2021: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock3_Instancing"); break;
-	case 2022: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock4_Instancing"); break;
-	case 2023: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock5_Instancing"); break;
-	case 2024: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock6_Instancing"); break;
-	case 2025: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock7_Instancing"); break;
-	case 2026: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RockSmall"); break;
+	case 2019: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock1_Instancing"); m_fFrustumRadiusRatio = 50.f; break;
+	case 2020: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock2_Instancing"); m_fFrustumRadiusRatio = 50.f; break;
+	case 2021: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock3_Instancing"); m_fFrustumRadiusRatio = 50.f; break;
+	case 2022: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock4_Instancing"); m_fFrustumRadiusRatio = 50.f; break;
+	case 2023: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock5_Instancing"); m_fFrustumRadiusRatio = 50.f; break;
+	case 2024: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock6_Instancing"); m_fFrustumRadiusRatio = 50.f; break;
+	case 2025: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rock7_Instancing"); m_fFrustumRadiusRatio = 50.f; break;
+	case 2026: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RockSmall"); m_fFrustumRadiusRatio = 10.f; break;
 
-	case 2027: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff1_Instancing"); break;
-	case 2028: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff2_Instancing"); break;
-	case 2029: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff3_Instancing"); break;
-	case 2030: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff_Small_Instancing"); break;
+	case 2027: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff1_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2028: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff2_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2029: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff3_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2030: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Cliff_Small_Instancing"); m_fFrustumRadiusRatio = 4.f; break;
 
 	case 2031: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass1_Instancing"); break;
 	case 2032: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Grass2_Instancing"); break;
@@ -264,19 +264,19 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2043: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Leaf3_Instancing"); break;
 	case 2044: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Leaf4_Instancing"); break;
 
-	case 2045: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far1_Instancing"); break;
-	case 2046: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far2_Instancing"); break;
-	case 2047: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far3_Instancing"); break;
-	case 2048: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far4_Instancing"); break;
-	case 2049: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far5_Instancing"); break;
-	case 2050: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far6_Instancing"); break;
+	case 2045: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far1_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2046: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far2_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2047: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far3_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2048: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far4_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2049: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far5_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2050: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Hill_Far6_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
 
-	case 2051: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Wall1_Instancing"); break;
-	case 2052: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Wall2_Instancing"); break;
+	case 2051: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Wall1_Instancing"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2052: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Wall2_Instancing"); m_fFrustumRadiusRatio = 30.f; break;
 
-	case 2053: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb1_Instancing"); break;
-	case 2054: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb2_Instancing"); break;
-	case 2055: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb3_Instancing"); break;
+	case 2053: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb1_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2054: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb2_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2055: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb3_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
 
 	case 2056: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Bush1_Instancing"); break;
 	case 2057: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Bush2_Instancing"); break;
@@ -291,24 +291,24 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2065: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_HomeSmall1_Instancing"); break;
 	case 2066: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_HomeSmall2_Instancing"); break;
 
-	case 2067: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RiceField1_Instancing"); break;
+	case 2067: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RiceField1_Instancing"); m_fFrustumRadiusRatio = 120.f; break;
 
-	case 2068: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround_Instancing"); break;
-	case 2069: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_UrokodakiGround_Instancing"); break;
+	case 2068: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2069: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_UrokodakiGround_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
 
-	case 2070: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround2_Instancing"); break;
+	case 2070: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround2_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
 	case 2071: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Home1_Instancing"); break;
-	case 2072: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rubble1_Instancing"); break;
-	case 2073: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rubble2_Instancing"); break;
-	case 2074: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb4_Instancing"); break;
-	case 2075: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb5_Instancing"); break;
-	case 2076: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb6_Instancing"); break;
-	case 2077: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb7_Instancing"); break;
-	case 2078: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb8_Instancing"); break;
-	case 2079: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb9_Instancing"); break;
-	case 2080: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Tree_Jenitsu_Instancing"); break;
-	case 2081: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeFar2_Instancing"); break;
-	case 2082: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeFar3_Instancing"); break;
+	case 2072: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rubble1_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2073: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rubble2_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2074: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb4_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2075: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb5_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2076: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb6_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2077: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb7_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2078: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb8_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2079: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_SpiderWeb9_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2080: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Tree_Jenitsu_Instancing"); m_fFrustumRadiusRatio = 70.f; break;
+	case 2081: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeFar2_Instancing"); m_fFrustumRadiusRatio = 5.f; ; break;
+	case 2082: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeFar3_Instancing"); m_fFrustumRadiusRatio = 5.f; ; break;
 
 	}
 

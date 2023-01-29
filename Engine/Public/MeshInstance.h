@@ -26,7 +26,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void Update(vector<VTXMATRIX> vecMatrix, _float fTimeDelta);
+	void Update(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _float fTimeDelta);
 
 public:
 	HRESULT SetUp_Bones(class CModel* pModel);
