@@ -114,6 +114,7 @@ void CUI_Manager::Add_P1_PersonHpUI()
 		m_ThrowInfo.bReversal = iter.bReversal;
 		m_ThrowInfo.iTextureNum = iter.iTextureNum;
 		m_ThrowInfo.pTarget = m_p1P;
+		m_ThrowInfo.pTargetSecond = m_p1P_2;
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
@@ -158,6 +159,7 @@ void CUI_Manager::Add_P2_PersonHpUI()
 		m_ThrowInfo.bReversal = iter.bReversal;
 		m_ThrowInfo.iTextureNum = iter.iTextureNum;
 		m_ThrowInfo.pTarget = m_p2P;
+		m_ThrowInfo.pTargetSecond = m_p1P_2;
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
@@ -204,6 +206,7 @@ void CUI_Manager::Add_Select_CharUI()
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.bSelCheck = false;
 		m_ThrowInfo.iLevelIndex = LEVEL_SELECTCHAR;
 
 		SELECT_DATALIST.push_back(m_ThrowInfo);
@@ -269,96 +272,6 @@ void CUI_Manager::Add_Loading()
 
 	for (auto iter : LOADING_DATALIST)
 		Add_LoadingUI(iter);
-}
-
-HRESULT CUI_Manager::Add_Obj(CUI::THROWUIINFO iter)
-{
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	Safe_AddRef(pGameInstance);
-
-	switch (iter.iTextureNum)
-	{
-	case 0: //HpBar
-		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			break;
-		}
-	case 1:
-		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBarDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			break;
-		}
-	case 2:
-		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBarBack"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			break;
-		}
-	case 3:
-		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			break;
-		}
-	case 4:
-		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBarBack"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			break;
-		}
-	case 5:
-		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			break;
-		}
-	case 6:
-		{
-			iter.iLayerNum = m_iCharNameLayerNum;
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharNameUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			++m_iCharNameLayerNum;
-			break;
-		}
-	case 7:
-		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			break;
-		}
-	case 8:
-		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillBarParts"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			break;
-		}
-	case 9:
-		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeBaseDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			break;
-		}
-	case 10:
-		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeSprt"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			break;
-		}
-	case 11:
-		{
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
-				return E_FAIL;
-			break;
-		}
-	default:
-		break;
-	}
-
-	Safe_Release(pGameInstance);
-
-	return S_OK;
 }
 
 HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
@@ -755,14 +668,18 @@ HRESULT CUI_Manager::Add_SelectUI(CUI::THROWUIINFO iter)
 	}
 	case 23:
 	{
+		iter.iLayerNum = m_i1PIconLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_1P_Icon"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_i1PIconLayerNum;
 		break;
 	}
 	case 24:
 	{
+		iter.iLayerNum = m_i2PIconLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_2P_Icon"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_i2PIconLayerNum;
 		break;
 	}
 	case 25:

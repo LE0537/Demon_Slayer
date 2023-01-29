@@ -192,17 +192,10 @@ PS_OUT PS_SelCharIcon(PS_IN In)
 	float4 DiffuseTexture = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
 	float4 vMaskTexture = g_MaskTexture.Sample(PointSampler, In.vTexUV);
 	
-	Out.vColor.a = vMaskTexture.a;
+	Out.vColor.rgba = DiffuseTexture.rgba;
 
-	if(DiffuseTexture.a == 0.f)
-		Out.vColor.a = DiffuseTexture.a;
-
-	if (DiffuseTexture.r > 0.3f)
-		Out.vColor.r = DiffuseTexture.r;
-	if (DiffuseTexture.g > 0.3f)
-		Out.vColor.g = DiffuseTexture.g;
-	if (DiffuseTexture.b > 0.3f)
-		Out.vColor.b = DiffuseTexture.b;
+	if (vMaskTexture.r == 0)
+		discard;
 	
 	return Out;
 }

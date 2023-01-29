@@ -2,6 +2,7 @@
 #include "2PIcon.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "SelP2Cursor.h"
 
 C2PIcon::C2PIcon(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -53,11 +54,11 @@ void C2PIcon::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	_float fP2CursorX = pUI_Manager->Get_2PCursor()->Get_fX();
+	/*_float fP2CursorX = pUI_Manager->Get_2PCursor()->Get_fX();
 	_float fP2CursorY = pUI_Manager->Get_2PCursor()->Get_fY();
 	
 	m_fX = fP2CursorX + 20.f;
-	m_fY = fP2CursorY + 18.f;
+	m_fY = fP2CursorY + 18.f;*/
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 
@@ -67,7 +68,7 @@ void C2PIcon::Tick(_float fTimeDelta)
 void C2PIcon::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
 }
 
 HRESULT C2PIcon::Render()
@@ -84,7 +85,13 @@ HRESULT C2PIcon::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	_uint iLayerNum = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_FrameLayerNum();
+
+	if (m_ThrowUIinfo.iLayerNum == iLayerNum)
+		m_pVIBufferCom->Render();
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
