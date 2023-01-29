@@ -136,7 +136,6 @@ HRESULT CUltBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
 
-	RELEASE_INSTANCE(CUI_Manager);
 	return S_OK;
 }
 

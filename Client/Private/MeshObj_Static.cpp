@@ -237,7 +237,7 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 
 	case 2068: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround"); break;
 	case 2069: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_UrokodakiGround"); break;
-/*
+
 	case 2070: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_RuiGround2"); break;
 	case 2071: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Home1"); break;
 	case 2072: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rubble1"); break;
@@ -251,7 +251,7 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2080: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Tree_Jenitsu"); break;
 	case 2081: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeFar2"); break;
 	case 2082: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TreeFar3"); break;
-*/
+
 	}
 
 

@@ -88,8 +88,6 @@ void CRui::Tick(_float fTimeDelta)
 	RELEASE_INSTANCE(CGameInstance);
 */
 
-	Set_ShadowLightPos();
-
 	HandleInput(); 
 	TickState(fTimeDelta);
 

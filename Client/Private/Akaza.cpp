@@ -75,8 +75,6 @@ void CAkaza::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	Set_ShadowLightPos();
-
 	HandleInput();
 	TickState(fTimeDelta);
 
