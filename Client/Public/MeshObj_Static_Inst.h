@@ -39,6 +39,7 @@ public:
 
 private:
 	CModel*		m_pModelCom = nullptr;
+	vector<VTXMATRIX>		m_vecMatrix;
 
 private:
 	MESHOBJ_STATIC_INSTANCING_DESC			m_tMyDesc;

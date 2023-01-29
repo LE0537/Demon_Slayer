@@ -1,5 +1,6 @@
 #include "..\Public\MeshInstance.h"
 #include "HierarchyNode.h"
+#include "Frustum.h"
 
 CMeshInstance::CMeshInstance(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CVIBuffer_Instance(pDevice, pContext)
@@ -143,23 +144,69 @@ HRESULT CMeshInstance::Initialize(void * pArg)
 	return S_OK;
 }
 
+HRESULT CMeshInstance::Render()
+{
+	ID3D11Buffer*		pBuffer[] = {
+		m_pVB,
+		m_pInstanceBuffer
+	};
+
+	_uint				iStrides[] = {
+		m_iStride,
+		m_iInstanceStride
+	};
+
+	_uint				iOffsets[] = {
+		0,
+		0
+	};
+
+	m_pContext->IASetVertexBuffers(0, m_iNumVertexBuffers, pBuffer, iStrides, iOffsets);
+	m_pContext->IASetIndexBuffer(m_pIB, m_eFormat, 0);
+	m_pContext->IASetPrimitiveTopology(m_eTopology);
+
+	m_pContext->DrawIndexedInstanced(m_iNumIndicesPerInstance, m_iNumInstance, 0, 0, 0);
+
+
+	return S_OK;
+}
+
 void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fTimeDelta)
 {
+	vector<VTXMATRIX>	vecRenderMatrix;
+
+	CFrustum*	pFrustum= GET_INSTANCE(CFrustum);
+	for (auto & iter : vecMatrix)
+	{
+		_float	fLength = max(max(XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vRight))), XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vUp)))), XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vLook))));
+
+		if (true == pFrustum->IsinFrustum(XMLoadFloat4(&iter.vPosition), fLength))
+			vecRenderMatrix.push_back(iter);
+	}
+	
+	m_iNumRendering = vecRenderMatrix.size();
+
+	_uint		iNumFaces = m_pAIMesh->mNumFaces;
+	m_iNumPrimitive = iNumFaces * m_iNumRendering;
+	m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_iNumPrimitive;
+
 	D3D11_MAPPED_SUBRESOURCE		MappedSubResource;
 	ZeroMemory(&MappedSubResource, sizeof MappedSubResource);
 
 	m_pContext->Map(m_pInstanceBuffer, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &MappedSubResource);
 
-	for (_uint i = 0; i < m_iNumInstance; ++i)
+	for (_uint i = 0; i < m_iNumRendering; ++i)
 	{
 		//	하고싶은것
-		((VTXMATRIX*)MappedSubResource.pData)[i].vRight = vecMatrix[i].vRight;
-		((VTXMATRIX*)MappedSubResource.pData)[i].vUp = vecMatrix[i].vUp;
-		((VTXMATRIX*)MappedSubResource.pData)[i].vLook = vecMatrix[i].vLook;
-		((VTXMATRIX*)MappedSubResource.pData)[i].vPosition = vecMatrix[i].vPosition;
+		((VTXMATRIX*)MappedSubResource.pData)[i].vRight = vecRenderMatrix[i].vRight;
+		((VTXMATRIX*)MappedSubResource.pData)[i].vUp = vecRenderMatrix[i].vUp;
+		((VTXMATRIX*)MappedSubResource.pData)[i].vLook = vecRenderMatrix[i].vLook;
+		((VTXMATRIX*)MappedSubResource.pData)[i].vPosition = vecRenderMatrix[i].vPosition;
 	}
 
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
+
+	RELEASE_INSTANCE(CFrustum);
 }
 
 HRESULT CMeshInstance::SetUp_Bones(CModel * pModel)

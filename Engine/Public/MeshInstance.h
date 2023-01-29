@@ -23,6 +23,8 @@ public:
 public:
 	virtual HRESULT Initialize_Prototype(CModel::TYPE eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PivotMatrix);
 	virtual HRESULT Initialize(void* pArg);
+	virtual HRESULT Render() override;
+
 public:
 	void Update(vector<VTXMATRIX> vecMatrix, _float fTimeDelta);
 
@@ -37,6 +39,8 @@ private:
 
 	_uint							m_iNumBones = 0;
 	vector<class CHierarchyNode*>	m_Bones;
+
+	_uint				m_iNumRendering = 0;
 
 public:
 	HRESULT Create_VertexBuffer_NonAnimModel(const aiMesh* pAIMesh, _fmatrix PivotMatrix);

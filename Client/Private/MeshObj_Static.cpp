@@ -58,8 +58,17 @@ void CMeshObj_Static::Late_Tick(_float fTimeDelta)
 {
 	__super::Late_Tick(fTimeDelta);
 
-	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	_matrix		matWorld = m_pTransformCom->Get_WorldMatrix();
+	_float	fLength = max(max(XMVectorGetX(XMVector3Length(matWorld.r[CTransform::STATE_RIGHT])), XMVectorGetX(XMVector3Length(matWorld.r[CTransform::STATE_UP]))), XMVectorGetX(XMVector3Length(matWorld.r[CTransform::STATE_LOOK])));
+
+	if (true == pGameInstance->IsInFrustum(matWorld.r[CTransform::STATE_TRANSLATION], fLength))
+	{
+		if (nullptr != m_pRendererCom)
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 HRESULT CMeshObj_Static::Render()

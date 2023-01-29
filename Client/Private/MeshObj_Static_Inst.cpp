@@ -43,16 +43,15 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	vector<VTXMATRIX>		vecMatrix;
 	for (_uint i = 0; i < m_tMyDesc.iNumInstancing; ++i)
 	{
 		VTXMATRIX	VtxMatrix;
 		memcpy(&VtxMatrix, &m_tMyDesc.pWorld[i], sizeof VtxMatrix);
 
-		vecMatrix.push_back(VtxMatrix);
+		m_vecMatrix.push_back(VtxMatrix);
 	}
 
-	m_pModelCom->Update_Instancing(vecMatrix, 1.f / 60.f);
+	m_pModelCom->Update_Instancing(m_vecMatrix, 1.f / 60.f);
 
 	return S_OK;
 }
@@ -60,6 +59,8 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	m_pModelCom->Update_Instancing(m_vecMatrix, fTimeDelta);
 }
 
 void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
