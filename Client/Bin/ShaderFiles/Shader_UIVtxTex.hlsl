@@ -192,17 +192,10 @@ PS_OUT PS_SelCharIcon(PS_IN In)
 	float4 DiffuseTexture = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
 	float4 vMaskTexture = g_MaskTexture.Sample(PointSampler, In.vTexUV);
 	
-	Out.vColor.a = vMaskTexture.a;
+	Out.vColor.rgba = DiffuseTexture.rgba;
 
-	if(DiffuseTexture.a == 0.f)
-		Out.vColor.a = DiffuseTexture.a;
-
-	if (DiffuseTexture.r > 0.3f)
-		Out.vColor.r = DiffuseTexture.r;
-	if (DiffuseTexture.g > 0.3f)
-		Out.vColor.g = DiffuseTexture.g;
-	if (DiffuseTexture.b > 0.3f)
-		Out.vColor.b = DiffuseTexture.b;
+	if (vMaskTexture.r == 0)
+		discard;
 	
 	return Out;
 }
@@ -287,7 +280,7 @@ technique11 DefaultTechnique
 {
 	pass Default //0
 	{ 
-		SetRasterizerState(RS_UI);
+		SetRasterizerState(RS_Default);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 
@@ -298,7 +291,7 @@ technique11 DefaultTechnique
 
 	pass DefaultRenderBack //1
 	{
-		SetRasterizerState(RS_UI);
+		SetRasterizerState(RS_SkyBox);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 

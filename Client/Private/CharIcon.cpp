@@ -36,8 +36,9 @@ HRESULT CCharIcon::Initialize(void * pArg)
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 	{
 		Icon_Selected_SelectChar(m_ThrowUIinfo.iLayerNum);
-		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
-		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.7f;
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.1f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 1.1f;
+		m_fY -= 2.f;
 	}
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
@@ -110,13 +111,17 @@ void CCharIcon::Icon_Selected_GamePlay(wstring strName)
 void CCharIcon::Icon_Selected_SelectChar(_uint iLayerNum)
 {
 	if (0 == iLayerNum)
-		m_iImgNum = 27;
-	else if(1 == iLayerNum)
-		m_iImgNum = 0;
-	else if (2 == iLayerNum)
-		m_iImgNum = 19;
-	else if (3 == iLayerNum)
 		m_iImgNum = 35;
+	else if(1 == iLayerNum)
+		m_iImgNum = 19;
+	else if (2 == iLayerNum)
+		m_iImgNum = 27;
+	else if (3 == iLayerNum)
+		m_iImgNum = 0;
+	else if (4 == iLayerNum)
+		m_iImgNum = 25;
+	else if (5 == iLayerNum)
+		m_iImgNum = 30;
 }
 
 HRESULT CCharIcon::Ready_Components()

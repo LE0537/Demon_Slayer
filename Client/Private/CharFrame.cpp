@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CharFrame.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CCharFrame::CCharFrame(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -28,6 +29,13 @@ HRESULT CCharFrame::Initialize(void * pArg)
 	m_fSizeY = m_ThrowUIinfo.vScale.y;
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
+
+	Set_Info();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	pUI_Manager->Set_SelectFrame(this, m_ThrowUIinfo.iLayerNum);
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
@@ -76,6 +84,30 @@ HRESULT CCharFrame::Render()
 	m_pVIBufferCom->Render();
 
 	return S_OK;
+}
+
+void CCharFrame::Set_Info()
+{
+	if (m_ThrowUIinfo.iLayerNum == 0)
+	{
+		m_SelectInfo.strName = TEXT("탄지로");
+		m_SelectInfo.bOni = false;
+	}
+	else if (m_ThrowUIinfo.iLayerNum == 1)
+	{
+		m_SelectInfo.strName = TEXT("쿄주로");
+		m_SelectInfo.bOni = false;
+	}
+	else if (m_ThrowUIinfo.iLayerNum == 2)
+	{
+		m_SelectInfo.strName = TEXT("루이");
+		m_SelectInfo.bOni = true;
+	}
+	else if (m_ThrowUIinfo.iLayerNum == 3)
+	{
+		m_SelectInfo.strName = TEXT("아카자");
+		m_SelectInfo.bOni = true;
+	}
 }
 
 HRESULT CCharFrame::Ready_Components()

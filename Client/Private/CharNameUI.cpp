@@ -2,6 +2,8 @@
 #include "CharNameUI.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "SelP1Cursor.h"
+#include "SelP2Cursor.h"
 
 CCharNameUI::CCharNameUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -49,10 +51,14 @@ HRESULT CCharNameUI::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-	if (m_ThrowUIinfo.iLayerNum == 1)		
+	if (m_ThrowUIinfo.iLayerNum == 0)		
 		pUI_Manager->Set_1PChar(this);
-	else
+	else if(m_ThrowUIinfo.iLayerNum == 1)
 		pUI_Manager->Set_2PChar(this);
+	else if (m_ThrowUIinfo.iLayerNum == 2)
+		pUI_Manager->Set_1P_2Char(this);
+	else if (m_ThrowUIinfo.iLayerNum == 3)
+		pUI_Manager->Set_2P_2Char(this);
 	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
@@ -98,13 +104,13 @@ void CCharNameUI::Name_Selected(wstring strName)
 		m_iImgNum = 1;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
 		if(m_ThrowUIinfo.iLayerNum == 0)
-			m_fX -= 30.f;
+			m_fX += 30.f;
 		else if(m_ThrowUIinfo.iLayerNum == 1)
 			m_fX -= 60.f;
 	}
 	else if (strName == TEXT("탄지로"))
 	{
-		m_iImgNum = 3;
+		m_iImgNum = 0;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_fX += 50.f;
@@ -122,7 +128,7 @@ void CCharNameUI::Name_Selected(wstring strName)
 	}
 	else if (strName == TEXT("아카자"))
 	{
-		m_iImgNum = 0;
+		m_iImgNum = 3;
 		m_fSizeX = m_ThrowUIinfo.vScale.x;
 	/*	if (m_ThrowUIinfo.iLayerNum == 0)
 			m_fX += 50.f;
@@ -137,61 +143,60 @@ void CCharNameUI::Set_Name_SelLevel()
 
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 	{
-		if (m_ThrowUIinfo.iLayerNum == 1)
-		{
-			_float fP1CursorX = pUI_Manager->Get_1PCursor()->Get_fX();
-			_float fP1CursorY = pUI_Manager->Get_1PCursor()->Get_fY();
+		_uint iSelNum1PCursor = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor())->Get_FrameLayerNum();
+		_uint iSelNum2PCursor = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_FrameLayerNum();
 
-			if (fP1CursorX == 700.f && fP1CursorY == 213.f)
+		if (m_ThrowUIinfo.iLayerNum == 0)
+		{
+			if (pUI_Manager->Get_1PCursor()->Get_SelFirst())
 			{
-				m_iImgNum = 0;
-				m_fSizeX = m_ThrowUIinfo.vScale.x;
-			}
-			else if (fP1CursorX == 635.f && fP1CursorY == 213.f)
-			{
-				m_iImgNum = 2;
-				m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
-			}
-			else if (fP1CursorX == 570.f && fP1CursorY == 213.f)
-			{
-				m_iImgNum = 1;
-				m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
-			}
-			else if (fP1CursorX == 505.f && fP1CursorY == 213.f)
-			{
-				m_iImgNum = 3;
-				m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+				m_iImgNum = iSelNum1PCursor;
+				Select_NameReSize();
 			}
 		}
-		else if (m_ThrowUIinfo.iLayerNum == 0)
+		else if (m_ThrowUIinfo.iLayerNum == 1)
 		{
-			_float fP2CursorX = pUI_Manager->Get_2PCursor()->Get_fX();
-			_float fP2CursorY = pUI_Manager->Get_2PCursor()->Get_fY();
-
-			if (fP2CursorX == 700.f && fP2CursorY == 213.f)
+			if (pUI_Manager->Get_2PCursor()->Get_SelFirst())
 			{
-				m_iImgNum = 0;
-				m_fSizeX = m_ThrowUIinfo.vScale.x;
+				m_iImgNum = iSelNum2PCursor;
+				Select_NameReSize();
 			}
-			else if (fP2CursorX == 635.f && fP2CursorY == 213.f)
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 2)
+		{
+			if (pUI_Manager->Get_1PCursor()->Get_SelSecond())
 			{
-				m_iImgNum = 2;
-				m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
+				m_iImgNum = iSelNum1PCursor;
+				Select_NameReSize();
 			}
-			else if (fP2CursorX == 570.f && fP2CursorY == 213.f)
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 3)
+		{
+			if (pUI_Manager->Get_2PCursor()->Get_SelSecond())
 			{
-				m_iImgNum = 1;
-				m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
-			}
-			else if (fP2CursorX == 505.f && fP2CursorY == 213.f)
-			{
-				m_iImgNum = 3;
-				m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+				m_iImgNum = iSelNum2PCursor;
+				Select_NameReSize();
 			}
 		}
 	}
 
 	RELEASE_INSTANCE(CUI_Manager);
+}
+
+_float CCharNameUI::Select_NameReSize()
+{
+	if(m_iImgNum == 0)
+		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+	else if (m_iImgNum == 1)
+		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+	else if (m_iImgNum == 2)
+		return m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
+	else if (m_iImgNum == 3)
+		return m_fSizeX = m_ThrowUIinfo.vScale.x;
+	else if (m_iImgNum == 4)
+		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+	else if (m_iImgNum == 5)
+		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
 }
 
 HRESULT CCharNameUI::Ready_Components()
