@@ -390,8 +390,9 @@ void CTanjiro::Set_Info()
 	m_tInfo.fComboTime = 0.f;
 	m_tInfo.bPowerUp = false;
 	m_tInfo.fPowerUpTime = 0.f;
-	m_tInfo.iFriendMaxBar = 100;
-	m_tInfo.iFriendBar;
+	m_tInfo.iFriendMaxBar = 1000;
+	m_tInfo.iFriendBar = 0;
+	m_tInfo.bGuard = false;
 }
 CTanjiro * CTanjiro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {

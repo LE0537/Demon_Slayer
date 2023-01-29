@@ -102,7 +102,7 @@ void CSkill_ShootState::Enter(CRui* pRui)
 		pRui->Set_AnimIndex(CRui::ANIM_SKILL_SHOOT_2);
 		pRui->Get_Model()->Set_FrameNum(CRui::ANIM_SKILL_SHOOT_2, 100);
 		pRui->Get_Model()->Set_FrameTime(CRui::ANIM_SKILL_SHOOT_2, 1, 30, 1.2f);
-		pRui->Get_Model()->Set_UsingFrame(CRui::ANIM_SKILL_SHOOT_2, 1, 30);
+		pRui->Get_Model()->Set_UsingFrame(CRui::ANIM_SKILL_SHOOT_2, 1, 100);
 		break;
 	}
 

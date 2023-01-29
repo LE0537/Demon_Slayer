@@ -238,6 +238,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &tCharacterDesc1p)))
 			return E_FAIL;
 		break;
+	case 4:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Nezuko"), LEVEL_GAMEPLAY, TEXT("Layer_Nezuko"), &tCharacterDesc1p)))
+			return E_FAIL;
+		break;
 	default:
 		break;
 	}
@@ -257,6 +261,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		break;
 	case 3:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &tCharacterDesc2p)))
+			return E_FAIL;
+		break;
+	case 4:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Nezuko"), LEVEL_GAMEPLAY, TEXT("Layer_Nezuko"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	default:

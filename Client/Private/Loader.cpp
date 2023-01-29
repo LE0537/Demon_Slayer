@@ -21,6 +21,7 @@
 #include "Tanjiro.h"
 #include "Kyoujuro.h"
 #include "Akaza.h"
+#include "Nezuko.h"
 //parts
 #include "KyoujuroWeapon.h"
 #include "KyoujuroSheath.h"
@@ -92,6 +93,7 @@
 #include "WindMill.h"
 #include "KyoujuroSkill.h"
 #include "RuiAtk.h"
+#include "AkazaShoot.h"
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -993,6 +995,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CAkaza::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Nezuko"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Nezuko"),
+		CNezuko::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyoujuroWeapon"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroWeapon"),
 		CKyoujuroWeapon::Create(m_pDevice, m_pContext))))
@@ -1027,6 +1034,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiAtk"),
 		CRuiAtk::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AkazaShoot"),
+		CAkazaShoot::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	//Map
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BattleField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);

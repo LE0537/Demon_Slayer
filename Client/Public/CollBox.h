@@ -24,9 +24,11 @@ public:
 	virtual HRESULT Render_ShadowDepth();
 public:
 	CCollider*		Get_Collider() {return m_pOBBCom;}
+	void			Set_TargetPos(_float4 _vTargetPos) { m_vTargetPos = _vTargetPos; }
 protected:
 	CCollider*				m_pOBBCom = nullptr;
 
+	_float4					m_vTargetPos;
 public:
 	static CCollBox* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

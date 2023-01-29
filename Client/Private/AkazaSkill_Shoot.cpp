@@ -10,13 +10,11 @@ using namespace Akaza;
 
 CSkill_ShootState::CSkill_ShootState(STATE_TYPE eType)
 {
-	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 	m_eStateType = eType;
 	
 
 
-	RELEASE_INSTANCE(CGameInstance);
-	//m_fHitTime = 0.1;
+
 }
 
 CAkazaState * CSkill_ShootState::HandleInput(CAkaza* pAkaza)
@@ -72,6 +70,56 @@ CAkazaState * CSkill_ShootState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 CAkazaState * CSkill_ShootState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLooAt.m128_f32[1] = 0.f;
+	pAkaza->Get_Transform()->LookAt(vLooAt);
+
+	m_fDelay += fTimeDelta;
+	if(m_fDelay > 0.23f)
+		m_fMove += fTimeDelta;
+	
+	CAkazaShoot::AKAZASHOOTINFO	tInfo;
+	tInfo.pPlayer = pAkaza;
+	tInfo.pTarget = m_pTarget;
+
+	switch (m_eStateType)
+	{
+	case Client::CAkazaState::TYPE_START:
+		if (m_fMove > 0.23f && m_iHit < 3)
+		{
+			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+			if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_AkazaShoot"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+				return nullptr;
+
+			RELEASE_INSTANCE(CGameInstance);
+			m_fMove = 0.f;
+			++m_iHit;
+		}
+		break;
+	case Client::CAkazaState::TYPE_LOOP:
+		if (m_fDelay > 0.15f && m_iHit < 2)
+		{
+			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+			if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_AkazaShoot"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+				return nullptr;
+
+			RELEASE_INSTANCE(CGameInstance);
+			m_fDelay = 0.f;
+			++m_iHit;
+		}
+		break;
+	case Client::CAkazaState::TYPE_END:
+		break;
+	}
+
+
+	RELEASE_INSTANCE(CGameInstance);
+
 	pAkaza->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;
@@ -104,6 +152,6 @@ void CSkill_ShootState::Enter(CAkaza* pAkaza)
 
 void CSkill_ShootState::Exit(CAkaza* pAkaza)
 {
-
+	
 }
 
