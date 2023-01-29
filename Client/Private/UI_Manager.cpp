@@ -668,14 +668,18 @@ HRESULT CUI_Manager::Add_SelectUI(CUI::THROWUIINFO iter)
 	}
 	case 23:
 	{
+		iter.iLayerNum = m_i1PIconLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_1P_Icon"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_i1PIconLayerNum;
 		break;
 	}
 	case 24:
 	{
+		iter.iLayerNum = m_i2PIconLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_2P_Icon"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_i2PIconLayerNum;
 		break;
 	}
 	case 25:

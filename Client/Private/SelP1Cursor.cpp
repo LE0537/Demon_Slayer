@@ -58,66 +58,45 @@ HRESULT CSelP1Cursor::Initialize(void * pArg)
 void CSelP1Cursor::Tick(_float fTimeDelta)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-
-	_float fP2CursorX = pUI_Manager->Get_2PCursor()->Get_fX();
-	_float fP2CursorY = pUI_Manager->Get_2PCursor()->Get_fY();
-
-	if (fP2CursorX == m_fX && fP2CursorY == m_fY)
-		m_iImgNum = 2;
-	else
-		m_iImgNum = 0;
+	
+	Cursor_ImgSel();
 
 	if (!m_bSelComplete)
-	{
-		if (pGameInstance->Key_Down(DIK_D))
-		{
-			if (m_fX < 700.f)
-				m_fX += 65.f;
-		}
-		else if (pGameInstance->Key_Down(DIK_A))
-		{
-			if (m_fX > 505.f)
-				m_fX -= 65.f;
-		}
-	}
+		Move_Cursor();
 
 	if (m_iSelCount < 2)
 	{
+		if (m_iSelCount == 0)
+			m_bSelectFirst = true;
+		else if (m_iSelCount == 1)
+			m_bSelectFirst = false;
+
 		if (pGameInstance->Key_Down(DIK_E))
 		{
-			if (m_iSelCount == 0)
-			{
-				Add_1PIcon(m_ThrowUIinfo);
-				m_bSelectFirst = true;
-			}
-			else if (m_iSelCount == 1)
-			{
+			if (m_iSelCount == 1)
 				m_bSelectSecond = true;
-				m_bSelectFirst = false;
-			}
 			
 			++m_iSelCount;
 		}
 	}
 	if (m_iSelCount > 0)
 	{
+		if (m_iSelCount == 1)
+			m_bSelectSecond = true;
+		else if (m_iSelCount == 2)
+			m_bSelectSecond = false;
+
 		if (pGameInstance->Key_Down(DIK_Q))
 		{
-			if (m_iSelCount == 1)
-			{
-				m_bSelectFirst = false;
-
-			}
-			else if (m_iSelCount == 2)
-			{
-				m_bSelectSecond = false;
+			if (m_iSelCount == 2)
 				m_bSelectFirst = true;
-			}
 
 			--m_iSelCount;
 		}
 	}
+
+	Cursor_To_SelFrame();
+
 
 	if (m_iSelCount >= 2)
 		m_bSelComplete = true;
@@ -127,14 +106,14 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 
-	RELEASE_INSTANCE(CUI_Manager);
+	
 	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CSelP1Cursor::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
 }
 
 HRESULT CSelP1Cursor::Render()
@@ -157,21 +136,81 @@ HRESULT CSelP1Cursor::Render()
 	return S_OK;
 }
 
-HRESULT CSelP1Cursor::Add_1PIcon(THROWUIINFO ThrowInfo)
+void CSelP1Cursor::Cursor_To_SelFrame()
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (m_iSelCount == 1 && m_bSelectFirst)
+		m_SelectInfo = pUI_Manager->Get_SelectFrame(m_iFrameLayerNum)->Get_SelectUIInfo();
+	if (m_iSelCount == 2 && m_bSelectSecond)
+		m_SelectInfo_2 = pUI_Manager->Get_SelectFrame(m_iFrameLayerNum)->Get_SelectUIInfo();
+
+	RELEASE_INSTANCE(CUI_Manager);
+}
+
+void CSelP1Cursor::Move_Cursor()
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	
-	ThrowInfo.bSelCheck = true;
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_1P_Icon"), LEVEL_SELECTCHAR, TEXT("Layer_1PIcon"), &ThrowInfo)))
-		return E_FAIL;
+	if (pGameInstance->Key_Down(DIK_D))
+	{
+		if (m_iFrameLayerNum < 5)
+			++m_iFrameLayerNum;
+		else if (m_iFrameLayerNum == 5)
+			m_iFrameLayerNum = 0;
+	}
+	else if (pGameInstance->Key_Down(DIK_A))
+	{
+		if (m_iFrameLayerNum > 0)
+			--m_iFrameLayerNum;
+		else if (m_iFrameLayerNum == 0)
+			m_iFrameLayerNum = 5;
+	}
+	else if (pGameInstance->Key_Down(DIK_W))
+	{
+		if (m_iFrameLayerNum > 3)
+			m_iFrameLayerNum -= 4;
+		else if (m_iFrameLayerNum < 2)
+			m_iFrameLayerNum += 4;
+		else if (m_iFrameLayerNum >= 2 && m_iFrameLayerNum < 4)
+			m_iFrameLayerNum = 5;
+	}
+	else if (pGameInstance->Key_Down(DIK_S))
+	{
+		if (m_iFrameLayerNum < 2)
+			m_iFrameLayerNum += 4;
+		else if (m_iFrameLayerNum > 3)
+			m_iFrameLayerNum -= 4;
+		else if (m_iFrameLayerNum >= 2 && m_iFrameLayerNum < 4)
+			m_iFrameLayerNum = 5;
+	}
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_1P_MainOnBase"), LEVEL_SELECTCHAR, TEXT("Layer_1PMain"), &ThrowInfo)))
-		return E_FAIL;
+	_float2 vPos = pUI_Manager->Get_SelectFrame(m_iFrameLayerNum)->Get_ThrowInfo().vPos;
 
+	m_fX = vPos.x;
+	m_fY = vPos.y - 2.f;
+
+	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
+}
 
-	return S_OK;
+void CSelP1Cursor::Select_Order()
+{
+}
+
+void CSelP1Cursor::Cursor_ImgSel()
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	_float fP2CursorX = pUI_Manager->Get_2PCursor()->Get_fX();
+	_float fP2CursorY = pUI_Manager->Get_2PCursor()->Get_fY();
+
+	if (fP2CursorX == m_fX && fP2CursorY == m_fY)
+		m_iImgNum = 2;
+	else
+		m_iImgNum = 0;
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 HRESULT CSelP1Cursor::Ready_Components()

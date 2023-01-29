@@ -13,6 +13,9 @@ private:
 	virtual ~CSelP1Cursor() = default;
 
 public:
+	_uint Get_FrameLayerNum() { return m_iFrameLayerNum; }
+
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -20,14 +23,17 @@ public:
 	virtual HRESULT Render();
 
 public:
-	HRESULT Add_1PIcon(THROWUIINFO ThrowInfo);
+	void Cursor_To_SelFrame();
+	void Move_Cursor();
+	void Select_Order();
+	void Cursor_ImgSel();
 
 private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
-
-
+private:
+	_uint				m_iFrameLayerNum = 0;
 
 public:
 	static CSelP1Cursor* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

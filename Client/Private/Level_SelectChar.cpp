@@ -35,9 +35,13 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 	{
 		_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
 		_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
+		_uint i1p_2 = pUIManager->Get_1P_2Char()->Get_ImgNum();
+		_uint i2p_2 = pUIManager->Get_2P_2Char()->Get_ImgNum();
 
-		pUIManager->Set_1P(i1p);
-		pUIManager->Set_2P(i2p);
+		pUIManager->Set_Sel1P(i1p);
+		pUIManager->Set_Sel2P(i2p);
+		pUIManager->Set_Sel1P_2(i1p_2);
+		pUIManager->Set_Sel2P_2(i2p_2);
 
 		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
 			return;
