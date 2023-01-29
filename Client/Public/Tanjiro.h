@@ -43,6 +43,11 @@ public:
 		ANIM_ATTACK_3 = 14,
 		ANIM_ATTACK_4 = 17,
 
+		ANIM_KAGURA_ATTACK_1 = 100,
+		ANIM_KAGURA_ATTACK_2 = 101,
+		ANIM_KAGURA_ATTACK_3 = 102,
+		ANIM_KAGURA_ATTACK_4 = 103,
+
 		// HIT
 		ANIM_HIT= 22,
 
@@ -89,8 +94,13 @@ public:
 		ANIM_SKILL_COMMON = 33,
 
 
+		// KAGURA COMMON
+		ANIM_SKILL_KAGURA_COMMON = 104,
+		ANIM_SKILL_KAGURA_MOVE = 105,
 
-		ANIM_END = 100
+
+
+		ANIM_END = 114
 	};
 
 private:
@@ -126,6 +136,10 @@ public:
 	_int Get_SkillHit() { return m_iSkillHit; }
 	void Set_SkillHit() { ++m_iSkillHit; }
 	void Reset_SkillHit() { m_iSkillHit = 0; }
+
+	void Set_KaguraMode(_bool bKagura) { m_bIsKagura = bKagura; }
+	_bool Get_KaguraMode() const { return m_bIsKagura; }
+
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -154,6 +168,7 @@ private:
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
 
 	class CTanjiroState* m_pTanjiroState = nullptr;
+	_bool m_bIsKagura = false;
 
 private:
 	OBJKEYSTATE m_ePreKeyState = KEY_END;

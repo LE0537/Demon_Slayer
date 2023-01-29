@@ -97,6 +97,14 @@ void CTanjiro::Tick(_float fTimeDelta)
 	m_pSphereCom->Update(matColl);
 
 
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (pGameInstance->Key_Down(DIK_F3))
+		m_bIsKagura = m_bIsKagura == true ? false : true;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+
 	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP)
 		m_tInfo.bJump = true;
 	else

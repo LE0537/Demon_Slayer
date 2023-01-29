@@ -5,11 +5,13 @@
 #include "GameInstance.h"
 
 #include "TanjiroAtk_1_State.h"
+#include "TanjiroKaguraAtk_1_State.h"
 #include "TanjiroGuardState.h"
 #include "TanjiroGuardHitState.h"
 #include "TanjiroSkill_WaterMill.h"
 #include "TanjiroSkill_Common.h"
 #include "TanjiroSkill_WindMill.h"
+#include "TanjiroKaguraSkill_Common.h"
 using namespace Tanjiro;
 
 
@@ -59,7 +61,12 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 		}
 		else if (pGameInstance->Key_Down(DIK_J))
-			return new CAtk_1_State();
+		{
+			if (pTanjiro->Get_KaguraMode())
+				return new CAtk_1_KaguraState();
+			else
+				return new CAtk_1_State();
+		}
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_I))
@@ -75,10 +82,21 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else
 			{
-				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (pTanjiro->Get_KaguraMode())
 				{
-					pTanjiro->Set_SkillBar(-200);
-					return new CSkill_CommonState();
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_CommonState();
+					}
+				}
+				else
+				{
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
 				}
 			}
 		}
@@ -116,7 +134,12 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 		}
 		else if (pGameInstance->Key_Down(DIK_Z))
-			return new CAtk_1_State();
+		{
+			if (pTanjiro->Get_KaguraMode())
+				return new CAtk_1_KaguraState();
+			else
+				return new CAtk_1_State();
+		}
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_X))
@@ -132,10 +155,21 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else
 			{
-				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (pTanjiro->Get_KaguraMode())
 				{
-					pTanjiro->Set_SkillBar(-200);
-					return new CSkill_CommonState();
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_CommonState();
+					}
+				}
+				else
+				{
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
 				}
 			}
 		}
