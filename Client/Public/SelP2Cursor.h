@@ -14,6 +14,8 @@ private:
 
 public:
 	_uint Get_FrameLayerNum() { return m_iFrameLayerNum; }
+	_bool Get_FirstSelCheck() { return m_bFirstSelCheck; }
+	_bool Get_SecondSelCheck() { return m_bSecondSelCheck; }
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -32,6 +34,8 @@ private:
 
 private:
 	_uint				m_iFrameLayerNum = 3;
+	_bool				m_bFirstSelCheck = false;
+	_bool				m_bSecondSelCheck = false;
 
 public:
 	static CSelP2Cursor* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

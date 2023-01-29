@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "CharFrameShadow.h"
+#include "SelNameShadow.h"
 #include "GameInstance.h"
 
-CCharFrameShadow::CCharFrameShadow(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CSelNameShadow::CSelNameShadow(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CCharFrameShadow::CCharFrameShadow(const CCharFrameShadow & rhs)
+CSelNameShadow::CSelNameShadow(const CSelNameShadow & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CCharFrameShadow::Initialize_Prototype()
+HRESULT CSelNameShadow::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CCharFrameShadow::Initialize(void * pArg)
+HRESULT CSelNameShadow::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -48,18 +48,18 @@ HRESULT CCharFrameShadow::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CCharFrameShadow::Tick(_float fTimeDelta)
+void CSelNameShadow::Tick(_float fTimeDelta)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void CCharFrameShadow::Late_Tick(_float fTimeDelta)
+void CSelNameShadow::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CCharFrameShadow::Render()
+HRESULT CSelNameShadow::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -75,7 +75,7 @@ HRESULT CCharFrameShadow::Render()
 	return S_OK;
 }
 
-HRESULT CCharFrameShadow::Ready_Components()
+HRESULT CSelNameShadow::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -90,7 +90,7 @@ HRESULT CCharFrameShadow::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelFrameShdow"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelNameShdow"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -100,7 +100,7 @@ HRESULT CCharFrameShadow::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CCharFrameShadow::SetUp_ShaderResources()
+HRESULT CSelNameShadow::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -118,13 +118,13 @@ HRESULT CCharFrameShadow::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CCharFrameShadow * CCharFrameShadow::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CSelNameShadow * CSelNameShadow::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CCharFrameShadow*	pInstance = new CCharFrameShadow(pDevice, pContext);
+	CSelNameShadow*	pInstance = new CSelNameShadow(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CCharFrameShadow"));
+		ERR_MSG(TEXT("Failed to Created : CSelNameShadow"));
 		Safe_Release(pInstance);
 	}
 
@@ -132,20 +132,20 @@ CCharFrameShadow * CCharFrameShadow::Create(ID3D11Device * pDevice, ID3D11Device
 }
 
 
-CGameObject * CCharFrameShadow::Clone(void * pArg)
+CGameObject * CSelNameShadow::Clone(void * pArg)
 {
-	CCharFrameShadow*	pInstance = new CCharFrameShadow(*this);
+	CSelNameShadow*	pInstance = new CSelNameShadow(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CCharFrameShadow"));
+		ERR_MSG(TEXT("Failed to Cloned : CSelNameShadow"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CCharFrameShadow::Free()
+void CSelNameShadow::Free()
 {
 	__super::Free();
 

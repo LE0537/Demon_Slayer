@@ -64,36 +64,47 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 	if (!m_bSelComplete)
 		Move_Cursor();
 
+
 	if (m_iSelCount < 2)
 	{
-		if (m_iSelCount == 0)
-			m_bSelectFirst = true;
-		else if (m_iSelCount == 1)
-			m_bSelectFirst = false;
-
 		if (pGameInstance->Key_Down(DIK_E))
 		{
-			if (m_iSelCount == 1)
+			if (m_iSelCount == 0)
+				m_bFirstSelCheck = true;
+			else if (m_iSelCount == 1)
+			{
 				m_bSelectSecond = true;
+				m_bSecondSelCheck = true;
+			}
 			
 			++m_iSelCount;
 		}
 	}
 	if (m_iSelCount > 0)
 	{
-		if (m_iSelCount == 1)
-			m_bSelectSecond = true;
-		else if (m_iSelCount == 2)
-			m_bSelectSecond = false;
-
 		if (pGameInstance->Key_Down(DIK_Q))
 		{
-			if (m_iSelCount == 2)
+			if (m_iSelCount == 1)
+				m_bFirstSelCheck = false;
+			else if (m_iSelCount == 2)
+			{
 				m_bSelectFirst = true;
+				m_bSecondSelCheck = false;
+			}
 
 			--m_iSelCount;
 		}
 	}
+
+	if (m_iSelCount == 0)
+		m_bSelectFirst = true;
+	else if (m_iSelCount == 1)
+	{
+		m_bSelectFirst = false;
+		m_bSelectSecond = true;
+	}
+	else if (m_iSelCount == 2)
+		m_bSelectSecond = false;
 
 	Cursor_To_SelFrame();
 

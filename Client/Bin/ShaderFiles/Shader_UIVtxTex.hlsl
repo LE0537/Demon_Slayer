@@ -200,14 +200,17 @@ PS_OUT PS_SelCharIcon(PS_IN In)
 	return Out;
 }
 
-PS_OUT PS_IconShadow(PS_IN In)
+PS_OUT PS_SelNameShadow(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
 
-	Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+	float2 vNewUV = In.vTexUV;
+	vNewUV.x += 0.5f;
 
-	if(Out.vColor.a > 0)
-		Out.vColor.a = 0.2f;
+	float4 DiffuseTexture = g_DiffuseTexture.Sample(PointSampler, vNewUV);
+
+	Out.vColor.rgb = DiffuseTexture.rgb;
+	Out.vColor.a = DiffuseTexture.a;
 
 	return Out;
 }
@@ -389,7 +392,7 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_SelCharIcon();
 	}
 
-	pass SelIconShadow //10
+	pass SelNameShadow //10
 	{
 		SetRasterizerState(RS_Default);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
@@ -397,7 +400,7 @@ technique11 DefaultTechnique
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_IconShadow();
+		PixelShader = compile ps_5_0 PS_SelNameShadow();
 	}
 
 	pass SelFameEff //11

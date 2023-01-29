@@ -562,6 +562,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Common">
       <UniqueIdentifier>{3c553323-2323-4f11-ac48-83d47ceb6d5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\03.SelectChar\SelStamp">
+      <UniqueIdentifier>{8d5a6bdb-93b5-43ab-9b4c-6e7ca62b6c30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -845,9 +848,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\WindowRight.h">
       <Filter>03.UI\03.SelectChar\Window\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\CharFrameShadow.h">
-      <Filter>03.UI\03.SelectChar\CharSelIcon\Shdow</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\CharFrameEff.h">
       <Filter>03.UI\03.SelectChar\CharSelIcon\Eff</Filter>
@@ -1134,6 +1134,12 @@
     <ClInclude Include="..\Public\RuiSkill_Sphere.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Sphere</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\SelNameShadow.h">
+      <Filter>03.UI\03.SelectChar\CharSelIcon\Shdow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SelStamp.h">
+      <Filter>03.UI\03.SelectChar\SelStamp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1402,9 +1408,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\CharFrame.cpp">
       <Filter>03.UI\03.SelectChar\CharSelIcon\Frame</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\CharFrameShadow.cpp">
-      <Filter>03.UI\03.SelectChar\CharSelIcon\Shdow</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CharFrameEff.cpp">
       <Filter>03.UI\03.SelectChar\CharSelIcon\Eff</Filter>
@@ -1681,6 +1684,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiSkill_Sphere.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SelNameShadow.cpp">
+      <Filter>03.UI\03.SelectChar\CharSelIcon\Shdow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SelStamp.cpp">
+      <Filter>03.UI\03.SelectChar\SelStamp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
