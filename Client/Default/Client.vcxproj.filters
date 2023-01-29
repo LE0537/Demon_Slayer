@@ -544,6 +544,24 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill">
       <UniqueIdentifier>{d419443c-09df-4a99-8ec8-7a19c02e1e27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Shoot">
+      <UniqueIdentifier>{9a956b3f-4bec-483f-ba73-ece9546e1530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Punch">
+      <UniqueIdentifier>{46972fc0-a4e1-486e-a842-a5a6e7a3160b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Destroy">
+      <UniqueIdentifier>{59245c16-b9c3-4cde-8307-83549f4f0759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Sphere">
+      <UniqueIdentifier>{fa593b6e-22c5-499f-b0a3-a19e55a0ce2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Net">
+      <UniqueIdentifier>{d5c2d7d1-5249-45fe-8edd-94f308c5ab43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Common">
+      <UniqueIdentifier>{3c553323-2323-4f11-ac48-83d47ceb6d5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1095,6 +1113,27 @@
     <ClInclude Include="..\public\RuiAtk.h">
       <Filter>05.CollBox\04.RuiAtk</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RuiHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaSkill_Shoot.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Shoot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaSkill_Punch.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Punch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaSkill_Destroy.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Destroy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiSkill_ShootNet.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiSkill_Shoot.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiSkill_Sphere.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Sphere</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1621,6 +1660,27 @@
     </ClCompile>
     <ClCompile Include="..\private\RuiAtk.cpp">
       <Filter>05.CollBox\04.RuiAtk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaSkill_Shoot.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Shoot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaSkill_Punch.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Punch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaSkill_Destroy.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\Skill\Destroy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiSkill_ShootNet.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiSkill_Shoot.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiSkill_Sphere.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Sphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

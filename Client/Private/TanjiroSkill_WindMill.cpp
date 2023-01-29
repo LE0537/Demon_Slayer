@@ -151,7 +151,7 @@ void CSkill_WindMillState::Enter(CTanjiro * pTanjiro)
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL);
 	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL, 0.2f);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_WINDMILL);
-
+	m_fCurrentPosY = XMVectorGetY(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 }
 CTanjiroState* CSkill_WindMillState::Jump(CTanjiro* pTanjiro, _float fTimeDelta)
 {

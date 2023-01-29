@@ -113,6 +113,8 @@ void CToolState::Enter(CRui * pRui)
 		break;
 	}
 
+
+	pRui->Get_Model()->Set_FrameNum(pRui->Get_AnimIndex(), 100);
 }
 
 void CToolState::Exit(CRui* pRui)

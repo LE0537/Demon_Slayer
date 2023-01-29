@@ -8,7 +8,11 @@
 #include "RuiState.h"
 #include "RuiIdleState.h"
 #include "RuiToolState.h"
+
 #include "Level_GamePlay.h"
+
+
+#include "RuiHitState.h"
 
 using namespace Rui;
 
@@ -307,6 +311,13 @@ void CRui::LateTickState(_float fTimeDelta)
 
 void CRui::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+
+	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_HIT)
+		m_pModelCom->Reset_Anim(CRui::ANIMID::ANIM_HIT);
+
+	CRuiState* pState = new CHitState(_fPow, _bJumpHit);
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+
 }
 
 void CRui::Get_GuardHit(_int eType)
