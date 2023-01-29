@@ -270,9 +270,11 @@
     <ClInclude Include="..\Public\RuiJumpState.h" />
     <ClInclude Include="..\Public\RuiMoveJumpState.h" />
     <ClInclude Include="..\Public\RuiMoveState.h" />
+    <ClInclude Include="..\public\RuiShoot.h" />
     <ClInclude Include="..\Public\RuiSkill_Shoot.h" />
     <ClInclude Include="..\Public\RuiSkill_ShootNet.h" />
     <ClInclude Include="..\Public\RuiSkill_Sphere.h" />
+    <ClInclude Include="..\public\RuiSphere.h" />
     <ClInclude Include="..\Public\RuiState.h" />
     <ClInclude Include="..\Public\RuiToolState.h" />
     <ClInclude Include="..\Public\SkyBox.h" />
@@ -463,9 +465,11 @@
     <ClCompile Include="..\Private\RuiJumpState.cpp" />
     <ClCompile Include="..\Private\RuiMoveJumpState.cpp" />
     <ClCompile Include="..\Private\RuiMoveState.cpp" />
+    <ClCompile Include="..\private\RuiShoot.cpp" />
     <ClCompile Include="..\Private\RuiSkill_Shoot.cpp" />
     <ClCompile Include="..\Private\RuiSkill_ShootNet.cpp" />
     <ClCompile Include="..\Private\RuiSkill_Sphere.cpp" />
+    <ClCompile Include="..\private\RuiSphere.cpp" />
     <ClCompile Include="..\Private\RuiToolState.cpp" />
     <ClCompile Include="..\Private\SkyBox.cpp" />
     <ClCompile Include="..\Private\TanjiroDashState.cpp" />

@@ -568,8 +568,14 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Destroy">
       <UniqueIdentifier>{59245c16-b9c3-4cde-8307-83549f4f0759}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05.CollBox\0.5AkazaShoot">
+    <Filter Include="05.CollBox\05.AkazaShoot">
       <UniqueIdentifier>{a442e0a6-99c6-49e0-bf5f-f786771273c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.CollBox\06.RuiShoot">
+      <UniqueIdentifier>{041be938-af58-4a59-9527-eaa446c82fdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.CollBox\07.RuiSphere">
+      <UniqueIdentifier>{ee585538-b2ad-4ada-a945-673fe85ee4ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1147,7 +1153,13 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko</Filter>
     </ClInclude>
     <ClInclude Include="..\public\AkazaShoot.h">
-      <Filter>05.CollBox\0.5AkazaShoot</Filter>
+      <Filter>05.CollBox\05.AkazaShoot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RuiShoot.h">
+      <Filter>05.CollBox\06.RuiShoot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RuiSphere.h">
+      <Filter>05.CollBox\07.RuiSphere</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1701,7 +1713,13 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko</Filter>
     </ClCompile>
     <ClCompile Include="..\private\AkazaShoot.cpp">
-      <Filter>05.CollBox\0.5AkazaShoot</Filter>
+      <Filter>05.CollBox\05.AkazaShoot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiShoot.cpp">
+      <Filter>05.CollBox\06.RuiShoot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiSphere.cpp">
+      <Filter>05.CollBox\07.RuiSphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

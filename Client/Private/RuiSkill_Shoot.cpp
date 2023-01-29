@@ -4,19 +4,16 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
+#include "AkazaShoot.h"
 
 using namespace Rui;
 
 
 CSkill_ShootState::CSkill_ShootState(STATE_TYPE eType)
 {
-	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
 	m_eStateType = eType;
 
-
-
-	RELEASE_INSTANCE(CGameInstance);
-	//m_fHitTime = 0.1;
 }
 
 CRuiState * CSkill_ShootState::HandleInput(CRui* pRui)
@@ -44,7 +41,32 @@ CRuiState * CSkill_ShootState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
 	_int i = pRui->Get_Model()->Get_CurrentFrame();
 
-	int i1 = 0;
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CCharacters* m_pTarget = pRui->Get_BattleTarget();
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLooAt.m128_f32[1] = 0.f;
+	pRui->Get_Transform()->LookAt(vLooAt);
+
+	m_fMove += fTimeDelta;
+
+	CAkazaShoot::AKAZASHOOTINFO	tInfo;
+	tInfo.pPlayer = pRui;
+	tInfo.pTarget = m_pTarget;
+
+	if (m_fMove > 0.17f && m_iHit < 1)
+	{
+		CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+		if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_AkazaShoot"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+			return nullptr;
+
+		RELEASE_INSTANCE(CGameInstance);
+		m_fMove = 0.f;
+		++m_iHit;
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.3f);
 
@@ -67,7 +89,6 @@ CRuiState * CSkill_ShootState::Late_Tick(CRui* pRui, _float fTimeDelta)
 		}
 	}
 	
-
 
 	return nullptr;
 }
