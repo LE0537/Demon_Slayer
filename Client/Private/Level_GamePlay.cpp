@@ -220,14 +220,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	_uint i2p = pUIManager->Get_Sel2P();
 	_uint i1p_2 = pUIManager->Get_Sel1P_2();
 	_uint i2p_2 = pUIManager->Get_Sel2P_2();
-	_int b1p = 1;
-	_int b2p = 2;
-	_int b1p_2 = 3;
-	_int b2p_2 = 4;
 	switch (i1p)
 	{
 	case 0:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &b1p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &tCharacterDesc1p)))
 			return E_FAIL;
 		break;
 	case 1:
@@ -239,7 +235,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 			return E_FAIL;
 		break;
 	case 3:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &b1p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &tCharacterDesc1p)))
 			return E_FAIL;
 		break;
 	default:
@@ -248,7 +244,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	switch (i2p)
 	{
 	case 0:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &b2p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	case 1:
@@ -260,13 +256,13 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 			return E_FAIL;
 		break;
 	case 3:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &b2p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	default:
 		break;
 	}
-	switch (b1p_2)
+	/*switch (b1p_2)
 	{
 	case 0:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &b1p_2)))
@@ -307,7 +303,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		break;
 	default:
 		break;
-	}
+	}*/
 
 	RELEASE_INSTANCE(CUI_Manager);
 	Safe_Release(pGameInstance);

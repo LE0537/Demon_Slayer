@@ -110,7 +110,7 @@ void CCharNameUI::Name_Selected(wstring strName)
 	}
 	else if (strName == TEXT("탄지로"))
 	{
-		m_iImgNum = 3;
+		m_iImgNum = 0;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_fX += 50.f;
@@ -128,7 +128,7 @@ void CCharNameUI::Name_Selected(wstring strName)
 	}
 	else if (strName == TEXT("아카자"))
 	{
-		m_iImgNum = 0;
+		m_iImgNum = 3;
 		m_fSizeX = m_ThrowUIinfo.vScale.x;
 	/*	if (m_ThrowUIinfo.iLayerNum == 0)
 			m_fX += 50.f;
