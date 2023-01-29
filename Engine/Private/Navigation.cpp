@@ -77,18 +77,34 @@ _bool CNavigation::isMove(_fvector vPosition, _fvector vMoveDir, _Out_ _float3 *
 	else
 	{
 		/* 나간 방향에 이웃셀이 존재한다. */
+		int		iPreIndex = m_NaviDesc.iCurrentCellIndex;
 		if (0 <= iNeighborIndex)
 		{
 			while (true)
 			{
 				if (-1 == iNeighborIndex)
-					return false;
+				{
+					if (-1 != iPreIndex)
+					{
+						if (0.f == XMVectorGetX(XMVector3Length(XMLoadFloat3(pOut))))
+							XMStoreFloat3(pOut, m_Cells[iPreIndex]->Sliding_Wall(vPosition, vMoveDir));
+						else
+						{
+							m_NaviDesc.iCurrentCellIndex = iPreIndex;
+							return true;
+						}
+					}
 
+					return false;
+				}
+
+				iPreIndex = iNeighborIndex;
 				if (true == m_Cells[iNeighborIndex]->isIn(vPosition, &iNeighborIndex))
 					break;
 			}
 			
 			m_NaviDesc.iCurrentCellIndex = iNeighborIndex;
+
 			return true;
 		}
 

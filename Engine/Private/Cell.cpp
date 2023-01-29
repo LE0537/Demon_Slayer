@@ -71,7 +71,8 @@ _bool CCell::isIn(_fvector vPosition, _int* pNeighborIndex)
 	for (_uint i = 0; i < LINE_END; ++i)
 	{
 		_vector		vDir = XMVector3Normalize(vPosition - XMLoadFloat3(&m_vPoints[i]));
-		if (0 < XMVectorGetX(XMVector3Dot(vDir, XMVector3Normalize(XMLoadFloat3(&m_vNormals[i])))))
+		_float	fAngle = XMVectorGetX(XMVector3Dot(vDir, XMVector3Normalize(XMLoadFloat3(&m_vNormals[i]))));
+		if (0 < fAngle)
 		{
 			*pNeighborIndex = m_iNeighborIndices[i];
 			return false;
