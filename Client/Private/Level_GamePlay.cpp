@@ -513,6 +513,7 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 			}
 
 			Safe_Delete_Array(arrWorld);
+			Safe_Delete_Array(arrGlowPower);
 		}
 		else
 		{
