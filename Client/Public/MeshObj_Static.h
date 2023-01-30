@@ -19,6 +19,8 @@ public:
 
 		_uint		iModelIndex;
 
+		_bool		bAlphaBlend;
+
 	}MESHOBJ_STATIC_DESC;
 
 private:

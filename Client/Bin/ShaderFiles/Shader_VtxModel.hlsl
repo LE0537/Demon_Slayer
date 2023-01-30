@@ -109,6 +109,28 @@ PS_OUT PS_MAP(PS_IN In)
 
 	return Out;
 }
+
+
+struct PS_ALPHAOUT
+{
+	float4		vDiffuse : SV_TARGET0;
+	float4		vGlow : SV_TARGET1;
+};
+PS_ALPHAOUT PS_ALPHABLEND(PS_IN In)
+{
+	PS_ALPHAOUT		Out = (PS_ALPHAOUT)0;
+
+	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	Out.vGlow = g_GlowTexture.Sample(LinearSampler, In.vTexUV) * g_fGlowPower;
+
+	if (Out.vDiffuse.a <= 0.03f)
+		discard;
+
+	return Out;
+}
+
+
+
 technique11 DefaultTechnique
 {
 	pass Default //0
@@ -142,5 +164,16 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAP();
+	}
+
+	pass AlphaBlend		//	3
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_ALPHABLEND();
 	}
 }

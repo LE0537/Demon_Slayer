@@ -412,11 +412,13 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 	_float4x4*	pWorld = new _float4x4;
 	_int*		pMeshIndex = new _int;
 	_float*		pGlowPower = new _float;
+	_bool*		pAlphaBlend = new _bool;
 
 	struct MAPOBJDESC
 	{
 		_float4x4		matWorld;
 		_float			fGlowPower;
+		_bool			bAlphaBlend;
 	};
 
 	//	<갯수 <메쉬넘버, 월드>>
@@ -428,12 +430,14 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 		ReadFile(hFile, pMeshIndex, sizeof(_int), &dwByte, nullptr);
 		ReadFile(hFile, pGlowPower, sizeof(_float), &dwByte, nullptr);
 		ReadFile(hFile, pWorld, sizeof(_float4x4), &dwByte, nullptr);
+		ReadFile(hFile, pAlphaBlend, sizeof(_bool), &dwByte, nullptr);
 
 		if (0 == dwByte)
 		{
 			Safe_Delete(pWorld);
 			Safe_Delete(pMeshIndex);
 			Safe_Delete(pGlowPower);
+			Safe_Delete(pAlphaBlend);
 			break;
 		}
 
@@ -441,6 +445,7 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 		MAPOBJDESC	tMapObjDesc;
 		tMapObjDesc.matWorld = *pWorld;
 		tMapObjDesc.fGlowPower = *pGlowPower;
+		tMapObjDesc.bAlphaBlend = *pAlphaBlend;
 
 		_uint	iCount = (_uint)map_MeshIdx_MapObjDesc.count(*pMeshIndex);
 		if (!iCount)
@@ -513,6 +518,7 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 			}
 
 			Safe_Delete_Array(arrWorld);
+			Safe_Delete_Array(arrGlowPower);
 		}
 		else
 		{
@@ -534,6 +540,7 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 				tMeshObj_StaticDesc.iModelIndex = Pair.first;
 				tMeshObj_StaticDesc.matWorld = tMapObjDesc.matWorld;
 				tMeshObj_StaticDesc.fGlowPower = tMapObjDesc.fGlowPower;
+				tMeshObj_StaticDesc.bAlphaBlend = tMapObjDesc.bAlphaBlend;
 
 				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static", LEVEL_GAMEPLAY, L"Layer_MeshObj_Static", &tMeshObj_StaticDesc)))
 				{
