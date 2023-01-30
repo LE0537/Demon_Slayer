@@ -12,6 +12,7 @@
 #include "TanjiroSkill_Common.h"
 #include "TanjiroSkill_WindMill.h"
 #include "TanjiroKaguraSkill_Common.h"
+#include "TanjiroKaguraSkill_Sphere.h"
 using namespace Tanjiro;
 
 
@@ -73,11 +74,22 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Down(DIK_O))
 			{
-				pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
-				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (pTanjiro->Get_KaguraMode())
 				{
-					pTanjiro->Set_SkillBar(-200);
-					return new CSkill_WindMillState();
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_SphereState();
+					}
+				}
+				else
+				{
+					pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_WindMillState();
+					}
 				}
 			}
 			else
@@ -146,11 +158,22 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Down(DIK_C))
 			{
-				pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
-				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (pTanjiro->Get_KaguraMode())
 				{
-					pTanjiro->Set_SkillBar(-200);
-					return new CSkill_WindMillState();
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_SphereState();
+					}
+				}
+				else
+				{
+					pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_WindMillState();
+					}
 				}
 			}
 			else

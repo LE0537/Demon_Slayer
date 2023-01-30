@@ -607,6 +607,18 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Move">
       <UniqueIdentifier>{909b073b-29a8-447a-9d26-6b2bb93b13dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Sphere">
+      <UniqueIdentifier>{bf1f6513-da46-4a6c-94f3-6e70b214a45c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState">
+      <UniqueIdentifier>{0dab4fe0-6949-4994-814d-07703e27fed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Tool">
+      <UniqueIdentifier>{cd1d49ae-bfe3-42ba-8c54-3fd8649f2adc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Idle">
+      <UniqueIdentifier>{12339412-508e-4366-a78d-371e1082ba4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1215,6 +1227,18 @@
     <ClInclude Include="..\Public\TanjiroKaguraSkill_Move.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Move</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroKaguraSkill_Sphere.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoToolState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoIdleState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Idle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1798,6 +1822,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroKaguraSkill_Move.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroKaguraSkill_Sphere.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoToolState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoIdleState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Idle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

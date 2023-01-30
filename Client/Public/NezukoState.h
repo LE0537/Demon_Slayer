@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Engine_Defines.h"
-#include "Tanjiro.h"
+#include "Nezuko.h"
 
 
 BEGIN(Client)
-class CTanjiroState
+class CNezukoState
 {
 public:
 	enum STATE_TYPE
@@ -43,30 +43,30 @@ public:
 
 
 public:
-	virtual ~CTanjiroState() {};
-	virtual CTanjiroState* HandleInput(CTanjiro* pTanjiro) { return nullptr; };
-	virtual CTanjiroState* Tick(CTanjiro* pTanjiro, _float fTimeDelta) { return nullptr; };
-	virtual CTanjiroState* Late_Tick(CTanjiro* pTanjiro, _float fTimeDelta) { return nullptr; };
+	virtual ~CNezukoState() {};
+	virtual CNezukoState* HandleInput(CNezuko* pNezuko) { return nullptr; };
+	virtual CNezukoState* Tick(CNezuko* pNezuko, _float fTimeDelta) { return nullptr; };
+	virtual CNezukoState* Late_Tick(CNezuko* pNezuko, _float fTimeDelta) { return nullptr; };
 
-	virtual void Enter(CTanjiro* pTanjiro) {};
-	virtual void Exit(CTanjiro* pTanjiro) {};
+	virtual void Enter(CNezuko* pNezuko) {};
+	virtual void Exit(CNezuko* pNezuko) {};
 
-	CTanjiroState* ChangeState(CTanjiro* pTanjiro, CTanjiroState* pCurrentState, CTanjiroState* pNewState)
+	CNezukoState* ChangeState(CNezuko* pNezuko, CNezukoState* pCurrentState, CNezukoState* pNewState)
 	{
 		if (pCurrentState)
 		{
-			pCurrentState->Exit(pTanjiro);
+			pCurrentState->Exit(pNezuko);
 			Safe_Delete(pCurrentState);
 		}
 
 		pCurrentState = pNewState;
-		pCurrentState->Enter(pTanjiro);
+		pCurrentState->Enter(pNezuko);
 
 		return pCurrentState;
 	}
 	
 public:
-	STATE_ID Get_TanjiroState() const { return m_eStateId; }
+	STATE_ID Get_NezukoState() const { return m_eStateId; }
 
 
 protected:
