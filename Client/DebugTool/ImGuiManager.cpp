@@ -6,6 +6,7 @@
 #include "Tanjiro.h"
 #include "Akaza.h"
 #include "Rui.h"
+#include "Nezuko.h"
 
 
 IMPLEMENT_SINGLETON(CImGuiManager)
@@ -194,6 +195,8 @@ void CImGuiManager::LiveCharacterList()
 				strName = "Rui";
 			else if (wStrName == L"아카자")
 				strName = "Akaza";
+			else if (wStrName == L"네즈코")
+				strName = "Nezuko";
 
 			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
 			{
@@ -233,7 +236,10 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 		{
 			m_vecAnimation = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_Animation();
 		}
-
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"네즈코")
+		{
+			m_vecAnimation = ((CNezuko*)(m_vecObjList[0]))->Get_Model()->Get_Animation();
+		}
 
 	}
 	else if (_iIndex == 1)
@@ -253,6 +259,10 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
 		{
 			m_vecAnimation = ((CAkaza*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"네즈코")
+		{
+			m_vecAnimation = ((CNezuko*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
 		}
 	}
 
@@ -282,6 +292,10 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				{
 					strName.erase(strName.begin(), strName.begin() + 38);
 				}
+				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"네즈코")
+				{
+					strName.erase(strName.begin(), strName.begin());
+				}
 				//strName.erase(strName.begin(), strName.begin() + 38);
 			}
 			else if (_iIndex == 1)
@@ -301,6 +315,10 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
 				{
 					strName.erase(strName.begin(), strName.begin() + 38);
+				}
+				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"네즈코")
+				{
+					strName.erase(strName.begin(), strName.begin());
 				}
 				//strName.erase(strName.begin(), strName.begin() + 53);
 			}
@@ -363,6 +381,10 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			{
 				((CAkaza*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
 			}
+			else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"네즈코")
+			{
+				((CNezuko*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
+			}
 		}
 		else if (_iIndex == 1)
 		{
@@ -381,6 +403,10 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
 			{
 				((CAkaza*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
+			}
+			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"네즈코")
+			{
+				((CNezuko*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
 			}
 		}
 	}
@@ -408,6 +434,10 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			{
 				m_vecAnimIndex.push_back(selected);
 			}
+			else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"네즈코")
+			{
+				m_vecAnimIndex.push_back(selected);
+			}
 		}
 		else if (_iIndex == 1)
 		{
@@ -424,6 +454,10 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				m_vecAnimIndex.push_back(selected);
 			}
 			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
+			{
+				m_vecAnimIndex.push_back(selected);
+			}
+			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"네즈코")
 			{
 				m_vecAnimIndex.push_back(selected);
 			}
@@ -473,6 +507,11 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 					((CAkaza*)(m_vecObjList[_iIndex]))->
 						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
 				}
+				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"네즈코")
+				{
+					((CNezuko*)(m_vecObjList[_iIndex]))->
+						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
+				}
 			}
 			else if (_iIndex == 1)
 			{
@@ -502,6 +541,11 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"아카자")
 				{
 					((CAkaza*)(m_vecObjList[_iIndex]))->
+						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
+				}
+				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"네즈코")
+				{
+					((CNezuko*)(m_vecObjList[_iIndex]))->
 						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
 				}
 			}
@@ -580,6 +624,13 @@ void CImGuiManager::Character_Compare_Duration(_uint _iIndex)
 			m_fCurrentDuration = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_CurrentTime();
 			m_fDuration = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_Duration();
 		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"네즈코")
+		{
+			_uint iAnimIndex = ((CNezuko*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			m_fCurrentDuration = ((CNezuko*)(m_vecObjList[0]))->Get_Model()->Get_CurrentTime();
+			m_fDuration = ((CNezuko*)(m_vecObjList[0]))->Get_Model()->Get_Duration();
+		}
 
 
 	}
@@ -613,6 +664,14 @@ void CImGuiManager::Character_Compare_Duration(_uint _iIndex)
 			m_fCurrentDuration = ((CAkaza*)(m_vecObjList[1]))->Get_Model()->Get_CurrentTime();
 			m_fDuration = ((CAkaza*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
 		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"네즈코")
+		{
+			_uint iAnimIndex = ((CNezuko*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_fCurrentDuration = ((CNezuko*)(m_vecObjList[1]))->Get_Model()->Get_CurrentTime();
+			m_fDuration = ((CNezuko*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
+		}
+
 	}
 }
 
@@ -649,6 +708,13 @@ void CImGuiManager::Character_Set_Duration(_uint _iIndex)
 			((CAkaza*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
 			((CAkaza*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
 		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"네즈코")
+		{
+			_uint iAnimIndex = ((CNezuko*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			((CNezuko*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CNezuko*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
+		}
 
 
 	}
@@ -681,6 +747,14 @@ void CImGuiManager::Character_Set_Duration(_uint _iIndex)
 
 			((CAkaza*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
 			((CAkaza*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
+		}
+
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"네즈코")
+		{
+			_uint iAnimIndex = ((CNezuko*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			((CNezuko*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CNezuko*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
 		}
 	}
 
@@ -722,6 +796,14 @@ void CImGuiManager::Character_Compare_Frame(_uint _iIndex)
 			m_iFrame = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_AllFrame();
 		
 		}
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"네즈코")
+		{
+			_uint iAnimIndex = ((CNezuko*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			m_iCurrentFrame = ((CNezuko*)(m_vecObjList[0]))->Get_Model()->Get_CurrentFrame();
+			m_iFrame = ((CNezuko*)(m_vecObjList[0]))->Get_Model()->Get_AllFrame();
+
+		}
 
 
 	}
@@ -758,6 +840,14 @@ void CImGuiManager::Character_Compare_Frame(_uint _iIndex)
 			m_iCurrentFrame = ((CAkaza*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
 			m_iFrame = ((CAkaza*)(m_vecObjList[0]))->Get_Model()->Get_AllFrame();
 		
+		}
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"네즈코")
+		{
+			_uint iAnimIndex = ((CNezuko*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_iCurrentFrame = ((CNezuko*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
+			m_iFrame = ((CNezuko*)(m_vecObjList[1]))->Get_Model()->Get_AllFrame();
+
 		}
 	}
 
@@ -823,6 +913,20 @@ void CImGuiManager::Character_Set_Frame(_uint _iIndex)
 			((CAkaza*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
 		}
 
+		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"네즈코")
+		{
+			_uint iAnimIndex = ((CNezuko*)(m_vecObjList[0]))->Get_AnimIndex();
+
+			int iFrame = ((CNezuko*)(m_vecObjList[0]))->Get_Model()->Get_CurrentFrame();
+
+			_float fCurDuration = ((CNezuko*)(m_vecObjList[0]))->Get_Model()->Get_Duration();
+
+			m_fSettingFrameTime = (m_iCurrentFrame + 1) * ((fCurDuration) / m_iFrame);
+
+			((CNezuko*)(m_vecObjList[0]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CNezuko*)(m_vecObjList[0]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
+		}
+
 
 	}
 	else if (_iIndex == 1)
@@ -878,6 +982,20 @@ void CImGuiManager::Character_Set_Frame(_uint _iIndex)
 
 			((CAkaza*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
 			((CAkaza*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
+		}
+
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"네즈코")
+		{
+			_uint iAnimIndex = ((CNezuko*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			int iFrame = ((CNezuko*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
+
+			_float fCurDuration = ((CNezuko*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
+
+			m_fSettingFrameTime = (m_iCurrentFrame + 1) * ((fCurDuration) / m_iFrame);
+
+			((CNezuko*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CNezuko*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
 		}
 	}
 }

@@ -56,6 +56,11 @@ public:
 		ANIM_JUMP_END = 47,
 
 
+		// change
+		ANIM_CHANGE_UP = 45,
+		ANIM_CHANGE_DOWN_START = 46,
+		ANIM_CHANGE_DOWN_END = 47,
+
 		// GUARD
 		ANIM_GUARD_0 = 38,
 		ANIM_GUARD_1 = 39,

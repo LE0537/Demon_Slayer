@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Public\Characters.h"
-
+#include "Navigation.h"
 #include "GameInstance.h"
 
 CCharacters::CCharacters(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -41,6 +41,16 @@ HRESULT CCharacters::Render()
 HRESULT CCharacters::Render_ShadowDepth()
 {
 	return S_OK;
+}
+
+_float4 CCharacters::Get_NavigationHeight()
+{
+	return m_pNavigationCom->Get_NavigationHeight();
+}
+
+void CCharacters::Set_NavigationHeight(_fvector vPosition)
+{
+	m_pNavigationCom->Navigation_Height(vPosition);
 }
 
 //CCharacters * CCharacters::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

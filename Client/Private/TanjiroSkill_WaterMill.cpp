@@ -20,7 +20,7 @@ CSkill_WaterMillState::CSkill_WaterMillState(STATE_TYPE eType)
 			return;
 
 		RELEASE_INSTANCE(CGameInstance);
-		m_fHitTime = 0.1;
+		m_fHitTime = 0.1f;
 	}
 }
 

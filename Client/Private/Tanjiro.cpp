@@ -105,7 +105,8 @@ void CTanjiro::Tick(_float fTimeDelta)
 	RELEASE_INSTANCE(CGameInstance);
 
 
-	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP)
+	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP 
+		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
