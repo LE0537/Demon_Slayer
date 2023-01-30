@@ -181,6 +181,24 @@ void CEffect_Mesh::Set_MeshInfo(MESH_INFO MeshInfo)
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pModelCom)))
 		return;
 
+	char szDissolveName[MAX_PATH] = "Prototype_Component_Texture_";
+	strcat_s(szDissolveName, m_MeshInfo.szMeshDissolve);
+
+	_tchar			szDissolveRealPath[MAX_PATH] = TEXT("");
+	MultiByteToWideChar(CP_ACP, 0, szDissolveName, (_int)strlen(szDissolveName), szDissolveRealPath, MAX_PATH);
+
+	if (FAILED(__super::Add_Components(TEXT("Com_DissolveTexture"), LEVEL_STATIC, szDissolveRealPath, (CComponent**)&m_pDissolveTextureCom)))
+		return;
+
+	char szDiffuseName[MAX_PATH] = "Prototype_Component_Texture_";
+	strcat_s(szDiffuseName, m_MeshInfo.szMeshType);
+
+	_tchar			szDiffuseRealPath[MAX_PATH] = TEXT("");
+	MultiByteToWideChar(CP_ACP, 0, szDiffuseName, (_int)strlen(szDiffuseName), szDiffuseRealPath, MAX_PATH);
+
+	if (FAILED(__super::Add_Components(TEXT("Com_DiffuseTexture"), LEVEL_STATIC, szDiffuseRealPath, (CComponent**)&m_pDiffuseTextureCom)))
+		return;
+
 	_float3		vRotation = m_MeshInfo.vRotation;
 	vRotation.x = XMConvertToRadians(vRotation.x);
 	vRotation.y = XMConvertToRadians(vRotation.y);
@@ -209,41 +227,74 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 	RELEASE_INSTANCE(CGameInstance);
 
 	_float Time = 1.f;
-
-	if (m_MeshInfo.iDisappear == CEffect::DISAPPEAR_ALPHA) {
-		Time = 1 - m_fTime / m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime;
-	}
-
-	if (m_MeshInfo.iDisappear == CEffect::DISAPPEAR_DISJOLVE) {
-	}
-
+	//m_TextureInfo.fDisappearTimeRatio
+	Time = 1 - m_fTime / m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndALPHA", &Time, sizeof(_float))))
 		return E_FAIL;
 
+	_float AlphaRatio;
+	if (m_MeshInfo.fDisappearTimeRatio >= 1 - Time) {
+		_bool bStart = false;
+		m_pShaderCom->Set_RawValue("g_bDisappearStart", &bStart, sizeof(_bool));
+
+		AlphaRatio = 0;
+	}
+	else {
+		_bool bStart = true;
+		m_pShaderCom->Set_RawValue("g_bDisappearStart", &bStart, sizeof(_bool));
+
+		_float fFullTime = (m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime);
+		_float fCurTime = m_fTime;
+
+		fCurTime -= fFullTime * m_MeshInfo.fDisappearTimeRatio;
+		fFullTime -= fFullTime * m_MeshInfo.fDisappearTimeRatio;
+
+		AlphaRatio = fCurTime / fFullTime;
+	}
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlphaRatio", &AlphaRatio, sizeof(_float))))
+		return E_FAIL;
+
+	m_pShaderCom->Set_RawValue("g_bDissolve", &m_MeshInfo.bDisappearAlpha, sizeof(_bool));
+
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DissolveTexture", m_pDissolveTextureCom->Get_SRV(0))))
+		return E_FAIL;
 
 	m_pShaderCom->Set_RawValue("g_bUseRGB", &m_MeshInfo.bUseRGB, sizeof(_bool));//	Color * (RGB or A)
 	m_pShaderCom->Set_RawValue("g_bUseColor", &m_MeshInfo.bUseColor, sizeof(_bool));//	Color = g_vColor or DiffuseTexture
 	m_pShaderCom->Set_RawValue("g_bGlow", &m_MeshInfo.bGlow, sizeof(_bool));
-	m_pShaderCom->Set_RawValue("g_fPostProcesesingValue", &m_MeshInfo.fPostProcessingValue, sizeof(_float));
 	m_pShaderCom->Set_RawValue("g_UseMask", &m_MeshInfo.bMaskTest, sizeof(_bool));
-
 	m_pShaderCom->Set_RawValue("g_bUseGlowColor", &m_MeshInfo.bUseGlowColor, sizeof(_bool));
+
+	m_pShaderCom->Set_RawValue("g_fPostProcesesingValue", &m_MeshInfo.fPostProcessingValue, sizeof(_float));
+
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_NoiseTexture", m_pNoiseTextureCom->Get_SRV())))
+		return E_FAIL;
+	//if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DissolveTexture", m_pDissolveTextureCom->Get_SRV(0))))
+	//return E_FAIL;
+
 	m_pShaderCom->Set_RawValue("g_vGlowColor", &m_MeshInfo.vGlowColor, sizeof(_float3));
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionU", &m_MeshInfo.fDistortion_U, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionV", &m_MeshInfo.fDistortion_V, sizeof(_float))))
+		return E_FAIL;
 
 	_float		fAccTime = m_fTime - m_MeshInfo.fStartTime;
 	_float		fAllLifeTime = m_MeshInfo.fLifeTime - m_MeshInfo.fStartTime;
 	_float		fAliveTimeRatio = max(fAccTime / fAllLifeTime, 0.f);
-	m_pShaderCom->Set_RawValue("g_fAliveTimeRatio", &fAliveTimeRatio, sizeof(_float));
-
-	ID3D11ShaderResourceView*		pSRVs[] = {
-		m_pNoiseTextureCom->Get_SRV()
-	};
-
-	if (FAILED(m_pShaderCom->Set_ShaderResourceViewArray("g_NoiseTexture", pSRVs, 1)))
+	m_fMoveUV_U += fAliveTimeRatio * m_MeshInfo.fMove_Value_U;		//	텍스쳐가 텍스쳐의 x축으로 이동
+	m_fMoveUV_V += fAliveTimeRatio * m_MeshInfo.fMove_Value_V;		//	텍스쳐가 텍스쳐의 y축으로 이동
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMoveUV_U", &m_fMoveUV_U, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMoveUV_V", &m_fMoveUV_V, sizeof(_float))))
 		return E_FAIL;
 
-	/*if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DissolveTexture", m_pDissolveTextureCom->Get_SRV(0))))
-		return E_FAIL;*/
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fDisappearTimeRatio", &m_MeshInfo.fDisappearTimeRatio, sizeof(_float))))
+		return E_FAIL;			//	사라지는 시간의 비율입니다.
+								//if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseMaskTextureCom", m_pDiffuseMaskTextureCom->Get_SRV())))
+								//return E_FAIL;			//	DiffuseTex의 RGBA중 A를 담당합니다.
+
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionScale", &m_MeshInfo.fDistortionScale, sizeof(_float))))
 		return E_FAIL;

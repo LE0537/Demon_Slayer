@@ -168,7 +168,7 @@ void CEffect_Texture::Set_TexInfo(TextureInfo TexInfo)
 
 	/* For.Com_Texture */
 	char szName[MAX_PATH] = "Prototype_Component_Texture_";
-	strcat_s(szName, m_TextureName[TexInfo.iTextureType]);
+	strcat_s(szName, m_TextureInfo.szTextureType);
 
 	_tchar			szRealPath[MAX_PATH] = TEXT("");
 	MultiByteToWideChar(CP_ACP, 0, szName, (_int)strlen(szName), szRealPath, MAX_PATH);

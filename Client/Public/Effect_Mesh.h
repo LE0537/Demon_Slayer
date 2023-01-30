@@ -17,25 +17,38 @@ public:
 	typedef struct MeshInfo {
 		char							m_szMeshName[MAX_PATH];
 
+		char							szMeshType[MAX_PATH];
+		char							szMeshDissolve[MAX_PATH];
+		char							szMeshMask[MAX_PATH];
+
 		_bool							bGlow;
 		_bool							bUseRGB;
 		_bool							bUseColor;
 		_bool							bUseFlowMap;
 		_bool							bUseGlowColor;
 		_bool							bMaskTest;
+		_bool							bUseMeshDiffuse;
+		_bool							bDisappearAlpha;
 
 		_uint							iMeshType;
-		_uint							iDisappear;
 		_uint							iShader;
+		_uint							iMoveType;
 
 		_float							fLifeTime;
-		_float							fPostProcessingValue;
 		_float							fStartTime;
+		_float							fPostProcessingValue;
+		_float							fMoveSpeed;
 		_float							fTurn;
+		_float							fTurnFalloff;
 		_float							fDistortionScale;
 		_float							fDistortionBias;
+		_float							fDistortion_U;
+		_float							fDistortion_V;
+		_float							fMove_Value_U;
+		_float							fMove_Value_V;
+		_float							fDisappearTimeRatio;
 
-		_float3							vSize[4];
+		_float3							vSize[6];
 		_float3							vPosition;
 		_float3							vRotation;
 		_float3							vGlowColor;
@@ -63,11 +76,16 @@ public:
 private:
 	CModel*							m_pModelCom = nullptr;
 	CTexture*						m_pNoiseTextureCom = nullptr;
+	CTexture*						m_pDissolveTextureCom = nullptr;
+	CTexture*						m_pDiffuseTextureCom = nullptr;
+
 
 private:
 	MESH_INFO						m_MeshInfo;
 
 	_float							m_fTime = 0.f;
+	_float							m_fMoveUV_U = 0.f;
+	_float							m_fMoveUV_V = 0.f;
 
 	_float4x4						m_CombinedWorldMatrix;
 
