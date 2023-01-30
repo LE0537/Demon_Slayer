@@ -51,17 +51,9 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
 	Set_Info();
-
 	m_tInfo.bSub = tCharacterDesc.bSub;
 	m_bChange = tCharacterDesc.bSub;
 	if (!m_tInfo.bSub)
-
-
-
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	if (m_i1p == 1)
-
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
@@ -87,17 +79,10 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
-
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
-
-
-
-
-	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
-
-
-	return S_OK;
+	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 }
+
 
 void CKyoujuro::Tick(_float fTimeDelta)
 {
@@ -152,7 +137,7 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 	m_pSheath->Tick(fTimeDelta);
 
 
-	static _bool test = false;
+	
 
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);

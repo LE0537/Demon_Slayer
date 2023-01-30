@@ -82,6 +82,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 
 	return S_OK;
@@ -107,14 +108,8 @@ void CTanjiro::Tick(_float fTimeDelta)
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
 
-		m_pModelCom->Get_PivotFloat4x4();
-		m_pTransformCom->Get_World4x4Ptr();
-		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
-		if (nullptr == pSocket)
-			return;
-		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
-		m_pSphereCom->Update(matColl);
+	m_pSphereCom->Update(matColl);
 
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
@@ -150,7 +145,6 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 	m_pSheath->Tick(fTimeDelta);
 
 
-	static _bool test = false;
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
