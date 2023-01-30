@@ -75,7 +75,6 @@ HRESULT CUltBar::Render()
 	if (m_ThrowUIinfo.iLayerNum == 1)
 		m_pShaderCom->Begin(15);
 
-
 	m_pVIBufferCom->Render();
 
 	return S_OK;
@@ -137,7 +136,6 @@ HRESULT CUltBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
 
-	RELEASE_INSTANCE(CUI_Manager);
 	return S_OK;
 }
 

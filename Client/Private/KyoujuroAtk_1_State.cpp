@@ -208,7 +208,7 @@ CKyoujuroState * CAtk_1_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 
 	if (m_fMove < 0.3f)
 	{
-		pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+		pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pKyoujuro->Get_NavigationCom());
 
 		_vector vCollPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가

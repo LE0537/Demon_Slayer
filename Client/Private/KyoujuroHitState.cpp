@@ -29,7 +29,7 @@ CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	if (!m_bJumpHit)
 	{
 		if (fHitTime <= 20.f)
-			pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
+			pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pKyoujuro->Get_NavigationCom());
 
 		if (fHitTime >= 38.f)
 			return new CIdleState();
@@ -37,7 +37,7 @@ CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	else if(m_bJumpHit)
 	{
 		if (fHitTime <= 35.f)
-			pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
+			pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pKyoujuro->Get_NavigationCom());
 
 		if(pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_HIT))
 		{

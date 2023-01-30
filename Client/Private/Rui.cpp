@@ -8,6 +8,12 @@
 #include "RuiState.h"
 #include "RuiIdleState.h"
 #include "RuiToolState.h"
+
+#include "Level_GamePlay.h"
+
+
+#include "RuiHitState.h"
+
 using namespace Rui;
 
 
@@ -28,10 +34,17 @@ HRESULT CRui::Initialize_Prototype()
 
 HRESULT CRui::Initialize(void * pArg)
 {
-	memcpy(&m_i1p, pArg, sizeof(_int));
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
+	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
+	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
+
+	m_i1p = tCharacterDesc.i1P2P;
+	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
+	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
+
+	Set_Info();
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
@@ -39,17 +52,13 @@ HRESULT CRui::Initialize(void * pArg)
 	{
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
-		Set_Info();
 		CUI_Manager::Get_Instance()->Set_1P(this);
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-3.f, 0.f, 0.f, 1.f));
 	}
 	else if (m_i1p == 2)
 	{
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 
-		Set_Info();
 		CUI_Manager::Get_Instance()->Set_2P(this);
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
 	}
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -83,8 +92,6 @@ void CRui::Tick(_float fTimeDelta)
 	RELEASE_INSTANCE(CGameInstance);
 */
 
-	Set_ShadowLightPos();
-
 	HandleInput(); 
 	TickState(fTimeDelta);
 
@@ -95,6 +102,11 @@ void CRui::Tick(_float fTimeDelta)
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
 	m_pSphereCom->Update(matColl);
+
+	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP)
+		m_tInfo.bJump = true;
+	else
+		m_tInfo.bJump = false;
 }
 
 void CRui::Late_Tick(_float fTimeDelta)
@@ -220,6 +232,9 @@ HRESULT CRui::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -252,13 +267,14 @@ void CRui::Set_Info()
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
 	m_tInfo.iUnicMaxBar = 1000;
 	m_tInfo.iUnicBar = 0;
-	m_tInfo.iDmg = 30;
+	m_tInfo.iDmg = 10;
 	m_tInfo.iCombo = 0;
 	m_tInfo.fComboTime = 0.f;
 	m_tInfo.bPowerUp = false;
 	m_tInfo.fPowerUpTime = 0.f;
-	m_tInfo.iFriendMaxBar = 100;
-	m_tInfo.iFriendBar;
+	m_tInfo.iFriendMaxBar = 1000;
+	m_tInfo.iFriendBar = 0;
+	m_tInfo.bGuard = false;
 }
 
 void CRui::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
@@ -295,6 +311,13 @@ void CRui::LateTickState(_float fTimeDelta)
 
 void CRui::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+
+	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_HIT)
+		m_pModelCom->Reset_Anim(CRui::ANIMID::ANIM_HIT);
+
+	CRuiState* pState = new CHitState(_fPow, _bJumpHit);
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+
 }
 
 void CRui::Get_GuardHit(_int eType)
@@ -360,5 +383,7 @@ void CRui::Free()
 	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pSphereCom);
+	Safe_Release(m_pNavigationCom);
+
 	Safe_Delete(m_pRuiState);
 }

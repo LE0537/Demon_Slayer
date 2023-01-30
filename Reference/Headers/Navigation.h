@@ -17,11 +17,14 @@ private:
 	virtual ~CNavigation() = default;
 
 public:
+	void		Set_NaviIndex(_uint iNaviIndex) { m_NaviDesc.iCurrentCellIndex = iNaviIndex; }
+
+public:
 	virtual HRESULT Initialize_Prototype(const _tchar* pNavigationData);
 	virtual HRESULT Initialize(void* pArg);
 
 public:
-	_bool isMove(_fvector vPosition);
+	_bool isMove(_fvector vPosition, _fvector vMoveDir, _Out_ _float3 * pOut);
 	_float3* Get_CellPoints();
 	vector<class CCell*>* Get_Cells() { return &m_Cells; }
 public:

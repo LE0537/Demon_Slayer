@@ -5,6 +5,8 @@
 #include "RuiAtk_1_State.h"
 #include "RuiJumpState.h"
 #include "RuiGuardState.h"
+#include "RuiSkill_Shoot.h"
+#include "RuiSkill_Sphere.h"
 using namespace Rui;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -15,7 +17,7 @@ CIdleState::CIdleState(STATE_ID eState)
 CRuiState * CIdleState::HandleInput(CRui * pRui)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	
+	pRui->Set_bGuard(false);
 	switch (pRui->Get_i1P())
 	{
 	case 1:
@@ -70,6 +72,28 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_I))
+		{
+			if (pGameInstance->Key_Down(DIK_O))
+			{
+				if (200 <= pRui->Get_PlayerInfo().iSkBar)
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_SphereState(STATE_TYPE::TYPE_START);
+				}
+			}
+			else
+			{
+				if (200 <= pRui->Get_PlayerInfo().iSkBar)
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_ShootState(STATE_TYPE::TYPE_START);
+				}
+			}
+		}
+
+
+
 		break;
 	case 2:
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
@@ -123,6 +147,26 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+
+		else if (pGameInstance->Key_Down(DIK_X))
+		{
+			if (pGameInstance->Key_Down(DIK_C))
+			{
+				if (200 <= pRui->Get_PlayerInfo().iSkBar)
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_SphereState(STATE_TYPE::TYPE_START);
+				}
+			}
+			else
+			{
+				if (200 <= pRui->Get_PlayerInfo().iSkBar)
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_ShootState(STATE_TYPE::TYPE_START);
+				}
+			}
+		}
 		break;
 	}
 

@@ -23,6 +23,12 @@ private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
+private:
+	_uint				m_iFrame = 0;
+	_uint				m_iNumTextureU = 2;
+	_uint				m_iNumTextureV = 3;
+	_float				m_fSpriteTime = 0.f;
+
 
 public:
 	static CLoadingAnim* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

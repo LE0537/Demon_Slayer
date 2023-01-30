@@ -5,7 +5,8 @@
 #include "KyoujuroJumpState.h"
 #include "Layer.h"
 #include "GameInstance.h"
-
+#include "KyoujuroJumpSkill_Common.h"
+#include "KyoujuroJumpSkill_Move.h"
 using namespace Kyoujuro;
 
 
@@ -78,6 +79,16 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 			}
 			else
 			{
+
+				if (pGameInstance->Key_Down(DIK_I))
+				{
+					if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+					{
+						pKyoujuro->Set_SkillBar(-200);
+						return new CJumpSkill_CommonState(m_fCurrentPosY);
+					}
+				}
+
 				m_bMove = false;
 				m_eNextDir = OBJDIR::DIR_STOP;
 			}
@@ -88,10 +99,22 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 			m_eNextDir = OBJDIR::DIR_STOP;
 		}
 
+		if (m_bMove == true)
+		{
+			if (pGameInstance->Key_Down(DIK_I))
+			{
+				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CJumpSkill_MoveState(m_fCurrentPosY);
+				}
+			}
+		}
 		break;
 	case 2:
 		if (m_eStateType != CKyoujuroState::TYPE_DEFAULT)
 		{
+	
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
@@ -149,8 +172,28 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 		}
 		else
 		{
+			if (pGameInstance->Key_Down(DIK_X))
+			{
+				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CJumpSkill_CommonState(m_fCurrentPosY);
+				}
+			}
 			m_bMove = false;
 			m_eNextDir = OBJDIR::DIR_STOP;
+		}
+
+		if (m_bMove == true)
+		{
+			if (pGameInstance->Key_Down(DIK_X))
+			{
+				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CJumpSkill_MoveState(m_fCurrentPosY);
+				}
+			}
 		}
 
 		break;
@@ -177,7 +220,7 @@ CKyoujuroState * CMoveJumpState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		//pKyoujuro->Get_Model()->Reset_Anim(pKyoujuro->Get_AnimIndex());
 		return new CMoveState(m_eNextDir, STATE_TYPE::TYPE_START);
 	}
-	
+
 
 
 	if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
@@ -231,7 +274,7 @@ CKyoujuroState * CMoveJumpState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDe
 	if (m_eStateType != TYPE_DEFAULT)
 		Jump(pKyoujuro, fTimeDelta + m_fJumpTime);
 
-	if(m_bMove == true)
+	if (m_bMove == true)
 		Move(pKyoujuro, fTimeDelta);
 
 	return nullptr;
@@ -313,7 +356,7 @@ void CMoveJumpState::Move(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	}
 
 	if (m_eDirection != DIR_STOP && m_bMove == true)
-		pKyoujuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
 }
 
 CKyoujuroState*  CMoveJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
@@ -331,7 +374,7 @@ CKyoujuroState*  CMoveJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	_float y = XMVectorGetY(vPosition);
 
 
-	
+
 
 	if (y <= fEndHeight)
 	{
@@ -352,8 +395,8 @@ CKyoujuroState*  CMoveJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		{
 			m_eStateType = CKyoujuroState::TYPE_CHANGE;
 		}
-		
-	} 
+
+	}
 
 	pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 

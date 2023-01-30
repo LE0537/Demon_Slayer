@@ -65,7 +65,7 @@ HRESULT CNavigation::Initialize(void * pArg)
 	return S_OK;
 }
 
-_bool CNavigation::isMove(_fvector vPosition)
+_bool CNavigation::isMove(_fvector vPosition, _fvector vMoveDir, _Out_ _float3 * pOut)
 {
 	_int		iNeighborIndex = -1;
 
@@ -77,18 +77,34 @@ _bool CNavigation::isMove(_fvector vPosition)
 	else
 	{
 		/* 나간 방향에 이웃셀이 존재한다. */
+		int		iPreIndex = m_NaviDesc.iCurrentCellIndex;
 		if (0 <= iNeighborIndex)
 		{
 			while (true)
 			{
 				if (-1 == iNeighborIndex)
-					return false;
+				{
+					if (-1 != iPreIndex)
+					{
+						if (0.f == XMVectorGetX(XMVector3Length(XMLoadFloat3(pOut))))
+							XMStoreFloat3(pOut, m_Cells[iPreIndex]->Sliding_Wall(vPosition, vMoveDir));
+						else
+						{
+							m_NaviDesc.iCurrentCellIndex = iPreIndex;
+							return true;
+						}
+					}
 
+					return false;
+				}
+
+				iPreIndex = iNeighborIndex;
 				if (true == m_Cells[iNeighborIndex]->isIn(vPosition, &iNeighborIndex))
 					break;
 			}
 			
 			m_NaviDesc.iCurrentCellIndex = iNeighborIndex;
+
 			return true;
 		}
 
@@ -96,6 +112,8 @@ _bool CNavigation::isMove(_fvector vPosition)
 		else
 		{
 			/*슬라이딩을 위한 리턴을 정의해도 된다. */		
+			XMStoreFloat3(pOut, m_Cells[m_NaviDesc.iCurrentCellIndex]->Sliding_Wall(vPosition, vMoveDir));
+
 			return false;
 		}
 		

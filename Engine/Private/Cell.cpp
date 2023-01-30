@@ -71,13 +71,36 @@ _bool CCell::isIn(_fvector vPosition, _int* pNeighborIndex)
 	for (_uint i = 0; i < LINE_END; ++i)
 	{
 		_vector		vDir = XMVector3Normalize(vPosition - XMLoadFloat3(&m_vPoints[i]));
-		if (0 < XMVectorGetX(XMVector3Dot(vDir, XMVector3Normalize(XMLoadFloat3(&m_vNormals[i])))))
+		_float	fAngle = XMVectorGetX(XMVector3Dot(vDir, XMVector3Normalize(XMLoadFloat3(&m_vNormals[i]))));
+		if (0 < fAngle)
 		{
 			*pNeighborIndex = m_iNeighborIndices[i];
 			return false;
 		}
 	}
 	return true;
+}
+
+_fvector CCell::Sliding_Wall(_fvector vPosition, _fvector vLook)
+{
+	_vector vSliding = XMVectorSet(0.f, 0.f, 0.f, 1.f);
+	for (_uint i = 0; i < LINE_END; ++i)
+	{
+		_vector		vDir = XMVector3Normalize(vPosition - XMLoadFloat3(&m_vPoints[i]));
+		if (0.f < XMVectorGetX(XMVector3Dot(vDir, XMLoadFloat3(&m_vNormals[i]))))
+		{
+			//	90 > angle -> ¹Ý´ë
+			_vector vLine = XMVectorSet(m_vNormals[i].z, 0.f, m_vNormals[i].x * -1.f, 1.f);
+			_vector vTemp = XMLoadFloat3(&m_vPoints[i == 2 ? 0 : i + 1]) - XMLoadFloat3(&m_vPoints[i]);
+
+			_float fSlidingPower = XMVectorGetX(XMVector3Dot(XMVector3Normalize(vLook), XMVector3Normalize(vLine)));
+
+			vSliding = XMVector3Normalize(vLine) * fSlidingPower;
+			break;
+		}
+	}
+
+	return vSliding;
 }
 
 

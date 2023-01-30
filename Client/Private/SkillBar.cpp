@@ -55,9 +55,9 @@ void CSkillBar::Tick(_float fTimeDelta)
 
 	m_fSkillTime += fTimeDelta;
 
-	if (m_fSkillTime >= 0.01f && m_fSkillCurBar < 1000)
+	if (m_fSkillTime >= 0.0025f && m_fSkillCurBar < 1000)
 	{
-		m_ThrowUIinfo.pTarget->Set_SkillBar(1);
+		m_ThrowUIinfo.pTarget->Set_SkillBar(2);
 		m_fSkillTime = 0.f;
 	}
 	

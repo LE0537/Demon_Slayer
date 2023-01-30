@@ -538,6 +538,78 @@
     <Filter Include="05.CollBox\04.RuiAtk">
       <UniqueIdentifier>{60c89556-1ffe-497f-b807-ccca12f8f652}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill">
+      <UniqueIdentifier>{1482c971-77b3-4f8d-a3e0-2c79dfadd06e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Sphere">
+      <UniqueIdentifier>{fa593b6e-22c5-499f-b0a3-a19e55a0ce2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Net">
+      <UniqueIdentifier>{d5c2d7d1-5249-45fe-8edd-94f308c5ab43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Common">
+      <UniqueIdentifier>{3c553323-2323-4f11-ac48-83d47ceb6d5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko">
+      <UniqueIdentifier>{cb180b3d-3e4a-4ac4-b7a7-906b4b3b9a0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu">
+      <UniqueIdentifier>{df7afd57-d44f-4572-a8af-5f8ad1075e47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill">
+      <UniqueIdentifier>{d419443c-09df-4a99-8ec8-7a19c02e1e27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Shoot">
+      <UniqueIdentifier>{9a956b3f-4bec-483f-ba73-ece9546e1530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Punch">
+      <UniqueIdentifier>{46972fc0-a4e1-486e-a842-a5a6e7a3160b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Destroy">
+      <UniqueIdentifier>{59245c16-b9c3-4cde-8307-83549f4f0759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.CollBox\05.AkazaShoot">
+      <UniqueIdentifier>{a442e0a6-99c6-49e0-bf5f-f786771273c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.CollBox\06.RuiShoot">
+      <UniqueIdentifier>{041be938-af58-4a59-9527-eaa446c82fdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.CollBox\07.RuiSphere">
+      <UniqueIdentifier>{ee585538-b2ad-4ada-a945-673fe85ee4ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpCommon">
+      <UniqueIdentifier>{299afe96-4f68-4bc2-a229-cd3df3b00aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpMove">
+      <UniqueIdentifier>{95b19c9d-69a6-4c86-9a17-b42c751820f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura">
+      <UniqueIdentifier>{831f08e5-5ce3-4038-b20f-5415d5805e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_1">
+      <UniqueIdentifier>{bead833a-5ccc-41c9-8a6f-1a6f4fc18c5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_2">
+      <UniqueIdentifier>{f5c36f11-f1a6-45c8-8d51-4794478ac43f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_3">
+      <UniqueIdentifier>{65324544-8e65-4430-9100-7b86dcd6e761}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_4">
+      <UniqueIdentifier>{0c83a20c-b861-4a67-8bd3-0936a745ef79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill">
+      <UniqueIdentifier>{5331f80e-dd13-49e3-a260-eef3b891e16f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Common">
+      <UniqueIdentifier>{0d7ec3fe-78a3-4896-aece-370f07a2c02b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Move">
+      <UniqueIdentifier>{909b073b-29a8-447a-9d26-6b2bb93b13dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.SelectChar\SelStamp">
+      <UniqueIdentifier>{8d5a6bdb-93b5-43ab-9b4c-6e7ca62b6c30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -822,9 +894,6 @@
     <ClInclude Include="..\Public\WindowRight.h">
       <Filter>03.UI\03.SelectChar\Window\Window</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\CharFrameShadow.h">
-      <Filter>03.UI\03.SelectChar\CharSelIcon\Shdow</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\CharFrameEff.h">
       <Filter>03.UI\03.SelectChar\CharSelIcon\Eff</Filter>
     </ClInclude>
@@ -1088,6 +1157,69 @@
     </ClInclude>
     <ClInclude Include="..\public\RuiAtk.h">
       <Filter>05.CollBox\04.RuiAtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaSkill_Shoot.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Shoot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaSkill_Punch.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Punch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaSkill_Destroy.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Destroy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiSkill_ShootNet.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiSkill_Shoot.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiSkill_Sphere.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Nezuko.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AkazaShoot.h">
+      <Filter>05.CollBox\05.AkazaShoot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RuiShoot.h">
+      <Filter>05.CollBox\06.RuiShoot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RuiSphere.h">
+      <Filter>05.CollBox\07.RuiSphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroJumpSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroJumpSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpMove</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroKaguraAtk_1_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroKaguraAtk_2_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroKaguraAtk_3_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroKaguraAtk_4_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroKaguraSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroKaguraSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SelNameShadow.h">
+      <Filter>03.UI\03.SelectChar\CharSelIcon\Shdow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SelStamp.h">
+      <Filter>03.UI\03.SelectChar\SelStamp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1358,9 +1490,6 @@
     <ClCompile Include="..\Private\CharFrame.cpp">
       <Filter>03.UI\03.SelectChar\CharSelIcon\Frame</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\CharFrameShadow.cpp">
-      <Filter>03.UI\03.SelectChar\CharSelIcon\Shdow</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\CharFrameEff.cpp">
       <Filter>03.UI\03.SelectChar\CharSelIcon\Eff</Filter>
     </ClCompile>
@@ -1615,6 +1744,69 @@
     </ClCompile>
     <ClCompile Include="..\private\RuiAtk.cpp">
       <Filter>05.CollBox\04.RuiAtk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaSkill_Shoot.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Shoot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaSkill_Punch.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Punch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaSkill_Destroy.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\Destroy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiSkill_ShootNet.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiSkill_Shoot.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Shoot_Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiSkill_Sphere.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Nezuko.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AkazaShoot.cpp">
+      <Filter>05.CollBox\05.AkazaShoot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiShoot.cpp">
+      <Filter>05.CollBox\06.RuiShoot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiSphere.cpp">
+      <Filter>05.CollBox\07.RuiSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroJumpSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroJumpSkill_Move.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpMove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroKaguraAtk_1_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroKaguraAtk_2_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroKaguraAtk_3_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroKaguraAtk_4_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroKaguraSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroKaguraSkill_Move.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SelNameShadow.cpp">
+      <Filter>03.UI\03.SelectChar\CharSelIcon\Shdow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SelStamp.cpp">
+      <Filter>03.UI\03.SelectChar\SelStamp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

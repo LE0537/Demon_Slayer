@@ -14,6 +14,7 @@ public:
 	typedef struct tagMeshObj_Static_Desc
 	{
 		_float4x4	matWorld;
+		_float		fGlowPower;
 		_uint		iCurrentLevel;
 
 		_uint		iModelIndex;
@@ -40,6 +41,8 @@ private:
 
 private:
 	MESHOBJ_STATIC_DESC			m_tMyDesc;
+
+	_float		m_fFrustumRadiusRatio = 1.f;
 
 private:
 	HRESULT Delete_Component(const _tchar* pComponentTag);

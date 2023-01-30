@@ -9,6 +9,8 @@
 #include "RuiAtk_1_State.h"
 #include "RuiMoveJumpState.h"
 #include "RuiGuardState.h"
+#include "RuiSkill_ShootNet.h"
+#include "RuiSkill_Sphere.h"
 using namespace Rui;
 
 
@@ -29,6 +31,27 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_I))
+		{
+			if (pGameInstance->Key_Down(DIK_O))
+			{
+				if (200 <= pRui->Get_PlayerInfo().iSkBar)
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_SphereState(STATE_TYPE::TYPE_START);
+				}
+			}
+			else
+			{
+				if (200 <= pRui->Get_PlayerInfo().iSkBar)
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_ShootNetState(STATE_TYPE::TYPE_START);
+				}
+			}
+		}
+
+
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 		{
@@ -164,6 +187,26 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+
+		else if (pGameInstance->Key_Down(DIK_X))
+		{
+			if (pGameInstance->Key_Down(DIK_C))
+			{
+				if (200 <= pRui->Get_PlayerInfo().iSkBar)
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_SphereState(STATE_TYPE::TYPE_START);
+				}
+			}
+			else
+			{
+				if (200 <= pRui->Get_PlayerInfo().iSkBar)
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_ShootNetState(STATE_TYPE::TYPE_START);
+				}
+			}
+		}
 
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 		{
@@ -393,7 +436,7 @@ void CMoveState::Move(CRui* pRui, _float fTimeDelta)
 	}
 
 	if (m_eDirection != DIR_STOP)
-		pRui->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 	CCharacters* m_pTarget = pRui->Get_BattleTarget();

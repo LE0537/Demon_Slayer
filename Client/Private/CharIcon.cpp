@@ -36,8 +36,9 @@ HRESULT CCharIcon::Initialize(void * pArg)
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 	{
 		Icon_Selected_SelectChar(m_ThrowUIinfo.iLayerNum);
-		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
-		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.7f;
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.1f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 1.1f;
+		m_fY -= 2.f;
 	}
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
@@ -79,13 +80,8 @@ HRESULT CCharIcon::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
-	{
-		if (!m_ThrowUIinfo.bReversal)
-			m_pShaderCom->Begin();
-		else
-			m_pShaderCom->Begin(1);
-	}
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)	
+		m_pShaderCom->Begin(16);
 	else if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 		m_pShaderCom->Begin(9);
 
@@ -104,19 +100,27 @@ void CCharIcon::Icon_Selected_GamePlay(wstring strName)
 		m_iImgNum = 27;
 	else if (strName == TEXT("아카자"))
 		m_iImgNum = 0;
+	else if (strName == TEXT("네즈코"))
+		m_iImgNum = 25;
+	else if (strName == TEXT("시노부"))
+		m_iImgNum = 39;
 	
 }
 
 void CCharIcon::Icon_Selected_SelectChar(_uint iLayerNum)
 {
 	if (0 == iLayerNum)
-		m_iImgNum = 27;
-	else if(1 == iLayerNum)
-		m_iImgNum = 0;
-	else if (2 == iLayerNum)
-		m_iImgNum = 19;
-	else if (3 == iLayerNum)
 		m_iImgNum = 35;
+	else if(1 == iLayerNum)
+		m_iImgNum = 19;
+	else if (2 == iLayerNum)
+		m_iImgNum = 27;
+	else if (3 == iLayerNum)
+		m_iImgNum = 0;
+	else if (4 == iLayerNum)
+		m_iImgNum = 25;
+	else if (5 == iLayerNum)
+		m_iImgNum = 30;
 }
 
 HRESULT CCharIcon::Ready_Components()
@@ -140,6 +144,12 @@ HRESULT CCharIcon::Ready_Components()
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 	{
 		if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharIconMaskMap"), (CComponent**)&m_pTextureMaskCom)))
+			return E_FAIL;
+	}
+
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharMask"), (CComponent**)&m_pTextureMaskCom)))
 			return E_FAIL;
 	}
 
@@ -168,6 +178,26 @@ HRESULT CCharIcon::SetUp_ShaderResources()
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 	{
 		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pTextureMaskCom->Get_SRV(0))))
+			return E_FAIL;
+	}
+	if (!m_ThrowUIinfo.bPlyCheck)
+	{
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_iMaskImgNum = 0;
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			m_iMaskImgNum = 1;
+	}
+	else if (m_ThrowUIinfo.bPlyCheck)
+	{
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_iMaskImgNum = 2;
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			m_iMaskImgNum = 3;
+	}
+
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	{
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pTextureMaskCom->Get_SRV(m_iMaskImgNum))))
 			return E_FAIL;
 	}
 
@@ -206,6 +236,8 @@ void CCharIcon::Free()
 	__super::Free();
 
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+		Safe_Release(m_pTextureMaskCom);
+	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
 		Safe_Release(m_pTextureMaskCom);
 
 	Safe_Release(m_pTransformCom);

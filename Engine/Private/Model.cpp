@@ -168,7 +168,7 @@ HRESULT CModel::SetUp_Material(CShader * pShader, const char * pConstantName, _u
 
 HRESULT CModel::Play_Animation(_float fTimeDelta, _bool bRemoveTranslation)
 {
-
+	// 또 너야
 	// 왜 또 오류
 	if (m_iCurrentAnimIndex != m_iPrevAnimIndex)
 	{
@@ -210,13 +210,46 @@ HRESULT CModel::Play_Animation2(_float fTimeDelta)
 
 	return S_OK;
 }
+HRESULT CModel::Play_Animation_ReMoveTranslation(_float fTimeDelta, _fvector vPosition, _bool bRemoveTranslation)
+{
+	if (m_iCurrentAnimIndex != m_iPrevAnimIndex)
+	{
+		if (m_bAnimReset)
+		{
+			m_Animations[m_iCurrentAnimIndex]->Reset2();
+			m_bAnimReset = false;
+		}
+		if (!m_Animations[m_iCurrentAnimIndex]->Get_AnimEnd())
+			m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix2(fTimeDelta, m_Animations[m_iPrevAnimIndex]->Get_Channel());
+		if (m_Animations[m_iCurrentAnimIndex]->Get_AnimEnd())
+		{
+			m_Animations[m_iCurrentAnimIndex]->Set_AnimEnd();
+			m_Animations[m_iPrevAnimIndex]->Reset3();
+			m_iCurrentAnimIndex = m_iPrevAnimIndex;
+			m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta);
+		}
+	}
+	else
+	{
+		m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta);
+	}
+	for (auto& pBoneNode : m_Bones)
+	{
+		/* 뼈의 m_CombinedTransformationMatrix행렬을 갱신한다. */
+		pBoneNode->Invalidate_CombinedTransformationmatrix(bRemoveTranslation, vPosition);
+	}
+
+	return S_OK;
+}
+
+
 HRESULT CModel::Render(CShader * pShader, _uint iMeshIndex, _uint iPassIndex)
 {
 	if (TYPE_ANIM == m_eModelType)
 	{
-		_float4x4		BoneMatrix[570];
+		_float4x4		BoneMatrix[630];
 		m_Meshes[iMeshIndex]->Get_BoneMatrices(BoneMatrix, XMLoadFloat4x4(&m_PivotMatrix));
-		pShader->Set_MatrixArray("g_BoneMatrices", BoneMatrix, 570);
+		pShader->Set_MatrixArray("g_BoneMatrices", BoneMatrix, 630);
 	}
 	pShader->Begin(iPassIndex);
 
@@ -495,20 +528,30 @@ HRESULT CModel::Bin_Initialize(void * pArg)
 				pMeshContainer->Bin_SetUp_Bones(this, &m_pBin_AIScene->pBinMesh[iNumMeshes++]);
 		}
 	}
+	else if (TYPE_NONANIM_INSTANCING == m_eModelType)
+	{
+		for (auto & iter : m_Meshes_Instancing)
+		{
+			iter->Initialize(pArg);
+		}
+
+		return S_OK;
+	}
+
 
 	if (FAILED(Bin_Ready_Animations(this)))
 		return E_FAIL;
 
 	return S_OK;
 }
-void CModel::Update_Instancing(vector<VTXMATRIX> vecMatrix, _float fTimeDelta)
+void CModel::Update_Instancing(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _float fTimeDelta)
 {
 	if (TYPE_NONANIM_INSTANCING != m_eModelType)
 		return;
 
 	for (auto & iter : m_Meshes_Instancing)
 	{
-		iter->Update(vecMatrix, fTimeDelta);
+		iter->Update(vecMatrix, fRadiusRatio, fTimeDelta);
 	}
 }
 HRESULT CModel::Get_HierarchyNodeData(DATA_BINSCENE * pBinScene)
@@ -621,14 +664,31 @@ HRESULT CModel::Bin_Ready_MeshContainers(_fmatrix PivotMatrix)
 {
 	m_iNumMeshes = m_pBin_AIScene->iMeshCount;
 
-	for (_uint i = 0; i < m_iNumMeshes; ++i)
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
 	{
-		CMeshContainer*		pMeshContainer = CMeshContainer::Bin_Create(m_pDevice, m_pContext, m_eModelType, &m_pBin_AIScene->pBinMesh[i], this, PivotMatrix);
-		if (nullptr == pMeshContainer)
-			return E_FAIL;
+		m_Meshes_Instancing.reserve(m_iNumMeshes);
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			/* 메시를 생성한다. */
+			CMeshInstance*		pMeshContainer = CMeshInstance::Bin_Create(m_pDevice, m_pContext, m_eModelType, &m_pBin_AIScene->pBinMesh[i], this, XMLoadFloat4x4(&m_PivotMatrix));
+			if (nullptr == pMeshContainer)
+				return E_FAIL;
 
-		m_Meshes.push_back(pMeshContainer);
+			m_Meshes_Instancing.push_back(pMeshContainer);
+		}
 	}
+	else
+	{
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			CMeshContainer*		pMeshContainer = CMeshContainer::Bin_Create(m_pDevice, m_pContext, m_eModelType, &m_pBin_AIScene->pBinMesh[i], this, PivotMatrix);
+			if (nullptr == pMeshContainer)
+				return E_FAIL;
+
+			m_Meshes.push_back(pMeshContainer);
+		}
+	}
+
 
 	return S_OK;
 }

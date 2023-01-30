@@ -10,6 +10,15 @@ BEGIN(Client)
 
 class CLevel_GamePlay final : public CLevel
 {
+public:
+	typedef struct tagCharacterDesc
+	{
+		_int		i1P2P;
+
+		_float4x4		matWorld;
+		_uint			iNaviIndex;
+
+	}CHARACTERDESC;
 private:
 	CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual ~CLevel_GamePlay() = default;

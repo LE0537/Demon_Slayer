@@ -283,7 +283,7 @@ void CMoveJumpState::Move(CAkaza* CAkaza, _float fTimeDelta)
 	}
 
 	if (m_eDirection != DIR_STOP && m_bMove == true)
-		CAkaza->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		CAkaza->Get_Transform()->Go_Straight(fTimeDelta, CAkaza->Get_NavigationCom());
 }
 
 CAkazaState*  CMoveJumpState::Jump(CAkaza* pAkaza, _float fTimeDelta)

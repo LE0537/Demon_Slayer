@@ -43,13 +43,14 @@ public:
 	virtual HRESULT Bin_Initialize(void* pArg); // 추가
 //------------------Instancing-------------------------------------------------
 public:
-	void	Update_Instancing(vector<VTXMATRIX> vecMatrix, _float fTimeDelta);
+	void	Update_Instancing(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _float fTimeDelta);
 //------------------Instancing-------------------------------------------------
 
 public:
 	HRESULT SetUp_Material(class CShader* pShader, const char* pConstantName, _uint iMeshIndex, aiTextureType eType);
 	HRESULT Play_Animation(_float fTimeDelta, _bool bRemoveTranslation = false);
 	HRESULT Play_Animation2(_float fTimeDelta);
+	HRESULT Play_Animation_ReMoveTranslation(_float fTimeDelta, _fvector vPosition ,_bool bRemoveTranslation = false);
 	HRESULT Render(class CShader* pShader, _uint iMeshIndex, _uint iPassIndex = 0);
 
 public: // For. Data 추가

@@ -33,6 +33,7 @@ public:
 	HRESULT Initialize(const _float3* pPoints, _int iIndex);
 	_bool Compare_Points(const _float3* pSourPoint, const _float3* pDestPoint);
 	_bool isIn(_fvector vPosition, _int* pNeighborIndex);
+	_fvector	Sliding_Wall(_fvector vPosition, _fvector vLook);
 
 public:
 	HRESULT Render();

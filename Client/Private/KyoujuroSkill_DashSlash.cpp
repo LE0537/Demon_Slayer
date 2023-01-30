@@ -52,7 +52,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 
 	if (m_fTime < 0.7f)
 	{
-		pKyojuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 2.f);
+		pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 2.f, pKyojuro->Get_NavigationCom());
 
 		if (!m_bHit && m_fTime > 0.2f)
 		{

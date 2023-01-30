@@ -68,12 +68,12 @@ CKyoujuroState * CGuardHitState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDe
 	switch (m_eStateType)
 	{
 	case Client::CKyoujuroState::TYPE_START:
-		pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.3f);
+		pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.3f, pKyoujuro->Get_NavigationCom());
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		if (m_fTime < 0.3f)
 		{
-			pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.6f);
+			pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.6f, pKyoujuro->Get_NavigationCom());
 		}
 		break;
 	default:

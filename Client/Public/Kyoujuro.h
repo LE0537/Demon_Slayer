@@ -12,6 +12,7 @@ class CTransform;
 class CVIBuffer_Rect;
 class CModel;
 class CCollider;
+class CNavigation;
 
 END
 
@@ -80,6 +81,10 @@ public:
 
 		// COMMON
 		ANIM_SKILL_COMMON = 21,
+
+		//JUMP SKILL
+		ANIM_SKILL_JUMPCOMMON = 23,
+		ANIM_SKILL_JUMPMOVE = 29,
 
 		ANIM_END = 100
 	};

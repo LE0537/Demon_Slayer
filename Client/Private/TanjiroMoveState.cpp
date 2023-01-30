@@ -10,6 +10,7 @@
 #include "TanjiroDashState.h"
 #include "TanjiroSkill_WaterMill.h"
 #include "TanjiroSkill_WindMill.h"
+#include "TanjiroKaguraSkill_Move.h"
 using namespace Tanjiro;
 
 
@@ -43,10 +44,21 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else
 			{
-				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (pTanjiro->Get_KaguraMode())
 				{
-					pTanjiro->Set_SkillBar(-200);
-					return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_MoveState();
+					}
+				}
+				else
+				{
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+					}
 				}
 			}
 		}
@@ -192,10 +204,21 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else
 			{
-				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (pTanjiro->Get_KaguraMode())
 				{
-					pTanjiro->Set_SkillBar(-200);
-					return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_MoveState();
+					}
+				}
+				else
+				{
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+					}
 				}
 			}
 		}
@@ -433,7 +456,7 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (m_eDirection != DIR_STOP)
-		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta);
+		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
 	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
 	CCollider*	pMyCollider = pTanjiro->Get_SphereCollider();
 	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();

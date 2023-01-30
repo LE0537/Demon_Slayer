@@ -52,7 +52,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 
 	if (m_fTime < 0.4f)
 	{
-		pKyojuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.3f);
+		pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pKyojuro->Get_NavigationCom());
 
 		if (!m_bHit && m_fTime > 0.2f)
 		{
@@ -126,7 +126,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 	else if (m_fTime >= 0.4f)
 	{
 		if(m_fTime < 0.9f)
-			pKyojuro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 0.7f);
+			pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.7f, pKyojuro->Get_NavigationCom());
 		m_fHitTime += fTimeDelta;
 		if (m_iHit < 1 && m_fHitTime > 0.1f)
 		{
@@ -213,6 +213,8 @@ void CSkill_DoubleUpperState::Enter(CKyoujuro * pKyojuro)
 
 	pKyojuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER);
 	pKyojuro->Set_AnimIndex(CKyoujuro::ANIM_SKILL_DOUBLEUPPER);
+
+	m_fCurrentPosY = XMVectorGetY(pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
 }
 CKyoujuroState* CSkill_DoubleUpperState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)

@@ -2,6 +2,8 @@
 #include "KyoujuroJumpState.h"
 #include "KyoujuroIdleState.h"
 #include "GameInstance.h"
+#include "KyoujuroJumpSkill_Common.h"
+
 
 using namespace Kyoujuro;
 
@@ -14,6 +16,33 @@ CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
 
 CKyoujuroState * CJumpState::HandleInput(CKyoujuro * pKyoujuro)
 {
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	switch (pKyoujuro->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Down(DIK_I))
+		{
+			if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+			{
+				pKyoujuro->Set_SkillBar(-200);
+				return new CJumpSkill_CommonState(m_fCurrentPosY);
+			}
+		}
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_X))
+		{
+			if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
+			{
+				pKyoujuro->Set_SkillBar(-200);
+				return new CJumpSkill_CommonState(m_fCurrentPosY);
+			}
+		}
+		break;
+	}
+	
+
 	return nullptr;
 }
 

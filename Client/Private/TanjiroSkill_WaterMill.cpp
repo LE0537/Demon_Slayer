@@ -75,7 +75,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 	m_fHitTime += fTimeDelta;
 	if (m_fTime < 0.35f)
 	{
-		pTanjiro->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
+		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 		CCollider*	pMyCollider2 = pTanjiro->Get_SphereCollider();
 		if (m_eStateType != Client::CTanjiroState::TYPE_START)
