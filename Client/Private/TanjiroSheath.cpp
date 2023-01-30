@@ -47,21 +47,16 @@ HRESULT CTanjiroSheath::Initialize(void * pArg)
 
 void CTanjiroSheath::Tick(_float fTimeDelta)
 {
-	if (m_bRender)
-	{
-	
 
-		_matrix		SocketMatrix = m_WeaponDesc.pSocket->Get_CombinedTransformationMatrix() *
-			XMLoadFloat4x4(&m_WeaponDesc.SocketPivotMatrix) * XMLoadFloat4x4(m_WeaponDesc.pParentWorldMatrix);
+	_matrix		SocketMatrix = m_WeaponDesc.pSocket->Get_CombinedTransformationMatrix() *
+		XMLoadFloat4x4(&m_WeaponDesc.SocketPivotMatrix) * XMLoadFloat4x4(m_WeaponDesc.pParentWorldMatrix);
 
-		SocketMatrix.r[0] = XMVector3Normalize(SocketMatrix.r[0]);
-		SocketMatrix.r[1] = XMVector3Normalize(SocketMatrix.r[1]);
-		SocketMatrix.r[2] = XMVector3Normalize(SocketMatrix.r[2]);
+	SocketMatrix.r[0] = XMVector3Normalize(SocketMatrix.r[0]);
+	SocketMatrix.r[1] = XMVector3Normalize(SocketMatrix.r[1]);
+	SocketMatrix.r[2] = XMVector3Normalize(SocketMatrix.r[2]);
 
 
-		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * SocketMatrix);
-
-	}
+	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * SocketMatrix);
 
 }
 
@@ -73,8 +68,7 @@ void CTanjiroSheath::Late_Tick(_float fTimeDelta)
 
 HRESULT CTanjiroSheath::Render()
 {
-	if (m_bRender)
-	{
+	
 		if (nullptr == m_pShaderCom)
 			return E_FAIL;
 
@@ -92,7 +86,7 @@ HRESULT CTanjiroSheath::Render()
 				return E_FAIL;
 		}
 
-	}
+	
 	return S_OK;
 }
 

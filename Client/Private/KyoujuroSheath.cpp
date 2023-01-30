@@ -47,10 +47,7 @@ HRESULT CKyoujuroSheath::Initialize(void * pArg)
 
 void CKyoujuroSheath::Tick(_float fTimeDelta)
 {
-	if (m_bRender)
-	{
-
-
+	
 		_matrix		SocketMatrix = m_WeaponDesc.pSocket->Get_CombinedTransformationMatrix() *
 			XMLoadFloat4x4(&m_WeaponDesc.SocketPivotMatrix) * XMLoadFloat4x4(m_WeaponDesc.pParentWorldMatrix);
 
@@ -61,7 +58,7 @@ void CKyoujuroSheath::Tick(_float fTimeDelta)
 
 		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * SocketMatrix);
 
-	}
+	
 
 }
 
@@ -73,8 +70,7 @@ void CKyoujuroSheath::Late_Tick(_float fTimeDelta)
 
 HRESULT CKyoujuroSheath::Render()
 {
-	if (m_bRender)
-	{
+	
 		if (nullptr == m_pShaderCom)
 			return E_FAIL;
 
@@ -92,7 +88,7 @@ HRESULT CKyoujuroSheath::Render()
 				return E_FAIL;
 		}
 
-	}
+	
 	return S_OK;
 }
 

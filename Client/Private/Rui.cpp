@@ -324,6 +324,7 @@ void CRui::Set_Info()
 	m_tInfo.iFriendMaxBar = 1000;
 	m_tInfo.iFriendBar = m_tInfo.iFriendMaxBar;
 	m_tInfo.bGuard = false;
+	m_tInfo.bChange = false;
 }
 
 void CRui::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)

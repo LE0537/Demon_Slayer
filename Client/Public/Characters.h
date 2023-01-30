@@ -79,6 +79,8 @@ public:
 	_float     Get_ChangeTime() { return m_fChangeTime; }
 	void	   Change_Info(PLAYERINFO _tinfo);
 	void	   Set_ChangeInfo(_bool _bChange) { m_tInfo.bChange = _bChange; }
+	void	   Set_ChangeDelay(_float _fDelayTime) { m_fChangeDelay = _fDelayTime; }
+
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
 protected:
@@ -93,6 +95,7 @@ protected:
 	_float					m_fChangeTime = 0.f;
 	CNavigation*		m_pNavigationCom = nullptr;
 	_float					m_fDelta = 0.f;
+	_float					m_fChangeDelay = 0.f;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

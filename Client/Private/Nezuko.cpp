@@ -295,6 +295,7 @@ void CNezuko::Set_Info()
 	m_tInfo.iFriendMaxBar = 1000;
 	m_tInfo.iFriendBar = 0;
 	m_tInfo.bGuard = false;
+	m_tInfo.bChange = false;
 }
 
 void CNezuko::Take_Damage(_float _fPow, _bool _bJumpHit)

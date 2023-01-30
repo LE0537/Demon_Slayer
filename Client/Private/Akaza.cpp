@@ -386,6 +386,7 @@ void CAkaza::Set_Info()
 	m_tInfo.iFriendMaxBar = 1000;
 	m_tInfo.iFriendBar = m_tInfo.iFriendMaxBar;
 	m_tInfo.bGuard = false;
+	m_tInfo.bChange = false;
 }
 
 void CAkaza::Take_Damage(_float _fPow, _bool _bJumpHit)
