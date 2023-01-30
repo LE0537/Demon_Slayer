@@ -15,7 +15,7 @@ class CData_Manager final : public CBase
 	DECLARE_SINGLETON(CData_Manager)
 
 public:
-	enum DATA_TYPE { DATA_ANIM, DATA_NONANIM, DATA_PARTS, DATA_END };
+	enum DATA_TYPE { DATA_ANIM, DATA_NONANIM, DATA_PARTS, DATA_NONANIM_INSTANCING, DATA_END };
 
 public:
 	CData_Manager();

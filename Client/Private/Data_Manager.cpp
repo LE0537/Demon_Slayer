@@ -67,6 +67,8 @@ HRESULT CData_Manager::SaveSceneData(DATA_BINSCENE * pScene, char* cModelName, D
 		strcpy_s(cPullName, "../Bin_Data/NonAnim/");
 	else if (eTYPE == DATA_PARTS)
 		strcpy_s(cPullName, "../Bin_Data/Parts/");
+	else if (eTYPE == DATA_NONANIM_INSTANCING)
+		strcpy_s(cPullName, "../Bin_Data/NonAnim_Instancing/");
 
 	strcat_s(cPullName, cModelName);
 
@@ -180,6 +182,8 @@ HRESULT CData_Manager::ReadSceneData(char * pFileName, DATA_BINSCENE* ReadScene,
 		strcpy_s(cPullName, "../Bin_Data/NonAnim/");
 	else if (DATA_PARTS == eTYPE)
 		strcpy_s(cPullName, "../Bin_Data/Parts/");
+	else if (DATA_NONANIM_INSTANCING == eTYPE)
+		strcpy_s(cPullName, "../Bin_Data/NonAnim_Instancing/");
 
 	strcat_s(cPullName, pFileName);
 
@@ -330,6 +334,8 @@ HRESULT CData_Manager::Create_Try_BinModel(const _tchar * pModelName, LEVEL eLEV
 		strcpy_s(tPath, "../Bin/Resources/Meshes/NonAnim/");
 	else if (DATA_PARTS == eTYPE)
 		strcpy_s(tPath, "../Bin/Resources/Meshes/Parts/");
+	else if (DATA_NONANIM_INSTANCING == eTYPE)
+		strcpy_s(tPath, "../Bin/Resources/Meshes/NonAnim_Instancing/");
 
 	strcat_s(tPath, cTempName);
 	strcat_s(tPath, "/");
@@ -359,8 +365,11 @@ HRESULT CData_Manager::Create_Try_BinModel(const _tchar * pModelName, LEVEL eLEV
 	CModel::TYPE etype = CModel::TYPE_END;
 	if (DATA_ANIM == eTYPE)
 		etype = CModel::TYPE_ANIM;
-	else
+	else if(DATA_NONANIM == eTYPE)
 		etype = CModel::TYPE_NONANIM;
+	else if (DATA_NONANIM_INSTANCING == eTYPE)
+		etype = CModel::TYPE_NONANIM_INSTANCING;
+
 	// 원본 생성
 	if (bIsBin)
 	{

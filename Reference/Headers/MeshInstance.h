@@ -22,6 +22,7 @@ public:
 
 public:
 	virtual HRESULT Initialize_Prototype(CModel::TYPE eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PivotMatrix);
+	virtual HRESULT Bin_Initialize_Prototype(CModel::TYPE eModelType, DATA_BINMESH* pAIMesh, class CModel* pModel, _fmatrix PivotMatrix);
 	virtual HRESULT Initialize(void* pArg);
 	virtual HRESULT Render() override;
 
@@ -42,14 +43,21 @@ private:
 
 	_uint				m_iNumRendering = 0;
 
+private: /* Binary */
+	DATA_BINMESH*		m_pBinAIMesh = nullptr;
+	_bool				m_bBinMesh = false;
+
 public:
 	HRESULT Create_VertexBuffer_NonAnimModel(const aiMesh* pAIMesh, _fmatrix PivotMatrix);
 	HRESULT Create_VertexBuffer_AnimModel(const aiMesh* pAIMesh, class CModel* pModel);
 	//HRESULT Create_VertexBuffer_NonAnim_InstanceModel(const aiMesh* pAIMesh, _fmatrix PivotMatrix);
 
+	HRESULT Bin_Create_VertexBuffer_NonAnimModel(DATA_BINMESH* pAIMesh, _fmatrix PivotMatrix);
+
 
 public:
 	static CMeshInstance* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eModelType, const aiMesh* pAIMesh, class CModel* pModel, _fmatrix PivotMatrix);
+	static CMeshInstance* Bin_Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, CModel::TYPE eModelType, DATA_BINMESH* pAIMesh, class CModel* pModel, _fmatrix PivotMatrix); // Ãß°¡
 	virtual CComponent* Clone(void* pArg = nullptr) override;
 	virtual void Free() override;
 };
