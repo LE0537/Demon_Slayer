@@ -120,6 +120,7 @@ CAkazaState * CJumpState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 		m_eStateType = CAkazaState::TYPE_END;
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_JUMP_END);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_JUMP_END);
+		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_JUMP_END, 0.01f);
 	}
 
 	pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

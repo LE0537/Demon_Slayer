@@ -51,9 +51,17 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
 	Set_Info();
+
 	m_tInfo.bSub = tCharacterDesc.bSub;
 	m_bChange = tCharacterDesc.bSub;
 	if (!m_tInfo.bSub)
+
+
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (m_i1p == 1)
+
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
@@ -79,8 +87,13 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
-	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+
+
+
+
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 
 	return S_OK;
@@ -111,6 +124,7 @@ void CKyoujuro::Tick(_float fTimeDelta)
 
 
 
+
 		if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_JUMP
 			|| m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_CHANGE)
 			m_tInfo.bJump = true;
@@ -118,13 +132,42 @@ void CKyoujuro::Tick(_float fTimeDelta)
 			m_tInfo.bJump = false;
 	}
 
+
+
+
+
+
 }
 
 void CKyoujuro::Late_Tick(_float fTimeDelta)
 {
+
 	if (!m_bChange)
+
+
+	LateTickState(fTimeDelta);
+
+
+	m_pWeapon->Tick(fTimeDelta);
+	m_pSheath->Tick(fTimeDelta);
+
+
+	static _bool test = false;
+
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+	dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Set_Render(true);
+	dynamic_cast<CKyoujuroSheath*>(m_pSheath)->Set_Render(true);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+
+	if (g_bCollBox)
+
 	{
 		LateTickState(fTimeDelta);
+
 
 
 		m_pWeapon->Tick(fTimeDelta);
@@ -146,6 +189,9 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 			m_pRendererCom->Add_Debug(m_pSphereCom);
 		}
 	}
+
+
+
 }
 
 HRESULT CKyoujuro::Render()
@@ -463,7 +509,7 @@ void CKyoujuro::Get_GuardHit(_int eType)
 		m_pModelCom->Reset_Anim(CKyoujuro::ANIMID::ANIM_GUARD_HIT_1);
 		pState = new CGuardHitState(CKyoujuroState::STATE_TYPE::TYPE_LOOP);
 	}
-	
+
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 }
 

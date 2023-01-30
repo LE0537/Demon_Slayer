@@ -101,6 +101,12 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 		TickState(fTimeDelta);
 
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+	if (nullptr == pSocket)
+		return;
+	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+
+
 		m_pModelCom->Get_PivotFloat4x4();
 		m_pTransformCom->Get_World4x4Ptr();
 		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
@@ -119,20 +125,48 @@ void CTanjiro::Tick(_float fTimeDelta)
 	RELEASE_INSTANCE(CGameInstance);
 
 
-	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP 
+	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
 		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
 
 
+
 	}
+
 
 }
 
 void CTanjiro::Late_Tick(_float fTimeDelta)
 {
+
 	if (!m_bChange)
+
+
+	LateTickState(fTimeDelta);
+
+	m_pWeapon->Tick(fTimeDelta);
+	m_pSheath->Tick(fTimeDelta);
+
+
+	static _bool test = false;
+
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+	dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);
+	dynamic_cast<CTanjiroSheath*>(m_pSheath)->Set_Render(true);
+
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+
+	if (g_bCollBox)
+
 	{
 		LateTickState(fTimeDelta);
 		m_pWeapon->Tick(fTimeDelta);
@@ -154,6 +188,8 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 			m_pRendererCom->Add_Debug(m_pSphereCom);
 		}
 	}
+
+
 }
 
 HRESULT CTanjiro::Render()
@@ -274,7 +310,7 @@ HRESULT CTanjiro::Render_ShadowDepth()
 	_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
 	_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 
- 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
@@ -302,7 +338,7 @@ HRESULT CTanjiro::Render_ShadowDepth()
 
 void CTanjiro::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
-	if(m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_HIT)
+	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_HIT)
 		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_HIT);
 
 	CTanjiroState* pState = new CHitState(_fPow, _bJumpHit);

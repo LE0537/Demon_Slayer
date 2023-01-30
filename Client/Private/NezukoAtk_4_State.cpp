@@ -201,7 +201,12 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	vLooAt.m128_f32[1] = 0.f;
 	pNezuko->Get_Transform()->LookAt(vLooAt);
 
-	m_fMove += fTimeDelta;
+
+	if(m_fTime < 22.f)
+	pNezuko->Get_Transform()->Go_Straight(fTimeDelta * 0.7f, pNezuko->Get_NavigationCom());
+	
+
+	m_fMove += fTimeDelta;//¶äºÎ±â
 
 	if (m_fMove > 0.1f && m_iHit < 5)
 	{

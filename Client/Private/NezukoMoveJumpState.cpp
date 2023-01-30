@@ -191,7 +191,7 @@ CNezukoState * CMoveJumpState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 			break;
 		case Client::CNezukoState::TYPE_END:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-			return new CIdleState(STATE_ID::STATE_JUMP);
+			return new CIdleState();
 			break;
 		}
 		pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
