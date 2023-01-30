@@ -36,7 +36,9 @@ public:
 	HRESULT Loading_ForLogoLevel();
 	HRESULT Loading_ForSelectCharLevel();
 	HRESULT Loading_ForGamePlayLevel();
-
+	
+private:
+	void Load_Texture(char* szFolderName, char* szFilePath);
 
 private:
 	LEVEL					m_eNextLevel = LEVEL_END;

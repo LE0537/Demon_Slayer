@@ -12,6 +12,8 @@ class CEffect : public CGameObj
 {
 public:
 	typedef struct EffectInfo {
+		_uint										iMoveType;
+
 		_float										fEffectStartTime;
 		_float										fEffectLifeTime;
 

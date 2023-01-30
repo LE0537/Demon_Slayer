@@ -28,7 +28,13 @@ HRESULT CComponent_Manager::Add_Prototype(_uint iLevelIndex, const _tchar * pPro
 	if (nullptr != Find_Component(iLevelIndex, pPrototypeTag))
 		return E_FAIL;
 
-	m_pPrototypes[iLevelIndex].emplace(pPrototypeTag, pPrototype);
+	_tchar* szTest = new _tchar[MAX_PATH];
+
+	m_Name.push_back(szTest);
+
+	lstrcpy(szTest, pPrototypeTag);
+
+	m_pPrototypes[iLevelIndex].emplace(szTest, pPrototype);
 
 	return S_OK;
 }

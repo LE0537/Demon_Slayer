@@ -24,6 +24,11 @@ HRESULT CEffect_Mesh::Initialize_Prototype()
 	m_MeshName.push_back("EffectSlash6");
 	m_MeshName.push_back("EffectSlash7");
 	m_MeshName.push_back("EffectSlash8");
+	m_MeshName.push_back("Water_6_Ground");
+	m_MeshName.push_back("Water_6_Main");
+	m_MeshName.push_back("Water_6_Wind");
+	m_MeshName.push_back("Water_2_Side");
+	m_MeshName.push_back("Water_2_Ring");
 
 	return S_OK;
 }
@@ -113,16 +118,24 @@ HRESULT CEffect_Mesh::Render()
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+
+
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
-
-	//	test
-	m_MeshInfo.bUseFlowMap = false;
-	//	test end
-
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-			return E_FAIL;
+		if (!m_MeshInfo.bUseMeshDiffuse) {
+			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+				return E_FAIL;
+		}
+		else {
+			if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pDiffuseTextureCom->Get_SRV(0))))
+				return E_FAIL;
+		}
+
+		if (m_MeshInfo.bMaskTest) {
+			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_OPACITY)))
+				return E_FAIL;
+		}
 
 		if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_MeshInfo.vColor[i], sizeof(_float4))))
 			return E_FAIL;
@@ -135,6 +148,7 @@ HRESULT CEffect_Mesh::Render()
 			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 7)))
 				return E_FAIL;
 		}
+
 
 		if (m_MeshInfo.iShader == CEffect::SHADER_ALPHABLEND) {
 			if (true == m_MeshInfo.bUseFlowMap)
@@ -366,5 +380,7 @@ void CEffect_Mesh::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pNoiseTextureCom);
+	Safe_Release(m_pDiffuseTextureCom);
+	Safe_Release(m_pDissolveTextureCom);
 
 }

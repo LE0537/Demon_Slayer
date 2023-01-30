@@ -32,10 +32,13 @@ public:
 	HRESULT	Check_Prototype(_int iLevelIndex, const _tchar* pPrototypeTag); // Ãß°¡
 	class CComponent* Clone_Component(_uint iLevelIndex, const _tchar* pPrototypeTag, void* pArg = nullptr);
 	void Clear(_uint iLevelIndex);
+
 private:
 	_uint												m_iNumLevels = 0;
 	map<const _tchar*, class CComponent*>*				m_pPrototypes = nullptr;
 	typedef map<const _tchar*, class CComponent*>		PROTOTYPES;
+
+	vector<_tchar*>										m_Name;
 
 private:
 	class CComponent* Find_Component(_uint iLevelIndex, const _tchar* pPrototypeTag);
