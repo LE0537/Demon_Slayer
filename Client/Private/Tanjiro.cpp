@@ -81,7 +81,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 
 
-	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 
 	return S_OK;

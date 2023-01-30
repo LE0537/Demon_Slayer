@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "PlyChanBarEff.h"
+#include "RoundIcon.h"
 #include "GameInstance.h"
 
-CPlyChanBarEff::CPlyChanBarEff(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CRoundIcon::CRoundIcon(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CPlyChanBarEff::CPlyChanBarEff(const CPlyChanBarEff & rhs)
+CRoundIcon::CRoundIcon(const CRoundIcon & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CPlyChanBarEff::Initialize_Prototype()
+HRESULT CRoundIcon::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CPlyChanBarEff::Initialize(void * pArg)
+HRESULT CRoundIcon::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -32,7 +32,7 @@ HRESULT CPlyChanBarEff::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -48,18 +48,18 @@ HRESULT CPlyChanBarEff::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CPlyChanBarEff::Tick(_float fTimeDelta)
+void CRoundIcon::Tick(_float fTimeDelta)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void CPlyChanBarEff::Late_Tick(_float fTimeDelta)
+void CRoundIcon::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CPlyChanBarEff::Render()
+HRESULT CRoundIcon::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -73,12 +73,12 @@ HRESULT CPlyChanBarEff::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	//m_pVIBufferCom->Render();
+	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
-HRESULT CPlyChanBarEff::Ready_Components()
+HRESULT CRoundIcon::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -93,7 +93,7 @@ HRESULT CPlyChanBarEff::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_PlyChanBarEff"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_RoundIcon"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -103,7 +103,7 @@ HRESULT CPlyChanBarEff::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CPlyChanBarEff::SetUp_ShaderResources()
+HRESULT CRoundIcon::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -121,13 +121,13 @@ HRESULT CPlyChanBarEff::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CPlyChanBarEff * CPlyChanBarEff::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CRoundIcon * CRoundIcon::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CPlyChanBarEff*	pInstance = new CPlyChanBarEff(pDevice, pContext);
+	CRoundIcon*	pInstance = new CRoundIcon(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CPlyChanBarEff"));
+		ERR_MSG(TEXT("Failed to Created : CRoundIcon"));
 		Safe_Release(pInstance);
 	}
 
@@ -135,20 +135,20 @@ CPlyChanBarEff * CPlyChanBarEff::Create(ID3D11Device * pDevice, ID3D11DeviceCont
 }
 
 
-CGameObject * CPlyChanBarEff::Clone(void * pArg)
+CGameObject * CRoundIcon::Clone(void * pArg)
 {
-	CPlyChanBarEff*	pInstance = new CPlyChanBarEff(*this);
+	CRoundIcon*	pInstance = new CRoundIcon(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CPlyChanBarEff"));
+		ERR_MSG(TEXT("Failed to Cloned : CRoundIcon"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CPlyChanBarEff::Free()
+void CRoundIcon::Free()
 {
 	__super::Free();
 

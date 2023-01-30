@@ -103,24 +103,24 @@ void CCharNameUI::Name_Selected(wstring strName)
 	{
 		m_iImgNum = 1;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
-		if(m_ThrowUIinfo.iLayerNum == 0)//2p
+		if(!m_ThrowUIinfo.bPlyCheck)//1p
+			m_fX += 35.f;
+		else if(m_ThrowUIinfo.bPlyCheck)//2p
 			m_fX -= 35.f;
-		else if(m_ThrowUIinfo.iLayerNum == 1)//1p
-			m_fX -= 30.f;
 	}
 	else if (strName == TEXT("탄지로"))
 	{
 		m_iImgNum = 0;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
-		if (m_ThrowUIinfo.iLayerNum == 0)
+		if (!m_ThrowUIinfo.bPlyCheck)
 			m_fX += 40.f;
-		if (m_ThrowUIinfo.iLayerNum == 1)
+		if (m_ThrowUIinfo.bPlyCheck)
 			m_fX -= 110.f;
 	}
 	else if (strName == TEXT("루이"))
 	{
 		m_iImgNum = 2;
-		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.75f;
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
 	/*	if (m_ThrowUIinfo.iLayerNum == 0)
 			m_fX += 50.f;
 		if (m_ThrowUIinfo.iLayerNum == 1)
@@ -139,9 +139,9 @@ void CCharNameUI::Name_Selected(wstring strName)
 	{
 		m_iImgNum = 4;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
-		if (m_ThrowUIinfo.iLayerNum == 0)//1p
+		if (!m_ThrowUIinfo.bPlyCheck)//1p
 			m_fX += 40.f;
-		if (m_ThrowUIinfo.iLayerNum == 1)//2p
+		if (m_ThrowUIinfo.bPlyCheck)//2p
 			m_fX -= 30.f;
 	}
 	else if (strName == TEXT("시노부"))

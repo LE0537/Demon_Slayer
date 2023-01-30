@@ -77,6 +77,8 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 		else
 			CUI_Manager::Get_Instance()->Add_P2_OniHpUI();
 
+		CUI_Manager::Get_Instance()->Add_BattleUI();
+
 		m_bCreateUI = true;
 	}
 

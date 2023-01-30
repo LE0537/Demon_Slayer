@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "PlyChanBarEff.h"
+#include "RoundUI.h"
 #include "GameInstance.h"
 
-CPlyChanBarEff::CPlyChanBarEff(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CRoundUI::CRoundUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CPlyChanBarEff::CPlyChanBarEff(const CPlyChanBarEff & rhs)
+CRoundUI::CRoundUI(const CRoundUI & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CPlyChanBarEff::Initialize_Prototype()
+HRESULT CRoundUI::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CPlyChanBarEff::Initialize(void * pArg)
+HRESULT CRoundUI::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -32,7 +32,7 @@ HRESULT CPlyChanBarEff::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -48,18 +48,18 @@ HRESULT CPlyChanBarEff::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CPlyChanBarEff::Tick(_float fTimeDelta)
+void CRoundUI::Tick(_float fTimeDelta)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void CPlyChanBarEff::Late_Tick(_float fTimeDelta)
+void CRoundUI::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CPlyChanBarEff::Render()
+HRESULT CRoundUI::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -78,7 +78,7 @@ HRESULT CPlyChanBarEff::Render()
 	return S_OK;
 }
 
-HRESULT CPlyChanBarEff::Ready_Components()
+HRESULT CRoundUI::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -93,8 +93,12 @@ HRESULT CPlyChanBarEff::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_PlyChanBarEff"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_RoundUI"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
+
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_RoundJudgmentUI"), (CComponent**)&m_pTextureCom2)))
+		return E_FAIL;															
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"), (CComponent**)&m_pVIBufferCom)))
@@ -103,7 +107,7 @@ HRESULT CPlyChanBarEff::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CPlyChanBarEff::SetUp_ShaderResources()
+HRESULT CRoundUI::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -121,13 +125,13 @@ HRESULT CPlyChanBarEff::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CPlyChanBarEff * CPlyChanBarEff::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CRoundUI * CRoundUI::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CPlyChanBarEff*	pInstance = new CPlyChanBarEff(pDevice, pContext);
+	CRoundUI*	pInstance = new CRoundUI(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CPlyChanBarEff"));
+		ERR_MSG(TEXT("Failed to Created : CRoundUI"));
 		Safe_Release(pInstance);
 	}
 
@@ -135,26 +139,27 @@ CPlyChanBarEff * CPlyChanBarEff::Create(ID3D11Device * pDevice, ID3D11DeviceCont
 }
 
 
-CGameObject * CPlyChanBarEff::Clone(void * pArg)
+CGameObject * CRoundUI::Clone(void * pArg)
 {
-	CPlyChanBarEff*	pInstance = new CPlyChanBarEff(*this);
+	CRoundUI*	pInstance = new CRoundUI(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CPlyChanBarEff"));
+		ERR_MSG(TEXT("Failed to Cloned : CRoundUI"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CPlyChanBarEff::Free()
+void CRoundUI::Free()
 {
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTextureCom2);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);
 }

@@ -1,75 +1,75 @@
 #include "stdafx.h"
-#include "InkEff.h"
+#include "NumTimer.h"
 #include "GameInstance.h"
-#include "UI_Manager.h"
 
-CInkEff::CInkEff(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CNumTimer::CNumTimer(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CInkEff::CInkEff(const CInkEff & rhs)
+CNumTimer::CNumTimer(const CNumTimer & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CInkEff::Initialize_Prototype()
+HRESULT CNumTimer::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CInkEff::Initialize(void * pArg)
+HRESULT CNumTimer::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_fSizeX = 1280.f;
-	m_fSizeY = 720.f;
-	m_fX = 640.f;
-	m_fY = 360.f;
+	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
+
+	m_fSizeX = m_ThrowUIinfo.vScale.x;
+	m_fSizeY = m_ThrowUIinfo.vScale.y;
+	m_fX = m_ThrowUIinfo.vPos.x;
+	m_fY = m_ThrowUIinfo.vPos.y;
+
+	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
+
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
+
+	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+	if (!m_ThrowUIinfo.bReversal)
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
+	else
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
-	
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
 	return S_OK;
 }
 
-void CInkEff::Tick(_float fTimeDelta)
+void CNumTimer::Tick(_float fTimeDelta)
 {
-	CUI_Manager*		pUI_Manager = GET_INSTANCE(CUI_Manager);
+	m_fTimer -= fTimeDelta;
 
-	m_fSpriteTime += fTimeDelta;
+	if (m_fTimer <= 0.f)
+		m_fTimer = 100.f;
 
-	if (m_fSpriteTime >= 0.03f)
-	{
-		++m_iFrame;
-		m_fSpriteTime = 0.f;
-	}
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		m_iFirstNum = (_uint)m_fTimer / 10;
+	else if(m_ThrowUIinfo.iLayerNum == 1)
+		m_iSecondNum = (_uint)m_fTimer % 10;
 
-	if (m_iFrame == 47 && m_iImgNum == 0 && !m_bDownCheck)
-	{
-		pUI_Manager->Add_Menu();
-		m_iFrame = 0;
-		m_bDownCheck = true;
-	}
-
-	if (m_bDownCheck && m_iFrame == 47)
-		m_bDead = true;
-	
-
-	RELEASE_INSTANCE(CUI_Manager);
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void CInkEff::Late_Tick(_float fTimeDelta)
+void CNumTimer::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CInkEff::Render()
+HRESULT CNumTimer::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -78,14 +78,17 @@ HRESULT CInkEff::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(13);
+	if (!m_ThrowUIinfo.bReversal)
+		m_pShaderCom->Begin(0);
+	else
+		m_pShaderCom->Begin(1);
 
 	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
-HRESULT CInkEff::Ready_Components()
+HRESULT CNumTimer::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -100,7 +103,7 @@ HRESULT CInkEff::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_InkEff"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_NumTimer"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -110,7 +113,7 @@ HRESULT CInkEff::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CInkEff::SetUp_ShaderResources()
+HRESULT CNumTimer::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -122,39 +125,24 @@ HRESULT CInkEff::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (m_iImgNum == 0)
-	{
-		m_iNumTextureU = 6;
-		m_iNumTextureV = 8;
-	}
-	if (m_iImgNum == 1)
-	{
-
-	}
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iFrame", &m_iFrame, sizeof(_uint))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumTexU", &m_iNumTextureU, sizeof(_uint))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumTexV", &m_iNumTextureV, sizeof(_uint))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_bInkEffDownCheck", &m_bDownCheck, sizeof(_bool))))
-		return E_FAIL;
-
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		m_iImgNum = m_iFirstNum;
+	else if (m_ThrowUIinfo.iLayerNum == 1)
+		m_iImgNum = m_iSecondNum;
+	
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CInkEff * CInkEff::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CNumTimer * CNumTimer::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CInkEff*	pInstance = new CInkEff(pDevice, pContext);
+	CNumTimer*	pInstance = new CNumTimer(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CInkEff"));
+		ERR_MSG(TEXT("Failed to Created : CNumTimer"));
 		Safe_Release(pInstance);
 	}
 
@@ -162,20 +150,20 @@ CInkEff * CInkEff::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext
 }
 
 
-CGameObject * CInkEff::Clone(void * pArg)
+CGameObject * CNumTimer::Clone(void * pArg)
 {
-	CInkEff*	pInstance = new CInkEff(*this);
+	CNumTimer*	pInstance = new CNumTimer(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CInkEff"));
+		ERR_MSG(TEXT("Failed to Cloned : CNumTimer"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CInkEff::Free()
+void CNumTimer::Free()
 {
 	__super::Free();
 

@@ -263,28 +263,14 @@ PS_OUT PS_GamePlyCharIcon(PS_IN In)
 
 	float4 DiffuseTexture = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
 	float4 vMaskTexture = g_MaskTexture.Sample(PointSampler, In.vTexUV);
-	DiffuseTexture.a = vMaskTexture.r;
+
 	Out.vColor.rgba = DiffuseTexture.rgba;
 
-	return Out;
-}
-
-PS_OUT PS_COLOR(PS_IN In)
-{
-	PS_OUT		Out = (PS_OUT)0;
-
-	Out.vColor = g_vColor;
-	float4 InputColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-
-	Out.vColor.a = InputColor.a * Out.vColor.a;
-
-	if (Out.vColor.a == 0.0f)
-		discard;
+	if (Out.vColor.a > 0.3f)
+		Out.vColor.a = vMaskTexture.r;
 
 	return Out;
 }
-
-
 
 technique11 DefaultTechnique
 {
@@ -340,7 +326,7 @@ technique11 DefaultTechnique
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_COLOR();
+		PixelShader = compile ps_5_0 PS_GamePlyCharIcon();
 	}
 
 	pass P1SkillBarDiscard //5
