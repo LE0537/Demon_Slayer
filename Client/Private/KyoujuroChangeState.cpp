@@ -75,8 +75,11 @@ CKyoujuroState * CChangeState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeDelta
 
 	if (m_bNextAnim == true)
 	{
-		if(m_eStateType == TYPE_START)
+		if (m_eStateType == TYPE_START)
+		{
+			pKyoujuro->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
 			return new CIdleState();
+		}
 		else if (m_eStateType == TYPE_LOOP)
 		{
 			return new CChangeState(STATE_TYPE::TYPE_END);
@@ -152,7 +155,6 @@ CKyoujuroState* CChangeState::Increase_Height(CKyoujuro* pKyoujuro, _float fTime
 	{
 		
 		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
-
 		m_bNextAnim = true;
 	}
 	else

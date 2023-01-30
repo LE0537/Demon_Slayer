@@ -72,7 +72,9 @@ public:
 	void	   Set_HitTime(_float _fHitTime) { m_tInfo.fHitTime = _fHitTime; }
 	void	   Set_Sub(_bool _bSub){ m_tInfo.bSub = _bSub; }
 	void	   Set_Change(_bool _bChange, _vector _vPos);
+	_bool	   Get_Change() { return m_bChange; };
 	void	   Set_SubChar(CCharacters* _pSubChar) { m_pSubChar = _pSubChar; }
+	CCharacters* 	  Get_SubChar() { return m_pSubChar; }
 	_float     Get_ChangeTime() { return m_fChangeTime; }
 	void	   Change_Info(PLAYERINFO _tinfo);
 

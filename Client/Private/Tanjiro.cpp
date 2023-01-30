@@ -187,8 +187,8 @@ HRESULT CTanjiro::Render()
 				return E_FAIL;
 		}
 	}
-	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-	vPos.m128_f32[1] = 0.f;
+	_vector vPos = m_pSubChar->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vPos.m128_f32[1] += 20.f;
 	switch (m_i1p)
 	{
 	case 1:
@@ -201,8 +201,8 @@ HRESULT CTanjiro::Render()
 				m_tInfo.bSub = true;
 				CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
 				m_pSubChar->Set_Sub(false);
-				m_pSubChar->Set_Change(false, vPos);
 				m_pSubChar->Change_Info(m_tInfo);
+				m_pSubChar->Set_Change(false, vPos);
 				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
 				if(dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront()))
@@ -227,8 +227,8 @@ HRESULT CTanjiro::Render()
 				m_tInfo.bSub = true;
 				CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
 				m_pSubChar->Set_Sub(false);
-				m_pSubChar->Set_Change(false, vPos);
 				m_pSubChar->Change_Info(m_tInfo);
+				m_pSubChar->Set_Change(false, vPos);
 				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
 				if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront()))

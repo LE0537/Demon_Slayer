@@ -179,8 +179,8 @@ HRESULT CKyoujuro::Render()
 				return E_FAIL;
 		}
 	}
-	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-	vPos.m128_f32[1] = 0.f;
+	_vector vPos = m_pSubChar->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vPos.m128_f32[1] += 20.f;
 	switch (m_i1p)
 	{
 	case 1:

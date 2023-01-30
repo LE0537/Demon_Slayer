@@ -75,8 +75,11 @@ CTanjiroState * CChangeState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	if (m_bNextAnim == true)
 	{
-		if(m_eStateType == TYPE_START)
+		if (m_eStateType == TYPE_START)
+		{
+			pTanjiro->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
 			return new CIdleState();
+		}
 		else if (m_eStateType == TYPE_LOOP)
 		{
 			return new CChangeState(STATE_TYPE::TYPE_END);
@@ -150,9 +153,7 @@ CTanjiroState* CChangeState::Increase_Height(CTanjiro * pTanjiro, _float fTimeDe
 
 	if (XMVectorGetY(vCurrentPos) > 20.f)
 	{
-		
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
-
 		m_bNextAnim = true;
 	}
 	else

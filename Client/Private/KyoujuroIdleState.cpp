@@ -8,7 +8,7 @@
 #include "KyoujuroGuardHitState.h"
 #include "KyoujuroSkill_Common.h"
 #include "KyoujuroSkill_DoubleUpper.h"
-
+#include "KyoujuroChangeState.h"
 using namespace Kyoujuro;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -146,9 +146,12 @@ CKyoujuroState * CIdleState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
 	if (pKyoujuro->Get_PlayerInfo().bSub)
 	{
-		pKyoujuro->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
+		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
-
+	else if (!pKyoujuro->Get_PlayerInfo().bSub && !pKyoujuro->Get_Change())
+	{
+		return new CChangeState(STATE_TYPE::TYPE_LOOP);
+	}
 
 	return nullptr;
 }
