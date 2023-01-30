@@ -51,8 +51,6 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 		m_pTarget = m_pTarget->Get_SubChar();
 
 	Move_CamPos(fTimeDelta);
-
-	//Lerp_SubCam(fTimeDelta);
 	
 	if (FAILED(Bind_OnPipeLine()))
 		return;

@@ -132,10 +132,10 @@ void CTanjiro::Tick(_float fTimeDelta)
 	else
 		m_tInfo.bJump = false;
 
-	}
-
-
 }
+
+
+
 
 void CTanjiro::Late_Tick(_float fTimeDelta)
 {
