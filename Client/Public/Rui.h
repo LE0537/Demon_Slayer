@@ -120,14 +120,14 @@ public:
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:
-	void HandleInput();
+	void HandleInput(_float fTimeDelta);
 	void TickState(_float fTimeDelta);
 	void LateTickState(_float fTimeDelta);
 
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
 
-	void	Set_ShadowLightPos();
+
 	void	Set_Info();
 
 public:

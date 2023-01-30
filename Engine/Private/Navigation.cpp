@@ -224,6 +224,21 @@ void CNavigation::Find_CurrentCellIndex(_vector vPos)
 	}
 }
 
+_bool CNavigation::Cheak_Cell(_vector vPos)
+{
+	_int		iNeighborIndex = -1;
+
+	for (_int i = 0; i < m_Cells.size(); ++i)
+	{
+		if (m_Cells[i]->isIn(vPos, &iNeighborIndex))
+		{
+			m_NaviDesc.iCurrentCellIndex = i;
+			return true;
+		}
+	}
+	return false;
+}
+
 HRESULT CNavigation::SetUp_Neighbor()
 {
 	for (auto& pSourCell : m_Cells)

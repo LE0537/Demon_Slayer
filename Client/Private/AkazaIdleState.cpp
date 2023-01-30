@@ -177,7 +177,10 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 
 CAkazaState * CIdleState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
-
+	if (pAkaza->Get_PlayerInfo().bSub)
+	{
+		pAkaza->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
+	}
 
 
 	return nullptr;

@@ -67,6 +67,24 @@ void CCharacters::Set_NavigationHeight(_fvector vPosition)
 //}
 
 
+void CCharacters::Set_Change(_bool _bChange, _vector _vPos)
+{
+	m_bChange = _bChange;
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, _vPos);
+}
+
+void CCharacters::Change_Info(PLAYERINFO _tinfo)
+{
+	m_tInfo.iHp = _tinfo.iHp;
+	m_tInfo.iSkBar = _tinfo.iSkBar;
+	m_tInfo.iUnicBar = _tinfo.iUnicBar;
+	m_tInfo.iCombo = _tinfo.iCombo;
+	m_tInfo.fComboTime = _tinfo.fComboTime;
+	m_tInfo.bPowerUp = _tinfo.bPowerUp;
+	m_tInfo.fPowerUpTime = _tinfo.fPowerUpTime;
+	m_tInfo.iFriendBar = _tinfo.iFriendBar;
+}
+
 CGameObject * CCharacters::Clone(void * pArg)
 {
 	//CGameObject*	pInstance = new CCharacters(*this);

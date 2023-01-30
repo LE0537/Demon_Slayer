@@ -144,7 +144,10 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 
 CKyoujuroState * CIdleState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
-
+	if (pKyoujuro->Get_PlayerInfo().bSub)
+	{
+		pKyoujuro->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
+	}
 
 
 	return nullptr;

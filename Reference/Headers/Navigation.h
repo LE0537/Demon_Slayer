@@ -32,6 +32,8 @@ public:
 	HRESULT Render();
 	void	Find_CurrentCellIndex(_vector vPos);
 	void	Navigation_Height(_fvector vecPosition);
+	_bool	Cheak_Cell(_vector vPos);
+
 private:
 	NAVIDESC				m_NaviDesc;
 	vector<class CCell*>	m_Cells;
