@@ -67,7 +67,7 @@ HRESULT CAkaza::Initialize(void * pArg)
 		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
 		m_pSubChar->Set_SubChar(this);
 	}
-	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 	CAkazaState* pState = new CIdleState();
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);

@@ -664,6 +664,15 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Change">
       <UniqueIdentifier>{1af10a8e-44af-4a59-b6f2-e588fbb45542}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\NumTimer">
+      <UniqueIdentifier>{1f3dee65-6f1d-419c-ab3b-289e2e8ef4b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\RoundIcon">
+      <UniqueIdentifier>{9dc73630-76a9-4d9f-82b9-b27d599dbdba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Round">
+      <UniqueIdentifier>{3819d57e-6172-4e53-b5f1-a1fcc79982b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1335,6 +1344,15 @@
     <ClInclude Include="..\Public\RuiChangeState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Change</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\NumTimer.h">
+      <Filter>03.UI\02.Battle\BattleTop\NumTimer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RoundIcon.h">
+      <Filter>03.UI\02.Battle\BattleTop\RoundIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RoundUI.h">
+      <Filter>03.UI\02.Battle\Round</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1978,6 +1996,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiChangeState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Change</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NumTimer.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\NumTimer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RoundIcon.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\RoundIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RoundUI.cpp">
+      <Filter>03.UI\02.Battle\Round</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

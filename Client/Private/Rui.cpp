@@ -75,7 +75,7 @@ HRESULT CRui::Initialize(void * pArg)
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 
 
-	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+//	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 
 	return S_OK;

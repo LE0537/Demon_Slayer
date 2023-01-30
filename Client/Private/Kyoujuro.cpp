@@ -79,7 +79,7 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
-	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 
 

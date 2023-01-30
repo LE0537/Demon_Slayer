@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "PlyChanBarEff.h"
+#include "NumTimer.h"
 #include "GameInstance.h"
 
-CPlyChanBarEff::CPlyChanBarEff(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CNumTimer::CNumTimer(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CPlyChanBarEff::CPlyChanBarEff(const CPlyChanBarEff & rhs)
+CNumTimer::CNumTimer(const CNumTimer & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CPlyChanBarEff::Initialize_Prototype()
+HRESULT CNumTimer::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CPlyChanBarEff::Initialize(void * pArg)
+HRESULT CNumTimer::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -48,18 +48,28 @@ HRESULT CPlyChanBarEff::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CPlyChanBarEff::Tick(_float fTimeDelta)
+void CNumTimer::Tick(_float fTimeDelta)
 {
+	m_fTimer -= fTimeDelta;
+
+	if (m_fTimer <= 0.f)
+		m_fTimer = 100.f;
+
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		m_iFirstNum = (_uint)m_fTimer / 10;
+	else if(m_ThrowUIinfo.iLayerNum == 1)
+		m_iSecondNum = (_uint)m_fTimer % 10;
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void CPlyChanBarEff::Late_Tick(_float fTimeDelta)
+void CNumTimer::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CPlyChanBarEff::Render()
+HRESULT CNumTimer::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -69,16 +79,16 @@ HRESULT CPlyChanBarEff::Render()
 		return E_FAIL;
 
 	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
+		m_pShaderCom->Begin(0);
 	else
 		m_pShaderCom->Begin(1);
 
-	//m_pVIBufferCom->Render();
+	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
-HRESULT CPlyChanBarEff::Ready_Components()
+HRESULT CNumTimer::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -93,7 +103,7 @@ HRESULT CPlyChanBarEff::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_PlyChanBarEff"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_NumTimer"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -103,7 +113,7 @@ HRESULT CPlyChanBarEff::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CPlyChanBarEff::SetUp_ShaderResources()
+HRESULT CNumTimer::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -115,19 +125,24 @@ HRESULT CPlyChanBarEff::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		m_iImgNum = m_iFirstNum;
+	else if (m_ThrowUIinfo.iLayerNum == 1)
+		m_iImgNum = m_iSecondNum;
+	
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CPlyChanBarEff * CPlyChanBarEff::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CNumTimer * CNumTimer::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CPlyChanBarEff*	pInstance = new CPlyChanBarEff(pDevice, pContext);
+	CNumTimer*	pInstance = new CNumTimer(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CPlyChanBarEff"));
+		ERR_MSG(TEXT("Failed to Created : CNumTimer"));
 		Safe_Release(pInstance);
 	}
 
@@ -135,20 +150,20 @@ CPlyChanBarEff * CPlyChanBarEff::Create(ID3D11Device * pDevice, ID3D11DeviceCont
 }
 
 
-CGameObject * CPlyChanBarEff::Clone(void * pArg)
+CGameObject * CNumTimer::Clone(void * pArg)
 {
-	CPlyChanBarEff*	pInstance = new CPlyChanBarEff(*this);
+	CNumTimer*	pInstance = new CNumTimer(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CPlyChanBarEff"));
+		ERR_MSG(TEXT("Failed to Cloned : CNumTimer"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CPlyChanBarEff::Free()
+void CNumTimer::Free()
 {
 	__super::Free();
 
