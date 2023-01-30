@@ -165,7 +165,7 @@ void CUI_Manager::Add_P2_PersonHpUI()
 		m_ThrowInfo.bReversal = iter.bReversal;
 		m_ThrowInfo.iTextureNum = iter.iTextureNum;
 		m_ThrowInfo.pTarget = m_p2P;
-		m_ThrowInfo.pTargetSecond = m_p1P_2;
+		m_ThrowInfo.pTargetSecond = m_p2P_2;
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.bPlyCheck = true;

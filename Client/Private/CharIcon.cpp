@@ -31,7 +31,12 @@ HRESULT CCharIcon::Initialize(void * pArg)
 		return E_FAIL;
 
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
-		Icon_Selected_GamePlay(m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName);
+	{
+		if(m_ThrowUIinfo.iLayerNum = 0)
+			Icon_Selected_GamePlay(m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName);
+	/*	else
+			Icon_Selected_GamePlay(m_ThrowUIinfo.pTargetSecond->Get_PlayerInfo().strName);*/
+	}
 	
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 	{
