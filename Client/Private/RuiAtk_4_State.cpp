@@ -254,8 +254,12 @@ CRuiState * CAtk_4_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
 			vPos.m128_f32[1] = 0.f;
-			pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			if (pRui->Get_NavigationCom()->Cheak_Cell(vPos))
+				pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pRui->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pRui->Get_NavigationCom());
 		}
 	}
 

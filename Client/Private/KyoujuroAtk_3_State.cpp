@@ -148,8 +148,12 @@ CKyoujuroState * CAtk_3_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
 			vPos.m128_f32[1] = 0.f;
-			pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			if (pKyoujuro->Get_NavigationCom()->Cheak_Cell(vPos))
+				pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pKyoujuro->Get_NavigationCom());
 		}
 	}
 	else if(m_fMove < 1.f)

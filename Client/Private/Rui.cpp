@@ -45,23 +45,31 @@ HRESULT CRui::Initialize(void * pArg)
 	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
 	Set_Info();
-
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	if (m_i1p == 1)
+	m_tInfo.bSub = tCharacterDesc.bSub;
+	m_bChange = tCharacterDesc.bSub;
+	if (!m_tInfo.bSub)
 	{
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
+		if (m_i1p == 1)
+		{
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
-		CUI_Manager::Get_Instance()->Set_1P(this);
+			CUI_Manager::Get_Instance()->Set_1P(this);
+		}
+		else if (m_i1p == 2)
+		{
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+			CUI_Manager::Get_Instance()->Set_2P(this);
+		}
+		RELEASE_INSTANCE(CGameInstance);
 	}
-	else if (m_i1p == 2)
+	else
 	{
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-
-		CUI_Manager::Get_Instance()->Set_2P(this);
+		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
+		m_pSubChar->Set_SubChar(this);
 	}
-	RELEASE_INSTANCE(CGameInstance);
-
 
 	CRuiState* pState = new CIdleState();
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
@@ -75,50 +83,48 @@ HRESULT CRui::Initialize(void * pArg)
 
 void CRui::Tick(_float fTimeDelta)
 {
-	/*
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	if (!m_tInfo.bSub)
+	{
+		m_fDelta = fTimeDelta;
+		if (m_tInfo.fHitTime > 0.f)
+			m_tInfo.fHitTime -= fTimeDelta;
 
-	//if (pGameInstance->Key_Down(DIK_F5))	
-	//{
-	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
-	//	char cName[MAX_PATH];
-	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
-	//	pData_Manager->TCtoC(TEXT("Rui"), cName);
-	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
-	//	ERR_MSG(TEXT("Save_Bin_Rui"));
-	//	RELEASE_INSTANCE(CData_Manager);
-	//}
+		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
+			HandleInput(fTimeDelta);
 
-	RELEASE_INSTANCE(CGameInstance);
-*/
+		TickState(fTimeDelta);
 
-	HandleInput(); 
-	TickState(fTimeDelta);
 
-	
-	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
-	if (nullptr == pSocket)
-		return;
-	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+		if (nullptr == pSocket)
+			return;
+		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
-	m_pSphereCom->Update(matColl);
+		m_pSphereCom->Update(matColl);
 
-	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP)
+
+	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP || m_pRuiState->Get_RuiState() == CRuiState::STATE_CHANGE)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
+
+	}
+
 }
 
 void CRui::Late_Tick(_float fTimeDelta)
 {
-	LateTickState(fTimeDelta);
-
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
-	if (g_bCollBox)
+	if (!m_tInfo.bSub)
 	{
-		m_pRendererCom->Add_Debug(m_pSphereCom);
+		LateTickState(fTimeDelta);
+
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+		if (g_bCollBox)
+		{
+			m_pRendererCom->Add_Debug(m_pSphereCom);
+		}
 	}
 }
 
@@ -145,6 +151,65 @@ HRESULT CRui::Render()
 			return E_FAIL;
 
 		//aiTextureType_AMBIENT
+	}
+	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+	vPos.m128_f32[1] = 0.f;
+	switch (m_i1p)
+	{
+	case 1:
+		if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_U))
+		{
+			m_fChangeTime += m_fDelta;
+			if (m_fChangeTime > 0.5f)
+			{
+				m_tInfo.iFriendBar -= 500;
+				m_tInfo.bSub = true;
+				CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
+				m_pSubChar->Set_Sub(false);
+				m_pSubChar->Set_Change(false, vPos);
+				m_pSubChar->Change_Info(m_tInfo);
+				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+				if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront()))
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);
+				else
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(m_pSubChar);
+				m_fChangeTime = 0.f;
+			}
+		}
+		else
+		{
+			m_fChangeTime = 0.f;
+		}
+		break;
+	case 2:
+		if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_V))
+		{
+			m_fChangeTime += m_fDelta;
+			if (m_fChangeTime > 0.5f)
+			{
+				m_tInfo.iFriendBar -= 500;
+				m_tInfo.bSub = true;
+				CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
+				m_pSubChar->Set_Sub(false);
+				m_pSubChar->Set_Change(false, vPos);
+				m_pSubChar->Change_Info(m_tInfo);
+				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+				if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront()))
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(m_pSubChar);
+				else
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);
+				m_fChangeTime = 0.f;
+			}
+		}
+		else
+		{
+			m_fChangeTime = 0.f;
+		}
+		break;
+	default:
+		break;
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -240,22 +305,6 @@ HRESULT CRui::Ready_Components()
 }
 
 
-void CRui::Set_ShadowLightPos()
-{
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-	_float4 vPos;
-	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
-	_float4 vAt = vPos;
-
-	vPos.x -= 15.f;
-	vPos.y += 30.f;
-	vPos.z -= 30.f;
-
-	pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW, vPos, vAt);
-
-	RELEASE_INSTANCE(CGameInstance);
-}
 
 void CRui::Set_Info()
 {
@@ -273,7 +322,7 @@ void CRui::Set_Info()
 	m_tInfo.bPowerUp = false;
 	m_tInfo.fPowerUpTime = 0.f;
 	m_tInfo.iFriendMaxBar = 1000;
-	m_tInfo.iFriendBar = 0;
+	m_tInfo.iFriendBar = m_tInfo.iFriendMaxBar;
 	m_tInfo.bGuard = false;
 }
 
@@ -283,12 +332,13 @@ void CRui::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 }
 
-void CRui::HandleInput()
+void CRui::HandleInput(_float fTimeDelta)
 {
 	CRuiState* pNewState = m_pRuiState->HandleInput(this);
 
 	if (pNewState)
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pNewState);
+
 }
 
 

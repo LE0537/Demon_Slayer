@@ -57,6 +57,11 @@ public:
 		ANIM_JUMP_END = 59,
 
 
+		// change
+		ANIM_CHANGE_UP = 57,
+		ANIM_CHANGE_DOWN_START = 58,
+		ANIM_CHANGE_DOWN_END = 59,
+
 		// GUARD
 		ANIM_GUARD_0 = 50,
 		ANIM_GUARD_1 = 51,
@@ -115,14 +120,14 @@ public:
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:
-	void HandleInput();
+	void HandleInput(_float fTimeDelta);
 	void TickState(_float fTimeDelta);
 	void LateTickState(_float fTimeDelta);
 
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
 
-	void	Set_ShadowLightPos();
+
 	void	Set_Info();
 
 public:

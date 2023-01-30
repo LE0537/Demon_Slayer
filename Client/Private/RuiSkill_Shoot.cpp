@@ -127,10 +127,6 @@ void CSkill_ShootState::Enter(CRui* pRui)
 		break;
 	}
 
-
-	
-
-
 }
 
 void CSkill_ShootState::Exit(CRui* pRui)

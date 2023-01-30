@@ -162,6 +162,8 @@ _uint CSelP2Cursor::Cursor_To_SelFrame()
 		return 2;
 	else if (m_fX == 770.f)
 		return 3;
+	else
+		return 0;
 }
 
 void CSelP2Cursor::Move_Cursor()

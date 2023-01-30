@@ -98,7 +98,7 @@ CTanjiroState * CHitState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 }
 void CHitState::Exit(CTanjiro * pTanjiro)
 {
-	
+	pTanjiro->Set_HitTime(0.2f);
 }
 
 

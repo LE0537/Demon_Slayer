@@ -53,7 +53,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 
 	if (m_fTime < 0.5f)
 	{
-		pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.7, pKyojuro->Get_NavigationCom());
+		pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.7f, pKyojuro->Get_NavigationCom());
 
 		if (!m_bHit && m_fTime > 0.3f)
 		{
@@ -121,8 +121,12 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
 			vPos.m128_f32[1] = 0.f;
-			pKyojuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			if (pKyojuro->Get_NavigationCom()->Cheak_Cell(vPos))
+				pKyojuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pKyojuro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pKyojuro->Get_NavigationCom());
 		}
 	}
 	else if (m_fTime >= 0.5f)

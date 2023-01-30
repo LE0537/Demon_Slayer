@@ -71,7 +71,15 @@ _bool CNavigation::isMove(_fvector vPosition, _fvector vMoveDir, _Out_ _float3 *
 
 	/* 현재 존재하는 쎌안에서 움직였다. */
 	if (true == m_Cells[m_NaviDesc.iCurrentCellIndex]->isIn(vPosition, &iNeighborIndex))
+	{
+		if (m_bHeight == true)
+		{
+			Navigation_Height(vPosition);
+			m_bHeight = false;
+		}
+
 		return true;
+	}
 
 	/* 현재 존재하는 쎌을 벗어난다.  */
 	else
@@ -130,6 +138,37 @@ _float3 * CNavigation::Get_CellPoints()
 }
 
 
+void CNavigation::Navigation_Height(_fvector vecPosition)
+{
+	_float fDistance = 0.f;
+
+	_vector vRayPos = vecPosition;
+
+	vRayPos += XMVectorSet(0.f, 10.f, 0.f, 1.f);
+	vRayPos = XMVectorSetW(vRayPos, 1.f);
+
+	_vector vRayDir = XMVectorSet(0.f, -1.f, 0.f, 0.f);
+
+	for (_uint i = 0; i < m_Cells.size(); i++)
+	{
+		_vector vPointA = XMLoadFloat3(m_Cells[i]->Get_Point(CCell::POINT::POINT_A));
+		vPointA = XMVectorSetW(vPointA, 1.f);
+		_vector vPointB = XMLoadFloat3(m_Cells[i]->Get_Point(CCell::POINT::POINT_B));
+		vPointB = XMVectorSetW(vPointB, 1.f);
+		_vector vPointC = XMLoadFloat3(m_Cells[i]->Get_Point(CCell::POINT::POINT_C));
+		vPointC = XMVectorSetW(vPointC, 1.f);
+
+		if (TriangleTests::Intersects(vRayPos, vRayDir, vPointA, vPointB, vPointC, fDistance))
+		{
+			_vector vHeight = vRayPos + vRayDir * fDistance;
+			XMStoreFloat4(&m_vPlayerHeight, vHeight);
+		}
+	}
+
+
+
+}
+
 HRESULT CNavigation::Render()
 {
 	_float4x4			WorldMatrix;
@@ -183,6 +222,21 @@ void CNavigation::Find_CurrentCellIndex(_vector vPos)
 			return;
 		}
 	}
+}
+
+_bool CNavigation::Cheak_Cell(_vector vPos)
+{
+	_int		iNeighborIndex = -1;
+
+	for (_int i = 0; i < m_Cells.size(); ++i)
+	{
+		if (m_Cells[i]->isIn(vPos, &iNeighborIndex))
+		{
+			m_NaviDesc.iCurrentCellIndex = i;
+			return true;
+		}
+	}
+	return false;
 }
 
 HRESULT CNavigation::SetUp_Neighbor()

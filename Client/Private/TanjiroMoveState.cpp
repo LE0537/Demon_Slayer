@@ -11,6 +11,7 @@
 #include "TanjiroSkill_WaterMill.h"
 #include "TanjiroSkill_WindMill.h"
 #include "TanjiroKaguraSkill_Move.h"
+#include "TanjiroKaguraSkill_Sphere.h"
 using namespace Tanjiro;
 
 
@@ -35,11 +36,22 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Down(DIK_O))
 			{
-				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (pTanjiro->Get_KaguraMode())
 				{
-					pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
-					pTanjiro->Set_SkillBar(-200);
-					return new CSkill_WindMillState();
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_SphereState();
+					}
+				}
+				else
+				{
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_WindMillState();
+					}
 				}
 			}
 			else
@@ -195,11 +207,22 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Down(DIK_C))
 			{
-				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				if (pTanjiro->Get_KaguraMode())
 				{
-					pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
-					pTanjiro->Set_SkillBar(-200);
-					return new CSkill_WindMillState();
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_SphereState();
+					}
+				}
+				else
+				{
+					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					{
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_WindMillState();
+					}
 				}
 			}
 			else
@@ -388,6 +411,10 @@ CTanjiroState * CMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	Move(pTanjiro, fTimeDelta);
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (pTanjiro->Get_PlayerInfo().bSub)
+	{
+		return new CIdleState();
+	}
 
 	return nullptr;
 }
@@ -482,8 +509,13 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		vPos += vMyLook * (fSpeed - fSpeed * fPow);
 		vTargetPos += vTargetLook * fSpeed * fPow;
 		vPos.m128_f32[1] = 0.f;
-		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+		if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos))
+			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+		else
+			pTanjiro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pTanjiro->Get_NavigationCom());
+
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
