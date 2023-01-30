@@ -95,6 +95,8 @@ void CToolState::Enter(CKyoujuro * pKyoujuro)
 	else if (m_iAnimIndex_Third == -1)
 		m_iAnimIndex_Third = CKyoujuro::ANIM_IDLE;
 
+
+
 	switch (m_eStateType)
 	{
 	case Client::CKyoujuroState::TYPE_START:
@@ -114,6 +116,8 @@ void CToolState::Enter(CKyoujuro * pKyoujuro)
 		break;
 	}
 
+
+	pKyoujuro->Get_Model()->Set_FrameNum(pKyoujuro->Get_AnimIndex(), 100);
 }
 
 void CToolState::Exit(CKyoujuro * pKyoujuro)

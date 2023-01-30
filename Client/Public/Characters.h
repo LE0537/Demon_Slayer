@@ -56,6 +56,7 @@ public:
 	PLAYERINFO Get_PlayerInfo() { return m_tInfo; }
 	void	   Set_Hp(_int _iDmg) { m_tInfo.iHp += _iDmg; }
 	void	   Set_bGuard(_bool _bGuard) { m_tInfo.bGuard = _bGuard; }
+	void	   Set_JumpState(_bool bJump) { m_tInfo.bJump = bJump; }
 	void	   Set_BattleTarget(CCharacters* _BattleTarget) { m_pBattleTarget = _BattleTarget; }
 	CCharacters*	Get_BattleTarget() { return m_pBattleTarget; }
 	CCollider* Get_SphereCollider() { return m_pSphereCom; }
