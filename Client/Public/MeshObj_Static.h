@@ -14,6 +14,7 @@ public:
 	typedef struct tagMeshObj_Static_Desc
 	{
 		_float4x4	matWorld;
+		_float		fGlowPower;
 		_uint		iCurrentLevel;
 
 		_uint		iModelIndex;

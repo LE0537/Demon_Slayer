@@ -40,7 +40,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Load_Map(L"Layer_BackGround", "11_Map")))
+	if (FAILED(Load_Map(L"Layer_BackGround", "11_Map_Rui")))
 		return E_FAIL;
 
 //	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
@@ -411,39 +411,52 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 	DWORD		dwByte = 0;
 	_float4x4*	pWorld = new _float4x4;
 	_int*		pMeshIndex = new _int;
+	_float*		pGlowPower = new _float;
+
+	struct MAPOBJDESC
+	{
+		_float4x4		matWorld;
+		_float			fGlowPower;
+	};
 
 	//	<갯수 <메쉬넘버, 월드>>
-	map<_uint, vector<_float4x4>>		map_MeshIdx_World;
-	map<_uint, _uint>					map_MeshIdx_Num;
+	map<_uint, vector<MAPOBJDESC>>			map_MeshIdx_MapObjDesc;
+	map<_uint, _uint>						map_MeshIdx_Num;
 
 	while (true)
 	{
 		ReadFile(hFile, pMeshIndex, sizeof(_int), &dwByte, nullptr);
+		ReadFile(hFile, pGlowPower, sizeof(_float), &dwByte, nullptr);
 		ReadFile(hFile, pWorld, sizeof(_float4x4), &dwByte, nullptr);
 
 		if (0 == dwByte)
 		{
 			Safe_Delete(pWorld);
 			Safe_Delete(pMeshIndex);
+			Safe_Delete(pGlowPower);
 			break;
 		}
 
 
-		_uint	iCount = (_uint)map_MeshIdx_World.count(*pMeshIndex);
+		MAPOBJDESC	tMapObjDesc;
+		tMapObjDesc.matWorld = *pWorld;
+		tMapObjDesc.fGlowPower = *pGlowPower;
+
+		_uint	iCount = (_uint)map_MeshIdx_MapObjDesc.count(*pMeshIndex);
 		if (!iCount)
 		{
-			std::vector<_float4x4>		vecWorld;
-			vecWorld.push_back(*pWorld);
-			map_MeshIdx_World.emplace(*pMeshIndex, vecWorld);
+			std::vector<MAPOBJDESC>		vecWorld;
+			vecWorld.push_back(tMapObjDesc);
+			map_MeshIdx_MapObjDesc.emplace(*pMeshIndex, vecWorld);
 		}
 		else
 		{
-			auto Pair = map_MeshIdx_World.find(*pMeshIndex);
-			std::vector<_float4x4>		vecWorld = Pair->second;
-			vecWorld.push_back(*pWorld);
+			auto Pair = map_MeshIdx_MapObjDesc.find(*pMeshIndex);
+			std::vector<MAPOBJDESC>		vecObjDesc = Pair->second;
+			vecObjDesc.push_back(tMapObjDesc);
 
-			map_MeshIdx_World.erase(Pair);
-			map_MeshIdx_World.emplace(*pMeshIndex, vecWorld);
+			map_MeshIdx_MapObjDesc.erase(Pair);
+			map_MeshIdx_MapObjDesc.emplace(*pMeshIndex, vecObjDesc);
 		}
 
 		iCount = (_uint)map_MeshIdx_Num.count(*pMeshIndex);
@@ -480,12 +493,15 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 			_uint iNumInstancing = Pair.second;
 			CMeshObj_Static_Inst::MESHOBJ_STATIC_INSTANCING_DESC tMeshObj_Static_InstDesc;
 			_float4x4*		arrWorld = new _float4x4[iNumInstancing];
+			_float*			arrGlowPower = new _float[iNumInstancing];
 			for (_uint i = 0; i < iNumInstancing; ++i)
 			{
-				arrWorld[i] = map_MeshIdx_World.find(Pair.first)->second[i];
+				arrWorld[i] = map_MeshIdx_MapObjDesc.find(Pair.first)->second[i].matWorld;
+				arrGlowPower[i] = map_MeshIdx_MapObjDesc.find(Pair.first)->second[i].fGlowPower;
 			}
 
 			tMeshObj_Static_InstDesc.pWorld = arrWorld;
+			tMeshObj_Static_InstDesc.pGlowPower = arrGlowPower;
 			tMeshObj_Static_InstDesc.iCurrentLevel = LEVEL_GAMEPLAY;
 			tMeshObj_Static_InstDesc.iModelIndex = Pair.first;
 			tMeshObj_Static_InstDesc.iNumInstancing = iNumInstancing;
@@ -502,21 +518,22 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 		{
 			for (_uint i = 0; i < Pair.second; ++i)
 			{
-				auto Pair_World = map_MeshIdx_World.find(Pair.first);
-				std::vector<_float4x4>		vecWorld = Pair_World->second;
+				auto Pair_World = map_MeshIdx_MapObjDesc.find(Pair.first);
+				std::vector<MAPOBJDESC>		vecObjDesc = Pair_World->second;
 
-				_uint	iCount = (_uint)vecWorld.size();
-				_float4x4	matWorld4x4 = vecWorld[iCount - 1];
-				vecWorld.pop_back();
+				_uint	iCount = (_uint)vecObjDesc.size();
+				MAPOBJDESC	tMapObjDesc = vecObjDesc[iCount - 1];
+				vecObjDesc.pop_back();
 
-				map_MeshIdx_World.erase(Pair_World);
-				map_MeshIdx_World.emplace(Pair.first, vecWorld);
+				map_MeshIdx_MapObjDesc.erase(Pair_World);
+				map_MeshIdx_MapObjDesc.emplace(Pair.first, vecObjDesc);
 
 
 				CMeshObj_Static::MESHOBJ_STATIC_DESC tMeshObj_StaticDesc;
 				tMeshObj_StaticDesc.iCurrentLevel = LEVEL_GAMEPLAY;
 				tMeshObj_StaticDesc.iModelIndex = Pair.first;
-				tMeshObj_StaticDesc.matWorld = matWorld4x4;
+				tMeshObj_StaticDesc.matWorld = tMapObjDesc.matWorld;
+				tMeshObj_StaticDesc.fGlowPower = tMapObjDesc.fGlowPower;
 
 				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static", LEVEL_GAMEPLAY, L"Layer_MeshObj_Static", &tMeshObj_StaticDesc)))
 				{

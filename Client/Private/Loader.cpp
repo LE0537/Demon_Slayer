@@ -940,6 +940,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
 		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Moon", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Rect/Moon/Moon.fbx", PivotMatrix)))) 
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Moon_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Ground.fbx", PivotMatrix)))) return E_FAIL;
+
 
 		//	MeshObj_Static
 		/*For.Prototype_GameObject_MeshObj_Static */

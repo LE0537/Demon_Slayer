@@ -202,6 +202,7 @@ HRESULT CMeshObj_Static_Inst::SetUp_ShaderResources()
 
 	RELEASE_INSTANCE(CGameInstance);
 
+
 	return S_OK;
 }
 
@@ -264,12 +265,12 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2043: lstrcpy(pPrototypeTag_Model, L"Leaf3_Instancing"); break;
 	case 2044: lstrcpy(pPrototypeTag_Model, L"Leaf4_Instancing"); break;
 
-	case 2045: lstrcpy(pPrototypeTag_Model, L"Hill_Far1_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2046: lstrcpy(pPrototypeTag_Model, L"Hill_Far2_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2047: lstrcpy(pPrototypeTag_Model, L"Hill_Far3_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2048: lstrcpy(pPrototypeTag_Model, L"Hill_Far4_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2049: lstrcpy(pPrototypeTag_Model, L"Hill_Far5_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2050: lstrcpy(pPrototypeTag_Model, L"Hill_Far6_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2045: lstrcpy(pPrototypeTag_Model, L"Hill_Far1_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2046: lstrcpy(pPrototypeTag_Model, L"Hill_Far2_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2047: lstrcpy(pPrototypeTag_Model, L"Hill_Far3_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2048: lstrcpy(pPrototypeTag_Model, L"Hill_Far4_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2049: lstrcpy(pPrototypeTag_Model, L"Hill_Far5_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2050: lstrcpy(pPrototypeTag_Model, L"Hill_Far6_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
 
 	case 2051: lstrcpy(pPrototypeTag_Model, L"Wall1_Instancing"); m_fFrustumRadiusRatio = 30.f; break;
 	case 2052: lstrcpy(pPrototypeTag_Model, L"Wall2_Instancing"); m_fFrustumRadiusRatio = 30.f; break;
@@ -293,10 +294,10 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 
 	case 2067: lstrcpy(pPrototypeTag_Model, L"RiceField1_Instancing"); m_fFrustumRadiusRatio = 120.f; break;
 
-	case 2068: lstrcpy(pPrototypeTag_Model, L"RuiGround_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2069: lstrcpy(pPrototypeTag_Model, L"UrokodakiGround_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2068: lstrcpy(pPrototypeTag_Model, L"RuiGround_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2069: lstrcpy(pPrototypeTag_Model, L"UrokodakiGround_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
 
-	case 2070: lstrcpy(pPrototypeTag_Model, L"RuiGround2_Instancing"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2070: lstrcpy(pPrototypeTag_Model, L"RuiGround2_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
 	case 2071: lstrcpy(pPrototypeTag_Model, L"Home1_Instancing"); break;
 	case 2072: lstrcpy(pPrototypeTag_Model, L"Rubble1_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
 	case 2073: lstrcpy(pPrototypeTag_Model, L"Rubble2_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
@@ -307,8 +308,10 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2078: lstrcpy(pPrototypeTag_Model, L"SpiderWeb8_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
 	case 2079: lstrcpy(pPrototypeTag_Model, L"SpiderWeb9_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
 	case 2080: lstrcpy(pPrototypeTag_Model, L"Tree_Jenitsu_Instancing"); m_fFrustumRadiusRatio = 70.f; break;
-	case 2081: lstrcpy(pPrototypeTag_Model, L"TreeFar2_Instancing"); m_fFrustumRadiusRatio = 5.f; ; break;
-	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3_Instancing"); m_fFrustumRadiusRatio = 5.f; ; break;
+	case 2081: lstrcpy(pPrototypeTag_Model, L"TreeFar2_Instancing"); m_fFrustumRadiusRatio = 5.f; break;
+	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3_Instancing"); m_fFrustumRadiusRatio = 5.f; break;
+
+	case 2083: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Moon_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
 
 	}
 

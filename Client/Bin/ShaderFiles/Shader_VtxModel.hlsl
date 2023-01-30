@@ -4,6 +4,8 @@
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;
 
+float			g_fGlowPower;
+texture2D		g_GlowTexture;
 
 struct VS_IN
 {
@@ -58,7 +60,7 @@ struct PS_OUT
 	float4		vDiffuse : SV_TARGET0;
 	float4		vNormal : SV_TARGET1;
 	float4		vDepth : SV_TARGET2;
-
+	float4		vGlow : SV_TARGET3;
 };
 struct PS_OUT_SHADOW
 {
@@ -74,9 +76,9 @@ PS_OUT PS_MAIN(PS_IN In)
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 500.f, 0.f, 0.f);
+	Out.vGlow = g_GlowTexture.Sample(LinearSampler, In.vTexUV) * g_fGlowPower;
 
-
-	if (Out.vDiffuse.a <= 0.3f)
+	if (Out.vDiffuse.a <= 0.1f)
 		discard;
 
 	return Out;
