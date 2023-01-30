@@ -35,7 +35,6 @@ CAkazaState * CChangeState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 			break;
 		case Client::CAkazaState::TYPE_LOOP:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			//return new CChangeState(CTanjiroState::TYPE_END);
 			break;
 		case Client::CAkazaState::TYPE_END:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());

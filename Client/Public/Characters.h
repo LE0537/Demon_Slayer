@@ -54,6 +54,7 @@ public:
 		_bool		bJump;
 		_float		fHitTime;
 		_bool		bSub;
+		_bool		bChange;
 	}PLAYERINFO;
 
 public:
@@ -77,7 +78,7 @@ public:
 	CCharacters* 	  Get_SubChar() { return m_pSubChar; }
 	_float     Get_ChangeTime() { return m_fChangeTime; }
 	void	   Change_Info(PLAYERINFO _tinfo);
-
+	void	   Set_ChangeInfo(_bool _bChange) { m_tInfo.bChange = _bChange; }
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
 protected:
