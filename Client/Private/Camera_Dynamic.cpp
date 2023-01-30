@@ -43,6 +43,11 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
+	if (m_pPlayer->Get_PlayerInfo().bSub)
+		m_pPlayer = m_pPlayer->Get_SubChar();
+	if (m_pTarget->Get_PlayerInfo().bSub)
+		m_pTarget = m_pTarget->Get_SubChar();
+
 	Set_CamPos();
 
 	Move_CamPos(fTimeDelta);
@@ -56,7 +61,10 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 {
 	__super::Late_Tick(fTimeDelta);
-
+	//if (m_pPlayer->Get_PlayerInfo().bSub)
+	//	m_pPlayer = m_pPlayer->Get_SubChar();
+	//if (m_pTarget->Get_PlayerInfo().bSub)
+	//	m_pTarget = m_pTarget->Get_SubChar();
 	if (!m_bBattle)
 	{
 		Set_BattleTarget();
@@ -68,7 +76,6 @@ HRESULT CCamera_Dynamic::Render()
 {
 	if (FAILED(__super::Render()))
 		return E_FAIL;
-
 
 	return S_OK;
 }

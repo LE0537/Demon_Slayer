@@ -43,7 +43,7 @@ void CInkEff::Tick(_float fTimeDelta)
 
 	m_fSpriteTime += fTimeDelta;
 
-	if (m_fSpriteTime >= 0.05f)
+	if (m_fSpriteTime >= 0.03f)
 	{
 		++m_iFrame;
 		m_fSpriteTime = 0.f;

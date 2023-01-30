@@ -83,6 +83,9 @@
 #include "UltStockNum.h"
 #include "KeyUI.h"
 #include "SelStamp.h"
+#include "RoundIcon.h"
+#include "RoundUI.h"
+#include "NumTimer.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -164,6 +167,18 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 #pragma region BattleUI
 		//Battle
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_NumTimer"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Num_Timer/Num_Timer%d.png"), 10))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_RoundIcon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Icon_Round_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_RoundUI"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/RoundUI/Round_%d.png"), 5))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_RoundJudgmentUI"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/RoundUI/Round_Judgment_%d.png"), 3))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharMask"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Mask_Chara_%d.png"), 4))))
 			return E_FAIL;
@@ -935,6 +950,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Moon", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Rect/Moon/Moon.fbx", PivotMatrix)))) 
 			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_MoonLight", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Rect/Moon/MoonLight.fbx", PivotMatrix))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Moon_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Ground.fbx", PivotMatrix)))) return E_FAIL;
 
 
@@ -1273,226 +1290,180 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI객체
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NumTimer"),
+		CNumTimer::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RoundIcon"),
+		CRoundIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RoundUI"),
+		CRoundUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelStamp"),
 		CSelStamp::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KeyUI"),
 		CKeyUI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltStockNum"),
 		CUltStockNum::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltStockFrame"),
 		CUltStockFrame::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltStockEff"),
 		CUltStockEff::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltGaugeDeco"),
 		CUltGaugeDeco::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltStockBase"),
 		CUltStockBase::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltBar"),
 		CUltBar::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PersonChanBarEff"),
 		CPlyChanBarEff::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_OniChanBarEff"),
 		COniChanBarEff::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GaugeLight"),
 		CGaugeLight::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BtlFixedImg"),
 		CBtlFixedImg::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_InkEff"),
 		CInkEff::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuBackDeco"),
 		CMenuBackDeco::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-	
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuChar"),
 		CMenuChar::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-	
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuCursor"),
 		CMenuCursor::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuDarkCloud"),
 		CMenuDarkCloud::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuFixedImg"),
 		CMenuFixedImg::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuFrontCloud"),
 		CMenuFrontCloud::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuTitle"),
 		CMenuTitle::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LogoBackEff"),
 		CLogoBackEff::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LogoBackLight"),
 		CLogoBackLight::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LogoButton"),
 		CLogoButton::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LogoFixedImg"),
 		CLogoFixedImg::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelectBg"),
 		CSelectBG::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PatternWind"),
 		CPatternWind::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PatternOne"),
 		CPatternOne::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CloudUI"),
 		CCloudUI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_PlayerNumIcon"),
 		CPlayerNumIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharSelBg"),
 		CCharSelBg::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WindowBase"),
 		CWindowBase::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WindowLeft"),
 		CWindowLeft::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_WindowRight"),
 		CWindowRight::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharFrameEff"),
 		CCharFrameEff::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SleNameShadow"),
 		CSelNameShadow::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharFrame"),
 		CCharFrame::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharIcon"),
 		CCharIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_P1Cursor"),
 		CSelP1Cursor::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_P2Cursor"),
 		CSelP2Cursor::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_OniIcon"),
 		COniIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_1P_Icon"),
 		C1PIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_2P_Icon"),
 		C2PIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_OniLight"),
 		CSelOniLight::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_1P_MainOnBase"),
 		C1PMainOnBase::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_2P_MainOnBase"),
 		C2PMainOnBase::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharNameUI"),
 		CCharNameUI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_HpBar"),
 		CHpBar::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_HpBarDeco"),
 		CHpBarDeco::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_HpBarBack"),
 		CHpBarBack::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_GaugeBase"),
 		CGaugeBase::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkillBar"),
 		CSkillBar::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkillBarParts"),
 		CSkillBarParts::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChangeBaseDeco"),
 		CChangeBaseDeco::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChangeSprt"),
 		CChangeSprt::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChangeIcon"),
 		CChangeIcon::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-
 #pragma endregion UI객체
 
 	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));

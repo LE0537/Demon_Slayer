@@ -65,7 +65,7 @@ HRESULT CNezuko::Initialize(void * pArg)
 	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 
 
-	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	return S_OK;
 }
 

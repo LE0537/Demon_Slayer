@@ -83,10 +83,12 @@ void CMeshObj_Static::Late_Tick(_float fTimeDelta)
 	_matrix		matWorld = m_pTransformCom->Get_WorldMatrix();
 	_float	fLength = m_fFrustumRadiusRatio * max(max(XMVectorGetX(XMVector3Length(matWorld.r[CTransform::STATE_RIGHT])), XMVectorGetX(XMVector3Length(matWorld.r[CTransform::STATE_UP]))), XMVectorGetX(XMVector3Length(matWorld.r[CTransform::STATE_LOOK])));
 
-	if (true == pGameInstance->IsInFrustum(matWorld.r[CTransform::STATE_TRANSLATION], fLength))
+	if (nullptr != m_pRendererCom)
 	{
-		if (nullptr != m_pRendererCom)
+		if (false == m_tMyDesc.bAlphaBlend)
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+		else
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -114,9 +116,16 @@ HRESULT CMeshObj_Static::Render()
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-			return E_FAIL;
-
+		if (false == m_tMyDesc.bAlphaBlend)
+		{
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))	//	Alphablending
+				return E_FAIL;
+		}
 	}
 
 
@@ -245,12 +254,12 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2043: lstrcpy(pPrototypeTag_Model, L"Leaf3"); break;
 	case 2044: lstrcpy(pPrototypeTag_Model, L"Leaf4"); break;
 
-	case 2045: lstrcpy(pPrototypeTag_Model, L"Hill_Far1"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2046: lstrcpy(pPrototypeTag_Model, L"Hill_Far2"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2047: lstrcpy(pPrototypeTag_Model, L"Hill_Far3"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2048: lstrcpy(pPrototypeTag_Model, L"Hill_Far4"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2049: lstrcpy(pPrototypeTag_Model, L"Hill_Far5"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2050: lstrcpy(pPrototypeTag_Model, L"Hill_Far6"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2045: lstrcpy(pPrototypeTag_Model, L"Hill_Far1"); m_fFrustumRadiusRatio = 20000.f; break;
+	case 2046: lstrcpy(pPrototypeTag_Model, L"Hill_Far2"); m_fFrustumRadiusRatio = 20000.f; break;
+	case 2047: lstrcpy(pPrototypeTag_Model, L"Hill_Far3"); m_fFrustumRadiusRatio = 20000.f; break;
+	case 2048: lstrcpy(pPrototypeTag_Model, L"Hill_Far4"); m_fFrustumRadiusRatio = 20000.f; break;
+	case 2049: lstrcpy(pPrototypeTag_Model, L"Hill_Far5"); m_fFrustumRadiusRatio = 20000.f; break;
+	case 2050: lstrcpy(pPrototypeTag_Model, L"Hill_Far6"); m_fFrustumRadiusRatio = 20000.f; break;
 
 	case 2051: lstrcpy(pPrototypeTag_Model, L"Wall1"); m_fFrustumRadiusRatio = 30.f; break;
 	case 2052: lstrcpy(pPrototypeTag_Model, L"Wall2"); m_fFrustumRadiusRatio = 30.f; break;
@@ -292,6 +301,7 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3"); m_fFrustumRadiusRatio = 5.f; break;
 
 	case 2083: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Moon"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2084: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_MoonLight"); m_fFrustumRadiusRatio = 2000.f; break;
 	}
 
 

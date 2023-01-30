@@ -79,7 +79,7 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
-	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 
 
@@ -111,11 +111,11 @@ void CKyoujuro::Tick(_float fTimeDelta)
 
 
 
-	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_JUMP || m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_CHANGE)
-		m_tInfo.bJump = true;
-	else
-		m_tInfo.bJump = false;
-
+		if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_JUMP
+			|| m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_CHANGE)
+			m_tInfo.bJump = true;
+		else
+			m_tInfo.bJump = false;
 	}
 
 }
@@ -179,28 +179,30 @@ HRESULT CKyoujuro::Render()
 				return E_FAIL;
 		}
 	}
-	_vector vPos = m_pSubChar->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 	vPos.m128_f32[1] += 20.f;
 	switch (m_i1p)
 	{
 	case 1:
-		if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_U))
+		if (m_tInfo.iFriendBar >= 100 && pGameInstance->Key_Pressing(DIK_U))
 		{
 			m_fChangeTime += m_fDelta;
 			if (m_fChangeTime > 0.5f)
 			{
-				m_tInfo.iFriendBar -= 500;
+				m_tInfo.iFriendBar -= 100;
 				m_tInfo.bSub = true;
 				CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
+				CUI_Manager::Get_Instance()->Set_1P_2(this);
 				m_pSubChar->Set_Sub(false);
-				m_pSubChar->Set_Change(false, vPos);
 				m_pSubChar->Change_Info(m_tInfo);
+				m_pSubChar->Set_ChangeInfo(true);
+				m_pSubChar->Set_Change(false, vPos);
 				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
-				if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront()))
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);
-				else
+			/*	if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Get_1PCam())
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(m_pSubChar);
+				else
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);*/
 				m_fChangeTime = 0.f;
 			}
 		}
@@ -210,23 +212,25 @@ HRESULT CKyoujuro::Render()
 		}
 		break;
 	case 2:
-		if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_V))
+		if (m_tInfo.iFriendBar >= 100 && pGameInstance->Key_Pressing(DIK_V))
 		{
 			m_fChangeTime += m_fDelta;
 			if (m_fChangeTime > 0.5f)
 			{
-				m_tInfo.iFriendBar -= 500;
+				m_tInfo.iFriendBar -= 100;
 				m_tInfo.bSub = true;
 				CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
+				CUI_Manager::Get_Instance()->Set_2P_2(this);
 				m_pSubChar->Set_Sub(false);
-				m_pSubChar->Set_Change(false, vPos);
 				m_pSubChar->Change_Info(m_tInfo);
+				m_pSubChar->Set_ChangeInfo(true);
+				m_pSubChar->Set_Change(false, vPos);
 				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
-				if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront()))
+				/*if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Get_1PCam())
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(m_pSubChar);
 				else
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);*/
 				m_fChangeTime = 0.f;
 			}
 		}
@@ -435,6 +439,7 @@ void CKyoujuro::Set_Info()
 	m_tInfo.iFriendMaxBar = 1000;
 	m_tInfo.iFriendBar = m_tInfo.iFriendMaxBar;
 	m_tInfo.bGuard = false;
+	m_tInfo.bChange = false;
 }
 void CKyoujuro::Take_Damage(_float _fPow, _bool _bJumpHit)
 {

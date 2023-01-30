@@ -35,10 +35,10 @@ CKyoujuroState * CChangeState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 			break;
 		case Client::CKyoujuroState::TYPE_LOOP:
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-			//return new CChangeState(CTanjiroState::TYPE_END);
 			break;
 		case Client::CKyoujuroState::TYPE_END:
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+			pKyoujuro->Set_ChangeInfo(false);
 			return new CIdleState();
 			break;
 		}

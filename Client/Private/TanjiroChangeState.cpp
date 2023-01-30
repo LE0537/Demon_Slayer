@@ -35,7 +35,7 @@ CTanjiroState * CChangeState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			break;
 		case Client::CTanjiroState::TYPE_LOOP:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			//return new CChangeState(CTanjiroState::TYPE_END);
+			pTanjiro->Set_ChangeInfo(false);
 			break;
 		case Client::CTanjiroState::TYPE_END:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());

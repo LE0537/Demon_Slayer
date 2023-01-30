@@ -27,14 +27,15 @@ public:
 	void Add_Logo_Title();
 	void Add_Menu();
 	void Add_Loading();
+	void Add_BattleUI();
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LogoUI(CUI::THROWUIINFO iter);
 	HRESULT Add_MenuUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LoadingUI(CUI::THROWUIINFO iter);
-
 	_bool P1_Oni_Check();
 	_bool P2_Oni_Check();
+
 	void	Set_1P(CCharacters* p1P) { m_p1P = p1P; }
 	void	Set_2P(CCharacters* p2P) { m_p2P = p2P; }
 
@@ -102,6 +103,7 @@ private:
 	list<CUI::LOADUIINFO>				LOGOTITLE_LOADDATALIST;
 	list<CUI::LOADUIINFO>				MENU_LOADDATALIST;
 	list<CUI::LOADUIINFO>				LOADING_LOADDATALIST;
+	list<CUI::LOADUIINFO>				BATTLEUI_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
@@ -111,6 +113,7 @@ private:
 	list<CUI::THROWUIINFO>				LOGOTITLE_DATALIST;
 	list<CUI::THROWUIINFO>				MENU_DATALIST;
 	list<CUI::THROWUIINFO>				LOADING_DATALIST;
+	list<CUI::THROWUIINFO>				BATTLEUI_DATALIST;
 
 	string							m_sFilePath;
 	CCharacters*					m_p1P;
@@ -135,6 +138,7 @@ private:
 	_uint							m_i1PIconLayerNum = 0;
 	_uint							m_i2PIconLayerNum = 0;
 	_uint							m_iUltBarLayerNum = 0;
+	_uint							m_iTimerLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;
