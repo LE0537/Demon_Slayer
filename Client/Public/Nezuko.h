@@ -25,48 +25,53 @@ public:
 	enum ANIMID
 	{
 		// IDLE
-		ANIM_IDLE = 48,
+		ANIM_IDLE = 29,
 
 		// MOVE
-		ANIM_MOVE_START = 51,
-		ANIM_MOVE_END = 52,
+		ANIM_MOVE_START = 15,
+		ANIM_MOVE_END = 16,
 
 		// DASH
-		ANIM_DASH_AB = 53,
-		ANIM_DASH_AF = 54,
-		ANIM_DASH_AL = 55,
-		ANIM_DASH_AR = 56,
-		ANIM_DASH_B = 57,
-		ANIM_DASH_F = 58,
-		ANIM_DASH_L_01 = 59,
-		ANIM_DASH_L_02 = 60,
-		ANIM_DASH_R_01 = 61,
-		ANIM_DASH_R_02 = 62,
+		ANIM_DASH_AB = 66,
+		ANIM_DASH_AF = 67,
+		ANIM_DASH_AL = 68,
+		ANIM_DASH_AR = 69,
+		ANIM_DASH_B = 70,
+		ANIM_DASH_F = 71,
+		ANIM_DASH_L_01 = 72,
+		ANIM_DASH_L_02 = 73,
+		ANIM_DASH_R_01 = 74,
+		ANIM_DASH_R_02 = 75,
 
 
 		// ATTACK
-		ANIM_ATTACK_1 = 11,
-		ANIM_ATTACK_2 = 12,
-		ANIM_ATTACK_3 = 13,
-		ANIM_ATTACK_4 = 16,
+		ANIM_ATTACK_1 = 90,
+		ANIM_ATTACK_2 = 0,
+		ANIM_ATTACK_3 = 1,
+		ANIM_ATTACK_4 = 2,
 
 		// JUMP
-		ANIM_JUMP_START = 45,
-		ANIM_JUMP_LOOP = 46,
-		ANIM_JUMP_END = 47,
+		ANIM_JUMP_START = 31,
+		ANIM_JUMP_LOOP = 32,
+		ANIM_JUMP_END = 33,
 
+
+		// change
+		ANIM_CHANGE_UP = 31,
+		ANIM_CHANGE_DOWN_START = 32,
+		ANIM_CHANGE_DOWN_END = 33,
 
 		// GUARD
-		ANIM_GUARD_0 = 38,
-		ANIM_GUARD_1 = 39,
-		ANIM_GUARD_2 = 40,
+		ANIM_GUARD_0 = 22,
+		ANIM_GUARD_1 = 23,
+		ANIM_GUARD_2 = 24,
 
 		// GUARD ADV
-		ANIM_GUARD_ADV = 41,
+		ANIM_GUARD_ADV = 25,
 
 		// GUARD STATE -> HIT
-		ANIM_GUARD_HIT_0 = 42,
-		ANIM_GUARD_HIT_1 = 43,
+		ANIM_GUARD_HIT_0 = 26,
+		ANIM_GUARD_HIT_1 = 27,
 
 		// Hit
 
@@ -136,7 +141,7 @@ private:
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
-
+	class CNezukoState* m_pNezukoState = nullptr;
 
 public:
 	static CNezuko* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

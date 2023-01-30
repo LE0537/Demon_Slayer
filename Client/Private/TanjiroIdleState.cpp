@@ -13,6 +13,7 @@
 #include "TanjiroSkill_WindMill.h"
 #include "TanjiroKaguraSkill_Common.h"
 #include "TanjiroKaguraSkill_Sphere.h"
+#include "TanjiroChangeState.h"
 using namespace Tanjiro;
 
 
@@ -30,6 +31,20 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 	switch (pTanjiro->Get_i1P())
 	{
 	case 1:
+		////test
+		//if (pGameInstance->Key_Down(DIK_R))
+		//{
+		//	return new CChangeState(STATE_TYPE::TYPE_START); // start -> up
+		//}
+		//if (pGameInstance->Key_Down(DIK_U))
+		//{
+		// _vector temp = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		// pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(XMVectorGetX(temp), 20.f, XMVectorGetZ(temp),1.f)); 
+
+		//	return new CChangeState(STATE_TYPE::TYPE_LOOP); // loop -> down
+		//}
+
+
 		if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 		{
 			if (pGameInstance->Key_Pressing(DIK_A)) // аб

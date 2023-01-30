@@ -619,6 +619,48 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Idle">
       <UniqueIdentifier>{12339412-508e-4366-a78d-371e1082ba4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Dash">
+      <UniqueIdentifier>{d57ff47a-4423-4fee-9879-e375d4ae55b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Move">
+      <UniqueIdentifier>{82e1b89b-9c2e-4c89-a864-43c3b32149e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Jump">
+      <UniqueIdentifier>{09db1ba1-904c-48c5-ba34-5233b8cac3ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Move\MoveJump">
+      <UniqueIdentifier>{b91609bb-f169-486f-859b-137c4eef15e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Guard">
+      <UniqueIdentifier>{150e7ca5-8096-4050-8aad-81036d428cc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_1">
+      <UniqueIdentifier>{a5103b3d-8b29-4c5a-a0fe-0ecf79678da5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_2">
+      <UniqueIdentifier>{c1057308-5e2a-4ad0-bb66-fe76c3ca6cbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_3">
+      <UniqueIdentifier>{4579d1b1-fea6-47dc-9c46-2b8567499f16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_4">
+      <UniqueIdentifier>{8240904d-935b-44fe-8feb-04c7d74733ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Change">
+      <UniqueIdentifier>{0b9b64bc-e68b-40fb-8058-7b03cb033e06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Change">
+      <UniqueIdentifier>{6760f552-2abb-40ae-9c92-c690d3ce838f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Change">
+      <UniqueIdentifier>{eb2dce70-5dd0-4fa5-9c71-f046102ef7ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Change">
+      <UniqueIdentifier>{3c293513-8a96-4249-adb8-becf540d4bf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Change">
+      <UniqueIdentifier>{1af10a8e-44af-4a59-b6f2-e588fbb45542}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1239,6 +1281,54 @@
     <ClInclude Include="..\Public\NezukoIdleState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Idle</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\NezukoDashState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoMoveState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukojumpState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Jump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoGuardState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoGuardHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoGuardAdvState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoMoveJumpState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Move\MoveJump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoAtk_1_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoAtk_2_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoAtk_3_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoAtk_4_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroChangeState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Change</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroChangeState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Change</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaChangeState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Change</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoChangeState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Change</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiChangeState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Change</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1831,6 +1921,54 @@
     </ClCompile>
     <ClCompile Include="..\Private\NezukoIdleState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoDashState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoMoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoJumpState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoGuardState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoGuardHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoGuardAdvState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoMoveJumpState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Move\MoveJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoAtk_1_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoAtk_2_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoAtk_3_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoAtk_4_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroChangeState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Change</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroChangeState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Change</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaChangeState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Change</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoChangeState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Change</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiChangeState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Change</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

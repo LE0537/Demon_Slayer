@@ -18,7 +18,8 @@ private:
 
 public:
 	void		Set_NaviIndex(_uint iNaviIndex) { m_NaviDesc.iCurrentCellIndex = iNaviIndex; }
-
+	_float4		Get_NavigationHeight() const { return m_vPlayerHeight; }
+	void		Set_HeightBool(_bool Height) { m_bHeight = Height; }
 public:
 	virtual HRESULT Initialize_Prototype(const _tchar* pNavigationData);
 	virtual HRESULT Initialize(void* pArg);
@@ -30,7 +31,7 @@ public:
 public:
 	HRESULT Render();
 	void	Find_CurrentCellIndex(_vector vPos);
-
+	void	Navigation_Height(_fvector vecPosition);
 private:
 	NAVIDESC				m_NaviDesc;
 	vector<class CCell*>	m_Cells;
@@ -38,8 +39,8 @@ private:
 
 private:
 	class CShader*			m_pShader = nullptr;
-
-
+	_float4					m_vPlayerHeight;
+	_bool					m_bHeight = false;
 private:
 	HRESULT SetUp_Neighbor();
 

@@ -103,7 +103,7 @@ void CRui::Tick(_float fTimeDelta)
 
 	m_pSphereCom->Update(matColl);
 
-	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP)
+	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP || m_pRuiState->Get_RuiState() == CRuiState::STATE_CHANGE)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;

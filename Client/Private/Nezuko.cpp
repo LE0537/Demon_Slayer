@@ -7,8 +7,12 @@
 #include "UI_Manager.h"
 #include "ImGuiManager.h"
 #include "Level_GamePlay.h"
+#include "NezukoState.h"
+#include "NezukoIdleState.h"
+#include "NezukoToolState.h"
 
 
+using namespace Nezuko;
 
 CNezuko::CNezuko(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -55,10 +59,13 @@ HRESULT CNezuko::Initialize(void * pArg)
 	}
 	RELEASE_INSTANCE(CGameInstance);
 
+
+
+	CNezukoState* pState = new CIdleState();
+	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+
+
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
-
-
-
 	return S_OK;
 }
 
@@ -76,7 +83,10 @@ void CNezuko::Tick(_float fTimeDelta)
 
 	m_pSphereCom->Update(matColl);
 
-
+	if (m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_JUMP || m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_CHANGE)
+		m_tInfo.bJump = true;
+	else
+		m_tInfo.bJump = false;
 
 
 }
@@ -172,22 +182,32 @@ HRESULT CNezuko::Render_ShadowDepth()
 
 void CNezuko::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
 {
-
+	CNezukoState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CNezukoState::STATE_TYPE>(iTypeIndex), bIsContinue);
+	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 }
 
 void CNezuko::HandleInput()
 {
-	
+	CNezukoState* pNewState = m_pNezukoState->HandleInput(this);
+
+	if (pNewState)
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pNewState);
 }
 
 void CNezuko::TickState(_float fTimeDelta)
 {
+	CNezukoState* pNewState = m_pNezukoState->Tick(this,fTimeDelta);
 
+	if (pNewState)
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pNewState);
 }
 
 void CNezuko::LateTickState(_float fTimeDelta)
 {
+	CNezukoState* pNewState = m_pNezukoState->Late_Tick(this,fTimeDelta);
 
+	if (pNewState)
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pNewState);
 }
 
 HRESULT CNezuko::SetUp_ShaderResources()
@@ -317,5 +337,6 @@ void CNezuko::Free()
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pSphereCom);
 	Safe_Release(m_pNavigationCom);
+	Safe_Delete(m_pNezukoState);
 
 }

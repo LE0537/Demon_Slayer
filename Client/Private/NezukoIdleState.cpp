@@ -1,7 +1,12 @@
 #include "stdafx.h"
 #include "NezukoIdleState.h"
+#include "Nezuko.h"
 
 #include "GameInstance.h"
+#include "NezukoAtk_1_State.h"
+#include "NezukoMoveState.h"
+#include "NezukoGuardState.h"
+#include "NezukojumpState.h"
 
 
 using namespace Nezuko;
@@ -13,159 +18,159 @@ CIdleState::CIdleState(STATE_ID eState)
 
 CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 {
-	//CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	//pNezuko->Set_bGuard(false);
-	//switch (pNezuko->Get_i1P())
-	//{
-	//case 1:
-	//	if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
-	//	{
-	//		if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
-	//		}
-	//		else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
-	//		}
-	//		else
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
-	//		}
-	//	}
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	pNezuko->Set_bGuard(false);
+	switch (pNezuko->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
+		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+			{
+				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
+			{
+				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+			}
+			else
+			{
+				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+			}
+		}
 
-	//	else if (pGameInstance->Key_Pressing(DIK_S)) // µÚ
-	//	{
-	//		if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
-	//		}
-	//		else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì 
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
-	//		}
-	//		else
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
-	//		}
-	//	}
-
-
-	//	else if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
-	//	{
-	//		return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
-	//	}
-	//	else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
-	//	{
-	//		return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
-	//	}
-	//	else if (pGameInstance->Key_Down(DIK_J))
-	//		return new CAtk_1_State();
-	//	else if (pGameInstance->Key_Down(DIK_SPACE)) // Á¡ÇÁ
-	//	{
-	//		_vector vPosition = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	//		_float fPositionY = XMVectorGetY(vPosition);
-	//		return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
-	//	}
-	//	else if (pGameInstance->Key_Pressing(DIK_O))
-	//		return new CGuardState(STATE_TYPE::TYPE_START);
-	//	else if (pGameInstance->Key_Down(DIK_I))
-	//	{
-	//		if (pGameInstance->Key_Down(DIK_O))
-	//		{
-	//			if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
-	//			{
-	//				pNezuko->Set_SkillBar(-200);
-	//				return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
-	//			}
-	//		}
-	//		else
-	//		{
-	//			if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
-	//			{
-	//				pNezuko->Set_SkillBar(-200);
-	//				return new CSkill_ShootState(STATE_TYPE::TYPE_START);
-	//			}
-	//		}
-	//	}
+		else if (pGameInstance->Key_Pressing(DIK_S)) // µÚ
+		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+			{
+				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì 
+			{
+				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+			}
+			else
+			{
+				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+			}
+		}
 
 
-	//	break;
-	//case 2:
-	//	if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
-	//	{
-	//		if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
-	//		}
-	//		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
-	//		}
-	//		else
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
-	//		}
-	//	}
+		else if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+		{
+			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
+		{
+			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+		}
+		else if (pGameInstance->Key_Down(DIK_J))
+			return new CAtk_1_State();
+		else if (pGameInstance->Key_Down(DIK_SPACE)) // Á¡ÇÁ
+		{
+			_vector vPosition = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_float fPositionY = XMVectorGetY(vPosition);
+			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_O))
+			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_I))
+		{
+			if (pGameInstance->Key_Down(DIK_O))
+			{
+				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
+				{
+					pNezuko->Set_SkillBar(-200);
+					//return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
+				}
+			}
+			else
+			{
+				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
+				{
+					pNezuko->Set_SkillBar(-200);
+					//return new CSkill_ShootState(STATE_TYPE::TYPE_START);
+				}
+			}
+		}
 
-	//	else if (pGameInstance->Key_Pressing(DIK_DOWN)) // µÚ
-	//	{
-	//		if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
-	//		}
-	//		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì 
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
-	//		}
-	//		else
-	//		{
-	//			return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
-	//		}
-	//	}
+
+		break;
+	case 2:
+		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
+		{
+			if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
+			{
+				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
+			{
+				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+			}
+			else
+			{
+				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+			}
+		}
+
+		else if (pGameInstance->Key_Pressing(DIK_DOWN)) // µÚ
+		{
+			if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
+			{
+				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì 
+			{
+				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+			}
+			else
+			{
+				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+			}
+		}
 
 
-	//	else if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
-	//	{
-	//		return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
-	//	}
-	//	else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
-	//	{
-	//		return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
-	//	}
-	//	else if (pGameInstance->Key_Down(DIK_Z))
-	//		return new CAtk_1_State();
+		else if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
+		{
+			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
+		{
+			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+		}
+		else if (pGameInstance->Key_Down(DIK_Z))
+			return new CAtk_1_State();
 
-	//	else if (pGameInstance->Key_Down(DIK_LCONTROL)) // Á¡ÇÁ
-	//	{
-	//		_vector vPosition = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	//		_float fPositionY = XMVectorGetY(vPosition);
-	//		return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
-	//	}
+		else if (pGameInstance->Key_Down(DIK_LCONTROL)) // Á¡ÇÁ
+		{
+			_vector vPosition = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_float fPositionY = XMVectorGetY(vPosition);
+			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+		}
 
-	//	else if (pGameInstance->Key_Pressing(DIK_C))
-	//		return new CGuardState(STATE_TYPE::TYPE_START);
-	//	else if (pGameInstance->Key_Down(DIK_X))
-	//	{
-	//		if (pGameInstance->Key_Down(DIK_C))
-	//		{
-	//			if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
-	//			{
-	//				pNezuko->Set_SkillBar(-200);
-	//				return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
-	//			}
-	//		}
-	//		else
-	//		{
-	//			if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
-	//			{
-	//				pNezuko->Set_SkillBar(-200);
-	//				return new CSkill_ShootState(STATE_TYPE::TYPE_START);
-	//			}
-	//		}	
-	//	}
+		else if (pGameInstance->Key_Pressing(DIK_C))
+			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_X))
+		{
+			if (pGameInstance->Key_Down(DIK_C))
+			{
+				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
+				{
+					pNezuko->Set_SkillBar(-200);
+					//return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
+				}
+			}
+			else
+			{
+				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
+				{
+					pNezuko->Set_SkillBar(-200);
+					//return new CSkill_ShootState(STATE_TYPE::TYPE_START);
+				}
+			}	
+		}
 
-	//}
+	}
 
 	return nullptr;
 }

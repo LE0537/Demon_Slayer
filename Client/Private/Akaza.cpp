@@ -86,7 +86,7 @@ void CAkaza::Tick(_float fTimeDelta)
 	m_pSphereCom->Update(matColl);
 
 
-	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP)
+	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP || m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_CHANGE)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;

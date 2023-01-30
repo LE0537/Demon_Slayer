@@ -1,0 +1,330 @@
+#include "stdafx.h"
+#include "NezukoMoveJumpState.h"
+#include "NezukoMoveState.h"
+#include "NezukoIdleState.h"
+#include "NezukoJumpState.h"
+#include "Layer.h"
+#include "GameInstance.h"
+
+using namespace Nezuko;
+
+
+CMoveJumpState::CMoveJumpState(OBJDIR eDir, STATE_TYPE eType, _float fPositionY, _float fJumpTime)
+{
+	m_eDirection = eDir;
+	m_eStateType = eType;
+	m_fCurrentPosY = fPositionY;
+	m_fJumpTime = fJumpTime;
+}
+
+CNezukoState * CMoveJumpState::HandleInput(CNezuko* pNezuko)
+{
+
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	switch (pNezuko->Get_i1P())
+	{
+	case 1:
+		if (m_eStateType != CNezukoState::TYPE_END)
+		{
+			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LF;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RF;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_STRAIGHT;
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_S)) // µÚ
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LB;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì 
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RB;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_BACK;
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+			{
+				m_bMove = true;
+				m_eNextDir = OBJDIR::DIR_LEFT;
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
+			{
+				m_bMove = true;
+				m_eNextDir = OBJDIR::DIR_RIGHT;
+			}
+			else
+			{
+				m_bMove = false;
+				m_eNextDir = OBJDIR::DIR_STOP;
+			}
+		}
+		else
+		{
+			m_bMove = false;
+			m_eNextDir = OBJDIR::DIR_STOP;
+		}
+
+		break;
+	case 2:
+		if (m_eStateType != CNezukoState::TYPE_END)
+		{
+			if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LF;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RF;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_STRAIGHT;
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // µÚ
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_LB;
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì 
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_RB;
+				}
+				else
+				{
+					m_bMove = true;
+					m_eNextDir = OBJDIR::DIR_BACK;
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
+			{
+				m_bMove = true;
+				m_eNextDir = OBJDIR::DIR_LEFT;
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
+			{
+				m_bMove = true;
+				m_eNextDir = OBJDIR::DIR_RIGHT;
+			}
+			else
+			{
+				m_bMove = false;
+				m_eNextDir = OBJDIR::DIR_STOP;
+			}
+		}
+		else
+		{
+			m_bMove = false;
+			m_eNextDir = OBJDIR::DIR_STOP;
+		}
+
+		break;
+	}
+
+	return nullptr;
+}
+
+CNezukoState * CMoveJumpState::Tick(CNezuko* pNezuko, _float fTimeDelta)
+{
+	_float fDurationTime = 0.f; // ¾Ö´Ï¸ÞÀÌ¼Ç ÃÑ ½Ã°£
+	_float fCurrentTime = 0.f; // ¾Ö´Ï¸ÞÀÌ¼Ç ÇöÀç ½Ã°£
+
+	pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_JUMP_START);
+	pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_JUMP_LOOP);
+	pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_JUMP_END);
+
+	if (m_eStateType == CNezukoState::TYPE_CHANGE)
+	{
+		//pKyoujuro->Get_Model()->Reset_Anim(pKyoujuro->Get_AnimIndex());
+		return new CMoveState(m_eNextDir, STATE_TYPE::TYPE_START);
+	}
+	
+
+	if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
+	{
+		switch (m_eStateType)
+		{
+		case Client::CNezukoState::TYPE_START:
+			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+
+			return new CJumpState(STATE_TYPE::TYPE_LOOP, m_fCurrentPosY, m_fJumpTime);
+			break;
+		case Client::CNezukoState::TYPE_LOOP:
+			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+
+			//return new CJumpState(STATE_TYPE::TYPE_END, m_fCurrentPosY, m_fJumpTime);
+			break;
+		case Client::CNezukoState::TYPE_END:
+			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+			return new CIdleState(STATE_ID::STATE_JUMP);
+			break;
+		}
+		pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+	}
+
+
+	return nullptr;
+}
+
+CNezukoState * CMoveJumpState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
+{
+	m_fJumpTime += 0.05f;
+
+	if(m_eStateType != STATE_TYPE::TYPE_END)
+		Jump(pNezuko, fTimeDelta + m_fJumpTime);
+
+	if(m_bMove == true)
+		Move(pNezuko, fTimeDelta);
+
+	pNezuko->Get_Model()->Play_Animation(fTimeDelta,true);
+
+	return nullptr;
+}
+
+void CMoveJumpState::Enter(CNezuko* pNezuko)
+{
+
+	m_eStateId = CNezukoState::STATE_JUMP;
+
+
+	switch (m_eStateType)
+	{
+	case Client::CNezukoState::TYPE_START:
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_JUMP_START);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_JUMP_START, 0.01f);
+		pNezuko->Set_AnimIndex(CNezuko::ANIM_JUMP_START);
+		break;
+	case Client::CNezukoState::TYPE_LOOP:
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_JUMP_LOOP);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_JUMP_LOOP, 0.01f);
+		pNezuko->Set_AnimIndex(CNezuko::ANIM_JUMP_LOOP);
+		break;
+	case Client::CNezukoState::TYPE_END:
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_JUMP_END);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_JUMP_END, 0.01f);
+		pNezuko->Set_AnimIndex(CNezuko::ANIM_JUMP_END);
+		break;
+	}
+
+
+}
+
+void CMoveJumpState::Exit(CNezuko* pNezuko)
+{
+}
+
+void CMoveJumpState::Move(CNezuko* CNezuko, _float fTimeDelta)
+{
+	_float fCamAngle = CNezuko->Get_CamAngle();
+
+	switch (m_eDirection)
+	{
+	case Client::DIR_STRAIGHT:
+		CNezuko->Get_Transform()->Set_RotationY(0.f + fCamAngle);
+		break;
+	case Client::DIR_LEFT:
+		CNezuko->Get_Transform()->Set_RotationY(270.f + fCamAngle);
+		break;
+	case Client::DIR_RIGHT:
+		CNezuko->Get_Transform()->Set_RotationY(90.f + fCamAngle);
+		break;
+	case Client::DIR_BACK:
+		CNezuko->Get_Transform()->Set_RotationY(180.f + fCamAngle);
+		break;
+	case Client::DIR_LF:
+		CNezuko->Get_Transform()->Set_RotationY(305.f + fCamAngle);
+		break;
+	case Client::DIR_RF:
+		CNezuko->Get_Transform()->Set_RotationY(45.f + fCamAngle);
+		break;
+	case Client::DIR_LB:
+		CNezuko->Get_Transform()->Set_RotationY(225.f + fCamAngle);
+		break;
+	case Client::DIR_RB:
+		CNezuko->Get_Transform()->Set_RotationY(135.f + fCamAngle);
+		break;
+	case Client::DIR_STOP:
+		break;
+	}
+
+	if (m_eDirection != DIR_STOP && m_bMove == true)
+		CNezuko->Get_Transform()->Go_Straight(fTimeDelta, CNezuko->Get_NavigationCom());
+}
+
+CNezukoState*  CMoveJumpState::Jump(CNezuko* pNezuko, _float fTimeDelta)
+{
+	static _float fStartHeight = m_fCurrentPosY;
+	static _float fEndHeight = m_fCurrentPosY;
+	static _float fVelocity = 20.f;
+	static _float fGravity = 40.f;
+
+
+	_vector      vPosition = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_float fSpeed = 0.f;
+	fSpeed = fStartHeight + fVelocity * fTimeDelta - (0.5f * fGravity * fTimeDelta * fTimeDelta);
+	vPosition = XMVectorSetY(vPosition, fSpeed);
+	_float y = XMVectorGetY(vPosition);
+
+
+	
+
+	if (y <= fEndHeight)
+	{
+		vPosition = XMVectorSetY(vPosition, fEndHeight);
+		m_fJumpTime = 0.f;
+		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+
+
+		if (m_bMove == false)
+		{
+			m_eStateType = TYPE_END;
+			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_JUMP_END);
+			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_JUMP_END, 0.01f);
+			pNezuko->Set_AnimIndex(CNezuko::ANIM_JUMP_END);
+		}
+		else
+		{
+			m_eStateType = STATE_TYPE::TYPE_CHANGE;
+		}
+	} 
+
+	pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+
+	return nullptr;
+}
+

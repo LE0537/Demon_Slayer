@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
+#include "Nezuko.h"
+
 using namespace Nezuko;
 
 

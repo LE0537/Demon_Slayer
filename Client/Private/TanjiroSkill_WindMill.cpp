@@ -18,7 +18,7 @@ CSkill_WindMillState::CSkill_WindMillState()
 		return;
 
 	RELEASE_INSTANCE(CGameInstance);
-	m_fHitTime = 0.13;
+	m_fHitTime = 0.13f;
 }
 
 CTanjiroState * CSkill_WindMillState::HandleInput(CTanjiro * pTanjiro)

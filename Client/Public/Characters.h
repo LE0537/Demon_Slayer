@@ -30,6 +30,8 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
+	_float4		Get_NavigationHeight();
+	void		Set_NavigationHeight(_fvector vPosition);
 
 protected:
 	typedef struct tagInfo {
