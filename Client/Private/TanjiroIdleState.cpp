@@ -225,7 +225,7 @@ CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	{
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
-	else if (!pTanjiro->Get_PlayerInfo().bSub && !pTanjiro->Get_Change())
+	else if (pTanjiro->Get_PlayerInfo().bChange)
 	{
 		return new CChangeState(STATE_TYPE::TYPE_LOOP);
 	}

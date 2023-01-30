@@ -148,7 +148,7 @@ CKyoujuroState * CIdleState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	{
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
-	else if (!pKyoujuro->Get_PlayerInfo().bSub && !pKyoujuro->Get_Change())
+	else if (pKyoujuro->Get_PlayerInfo().bChange)
 	{
 		return new CChangeState(STATE_TYPE::TYPE_LOOP);
 	}
