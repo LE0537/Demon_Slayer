@@ -110,18 +110,6 @@ void CKyoujuro::Tick(_float fTimeDelta)
 		m_pSphereCom->Update(matColl);
 
 
-	HandleInput();
-	TickState(fTimeDelta);
-
-	m_pModelCom->Get_PivotFloat4x4();
-	m_pTransformCom->Get_World4x4Ptr();
-	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
-	if (nullptr == pSocket)
-		return;
-	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
-	
-	m_pSphereCom->Update(matColl);
-
 
 	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_JUMP || m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_CHANGE)
 		m_tInfo.bJump = true;
