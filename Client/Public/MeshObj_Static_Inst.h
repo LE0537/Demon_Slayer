@@ -15,6 +15,8 @@ public:
 	{
 		_uint			iNumInstancing = 1;
 		_float4x4*		pWorld = nullptr;
+		_float*			pGlowPower;
+
 		_uint			iCurrentLevel;
 
 		_uint		iModelIndex;
@@ -40,6 +42,7 @@ public:
 private:
 	CModel*		m_pModelCom = nullptr;
 	vector<VTXMATRIX>		m_vecMatrix;
+	vector<_float>			m_vecGlowPower;
 
 	_bool		m_bFrustum = true;
 	_float		m_fFrustumRadiusRatio = 1.f;

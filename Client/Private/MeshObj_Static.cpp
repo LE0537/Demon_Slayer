@@ -2,6 +2,7 @@
 #include "..\Public\MeshObj_Static.h"
 
 #include "GameInstance.h"
+#include "Data_Manager.h"
 
 CMeshObj_Static::CMeshObj_Static(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObj(pDevice, pContext)
@@ -52,6 +53,26 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 void CMeshObj_Static::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (pGameInstance->Key_Down(DIK_F4))
+	{
+		if (2083 == m_tMyDesc.iModelIndex)
+		{
+			CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
+			char cName[MAX_PATH];
+			ZeroMemory(cName, sizeof(char) * MAX_PATH);
+			pData_Manager->TCtoC(TEXT("Moon"), cName);
+			pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
+			ERR_MSG(TEXT("Save_Bin_Moon"));
+			RELEASE_INSTANCE(CData_Manager);
+		}
+	}
+
+	RELEASE_INSTANCE(CGameInstance);
+
+
 }
 
 void CMeshObj_Static::Late_Tick(_float fTimeDelta)
@@ -86,12 +107,16 @@ HRESULT CMeshObj_Static::Render()
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
+	{		
+		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_GlowTexture", i, aiTextureType_SHININESS)))
+			return E_FAIL;		//	Glow용 ( Max에서 glossiness 에 넣으면 됨.)
+		
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
 			return E_FAIL;
+
 	}
 
 
@@ -155,6 +180,11 @@ HRESULT CMeshObj_Static::SetUp_ShaderResources()
 
 	RELEASE_INSTANCE(CGameInstance);
 
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fGlowPower", &m_tMyDesc.fGlowPower, sizeof(_float))))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
@@ -215,12 +245,12 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2043: lstrcpy(pPrototypeTag_Model, L"Leaf3"); break;
 	case 2044: lstrcpy(pPrototypeTag_Model, L"Leaf4"); break;
 
-	case 2045: lstrcpy(pPrototypeTag_Model, L"Hill_Far1"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2046: lstrcpy(pPrototypeTag_Model, L"Hill_Far2"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2047: lstrcpy(pPrototypeTag_Model, L"Hill_Far3"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2048: lstrcpy(pPrototypeTag_Model, L"Hill_Far4"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2049: lstrcpy(pPrototypeTag_Model, L"Hill_Far5"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2050: lstrcpy(pPrototypeTag_Model, L"Hill_Far6"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2045: lstrcpy(pPrototypeTag_Model, L"Hill_Far1"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2046: lstrcpy(pPrototypeTag_Model, L"Hill_Far2"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2047: lstrcpy(pPrototypeTag_Model, L"Hill_Far3"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2048: lstrcpy(pPrototypeTag_Model, L"Hill_Far4"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2049: lstrcpy(pPrototypeTag_Model, L"Hill_Far5"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2050: lstrcpy(pPrototypeTag_Model, L"Hill_Far6"); m_fFrustumRadiusRatio = 2000.f; break;
 
 	case 2051: lstrcpy(pPrototypeTag_Model, L"Wall1"); m_fFrustumRadiusRatio = 30.f; break;
 	case 2052: lstrcpy(pPrototypeTag_Model, L"Wall2"); m_fFrustumRadiusRatio = 30.f; break;
@@ -244,10 +274,10 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 
 	case 2067: lstrcpy(pPrototypeTag_Model, L"RiceField1"); m_fFrustumRadiusRatio = 120.f; break;
 
-	case 2068: lstrcpy(pPrototypeTag_Model, L"RuiGround"); m_fFrustumRadiusRatio = 700.f; break;
-	case 2069: lstrcpy(pPrototypeTag_Model, L"UrokodakiGround"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2068: lstrcpy(pPrototypeTag_Model, L"RuiGround"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2069: lstrcpy(pPrototypeTag_Model, L"UrokodakiGround"); m_fFrustumRadiusRatio = 2000.f; break;
 
-	case 2070: lstrcpy(pPrototypeTag_Model, L"RuiGround2"); m_fFrustumRadiusRatio = 700.f; break;
+	case 2070: lstrcpy(pPrototypeTag_Model, L"RuiGround2"); m_fFrustumRadiusRatio = 2000.f; break;
 	case 2071: lstrcpy(pPrototypeTag_Model, L"Home1"); break;
 	case 2072: lstrcpy(pPrototypeTag_Model, L"Rubble1"); m_fFrustumRadiusRatio = 7.f; break;
 	case 2073: lstrcpy(pPrototypeTag_Model, L"Rubble2"); m_fFrustumRadiusRatio = 7.f; break;
@@ -261,6 +291,7 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2081: lstrcpy(pPrototypeTag_Model, L"TreeFar2"); m_fFrustumRadiusRatio = 5.f; break;
 	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3"); m_fFrustumRadiusRatio = 5.f; break;
 
+	case 2083: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Moon"); m_fFrustumRadiusRatio = 2000.f; break;
 	}
 
 
