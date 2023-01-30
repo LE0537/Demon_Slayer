@@ -49,13 +49,20 @@ HRESULT CSkillBar::Initialize(void * pArg)
 
 void CSkillBar::Tick(_float fTimeDelta)
 {
+	if ((_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar < m_fPrevSkillBar)
+	{
+		m_fDelay = 2.f;
+		m_fPrevSkillBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
+	}
+	if (m_fDelay > 0.f)
+		m_fDelay -= fTimeDelta;
 
 	m_fSkillMaxBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkMaxBar;
 	m_fSkillCurBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
-
+	m_fPrevSkillBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
 	m_fSkillTime += fTimeDelta;
 
-	if (m_fSkillTime >= 0.0025f && m_fSkillCurBar < 1000)
+	if (m_fDelay <= 0.f && m_fSkillTime >= 0.0025f && m_fSkillCurBar < 1000)
 	{
 		m_ThrowUIinfo.pTarget->Set_SkillBar(2);
 		m_fSkillTime = 0.f;
@@ -86,6 +93,7 @@ HRESULT CSkillBar::Render()
 		m_pShaderCom->Begin(5); //p1
 
 	m_pVIBufferCom->Render();
+
 
 	return S_OK;
 }

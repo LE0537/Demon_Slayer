@@ -18,7 +18,7 @@ CSkill_WindMillState::CSkill_WindMillState()
 		return;
 
 	RELEASE_INSTANCE(CGameInstance);
-	m_fHitTime = 0.13;
+	m_fHitTime = 0.13f;
 }
 
 CTanjiroState * CSkill_WindMillState::HandleInput(CTanjiro * pTanjiro)
@@ -128,8 +128,12 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 				vPos += vMyLook * (fSpeed - fSpeed * fPow);
 				vTargetPos += vTargetLook * fSpeed * fPow;
 
-				pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+				if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos))
+					pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+				if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+					m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+				else
+					pTanjiro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pTanjiro->Get_NavigationCom());
 			}
 	}
 
@@ -158,7 +162,7 @@ CTanjiroState* CSkill_WindMillState::Jump(CTanjiro* pTanjiro, _float fTimeDelta)
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 12.5f;
-	static _float fGravity = 15.f;
+	static _float fGravity = 20.f;
 
 
 	_vector      vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

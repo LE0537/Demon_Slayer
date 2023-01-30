@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "..\Public\Characters.h"
-
+#include "Navigation.h"
 #include "GameInstance.h"
 
 CCharacters::CCharacters(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -43,6 +43,16 @@ HRESULT CCharacters::Render_ShadowDepth()
 	return S_OK;
 }
 
+_float4 CCharacters::Get_NavigationHeight()
+{
+	return m_pNavigationCom->Get_NavigationHeight();
+}
+
+void CCharacters::Set_NavigationHeight(_fvector vPosition)
+{
+	m_pNavigationCom->Navigation_Height(vPosition);
+}
+
 //CCharacters * CCharacters::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 //{
 //	CCharacters*	pInstance = new CCharacters(pDevice, pContext);
@@ -56,6 +66,24 @@ HRESULT CCharacters::Render_ShadowDepth()
 //	return pInstance;
 //}
 
+
+void CCharacters::Set_Change(_bool _bChange, _vector _vPos)
+{
+	m_bChange = _bChange;
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, _vPos);
+}
+
+void CCharacters::Change_Info(PLAYERINFO _tinfo)
+{
+	m_tInfo.iHp = _tinfo.iHp;
+	m_tInfo.iSkBar = _tinfo.iSkBar;
+	m_tInfo.iUnicBar = _tinfo.iUnicBar;
+	m_tInfo.iCombo = _tinfo.iCombo;
+	m_tInfo.fComboTime = _tinfo.fComboTime;
+	m_tInfo.bPowerUp = _tinfo.bPowerUp;
+	m_tInfo.fPowerUpTime = _tinfo.fPowerUpTime;
+	m_tInfo.iFriendBar = _tinfo.iFriendBar;
+}
 
 CGameObject * CCharacters::Clone(void * pArg)
 {

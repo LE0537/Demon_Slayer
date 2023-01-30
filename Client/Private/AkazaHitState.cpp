@@ -73,7 +73,7 @@ CAkazaState * CHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 		if (pAkaza->Get_Model()->Get_CurrentFrame() <= 20)
 		{
 			pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
-			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
+			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pAkaza->Get_NavigationCom());
 
 			if (pAkaza->Get_Model()->Get_CurrentFrame() == 19)
 				return new CIdleState();
@@ -83,7 +83,7 @@ CAkazaState * CHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	{
 		if (pAkaza->Get_Model()->Get_CurrentFrame() <= 60)
 		{
-			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
+			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pAkaza->Get_NavigationCom());
 		}
 
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
@@ -163,6 +163,7 @@ CAkazaState * CHitState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 void CHitState::Exit(CAkaza* pAkaza)
 {
 	pAkaza->Get_Model()->Set_UsingFrame(CAkaza::ANIM_HIT, 0, 100);
+	pAkaza->Set_HitTime(0.2f);
 }
 
 

@@ -30,6 +30,8 @@ private:
 	_float				m_fSkillDelay = 0.f;
 	_bool				m_bSKillCheck = false;
 
+	_float				m_fPrevSkillBar = 0.f;
+	_float				m_fDelay = 0.f;
 public:
 	static CSkillBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

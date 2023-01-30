@@ -175,7 +175,10 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 
 CRuiState * CIdleState::Tick(CRui * pRui, _float fTimeDelta)
 {
-
+	if (pRui->Get_PlayerInfo().bSub)
+	{
+		pRui->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
+	}
 
 
 	return nullptr;

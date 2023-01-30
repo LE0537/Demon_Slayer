@@ -30,8 +30,10 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
+	_float4		Get_NavigationHeight();
+	void		Set_NavigationHeight(_fvector vPosition);
 
-protected:
+public:
 	typedef struct tagInfo {
 		wstring		strName; //캐릭터 이름;
 		_bool		bOni;    //true = 오니 , false = 인간;
@@ -50,6 +52,8 @@ protected:
 		_int		iFriendBar;    //친구게이지
 		_bool		bGuard;
 		_bool		bJump;
+		_float		fHitTime;
+		_bool		bSub;
 	}PLAYERINFO;
 
 public:
@@ -65,20 +69,29 @@ public:
 	_int       Get_iTargetIndex() { return m_iTargetIndex; }
 	void	   Set_SkillBar(_int _iSkill) { m_tInfo.iSkBar += _iSkill; }
 	CNavigation*	Get_NavigationCom() { return m_pNavigationCom; }
-
+	void	   Set_HitTime(_float _fHitTime) { m_tInfo.fHitTime = _fHitTime; }
+	void	   Set_Sub(_bool _bSub){ m_tInfo.bSub = _bSub; }
+	void	   Set_Change(_bool _bChange, _vector _vPos);
+	_bool	   Get_Change() { return m_bChange; };
+	void	   Set_SubChar(CCharacters* _pSubChar) { m_pSubChar = _pSubChar; }
+	CCharacters* 	  Get_SubChar() { return m_pSubChar; }
+	_float     Get_ChangeTime() { return m_fChangeTime; }
+	void	   Change_Info(PLAYERINFO _tinfo);
 
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
 protected:
 	PLAYERINFO		m_tInfo;
 	CCharacters*	m_pBattleTarget = nullptr;
+	CCharacters*	m_pSubChar = nullptr;
 	_int			m_iTargetIndex = 0;
 
 	CCollider*				m_pSphereCom = nullptr;
 	_int					m_i1p = 0;
-
+	_bool					m_bChange = false;
+	_float					m_fChangeTime = 0.f;
 	CNavigation*		m_pNavigationCom = nullptr;
-
+	_float					m_fDelta = 0.f;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
