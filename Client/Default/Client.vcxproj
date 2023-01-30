@@ -209,7 +209,7 @@
     <ClInclude Include="..\Public\2PMainOnBase.h" />
     <ClInclude Include="..\Public\CharFrame.h" />
     <ClInclude Include="..\Public\CharFrameEff.h" />
-    <ClInclude Include="..\Public\CharFrameShadow.h" />
+    <ClInclude Include="..\Public\SelNameShadow.h" />
     <ClInclude Include="..\Public\CharSelBg.h" />
     <ClInclude Include="..\Public\CloudUI.h" />
     <ClInclude Include="..\Public\Effect.h" />
@@ -279,6 +279,7 @@
     <ClInclude Include="..\public\RuiSphere.h" />
     <ClInclude Include="..\Public\RuiState.h" />
     <ClInclude Include="..\Public\RuiToolState.h" />
+    <ClInclude Include="..\Public\SelStamp.h" />
     <ClInclude Include="..\Public\SkyBox.h" />
     <ClInclude Include="..\Public\TanjiroDashState.h" />
     <ClInclude Include="..\Public\TanjiroGuardAdvState.h" />
@@ -412,7 +413,7 @@
     <ClCompile Include="..\Private\2pMainOnBase.cpp" />
     <ClCompile Include="..\Private\CharFrame.cpp" />
     <ClCompile Include="..\Private\CharFrameEff.cpp" />
-    <ClCompile Include="..\Private\CharFrameShadow.cpp" />
+    <ClCompile Include="..\Private\SelNameShadow.cpp" />
     <ClCompile Include="..\Private\CharSelBg.cpp" />
     <ClCompile Include="..\Private\CloudUI.cpp" />
     <ClCompile Include="..\Private\Effect.cpp" />
@@ -481,6 +482,7 @@
     <ClCompile Include="..\Private\RuiSkill_Sphere.cpp" />
     <ClCompile Include="..\private\RuiSphere.cpp" />
     <ClCompile Include="..\Private\RuiToolState.cpp" />
+    <ClCompile Include="..\Private\SelStamp.cpp" />
     <ClCompile Include="..\Private\SkyBox.cpp" />
     <ClCompile Include="..\Private\TanjiroDashState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />

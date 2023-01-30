@@ -1,25 +1,23 @@
 #include "stdafx.h"
-#include "1PMainOnBase.h"
+#include "SelStamp.h"
 #include "GameInstance.h"
-#include "UI_Manager.h"
-#include "SelP1Cursor.h"
 
-C1PMainOnBase::C1PMainOnBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CSelStamp::CSelStamp(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-C1PMainOnBase::C1PMainOnBase(const C1PMainOnBase & rhs)
+CSelStamp::CSelStamp(const CSelStamp & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT C1PMainOnBase::Initialize_Prototype()
+HRESULT CSelStamp::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT C1PMainOnBase::Initialize(void * pArg)
+HRESULT CSelStamp::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -46,32 +44,22 @@ HRESULT C1PMainOnBase::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-
-	pUI_Manager->Set_Sel1PMain(this);
-
-	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
 
-void C1PMainOnBase::Tick(_float fTimeDelta)
+void CSelStamp::Tick(_float fTimeDelta)
 {
-	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-
-
-
-	RELEASE_INSTANCE(CUI_Manager);
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void C1PMainOnBase::Late_Tick(_float fTimeDelta)
+void CSelStamp::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT C1PMainOnBase::Render()
+HRESULT CSelStamp::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -90,7 +78,7 @@ HRESULT C1PMainOnBase::Render()
 	return S_OK;
 }
 
-HRESULT C1PMainOnBase::Ready_Components()
+HRESULT CSelStamp::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -105,7 +93,7 @@ HRESULT C1PMainOnBase::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_1P_MainOnBase"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelStamp"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -115,7 +103,7 @@ HRESULT C1PMainOnBase::Ready_Components()
 	return S_OK;
 }
 
-HRESULT C1PMainOnBase::SetUp_ShaderResources()
+HRESULT CSelStamp::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -133,13 +121,13 @@ HRESULT C1PMainOnBase::SetUp_ShaderResources()
 	return S_OK;
 }
 
-C1PMainOnBase * C1PMainOnBase::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CSelStamp * CSelStamp::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	C1PMainOnBase*	pInstance = new C1PMainOnBase(pDevice, pContext);
+	CSelStamp*	pInstance = new CSelStamp(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : C1PMainOnBase"));
+		ERR_MSG(TEXT("Failed to Created : CSelStamp"));
 		Safe_Release(pInstance);
 	}
 
@@ -147,20 +135,20 @@ C1PMainOnBase * C1PMainOnBase::Create(ID3D11Device * pDevice, ID3D11DeviceContex
 }
 
 
-CGameObject * C1PMainOnBase::Clone(void * pArg)
+CGameObject * CSelStamp::Clone(void * pArg)
 {
-	C1PMainOnBase*	pInstance = new C1PMainOnBase(*this);
+	CSelStamp*	pInstance = new CSelStamp(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : C1PMainOnBase"));
+		ERR_MSG(TEXT("Failed to Cloned : CSelStamp"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void C1PMainOnBase::Free()
+void CSelStamp::Free()
 {
 	__super::Free();
 

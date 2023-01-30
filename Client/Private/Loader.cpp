@@ -49,7 +49,7 @@
 #include "WindowRight.h"
 #include "WindowLeft.h"
 #include "CharFrameEff.h"
-#include "CharFrameShadow.h"
+#include "SelNameShadow.h"
 #include "CharFrame.h"
 #include "SelP1Cursor.h"
 #include "SelP2Cursor.h"
@@ -82,6 +82,7 @@
 #include "UltStockFrame.h"
 #include "UltStockNum.h"
 #include "KeyUI.h"
+#include "SelStamp.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -287,9 +288,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelFrameEff"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Xef_Fade01.png"), 1))))
 			return E_FAIL;
-	/*	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelFrameShdow"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Icon_Chara_Shadow.png"), 1))))
-			return E_FAIL;*/
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelNameShdow"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Name_Shadow.png"), 1))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelFrame"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Char_Icon_%d.png"), 2))))
 			return E_FAIL;
@@ -314,6 +315,16 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_2P_MainOnBase"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/2PMain_On_Base.png"), 1))))
 			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelStamp"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Charsel_stamp02.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSel_BgWind"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/CharSel_Bg_Ani2.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSel_BgGara"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/CharSel_Bg_Gara.png"), 1))))
+			return E_FAIL;
+
 
 #pragma endregion SelectUI
 
@@ -1242,6 +1253,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelStamp"),
+		CSelStamp::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KeyUI"),
 		CKeyUI::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1374,8 +1389,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CCharFrameEff::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharFrameShadow"),
-		CCharFrameShadow::Create(m_pDevice, m_pContext))))
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SleNameShadow"),
+		CSelNameShadow::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharFrame"),

@@ -50,7 +50,7 @@ public:
 	//_bool Get_SelectCheck() { return m_bSelectCheck; }
 	_bool Get_SelectVS() { return m_bSelectVS; }
 	THROWUIINFO Get_ThrowInfo() { return m_ThrowUIinfo; }
-	_bool Get_SelFirstCheck() { return m_bSelFirstCheck; }
+	
 	_bool Get_SelFirst() { return m_bSelectFirst; }
 	_bool Get_SelSecond() { return m_bSelectSecond; }
 	SELUIINFO Get_SelectUIInfo() { return m_SelectInfo; }
@@ -71,7 +71,6 @@ protected:
 	_bool					m_bSelectSecond = false;
 	_bool					m_bSelComplete = false;
 	_bool					m_bSelectVS = false;
-	_bool					m_bSelFirstCheck = false;
 	_uint					m_iImgNum = 0;
 	_uint					m_iSelCount = 0;
 	LOADUIINFO				m_LoadUIinfo;
