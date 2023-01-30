@@ -268,6 +268,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 			break;
 		}
 		m_p1P = m_pPlayer;
+		m_b1P = true;
 	}
 	else
 	{
@@ -290,6 +291,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 			break;
 		}
 		m_p1P = m_pTarget;
+		m_b1P = false;
 	}
 
 }

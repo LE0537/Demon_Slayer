@@ -263,8 +263,12 @@ CAkazaState * CAtk_4_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
 			vPos.m128_f32[1] = 0.f;
-			pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			if (pAkaza->Get_NavigationCom()->Cheak_Cell(vPos))
+				pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pAkaza->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pAkaza->Get_NavigationCom());
 		}
 	}
 

@@ -42,29 +42,33 @@ HRESULT CAkaza::Initialize(void * pArg)
 	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
 	Set_Info();
-
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	if (m_i1p == 1)
-	{		
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
-
-		CUI_Manager::Get_Instance()->Set_1P(this);
-	}
-	else if (m_i1p == 2)
+	m_tInfo.bSub = tCharacterDesc.bSub;
+	m_bChange = tCharacterDesc.bSub;
+	if (!m_tInfo.bSub)
 	{
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
+		if (m_i1p == 1)
+		{
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
-		CUI_Manager::Get_Instance()->Set_2P(this);
+			CUI_Manager::Get_Instance()->Set_1P(this);
+		}
+		else if (m_i1p == 2)
+		{
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+			CUI_Manager::Get_Instance()->Set_2P(this);
+		}
+		RELEASE_INSTANCE(CGameInstance);
 	}
-	RELEASE_INSTANCE(CGameInstance);
-
-	//m_pTransformCom->Set_Scale(XMVectorSet(0.01f, 0.01f, 0.01f, 0.f));
-	//m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-9.f, 0.f, 0.f, 1.f));
+	else
+	{
+		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
+		m_pSubChar->Set_SubChar(this);
+	}
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
-
-	//CAkazaState* pState = new CHitState(0.f);
 	CAkazaState* pState = new CIdleState();
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 
@@ -73,36 +77,46 @@ HRESULT CAkaza::Initialize(void * pArg)
 
 void CAkaza::Tick(_float fTimeDelta)
 {
-	__super::Tick(fTimeDelta);
+	if (!m_bChange)
+	{
+		__super::Tick(fTimeDelta);
+		m_fDelta = fTimeDelta;
+		if (m_tInfo.fHitTime > 0.f)
+			m_tInfo.fHitTime -= fTimeDelta;
 
-	HandleInput();
-	TickState(fTimeDelta);
+		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
+			HandleInput();
 
-	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
-	if (nullptr == pSocket)
-		return;
-	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+		TickState(fTimeDelta);
 
-	m_pSphereCom->Update(matColl);
+		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+		if (nullptr == pSocket)
+			return;
+		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+
+		m_pSphereCom->Update(matColl);
 
 
-	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP)
-		m_tInfo.bJump = true;
-	else
-		m_tInfo.bJump = false;
-
+		if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP)
+			m_tInfo.bJump = true;
+		else
+			m_tInfo.bJump = false;
+	}
 }
 
 void CAkaza::Late_Tick(_float fTimeDelta)
 {
-	LateTickState(fTimeDelta);
-
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
-	if (g_bCollBox)
+	if (!m_bChange)
 	{
-		m_pRendererCom->Add_Debug(m_pSphereCom);
+		LateTickState(fTimeDelta);
+
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+		if (g_bCollBox)
+		{
+			m_pRendererCom->Add_Debug(m_pSphereCom);
+		}
 	}
 }
 
@@ -130,7 +144,65 @@ HRESULT CAkaza::Render()
 		//aiTextureType_AMBIENT
 	}
 
-
+	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+	vPos.m128_f32[1] = 0.f;
+	switch (m_i1p)
+	{
+	case 1:
+		if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_U))
+		{
+			m_fChangeTime += m_fDelta;
+			if (m_fChangeTime > 0.5f)
+			{
+				m_tInfo.iFriendBar -= 500;
+				m_tInfo.bSub = true;
+				CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
+				m_pSubChar->Set_Sub(false);
+				m_pSubChar->Set_Change(false, vPos);
+				m_pSubChar->Change_Info(m_tInfo);
+				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+				if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront()))
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);
+				else
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(m_pSubChar);
+				m_fChangeTime = 0.f;
+			}
+		}
+		else
+		{
+			m_fChangeTime = 0.f;
+		}
+		break;
+	case 2:
+		if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_V))
+		{
+			m_fChangeTime += m_fDelta;
+			if (m_fChangeTime > 0.5f)
+			{
+				m_tInfo.iFriendBar -= 500;
+				m_tInfo.bSub = true;
+				CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
+				m_pSubChar->Set_Sub(false);
+				m_pSubChar->Set_Change(false, vPos);
+				m_pSubChar->Change_Info(m_tInfo);
+				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+				if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront()))
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(m_pSubChar);
+				else
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);
+				m_fChangeTime = 0.f;
+			}
+		}
+		else
+		{
+			m_fChangeTime = 0.f;
+		}
+		break;
+	default:
+		break;
+	}
 	RELEASE_INSTANCE(CGameInstance);
 
 
@@ -308,7 +380,7 @@ void CAkaza::Set_Info()
 	m_tInfo.bPowerUp = false;
 	m_tInfo.fPowerUpTime = 0.f;
 	m_tInfo.iFriendMaxBar = 1000;
-	m_tInfo.iFriendBar = 0;
+	m_tInfo.iFriendBar = m_tInfo.iFriendMaxBar;
 	m_tInfo.bGuard = false;
 }
 

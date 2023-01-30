@@ -73,7 +73,7 @@ CRuiState * CHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 		if (pRui->Get_Model()->Get_CurrentFrame() <= 20)
 		{
 			pRui->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
-			pRui->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
+			pRui->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pRui->Get_NavigationCom());
 
 			if (pRui->Get_Model()->Get_CurrentFrame() == 19)
 				return new CIdleState();
@@ -83,7 +83,7 @@ CRuiState * CHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	{
 		if (pRui->Get_Model()->Get_CurrentFrame() <= 60)
 		{
-			pRui->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
+			pRui->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pRui->Get_NavigationCom());
 		}
 
 		pRui->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
@@ -163,6 +163,7 @@ CRuiState * CHitState::Jump(CRui* pRui, _float fTimeDelta)
 void CHitState::Exit(CRui* pRui)
 {
 	pRui->Get_Model()->Set_UsingFrame(CRui::ANIM_HIT, 0, 100);
+	pRui->Set_HitTime(0.2f);
 }
 
 

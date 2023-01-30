@@ -76,7 +76,7 @@ CAkazaState * CSkill_PunchState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 		if (pMyCollider->Collision(pTargetCollider))
 		{
-			_float fSpeed = pAkaza->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 2.5;
+			_float fSpeed = pAkaza->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 2.5f;
 
 			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -91,8 +91,12 @@ CAkazaState * CSkill_PunchState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
 			vPos.m128_f32[1] = 0.f;
-			pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			if (pAkaza->Get_NavigationCom()->Cheak_Cell(vPos))
+				pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pAkaza->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pAkaza->Get_NavigationCom());
 		}
 
 	}

@@ -520,7 +520,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 	ImGui::SameLine();
 	ImGui::Text("%f", m_fDuration);
 
-	if (ImGui::SliderInt("Frame : ", &m_iCurrentFrame, 0.f, m_iFrame))
+	if (ImGui::SliderInt("Frame : ", &m_iCurrentFrame, 0, m_iFrame))
 	{
 		Character_Set_Frame(_iIndex);
 	}

@@ -119,8 +119,8 @@ HRESULT CUltBar::SetUp_ShaderResources()
 	
 	if (m_ThrowUIinfo.iLayerNum == 1)
 	{
-		m_fUltMaxBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicMaxBar;
-		m_fUltCurBar = m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicBar;
+		m_fUltMaxBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicMaxBar;
+		m_fUltCurBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicBar;
 	}
 	else 
 	{

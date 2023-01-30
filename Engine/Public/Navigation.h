@@ -30,7 +30,7 @@ public:
 public:
 	HRESULT Render();
 	void	Find_CurrentCellIndex(_vector vPos);
-
+	_bool	Cheak_Cell(_vector vPos);
 private:
 	NAVIDESC				m_NaviDesc;
 	vector<class CCell*>	m_Cells;

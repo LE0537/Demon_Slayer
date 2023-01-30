@@ -4,7 +4,7 @@
 #include "Level.h"
 #include "GameObject.h"
 #include "Camera_Dynamic.h"
-
+#include "Characters.h"
 
 BEGIN(Client)
 
@@ -17,7 +17,8 @@ public:
 
 		_float4x4		matWorld;
 		_uint			iNaviIndex;
-
+		_bool			bSub;
+		CCharacters*    pSubChar;
 	}CHARACTERDESC;
 private:
 	CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

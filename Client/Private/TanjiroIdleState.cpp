@@ -149,8 +149,10 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-
-
+	if (pTanjiro->Get_PlayerInfo().bSub)
+	{
+		pTanjiro->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
+	}
 
 	return nullptr;
 }

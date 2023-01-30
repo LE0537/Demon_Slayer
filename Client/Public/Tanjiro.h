@@ -133,7 +133,7 @@ private:
 
 
 private:
-	void HandleInput();
+	void HandleInput(_float fTimeDelta);
 	void TickState(_float fTimeDelta);
 	void LateTickState(_float fTimeDelta);
 	HRESULT Ready_Parts();

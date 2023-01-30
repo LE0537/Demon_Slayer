@@ -41,6 +41,7 @@ private:
 public:
 	void Set_Player(CCharacters* _pPlayer) { m_pPlayer = _pPlayer; }
 	void Set_Target(CCharacters* _pTarget) { m_pTarget = _pTarget; }
+	_bool	Get_1PCam() { return m_b1P; }
 private:
 	CCharacters*				m_pPlayer = nullptr;
 	CCharacters*				m_pTarget = nullptr;
@@ -53,7 +54,7 @@ private:
 	_float					m_fCamDist = 0.f;
 	_float					m_fLookY = 0.f;
 	CCharacters*			m_p1P = nullptr;
-
+	_bool					m_b1P = false;
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 

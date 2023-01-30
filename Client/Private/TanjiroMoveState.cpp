@@ -365,6 +365,10 @@ CTanjiroState * CMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	Move(pTanjiro, fTimeDelta);
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (pTanjiro->Get_PlayerInfo().bSub)
+	{
+		return new CIdleState();
+	}
 
 	return nullptr;
 }
@@ -459,8 +463,13 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		vPos += vMyLook * (fSpeed - fSpeed * fPow);
 		vTargetPos += vTargetLook * fSpeed * fPow;
 		vPos.m128_f32[1] = 0.f;
-		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+		if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos))
+			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+		else
+			pTanjiro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pTanjiro->Get_NavigationCom());
+
 	}
 
 	RELEASE_INSTANCE(CGameInstance);

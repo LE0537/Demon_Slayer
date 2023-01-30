@@ -185,7 +185,7 @@ void CCharNameUI::Set_Name_SelLevel()
 
 _float CCharNameUI::Select_NameReSize()
 {
-	if(m_iImgNum == 0)
+	if (m_iImgNum == 0)
 		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
 	else if (m_iImgNum == 1)
 		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
@@ -197,6 +197,8 @@ _float CCharNameUI::Select_NameReSize()
 		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
 	else if (m_iImgNum == 5)
 		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+	else
+		return 0.f;
 }
 
 HRESULT CCharNameUI::Ready_Components()

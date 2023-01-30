@@ -66,7 +66,12 @@ void CNezuko::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	HandleInput();
+	if (m_tInfo.fHitTime > 0.f)
+		m_tInfo.fHitTime -= fTimeDelta;
+
+	if (m_tInfo.fHitTime <= 0.f)
+		HandleInput();
+
 	TickState(fTimeDelta);
 
 	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
