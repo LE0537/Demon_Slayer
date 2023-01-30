@@ -254,12 +254,12 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2043: lstrcpy(pPrototypeTag_Model, L"Leaf3"); break;
 	case 2044: lstrcpy(pPrototypeTag_Model, L"Leaf4"); break;
 
-	case 2045: lstrcpy(pPrototypeTag_Model, L"Hill_Far1"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2046: lstrcpy(pPrototypeTag_Model, L"Hill_Far2"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2047: lstrcpy(pPrototypeTag_Model, L"Hill_Far3"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2048: lstrcpy(pPrototypeTag_Model, L"Hill_Far4"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2049: lstrcpy(pPrototypeTag_Model, L"Hill_Far5"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2050: lstrcpy(pPrototypeTag_Model, L"Hill_Far6"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2045: lstrcpy(pPrototypeTag_Model, L"Hill_Far1"); m_fFrustumRadiusRatio = 20000.f; break;
+	case 2046: lstrcpy(pPrototypeTag_Model, L"Hill_Far2"); m_fFrustumRadiusRatio = 20000.f; break;
+	case 2047: lstrcpy(pPrototypeTag_Model, L"Hill_Far3"); m_fFrustumRadiusRatio = 20000.f; break;
+	case 2048: lstrcpy(pPrototypeTag_Model, L"Hill_Far4"); m_fFrustumRadiusRatio = 20000.f; break;
+	case 2049: lstrcpy(pPrototypeTag_Model, L"Hill_Far5"); m_fFrustumRadiusRatio = 20000.f; break;
+	case 2050: lstrcpy(pPrototypeTag_Model, L"Hill_Far6"); m_fFrustumRadiusRatio = 20000.f; break;
 
 	case 2051: lstrcpy(pPrototypeTag_Model, L"Wall1"); m_fFrustumRadiusRatio = 30.f; break;
 	case 2052: lstrcpy(pPrototypeTag_Model, L"Wall2"); m_fFrustumRadiusRatio = 30.f; break;
