@@ -528,6 +528,16 @@ HRESULT CModel::Bin_Initialize(void * pArg)
 				pMeshContainer->Bin_SetUp_Bones(this, &m_pBin_AIScene->pBinMesh[iNumMeshes++]);
 		}
 	}
+	else if (TYPE_NONANIM_INSTANCING == m_eModelType)
+	{
+		for (auto & iter : m_Meshes_Instancing)
+		{
+			iter->Initialize(pArg);
+		}
+
+		return S_OK;
+	}
+
 
 	if (FAILED(Bin_Ready_Animations(this)))
 		return E_FAIL;
@@ -654,14 +664,31 @@ HRESULT CModel::Bin_Ready_MeshContainers(_fmatrix PivotMatrix)
 {
 	m_iNumMeshes = m_pBin_AIScene->iMeshCount;
 
-	for (_uint i = 0; i < m_iNumMeshes; ++i)
+	if (TYPE_NONANIM_INSTANCING == m_eModelType)
 	{
-		CMeshContainer*		pMeshContainer = CMeshContainer::Bin_Create(m_pDevice, m_pContext, m_eModelType, &m_pBin_AIScene->pBinMesh[i], this, PivotMatrix);
-		if (nullptr == pMeshContainer)
-			return E_FAIL;
+		m_Meshes_Instancing.reserve(m_iNumMeshes);
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			/* 메시를 생성한다. */
+			CMeshInstance*		pMeshContainer = CMeshInstance::Bin_Create(m_pDevice, m_pContext, m_eModelType, &m_pBin_AIScene->pBinMesh[i], this, XMLoadFloat4x4(&m_PivotMatrix));
+			if (nullptr == pMeshContainer)
+				return E_FAIL;
 
-		m_Meshes.push_back(pMeshContainer);
+			m_Meshes_Instancing.push_back(pMeshContainer);
+		}
 	}
+	else
+	{
+		for (_uint i = 0; i < m_iNumMeshes; ++i)
+		{
+			CMeshContainer*		pMeshContainer = CMeshContainer::Bin_Create(m_pDevice, m_pContext, m_eModelType, &m_pBin_AIScene->pBinMesh[i], this, PivotMatrix);
+			if (nullptr == pMeshContainer)
+				return E_FAIL;
+
+			m_Meshes.push_back(pMeshContainer);
+		}
+	}
+
 
 	return S_OK;
 }

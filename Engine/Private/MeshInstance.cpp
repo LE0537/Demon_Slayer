@@ -13,6 +13,8 @@ CMeshInstance::CMeshInstance(const CMeshInstance & rhs)
 	, m_pAIMesh(rhs.m_pAIMesh)
 	, m_iMaterialIndex(rhs.m_iMaterialIndex)
 	, m_iNumBones(rhs.m_iNumBones)
+	, m_pBinAIMesh(rhs.m_pBinAIMesh)
+	, m_bBinMesh(rhs.m_bBinMesh)
 {
 	strcpy_s(m_szName, rhs.m_szName);
 }
@@ -59,6 +61,32 @@ HRESULT CMeshInstance::Initialize_Prototype(CModel::TYPE eModelType, const aiMes
 	return S_OK;
 }
 
+HRESULT CMeshInstance::Bin_Initialize_Prototype(CModel::TYPE eModelType, DATA_BINMESH * pAIMesh, CModel * pModel, _fmatrix PivotMatrix)
+{
+	strcpy_s(m_szName, pAIMesh->cName);
+
+	m_iMaterialIndex = pAIMesh->iMaterialIndex;
+	m_pBinAIMesh = pAIMesh;
+
+	m_bBinMesh = true;
+
+#pragma region VERTICES
+
+	if (CModel::TYPE_NONANIM_INSTANCING != eModelType)
+		return E_FAIL;
+
+
+	HRESULT	hr = Bin_Create_VertexBuffer_NonAnimModel(pAIMesh, PivotMatrix);
+
+	if (FAILED(hr))
+		return E_FAIL;
+
+
+#pragma endregion
+
+	return S_OK;
+}
+
 HRESULT CMeshInstance::Initialize(void * pArg)
 {
 	if (nullptr == pArg)
@@ -72,8 +100,14 @@ HRESULT CMeshInstance::Initialize(void * pArg)
 	ZeroMemory(&m_BufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 	m_iIndicesByte = sizeof(FACEINDICES32);
-	_int			iNumFaces = m_pAIMesh->mNumFaces;
+	_int			iNumFaces = 0;
+	if (false == m_bBinMesh)
+		iNumFaces = m_pAIMesh->mNumFaces;
+	else
+		iNumFaces = m_pBinAIMesh->iNumPrimitives;		//	Binary화 된 파일의 iNumPrimitive는 iNumFaces 이다.
+
 	m_iNumPrimitive = iNumFaces * m_iNumInstance;
+
 	m_iNumIndicesPerPrimitive = 3;
 
 	m_BufferDesc.ByteWidth = m_iIndicesByte * m_iNumPrimitive;
@@ -89,12 +123,22 @@ HRESULT CMeshInstance::Initialize(void * pArg)
 	{
 		for (_uint i = 0; i < iNumFaces; ++i)
 		{
-			aiFace		AIFace = m_pAIMesh->mFaces[i];
+			if (false == m_bBinMesh)
+			{
+				aiFace		AIFace = m_pAIMesh->mFaces[i];
 
-			_int		iIndex = i + (j * iNumFaces);
-			pIndices[iIndex]._0 = AIFace.mIndices[0];
-			pIndices[iIndex]._1 = AIFace.mIndices[1];
-			pIndices[iIndex]._2 = AIFace.mIndices[2];
+				_int		iIndex = i + (j * iNumFaces);
+				pIndices[iIndex]._0 = AIFace.mIndices[0];
+				pIndices[iIndex]._1 = AIFace.mIndices[1];
+				pIndices[iIndex]._2 = AIFace.mIndices[2];
+			}
+			else
+			{
+				_int		iIndex = i + (j * iNumFaces);
+				pIndices[iIndex]._0 = m_pBinAIMesh->pIndices[i]._0;
+				pIndices[iIndex]._1 = m_pBinAIMesh->pIndices[i]._1;
+				pIndices[iIndex]._2 = m_pBinAIMesh->pIndices[i]._2;
+			}
 		}
 	}
 
@@ -113,7 +157,7 @@ HRESULT CMeshInstance::Initialize(void * pArg)
 
 	m_iInstanceStride = sizeof(VTXMATRIX);
 	m_iNumVertices = m_iNumInstance;
-	m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_iNumPrimitive;
+	m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_pBinAIMesh->iNumPrimitives;
 
 	m_BufferDesc.ByteWidth = m_iInstanceStride * m_iNumInstance;
 	m_BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -186,8 +230,15 @@ void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _fl
 	
 	m_iNumRendering = vecRenderMatrix.size();
 
-	_uint		iNumFaces = m_pAIMesh->mNumFaces;
-	m_iNumPrimitive = iNumFaces * m_iNumRendering;
+	_int			iNumFaces = 0;
+	if (false == m_bBinMesh)
+		iNumFaces = m_pAIMesh->mNumFaces;
+
+	if (false == m_bBinMesh)
+		m_iNumPrimitive = iNumFaces * m_iNumRendering;
+	else
+		m_iNumPrimitive = (m_pBinAIMesh->iNumPrimitives) * m_iNumRendering;
+
 	m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_iNumPrimitive;
 
 	D3D11_MAPPED_SUBRESOURCE		MappedSubResource;
@@ -367,6 +418,49 @@ HRESULT CMeshInstance::Create_VertexBuffer_AnimModel(const aiMesh* pAIMesh, CMod
 
 }
 
+HRESULT CMeshInstance::Bin_Create_VertexBuffer_NonAnimModel(DATA_BINMESH * pAIMesh, _fmatrix PivotMatrix)
+{
+	ZeroMemory(&m_BufferDesc, sizeof(D3D11_BUFFER_DESC));
+
+	m_iStride = sizeof(VTXMODEL);
+	m_iNumVertices = pAIMesh->NumVertices;
+	m_iNumVertexBuffers = 2;
+	m_eFormat = DXGI_FORMAT_R32_UINT;
+	m_eTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+	m_BufferDesc.ByteWidth = m_iStride * m_iNumVertices;
+	m_BufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	m_BufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	m_BufferDesc.CPUAccessFlags = 0;
+	m_BufferDesc.MiscFlags = 0;
+	m_BufferDesc.StructureByteStride = m_iStride;
+
+	VTXMODEL*			pVertices = new VTXMODEL[m_iNumVertices];
+
+	for (_uint i = 0; i < m_iNumVertices; ++i)
+	{
+		pVertices[i] = pAIMesh->pNonAnimVertices[i];
+		memcpy(&pVertices[i].vPosition, &pAIMesh->pNonAnimVertices[i], sizeof(_float3));
+		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
+
+		memcpy(&pVertices[i].vNormal, &pAIMesh->pNonAnimVertices[i], sizeof(_float3));
+		XMStoreFloat3(&pVertices[i].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix));
+		/*
+		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
+		memcpy(&pVertices[i].vTangent, &m_pAIMesh->mTangents[i], sizeof(_float3));
+		*/
+	}
+
+	ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
+	m_SubResourceData.pSysMem = pVertices;
+	if (FAILED(__super::Create_VertexBuffer()))
+		return E_FAIL;
+
+	Safe_Delete_Array(pVertices);
+
+	return S_OK;
+}
+
 CMeshInstance * CMeshInstance::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CModel::TYPE eModelType, const aiMesh * pAIMesh, CModel * pModel, _fmatrix PivotMatrix)
 {
 	CMeshInstance*	pInstance = new CMeshInstance(pDevice, pContext);
@@ -374,6 +468,19 @@ CMeshInstance * CMeshInstance::Create(ID3D11Device * pDevice, ID3D11DeviceContex
 	if (FAILED(pInstance->Initialize_Prototype(eModelType, pAIMesh, pModel, PivotMatrix)))
 	{
 		ERR_MSG(TEXT("Failed to Created : CMeshInstance"));
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CMeshInstance * CMeshInstance::Bin_Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, CModel::TYPE eModelType, DATA_BINMESH * pAIMesh, CModel * pModel, _fmatrix PivotMatrix)
+{
+	CMeshInstance*			pInstance = new CMeshInstance(pDevice, pContext);
+
+	if (FAILED(pInstance->Bin_Initialize_Prototype(eModelType, pAIMesh, pModel, PivotMatrix)))
+	{
+		ERR_MSG(TEXT("Failed To Created : CMeshInstance_Bin"));
 		Safe_Release(pInstance);
 	}
 
