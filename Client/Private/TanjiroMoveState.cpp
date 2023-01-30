@@ -432,6 +432,7 @@ void CMoveState::Enter(CTanjiro * pTanjiro)
 	case Client::CTanjiroState::TYPE_END:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_END);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_END);
+		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
 		break;
 	case Client::CTanjiroState::TYPE_DEFAULT:
 		break;

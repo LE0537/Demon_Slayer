@@ -54,7 +54,7 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	
+
 	if (m_i1p == 1)
 	{
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
@@ -72,8 +72,9 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
-	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
+
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 
 	return S_OK;
@@ -84,17 +85,15 @@ void CKyoujuro::Tick(_float fTimeDelta)
 
 	__super::Tick(fTimeDelta);
 
-
 	HandleInput();
 	TickState(fTimeDelta);
 
-	m_pModelCom->Get_PivotFloat4x4();
-	m_pTransformCom->Get_World4x4Ptr();
+
 	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
 	if (nullptr == pSocket)
 		return;
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
-	
+
 	m_pSphereCom->Update(matColl);
 
 
@@ -102,6 +101,9 @@ void CKyoujuro::Tick(_float fTimeDelta)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
+
+
+
 
 }
 
@@ -114,7 +116,8 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 	m_pWeapon->Tick(fTimeDelta);
 	m_pSheath->Tick(fTimeDelta);
 
-	
+
+	static _bool test = false;
 
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
@@ -129,6 +132,8 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 	{
 		m_pRendererCom->Add_Debug(m_pSphereCom);
 	}
+
+
 
 }
 
@@ -384,7 +389,7 @@ void CKyoujuro::Get_GuardHit(_int eType)
 		m_pModelCom->Reset_Anim(CKyoujuro::ANIMID::ANIM_GUARD_HIT_1);
 		pState = new CGuardHitState(CKyoujuroState::STATE_TYPE::TYPE_LOOP);
 	}
-	
+
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 }
 
