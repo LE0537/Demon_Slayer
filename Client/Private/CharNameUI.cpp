@@ -113,9 +113,9 @@ void CCharNameUI::Name_Selected(wstring strName)
 		m_iImgNum = 0;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
 		if (m_ThrowUIinfo.iLayerNum == 0)
-			m_fX += 50.f;
+			m_fX += 40.f;
 		if (m_ThrowUIinfo.iLayerNum == 1)
-			m_fX -= 100.f;
+			m_fX -= 110.f;
 	}
 	else if (strName == TEXT("루이"))
 	{
@@ -134,6 +134,20 @@ void CCharNameUI::Name_Selected(wstring strName)
 			m_fX += 50.f;
 		if (m_ThrowUIinfo.iLayerNum == 1)
 			m_fX -= 50.f;*/
+	}
+	else if (strName == TEXT("네즈코"))
+	{
+		m_iImgNum = 4;
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
+		if (m_ThrowUIinfo.iLayerNum == 0)//1p
+			m_fX += 40.f;
+		if (m_ThrowUIinfo.iLayerNum == 1)//2p
+			m_fX -= 30.f;
+	}
+	else if (strName == TEXT("시노부"))
+	{
+		m_iImgNum = 5;
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
 	}
 }
 

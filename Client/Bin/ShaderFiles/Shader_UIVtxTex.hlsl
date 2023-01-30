@@ -159,11 +159,6 @@ PS_OUT PS_LogoEff(PS_IN In)
 
 	Out.vColor = g_DiffuseTexture.Sample(PointSampler, vNewUV);
 
-	//if (Out.vColor.r < 200)
-	//	Out.vColor.r = Out.vColor.r * 0.5f;
-	/*if (Out.vColor.b < 200)
-		Out.vColor.b = Out.vColor.b * 0.5f;*/
-
 	Out.vColor.a += g_fAlphaTime;
 
 	//if(Out.vColor.r <)
@@ -258,6 +253,18 @@ PS_OUT PS_InkEff(PS_IN In)
 		Out.vColor.a = vMask.r;
 		Out.vColor.rgb = 1 - vMask.rgb;
 	}
+
+	return Out;
+}
+
+PS_OUT PS_GamePlyCharIcon(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float4 DiffuseTexture = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+	float4 vMaskTexture = g_MaskTexture.Sample(PointSampler, In.vTexUV);
+	DiffuseTexture.a = vMaskTexture.r;
+	Out.vColor.rgba = DiffuseTexture.rgba;
 
 	return Out;
 }
@@ -456,6 +463,17 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_SkillBarMinus();
+	}
+
+	pass GamePlyCharIcon //16
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_GamePlyCharIcon();
 	}
 	
 }
