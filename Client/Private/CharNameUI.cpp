@@ -103,10 +103,10 @@ void CCharNameUI::Name_Selected(wstring strName)
 	{
 		m_iImgNum = 1;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
-		if(m_ThrowUIinfo.iLayerNum == 0)
-			m_fX += 30.f;
-		else if(m_ThrowUIinfo.iLayerNum == 1)
-			m_fX -= 60.f;
+		if(m_ThrowUIinfo.iLayerNum == 0)//2p
+			m_fX -= 35.f;
+		else if(m_ThrowUIinfo.iLayerNum == 1)//1p
+			m_fX -= 30.f;
 	}
 	else if (strName == TEXT("ÅºÁö·Î"))
 	{
