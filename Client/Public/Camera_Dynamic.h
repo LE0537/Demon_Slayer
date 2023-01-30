@@ -55,6 +55,7 @@ private:
 	_float					m_fLookY = 0.f;
 	CCharacters*			m_p1P = nullptr;
 	_bool					m_b1P = false;
+	_int					m_iIniti = 0;
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 

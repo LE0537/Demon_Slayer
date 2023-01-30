@@ -43,9 +43,7 @@ HRESULT CTanjiroWeapon::Initialize(void * pArg)
 
 void CTanjiroWeapon::Tick(_float fTimeDelta)
 {
-	if (m_bRender)
-	{
-
+	
 		_matrix		SocketMatrix = m_WeaponDesc.pSocket->Get_CombinedTransformationMatrix() *
 			XMLoadFloat4x4(&m_WeaponDesc.SocketPivotMatrix) * XMLoadFloat4x4(m_WeaponDesc.pParentWorldMatrix);
 
@@ -60,8 +58,6 @@ void CTanjiroWeapon::Tick(_float fTimeDelta)
 		_vector vUp = matCollBox.r[1];
 		matCollBox.r[3] += XMVector3Normalize(vUp) * 2.f;
 
-	}
-
 }
 
 void CTanjiroWeapon::Late_Tick(_float fTimeDelta)
@@ -72,8 +68,7 @@ void CTanjiroWeapon::Late_Tick(_float fTimeDelta)
 
 HRESULT CTanjiroWeapon::Render()
 {
-	if (m_bRender)
-	{
+	
 		if (nullptr == m_pShaderCom)
 			return E_FAIL;
 
@@ -91,7 +86,7 @@ HRESULT CTanjiroWeapon::Render()
 				return E_FAIL;
 		}
 
-	}
+	
 	return S_OK;
 }
 

@@ -42,8 +42,7 @@ HRESULT CKyoujuroWeapon::Initialize(void * pArg)
 
 void CKyoujuroWeapon::Tick(_float fTimeDelta)
 {
-	if (m_bRender)
-	{
+	
 		_matrix		SocketMatrix = m_WeaponDesc.pSocket->Get_CombinedTransformationMatrix() *
 			XMLoadFloat4x4(&m_WeaponDesc.SocketPivotMatrix) * XMLoadFloat4x4(m_WeaponDesc.pParentWorldMatrix);
 
@@ -59,9 +58,6 @@ void CKyoujuroWeapon::Tick(_float fTimeDelta)
 		matCollBox.r[3] += XMVector3Normalize(vUp) * 2.f;
 
 
-
-	}
-
 }
 
 void CKyoujuroWeapon::Late_Tick(_float fTimeDelta)
@@ -72,8 +68,7 @@ void CKyoujuroWeapon::Late_Tick(_float fTimeDelta)
 
 HRESULT CKyoujuroWeapon::Render()
 {
-	if (m_bRender)
-	{
+	
 		if (nullptr == m_pShaderCom)
 			return E_FAIL;
 
@@ -91,7 +86,7 @@ HRESULT CKyoujuroWeapon::Render()
 				return E_FAIL;
 		}
 
-	}
+	
 	return S_OK;
 }
 

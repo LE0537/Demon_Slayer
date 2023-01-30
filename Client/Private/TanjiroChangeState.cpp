@@ -35,10 +35,10 @@ CTanjiroState * CChangeState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			break;
 		case Client::CTanjiroState::TYPE_LOOP:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			pTanjiro->Set_ChangeInfo(false);
 			break;
 		case Client::CTanjiroState::TYPE_END:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+			pTanjiro->Set_ChangeInfo(false);
 			return new CIdleState();
 			break;
 		}

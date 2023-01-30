@@ -27,208 +27,196 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pTanjiro->Set_bGuard(false);
-
-	switch (pTanjiro->Get_i1P())
+	if (!pTanjiro->Get_PlayerInfo().bChange)
 	{
-	case 1:
-		////test
-		//if (pGameInstance->Key_Down(DIK_R))
-		//{
-		//	return new CChangeState(STATE_TYPE::TYPE_START); // start -> up
-		//}
-		//if (pGameInstance->Key_Down(DIK_U))
-		//{
-		// _vector temp = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		// pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(XMVectorGetX(temp), 20.f, XMVectorGetZ(temp),1.f)); 
-
-		//	return new CChangeState(STATE_TYPE::TYPE_LOOP); // loop -> down
-		//}
-
-
-		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
+		switch (pTanjiro->Get_i1P())
 		{
-			if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
-				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
-			else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
-				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
-			else
-				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
-		}
+		case 1:
+			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+					return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
+					return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+				else
+					return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+			}
 
-		else if (pGameInstance->Key_Pressing(DIK_D)) // µÚ
-		{
-			if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
-				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
-			else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì 
-				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
-			else
-				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
-		}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // µÚ
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+					return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì 
+					return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+				else
+					return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+			}
 
 
-		else if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
-			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
-		else if (pGameInstance->Key_Pressing(DIK_S)) // ¿ì
-			return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
-		else if (pGameInstance->Key_Down(DIK_SPACE)) // Á¡ÇÁ
-		{
-			_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			_float fPositionY = XMVectorGetY(vPosition);
-			return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
-		}
-		else if (pGameInstance->Key_Down(DIK_J))
-		{
-			if (pTanjiro->Get_KaguraMode())
-				return new CAtk_1_KaguraState();
-			else
-				return new CAtk_1_State();
-		}
-		else if (pGameInstance->Key_Pressing(DIK_O))
-			return new CGuardState(STATE_TYPE::TYPE_START);
-		else if (pGameInstance->Key_Down(DIK_I))
-		{
-			if (pGameInstance->Key_Down(DIK_O))
+			else if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+				return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_S)) // ¿ì
+				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Down(DIK_SPACE)) // Á¡ÇÁ
+			{
+				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_float fPositionY = XMVectorGetY(vPosition);
+				return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+			}
+			else if (pGameInstance->Key_Down(DIK_J))
 			{
 				if (pTanjiro->Get_KaguraMode())
+					return new CAtk_1_KaguraState();
+				else
+					return new CAtk_1_State();
+			}
+			else if (pGameInstance->Key_Pressing(DIK_O))
+				return new CGuardState(STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Down(DIK_I))
+			{
+				if (pGameInstance->Key_Down(DIK_O))
 				{
-					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					if (pTanjiro->Get_KaguraMode())
 					{
-						pTanjiro->Set_SkillBar(-200);
-						return new CKaguraSkill_SphereState();
+						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+						{
+							pTanjiro->Set_SkillBar(-200);
+							return new CKaguraSkill_SphereState();
+						}
+					}
+					else
+					{
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+						{
+							pTanjiro->Set_SkillBar(-200);
+							return new CSkill_WindMillState();
+						}
 					}
 				}
 				else
 				{
-					pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
-					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					if (pTanjiro->Get_KaguraMode())
 					{
-						pTanjiro->Set_SkillBar(-200);
-						return new CSkill_WindMillState();
+						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+						{
+							pTanjiro->Set_SkillBar(-200);
+							return new CKaguraSkill_CommonState();
+						}
+					}
+					else
+					{
+						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+						{
+							pTanjiro->Set_SkillBar(-200);
+							return new CSkill_CommonState();
+						}
 					}
 				}
 			}
-			else
+			break;
+		case 2:
+			if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
+					return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
+					return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+				else
+					return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // µÚ
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
+					return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì 
+					return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+				else
+					return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
+				return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // ¿ì
+				return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Down(DIK_LCONTROL)) // Á¡ÇÁ
+			{
+				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_float fPositionY = XMVectorGetY(vPosition);
+				return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+			}
+			else if (pGameInstance->Key_Down(DIK_Z))
 			{
 				if (pTanjiro->Get_KaguraMode())
+					return new CAtk_1_KaguraState();
+				else
+					return new CAtk_1_State();
+			}
+			else if (pGameInstance->Key_Pressing(DIK_C))
+				return new CGuardState(STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Down(DIK_X))
+			{
+				if (pGameInstance->Key_Down(DIK_C))
 				{
-					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					if (pTanjiro->Get_KaguraMode())
 					{
-						pTanjiro->Set_SkillBar(-200);
-						return new CKaguraSkill_CommonState();
+						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+						{
+							pTanjiro->Set_SkillBar(-200);
+							return new CKaguraSkill_SphereState();
+						}
+					}
+					else
+					{
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+						{
+							pTanjiro->Set_SkillBar(-200);
+							return new CSkill_WindMillState();
+						}
 					}
 				}
 				else
 				{
-					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+					if (pTanjiro->Get_KaguraMode())
 					{
-						pTanjiro->Set_SkillBar(-200);
-						return new CSkill_CommonState();
+						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+						{
+							pTanjiro->Set_SkillBar(-200);
+							return new CKaguraSkill_CommonState();
+						}
+					}
+					else
+					{
+						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+						{
+							pTanjiro->Set_SkillBar(-200);
+							return new CSkill_CommonState();
+						}
 					}
 				}
 			}
+			break;
+		default:
+			break;
 		}
-		break;
-	case 2:
-		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
-		{
-			if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
-				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
-			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
-				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
-			else
-				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
-		}
-
-		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // µÚ
-		{
-			if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
-				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
-			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì 
-				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
-			else
-				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
-		}
-
-
-		else if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
-			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
-		else if (pGameInstance->Key_Pressing(DIK_DOWN)) // ¿ì
-			return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
-		else if (pGameInstance->Key_Down(DIK_LCONTROL)) // Á¡ÇÁ
-		{
-			_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			_float fPositionY = XMVectorGetY(vPosition);
-			return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
-		}
-		else if (pGameInstance->Key_Down(DIK_Z))
-		{
-			if (pTanjiro->Get_KaguraMode())
-				return new CAtk_1_KaguraState();
-			else
-				return new CAtk_1_State();
-		}
-		else if (pGameInstance->Key_Pressing(DIK_C))
-			return new CGuardState(STATE_TYPE::TYPE_START);
-		else if (pGameInstance->Key_Down(DIK_X))
-		{
-			if (pGameInstance->Key_Down(DIK_C))
-			{
-				if (pTanjiro->Get_KaguraMode())
-				{
-					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
-					{
-						pTanjiro->Set_SkillBar(-200);
-						return new CKaguraSkill_SphereState();
-					}
-				}
-				else
-				{
-					pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
-					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
-					{
-						pTanjiro->Set_SkillBar(-200);
-						return new CSkill_WindMillState();
-					}
-				}
-			}
-			else
-			{
-				if (pTanjiro->Get_KaguraMode())
-				{
-					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
-					{
-						pTanjiro->Set_SkillBar(-200);
-						return new CKaguraSkill_CommonState();
-					}
-				}
-				else
-				{
-					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
-					{
-						pTanjiro->Set_SkillBar(-200);
-						return new CSkill_CommonState();
-					}
-				}
-			}
-		}
-		break;
-	default:
-		break;
 	}
-
 	return nullptr;
 }
 
 CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	if (pTanjiro->Get_PlayerInfo().bChange)
+	{
+		return new CChangeState(STATE_TYPE::TYPE_LOOP);
+	}
 	if (pTanjiro->Get_PlayerInfo().bSub)
 	{
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
-	else if (pTanjiro->Get_PlayerInfo().bChange)
-	{
-		return new CChangeState(STATE_TYPE::TYPE_LOOP);
-	}
+
 
 	return nullptr;
 }
