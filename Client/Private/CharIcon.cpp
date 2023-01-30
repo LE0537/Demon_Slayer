@@ -80,13 +80,8 @@ HRESULT CCharIcon::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
-	{
-		if (!m_ThrowUIinfo.bReversal)
-			m_pShaderCom->Begin();
-		else
-			m_pShaderCom->Begin(1);
-	}
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)	
+		m_pShaderCom->Begin(16);
 	else if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 		m_pShaderCom->Begin(9);
 
@@ -105,6 +100,10 @@ void CCharIcon::Icon_Selected_GamePlay(wstring strName)
 		m_iImgNum = 27;
 	else if (strName == TEXT("아카자"))
 		m_iImgNum = 0;
+	else if (strName == TEXT("네즈코"))
+		m_iImgNum = 25;
+	else if (strName == TEXT("시노부"))
+		m_iImgNum = 39;
 	
 }
 
@@ -148,6 +147,12 @@ HRESULT CCharIcon::Ready_Components()
 			return E_FAIL;
 	}
 
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharMask"), (CComponent**)&m_pTextureMaskCom)))
+			return E_FAIL;
+	}
+
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
@@ -173,6 +178,26 @@ HRESULT CCharIcon::SetUp_ShaderResources()
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 	{
 		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pTextureMaskCom->Get_SRV(0))))
+			return E_FAIL;
+	}
+	if (!m_ThrowUIinfo.bPlyCheck)
+	{
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_iMaskImgNum = 0;
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			m_iMaskImgNum = 1;
+	}
+	else if (m_ThrowUIinfo.bPlyCheck)
+	{
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_iMaskImgNum = 2;
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			m_iMaskImgNum = 3;
+	}
+
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	{
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pTextureMaskCom->Get_SRV(m_iMaskImgNum))))
 			return E_FAIL;
 	}
 
@@ -211,6 +236,8 @@ void CCharIcon::Free()
 	__super::Free();
 
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+		Safe_Release(m_pTextureMaskCom);
+	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
 		Safe_Release(m_pTextureMaskCom);
 
 	Safe_Release(m_pTransformCom);

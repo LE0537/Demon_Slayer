@@ -21,6 +21,7 @@ public:
 	{
 		_bool			bReversal;
 		_bool			bSelCheck;
+		_bool			bPlyCheck; //false 1p true 2p
 		_uint			iTextureNum;
 		_uint			iLayerNum;
 		_float2			vPos;

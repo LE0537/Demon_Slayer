@@ -117,6 +117,7 @@ void CUI_Manager::Add_P1_PersonHpUI()
 		m_ThrowInfo.pTargetSecond = m_p1P_2;
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.bPlyCheck = false;
 		m_ThrowInfo.vScale = iter.vScale;
 		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
 
@@ -128,6 +129,7 @@ void CUI_Manager::Add_P1_PersonHpUI()
 
 	m_iUltBarLayerNum = 0;
 	m_iCharNameLayerNum = 0;
+	m_iCharIconLayerNum = 0;
 }
 
 void CUI_Manager::Add_P1_OniHpUI()
@@ -139,6 +141,7 @@ void CUI_Manager::Add_P1_OniHpUI()
 		m_ThrowInfo.pTarget = m_p1P;
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.bPlyCheck = false;
 		m_ThrowInfo.vScale = iter.vScale;
 		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
 
@@ -150,6 +153,7 @@ void CUI_Manager::Add_P1_OniHpUI()
 	
 	m_iUltBarLayerNum = 0;
 	m_iCharNameLayerNum = 0;
+	m_iCharIconLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_PersonHpUI()
@@ -162,6 +166,7 @@ void CUI_Manager::Add_P2_PersonHpUI()
 		m_ThrowInfo.pTargetSecond = m_p1P_2;
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.bPlyCheck = true;
 		m_ThrowInfo.vScale = iter.vScale;
 		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
 
@@ -173,6 +178,7 @@ void CUI_Manager::Add_P2_PersonHpUI()
 	
 	m_iUltBarLayerNum = 0;
 	m_iCharNameLayerNum = 0;
+	m_iCharIconLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_OniHpUI()
@@ -184,6 +190,7 @@ void CUI_Manager::Add_P2_OniHpUI()
 		m_ThrowInfo.pTarget = m_p2P;
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.bPlyCheck = true;
 		m_ThrowInfo.vScale = iter.vScale;
 		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
 
@@ -195,6 +202,7 @@ void CUI_Manager::Add_P2_OniHpUI()
 
 	m_iUltBarLayerNum = 0;
 	m_iCharNameLayerNum = 0;
+	m_iCharIconLayerNum = 0;
 }
 
 void CUI_Manager::Add_Select_CharUI()
@@ -291,8 +299,10 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 	}
 	case 1:
 	{
+		iter.iLayerNum = m_iCharIconLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iCharIconLayerNum;
 		break;
 	}
 	case 2: //ChangeBase 0

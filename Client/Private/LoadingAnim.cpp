@@ -50,6 +50,16 @@ HRESULT CLoadingAnim::Initialize(void * pArg)
 
 void CLoadingAnim::Tick(_float fTimeDelta)
 {
+	m_fSpriteTime += fTimeDelta;
+	if (m_fSpriteTime >= 0.05f)
+	{
+		++m_iFrame;
+		m_fSpriteTime = 0.f;
+	}
+
+	if (m_iFrame == 6)
+		m_iFrame = 0;
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -68,10 +78,7 @@ HRESULT CLoadingAnim::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(14);
 
 	m_pVIBufferCom->Render();
 
@@ -113,6 +120,13 @@ HRESULT CLoadingAnim::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iFrame", &m_iFrame, sizeof(_uint))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumTexU", &m_iNumTextureU, sizeof(_uint))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumTexV", &m_iNumTextureV, sizeof(_uint))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
