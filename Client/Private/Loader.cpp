@@ -1581,9 +1581,8 @@ void CLoader::Load_Texture(char * szFolderName, char * szFilePath)
 		_tchar			szRealPath[MAX_PATH] = TEXT("");
 		MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szRealPath, MAX_PATH);
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, szRealName,
-			CTexture::Create(m_pDevice, m_pContext, szRealPath, 1))))
-			return;
+		pGameInstance->Add_Prototype(LEVEL_STATIC, szRealName,
+			CTexture::Create(m_pDevice, m_pContext, szRealPath, 1));
 
 	} while (_findnexti64(hFile, &fd) == 0);
 
