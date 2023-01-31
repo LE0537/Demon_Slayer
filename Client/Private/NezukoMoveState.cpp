@@ -10,6 +10,8 @@
 #include "NezukojumpState.h"
 #include "NezukoDashState.h"
 #include "NezukoMoveJumpState.h"
+#include "NezukoSkill_FallCut.h"
+#include "NezukoSkill_Move.h"
 using namespace Nezuko;
 
 
@@ -37,15 +39,16 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
 					pNezuko->Set_SkillBar(-200);
-					//return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
+					return new CSkill_FallCutState(STATE_TYPE::TYPE_START);
 				}
 			}
 			else
 			{
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
-					pNezuko->Set_SkillBar(-200);
-					//return new CSkill_PunchState(STATE_TYPE::TYPE_START);
+					pNezuko->Set_SkillBar(+200);
+					pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_SKILL_MOVE);
+					return new CSkill_MoveState(STATE_TYPE::TYPE_START);
 				}
 			}
 		}
@@ -191,7 +194,7 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
 					pNezuko->Set_SkillBar(-200);
-					//return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
+					return new CSkill_FallCutState(STATE_TYPE::TYPE_START);
 				}
 			}
 			else
@@ -199,7 +202,8 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
 					pNezuko->Set_SkillBar(-200);
-					//return new CSkill_PunchState(STATE_TYPE::TYPE_START);
+					pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_SKILL_MOVE);
+					return new CSkill_MoveState(STATE_TYPE::TYPE_START);
 				}
 			}
 		}

@@ -670,6 +670,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Move">
       <UniqueIdentifier>{a8cf4bb8-ac68-4af6-9264-1bc8267a6bc8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\FallCut">
+      <UniqueIdentifier>{44a43d32-2a6e-40e2-8979-17f4e4cfac08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1341,6 +1344,12 @@
     <ClInclude Include="..\Public\NezukoSkill_Common.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\NezukoSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoSkill_FallCut.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\FallCut</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -1984,6 +1993,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\NezukoSkill_Common.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoSkill_Move.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoSkill_FallCut.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\FallCut</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
