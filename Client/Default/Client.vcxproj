@@ -275,6 +275,8 @@
     <ClInclude Include="..\Public\NezukoMoveJumpState.h" />
     <ClInclude Include="..\Public\NezukoMoveState.h" />
     <ClInclude Include="..\Public\NezukoSkill_Common.h" />
+    <ClInclude Include="..\Public\NezukoSkill_FallCut.h" />
+    <ClInclude Include="..\Public\NezukoSkill_Move.h" />
     <ClInclude Include="..\Public\NezukoState.h" />
     <ClInclude Include="..\Public\NezukoToolState.h" />
     <ClInclude Include="..\public\RuiAtk.h" />
@@ -506,6 +508,8 @@
     <ClCompile Include="..\Private\NezukoMoveJumpState.cpp" />
     <ClCompile Include="..\Private\NezukoMoveState.cpp" />
     <ClCompile Include="..\Private\NezukoSkill_Common.cpp" />
+    <ClCompile Include="..\Private\NezukoSkill_FallCut.cpp" />
+    <ClCompile Include="..\Private\NezukoSkill_Move.cpp" />
     <ClCompile Include="..\Private\NezukoToolState.cpp" />
     <ClCompile Include="..\private\RuiAtk.cpp" />
     <ClCompile Include="..\Private\RuiAtk_1_State.cpp" />
