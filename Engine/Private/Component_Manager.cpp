@@ -101,5 +101,5 @@ void CComponent_Manager::Free()
 		Safe_Delete_Array(Name);
 	}
 
-	m.names.clear();
+	m_Name.clear();
 }
