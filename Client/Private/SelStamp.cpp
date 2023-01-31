@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "SelStamp.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
+#include "SelP1Cursor.h"
+#include "SelP2Cursor.h"
 
 CSelStamp::CSelStamp(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -73,7 +76,22 @@ HRESULT CSelStamp::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	CSelP1Cursor* pSelP1Cursor = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor());
+	CSelP2Cursor* pSelP2Cursor = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor());
+	if (pSelP1Cursor != nullptr)
+	{
+		if (m_ThrowUIinfo.iLayerNum == 0 && pSelP1Cursor->Get_SelComple())
+			m_pVIBufferCom->Render();
+	}
+	if (pSelP2Cursor != nullptr)
+	{
+		if (m_ThrowUIinfo.iLayerNum == 1 && pSelP2Cursor->Get_SelComple())
+			m_pVIBufferCom->Render();
+	} 
+	
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }

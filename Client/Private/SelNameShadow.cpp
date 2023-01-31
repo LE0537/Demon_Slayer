@@ -70,7 +70,7 @@ HRESULT CSelNameShadow::Render()
 
 	m_pShaderCom->Begin(10);
 
-	m_pVIBufferCom->Render();
+	//m_pVIBufferCom->Render();
 
 	return S_OK;
 }

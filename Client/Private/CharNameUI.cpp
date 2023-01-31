@@ -99,8 +99,42 @@ HRESULT CCharNameUI::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	if(m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+		m_pVIBufferCom->Render();
+	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
+		CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
+		CSelP1Cursor* pSelP1Cursor = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor());
+		CSelP2Cursor* pSelP2Cursor = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor());
+
+		if(m_ThrowUIinfo.iLayerNum == 0)
+			m_pVIBufferCom->Render();
+		else if(m_ThrowUIinfo.iLayerNum == 1)
+			m_pVIBufferCom->Render();
+		else if (m_ThrowUIinfo.iLayerNum == 2)
+		{
+			if (pSelP1Cursor != nullptr)
+			{
+				if (pSelP1Cursor->Get_FirstSelCheck() && !pSelP1Cursor->Get_SecondSelCheck() && !pSelP1Cursor->Get_SelectUIInfo().bOni)
+					m_pVIBufferCom->Render();
+				if (pSelP1Cursor->Get_SecondSelCheck() && !pSelP1Cursor->Get_SelectUIInfo().bOni)
+					m_pVIBufferCom->Render();
+			}
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 3)
+		{
+			if (pSelP2Cursor != nullptr)
+			{
+				if (pSelP2Cursor->Get_FirstSelCheck() && !pSelP2Cursor->Get_SecondSelCheck() && !pSelP2Cursor->Get_SelectUIInfo().bOni)
+					m_pVIBufferCom->Render();
+				if (pSelP2Cursor->Get_SecondSelCheck() && !pSelP2Cursor->Get_SelectUIInfo().bOni)
+					m_pVIBufferCom->Render();
+			}
+		}
+
+		RELEASE_INSTANCE(CUI_Manager);
+	}
 	return S_OK;
 }
 
@@ -158,28 +192,30 @@ void CCharNameUI::Set_Name_SelLevel()
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
+	CSelP1Cursor* pSelP1Cursor = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor());
+	CSelP2Cursor* pSelP2Cursor = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor());
 
-	_uint iSelNum1PCursor = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor())->Get_FrameLayerNum();
-	_uint iSelNum2PCursor = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_FrameLayerNum();
+	_uint iSelNum1PCursor = pSelP1Cursor->Get_FrameLayerNum();
+	_uint iSelNum2PCursor = pSelP2Cursor->Get_FrameLayerNum();
 
 	if (m_ThrowUIinfo.iLayerNum == 0)
 	{
-		if (pUI_Manager->Get_1PCursor()->Get_SelFirst())
+		if (!pSelP1Cursor->Get_FirstSelCheck())
 			m_iImgNum = iSelNum1PCursor;
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 1)
 	{
-		if (pUI_Manager->Get_2PCursor()->Get_SelFirst())
+		if (!pSelP2Cursor->Get_FirstSelCheck())
 			m_iImgNum = iSelNum2PCursor;
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 2)
 	{
-		if (pUI_Manager->Get_1PCursor()->Get_SelSecond())
+		if (!pSelP1Cursor->Get_SecondSelCheck())
 			m_iImgNum = iSelNum1PCursor;
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 3)
 	{
-		if (pUI_Manager->Get_2PCursor()->Get_SelSecond())
+		if (!pSelP2Cursor->Get_SecondSelCheck())
 			m_iImgNum = iSelNum2PCursor;
 	}
 	

@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "UI_Manager.h"
+#include "SelP1Cursor.h"
+#include "SelP2Cursor.h"
 
 CLevel_SelectChar::CLevel_SelectChar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -31,25 +33,39 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
-	if (pGameInstance->Key_Down(DIK_T))
+
+	CSelP1Cursor* pSel_P1Cursor = dynamic_cast<CSelP1Cursor*>(pUIManager->Get_1PCursor());
+	CSelP2Cursor* pSel_P2Cursor = dynamic_cast<CSelP2Cursor*>(pUIManager->Get_2PCursor());
+
+	if (pSel_P1Cursor != nullptr && pSel_P2Cursor != nullptr)
 	{
-		_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
-		_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
-		_uint i1p_2 = pUIManager->Get_1P_2Char()->Get_ImgNum();
-		_uint i2p_2 = pUIManager->Get_2P_2Char()->Get_ImgNum();
+		if (pSel_P1Cursor->Get_SelComple() && pSel_P2Cursor->Get_SelComple())
+		{
+			_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
+			_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
+			_uint i1p_2 = pUIManager->Get_1P_2Char()->Get_ImgNum();
+			_uint i2p_2 = pUIManager->Get_2P_2Char()->Get_ImgNum();
 
-		pUIManager->Set_Sel1P(i1p);
-		pUIManager->Set_Sel2P(i2p);
-		pUIManager->Set_Sel1P_2(i1p_2);
-		pUIManager->Set_Sel2P_2(i2p_2);
+			pUIManager->Set_Sel1P(i1p);
+			pUIManager->Set_Sel2P(i2p);
 
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
-			return;
+			if (!pUIManager->Get_1PCursor()->Get_SelectUIInfo().bOni)
+				pUIManager->Set_Sel1P_2(i1p_2);
+			else
+				pUIManager->Set_Sel1P_2(99);
+
+			if (!pUIManager->Get_2PCursor()->Get_SelectUIInfo().bOni)
+				pUIManager->Set_Sel2P_2(i2p_2);
+			else
+				pUIManager->Set_Sel2P_2(99);
+
+			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
+				return;
+		}
 	}
+	
 	Safe_Release(pGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
-
-
 }
 
 void CLevel_SelectChar::Late_Tick(_float fTimeDelta)

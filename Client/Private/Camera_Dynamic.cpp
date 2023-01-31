@@ -143,9 +143,7 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 	}
 	_vector v1PY = m_p1P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_bool	bTrue = m_b1P;
-	if (!m_pPlayer->Get_PlayerInfo().bChange && !m_pTarget->Get_PlayerInfo().bChange &&
-		!m_pPlayer->Get_SubChar()->Get_PlayerInfo().bChange &&
-		!m_pTarget->Get_SubChar()->Get_PlayerInfo().bChange)
+	if (CheckSubChar())
 	{
 		if (!m_p1P->Get_PlayerInfo().bJump && v1PY.m128_f32[1] < 0.1f)
 		{
@@ -184,9 +182,7 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 		}
 	}
 	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
-	if (!m_pPlayer->Get_PlayerInfo().bChange && !m_pTarget->Get_PlayerInfo().bChange && 
-		!m_pPlayer->Get_SubChar()->Get_PlayerInfo().bChange && 
-		!m_pTarget->Get_SubChar()->Get_PlayerInfo().bChange)
+	if (CheckSubChar())
 		vPos.m128_f32[1] += v1PY.m128_f32[1] / 2.f;
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pPlayer->Set_CamAngle(m_fAngle);
@@ -318,6 +314,44 @@ void CCamera_Dynamic::Set_BattleTarget()
 {
 	m_pPlayer->Set_BattleTarget(m_pTarget);
 	m_pTarget->Set_BattleTarget(m_pPlayer);
+}
+
+_bool CCamera_Dynamic::CheckSubChar()
+{
+	_bool bPlayerSub = false;
+	_bool bTargetSub = false;
+
+	if (m_pPlayer->Get_SubChar() == nullptr)
+		bPlayerSub = true;
+
+	if (m_pTarget->Get_SubChar() == nullptr)
+		bTargetSub = true;
+
+	if (bPlayerSub && !bTargetSub)
+	{
+		if (!m_pPlayer->Get_PlayerInfo().bChange && !m_pTarget->Get_PlayerInfo().bChange &&
+			!m_pTarget->Get_SubChar()->Get_PlayerInfo().bChange)
+			return true;
+	}
+	else if(!bPlayerSub && bTargetSub)
+	{
+		if (!m_pPlayer->Get_PlayerInfo().bChange && !m_pTarget->Get_PlayerInfo().bChange &&
+			!m_pPlayer->Get_SubChar()->Get_PlayerInfo().bChange)
+			return true;
+	}
+	else if (bPlayerSub && bTargetSub)
+	{
+		if (!m_pPlayer->Get_PlayerInfo().bChange && !m_pTarget->Get_PlayerInfo().bChange)
+			return true;
+	}
+	else if (!bPlayerSub && !bTargetSub)
+	{
+		if (!m_pPlayer->Get_PlayerInfo().bChange && !m_pTarget->Get_PlayerInfo().bChange &&
+			!m_pPlayer->Get_SubChar()->Get_PlayerInfo().bChange &&
+			!m_pTarget->Get_SubChar()->Get_PlayerInfo().bChange)
+			return true;
+	}
+	return true;
 }
 
 

@@ -52,8 +52,6 @@ public:
 	_bool Get_SelectVS() { return m_bSelectVS; }
 	THROWUIINFO Get_ThrowInfo() { return m_ThrowUIinfo; }
 	
-	_bool Get_SelFirst() { return m_bSelectFirst; }
-	_bool Get_SelSecond() { return m_bSelectSecond; }
 	SELUIINFO Get_SelectUIInfo() { return m_SelectInfo; }
 	SELUIINFO Get_SelectUIInfoSecond() { return m_SelectInfo_2; }
 
@@ -68,9 +66,6 @@ public:
 protected:
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
 	_float4x4				m_ViewMatrix, m_ProjMatrix;
-	_bool					m_bSelectFirst = false;
-	_bool					m_bSelectSecond = false;
-	_bool					m_bSelComplete = false;
 	_bool					m_bSelectVS = false;
 	_uint					m_iImgNum = 0;
 	_uint					m_iSelCount = 0;

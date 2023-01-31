@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "HpBar.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CHpBar::CHpBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,10 +51,20 @@ HRESULT CHpBar::Initialize(void * pArg)
 
 void CHpBar::Tick(_float fTimeDelta)
 {
-	m_fMinusHpTime += fTimeDelta;
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	m_fMaxHp = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iMaxHp;
-	m_fCurHp = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iHp;
+	m_fMinusHpTime += fTimeDelta;
+	
+	if (!m_ThrowUIinfo.bPlyCheck)
+	{
+		m_fMaxHp = (_float)pUI_Manager->Get_1P()->Get_PlayerInfo().iMaxHp;
+		m_fCurHp = (_float)pUI_Manager->Get_1P()->Get_PlayerInfo().iHp;
+	}
+	else
+	{
+		m_fMaxHp = (_float)pUI_Manager->Get_2P()->Get_PlayerInfo().iMaxHp;
+		m_fCurHp = (_float)pUI_Manager->Get_2P()->Get_PlayerInfo().iHp;
+	}
 
 	if (!m_bBeforeCheck)
 	{
@@ -80,6 +91,8 @@ void CHpBar::Tick(_float fTimeDelta)
 	}
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CHpBar::Late_Tick(_float fTimeDelta)

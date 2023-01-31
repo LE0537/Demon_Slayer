@@ -59,78 +59,77 @@ HRESULT CSelP2Cursor::Initialize(void * pArg)
 void CSelP2Cursor::Tick(_float fTimeDelta)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-
-	_float fP1CursorX = pUI_Manager->Get_1PCursor()->Get_fX();
-	_float fP1CursorY = pUI_Manager->Get_1PCursor()->Get_fY();
-
-	if (fP1CursorX == m_fX && fP1CursorY == m_fY)
-		m_iImgNum = 2;
-	else
-		m_iImgNum = 1;
+	
+	Cursor_ImgSel();
 
 	if (!m_bSelComplete)
 		Move_Cursor();
-
-	_float2 vPos = pUI_Manager->Get_SelectFrame(m_iFrameLayerNum)->Get_ThrowInfo().vPos;
-
-	m_fX = vPos.x;
-	m_fY = vPos.y - 2.f;
 	
 	if (m_iSelCount < 2)
 	{
-		if (m_iSelCount == 0)
-			m_bSelectFirst = true;
-		else if (m_iSelCount == 1)
-			m_bSelectFirst = false;
-
 		if (pGameInstance->Key_Down(DIK_SLASH))
 		{
 			if (m_SelectInfo.bOni)
+			{
 				m_iSelCount = 2;
-
-			if (m_iSelCount == 1)
-				m_bSelectSecond = true;
-			
-			++m_iSelCount;
+				m_bFirstSelCheck = true;
+				m_bSecondSelCheck = true;
+			}
+			else
+			{
+				if (m_iSelCount == 1)
+				{
+					if (!m_SelectInfo_2.bOni && m_SelectInfo.strName != m_SelectInfo_2.strName)
+					{
+						++m_iSelCount;
+						if (m_iSelCount == 1)
+							m_bFirstSelCheck = true;
+						else if (m_iSelCount == 2)
+							m_bSecondSelCheck = true;
+					}
+				}
+				else
+				{
+					++m_iSelCount;
+					if (m_iSelCount == 1)
+						m_bFirstSelCheck = true;
+					else if (m_iSelCount == 2)
+						m_bSecondSelCheck = true;
+				}
+			}
 		}
 	}
 	if (m_iSelCount > 0)
 	{
-		if (m_iSelCount == 1)
-			m_bSelectSecond = true;
-		else if (m_iSelCount == 2)
-			m_bSelectSecond = false;
-
 		if (pGameInstance->Key_Down(DIK_PERIOD))
 		{
-			if (m_iSelCount == 2)
-				m_bSelectFirst = true;
-
-			--m_iSelCount;
+			if (m_SelectInfo.bOni)
+			{
+				m_iSelCount = 0;
+				m_bFirstSelCheck = false;
+				m_bSecondSelCheck = false;
+			}
+			else
+			{
+				--m_iSelCount;
+				if (m_iSelCount == 0)
+					m_bFirstSelCheck = false;
+				else if (m_iSelCount == 1)
+					m_bSecondSelCheck = false;
+			}
 		}
 	}
 
-	if (m_iSelCount == 1 && m_bSelectFirst)
-	{
-		m_SelectInfo = pUI_Manager->Get_SelectFrame(Cursor_To_SelFrame())->Get_SelectUIInfo();
-		if (m_SelectInfo.bOni)
-			m_iSelCount = 3;
-	}
-	if (m_iSelCount == 2 && m_bSelectSecond)
-		m_SelectInfo_2 = pUI_Manager->Get_SelectFrame(Cursor_To_SelFrame())->Get_SelectUIInfo();
-
+	Cursor_To_SelFrame();
 
 	if (m_iSelCount >= 2)
 		m_bSelComplete = true;
 	else
 		m_bSelComplete = false;
 
-
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);
-	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CSelP2Cursor::Late_Tick(_float fTimeDelta)
@@ -159,18 +158,16 @@ HRESULT CSelP2Cursor::Render()
 	return S_OK;
 }
 
-_uint CSelP2Cursor::Cursor_To_SelFrame()
+void CSelP2Cursor::Cursor_To_SelFrame()
 {
-	if (m_fX == 500.f)
-		return 0;
-	else if (m_fX == 590.f)
-		return 1;
-	else if (m_fX == 680.f)
-		return 2;
-	else if (m_fX == 770.f)
-		return 3;
-	else
-		return 0;
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (m_iSelCount == 0 && !m_bFirstSelCheck)
+		m_SelectInfo = pUI_Manager->Get_SelectFrame(m_iFrameLayerNum)->Get_SelectUIInfo();
+	else if (m_iSelCount == 1 && !m_bSecondSelCheck)
+		m_SelectInfo_2 = pUI_Manager->Get_SelectFrame(m_iFrameLayerNum)->Get_SelectUIInfo();
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CSelP2Cursor::Move_Cursor()
@@ -211,7 +208,30 @@ void CSelP2Cursor::Move_Cursor()
 			m_iFrameLayerNum = 5;
 	}
 
+	_float2 vPos = pUI_Manager->Get_SelectFrame(m_iFrameLayerNum)->Get_ThrowInfo().vPos;
+
+	m_fX = vPos.x;
+	m_fY = vPos.y - 2.f;
+
 	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
+}
+
+void CSelP2Cursor::Select_Order()
+{
+}
+
+void CSelP2Cursor::Cursor_ImgSel()
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	_float fP1CursorX = pUI_Manager->Get_1PCursor()->Get_fX();
+	_float fP1CursorY = pUI_Manager->Get_1PCursor()->Get_fY();
+
+	if (fP1CursorX == m_fX && fP1CursorY == m_fY)
+		m_iImgNum = 2;
+	else
+		m_iImgNum = 1;
 	RELEASE_INSTANCE(CUI_Manager);
 }
 

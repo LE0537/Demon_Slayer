@@ -85,8 +85,24 @@ HRESULT C1PMainOnBase::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	
+	CSelP1Cursor* pSelP1Cursor = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor());
 
+	if(m_ThrowUIinfo.iLayerNum == 0)
+		m_pVIBufferCom->Render();
+	else
+	{
+		if (pSelP1Cursor != nullptr)
+		{
+			if (pSelP1Cursor->Get_FirstSelCheck() && !pSelP1Cursor->Get_SecondSelCheck() && !pSelP1Cursor->Get_SelectUIInfo().bOni)
+				m_pVIBufferCom->Render();
+			if(pSelP1Cursor->Get_SecondSelCheck() && !pSelP1Cursor->Get_SelectUIInfo().bOni)
+				m_pVIBufferCom->Render();
+		}
+	}
+	
+	RELEASE_INSTANCE(CUI_Manager);
 	return S_OK;
 }
 
