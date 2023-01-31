@@ -223,11 +223,8 @@ CAkazaState * CAtk_3_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 			if (pMyCollider->Collision(pTargetCollider))
 			{
-				_float4 vTagetPos;
-				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 				_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				vPos.m128_f32[1] = 0.f;
-				m_pTarget->Get_Transform()->LookAt(vPos);
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
 				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{
@@ -273,6 +270,8 @@ CAkazaState * CAtk_3_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
 			vPos.m128_f32[1] = 0.f;
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
 			if (pAkaza->Get_NavigationCom()->Cheak_Cell(vPos))
 				pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
@@ -299,11 +298,8 @@ CAkazaState * CAtk_3_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 			if (pMyCollider->Collision(pTargetCollider))
 			{
-				_float4 vTagetPos;
-				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 				_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				vPos.m128_f32[1] = 0.f;
-				m_pTarget->Get_Transform()->LookAt(vPos);
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
 				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{

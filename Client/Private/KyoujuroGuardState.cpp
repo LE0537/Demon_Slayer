@@ -96,9 +96,7 @@ CKyoujuroState * CGuardState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta
 
 	CCharacters* m_pTarget = pKyoujuro->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vLooAt.m128_f32[1] = 0.f;
-	pKyoujuro->Get_Transform()->LookAt(vLooAt);
-
+	pKyoujuro->Get_Transform()->Set_PlayerLookAt(vLooAt);
 
 	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 

@@ -20,7 +20,7 @@ public:
 
 private:
 	void Move(CRui* pRui, _float fTimeDelta);
-
+	void Check_Coll(CRui* pRui, _float fTimeDelta);
 private:
 	OBJDIR m_eDir = OBJDIR::DIR_END;
 	_bool m_bJump = false;

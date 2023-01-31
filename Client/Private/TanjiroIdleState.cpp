@@ -223,9 +223,6 @@ CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	static _float fTest = 0.f;
-	fTest += fTimeDelta;
-
 
 	if (ePreState == CTanjiroState::STATE_JUMP)
 	{
@@ -234,6 +231,16 @@ CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	else
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
+	_vector vPlayerY = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	
+	if (vPlayerY.m128_f32[1] > 0.f)
+	{
+		vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
+		if (vPlayerY.m128_f32[1] < 0)
+			vPlayerY.m128_f32[1] = 0;
+
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+	}
 	return nullptr;
 }
 

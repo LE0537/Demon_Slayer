@@ -20,7 +20,7 @@ public:
 
 private:
 	void Move(CAkaza* pAkaza, _float fTimeDelta);
-
+	void Check_Coll(CAkaza* pAkaza, _float fTimeDelta);
 private:
 	OBJDIR m_eDir = OBJDIR::DIR_END;
 	_bool m_bJump = false;

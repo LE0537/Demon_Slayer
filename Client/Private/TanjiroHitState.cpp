@@ -31,6 +31,13 @@ CTanjiroState * CHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (fHitTime <= 20.f)
 			pTanjiro->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pTanjiro->Get_NavigationCom());
 
+		_vector vPlayerY = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	
+		vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
+		if (vPlayerY.m128_f32[1] < 0)
+			vPlayerY.m128_f32[1] = 0;
+
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
 		if (fHitTime >= 35.f)
 			return new CIdleState();
 	}
@@ -57,6 +64,9 @@ CTanjiroState * CHitState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		Jump(pTanjiro, m_fJumpTime);
 	}
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
+
+
+
 
 	return nullptr;
 }

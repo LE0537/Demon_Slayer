@@ -465,7 +465,10 @@ void CMoveState::Move(CRui* pRui, _float fTimeDelta)
 
 		vPos += vMyLook * (fSpeed - fSpeed * fPow);
 		vTargetPos += vTargetLook * fSpeed * fPow;
-		vPos.m128_f32[1] = 0.f;
+		_vector vPlayerPosY = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vPos.m128_f32[1] = vPlayerPosY.m128_f32[1];
+		_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
 
 		if (pRui->Get_NavigationCom()->Cheak_Cell(vPos))
 			pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);

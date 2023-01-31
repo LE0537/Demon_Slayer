@@ -20,7 +20,7 @@ public:
 
 private:
 	void Move(CKyoujuro* pKyoujuro, _float fTimeDelta);
-
+	void Check_Coll(CKyoujuro* pKyoujuro, _float fTimeDelta);
 private:
 	OBJDIR m_eDir = OBJDIR::DIR_END;
 	_bool m_bJump = false;

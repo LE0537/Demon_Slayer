@@ -31,6 +31,14 @@ CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		if (fHitTime <= 20.f)
 			pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pKyoujuro->Get_NavigationCom());
 
+		_vector vPlayerY = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+		vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
+		if (vPlayerY.m128_f32[1] < 0)
+			vPlayerY.m128_f32[1] = 0;
+
+		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+
 		if (fHitTime >= 38.f)
 			return new CIdleState();
 	}
