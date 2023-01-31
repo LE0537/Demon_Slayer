@@ -716,13 +716,26 @@ HRESULT CModel::Bin_Ready_Materials(const char * pModelFilePath)
 				continue;
 
 			char			szFullPath[MAX_PATH] = "";
-			char			szExt[MAX_PATH] = "";
+			char			szExt[MAX_PATH] = ".dds";
+			char*			szExt2 = "";
+			char			szFront[MAX_PATH] = "";
 
-			_splitpath_s(pAIMaterial.cNames[j], nullptr, 0, nullptr, 0, szFullPath, MAX_PATH, szExt, MAX_PATH);
-
-			strcpy_s(szFullPath, pModelFilePath);
-			strcat_s(szFullPath, pAIMaterial.cNames[j]);
-
+			if (m_eModelType == TYPE_ANIM)
+			{
+				_splitpath_s(pAIMaterial.cNames[j], nullptr, 0, nullptr, 0, szFullPath, MAX_PATH, nullptr, 0);
+				strcpy_s(szFront, strtok_s(pAIMaterial.cNames[j], ".", &szExt2));
+				strcpy_s(szFullPath, pModelFilePath);
+				strcat_s(szFront, szExt);
+				strcat_s(szFullPath, szFront);
+			}
+			else
+			{
+				_splitpath_s(pAIMaterial.cNames[j], nullptr, 0, nullptr, 0, szFullPath, MAX_PATH, szExt, MAX_PATH);
+				strcpy_s(szFullPath, pModelFilePath);
+				strcat_s(szFullPath, pAIMaterial.cNames[j]);
+			}
+			
+			
 			_tchar			szWideFullPath[MAX_PATH] = TEXT("");
 
 			MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szWideFullPath, MAX_PATH);
