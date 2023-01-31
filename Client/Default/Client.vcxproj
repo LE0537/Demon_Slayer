@@ -210,6 +210,7 @@
     <ClInclude Include="..\Public\2PMainOnBase.h" />
     <ClInclude Include="..\Public\CharFrame.h" />
     <ClInclude Include="..\Public\CharFrameEff.h" />
+    <ClInclude Include="..\Public\NezukoHitState.h" />
     <ClInclude Include="..\Public\NumTimer.h" />
     <ClInclude Include="..\Public\RoundIcon.h" />
     <ClInclude Include="..\Public\RoundUI.h" />
@@ -443,6 +444,7 @@
     <ClCompile Include="..\Private\2pMainOnBase.cpp" />
     <ClCompile Include="..\Private\CharFrame.cpp" />
     <ClCompile Include="..\Private\CharFrameEff.cpp" />
+    <ClCompile Include="..\Private\NezukoHitState.cpp" />
     <ClCompile Include="..\Private\NumTimer.cpp" />
     <ClCompile Include="..\Private\RoundIcon.cpp" />
     <ClCompile Include="..\Private\RoundUI.cpp" />

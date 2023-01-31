@@ -75,7 +75,7 @@ public:
 
 		// Hit
 
-		ANIM_HIT = 65,
+		ANIM_HIT = 80,
 
 
 		// SKILL
@@ -87,14 +87,16 @@ public:
 
 		// MOVE
 
-		ANIM_SKILL_MOVE = 54,
-
+		ANIM_SKILL_MOVE_0 = 54,
+		ANIM_SKILL_MOVE_1 = 55,
+		ANIM_SKILL_MOVE_2 = 56,
 		// GUARD + SKILL KEY
 
 		ANIM_SKILL_FALLCUT_0 = 50,
 		ANIM_SKILL_FALLCUT_1 = 51,
 		ANIM_SKILL_FALLCUT_2 = 52,
 
+	
 
 		ANIM_END = 100
 	};
