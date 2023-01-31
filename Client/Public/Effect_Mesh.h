@@ -52,6 +52,7 @@ public:
 		_float3							vPosition;
 		_float3							vRotation;
 		_float3							vGlowColor;
+		_float3							vTurnDirection;
 
 		_float4							vColor[4];
 
