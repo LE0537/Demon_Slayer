@@ -697,6 +697,48 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit">
       <UniqueIdentifier>{d5f57b3b-74a0-439e-9526-0f142efc8056}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Idle">
+      <UniqueIdentifier>{e33e0618-4631-4176-bc71-2ad3ccd6f747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Jump">
+      <UniqueIdentifier>{e33bf0a3-d9c4-413e-8cb8-b4e1460ea555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Move">
+      <UniqueIdentifier>{58091a81-85a5-4bc1-84c7-f30b7ab83584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Move\MoveJump">
+      <UniqueIdentifier>{0f9473a2-2355-4222-ae0a-ee5130832f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Dash">
+      <UniqueIdentifier>{02e5fa68-160b-45b3-8ee4-c3d178d6bb8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Change">
+      <UniqueIdentifier>{e081d6fd-3502-4db8-9da0-cb717ebfd32e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Guard">
+      <UniqueIdentifier>{66398862-c76b-44e6-86eb-4749705c922e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit">
+      <UniqueIdentifier>{1914698b-2269-4d72-9796-211ab9c11c28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill">
+      <UniqueIdentifier>{3646567c-5394-4412-9a3a-7a65a6602176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Tool">
+      <UniqueIdentifier>{3ce29a9a-cbb7-423f-bdad-c83532ac22d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack1">
+      <UniqueIdentifier>{95b32c40-594f-4f48-965e-88c77169bbee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack2">
+      <UniqueIdentifier>{f42f335a-4dde-40bb-80dd-4468cfb6cb58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack3">
+      <UniqueIdentifier>{948ee78c-22b2-4c88-8f3b-0d14923fff2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack4">
+      <UniqueIdentifier>{de68daa3-7068-4bf0-a0bf-f88a05bcf60b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1398,6 +1440,54 @@
     <ClInclude Include="..\Public\NezukoHitState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ShinobuToolState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuMoveState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuJumpState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Jump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuIdleState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuGuardState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuGuardHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuGuardAdvState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuDashState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuChangeState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Change</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuAtk_4_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuAtk_3_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuAtk_2_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuAtk_1_State.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuMoveJumpState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Move\MoveJump</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2071,6 +2161,51 @@
     </ClCompile>
     <ClCompile Include="..\Private\NezukoHitState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuAtk_1_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuAtk_2_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuAtk_3_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuAtk_4_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuChangeState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Change</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuGuardAdvState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuGuardHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuGuardState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuIdleState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuJumpState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuMoveJumpState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Move\MoveJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuMoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuToolState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuDashState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Dash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

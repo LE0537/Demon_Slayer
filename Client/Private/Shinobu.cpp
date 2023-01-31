@@ -9,8 +9,12 @@
 #include "Level_GamePlay.h"
 #include "ShinobuWeapon.h"
 #include "ShinobuSheath.h"
-
-
+#include "ShinobuState.h"
+#include "ShinobuIdleState.h"
+#include "ShinobuGuardHitState.h"
+#include "ShinobuGuardState.h"
+#include "ShinobuToolState.h"
+using namespace Shinobu;
 
 CShinobu::CShinobu(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -77,7 +81,10 @@ HRESULT CShinobu::Initialize(void * pArg)
 			CUI_Manager::Get_Instance()->Set_2P_2(this);
 	}
 
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
+	CShinobuState* pState = new CIdleState();
+	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 
 	return S_OK;
 }
@@ -109,14 +116,18 @@ void CShinobu::Tick(_float fTimeDelta)
 
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-		if (pGameInstance->Key_Down(DIK_F3))
-			m_bIsKagura = m_bIsKagura == true ? false : true;
+	
 
 		RELEASE_INSTANCE(CGameInstance);
 
 
 	}
 
+
+	if (m_pShinobuState->Get_ShinobuState() == CShinobuState::STATE_JUMP || m_pShinobuState->Get_ShinobuState() == CShinobuState::STATE_CHANGE)
+		m_tInfo.bJump = true;
+	else
+		m_tInfo.bJump = false;
 
 
 }
@@ -322,12 +333,25 @@ void CShinobu::Take_Damage(_float _fPow, _bool _bJumpHit)
 
 void CShinobu::Get_GuardHit(_int eType)
 {
+	CShinobuState* pState;
+	if (eType == CShinobuState::STATE_TYPE::TYPE_START)
+	{
+		m_pModelCom->Reset_Anim(CShinobu::ANIMID::ANIM_GUARD_HIT_0);
+		pState = new CGuardHitState(CShinobuState::STATE_TYPE::TYPE_START);
+	}
+	else
+	{
+		m_pModelCom->Reset_Anim(CShinobu::ANIMID::ANIM_GUARD_HIT_1);
+		pState = new CGuardHitState(CShinobuState::STATE_TYPE::TYPE_LOOP);
+	}
 
+	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 }
 
 void CShinobu::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
 {
-
+	CShinobuState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CShinobuState::STATE_TYPE>(iTypeIndex), bIsContinue);
+	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 }
 
 
@@ -394,18 +418,29 @@ HRESULT CShinobu::Ready_Components()
 
 void CShinobu::HandleInput(_float fTimeDelta)
 {
+	CShinobuState* pNewState = m_pShinobuState->HandleInput(this);
 
+	if (pNewState)
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pNewState);
 
 }
 
 void CShinobu::TickState(_float fTimeDelta)
 {
+	CShinobuState* pNewState = m_pShinobuState->Tick(this, fTimeDelta);
+
+	if (pNewState)
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pNewState);
+
 
 }
 
 void CShinobu::LateTickState(_float fTimeDelta)
 {
+	CShinobuState* pNewState = m_pShinobuState->Late_Tick(this, fTimeDelta);
 
+	if (pNewState)
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pNewState);
 }
 HRESULT CShinobu::Ready_Parts()
 {
@@ -506,7 +541,7 @@ void CShinobu::Free()
 
 	Safe_Release(m_pSphereCom);
 	Safe_Release(m_pModelCom);
-	Safe_Delete(m_pTanjiroState);
+	Safe_Delete(m_pShinobuState);
 	Safe_Release(m_pWeapon);
 	Safe_Release(m_pSheath);
 	Safe_Release(m_pNavigationCom);
