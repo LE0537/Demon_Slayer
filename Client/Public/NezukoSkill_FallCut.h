@@ -17,6 +17,10 @@ public:
 
 	virtual void Enter(CNezuko* pNezuko) override;
 	virtual void Exit(CNezuko* pNezuko) override;
+
+	CNezukoState* Increase_Height(CNezuko* pNezuko, _float fTimeDelta);
+	CNezukoState* Fall_Height(CNezuko* pNezuko, _float fTimeDelta);
+
 private:
 	CBaseAtk*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;
@@ -27,6 +31,15 @@ private:
 	_float m_fMove = 0.f;
 	_int   m_iHit = 0;
 	_bool  m_bHit = false;
+
+
+private:
+	_float3 m_vPosition;
+	_float3 m_vVelocity;
+	_float m_fOriginPosY;
+	_float m_fGravity;
+	_bool m_bNextAnim = false;
+	_vector m_vTargetPosition;
 	
 };
 END

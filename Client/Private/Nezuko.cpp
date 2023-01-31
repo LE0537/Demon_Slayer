@@ -10,7 +10,7 @@
 #include "NezukoState.h"
 #include "NezukoIdleState.h"
 #include "NezukoToolState.h"
-
+#include "NezukoHitState.h"
 
 using namespace Nezuko;
 
@@ -80,7 +80,7 @@ HRESULT CNezuko::Initialize(void * pArg)
 	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 
 
-	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	return S_OK;
 }
 
@@ -107,7 +107,8 @@ void CNezuko::Tick(_float fTimeDelta)
 		m_pSphereCom->Update(matColl);
 
 	}
-	if (m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_JUMP || m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_CHANGE)
+	if (m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_JUMP || m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_CHANGE 
+		|| m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_SKILL_FALLCUT || m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_SKILL_MOVE)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
@@ -379,7 +380,11 @@ void CNezuko::Set_Info()
 
 void CNezuko::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+	if (m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_HIT)
+		m_pModelCom->Reset_Anim(CNezuko::ANIMID::ANIM_HIT);
 
+	CNezukoState* pState = new CHitState(_fPow, _bJumpHit);
+	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 
 }
 

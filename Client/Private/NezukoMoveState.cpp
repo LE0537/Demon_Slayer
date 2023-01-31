@@ -47,7 +47,7 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
 					pNezuko->Set_SkillBar(+200);
-					pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_SKILL_MOVE);
+					pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_SKILL_MOVE_0);
 					return new CSkill_MoveState(STATE_TYPE::TYPE_START);
 				}
 			}
@@ -202,7 +202,7 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
 					pNezuko->Set_SkillBar(-200);
-					pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_SKILL_MOVE);
+					pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_SKILL_MOVE_0);
 					return new CSkill_MoveState(STATE_TYPE::TYPE_START);
 				}
 			}
