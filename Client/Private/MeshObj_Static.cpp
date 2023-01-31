@@ -55,7 +55,7 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
+/*
 	if (pGameInstance->Key_Down(DIK_F4))
 	{
 		if (2083 == m_tMyDesc.iModelIndex)
@@ -69,7 +69,7 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 			RELEASE_INSTANCE(CData_Manager);
 		}
 	}
-
+*/
 	RELEASE_INSTANCE(CGameInstance);
 
 
