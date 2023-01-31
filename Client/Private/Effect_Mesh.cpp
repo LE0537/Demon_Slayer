@@ -60,6 +60,26 @@ HRESULT CEffect_Mesh::Initialize_Prototype()
 	m_MeshName.push_back("Wind3_L");
 	m_MeshName.push_back("Slash9");
 	m_MeshName.push_back("Slash10");
+	m_MeshName.push_back("Wind4");
+	m_MeshName.push_back("Wind5");
+	m_MeshName.push_back("Wind6");
+	m_MeshName.push_back("Wind7");
+	m_MeshName.push_back("Ring21");
+	m_MeshName.push_back("Ring22");
+	m_MeshName.push_back("Ring23");
+	m_MeshName.push_back("Ring24");
+	m_MeshName.push_back("SwordTrail1");
+	m_MeshName.push_back("SwordTrail2");
+	m_MeshName.push_back("Sphere1");
+	m_MeshName.push_back("Sphere2");
+	m_MeshName.push_back("Slash11");
+	m_MeshName.push_back("Slash12");
+	m_MeshName.push_back("Slash13");
+	m_MeshName.push_back("Slash14");
+	m_MeshName.push_back("Slash15");
+	m_MeshName.push_back("Slash16");
+
+
 
 	return S_OK;
 }
