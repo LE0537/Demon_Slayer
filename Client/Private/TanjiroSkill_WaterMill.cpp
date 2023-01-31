@@ -21,6 +21,7 @@ CSkill_WaterMillState::CSkill_WaterMillState(STATE_TYPE eType)
 
 		RELEASE_INSTANCE(CGameInstance);
 		m_fHitTime = 0.1f;
+		
 	}
 }
 
@@ -57,8 +58,15 @@ CTanjiroState * CSkill_WaterMillState::Tick(CTanjiro * pTanjiro, _float fTimeDel
 		}
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 	}
+	if (m_eStateType == CTanjiroState::TYPE_START && !m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_WATER2_1, pTanjiro);
 
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 	return nullptr;
 }
 
