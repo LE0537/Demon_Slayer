@@ -1014,15 +1014,15 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 11))))
 			return E_FAIL;
 
-		Load_Texture("Particle", "../Bin/Resources/Effect/Texture/");
+		//Load_Texture("Particle", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Hit_Effect", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Common", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Dissolve", "../Bin/Resources/Effect/Texture/");
 
 
 		Load_Texture("Falloff", "../Bin/Resources/Effect/Mesh/MeshTexture/");
-		Load_Texture("Shock", "../Bin/Resources/Effect/Mesh/MeshTexture/");
-		Load_Texture("Slash", "../Bin/Resources/Effect/Mesh/MeshTexture/");
+		//Load_Texture("Shock", "../Bin/Resources/Effect/Mesh/MeshTexture/");
+		//Load_Texture("Slash", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Skl_Water_6", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Skl_Water_2", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 

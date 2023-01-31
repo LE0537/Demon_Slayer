@@ -116,10 +116,6 @@ HRESULT CEffect_Mesh::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-
-
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
@@ -175,8 +171,6 @@ HRESULT CEffect_Mesh::Render()
 			}
 		}
 	}
-
-	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
@@ -380,6 +374,7 @@ void CEffect_Mesh::Free()
 	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
+
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pNoiseTextureCom);
 	Safe_Release(m_pDiffuseTextureCom);
