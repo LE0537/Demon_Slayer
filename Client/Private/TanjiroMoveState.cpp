@@ -12,6 +12,7 @@
 #include "TanjiroSkill_WindMill.h"
 #include "TanjiroKaguraSkill_Move.h"
 #include "TanjiroKaguraSkill_Sphere.h"
+#include "TanjiroChangeState.h"
 using namespace Tanjiro;
 
 
@@ -410,10 +411,13 @@ CTanjiroState * CMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	Move(pTanjiro, fTimeDelta);
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
-
-	if (pTanjiro->Get_PlayerInfo().bSub || pTanjiro->Get_PlayerInfo().bChange)
+	if (pTanjiro->Get_PlayerInfo().bChange)
 	{
 		return new CIdleState();
+	}
+	if (pTanjiro->Get_PlayerInfo().bSub)
+	{
+		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
 
 	return nullptr;

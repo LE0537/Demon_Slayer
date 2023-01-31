@@ -151,7 +151,6 @@ HRESULT CNezuko::Render()
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
 			return E_FAIL;
 
-		//aiTextureType_AMBIENT
 	}
 
 	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f)
@@ -372,7 +371,7 @@ void CNezuko::Set_Info()
 	m_tInfo.bPowerUp = false;
 	m_tInfo.fPowerUpTime = 0.f;
 	m_tInfo.iFriendMaxBar = 1000;
-	m_tInfo.iFriendBar = 0;
+	m_tInfo.iFriendBar = m_tInfo.iFriendMaxBar;
 	m_tInfo.bGuard = false;
 	m_tInfo.bChange = false;
 }

@@ -39,6 +39,7 @@ CNezukoState * CChangeState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 			break;
 		case Client::CNezukoState::TYPE_END:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+			pNezuko->Set_ChangeInfo(false);
 			return new CIdleState();
 			break;
 		}
@@ -75,8 +76,11 @@ CNezukoState * CChangeState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 	if (m_bNextAnim == true)
 	{
-		if(m_eStateType == TYPE_START)
+		if (m_eStateType == TYPE_START)
+		{
+			pNezuko->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
 			return new CIdleState();
+		}
 		else if (m_eStateType == TYPE_LOOP)
 		{
 			return new CChangeState(STATE_TYPE::TYPE_END);
