@@ -42,22 +42,37 @@ HRESULT CNezuko::Initialize(void * pArg)
 	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
 	Set_Info();
-
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	if (m_i1p == 1)
+	m_tInfo.bSub = tCharacterDesc.bSub;
+	m_bChange = tCharacterDesc.bSub;
+	if (!m_tInfo.bSub)
 	{
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
+		if (m_i1p == 1)
+		{
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
-		CUI_Manager::Get_Instance()->Set_1P(this);
+			CUI_Manager::Get_Instance()->Set_1P(this);
+		}
+		else if (m_i1p == 2)
+		{
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+			CUI_Manager::Get_Instance()->Set_2P(this);
+		}
+		RELEASE_INSTANCE(CGameInstance);
 	}
-	else if (m_i1p == 2)
+	else
 	{
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-
-		CUI_Manager::Get_Instance()->Set_2P(this);
+		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
+		m_pSubChar->Set_SubChar(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
+		m_bChange = true;
+		if (m_i1p == 1)
+			CUI_Manager::Get_Instance()->Set_1P_2(this);
+		else if (m_i1p == 2)
+			CUI_Manager::Get_Instance()->Set_2P_2(this);
 	}
-	RELEASE_INSTANCE(CGameInstance);
 
 
 
@@ -71,42 +86,47 @@ HRESULT CNezuko::Initialize(void * pArg)
 
 void CNezuko::Tick(_float fTimeDelta)
 {
-	__super::Tick(fTimeDelta);
+	if (!m_bChange)
+	{
+		__super::Tick(fTimeDelta);
+		m_fDelta = fTimeDelta;
+		if (m_tInfo.fHitTime > 0.f)
+			m_tInfo.fHitTime -= fTimeDelta;
+		if (m_fChangeDelay > 0.f)
+			m_fChangeDelay -= fTimeDelta;
+		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
+			HandleInput();
 
-	if (m_tInfo.fHitTime > 0.f)
-		m_tInfo.fHitTime -= fTimeDelta;
+		TickState(fTimeDelta);
 
-	if (m_tInfo.fHitTime <= 0.f)
-		HandleInput();
+		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+		if (nullptr == pSocket)
+			return;
+		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
-	TickState(fTimeDelta);
+		m_pSphereCom->Update(matColl);
 
-	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
-	if (nullptr == pSocket)
-		return;
-	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
-
-	m_pSphereCom->Update(matColl);
-
+	}
 	if (m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_JUMP || m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_CHANGE)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
-
-
 }
 
 void CNezuko::Late_Tick(_float fTimeDelta)
 {
-	LateTickState(fTimeDelta);
-
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
-	//m_pModelCom->Play_Animation(fTimeDelta);
-	if (g_bCollBox)
+	if (!m_bChange)
 	{
-		m_pRendererCom->Add_Debug(m_pSphereCom);
+		LateTickState(fTimeDelta);
+
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+		//m_pModelCom->Play_Animation(fTimeDelta);
+		if (g_bCollBox)
+		{
+			m_pRendererCom->Add_Debug(m_pSphereCom);
+		}
 	}
 }
 
@@ -134,7 +154,66 @@ HRESULT CNezuko::Render()
 		//aiTextureType_AMBIENT
 	}
 
-
+	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f)
+	{
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+		vPos.m128_f32[1] += 15.f;
+		switch (m_i1p)
+		{
+		case 1:
+			if (m_tInfo.iFriendBar >= 100 && pGameInstance->Key_Pressing(DIK_U))
+			{
+				m_fChangeTime += m_fDelta;
+				if (m_fChangeTime > 0.5f)
+				{
+					m_tInfo.iFriendBar -= 100;
+					m_tInfo.bSub = true;
+					CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
+					CUI_Manager::Get_Instance()->Set_1P_2(this);
+					m_pSubChar->Set_ChangeDelay(1.f);
+					m_pSubChar->Set_Sub(false);
+					m_pSubChar->Change_Info(m_tInfo);
+					m_pSubChar->Set_ChangeInfo(true);
+					m_pSubChar->Set_Change(false, vPos);
+					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+					m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+					m_fChangeTime = 0.f;
+				}
+			}
+			else
+			{
+				m_fChangeTime = 0.f;
+			}
+			break;
+		case 2:
+			if (m_tInfo.iFriendBar >= 100 && pGameInstance->Key_Pressing(DIK_V))
+			{
+				m_fChangeTime += m_fDelta;
+				if (m_fChangeTime > 0.5f)
+				{
+					m_tInfo.iFriendBar -= 100;
+					m_tInfo.bSub = true;
+					CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
+					CUI_Manager::Get_Instance()->Set_2P_2(this);
+					m_pSubChar->Set_ChangeDelay(1.f);
+					m_pSubChar->Set_Sub(false);
+					m_pSubChar->Change_Info(m_tInfo);
+					m_pSubChar->Set_ChangeInfo(true);
+					m_pSubChar->Set_Change(false, vPos);
+					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+					m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+					m_fChangeTime = 0.f;
+				}
+			}
+			else
+			{
+				m_fChangeTime = 0.f;
+			}
+			break;
+		default:
+			break;
+		}
+	}
 	RELEASE_INSTANCE(CGameInstance);
 
 

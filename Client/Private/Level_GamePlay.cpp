@@ -249,6 +249,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Nezuko"), LEVEL_GAMEPLAY, TEXT("Layer_Nezuko"), &tCharacterDesc1p)))
 			return E_FAIL;
 		break;
+	case 5:
+		tCharacterDesc1p.bSub = false;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Shinobu"), LEVEL_GAMEPLAY, TEXT("Layer_Shinobu"), &tCharacterDesc1p)))
+			return E_FAIL;
+		break;
 	default:
 		break;
 	}
@@ -277,6 +282,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	case 4:
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Nezuko"), LEVEL_GAMEPLAY, TEXT("Layer_Nezuko"), &tCharacterDesc2p)))
+			return E_FAIL;
+		break;
+	case 5:
+		tCharacterDesc2p.bSub = false;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Shinobu"), LEVEL_GAMEPLAY, TEXT("Layer_Shinobu"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	default:
@@ -309,6 +319,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Nezuko"), LEVEL_GAMEPLAY, TEXT("Layer_Nezuko"), &tCharacterDesc1p)))
 			return E_FAIL;
 		break;
+	case 5:
+		tCharacterDesc1p.bSub = true;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Shinobu"), LEVEL_GAMEPLAY, TEXT("Layer_Shinobu"), &tCharacterDesc1p)))
+			return E_FAIL;
+		break;
 	default:
 		break;
 	}
@@ -337,6 +352,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	case 4:
 		tCharacterDesc2p.bSub = true;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Nezuko"), LEVEL_GAMEPLAY, TEXT("Layer_Nezuko"), &tCharacterDesc2p)))
+			return E_FAIL;
+		break;
+	case 5:
+		tCharacterDesc2p.bSub = true;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Shinobu"), LEVEL_GAMEPLAY, TEXT("Layer_Shinobu"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	default:

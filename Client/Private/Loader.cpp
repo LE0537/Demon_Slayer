@@ -22,11 +22,14 @@
 #include "Kyoujuro.h"
 #include "Akaza.h"
 #include "Nezuko.h"
+#include "Shinobu.h"
 //parts
 #include "KyoujuroWeapon.h"
 #include "KyoujuroSheath.h"
 #include "TanjiroWeapon.h"
 #include "TanjiroSheath.h"
+#include "ShinobuWeapon.h"
+#include "ShinobuSheath.h"
 //UI
 #include "HpBar.h"
 #include "HpBarBack.h"
@@ -1197,6 +1200,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CNezuko::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Shinobu"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Shinobu"),
+		CShinobu::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyoujuroWeapon"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroWeapon"),
 		CKyoujuroWeapon::Create(m_pDevice, m_pContext))))
@@ -1215,6 +1223,16 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TanjiroSheath"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TanjiroSheath"),
 		CTanjiroSheath::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("ShinobuWeapon"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ShinobuWeapon"),
+		CShinobuWeapon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("ShinobuSheath"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ShinobuSheath"),
+		CShinobuSheath::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	//CollBox
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BaseAtk"),
