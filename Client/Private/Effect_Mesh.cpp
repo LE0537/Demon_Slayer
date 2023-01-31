@@ -29,6 +29,37 @@ HRESULT CEffect_Mesh::Initialize_Prototype()
 	m_MeshName.push_back("Water_6_Wind");
 	m_MeshName.push_back("Water_2_Side");
 	m_MeshName.push_back("Water_2_Ring");
+	m_MeshName.push_back("BrokenGround1");
+	m_MeshName.push_back("BrokenGround2");
+	m_MeshName.push_back("UpSwing");
+	m_MeshName.push_back("Rengoku_Nobori");
+	m_MeshName.push_back("Rengoku_OgiAtk1");
+	m_MeshName.push_back("Rengoku_OgiAtk2");
+	m_MeshName.push_back("Rengoku_Swing");
+	m_MeshName.push_back("Rengoku_Tiger");
+	m_MeshName.push_back("Ring1");
+	m_MeshName.push_back("Ring4");
+	m_MeshName.push_back("Ring5");
+	m_MeshName.push_back("Ring6");
+	m_MeshName.push_back("Ring14");
+	m_MeshName.push_back("Ring15");
+	m_MeshName.push_back("Ring16");
+	m_MeshName.push_back("Ring17_1");
+	m_MeshName.push_back("Ring17_2");
+	m_MeshName.push_back("Ring18");
+	m_MeshName.push_back("Ring19");
+	m_MeshName.push_back("Ring20");
+	m_MeshName.push_back("Smoke1");
+	m_MeshName.push_back("Smoke2");
+	m_MeshName.push_back("Smoke3");
+	m_MeshName.push_back("Twist1");
+	m_MeshName.push_back("Twist2");
+	m_MeshName.push_back("Wind");
+	m_MeshName.push_back("Wind1");
+	m_MeshName.push_back("Wind2_L");
+	m_MeshName.push_back("Wind3_L");
+	m_MeshName.push_back("Slash9");
+	m_MeshName.push_back("Slash10");
 
 	return S_OK;
 }
@@ -313,6 +344,14 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionBias", &m_MeshInfo.fDistortionBias, sizeof(_float))))
 		return E_FAIL;
+
+	_int		iMulUV_U = 1;
+	_int		iMulUV_V = 1;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iMulUV_U", &iMulUV_U, sizeof(_int))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iMulUV_V", &iMulUV_V, sizeof(_int))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
