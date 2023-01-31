@@ -12,6 +12,7 @@
 #include "NezukoMoveJumpState.h"
 #include "NezukoSkill_FallCut.h"
 #include "NezukoSkill_Move.h"
+#include "NezukoChangeState.h"
 using namespace Nezuko;
 
 
@@ -372,8 +373,14 @@ CNezukoState * CMoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
 	Move(pNezuko, fTimeDelta);
 	pNezuko->Get_Model()->Play_Animation(fTimeDelta);
-
-
+	if (pNezuko->Get_PlayerInfo().bChange)
+	{
+		return new CIdleState();
+	}
+	if (pNezuko->Get_PlayerInfo().bSub)
+	{
+		return new CChangeState(STATE_TYPE::TYPE_START);
+	}
 
 	return nullptr;
 }

@@ -26,7 +26,13 @@ bool			g_bUseRGB;						//	텍스쳐의 RGB를 사용합니다. false == a 사요
 bool			g_bUseColor;					//	g_vColor를 사용합니다.. false == g_DiffuseTexture 사용
 bool			g_bFlowMap;						//	FlowMap을 사용합니다.		//	추가 동반 텍스쳐 : Noise
 
-												//	Flow Texture Value
+												//	New
+int				g_iMulUV_U;
+int				g_iMulUV_V;
+
+bool			g_bUVUpset = false;
+
+//	Flow Texture Value
 
 float			g_fDistortionScale = 1.f;		//	왜곡 수치
 float			g_fDistortionBias = 0.f;		//	초기 왜곡값
@@ -69,7 +75,9 @@ VS_OUT VS_MAIN(VS_IN In)
 
 	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
 	Out.vNormal = vNormal;
-	Out.vTexUV = In.vTexUV;
+
+	float2	vTexUVMul = float2(g_iMulUV_U, g_iMulUV_V);
+	Out.vTexUV = In.vTexUV * vTexUVMul;
 	Out.vProjPos = Out.vPosition;
 	return Out;
 }
@@ -97,12 +105,12 @@ VS_FLOWMAP_OUT VS_FLOWMAP(VS_IN In)
 
 	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
 	Out.vNormal = vNormal;
-	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
 
-	Out.vTexCoord1 = (In.vTexUV * 1.f);
-	Out.vTexCoord1.x = Out.vTexCoord1.x + ((1.f - g_fEndALPHA) * 0.1f);
-	Out.vTexCoord1.y = Out.vTexCoord1.y + ((1.f - g_fEndALPHA) * 0.1f);
+	Out.vTexUV = In.vTexUV;
+	Out.vTexCoord1.x = In.vTexUV.x + ((1.f - g_fEndALPHA) * 0.1f);
+	Out.vTexCoord1.y = In.vTexUV.y + ((1.f - g_fEndALPHA) * 0.1f);
+
 
 	return Out;
 }
@@ -306,7 +314,7 @@ PS_POSTPROCESSING_OUT PS_DISTORTION(PS_EFFECT_IN In)
 
 	float4 vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	float4 NoiseTex = g_NoiseTexture.Sample(LinearSampler, In.vTexUV);
-	float fValueX = min(vTexture.r, vTexture.a) * g_fAlphaRatio;
+	float fValueX = min(vTexture.r, vTexture.a) * g_fEndALPHA;
 	float fValueY = fValueX * NoiseTex.r;		//	방향은 NoiseTexture를 따라가되, 왜곡 정도는 DiffuseTexture를 따라갑니다.
 
 
@@ -327,7 +335,7 @@ PS_POSTPROCESSING_OUT PS_GRAYSCALE(PS_EFFECT_IN In)
 
 	float4 vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 
-	float fValue = (g_bUseRGB * vTexture.r) + ((1.f - g_bUseRGB) * vTexture.a) * g_fAlphaRatio;
+	float fValue = (g_bUseRGB * vTexture.r) + ((1.f - g_bUseRGB) * vTexture.a) * g_fEndALPHA;
 	Out.vValue = fValue * g_fPostProcesesingValue;
 
 	if (Out.vValue.r <= 0.03f)
@@ -409,7 +417,12 @@ PS_EFFECT_OUT PS_FLOWMAP(PS_FLOWMAP_IN In)
 	//	텍스쳐 왜곡 끝
 
 
-	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, noiseCoords);
+	float2	vTexUVMul = float2(g_iMulUV_U, g_iMulUV_V);
+
+	/*float2	vNoiseCoordsUpset = float2((g_bUVUpset * noiseCoords.y) + ((1.f - g_bUVUpset) * noiseCoords.x),
+	(g_bUVUpset * noiseCoords.x) + ((1.f - g_bUVUpset) * noiseCoords.y));*/
+
+	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, noiseCoords * vTexUVMul);
 
 	Out.vColor = g_bUseColor * g_vColor +
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));

@@ -11,7 +11,7 @@
 #include "KyoujuroDashState.h"
 #include "KyoujuroSkill_DashSlash.h"
 #include "KyoujuroSkill_DoubleUpper.h"
-
+#include "KyoujuroChangeState.h"
 using namespace Kyoujuro;
 
 
@@ -358,9 +358,13 @@ CKyoujuroState * CMoveState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	Move(pKyoujuro, fTimeDelta);
 	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 
-	if (pKyoujuro->Get_PlayerInfo().bSub || pKyoujuro->Get_PlayerInfo().bChange)
+	if (pKyoujuro->Get_PlayerInfo().bChange)
 	{
 		return new CIdleState();
+	}
+	if (pKyoujuro->Get_PlayerInfo().bSub)
+	{
+		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
 
 	return nullptr;
