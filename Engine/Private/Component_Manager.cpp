@@ -96,7 +96,10 @@ void CComponent_Manager::Free()
 	}
 	Safe_Delete_Array(m_pPrototypes);
 
+
 	for (auto Name : m_Name) {
 		Safe_Delete_Array(Name);
 	}
+
+	m.names.clear();
 }
