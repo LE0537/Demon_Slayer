@@ -88,8 +88,7 @@ CRuiState * CSkill_SphereState::Late_Tick(CRui* pRui, _float fTimeDelta)
 			if (pMyCollider->Collision(pTargetCollider))
 			{
 				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				vPos.m128_f32[1] = 0.f;
-				m_pTarget->Get_Transform()->LookAt(vPos);
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
 				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{
@@ -136,8 +135,7 @@ CRuiState * CSkill_SphereState::Late_Tick(CRui* pRui, _float fTimeDelta)
 			if (pMyCollider->Collision(pTargetCollider))
 			{
 				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				vPos.m128_f32[1] = 0.f;
-				m_pTarget->Get_Transform()->LookAt(vPos);
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 	
 				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{

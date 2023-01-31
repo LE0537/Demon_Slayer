@@ -58,8 +58,8 @@ void CAkazaShoot::Late_Tick(_float fTimeDelta)
 	if (pMyCollider->Collision(pTargetCollider) && !m_bHit)
 	{
 		_vector vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		vPos.m128_f32[1] = 0.f;
-		m_ShootInfo.pTarget->Get_Transform()->LookAt(vPos);
+		//vPos.m128_f32[1] = 0.f;
+		m_ShootInfo.pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
 		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard)
 		{
@@ -67,7 +67,7 @@ void CAkazaShoot::Late_Tick(_float fTimeDelta)
 		}
 		else
 		{
-			m_ShootInfo.pTarget->Set_Hp(-30);
+			m_ShootInfo.pTarget->Set_Hp(-15);
 			m_ShootInfo.pTarget->Take_Damage(0.1f, false);
 		}
 

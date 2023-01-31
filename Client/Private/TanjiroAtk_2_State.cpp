@@ -223,12 +223,8 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 			if (pMyCollider->Collision(pTargetCollider))
 			{
-				_float4 vTagetPos;
-				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				vPos.m128_f32[1] = 0.f;
-				m_pTarget->Get_Transform()->LookAt(vPos);
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
 				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{
@@ -267,11 +263,8 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 			if (pMyCollider->Collision(pTargetCollider))
 			{
-				_float4 vTagetPos;
-				XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				vPos.m128_f32[1] = 0.f;
-				m_pTarget->Get_Transform()->LookAt(vPos);
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 				
 				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{

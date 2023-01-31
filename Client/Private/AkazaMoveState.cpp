@@ -463,7 +463,10 @@ void CMoveState::Move(CAkaza* pAkaza, _float fTimeDelta)
 
 		vPos += vMyLook * (fSpeed - fSpeed * fPow);
 		vTargetPos += vTargetLook * fSpeed * fPow;
-		vPos.m128_f32[1] = 0.f;
+		_vector vPlayerPosY = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vPos.m128_f32[1] = vPlayerPosY.m128_f32[1];
+		_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
 		if (pAkaza->Get_NavigationCom()->Cheak_Cell(vPos))
 			pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))

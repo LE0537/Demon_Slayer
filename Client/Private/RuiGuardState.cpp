@@ -95,8 +95,8 @@ CRuiState * CGuardState::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 	CCharacters* m_pTarget = pRui->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vLooAt.m128_f32[1] = 0.f;
-	pRui->Get_Transform()->LookAt(vLooAt);
+
+	pRui->Get_Transform()->Set_PlayerLookAt(vLooAt);
 
 
 	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.2f);

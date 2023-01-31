@@ -71,7 +71,7 @@ void CRuiShoot::Late_Tick(_float fTimeDelta)
 	{
 		_vector vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		vPos.m128_f32[1] = 0.f;
-		m_ShootInfo.pTarget->Get_Transform()->LookAt(vPos);
+		m_ShootInfo.pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
 		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard)
 		{

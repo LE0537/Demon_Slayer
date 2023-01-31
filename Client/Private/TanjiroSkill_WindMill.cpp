@@ -83,8 +83,6 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 
 				if (pMyCollider->Collision(pTargetCollider))
 				{
-					_float4 vTagetPos;
-					XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 					_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
@@ -127,7 +125,10 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 
 				vPos += vMyLook * (fSpeed - fSpeed * fPow);
 				vTargetPos += vTargetLook * fSpeed * fPow;
-
+				_vector vPlayerPosY = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				vPos.m128_f32[1] = vPlayerPosY.m128_f32[1];
+				_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
 				if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos))
 					pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 				if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))

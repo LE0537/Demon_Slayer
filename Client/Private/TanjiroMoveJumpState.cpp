@@ -314,7 +314,48 @@ void CMoveJumpState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 	}
 
 	if (m_eDirection != DIR_STOP && m_bMove == true)
+	{
 		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
+
+		if (m_eDirection != DIR_STOP)
+			pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
+		CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
+		CCollider*	pMyCollider = pTanjiro->Get_SphereCollider();
+		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+
+		if (nullptr == pTargetCollider)
+			return;
+
+		if (pMyCollider->Collision(pTargetCollider))
+		{
+
+			_float fSpeed = pTanjiro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			_vector vPlayerPosY = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vPos.m128_f32[1] = vPlayerPosY.m128_f32[1];
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+			if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos))
+				pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pTanjiro->Get_NavigationCom());
+
+		}
+	}
 }
 
 CTanjiroState*  CMoveJumpState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)

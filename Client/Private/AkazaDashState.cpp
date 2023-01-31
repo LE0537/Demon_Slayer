@@ -654,7 +654,263 @@ void CDashState::Move(CAkaza* pAkaza, _float fTimeDelta)
 	default:
 		break;
 	}
+	Check_Coll(pAkaza, fTimeDelta);
+}
 
+void CDashState::Check_Coll(CAkaza * pAkaza, _float fTimeDelta)
+{
+	CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
+	CCollider*	pMyCollider = pAkaza->Get_SphereCollider();
+	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+
+	if (nullptr == pTargetCollider)
+		return;
+
+	if (pMyCollider->Collision(pTargetCollider))
+	{
+
+		_float fSpeed = pAkaza->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+
+		_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+		_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+		_vector vMyLook = vTargetLook * -1.f;
+
+		_vector vPow = XMVector3Dot(pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+		_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+		vPos += vMyLook * (fSpeed - fSpeed * fPow);
+		vTargetPos += vTargetLook * fSpeed * fPow;
+		vPos.m128_f32[1] = 0.f;
+		_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+		if (pAkaza->Get_NavigationCom()->Cheak_Cell(vPos))
+			pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+		else
+		{
+			switch (m_eDir)
+			{
+			case Client::DIR_STRAIGHT:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_LEFT:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_RIGHT:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_BACK:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_LF:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta, pAkaza->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+					}
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 2, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 2, pAkaza->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+					}
+				}
+				break;
+			case Client::DIR_RF:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta, pAkaza->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+					}
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta, pAkaza->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+					}
+				}
+				break;
+			case Client::DIR_LB:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta, pAkaza->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+					}
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta, pAkaza->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+					}
+				}
+				break;
+			case Client::DIR_RB:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta, pAkaza->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+					}
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta, pAkaza->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pAkaza->Get_NavigationCom());
+					}
+				}
+				break;
+			case Client::DIR_LEFT_DASH:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_RIGHT_DASH:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pAkaza->Get_NavigationCom());
+					else
+						pAkaza->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pAkaza->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_STOP:
+				break;
+			case Client::DIR_END:
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }
 
 

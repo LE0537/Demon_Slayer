@@ -190,6 +190,17 @@ CAkazaState * CIdleState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
 	pAkaza->Get_Model()->Play_Animation(fTimeDelta);
 
+	_vector vPlayerY = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	if (vPlayerY.m128_f32[1] > 0.f)
+	{
+		vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
+		if (vPlayerY.m128_f32[1] < 0)
+			vPlayerY.m128_f32[1] = 0;
+
+		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+	}
+
 	return nullptr;
 }
 

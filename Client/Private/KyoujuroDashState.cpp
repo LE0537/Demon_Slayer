@@ -654,7 +654,263 @@ void CDashState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	default:
 		break;
 	}
+	Check_Coll(pKyoujuro, fTimeDelta);
+}
 
+void CDashState::Check_Coll(CKyoujuro * pKyoujuro, _float fTimeDelta)
+{
+	CCharacters* m_pTarget = pKyoujuro->Get_BattleTarget();
+	CCollider*	pMyCollider = pKyoujuro->Get_SphereCollider();
+	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+
+	if (nullptr == pTargetCollider)
+		return;
+
+	if (pMyCollider->Collision(pTargetCollider))
+	{
+
+		_float fSpeed = pKyoujuro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+
+		_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+		_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+		_vector vMyLook = vTargetLook * -1.f;
+
+		_vector vPow = XMVector3Dot(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+		_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+		vPos += vMyLook * (fSpeed - fSpeed * fPow);
+		vTargetPos += vTargetLook * fSpeed * fPow;
+		vPos.m128_f32[1] = 0.f;
+		_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+		if (pKyoujuro->Get_NavigationCom()->Cheak_Cell(vPos))
+			pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+		else
+		{
+			switch (m_eDir)
+			{
+			case Client::DIR_STRAIGHT:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_LEFT:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_RIGHT:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_BACK:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_LF:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta, pKyoujuro->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+					}
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 2, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 2, pKyoujuro->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+					}
+				}
+				break;
+			case Client::DIR_RF:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta, pKyoujuro->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+					}
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta, pKyoujuro->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+					}
+				}
+				break;
+			case Client::DIR_LB:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta, pKyoujuro->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+					}
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta, pKyoujuro->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+					}
+				}
+				break;
+			case Client::DIR_RB:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta, pKyoujuro->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+					}
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.4f)
+					{
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta, pKyoujuro->Get_NavigationCom());
+					}
+					else if (m_fTime >= 0.4f && m_fTime < 0.55f)
+					{
+						pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.2f, pKyoujuro->Get_NavigationCom());
+					}
+				}
+				break;
+			case Client::DIR_LEFT_DASH:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_RIGHT_DASH:
+				if (iIndex == 1)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Left(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				else if (iIndex == 2)
+				{
+					if (m_fTime < 0.25f)
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 1.5f, pKyoujuro->Get_NavigationCom());
+					else
+						pKyoujuro->Get_Transform()->Go_Right(fTimeDelta * 0.4f, pKyoujuro->Get_NavigationCom());
+				}
+				break;
+			case Client::DIR_STOP:
+				break;
+			case Client::DIR_END:
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }
 
 

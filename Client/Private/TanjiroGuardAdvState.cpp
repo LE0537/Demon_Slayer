@@ -113,9 +113,10 @@ CTanjiroState * CGuardAdvState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta
 	{
 		_vector vTagetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK);
-		vTagetPos += XMVector3Normalize(vPos) * 30.f * fTimeDelta;
+		vTagetPos += XMVector3Normalize(vPos) * 40.f * fTimeDelta;
 		vTagetPos.m128_f32[1] = 0.f;
-		m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTagetPos);
+		if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTagetPos))
+			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTagetPos);
 	}
 
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);

@@ -283,7 +283,48 @@ void CMoveJumpState::Move(CRui* pRui, _float fTimeDelta)
 	}
 
 	if (m_eDirection != DIR_STOP && m_bMove == true)
+	{
 		pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
+
+		if (m_eDirection != DIR_STOP)
+			pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
+		CCharacters* m_pTarget = pRui->Get_BattleTarget();
+		CCollider*	pMyCollider = pRui->Get_SphereCollider();
+		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+
+		if (nullptr == pTargetCollider)
+			return;
+
+		if (pMyCollider->Collision(pTargetCollider))
+		{
+
+			_float fSpeed = pRui->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			_vector vPlayerPosY = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vPos.m128_f32[1] = vPlayerPosY.m128_f32[1];
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+			if (pRui->Get_NavigationCom()->Cheak_Cell(vPos))
+				pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pRui->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pRui->Get_NavigationCom());
+
+		}
+	}
 }
 
 CRuiState*  CMoveJumpState::Jump(CRui* pRui, _float fTimeDelta)
