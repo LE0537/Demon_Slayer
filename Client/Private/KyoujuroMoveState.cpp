@@ -358,7 +358,7 @@ CKyoujuroState * CMoveState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	Move(pKyoujuro, fTimeDelta);
 	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 
-	if (pKyoujuro->Get_PlayerInfo().bSub)
+	if (pKyoujuro->Get_PlayerInfo().bSub || pKyoujuro->Get_PlayerInfo().bChange)
 	{
 		return new CIdleState();
 	}

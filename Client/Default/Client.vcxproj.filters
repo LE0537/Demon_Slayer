@@ -673,6 +673,15 @@
     <Filter Include="03.UI\02.Battle\Round">
       <UniqueIdentifier>{3819d57e-6172-4e53-b5f1-a1fcc79982b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill">
+      <UniqueIdentifier>{8c38c890-bfb0-4523-bf67-a108b0b53464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Common">
+      <UniqueIdentifier>{9ac2b647-34d4-4e01-9b93-df829073c365}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Move">
+      <UniqueIdentifier>{a8cf4bb8-ac68-4af6-9264-1bc8267a6bc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1353,6 +1362,9 @@
     <ClInclude Include="..\Public\RoundUI.h">
       <Filter>03.UI\02.Battle\Round</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\NezukoSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2005,6 +2017,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\RoundUI.cpp">
       <Filter>03.UI\02.Battle\Round</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

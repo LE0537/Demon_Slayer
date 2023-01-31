@@ -120,6 +120,7 @@ private:
 	CCharacters*					m_p2P;
 	CCharacters*					m_p1P_2;
 	CCharacters*					m_p2P_2;
+
 	CUI*							m_p1PUI;
 	CUI*							m_p2PUI;
 	CUI*							m_p1PChar;

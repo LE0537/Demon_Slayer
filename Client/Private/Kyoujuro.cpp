@@ -75,16 +75,22 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	{
 		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
 		m_pSubChar->Set_SubChar(this);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
+		m_bChange = true;
+		if(m_i1p == 1)
+			CUI_Manager::Get_Instance()->Set_1P_2(this);
+		else if(m_i1p == 2)
+			CUI_Manager::Get_Instance()->Set_2P_2(this);
 	}
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
+
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
-
-
 
 	return S_OK;
 }
+
 
 void CKyoujuro::Tick(_float fTimeDelta)
 {
@@ -94,7 +100,8 @@ void CKyoujuro::Tick(_float fTimeDelta)
 		m_fDelta = fTimeDelta;
 		if (m_tInfo.fHitTime > 0.f)
 			m_tInfo.fHitTime -= fTimeDelta;
-
+		if (m_fChangeDelay > 0.f)
+			m_fChangeDelay -= fTimeDelta;
 		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
 			HandleInput();
 
@@ -110,21 +117,44 @@ void CKyoujuro::Tick(_float fTimeDelta)
 		m_pSphereCom->Update(matColl);
 
 
-
-		if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_JUMP
-			|| m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_CHANGE)
-			m_tInfo.bJump = true;
-		else
-			m_tInfo.bJump = false;
 	}
+	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_JUMP
+		|| m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_CHANGE)
+		m_tInfo.bJump = true;
+	else
+		m_tInfo.bJump = false;
 
 }
 
 void CKyoujuro::Late_Tick(_float fTimeDelta)
 {
+
 	if (!m_bChange)
+
+
+	LateTickState(fTimeDelta);
+
+
+	m_pWeapon->Tick(fTimeDelta);
+	m_pSheath->Tick(fTimeDelta);
+
+
+	
+
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+	dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Set_Render(true);
+	dynamic_cast<CKyoujuroSheath*>(m_pSheath)->Set_Render(true);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+
+	if (g_bCollBox)
+
 	{
 		LateTickState(fTimeDelta);
+
 
 
 		m_pWeapon->Tick(fTimeDelta);
@@ -134,8 +164,6 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-		dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Set_Render(true);
-		dynamic_cast<CKyoujuroSheath*>(m_pSheath)->Set_Render(true);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
@@ -146,6 +174,9 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 			m_pRendererCom->Add_Debug(m_pSphereCom);
 		}
 	}
+
+
+
 }
 
 HRESULT CKyoujuro::Render()
@@ -179,68 +210,65 @@ HRESULT CKyoujuro::Render()
 				return E_FAIL;
 		}
 	}
-	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-	vPos.m128_f32[1] += 20.f;
-	switch (m_i1p)
+	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f)
 	{
-	case 1:
-		if (m_tInfo.iFriendBar >= 100 && pGameInstance->Key_Pressing(DIK_U))
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+		vPos.m128_f32[1] += 15.f;
+		switch (m_i1p)
 		{
-			m_fChangeTime += m_fDelta;
-			if (m_fChangeTime > 0.5f)
+		case 1:
+			if (m_tInfo.iFriendBar >= 100 && pGameInstance->Key_Pressing(DIK_U))
 			{
-				m_tInfo.iFriendBar -= 100;
-				m_tInfo.bSub = true;
-				CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
-				CUI_Manager::Get_Instance()->Set_1P_2(this);
-				m_pSubChar->Set_Sub(false);
-				m_pSubChar->Change_Info(m_tInfo);
-				m_pSubChar->Set_ChangeInfo(true);
-				m_pSubChar->Set_Change(false, vPos);
-				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
-				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
-			/*	if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Get_1PCam())
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(m_pSubChar);
-				else
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);*/
+				m_fChangeTime += m_fDelta;
+				if (m_fChangeTime > 0.5f)
+				{
+					m_tInfo.iFriendBar -= 100;
+					m_tInfo.bSub = true;
+					CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
+					CUI_Manager::Get_Instance()->Set_1P_2(this);
+					m_pSubChar->Set_ChangeDelay(1.f);
+					m_pSubChar->Set_Sub(false);
+					m_pSubChar->Change_Info(m_tInfo);
+					m_pSubChar->Set_ChangeInfo(true);
+					m_pSubChar->Set_Change(false, vPos);
+					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+					m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+					m_fChangeTime = 0.f;
+				}
+			}
+			else
+			{
 				m_fChangeTime = 0.f;
 			}
-		}
-		else
-		{
-			m_fChangeTime = 0.f;
-		}
-		break;
-	case 2:
-		if (m_tInfo.iFriendBar >= 100 && pGameInstance->Key_Pressing(DIK_V))
-		{
-			m_fChangeTime += m_fDelta;
-			if (m_fChangeTime > 0.5f)
+			break;
+		case 2:
+			if (m_tInfo.iFriendBar >= 100 && pGameInstance->Key_Pressing(DIK_V))
 			{
-				m_tInfo.iFriendBar -= 100;
-				m_tInfo.bSub = true;
-				CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
-				CUI_Manager::Get_Instance()->Set_2P_2(this);
-				m_pSubChar->Set_Sub(false);
-				m_pSubChar->Change_Info(m_tInfo);
-				m_pSubChar->Set_ChangeInfo(true);
-				m_pSubChar->Set_Change(false, vPos);
-				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
-				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
-				/*if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Get_1PCam())
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(m_pSubChar);
-				else
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);*/
+				m_fChangeTime += m_fDelta;
+				if (m_fChangeTime > 0.5f)
+				{
+					m_tInfo.iFriendBar -= 100;
+					m_tInfo.bSub = true;
+					CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
+					CUI_Manager::Get_Instance()->Set_2P_2(this);
+					m_pSubChar->Set_ChangeDelay(1.f);
+					m_pSubChar->Set_Sub(false);
+					m_pSubChar->Change_Info(m_tInfo);
+					m_pSubChar->Set_ChangeInfo(true);
+					m_pSubChar->Set_Change(false, vPos);
+					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+					m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+					m_fChangeTime = 0.f;
+				}
+			}
+			else
+			{
 				m_fChangeTime = 0.f;
 			}
+			break;
+		default:
+			break;
 		}
-		else
-		{
-			m_fChangeTime = 0.f;
-		}
-		break;
-	default:
-		break;
 	}
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -463,7 +491,7 @@ void CKyoujuro::Get_GuardHit(_int eType)
 		m_pModelCom->Reset_Anim(CKyoujuro::ANIMID::ANIM_GUARD_HIT_1);
 		pState = new CGuardHitState(CKyoujuroState::STATE_TYPE::TYPE_LOOP);
 	}
-	
+
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 }
 

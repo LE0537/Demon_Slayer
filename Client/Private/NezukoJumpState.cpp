@@ -44,7 +44,7 @@ CNezukoState * CJumpState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 			break;
 		case Client::CNezukoState::TYPE_END:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-			return new CIdleState(STATE_ID::STATE_JUMP);
+			return new CIdleState();
 			break;
 		}
 		pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
@@ -58,7 +58,7 @@ CNezukoState * CJumpState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
 
 	
-	pNezuko->Get_Model()->Play_Animation(fTimeDelta,true);
+	pNezuko->Get_Model()->Play_Animation(fTimeDelta);
 
 	m_fJumpTime += 0.05f;
 
@@ -119,8 +119,12 @@ CNezukoState * CJumpState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		m_eStateType = CNezukoState::TYPE_END;
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_JUMP_END);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_JUMP_END, 0.01f);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_JUMP_END);
 	}
+
+
+
 
 	pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 

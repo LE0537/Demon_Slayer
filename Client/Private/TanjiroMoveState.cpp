@@ -411,7 +411,7 @@ CTanjiroState * CMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	Move(pTanjiro, fTimeDelta);
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
-	if (pTanjiro->Get_PlayerInfo().bSub)
+	if (pTanjiro->Get_PlayerInfo().bSub || pTanjiro->Get_PlayerInfo().bChange)
 	{
 		return new CIdleState();
 	}
@@ -436,6 +436,7 @@ void CMoveState::Enter(CTanjiro * pTanjiro)
 	case Client::CTanjiroState::TYPE_END:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_END);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_END);
+		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
 		break;
 	case Client::CTanjiroState::TYPE_DEFAULT:
 		break;

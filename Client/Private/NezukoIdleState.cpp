@@ -7,7 +7,7 @@
 #include "NezukoMoveState.h"
 #include "NezukoGuardState.h"
 #include "NezukojumpState.h"
-
+#include "NezukoSkill_Common.h"
 
 using namespace Nezuko;
 
@@ -89,7 +89,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
 					pNezuko->Set_SkillBar(-200);
-					//return new CSkill_ShootState(STATE_TYPE::TYPE_START);
+					return new CSkill_CommonState(STATE_TYPE::TYPE_START);
 				}
 			}
 		}
@@ -165,7 +165,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
 					pNezuko->Set_SkillBar(-200);
-					//return new CSkill_ShootState(STATE_TYPE::TYPE_START);
+					return new CSkill_CommonState(STATE_TYPE::TYPE_START);
 				}
 			}	
 		}
