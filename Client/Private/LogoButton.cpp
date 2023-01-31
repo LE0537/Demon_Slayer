@@ -58,7 +58,6 @@ void CLogoButton::Tick(_float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 	
-
 	m_fAlpha += fTimeDelta;
 
 	if (m_fAlpha >= 1)
