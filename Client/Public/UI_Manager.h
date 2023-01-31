@@ -142,8 +142,11 @@ private:
 	_uint							m_iCharFrameLayerNum = 0;
 	_uint							m_i1PIconLayerNum = 0;
 	_uint							m_i2PIconLayerNum = 0;
+	_uint							m_i1PMainLayerNum = 0;
+	_uint							m_i2PMainLayerNum = 0;
 	_uint							m_iUltBarLayerNum = 0;
 	_uint							m_iTimerLayerNum = 0;
+	_uint							m_iSelStampLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;

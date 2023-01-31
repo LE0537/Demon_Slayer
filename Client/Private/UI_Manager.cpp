@@ -230,6 +230,9 @@ void CUI_Manager::Add_Select_CharUI()
 	m_iCharFrameLayerNum = 0;
 	m_i1PIconLayerNum = 0;
 	m_i2PIconLayerNum = 0;
+	m_i1PMainLayerNum = 0;
+	m_i2PMainLayerNum = 0;
+	m_iSelStampLayerNum = 0;
 }
 
 void CUI_Manager::Add_Logo_Title()
@@ -670,14 +673,18 @@ HRESULT CUI_Manager::Add_SelectUI(CUI::THROWUIINFO iter)
 	}
 	case 26:
 	{
+		iter.iLayerNum = m_i1PMainLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_1P_MainOnBase"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_i1PMainLayerNum;
 		break;
 	}
 	case 27:
 	{
+		iter.iLayerNum = m_i2PMainLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_2P_MainOnBase"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_i2PMainLayerNum;
 		break;
 	}
 	case 28:
@@ -690,8 +697,10 @@ HRESULT CUI_Manager::Add_SelectUI(CUI::THROWUIINFO iter)
 	}
 	case 29:
 	{
+		iter.iLayerNum = m_iSelStampLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelStamp"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iSelStampLayerNum;
 		break;
 	}
 

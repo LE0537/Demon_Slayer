@@ -38,6 +38,7 @@ private:
 	void	Lerp_SubCam(_float fTimeDelta);
 	void	ConvertToViewPort(_float fTimeDelta);
 	void	Set_BattleTarget();
+	_bool	CheckSubChar();
 public:
 	void Set_Player(CCharacters* _pPlayer) { m_pPlayer = _pPlayer; }
 	void Set_Target(CCharacters* _pTarget) { m_pTarget = _pTarget; }

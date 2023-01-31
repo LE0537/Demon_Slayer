@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "2PMainOnBase.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
+#include "SelP2Cursor.h"
 
 C2PMainOnBase::C2PMainOnBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -73,7 +75,25 @@ HRESULT C2PMainOnBase::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	CSelP2Cursor* pSelP2Cursor = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor());
+
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		m_pVIBufferCom->Render();
+	else
+	{
+		if (pSelP2Cursor != nullptr)
+		{
+			if (pSelP2Cursor->Get_FirstSelCheck() && !pSelP2Cursor->Get_SecondSelCheck() && !pSelP2Cursor->Get_SelectUIInfo().bOni)
+				m_pVIBufferCom->Render();
+			if (pSelP2Cursor->Get_SecondSelCheck() && !pSelP2Cursor->Get_SelectUIInfo().bOni)
+				m_pVIBufferCom->Render();
+		}
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
+
 
 	return S_OK;
 }

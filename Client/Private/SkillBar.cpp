@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SkillBar.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CSkillBar::CSkillBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -49,26 +50,54 @@ HRESULT CSkillBar::Initialize(void * pArg)
 
 void CSkillBar::Tick(_float fTimeDelta)
 {
-	if ((_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar < m_fPrevSkillBar)
-	{
-		m_fDelay = 2.f;
-		m_fPrevSkillBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
-	}
-	if (m_fDelay > 0.f)
-		m_fDelay -= fTimeDelta;
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	m_fSkillMaxBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkMaxBar;
-	m_fSkillCurBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
-	m_fPrevSkillBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iSkBar;
+	if (!m_ThrowUIinfo.bPlyCheck)
+	{
+		if ((_float)pUI_Manager->Get_1P()->Get_PlayerInfo().iSkBar < m_fPrevSkillBar)
+		{
+			m_fDelay = 2.f;
+			m_fPrevSkillBar = (_float)pUI_Manager->Get_1P()->Get_PlayerInfo().iSkBar;
+		}
+
+		if (m_fDelay > 0.f)
+			m_fDelay -= fTimeDelta;
+
+		m_fSkillMaxBar = (_float)pUI_Manager->Get_1P()->Get_PlayerInfo().iSkMaxBar;
+		m_fSkillCurBar = (_float)pUI_Manager->Get_1P()->Get_PlayerInfo().iSkBar;
+		m_fPrevSkillBar = (_float)pUI_Manager->Get_1P()->Get_PlayerInfo().iSkBar;
+	}
+	else
+	{
+		if ((_float)pUI_Manager->Get_2P()->Get_PlayerInfo().iSkBar < m_fPrevSkillBar)
+		{
+			m_fDelay = 2.f;
+			m_fPrevSkillBar = (_float)pUI_Manager->Get_2P()->Get_PlayerInfo().iSkBar;
+		}
+
+		if (m_fDelay > 0.f)
+			m_fDelay -= fTimeDelta;
+
+		m_fSkillMaxBar = (_float)pUI_Manager->Get_2P()->Get_PlayerInfo().iSkMaxBar;
+		m_fSkillCurBar = (_float)pUI_Manager->Get_2P()->Get_PlayerInfo().iSkBar;
+		m_fPrevSkillBar = (_float)pUI_Manager->Get_2P()->Get_PlayerInfo().iSkBar;
+	}
+	
+
 	m_fSkillTime += fTimeDelta;
 
 	if (m_fDelay <= 0.f && m_fSkillTime >= 0.0025f && m_fSkillCurBar < 1000)
 	{
-		m_ThrowUIinfo.pTarget->Set_SkillBar(2);
+		if(!m_ThrowUIinfo.bPlyCheck)
+			pUI_Manager->Get_1P()->Set_SkillBar(2);
+		else
+			pUI_Manager->Get_2P()->Set_SkillBar(2);
 		m_fSkillTime = 0.f;
 	}
 	
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CSkillBar::Late_Tick(_float fTimeDelta)

@@ -68,43 +68,56 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 	{
 		if (pGameInstance->Key_Down(DIK_E))
 		{
-			if (m_iSelCount == 0)
-				m_bFirstSelCheck = true;
-			else if (m_iSelCount == 1)
+			if (m_SelectInfo.bOni)
 			{
-				m_bSelectSecond = true;
+				m_iSelCount = 2;
+				m_bFirstSelCheck = true;
 				m_bSecondSelCheck = true;
 			}
-			
-			++m_iSelCount;
-
+			else
+			{
+				if (m_iSelCount == 1)
+				{
+					if (!m_SelectInfo_2.bOni && m_SelectInfo.strName != m_SelectInfo_2.strName)
+					{
+						++m_iSelCount;
+						if (m_iSelCount == 1)
+							m_bFirstSelCheck = true;
+						else if (m_iSelCount == 2)
+							m_bSecondSelCheck = true;
+					}
+				}
+				else
+				{
+					++m_iSelCount;
+					if (m_iSelCount == 1)
+						m_bFirstSelCheck = true;
+					else if (m_iSelCount == 2)
+						m_bSecondSelCheck = true;
+				}
+			}
 		}
 	}
 	if (m_iSelCount > 0)
 	{
 		if (pGameInstance->Key_Down(DIK_Q))
 		{
-			if (m_iSelCount == 1)
-				m_bFirstSelCheck = false;
-			else if (m_iSelCount == 2)
+			if (m_SelectInfo.bOni)
 			{
-				m_bSelectFirst = true;
+				m_iSelCount = 0;
+				m_bFirstSelCheck = false;
 				m_bSecondSelCheck = false;
 			}
-
-			--m_iSelCount;
+			else
+			{
+				--m_iSelCount;
+				if (m_iSelCount == 0)
+					m_bFirstSelCheck = false;
+				else if (m_iSelCount == 1)
+					m_bSecondSelCheck = false;
+			}
 		}
 	}
-
-	if (m_iSelCount == 0)
-		m_bSelectFirst = true;
-	else if (m_iSelCount == 1)
-	{
-		m_bSelectFirst = false;
-		m_bSelectSecond = true;
-	}
-	else if (m_iSelCount == 2)
-		m_bSelectSecond = false;
 
 	Cursor_To_SelFrame();
 
@@ -113,7 +126,6 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 	else
 		m_bSelComplete = false;
 		
-
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 
 	
@@ -150,14 +162,9 @@ void CSelP1Cursor::Cursor_To_SelFrame()
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	
-	if (m_iSelCount == 1 && m_bFirstSelCheck)
-	{
+	if (m_iSelCount == 0 && !m_bFirstSelCheck)
 		m_SelectInfo = pUI_Manager->Get_SelectFrame(m_iFrameLayerNum)->Get_SelectUIInfo();
-
-		if (m_SelectInfo.bOni)
-			m_iSelCount = 3;
-	}
-	else if (m_iSelCount == 2 && m_bSecondSelCheck)
+	else if (m_iSelCount == 1 && !m_bSecondSelCheck)
 		m_SelectInfo_2 = pUI_Manager->Get_SelectFrame(m_iFrameLayerNum)->Get_SelectUIInfo();
 
 	RELEASE_INSTANCE(CUI_Manager);
