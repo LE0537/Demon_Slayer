@@ -271,8 +271,10 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 
 	m_pShaderCom->Set_RawValue("g_bDissolve", &m_MeshInfo.bDisappearAlpha, sizeof(_bool));
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DissolveTexture", m_pDissolveTextureCom->Get_SRV(0))))
-		return E_FAIL;
+	if (m_pDissolveTextureCom != nullptr) {
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DissolveTexture", m_pDissolveTextureCom->Get_SRV(0))))
+			return E_FAIL;
+	}
 
 	m_pShaderCom->Set_RawValue("g_bUseRGB", &m_MeshInfo.bUseRGB, sizeof(_bool));//	Color * (RGB or A)
 	m_pShaderCom->Set_RawValue("g_bUseColor", &m_MeshInfo.bUseColor, sizeof(_bool));//	Color = g_vColor or DiffuseTexture
