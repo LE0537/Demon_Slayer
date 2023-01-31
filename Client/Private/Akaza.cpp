@@ -148,65 +148,7 @@ HRESULT CAkaza::Render()
 		//aiTextureType_AMBIENT
 	}
 
-	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-	vPos.m128_f32[1] = 0.f;
-	switch (m_i1p)
-	{
-	case 1:
-		if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_U))
-		{
-			m_fChangeTime += m_fDelta;
-			if (m_fChangeTime > 0.5f)
-			{
-				m_tInfo.iFriendBar -= 500;
-				m_tInfo.bSub = true;
-				CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
-				m_pSubChar->Set_Sub(false);
-				m_pSubChar->Set_Change(false, vPos);
-				m_pSubChar->Change_Info(m_tInfo);
-				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
-				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
-				if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront()))
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);
-				else
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(m_pSubChar);
-				m_fChangeTime = 0.f;
-			}
-		}
-		else
-		{
-			m_fChangeTime = 0.f;
-		}
-		break;
-	case 2:
-		if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_V))
-		{
-			m_fChangeTime += m_fDelta;
-			if (m_fChangeTime > 0.5f)
-			{
-				m_tInfo.iFriendBar -= 500;
-				m_tInfo.bSub = true;
-				CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
-				m_pSubChar->Set_Sub(false);
-				m_pSubChar->Set_Change(false, vPos);
-				m_pSubChar->Change_Info(m_tInfo);
-				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
-				m_pBattleTarget->Set_BattleTarget(m_pSubChar);
-				if (dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront()))
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(m_pSubChar);
-				else
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(m_pSubChar);
-				m_fChangeTime = 0.f;
-			}
-		}
-		else
-		{
-			m_fChangeTime = 0.f;
-		}
-		break;
-	default:
-		break;
-	}
+	
 	RELEASE_INSTANCE(CGameInstance);
 
 

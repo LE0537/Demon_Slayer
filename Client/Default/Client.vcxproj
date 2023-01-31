@@ -302,6 +302,9 @@
     <ClInclude Include="..\Public\RuiState.h" />
     <ClInclude Include="..\Public\RuiToolState.h" />
     <ClInclude Include="..\Public\SelStamp.h" />
+    <ClInclude Include="..\public\Shinobu.h" />
+    <ClInclude Include="..\public\ShinobuSheath.h" />
+    <ClInclude Include="..\public\ShinobuWeapon.h" />
     <ClInclude Include="..\Public\SkyBox.h" />
     <ClInclude Include="..\Public\TanjiroDashState.h" />
     <ClInclude Include="..\Public\TanjiroGuardAdvState.h" />
@@ -528,6 +531,9 @@
     <ClCompile Include="..\private\RuiSphere.cpp" />
     <ClCompile Include="..\Private\RuiToolState.cpp" />
     <ClCompile Include="..\Private\SelStamp.cpp" />
+    <ClCompile Include="..\private\Shinobu.cpp" />
+    <ClCompile Include="..\private\ShinobuSheath.cpp" />
+    <ClCompile Include="..\private\ShinobuWeapon.cpp" />
     <ClCompile Include="..\Private\SkyBox.cpp" />
     <ClCompile Include="..\Private\TanjiroDashState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />

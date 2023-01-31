@@ -682,6 +682,15 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Move">
       <UniqueIdentifier>{a8cf4bb8-ac68-4af6-9264-1bc8267a6bc8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\Sheath">
+      <UniqueIdentifier>{c70f1c86-597c-475b-bed7-472cddb438bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\Weapon">
+      <UniqueIdentifier>{820a0899-a15c-42b9-bab1-7e29714dd08f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState">
+      <UniqueIdentifier>{fb19f5b3-3df7-40ee-9f7e-515504d7b1a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1365,6 +1374,15 @@
     <ClInclude Include="..\Public\NezukoSkill_Common.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Common</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Shinobu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ShinobuSheath.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\Sheath</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ShinobuWeapon.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2020,6 +2038,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\NezukoSkill_Common.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shinobu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ShinobuSheath.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\Sheath</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ShinobuWeapon.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\Weapon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
