@@ -60,10 +60,9 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	
 	Cursor_ImgSel();
-
+	
 	if (!m_bSelComplete)
 		Move_Cursor();
-
 
 	if (m_iSelCount < 2)
 	{
@@ -78,6 +77,7 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 			}
 			
 			++m_iSelCount;
+
 		}
 	}
 	if (m_iSelCount > 0)
@@ -107,7 +107,6 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 		m_bSelectSecond = false;
 
 	Cursor_To_SelFrame();
-
 
 	if (m_iSelCount >= 2)
 		m_bSelComplete = true;
@@ -150,10 +149,15 @@ HRESULT CSelP1Cursor::Render()
 void CSelP1Cursor::Cursor_To_SelFrame()
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-
-	if (m_iSelCount == 1 && m_bSelectFirst)
+	
+	if (m_iSelCount == 1 && m_bFirstSelCheck)
+	{
 		m_SelectInfo = pUI_Manager->Get_SelectFrame(m_iFrameLayerNum)->Get_SelectUIInfo();
-	if (m_iSelCount == 2 && m_bSelectSecond)
+
+		if (m_SelectInfo.bOni)
+			m_iSelCount = 3;
+	}
+	else if (m_iSelCount == 2 && m_bSecondSelCheck)
 		m_SelectInfo_2 = pUI_Manager->Get_SelectFrame(m_iFrameLayerNum)->Get_SelectUIInfo();
 
 	RELEASE_INSTANCE(CUI_Manager);

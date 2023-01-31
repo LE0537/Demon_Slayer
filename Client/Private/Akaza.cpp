@@ -77,24 +77,22 @@ HRESULT CAkaza::Initialize(void * pArg)
 
 void CAkaza::Tick(_float fTimeDelta)
 {
-	if (!m_bChange)
-	{
-		__super::Tick(fTimeDelta);
-		m_fDelta = fTimeDelta;
-		if (m_tInfo.fHitTime > 0.f)
-			m_tInfo.fHitTime -= fTimeDelta;
+	__super::Tick(fTimeDelta);
+	m_fDelta = fTimeDelta;
+	if (m_tInfo.fHitTime > 0.f)
+		m_tInfo.fHitTime -= fTimeDelta;
 
-		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
-			HandleInput();
+	if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
+		HandleInput();
 
-		TickState(fTimeDelta);
+	TickState(fTimeDelta);
 
-		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
-		if (nullptr == pSocket)
-			return;
-		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+	if (nullptr == pSocket)
+		return;
+	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
-		m_pSphereCom->Update(matColl);
+	m_pSphereCom->Update(matColl);
 
 
 
@@ -103,24 +101,18 @@ void CAkaza::Tick(_float fTimeDelta)
 	else
 		m_tInfo.bJump = false;
 
-
-	}
-
 }
 
 void CAkaza::Late_Tick(_float fTimeDelta)
 {
-	if (!m_bChange)
+	LateTickState(fTimeDelta);
+
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+	if (g_bCollBox)
 	{
-		LateTickState(fTimeDelta);
-
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
-		if (g_bCollBox)
-		{
-			m_pRendererCom->Add_Debug(m_pSphereCom);
-		}
+		m_pRendererCom->Add_Debug(m_pSphereCom);
 	}
 }
 

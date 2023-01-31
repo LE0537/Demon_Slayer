@@ -165,36 +165,25 @@ void CCharNameUI::Set_Name_SelLevel()
 	if (m_ThrowUIinfo.iLayerNum == 0)
 	{
 		if (pUI_Manager->Get_1PCursor()->Get_SelFirst())
-		{
 			m_iImgNum = iSelNum1PCursor;
-			Select_NameReSize();
-		}
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 1)
 	{
 		if (pUI_Manager->Get_2PCursor()->Get_SelFirst())
-		{
 			m_iImgNum = iSelNum2PCursor;
-			Select_NameReSize();
-		}
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 2)
 	{
 		if (pUI_Manager->Get_1PCursor()->Get_SelSecond())
-		{
 			m_iImgNum = iSelNum1PCursor;
-			Select_NameReSize();
-		}
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 3)
 	{
 		if (pUI_Manager->Get_2PCursor()->Get_SelSecond())
-		{
 			m_iImgNum = iSelNum2PCursor;
-			Select_NameReSize();
-		}
 	}
 	
+	Select_NameReSize();
 
 	RELEASE_INSTANCE(CUI_Manager);
 }

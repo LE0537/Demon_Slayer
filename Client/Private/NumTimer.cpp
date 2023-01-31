@@ -53,7 +53,7 @@ void CNumTimer::Tick(_float fTimeDelta)
 	m_fTimer -= fTimeDelta;
 
 	if (m_fTimer <= 1.f)
-		m_fTimer = 100.f;
+		m_fTimer = 99.f;
 
 	if (m_ThrowUIinfo.iLayerNum == 0)
 		m_iFirstNum = (_uint)m_fTimer / 10;
