@@ -36,10 +36,14 @@ public:
 	_bool P1_Oni_Check();
 	_bool P2_Oni_Check();
 
+	CCharacters* Get_1P() { return m_p1P; }
+	CCharacters* Get_1P_2() { return m_p1P_2; }
 	void	Set_1P(CCharacters* p1P) { m_p1P = p1P; }
-	void	Set_2P(CCharacters* p2P) { m_p2P = p2P; }
-
 	void	Set_1P_2(CCharacters* p1P_2) { m_p1P_2 = p1P_2; }
+
+	CCharacters* Get_2P() { return m_p2P; }
+	CCharacters* Get_2P_2() { return m_p2P_2; }
+	void	Set_2P(CCharacters* p2P) { m_p2P = p2P; }
 	void	Set_2P_2(CCharacters* p2P_2) { m_p2P_2 = p2P_2; }
 
 	CUI*	Get_1PCursor() { return m_p1PUI; }

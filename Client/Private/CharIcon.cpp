@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CharIcon.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CCharIcon::CCharIcon(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -21,7 +22,6 @@ HRESULT CCharIcon::Initialize(void * pArg)
 {
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
-
 	m_fSizeX = m_ThrowUIinfo.vScale.x;
 	m_fSizeY = m_ThrowUIinfo.vScale.y;
 	m_fX = m_ThrowUIinfo.vPos.x;
@@ -30,13 +30,6 @@ HRESULT CCharIcon::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
-	{
-		if(m_ThrowUIinfo.iLayerNum = 0)
-			Icon_Selected_GamePlay(m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName);
-	/*	else
-			Icon_Selected_GamePlay(m_ThrowUIinfo.pTargetSecond->Get_PlayerInfo().strName);*/
-	}
 	
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 	{
@@ -67,7 +60,32 @@ HRESULT CCharIcon::Initialize(void * pArg)
 
 void CCharIcon::Tick(_float fTimeDelta)
 {
+
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	{
+		if (!m_ThrowUIinfo.bPlyCheck)
+		{
+			if (m_ThrowUIinfo.iLayerNum == 0)
+				Icon_Selected_GamePlay(pUI_Manager->Get_1P()->Get_PlayerInfo().strName);
+			else
+				Icon_Selected_GamePlay(pUI_Manager->Get_1P_2()->Get_PlayerInfo().strName);
+		}
+		if (m_ThrowUIinfo.bPlyCheck)
+		{
+			if (m_ThrowUIinfo.iLayerNum == 0)
+				Icon_Selected_GamePlay(pUI_Manager->Get_2P()->Get_PlayerInfo().strName);
+			else
+				Icon_Selected_GamePlay(pUI_Manager->Get_2P_2()->Get_PlayerInfo().strName);
+		}
+		
+	}
+
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CCharIcon::Late_Tick(_float fTimeDelta)

@@ -31,9 +31,6 @@ HRESULT CCharNameUI::Initialize(void * pArg)
 	m_fSizeY = m_ThrowUIinfo.vScale.y;
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
-
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
-		Name_Selected(m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName);
 	
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
@@ -65,11 +62,21 @@ HRESULT CCharNameUI::Initialize(void * pArg)
 }
 
 void CCharNameUI::Tick(_float fTimeDelta)
-{	
-	Set_Name_SelLevel();
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	{
+		if (!m_ThrowUIinfo.bPlyCheck)
+			Name_Selected(pUI_Manager->Get_1P()->Get_PlayerInfo().strName);
+		else if (m_ThrowUIinfo.bPlyCheck)
+			Name_Selected(pUI_Manager->Get_2P()->Get_PlayerInfo().strName);
+	}
+	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+		Set_Name_SelLevel();
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CCharNameUI::Late_Tick(_float fTimeDelta)
@@ -99,100 +106,95 @@ HRESULT CCharNameUI::Render()
 
 void CCharNameUI::Name_Selected(wstring strName)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
 	if (strName == TEXT("쿄주로"))
 	{
 		m_iImgNum = 1;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
-		if(!m_ThrowUIinfo.bPlyCheck)//1p
-			m_fX += 35.f;
-		else if(m_ThrowUIinfo.bPlyCheck)//2p
-			m_fX -= 35.f;
+		if (!m_ThrowUIinfo.bPlyCheck)//1p	
+			m_fX = 215.f;
+		else if (m_ThrowUIinfo.bPlyCheck)//2p
+			m_fX = 1065.f;	
 	}
 	else if (strName == TEXT("탄지로"))
 	{
 		m_iImgNum = 0;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
 		if (!m_ThrowUIinfo.bPlyCheck)
-			m_fX += 40.f;
-		if (m_ThrowUIinfo.bPlyCheck)
-			m_fX -= 110.f;
+			m_fX = 220;
+		else if (m_ThrowUIinfo.bPlyCheck)
+			m_fX = 990.f;
 	}
 	else if (strName == TEXT("루이"))
 	{
 		m_iImgNum = 2;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
-	/*	if (m_ThrowUIinfo.iLayerNum == 0)
-			m_fX += 50.f;
-		if (m_ThrowUIinfo.iLayerNum == 1)
-			m_fX -= 50.f;*/
 	}
 	else if (strName == TEXT("아카자"))
 	{
 		m_iImgNum = 3;
 		m_fSizeX = m_ThrowUIinfo.vScale.x;
-	/*	if (m_ThrowUIinfo.iLayerNum == 0)
-			m_fX += 50.f;
-		if (m_ThrowUIinfo.iLayerNum == 1)
-			m_fX -= 50.f;*/
 	}
 	else if (strName == TEXT("네즈코"))
 	{
 		m_iImgNum = 4;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
 		if (!m_ThrowUIinfo.bPlyCheck)//1p
-			m_fX += 40.f;
-		if (m_ThrowUIinfo.bPlyCheck)//2p
-			m_fX -= 30.f;
+			m_fX = 220;
+		else if (m_ThrowUIinfo.bPlyCheck)//2p
+			m_fX = 990.f;
+		
 	}
 	else if (strName == TEXT("시노부"))
 	{
 		m_iImgNum = 5;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
 	}
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CCharNameUI::Set_Name_SelLevel()
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
-	{
-		_uint iSelNum1PCursor = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor())->Get_FrameLayerNum();
-		_uint iSelNum2PCursor = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_FrameLayerNum();
 
-		if (m_ThrowUIinfo.iLayerNum == 0)
+	_uint iSelNum1PCursor = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor())->Get_FrameLayerNum();
+	_uint iSelNum2PCursor = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_FrameLayerNum();
+
+	if (m_ThrowUIinfo.iLayerNum == 0)
+	{
+		if (pUI_Manager->Get_1PCursor()->Get_SelFirst())
 		{
-			if (pUI_Manager->Get_1PCursor()->Get_SelFirst())
-			{
-				m_iImgNum = iSelNum1PCursor;
-				Select_NameReSize();
-			}
-		}
-		else if (m_ThrowUIinfo.iLayerNum == 1)
-		{
-			if (pUI_Manager->Get_2PCursor()->Get_SelFirst())
-			{
-				m_iImgNum = iSelNum2PCursor;
-				Select_NameReSize();
-			}
-		}
-		else if (m_ThrowUIinfo.iLayerNum == 2)
-		{
-			if (pUI_Manager->Get_1PCursor()->Get_SelSecond())
-			{
-				m_iImgNum = iSelNum1PCursor;
-				Select_NameReSize();
-			}
-		}
-		else if (m_ThrowUIinfo.iLayerNum == 3)
-		{
-			if (pUI_Manager->Get_2PCursor()->Get_SelSecond())
-			{
-				m_iImgNum = iSelNum2PCursor;
-				Select_NameReSize();
-			}
+			m_iImgNum = iSelNum1PCursor;
+			Select_NameReSize();
 		}
 	}
+	else if (m_ThrowUIinfo.iLayerNum == 1)
+	{
+		if (pUI_Manager->Get_2PCursor()->Get_SelFirst())
+		{
+			m_iImgNum = iSelNum2PCursor;
+			Select_NameReSize();
+		}
+	}
+	else if (m_ThrowUIinfo.iLayerNum == 2)
+	{
+		if (pUI_Manager->Get_1PCursor()->Get_SelSecond())
+		{
+			m_iImgNum = iSelNum1PCursor;
+			Select_NameReSize();
+		}
+	}
+	else if (m_ThrowUIinfo.iLayerNum == 3)
+	{
+		if (pUI_Manager->Get_2PCursor()->Get_SelSecond())
+		{
+			m_iImgNum = iSelNum2PCursor;
+			Select_NameReSize();
+		}
+	}
+	
 
 	RELEASE_INSTANCE(CUI_Manager);
 }
