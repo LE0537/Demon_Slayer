@@ -141,51 +141,50 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 {
 
 	if (!m_bChange)
-
-
-	LateTickState(fTimeDelta);
-
-	m_pWeapon->Tick(fTimeDelta);
-	m_pSheath->Tick(fTimeDelta);
-
-
-
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
-	dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);
-	dynamic_cast<CTanjiroSheath*>(m_pSheath)->Set_Render(true);
-
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
-
-	if (g_bCollBox)
-
 	{
 		LateTickState(fTimeDelta);
+
 		m_pWeapon->Tick(fTimeDelta);
 		m_pSheath->Tick(fTimeDelta);
+
+
 
 		CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+		dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);
+		dynamic_cast<CTanjiroSheath*>(m_pSheath)->Set_Render(true);
+
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
 
 		if (g_bCollBox)
+
 		{
-			m_pRendererCom->Add_Debug(m_pSphereCom);
+			LateTickState(fTimeDelta);
+			m_pWeapon->Tick(fTimeDelta);
+			m_pSheath->Tick(fTimeDelta);
+
+			CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+
+			if (g_bCollBox)
+			{
+				m_pRendererCom->Add_Debug(m_pSphereCom);
+			}
 		}
+
 	}
-
-
 }
 
 HRESULT CTanjiro::Render()

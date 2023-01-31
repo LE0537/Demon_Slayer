@@ -108,6 +108,16 @@ void CCharFrame::Set_Info()
 		m_SelectInfo.strName = TEXT("아카자");
 		m_SelectInfo.bOni = true;
 	}
+	else if (m_ThrowUIinfo.iLayerNum == 4)
+	{
+		m_SelectInfo.strName = TEXT("네즈코");
+		m_SelectInfo.bOni = false;
+	}
+	else if (m_ThrowUIinfo.iLayerNum == 5)
+	{
+		m_SelectInfo.strName = TEXT("시노부");
+		m_SelectInfo.bOni = false;
+	}
 }
 
 HRESULT CCharFrame::Ready_Components()

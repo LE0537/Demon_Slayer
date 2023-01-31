@@ -86,6 +86,9 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 
 		if (pGameInstance->Key_Down(DIK_SLASH))
 		{
+			if (m_SelectInfo.bOni)
+				m_iSelCount = 2;
+
 			if (m_iSelCount == 1)
 				m_bSelectSecond = true;
 			
@@ -109,7 +112,11 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 	}
 
 	if (m_iSelCount == 1 && m_bSelectFirst)
+	{
 		m_SelectInfo = pUI_Manager->Get_SelectFrame(Cursor_To_SelFrame())->Get_SelectUIInfo();
+		if (m_SelectInfo.bOni)
+			m_iSelCount = 3;
+	}
 	if (m_iSelCount == 2 && m_bSelectSecond)
 		m_SelectInfo_2 = pUI_Manager->Get_SelectFrame(Cursor_To_SelFrame())->Get_SelectUIInfo();
 
