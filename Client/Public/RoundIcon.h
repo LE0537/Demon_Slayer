@@ -13,6 +13,13 @@ private:
 	virtual ~CRoundIcon() = default;
 
 public:
+	_bool Get_1PRoundCheck() { return m_b1PRoundCheck; }
+	void Set_1PRoundCheck(_bool bCheck) { m_b1PRoundCheck = bCheck; }
+
+	_bool Get_2PRoundCheck() { return m_b2PRoundCheck; }
+	void Set_2PRoundCheck(_bool bCheck) { m_b2PRoundCheck = bCheck; }
+
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -23,6 +30,9 @@ private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
+private:
+	_bool					m_b1PRoundCheck = false;
+	_bool					m_b2PRoundCheck = false;
 
 public:
 	static CRoundIcon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

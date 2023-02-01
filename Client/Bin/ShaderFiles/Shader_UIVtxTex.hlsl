@@ -5,8 +5,12 @@ texture2D		g_DiffuseTexture;
 texture2D		g_NormalTexture;
 texture2D		g_MaskTexture;
 
+#define PI 		3.14159265359
+#define TWO_PI  6.28318530718
+
 vector			g_vCamPosition;
 
+float2			g_fViewPort;
 float4			g_vColor;
 
 bool			g_bInkEffDownCheck;
@@ -15,6 +19,7 @@ float			g_fCurBar;
 int				g_iFrame;
 int				g_iNumTexU;
 int				g_iNumTexV;
+float			g_fTime;
 float			g_fAlpha;
 float			g_fUvMoveTime;
 float			g_fAlphaTime;
@@ -272,6 +277,40 @@ PS_OUT PS_GamePlyCharIcon(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_Circle_Progressbar(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	//float2 uvView = In.vTexUV.xy / g_fViewPort.xy;
+
+	//float 	SMOOTH = 0.005;
+	//float2 	uv = (uvView*2.0) - 1.0;
+	//float2  origin = float2(0.0, 0.0);
+	//uv.x /= 9.0 / 16.0; //remove this line in UE (compensating for 16:9 on ShaderToy)
+
+	//float 	ir = 0.75;
+	//float 	or = 0.95;
+	//float 	d = length(uv);
+	//float 	ring = smoothstep(or + SMOOTH, or - SMOOTH, d) - smoothstep(ir + SMOOTH, ir - SMOOTH, d);
+	//float 	a = atan2(uv.y - origin.y, uv.x - origin.x);
+	//float	theta = (a < 0.0) ? (a + TWO_PI) / TWO_PI : a / TWO_PI;
+	//float	bar = step(theta, 0.7f);
+	//float	ui = ring * bar;
+
+	//float4 	colour = float4(ui, ui, ui, 1.f);
+
+	float2 uv = In.vTexUV;//( - 0.5 * g_fViewPort.xy) / g_fViewPort.y;
+	float circle = 0.5f;//smoothstep(0.4 + (1 / g_fViewPort.y), 0.4 - (1 / g_fViewPort.y), abs(length(uv) - 0.4) + 0.4 - 0.05);
+	float radial = 0.5f;//(atan2(uv.x, -uv.y) / 3.14159265359 * 0.5) + 0.5;
+	float time = g_fTime / (3.14159265359 * 2.0);
+	radial += time;
+	circle *= step(frac(radial), frac(time));
+
+	Out.vColor = float4(circle, circle, circle, 1.0);
+
+	return Out;
+}
+
 technique11 DefaultTechnique
 {
 	pass Default //0
@@ -460,6 +499,17 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_GamePlyCharIcon();
+	}
+
+	pass CircleProgressBar //17
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_Circle_Progressbar();
 	}
 	
 }

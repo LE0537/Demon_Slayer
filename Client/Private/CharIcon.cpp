@@ -126,7 +126,7 @@ void CCharIcon::Icon_Selected_GamePlay(wstring strName)
 	else if (strName == TEXT("네즈코"))
 		m_iImgNum = 25;
 	else if (strName == TEXT("시노부"))
-		m_iImgNum = 39;
+		m_iImgNum = 30;
 	
 }
 

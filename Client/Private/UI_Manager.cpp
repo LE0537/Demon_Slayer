@@ -483,8 +483,10 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 		++m_iTimerLayerNum;
 		break;
 	case 39:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RoundIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		iter.iLayerNum = m_iRoundIconLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RoundIcon"), LEVEL_GAMEPLAY, TEXT("Layer_RoundIconUI"), &iter)))
 			return E_FAIL;
+		++m_iRoundIconLayerNum;
 		break;
 	case 40:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RoundUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))

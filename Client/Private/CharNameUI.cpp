@@ -158,17 +158,21 @@ void CCharNameUI::Name_Selected(wstring strName)
 		if (!m_ThrowUIinfo.bPlyCheck)
 			m_fX = 220;
 		else if (m_ThrowUIinfo.bPlyCheck)
-			m_fX = 990.f;
+			m_fX = 1065.f;
 	}
 	else if (strName == TEXT("루이"))
 	{
 		m_iImgNum = 2;
-		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.65f;
 	}
 	else if (strName == TEXT("아카자"))
 	{
 		m_iImgNum = 3;
 		m_fSizeX = m_ThrowUIinfo.vScale.x;
+	/*	if (!m_ThrowUIinfo.bPlyCheck)
+			m_fX = 185;
+		else if (m_ThrowUIinfo.bPlyCheck)
+			m_fX = 1195.f;*/
 	}
 	else if (strName == TEXT("네즈코"))
 	{
@@ -177,13 +181,17 @@ void CCharNameUI::Name_Selected(wstring strName)
 		if (!m_ThrowUIinfo.bPlyCheck)//1p
 			m_fX = 220;
 		else if (m_ThrowUIinfo.bPlyCheck)//2p
-			m_fX = 990.f;
+			m_fX = 1065.f;
 		
 	}
 	else if (strName == TEXT("시노부"))
 	{
 		m_iImgNum = 5;
 		m_fSizeX = m_ThrowUIinfo.vScale.x * 2.f;
+		if (!m_ThrowUIinfo.bPlyCheck)//1p	
+			m_fX = 215.f;
+		else if (m_ThrowUIinfo.bPlyCheck)//2p
+			m_fX = 1065.f;
 	}
 	RELEASE_INSTANCE(CUI_Manager);
 }

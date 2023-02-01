@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "RoundIcon.h"
 #include "GameInstance.h"
+#include "RoundUI.h"
+#include "UI_Manager.h"
 
 CRoundIcon::CRoundIcon(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,7 +52,35 @@ HRESULT CRoundIcon::Initialize(void * pArg)
 
 void CRoundIcon::Tick(_float fTimeDelta)
 {
+	if (m_ThrowUIinfo.iLayerNum == 0 )
+		m_b2PRoundCheck = true;
+	else if (m_ThrowUIinfo.iLayerNum == 1)
+		m_b2PRoundCheck = true;
+	else if (m_ThrowUIinfo.iLayerNum == 2)
+		m_b2PRoundCheck = true;
+	else if (m_ThrowUIinfo.iLayerNum == 3)
+		m_b1PRoundCheck = true;
+	else if (m_ThrowUIinfo.iLayerNum == 4)
+		m_b1PRoundCheck = true;
+	else if (m_ThrowUIinfo.iLayerNum == 5)
+		m_b1PRoundCheck = true;
+
+	if (m_ThrowUIinfo.iLayerNum == 0 && m_b1PRoundCheck)
+		m_iImgNum = 1;
+	else if (m_ThrowUIinfo.iLayerNum == 1 && m_b1PRoundCheck)
+		m_iImgNum = 1;
+	else if (m_ThrowUIinfo.iLayerNum == 2 && m_b1PRoundCheck)
+		m_iImgNum = 1;
+	else if (m_ThrowUIinfo.iLayerNum == 3 && m_b2PRoundCheck)
+		m_iImgNum = 1;
+	else if (m_ThrowUIinfo.iLayerNum == 4 && m_b2PRoundCheck)
+		m_iImgNum = 1;
+	else if (m_ThrowUIinfo.iLayerNum == 5 && m_b2PRoundCheck)
+		m_iImgNum = 1;
+		
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+	
 }
 
 void CRoundIcon::Late_Tick(_float fTimeDelta)
@@ -115,7 +145,7 @@ HRESULT CRoundIcon::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;

@@ -70,6 +70,9 @@ public:
 	CUI*	Get_Sel2PMain() { return m_pSel2PMain; }
 	void	Set_Sel2PMain(CUI* p2PMain) { m_pSel2PMain = p2PMain; }
 
+	CUI*	Get_RoundUI() { return m_pRoundUI; }
+	void	Set_RoundUI(CUI* pRoundUI) { m_pRoundUI = pRoundUI; }
+
 	CUI*	Get_SelectFrame(_uint iLayerNum) { return m_pSelectFrame[iLayerNum]; }
 	void	Set_SelectFrame(CUI* pTarget, _uint iLayerNum) { m_pSelectFrame[iLayerNum] = pTarget; }
 
@@ -135,6 +138,7 @@ private:
 	CUI*							m_pSel1PMain;
 	CUI*							m_pSel2PMain;
 	CUI*							m_pMenuCursor = nullptr;
+	CUI*							m_pRoundUI = nullptr;
 
 	CUI::THROWUIINFO				m_ThrowInfo;
 	_uint							m_iCharIconLayerNum = 0;
@@ -147,6 +151,7 @@ private:
 	_uint							m_iUltBarLayerNum = 0;
 	_uint							m_iTimerLayerNum = 0;
 	_uint							m_iSelStampLayerNum = 0;
+	_uint							m_iRoundIconLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;
