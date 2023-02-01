@@ -7,7 +7,7 @@ vector			g_vCamPosition;
 
 float4			g_vColor;
 
-float			g_fEndALPHA;
+float			g_fEndAlpha;
 
 bool			g_bMask;
 bool			g_bDisjolve;
@@ -45,7 +45,7 @@ struct VS_OUT
 VS_OUT VS_MAIN(VS_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;
-
+	
 	float4x4	TransformMatrix = float4x4(In.vRight, In.vUp, In.vLook, In.vTranslation);
 
 	vector		vPosition = mul(vector(In.vPosition, 1.f), mul(TransformMatrix, g_WorldMatrix));
@@ -87,7 +87,7 @@ struct GS_OUT
 [maxvertexcount(20)]
 void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> DataStream)
 {
-	GS_OUT			Out[4];
+	GS_OUT			Out[4];	
 
 	float3			vLook = ((g_vCamPosition.xyz - In[0].vPosition) * g_bBillboard)
 		+ ((g_vCamPosition.xyz - In[0].vPosition) * g_bYBillboard)
@@ -95,9 +95,9 @@ void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> DataStream)
 	float3			vRight = ((normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * (In[0].vPSize.x * 0.5f)) * g_bBillboard)
 		+ ((normalize(cross(In[0].vUp, vLook)) * (In[0].vPSize.x * 0.5f)) * g_bYBillboard)
 		+ (In[0].vRight * (1 - g_bBillboard) * (1 - g_bYBillboard));
-	float3			vUp = ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y * 0.5f)) * g_bBillboard)
+	float3			vUp = ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y * 0.5f)) * g_bBillboard) 
 		+ ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y * 0.5f)) * g_bYBillboard)
-		+ (In[0].vUp * (1 - g_bBillboard) * (1 - g_bYBillboard));
+		+ (In[0].vUp * (1- g_bBillboard) * (1 - g_bYBillboard));
 
 	matrix			matVP;
 
@@ -128,7 +128,7 @@ void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> DataStream)
 	DataStream.Append(Out[2]);
 	DataStream.Append(Out[3]);
 	DataStream.RestartStrip();
-
+	
 }
 
 struct PS_IN
@@ -151,7 +151,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-
+		
 	if (Out.vColor.a < 0.5f)
 		discard;
 
@@ -168,8 +168,8 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
 	Out.vGlowColor = Out.vColor * g_bGlow;
 
-	Out.vColor.a = (vTexture.a * g_fEndALPHA * g_vColor.a * (1 - g_bMask)) + (g_bMask * g_fEndALPHA * vTexture.x);
-	Out.vGlowColor.a = Out.vColor.a * g_bGlow * g_fEndALPHA;
+	Out.vColor.a = (vTexture.a * g_fEndAlpha * g_vColor.a * (1 - g_bMask)) + (g_bMask * g_fEndAlpha * vTexture.x);
+	Out.vGlowColor.a = Out.vColor.a * g_bGlow * g_fEndAlpha;
 
 	if (Out.vColor.a < 0.03f)
 		discard;
@@ -187,8 +187,8 @@ PS_OUT PS_COLORTEST(PS_IN In)
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
 	Out.vGlowColor = Out.vColor * g_bGlow;
 
-	Out.vColor.a = (vTexture.a * g_fEndALPHA * g_vColor.a * (1 - g_bMask)) + (g_bMask * g_fEndALPHA * vTexture.x);
-	Out.vGlowColor.a = Out.vColor.a * g_bGlow * g_fEndALPHA;
+	Out.vColor.a = (vTexture.a * g_fEndAlpha * g_vColor.a * (1 - g_bMask)) + (g_bMask * g_fEndAlpha * vTexture.x);
+	Out.vGlowColor.a = Out.vColor.a * g_bGlow * g_fEndAlpha;
 
 	if (Out.vColor.a <= 0.3f)
 		discard;

@@ -94,6 +94,7 @@
 #include "Effect_Manager.h"
 #include "Effect_Texture.h"
 #include "Effect_Mesh.h"
+#include "Effect_Particle.h"
 //CollBox
 #include "BaseAtk.h"
 #include "WaterMill.h"
@@ -1030,93 +1031,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Shock", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Slash", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Eff_Circle"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Eff_Circle.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Eff_Sprk */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Eff_Sprk"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Eff_Sprk.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Base */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Base"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Base00.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Eff_Tap */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Eff_Tap"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Eff_Tap00.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Burst */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Burst"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Burst00.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Dust */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Dust"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Dust00.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Fade00 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Fade00"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Fade00.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Fade01 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Fade01"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Fade01.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Fade02 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Fade02"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Fade02.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Fade03 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Fade03"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Fade03.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Light00 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Light00"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Light00.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Eff_Light00 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Eff_Light00"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Eff_Light00.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Light01 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Light01"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Light01.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Line01 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Line01"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Line01.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Squ01 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Squ01"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Squ01.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Sun00 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Sun00"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Sun00.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Sun01 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Sun01"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Sun01.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Sun02 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Sun02"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Sun02.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Xef_Uzu00 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Xef_Uzu00"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Xef_Uzu00.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Spike00 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Spike00"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Spike00.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Spike01 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Spike01"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Spike01.png"), 1))))
-		//	return E_FAIL;
-		///* For.Prototype_Component_Texture_Wind02 */
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Wind02"),
-		//	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Common_Texture/Wind02.png"), 1))))
-		//	return E_FAIL;
+	
 #pragma endregion Eeffect Texture
 
 #pragma region Effect Model
@@ -1226,7 +1141,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectMesh"),
 			CEffect_Mesh::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
-
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectParticle"),
+			CEffect_Particle::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+		
 		CEffect_Manager* pEffect_Manager = GET_INSTANCE(CEffect_Manager);
 
 		pEffect_Manager->Load_Effect(TEXT("HitEffect1"));
@@ -1244,6 +1162,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_NormAtk_4_Cl"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_3Kien_Start"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_3Kien_Main"));
+
+		pEffect_Manager->Load_Effect(TEXT("ParticleTest"));
 
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
@@ -1635,7 +1555,7 @@ void CLoader::Load_Texture(char * szFolderName, char * szFilePath)
 		strcpy_s(szProtorypeName, strtok_s(szProtorypeName, ".", &szTemp));
 
 		_tchar		szRealName[MAX_PATH] = TEXT("");
-		MultiByteToWideChar(CP_ACP, 0, szProtorypeName, strlen(szProtorypeName), szRealName, MAX_PATH);
+		MultiByteToWideChar(CP_ACP, 0, szProtorypeName, (_int)strlen(szProtorypeName), szRealName, MAX_PATH);
 
 		strcpy_s(szFullPath, szFilePath);
 		strcat_s(szFullPath, szFolderName);
@@ -1643,7 +1563,7 @@ void CLoader::Load_Texture(char * szFolderName, char * szFilePath)
 		strcat_s(szFullPath, fd.name);
 
 		_tchar			szRealPath[MAX_PATH] = TEXT("");
-		MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szRealPath, MAX_PATH);
+		MultiByteToWideChar(CP_ACP, 0, szFullPath, (_int)strlen(szFullPath), szRealPath, MAX_PATH);
 
 		pGameInstance->Add_Prototype(LEVEL_STATIC, szRealName,
 			CTexture::Create(m_pDevice, m_pContext, szRealPath, 1));

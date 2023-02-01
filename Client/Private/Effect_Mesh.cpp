@@ -125,35 +125,47 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 			vSize = XMVectorLerp(vFirstSize, vSecondSize, fTime);
 		}
 		m_pTransformCom->Set_Scale(vSize);
-		m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_MeshInfo.fTurn);
+
+		m_fTurnSpeed += m_MeshInfo.fTurnFalloff;
+		if (m_MeshInfo.fTurnFalloff < 0 && m_fTurnSpeed < 0)
+			m_fTurnSpeed = 0.f;
+
+		if (m_MeshInfo.vTurnDirection.x == 1)
+			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), m_fTurnSpeed);
+		if (m_MeshInfo.vTurnDirection.y == 1)
+			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_fTurnSpeed);
+		if (m_MeshInfo.vTurnDirection.z == 1)
+			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), m_fTurnSpeed);
 	}
 }
 
 void CEffect_Mesh::Late_Tick(_float fTimeDelta)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_MeshInfo.vPosition.x, m_MeshInfo.vPosition.y, m_MeshInfo.vPosition.z, 1.f));
+	if (m_fTime > m_MeshInfo.fStartTime && m_fTime < m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime) {
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_MeshInfo.vPosition.x, m_MeshInfo.vPosition.y, m_MeshInfo.vPosition.z, 1.f));
 
-	_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+		_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
 
-	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
 
-	Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
+		Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
 
-	if (nullptr != m_pRendererCom ) {
-		switch (m_MeshInfo.iShader)
-		{
-		case CEffect::SHADER_DISTORTION:
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_DISTORTION, this);
-			break;
-		case CEffect::SHADER_GRAYSCALE:
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_GRAYSCALE, this);
-			break;
-		case CEffect::SHADER_ALPHATEST:
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONLIGHT, this);
-			break;
-		case CEffect::SHADER_ALPHABLEND:
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
-			break;
+		if (nullptr != m_pRendererCom) {
+			switch (m_MeshInfo.iShader)
+			{
+			case CEffect::SHADER_DISTORTION:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_DISTORTION, this);
+				break;
+			case CEffect::SHADER_GRAYSCALE:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_GRAYSCALE, this);
+				break;
+			case CEffect::SHADER_ALPHATEST:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONLIGHT, this);
+				break;
+			case CEffect::SHADER_ALPHABLEND:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
+				break;
+			}
 		}
 	}
 }
@@ -266,6 +278,8 @@ void CEffect_Mesh::Set_MeshInfo(MESH_INFO MeshInfo)
 	vRotation.y = XMConvertToRadians(vRotation.y);
 	vRotation.z = XMConvertToRadians(vRotation.z);
 	m_pTransformCom->RotationAll(vRotation);
+
+	m_fTurnSpeed = m_MeshInfo.fTurn;
 }
 
 HRESULT CEffect_Mesh::SetUp_ShaderResources()

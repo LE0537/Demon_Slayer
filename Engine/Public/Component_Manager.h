@@ -16,6 +16,7 @@
 #include "VIBuffer_Hexagon.h"
 #include "VIBuffer_Rect_Instance.h"
 #include "VIBuffer_Point_Instance.h"
+#include "VIBuffer_Particle_Instance.h"
 
 BEGIN(Engine)
 
