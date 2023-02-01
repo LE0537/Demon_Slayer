@@ -55,21 +55,24 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-/*
+
 	if (pGameInstance->Key_Down(DIK_F4))
 	{
-		if (2083 == m_tMyDesc.iModelIndex)
+/*
+		CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
+		char cName[MAX_PATH];
+		ZeroMemory(cName, sizeof(char) * MAX_PATH);
+		if (2001 == m_tMyDesc.iModelIndex)
 		{
-			CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
-			char cName[MAX_PATH];
-			ZeroMemory(cName, sizeof(char) * MAX_PATH);
-			pData_Manager->TCtoC(TEXT("Moon"), cName);
-			pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
-			ERR_MSG(TEXT("Save_Bin_Moon"));
-			RELEASE_INSTANCE(CData_Manager);
+			pData_Manager->TCtoC(TEXT("BigTree1"), cName);
+			ERR_MSG(L"Clear1");
 		}
-	}
+
+		pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_NONANIM);
+		RELEASE_INSTANCE(CData_Manager);
 */
+	}
+
 	RELEASE_INSTANCE(CGameInstance);
 
 
@@ -115,6 +118,8 @@ HRESULT CMeshObj_Static::Render()
 		
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
+		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
+		return E_FAIL;
 
 		if (false == m_tMyDesc.bAlphaBlend)
 		{
