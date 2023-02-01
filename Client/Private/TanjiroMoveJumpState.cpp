@@ -317,8 +317,6 @@ void CMoveJumpState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 	{
 		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
 
-		if (m_eDirection != DIR_STOP)
-			pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
 		CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
 		CCollider*	pMyCollider = pTanjiro->Get_SphereCollider();
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();

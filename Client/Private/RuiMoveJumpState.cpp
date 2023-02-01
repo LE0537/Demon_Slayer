@@ -286,8 +286,6 @@ void CMoveJumpState::Move(CRui* pRui, _float fTimeDelta)
 	{
 		pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
 
-		if (m_eDirection != DIR_STOP)
-			pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
 		CCharacters* m_pTarget = pRui->Get_BattleTarget();
 		CCollider*	pMyCollider = pRui->Get_SphereCollider();
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();

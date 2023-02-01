@@ -223,7 +223,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	{
 		Out.vShade = g_vLightDiffuse * (saturate(dot(normalize(g_vLightDir2) * -1.f, normalize(vNormal))) + (g_vLightAmbient * g_vMtrlAmbient));
 	}
-
+	
 	Out.vShade.a = 1.f;
 
 	vector			vWorldPos = (vector)0.f;

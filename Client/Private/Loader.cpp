@@ -104,6 +104,7 @@
 #include "AkazaShoot.h"
 #include "RuiShoot.h"
 #include "RuiSphere.h"
+#include "KyoujuroJumpSkill.h"
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -1278,6 +1279,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiSphere"),
 		CRuiSphere::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroJumpSkill"),
+		CKyoujuroJumpSkill::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	//Map
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BattleField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);

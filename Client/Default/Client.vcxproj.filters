@@ -739,6 +739,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack4">
       <UniqueIdentifier>{de68daa3-7068-4bf0-a0bf-f88a05bcf60b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\08.KyoujuroJumpSkill">
+      <UniqueIdentifier>{774addfc-6d62-4294-b860-cdbbfaaa0e5f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1488,6 +1491,9 @@
     <ClInclude Include="..\Public\ShinobuMoveJumpState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Move\MoveJump</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\KyoujuroJumpSkill.h">
+      <Filter>05.CollBox\08.KyoujuroJumpSkill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2206,6 +2212,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ShinobuDashState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\KyoujuroJumpSkill.cpp">
+      <Filter>05.CollBox\08.KyoujuroJumpSkill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
