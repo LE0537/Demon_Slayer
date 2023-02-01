@@ -20,7 +20,7 @@ public:
 
 private:
 	void Move(CNezuko* pNezuko, _float fTimeDelta);
-
+	void Check_Coll(CNezuko* pNezuko, _float fTimeDelta);
 private:
 	OBJDIR m_eDir = OBJDIR::DIR_END;
 	_bool m_bJump = false;

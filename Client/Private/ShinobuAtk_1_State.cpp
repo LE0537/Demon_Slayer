@@ -192,20 +192,17 @@ CShinobuState * CAtk_1_State::Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 CShinobuState * CAtk_1_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
-	
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
 	CCharacters* m_pTarget = pShinobu->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
 	pShinobu->Get_Transform()->LookAt(vLooAt);
 
 	m_fMove += fTimeDelta;
-	
+
 	if (m_fMove < 0.3f)
 	{
 		pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pShinobu->Get_NavigationCom());
-		
+
 		_vector vCollPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
@@ -222,7 +219,7 @@ CShinobuState * CAtk_1_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 			if (pMyCollider->Collision(pTargetCollider))
 			{
 				_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			
+
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
 				if (m_pTarget->Get_PlayerInfo().bGuard)
@@ -232,7 +229,7 @@ CShinobuState * CAtk_1_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pShinobu->Get_PlayerInfo().iDmg);
-					m_pTarget->Take_Damage(0.3f,false);
+					m_pTarget->Take_Damage(0.1f, false);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -252,7 +249,7 @@ CShinobuState * CAtk_1_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 			_float fSpeed = pShinobu->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
 
 			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); 
+			_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
 			_vector vMyLook = vTargetLook * -1.f;
 
@@ -274,14 +271,12 @@ CShinobuState * CAtk_1_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 		}
 	}
 
-	RELEASE_INSTANCE(CGameInstance);
-
 	pShinobu->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	if (!m_bEffect)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1, pShinobu);
+//		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1, pShinobu);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;

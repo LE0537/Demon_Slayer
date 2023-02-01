@@ -351,7 +351,7 @@ _bool CCamera_Dynamic::CheckSubChar()
 			!m_pTarget->Get_SubChar()->Get_PlayerInfo().bChange)
 			return true;
 	}
-	return true;
+	return false;
 }
 
 

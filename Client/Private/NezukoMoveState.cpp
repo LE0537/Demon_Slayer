@@ -469,9 +469,16 @@ void CMoveState::Move(CNezuko* pNezuko, _float fTimeDelta)
 
 		vPos += vMyLook * (fSpeed - fSpeed * fPow);
 		vTargetPos += vTargetLook * fSpeed * fPow;
-		vPos.m128_f32[1] = 0.f;
-		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+		_vector vPlayerPosY = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vPos.m128_f32[1] = vPlayerPosY.m128_f32[1];
+		_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+		if (pNezuko->Get_NavigationCom()->Cheak_Cell(vPos))
+			pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+		else
+			pNezuko->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pNezuko->Get_NavigationCom());
 	}
 	
 	RELEASE_INSTANCE(CGameInstance);

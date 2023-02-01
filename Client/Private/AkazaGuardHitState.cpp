@@ -54,11 +54,6 @@ CAkazaState * CGuardHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	return nullptr;
 
 
-
-
-
-
-	return nullptr;
 }
 
 CAkazaState * CGuardHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)

@@ -29,7 +29,7 @@ private:
 	_int   m_iHit = 0;
 	_bool  m_bHit = false;
 	_bool  m_bEffect = false;
-
+	_float m_fDelay = 0.f;
 };
 END
 END

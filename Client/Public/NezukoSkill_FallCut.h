@@ -31,8 +31,9 @@ private:
 	_float m_fMove = 0.f;
 	_int   m_iHit = 0;
 	_bool  m_bHit = false;
-
-
+	_float4 m_vLook;
+	_bool   m_bLook = false;
+	_bool   m_bLookPos = false;
 private:
 	_float3 m_vPosition;
 	_float3 m_vVelocity;

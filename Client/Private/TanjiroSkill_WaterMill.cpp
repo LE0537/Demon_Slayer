@@ -75,9 +75,13 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
-	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	pTanjiro->Get_Transform()->Set_PlayerLookAt(vLooAt);
-	//pTanjiro->Get_Transform()->LookAt(vLooAt);
+	if (!m_bLook)
+	{
+		_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		XMStoreFloat4(&m_vLook, vLooAt);
+		pTanjiro->Get_Transform()->Set_PlayerLookAt(vLooAt);
+		m_bLook = true;
+	}
 	_int iHit = pTanjiro->Get_WaterMillHit();
 	m_fTime += fTimeDelta; 
 	m_fHitTime += fTimeDelta;
@@ -93,7 +97,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 			//m_pCollBox->Get_Transform()->LookAt(vLooAt);
-			m_pCollBox->Get_Transform()->Set_PlayerLookAt(vLooAt);
+			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			
 			if (m_fHitTime > 0.1f && iHit < 3)
@@ -158,7 +162,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
 
 	return nullptr;
 }

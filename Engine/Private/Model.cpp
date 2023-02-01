@@ -720,7 +720,7 @@ HRESULT CModel::Bin_Ready_Materials(const char * pModelFilePath)
 			char*			szExt2 = "";
 			char			szFront[MAX_PATH] = "";
 
-			if (m_eModelType == TYPE_ANIM)
+			if (m_eModelType == TYPE_ANIM || m_eModelType == TYPE_NONANIM_INSTANCING)
 			{
 				_splitpath_s(pAIMaterial.cNames[j], nullptr, 0, nullptr, 0, szFullPath, MAX_PATH, nullptr, 0);
 				strcpy_s(szFront, strtok_s(pAIMaterial.cNames[j], ".", &szExt2));
