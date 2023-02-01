@@ -32,7 +32,6 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 
 	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime + m_ParticleInfo.fStartTime) {
 		_float3 fSize;
-		_vector vSize;
 		_float fLive = m_ParticleInfo.fLifeTime / 4;
 
 		if (m_ParticleInfo.bSizePix)
@@ -198,7 +197,7 @@ void CEffect_Particle::Set_ParticleInfo(PARTICLE_INFO ParticleInfo)
 	strcat_s(szName, szNum);
 
 	_tchar			szRealPath[MAX_PATH] = TEXT("");
-	MultiByteToWideChar(CP_ACP, 0, szName, strlen(szName), szRealPath, MAX_PATH);
+	MultiByteToWideChar(CP_ACP, 0, szName, (int)strlen(szName), szRealPath, MAX_PATH);
 
 	_float4 vSize = _float4(0.01f, 0.01f, 0.01f, 1.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pVIBufferCom, &vSize)))
