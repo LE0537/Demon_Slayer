@@ -288,8 +288,6 @@ void CMoveJumpState::Move(CShinobu* pShinobu, _float fTimeDelta)
 	{
 		pShinobu->Get_Transform()->Go_Straight(fTimeDelta, pShinobu->Get_NavigationCom());
 
-		if (m_eDirection != DIR_STOP)
-			pShinobu->Get_Transform()->Go_Straight(fTimeDelta, pShinobu->Get_NavigationCom());
 		CCharacters* m_pTarget = pShinobu->Get_BattleTarget();
 		CCollider*	pMyCollider = pShinobu->Get_SphereCollider();
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();

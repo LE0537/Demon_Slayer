@@ -285,9 +285,6 @@ void CMoveJumpState::Move(CNezuko* CNezuko, _float fTimeDelta)
 	if (m_eDirection != DIR_STOP && m_bMove == true)
 {
 		CNezuko->Get_Transform()->Go_Straight(fTimeDelta, CNezuko->Get_NavigationCom());
-
-		if (m_eDirection != DIR_STOP)
-			CNezuko->Get_Transform()->Go_Straight(fTimeDelta, CNezuko->Get_NavigationCom());
 		CCharacters* m_pTarget = CNezuko->Get_BattleTarget();
 		CCollider*	pMyCollider = CNezuko->Get_SphereCollider();
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
