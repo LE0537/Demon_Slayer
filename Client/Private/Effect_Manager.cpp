@@ -56,22 +56,34 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 	_int iMeshSize;
 	ReadFile(hFile, &iMeshSize, sizeof(_int), &dwByte, nullptr);
 
-	vector<CEffect_Mesh::MESH_INFO> MeshInfos;
+	vector<CEffect_Mesh::MESH_INFO> MeshInfoes;
 
 	for (_int j = 0; j < iMeshSize; ++j) {
 		CEffect_Mesh::MESH_INFO MeshInfo;
 
 		ReadFile(hFile, &MeshInfo, sizeof(CEffect_Mesh::MESH_INFO), &dwByte, nullptr);
 
-		MeshInfos.push_back(MeshInfo);
+		MeshInfoes.push_back(MeshInfo);
 	}
 
 	// 파티클 정보 저장
+	_int iParticleSize;
+	ReadFile(hFile, &iParticleSize, sizeof(_int), &dwByte, nullptr);
+
+	vector<CEffect_Particle::PARTICLE_INFO> ParticleInfoes;
+
+	for (_int j = 0; j < iParticleSize; ++j) {
+		CEffect_Particle::PARTICLE_INFO ParticleInfo;
+
+		ReadFile(hFile, &ParticleInfo, sizeof(CEffect_Particle::PARTICLE_INFO), &dwByte, nullptr);
+
+		ParticleInfoes.push_back(ParticleInfo);
+	}
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (FAILED(pGameInstance->Add_Prototype(EffectName,
-		CEffect::Create(m_pDevice, m_pContext, EffectInfo, TexInfo, MeshInfos))))
+		CEffect::Create(m_pDevice, m_pContext, EffectInfo, TexInfo, MeshInfoes, ParticleInfoes))))
 		return;
 
 	RELEASE_INSTANCE(CGameInstance);

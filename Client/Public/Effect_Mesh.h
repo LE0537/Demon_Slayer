@@ -86,12 +86,11 @@ private:
 	_float							m_fTime = 0.f;
 	_float							m_fMoveUV_U = 0.f;
 	_float							m_fMoveUV_V = 0.f;
+	_float							m_fTurnSpeed = 0.f;
 
 	_float4x4						m_CombinedWorldMatrix;
 
 	CGameObj*						m_pParents = nullptr;
-
-	_bool							m_bDead = false;
 
 	vector<char *>					m_MeshName;
 

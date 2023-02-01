@@ -17,7 +17,7 @@ CEffect_Texture::CEffect_Texture(const CEffect_Texture & rhs)
 
 HRESULT CEffect_Texture::Initialize_Prototype()
 {
-	m_TextureName.push_back("Eff_Circle");
+	/*m_TextureName.push_back("Eff_Circle");
 	m_TextureName.push_back("Eff_Sprk");
 	m_TextureName.push_back("Xef_Base");
 	m_TextureName.push_back("Eff_Tap");
@@ -38,7 +38,7 @@ HRESULT CEffect_Texture::Initialize_Prototype()
 	m_TextureName.push_back("Xef_Uzu00");
 	m_TextureName.push_back("Spike00");
 	m_TextureName.push_back("Spike01");
-	m_TextureName.push_back("Wind02");
+	m_TextureName.push_back("Wind02");*/
 
 	return S_OK;
 }
@@ -104,24 +104,23 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 		}
 		m_pTransformCom->Set_Scale(vSize);
 	}
-	else if (m_fTime > m_TextureInfo.fLifeTime + m_TextureInfo.fStartTime) {
-		m_bDead = true;
-	}
 }
 
 void CEffect_Texture::Late_Tick(_float fTimeDelta)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_TextureInfo.vPosition.x, m_TextureInfo.vPosition.y, m_TextureInfo.vPosition.z, 1.f)
-		+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.001f * (_float)m_TextureInfo.iSortingFudge);
+	if (m_fTime > m_TextureInfo.fStartTime && m_fTime < m_TextureInfo.fLifeTime + m_TextureInfo.fStartTime) {
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_TextureInfo.vPosition.x, m_TextureInfo.vPosition.y, m_TextureInfo.vPosition.z, 1.f)
+			+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.001f * (_float)m_TextureInfo.iSortingFudge);
 
-	_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+		_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
 
-	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
 
-	Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
+		Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
 
-	if (nullptr != m_pRendererCom && !m_bDead)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
+		if (nullptr != m_pRendererCom)
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
+	}
 }
 
 HRESULT CEffect_Texture::Render()

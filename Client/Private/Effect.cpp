@@ -11,6 +11,7 @@ CEffect::CEffect(const CEffect & rhs)
 	: CGameObj(rhs),
 	m_EffectInfo(rhs.m_EffectInfo),
 	m_Textures(rhs.m_Textures),
+	m_ParticleInfo(rhs.m_ParticleInfo),
 	m_Meshes(rhs.m_Meshes),
 	m_Particle(rhs.m_Particle),
 	m_TextureInfo(rhs.m_TextureInfo),
@@ -19,19 +20,21 @@ CEffect::CEffect(const CEffect & rhs)
 }
 
 HRESULT CEffect::Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
-	, vector<CEffect_Mesh::MESH_INFO> MeshInfo)
+	, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo)
 {
 	m_EffectInfo = EffectInfo;
 
-	for (auto TexInfo : TextureInfo) {
-		m_TextureInfo.push_back(TexInfo);
+	for (auto pTexInfo : TextureInfo) {
+		m_TextureInfo.push_back(pTexInfo);
 	}
 
-	for (auto MeshInfo : MeshInfo) {
-		m_MeshInfo.push_back(MeshInfo);
+	for (auto pMeshInfo : MeshInfo) {
+		m_MeshInfo.push_back(pMeshInfo);
 	}
 
-	
+	for (auto pParticleInfo : ParticleInfo) {
+		m_ParticleInfo.push_back(pParticleInfo);
+	}
 	return S_OK;
 }
 
@@ -52,9 +55,8 @@ HRESULT CEffect::Initialize(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
 	
-	
-
 	m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(180.f));
+
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
 
@@ -84,6 +86,9 @@ void CEffect::Tick(_float fTimeDelta)
 		for (auto& pMesh : m_Meshes)
 			pMesh->Tick(fTimeDelta);
 
+		for (auto& pParticle : m_Particle)
+			pParticle->Tick(fTimeDelta);
+
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime + m_EffectInfo.fEffectLifeTime) {
 			Set_Dead();
 
@@ -107,6 +112,9 @@ void CEffect::Late_Tick(_float fTimeDelta)
 
 		for (auto& pMesh : m_Meshes)
 			pMesh->Late_Tick(fTimeDelta);
+
+		for (auto& pParticle : m_Particle)
+			pParticle->Late_Tick(fTimeDelta);
 	}
 }
 
@@ -150,6 +158,15 @@ HRESULT CEffect::Ready_Parts()
 	}
 
 	// 파티클 생성
+	for (auto ParticleInfo : m_ParticleInfo) {
+		CGameObject*		pParticle = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectParticle"));
+
+		static_cast<CEffect_Particle*>(pParticle)->Set_Parents(this);
+		static_cast<CEffect_Particle*>(pParticle)->Set_ParticleInfo(ParticleInfo);
+
+		m_Particle.push_back((CEffect_Particle*)pParticle);
+	}
+
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -157,11 +174,11 @@ HRESULT CEffect::Ready_Parts()
 }
 
 CEffect * CEffect::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
-	, vector<CEffect_Mesh::MESH_INFO> MeshInfo)
+	, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo)
 {
 	CEffect*	pInstance = new CEffect(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_Prototype(EffectInfo, TextureInfo, MeshInfo)))
+	if (FAILED(pInstance->Initialize_Prototype(EffectInfo, TextureInfo, MeshInfo, ParticleInfo)))
 	{
 		ERR_MSG(TEXT("Failed to Created : CEffect"));
 		Safe_Release(pInstance);

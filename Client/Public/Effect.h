@@ -39,7 +39,7 @@ private:
 
 public:
 	HRESULT Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
-		, vector<CEffect_Mesh::MESH_INFO> MeshInfo);
+		, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo);
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
 	virtual void Late_Tick(_float fTimeDelta);
@@ -67,10 +67,11 @@ private:
 
 	vector<CEffect_Texture::TEXTURE_INFO>		m_TextureInfo;
 	vector<CEffect_Mesh::MESH_INFO>				m_MeshInfo;
+	vector<CEffect_Particle::PARTICLE_INFO>		m_ParticleInfo;
 
 public:
 	static CEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
-		, vector<CEffect_Mesh::MESH_INFO> MeshInfo);
+		, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };
