@@ -43,6 +43,9 @@ float			g_fGlowBlurCount;
 float			g_fDistortionValue;
 float			g_fOutLineValue;
 float			g_fInnerLineValue;
+float			g_fFogDistance;
+float			g_fFogRange;
+float			g_fFogPower;
 
 float			g_fAddValue;
 
@@ -341,15 +344,13 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 	vector			vDepth = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vAO = 0.1f * g_AOTexture.Sample(LinearSampler, In.vTexUV) * g_bRenderAO;
 
-	vector		vFogColor = vector(1.f, 1.f, 1.f, 1.f);
+	vector		vFogColor = g_fFogPower;
 
-	float		fFogPower = 0.0f;
+	float		fFogValue = 0.0f;
 
-	float		fFogDistance = 5.f;
+	fFogValue = 0.3f - min((max((vDepth.y * g_fFar) - g_fFogDistance, 0.f) / g_fFogRange), 0.3f);
 
-	fFogPower = min((max((vDepth.y * g_fFar) - fFogDistance, 0.f) / 90.0f), 0.3f);
-
-	Out.vColor = ((vDiffuse - vAO) * vShade + vSpecular) + vFogColor * fFogPower;
+	Out.vColor = ((vDiffuse - vAO) * vShade + vSpecular) + vFogColor * fFogValue;
 	//=================== ±×¸²ÀÚ =======================================================
 
 	vector			vDepthDesc = g_DepthTexture.Sample(DepthSampler, In.vTexUV);

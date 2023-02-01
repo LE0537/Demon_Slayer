@@ -22,6 +22,9 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
+	m_fValue[VALUE_FOGPOWER] = 0.2f;
+	m_fValue[VALUE_FOGDISTANCE] = 100.f;
+	m_fValue[VALUE_FOGRANGE] = 800.f;
 	m_fValue[VALUE_AO] = 1.36f;
 	m_fValue[VALUE_AORADIUS] = 0.4f;
 	m_fValue[VALUE_GLOWBLURCOUNT] = 1.f;
@@ -336,16 +339,16 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 		switch (iIndex)
 		{
 		case ORDER_GLOW:
-			if (FAILED(Render_Glow(pRTName, pMRTName))) return E_FAIL;
+			//if (FAILED(Render_Glow(pRTName, pMRTName))) return E_FAIL;
 			break;
 		case ORDER_GRAYSCALE:
-			if (FAILED(Render_GrayScale(pRTName, pMRTName))) return E_FAIL;
+			//if (FAILED(Render_GrayScale(pRTName, pMRTName))) return E_FAIL;
 			break;
 		case ORDER_BLUR:
-			if (FAILED(Render_Blur(pRTName, pMRTName))) return E_FAIL;
+			//if (FAILED(Render_Blur(pRTName, pMRTName))) return E_FAIL;
 			break;
 		case ORDER_LIGHTSHAFT:
-			if (FAILED(Render_LightShaft(pRTName, pMRTName))) return E_FAIL;
+			//	if (FAILED(Render_LightShaft(pRTName, pMRTName))) return E_FAIL;
 			break;
 		case ORDER_DISTORTION:
 			if (FAILED(Render_Distortion(pRTName, pMRTName))) return E_FAIL;
@@ -440,7 +443,7 @@ HRESULT CRenderer::Set_Viewport(_float fWinCX, _float fWinCY)
 }
 HRESULT CRenderer::Render_Priority()
 {
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Master"))))
+	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Deferred"))))
 		return E_FAIL;
 
 	for (auto& pGameObject : m_GameObjects[RENDER_PRIORITY])
@@ -486,7 +489,7 @@ HRESULT CRenderer::Render_NonAlphaBlend()
 	/* 현재까지는 백버퍼가 셋팅되어있었지만.
 	빛연산ㅇ에 필요한 정보를 받아오기위해 MRT_Deferred타겟들을 바인딩한다. */
 	/* Target_Diffuse, Target_Normal에 그린다. */
-	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_Deferred"))))
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Deferred"))))
 		return E_FAIL;
 
 	for (auto& pGameObject : m_GameObjects[RENDER_NONALPHABLEND])
@@ -608,11 +611,17 @@ HRESULT CRenderer::Render_Blend()
 
 	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
 		return E_FAIL;
-
 	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
-
 	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pShader->Set_RawValue("g_fFogPower", &m_fValue[VALUE_FOGPOWER], sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fFogDistance", &m_fValue[VALUE_FOGDISTANCE], sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fFogRange", &m_fValue[VALUE_FOGRANGE], sizeof(_float))))
 		return E_FAIL;
 
 	CLevel_Manager*		pLevelMgr = GET_INSTANCE(CLevel_Manager);

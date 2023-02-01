@@ -212,7 +212,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 		m_fJumpTime += 0.05f;
 		Jump(pKyojuro, m_fJumpTime);
 	}
-	pKyojuro->Get_Model()->Play_Animation(fTimeDelta);
+	pKyojuro->Get_Model()->Play_Animation2(fTimeDelta);
 	if (!m_bEffect)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -270,7 +270,7 @@ CKyoujuroState* CSkill_DoubleUpperState::Jump(CKyoujuro* pKyoujuro, _float fTime
 }
 void CSkill_DoubleUpperState::Exit(CKyoujuro * pKyojuro)
 {
-	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH);
+	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER);
 	m_pCollBox->Set_Dead();
 }
 

@@ -190,7 +190,7 @@ PS_OUT PS_FILTER(PS_IN In)
 
 	Out.vDiffuse = vDiffuse;
 
-	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.1f);
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
 	Out.vDepth = vector(In.vWorldPos.z / In.vWorldPos.w, In.vWorldPos.w / 500.f, 0.f, 0.f);
 
 	if (Out.vDiffuse.a < 0.5f)
