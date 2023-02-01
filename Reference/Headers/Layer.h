@@ -19,6 +19,7 @@ public:
 	HRESULT Add_GameObject(class CGameObject* pGameObject);
 	void Tick(_float fTimeDelta);
 	void Late_Tick(_float fTimeDelta);
+	list<class CGameObject*> Get_ObjectList() { return m_GameObjects; }
 	CGameObject* Get_LayerFront() { return m_GameObjects.front(); }
 	void Clear_List();
 private:

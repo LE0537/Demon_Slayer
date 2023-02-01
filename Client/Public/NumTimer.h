@@ -13,6 +13,10 @@ private:
 	virtual ~CNumTimer() = default;
 
 public:
+	void Set_TimerStart() { m_bTimerOnoff = true; }
+	void Set_TimerStop() { m_bTimerOnoff = false; }
+
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -25,8 +29,9 @@ private:
 
 private:
 	_float				m_fTimer = 100.f;
-	_uint				m_iFirstNum = 0;
-	_uint				m_iSecondNum = 0;
+	_bool				m_bTimerOnoff = false;
+	_uint				m_iFirstNum = 9;
+	_uint				m_iSecondNum = 9;
 
 
 public:

@@ -13,6 +13,13 @@ private:
 	virtual ~CRoundUI() = default;
 
 public:
+	_bool Get_StartCheck() { return m_bStartCheck; }
+	_bool Get_RoundOnOff() { return m_bRoundOnOff; }
+	_bool Get_Round1PWin(_uint iRound) { return m_bRound1PWin[iRound]; }
+	_bool Get_Round2PWin(_uint iRound) { return m_bRound2PWin[iRound]; }
+	_bool Get_Draw() { return m_bDraw; }
+
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -23,10 +30,43 @@ private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
+public:
+	void ZoomIn(_float fTimeDelta);
+	void ZoomOut(_float fTimeDelta);
+	void Fade_In(_float fTimeDelta);
+	void Fade_Out(_float fTimeDelta);
+	void Case_ReturnEnd();
+	void UI_Function(_float fTimeDelta);
+	void StartTextureCheck();
+	void ZeroHp_RoundUI(_float fTimeDelta);
+
 private:
 	CTexture*				m_pTextureCom2 = nullptr;
+	CTexture*				m_pTextureCom3 = nullptr;
+	CTexture*				m_pTextureCom4 = nullptr;
 
+private:
+	_uint					m_iStartEndImgNum = 0;
+	_uint					m_iJudgmentImgNum = 0;
+	_uint					m_iWinImgNum = 0;
 
+	_bool					m_bZoomCheck = false;
+	_bool					m_bRoundOnOff = true;
+
+	_bool					m_bRoundCheck = true;
+	_bool					m_bStartCheck = false;
+	_bool					m_bJudgmentCheck = false;
+	_bool					m_bWinCheck = false;
+
+	_bool					m_bRound1PWin[5] = { false };
+	_bool					m_bRound2PWin[5] = { false };
+	_bool					m_bDraw = false;
+
+	_float					m_fDelayTime = 0.f;
+	_float					m_fStopTime = 0.f;
+	_float					m_fFadeTime = 0.f;
+	_float					m_fZoomTime = 0.f;
+	
 public:
 	static CRoundUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

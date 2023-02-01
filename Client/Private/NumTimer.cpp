@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "NumTimer.h"
 #include "GameInstance.h"
+#include "RoundUI.h"
+#include "UI_Manager.h"
 
 CNumTimer::CNumTimer(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,17 +52,36 @@ HRESULT CNumTimer::Initialize(void * pArg)
 
 void CNumTimer::Tick(_float fTimeDelta)
 {
-	m_fTimer -= fTimeDelta;
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (m_fTimer <= 1.f)
+	m_bTimerOnoff = dynamic_cast<CRoundUI*>(pUI_Manager->Get_RoundUI())->Get_RoundOnOff();
+
+	if (!m_bTimerOnoff)
+	{
+		m_fTimer -= fTimeDelta;
+
+		if (m_fTimer <= 1.f)
+			m_fTimer = 99.f;
+
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_iFirstNum = (_uint)m_fTimer / 10;
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			m_iSecondNum = (_uint)m_fTimer % 10;
+	}
+	else
+	{
 		m_fTimer = 99.f;
 
-	if (m_ThrowUIinfo.iLayerNum == 0)
-		m_iFirstNum = (_uint)m_fTimer / 10;
-	else if(m_ThrowUIinfo.iLayerNum == 1)
-		m_iSecondNum = (_uint)m_fTimer % 10;
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_iFirstNum = (_uint)m_fTimer / 10;
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			m_iSecondNum = (_uint)m_fTimer % 10;
+	}
+
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CNumTimer::Late_Tick(_float fTimeDelta)
