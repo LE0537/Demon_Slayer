@@ -44,7 +44,24 @@ CShinobuState * CHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 	else if (m_bJumpHit)
 	{
 		if (fHitTime <= 35.f)
-			pShinobu->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
+		{
+			if (!m_bTrun)
+			{
+				_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+				vPos += XMVector3Normalize(vLook) * 15.f * fTimeDelta * m_fPow;
+				if (pShinobu->Get_NavigationCom()->Cheak_Cell(vPos))
+					pShinobu->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
+				else
+				{
+					m_bTrun = true;
+				}
+			}
+			if (m_bTrun)
+			{
+				pShinobu->Get_Transform()->Go_Straight(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
+			}
+		}
 
 		if (pShinobu->Get_Model()->Get_End(CShinobu::ANIM_HIT))
 		{

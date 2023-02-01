@@ -75,6 +75,14 @@ CNezukoState * CHitState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 			pNezuko->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
 			pNezuko->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pNezuko->Get_NavigationCom());
 
+			_vector vPlayerY = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+			vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
+			if (vPlayerY.m128_f32[1] < 0)
+				vPlayerY.m128_f32[1] = 0;
+
+			pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+
 			if (pNezuko->Get_Model()->Get_CurrentFrame() == 19)
 				return new CIdleState();
 		}
@@ -83,7 +91,22 @@ CNezukoState * CHitState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	{
 		if (pNezuko->Get_Model()->Get_CurrentFrame() <= 60)
 		{
-			pNezuko->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pNezuko->Get_NavigationCom());
+			if (!m_bTrun)
+			{
+				_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vLook = pNezuko->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+				vPos += XMVector3Normalize(vLook) * 15.f * fTimeDelta * m_fPow;
+				if (pNezuko->Get_NavigationCom()->Cheak_Cell(vPos))
+					pNezuko->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pNezuko->Get_NavigationCom());
+				else
+				{
+					m_bTrun = true;
+				}
+			}
+			if (m_bTrun)
+			{
+				pNezuko->Get_Transform()->Go_Straight(fTimeDelta * m_fPow, pNezuko->Get_NavigationCom());
+			}
 		}
 
 		pNezuko->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);

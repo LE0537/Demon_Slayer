@@ -45,8 +45,24 @@ CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	else if(m_bJumpHit)
 	{
 		if (fHitTime <= 35.f)
-			pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pKyoujuro->Get_NavigationCom());
-
+		{
+			if (!m_bTrun)
+			{
+				_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vLook = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+				vPos += XMVector3Normalize(vLook) * 15.f * fTimeDelta * m_fPow;
+				if (pKyoujuro->Get_NavigationCom()->Cheak_Cell(vPos))
+					pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pKyoujuro->Get_NavigationCom());
+				else
+				{
+					m_bTrun = true;
+				}
+			}
+			if (m_bTrun)
+			{
+				pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * m_fPow, pKyoujuro->Get_NavigationCom());
+			}
+		}
 		if(pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_HIT))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_HIT);

@@ -44,15 +44,19 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CCharacters* m_pTarget = pKyojuro->Get_BattleTarget();
-	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-	pKyojuro->Get_Transform()->Set_PlayerLookAt(vLooAt);
+	if (!m_bLook)
+	{
+		_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		XMStoreFloat4(&m_vLook, vLooAt);
+		pKyojuro->Get_Transform()->Set_PlayerLookAt(vLooAt);
+		m_bLook = true;
+	}
 
 	m_fTime += fTimeDelta;
 
 	if (m_fTime < 0.7f)
 	{
-		pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 2.f, pKyojuro->Get_NavigationCom());
+		pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pKyojuro->Get_NavigationCom());
 
 		if (!m_bHit && m_fTime > 0.2f)
 		{
@@ -61,7 +65,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 			vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			m_pCollBox->Get_Transform()->Set_PlayerLookAt(vLooAt);
+			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
@@ -102,7 +106,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 
 		if (pMyCollider->Collision(pTargetCollider))
 		{
-			_float fSpeed = pKyojuro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 2.f;
+			_float fSpeed = pKyojuro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 1.5f;
 
 			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_vector vPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -138,7 +142,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 			vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			m_pCollBox->Get_Transform()->Set_PlayerLookAt(vLooAt);
+			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
@@ -204,7 +208,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	pKyojuro->Get_Model()->Play_Animation(fTimeDelta);
+	pKyojuro->Get_Model()->Play_Animation2(fTimeDelta);
 
 	return nullptr;
 }

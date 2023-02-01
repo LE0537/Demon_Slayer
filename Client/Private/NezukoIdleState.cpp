@@ -197,7 +197,16 @@ CNezukoState * CIdleState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
 	pNezuko->Get_Model()->Play_Animation(fTimeDelta);
 
+	_vector vPlayerY = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
+	if (vPlayerY.m128_f32[1] > 0.f)
+	{
+		vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
+		if (vPlayerY.m128_f32[1] < 0)
+			vPlayerY.m128_f32[1] = 0;
+
+		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+	}
 
 	return nullptr;
 }
