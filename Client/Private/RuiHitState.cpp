@@ -91,7 +91,22 @@ CRuiState * CHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	{
 		if (pRui->Get_Model()->Get_CurrentFrame() <= 60)
 		{
-			pRui->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pRui->Get_NavigationCom());
+			if (!m_bTrun)
+			{
+				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+				vPos += XMVector3Normalize(vLook) * 15.f * fTimeDelta * m_fPow;
+				if (pRui->Get_NavigationCom()->Cheak_Cell(vPos))
+					pRui->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pRui->Get_NavigationCom());
+				else
+				{
+					m_bTrun = true;
+				}
+			}
+			if (m_bTrun)
+			{
+				pRui->Get_Transform()->Go_Straight(fTimeDelta * m_fPow, pRui->Get_NavigationCom());
+			}
 		}
 
 		pRui->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);

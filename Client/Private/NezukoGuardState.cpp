@@ -95,8 +95,7 @@ CNezukoState * CGuardState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 	CCharacters* m_pTarget = pNezuko->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vLooAt.m128_f32[1] = 0.f;
-	pNezuko->Get_Transform()->LookAt(vLooAt);
+	pNezuko->Get_Transform()->Set_PlayerLookAt(vLooAt);
 
 
 	pNezuko->Get_Model()->Play_Animation(fTimeDelta * 1.2f);

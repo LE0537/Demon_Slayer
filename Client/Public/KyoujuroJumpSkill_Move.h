@@ -29,7 +29,8 @@ private:
 	_bool  m_bHit = false;
 	_float m_fPositionY = 0.f;
 	_float m_fJumpTime = 0.f;
-
+	_float4 m_vLook;
+	_bool   m_bLook = false;
 	//test
 	_float3 m_vPosition;
 	_float3 m_vVelocity;

@@ -123,7 +123,6 @@ void CNezuko::Late_Tick(_float fTimeDelta)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 
-		//m_pModelCom->Play_Animation(fTimeDelta);
 		if (g_bCollBox)
 		{
 			m_pRendererCom->Add_Debug(m_pSphereCom);
@@ -345,7 +344,7 @@ HRESULT CNezuko::Ready_Components()
 
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
-	ColliderDesc.vScale = _float3(100.f, 100.f, 100.f);
+	ColliderDesc.vScale = _float3(130.f, 130.f, 130.f);
 	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;

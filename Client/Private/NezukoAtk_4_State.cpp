@@ -201,55 +201,50 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	vLooAt.m128_f32[1] = 0.f;
 	pNezuko->Get_Transform()->LookAt(vLooAt);
 
+	m_fMove += fTimeDelta;
 
-	if(m_fTime < 22.f)
-	pNezuko->Get_Transform()->Go_Straight(fTimeDelta * 0.7f, pNezuko->Get_NavigationCom());
-	
-
-	m_fMove += fTimeDelta;//뜸부기
-
-	if (m_fMove > 0.1f && m_iHit < 5)
+	if (m_fMove < 0.2f)
 	{
 		_vector vCollPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pNezuko->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-		vCollPos += XMVector3Normalize(vCollLook) * 4.f; //추가
-		vCollPos.m128_f32[1] = 1.f; //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 2.f; //추가
+		vCollPos.m128_f32[1] = 0.f; //추가
 		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-		m_pCollBox->Get_Transform()->Set_PlayerLookAt(m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 		CCollider*	pMyCollider2 = pNezuko->Get_SphereCollider();
-		
-		if (nullptr == pTargetCollider)
-			return nullptr;
-
-		if (pMyCollider->Collision(pTargetCollider))
+		if (m_fMove > 0.1f && !m_bHit)
 		{
-			_float4 vTagetPos;
-			XMStoreFloat4(&vTagetPos, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-			_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			vPos.m128_f32[1] = 0.f;
-			m_pTarget->Get_Transform()->LookAt(vPos);
-	
-			if (m_pTarget->Get_PlayerInfo().bGuard)
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
 			{
-				m_pTarget->Get_GuardHit(0);
+				_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pNezuko->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.3f, false);
+				}
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				m_bHit = true;
 			}
-			else
-			{
-				m_pTarget->Set_Hp(-pNezuko->Get_PlayerInfo().iDmg / 2);
-				m_pTarget->Take_Damage(0.1f,false);
-			}
 
-			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-
-			RELEASE_INSTANCE(CEffect_Manager);
-
-			++m_iHit;
-			m_fMove = 0.f;
 		}
+
 
 		if (pMyCollider2->Collision(pTargetCollider))
 		{
@@ -257,7 +252,6 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
 			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
 			_vector vMyLook = vTargetLook * -1.f;
 
@@ -268,8 +262,86 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
 			vPos.m128_f32[1] = 0.f;
-			pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+			if (pNezuko->Get_NavigationCom()->Cheak_Cell(vPos))
+				pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pNezuko->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pNezuko->Get_NavigationCom());
+		}
+	}
+	else if (m_fMove > 0.2f && m_fMove < 0.9f)
+	{
+		if(m_fMove < 0.5f)
+			pNezuko->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pNezuko->Get_NavigationCom());
+
+		_vector vCollPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pNezuko->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 2.f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+		CCollider*	pMyCollider2 = pNezuko->Get_SphereCollider();
+		if (m_fMove > 0.7f && m_iHit < 1)
+		{
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pNezuko->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.5f, false);
+				}
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				++m_iHit;
+			}
+
+		}
+
+
+		if (pMyCollider2->Collision(pTargetCollider))
+		{
+			_float fSpeed = pNezuko->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 1.5f;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pNezuko->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			vPos.m128_f32[1] = 0.f;
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+			if (pNezuko->Get_NavigationCom()->Cheak_Cell(vPos))
+				pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pNezuko->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pNezuko->Get_NavigationCom());
 		}
 	}
 

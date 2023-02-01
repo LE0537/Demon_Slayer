@@ -133,8 +133,6 @@ void CShinobu::Tick(_float fTimeDelta)
 }
 
 
-
-
 void CShinobu::Late_Tick(_float fTimeDelta)
 {
 
@@ -147,9 +145,6 @@ void CShinobu::Late_Tick(_float fTimeDelta)
 		m_pSheath->Tick(fTimeDelta);
 
 
-
-		CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 
@@ -161,27 +156,12 @@ void CShinobu::Late_Tick(_float fTimeDelta)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
 
-		if (g_bCollBox)
-
-		{
-			LateTickState(fTimeDelta);
-			m_pWeapon->Tick(fTimeDelta);
-			m_pSheath->Tick(fTimeDelta);
-
-			CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
-
+		
 			if (g_bCollBox)
 			{
 				m_pRendererCom->Add_Debug(m_pSphereCom);
 			}
-		}
+		
 	}
 
 }
@@ -203,19 +183,19 @@ HRESULT CShinobu::Render()
 	{
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
-		if (i == 0 || i == 1)
-		{
-			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_MaskTexture", i, aiTextureType_NORMALS)))
-				return E_FAIL;
+		//if (i == 0 || i == 1)
+		//{
+		//	if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_MaskTexture", i, aiTextureType_NORMALS)))
+		//		return E_FAIL;
 
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
-				return E_FAIL;
-		}
-		else
-		{
+		//	if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
+		//		return E_FAIL;
+		//}
+		//else
+		//{
 			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
 				return E_FAIL;
-		}
+		//}
 	}
 	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f)
 	{
@@ -404,7 +384,7 @@ HRESULT CShinobu::Ready_Components()
 
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
-	ColliderDesc.vScale = _float3(100.f, 100.f, 100.f);
+	ColliderDesc.vScale = _float3(130.f, 130.f, 130.f);
 	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;

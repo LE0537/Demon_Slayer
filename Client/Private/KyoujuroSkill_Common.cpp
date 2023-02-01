@@ -45,9 +45,13 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CCharacters* m_pTarget = pKyojuro->Get_BattleTarget();
-	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-	pKyojuro->Get_Transform()->Set_PlayerLookAt(vLooAt);
+	if (!m_bLook)
+	{
+		_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		XMStoreFloat4(&m_vLook, vLooAt);
+		pKyojuro->Get_Transform()->Set_PlayerLookAt(vLooAt);
+		m_bLook = true;
+	}
 
 	m_fTime += fTimeDelta;
 
@@ -62,7 +66,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 			vCollPos += XMVector3Normalize(vCollLook) * 1.f; //추가
 			vCollPos.m128_f32[1] = 0.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			m_pCollBox->Get_Transform()->Set_PlayerLookAt(vLooAt);
+			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
@@ -141,7 +145,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 		
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox2->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			m_pCollBox2->Get_Transform()->Set_PlayerLookAt(vLooAt);
+			m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 			CCollider*	pMyCollider = m_pCollBox2->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 

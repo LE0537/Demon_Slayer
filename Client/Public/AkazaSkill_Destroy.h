@@ -27,7 +27,8 @@ private:
 	_float m_fMove = 0.f;
 	_int   m_iHit = 0;
 	_bool  m_bHit = false;
-
+	_float4 m_vLook;
+	_bool   m_bLook = false;
 };
 END
 END

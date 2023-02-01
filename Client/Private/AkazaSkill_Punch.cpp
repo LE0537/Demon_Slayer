@@ -62,10 +62,13 @@ CAkazaState * CSkill_PunchState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
 	if (m_eStateType == CAkazaState::TYPE_START)
 	{
-		CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
-		_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		vLooAt.m128_f32[1] = 0.f;
-		pAkaza->Get_Transform()->LookAt(vLooAt);
+		if (!m_bLook)
+		{
+			_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			XMStoreFloat4(&m_vLook, vLooAt);
+			pAkaza->Get_Transform()->Set_PlayerLookAt(vLooAt);
+			m_bLook = true;
+		}
 		pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 2.5f, pAkaza->Get_NavigationCom());
 	
 		CCollider*	pMyCollider = pAkaza->Get_SphereCollider();

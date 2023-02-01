@@ -68,8 +68,6 @@ CShinobuState * CAtk_3_State::Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 CShinobuState * CAtk_3_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
 	CCharacters* m_pTarget = pShinobu->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
@@ -77,23 +75,57 @@ CShinobuState * CAtk_3_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 	m_fMove += fTimeDelta;
 
-	if (m_fMove < 0.5f)
+	if (m_fMove < 0.3f)
 	{
-		pShinobu->Get_Transform()->Go_Straight(fTimeDelta, pShinobu->Get_NavigationCom());
+		pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 0.7f, pShinobu->Get_NavigationCom());
 
-		CCollider*	pMyCollider = pShinobu->Get_SphereCollider();
+		_vector vCollPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+		CCollider*	pMyCollider2 = pShinobu->Get_SphereCollider();
+		if (m_fMove > 0.1f && !m_bHit)
+		{
+			if (nullptr == pTargetCollider)
+				return nullptr;
 
-		if (nullptr == pTargetCollider)
-			return nullptr;
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-		if (pMyCollider->Collision(pTargetCollider))
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pShinobu->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.3f, false);
+				}
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				m_bHit = true;
+			}
+
+		}
+
+
+		if (pMyCollider2->Collision(pTargetCollider))
 		{
 			_float fSpeed = pShinobu->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
 
 			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
 			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
 			_vector vMyLook = vTargetLook * -1.f;
 
@@ -114,55 +146,13 @@ CShinobuState * CAtk_3_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 				pShinobu->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pShinobu->Get_NavigationCom());
 		}
 	}
-	else if (m_fMove < 0.65f)
-	{
-		if (!m_bHit)
-		{
-			_vector vCollPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
-			_vector vCollLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-			vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
-			vCollPos.m128_f32[1] = 1.f; //추가
-			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
-			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-
-			if (nullptr == pTargetCollider)
-				return nullptr;
-
-			if (pMyCollider->Collision(pTargetCollider))
-			{
-				_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
-
-				if (m_pTarget->Get_PlayerInfo().bGuard)
-				{
-					m_pTarget->Get_GuardHit(0);
-				}
-				else
-				{
-					m_pTarget->Set_Hp(-pShinobu->Get_PlayerInfo().iDmg * 2);
-					m_pTarget->Take_Damage(0.6f,false);
-				}
-
-				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-
-				RELEASE_INSTANCE(CEffect_Manager);
-			
-				m_bHit = true;
-			}
-		}
-	}
-
-	RELEASE_INSTANCE(CGameInstance);
 
 	pShinobu->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
 	if (!m_bEffect)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK3, pShinobu);
+	//	pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK3, pShinobu);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;

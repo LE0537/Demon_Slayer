@@ -45,9 +45,13 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
-	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	pTanjiro->Get_Transform()->Set_PlayerLookAt(vLooAt);
-	//pTanjiro->Get_Transform()->LookAt(vLooAt);
+	if (!m_bLook)
+	{
+		_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		XMStoreFloat4(&m_vLook, vLooAt);
+		pTanjiro->Get_Transform()->Set_PlayerLookAt(vLooAt);
+		m_bLook = true;
+	}
 	_int iHit = pTanjiro->Get_SkillHit();
 	m_fDelay += fTimeDelta;
 	if (m_fDelay > 0.3f)
@@ -67,7 +71,7 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 																							 //m_pCollBox->Get_Transform()->LookAt(vLooAt);
-			m_pCollBox->Get_Transform()->Set_PlayerLookAt(vLooAt);
+			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 
 			if (m_fHitTime > 0.07f && iHit < 5)
@@ -132,7 +136,7 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
 
 	return nullptr;
 }
@@ -148,6 +152,7 @@ void CSkill_CommonState::Enter(CTanjiro * pTanjiro)
 
 void CSkill_CommonState::Exit(CTanjiro * pTanjiro)
 {
+	pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_COMMON);
 	m_pCollBox->Set_Dead();
 	pTanjiro->Reset_SkillHit();
 }

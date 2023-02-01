@@ -91,7 +91,22 @@ CAkazaState * CHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	{
 		if (pAkaza->Get_Model()->Get_CurrentFrame() <= 60)
 		{
-			pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pAkaza->Get_NavigationCom());
+			if (!m_bTrun)
+			{
+				_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+				vPos += XMVector3Normalize(vLook) * 15.f * fTimeDelta * m_fPow;
+				if (pAkaza->Get_NavigationCom()->Cheak_Cell(vPos))
+					pAkaza->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pAkaza->Get_NavigationCom());
+				else
+				{
+					m_bTrun = true;
+				}
+			}
+			if (m_bTrun)
+			{
+				pAkaza->Get_Transform()->Go_Straight(fTimeDelta * m_fPow, pAkaza->Get_NavigationCom());
+			}
 		}
 
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);

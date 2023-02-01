@@ -44,9 +44,13 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CCharacters* m_pTarget = pKyojuro->Get_BattleTarget();
-	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-	pKyojuro->Get_Transform()->Set_PlayerLookAt(vLooAt);
+	if (!m_bLook)
+	{
+		_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		XMStoreFloat4(&m_vLook, vLooAt);
+		pKyojuro->Get_Transform()->Set_PlayerLookAt(vLooAt);
+		m_bLook = true;
+	}
 
 	m_fTime += fTimeDelta;
 
@@ -61,7 +65,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 			vCollPos += XMVector3Normalize(vCollLook) * 1.f; //추가
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			m_pCollBox->Get_Transform()->Set_PlayerLookAt(vLooAt);
+			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
@@ -140,7 +144,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 			vCollPos += XMVector3Normalize(vCollLook) * 1.f; //추가
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			m_pCollBox->Get_Transform()->Set_PlayerLookAt(vLooAt);
+			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
@@ -212,7 +216,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 		m_fJumpTime += 0.05f;
 		Jump(pKyojuro, m_fJumpTime);
 	}
-	pKyojuro->Get_Model()->Play_Animation(fTimeDelta);
+	pKyojuro->Get_Model()->Play_Animation2(fTimeDelta);
 
 	return nullptr;
 }
@@ -258,7 +262,7 @@ CKyoujuroState* CSkill_DoubleUpperState::Jump(CKyoujuro* pKyoujuro, _float fTime
 }
 void CSkill_DoubleUpperState::Exit(CKyoujuro * pKyojuro)
 {
-	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH);
+	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER);
 	m_pCollBox->Set_Dead();
 }
 
