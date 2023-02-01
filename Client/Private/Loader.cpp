@@ -1244,6 +1244,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_NormAtk_4_Cl"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_3Kien_Start"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_3Kien_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_2Nobori_1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_2Nobori_2"));
 
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
