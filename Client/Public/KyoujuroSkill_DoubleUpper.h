@@ -32,6 +32,8 @@ private:
 	_float m_fJumpTime = 0.f;
 	_float m_fCurrentPosY = 0.f;
 	_bool  m_bJump = false;
+
+	_bool	m_bEffect = false;
 };
 END
 END

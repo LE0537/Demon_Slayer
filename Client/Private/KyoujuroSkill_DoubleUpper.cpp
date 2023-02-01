@@ -213,6 +213,18 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 		Jump(pKyojuro, m_fJumpTime);
 	}
 	pKyojuro->Get_Model()->Play_Animation(fTimeDelta);
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_2NOBORI_1, pKyojuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_2NOBORI_2, pKyojuro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+
+
 
 	return nullptr;
 }

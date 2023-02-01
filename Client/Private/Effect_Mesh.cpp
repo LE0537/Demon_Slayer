@@ -347,8 +347,8 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 	_float		fAccTime = m_fTime - m_MeshInfo.fStartTime;
 	_float		fAllLifeTime = m_MeshInfo.fLifeTime - m_MeshInfo.fStartTime;
 	_float		fAliveTimeRatio = max(fAccTime / fAllLifeTime, 0.f);
-	m_fMoveUV_U += fAliveTimeRatio * m_MeshInfo.fMove_Value_U;		//	텍스쳐가 텍스쳐의 x축으로 이동
-	m_fMoveUV_V += fAliveTimeRatio * m_MeshInfo.fMove_Value_V;		//	텍스쳐가 텍스쳐의 y축으로 이동
+	m_fMoveUV_U = fAliveTimeRatio * m_MeshInfo.fMove_Value_U;		//	텍스쳐가 텍스쳐의 x축으로 이동
+	m_fMoveUV_V = fAliveTimeRatio * m_MeshInfo.fMove_Value_V;		//	텍스쳐가 텍스쳐의 y축으로 이동
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fMoveUV_U", &m_fMoveUV_U, sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fMoveUV_V", &m_fMoveUV_V, sizeof(_float))))
