@@ -43,15 +43,52 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	Set_CamPos();
+	static _bool	bCamAttach = true;
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	if (pGameInstance->Key_Down(DIK_NUMPAD0))
+		bCamAttach = !bCamAttach;
+
+	if (false == bCamAttach)
+	{
+		if (pGameInstance->Key_Pressing(DIK_UP))
+			m_pTransform->Go_Straight(fTimeDelta);
+		if (pGameInstance->Key_Pressing(DIK_DOWN))
+			m_pTransform->Go_Backward(fTimeDelta);
+		if (pGameInstance->Key_Pressing(DIK_LEFT))
+			m_pTransform->Go_Left(fTimeDelta);
+		if (pGameInstance->Key_Pressing(DIK_RIGHT))
+			m_pTransform->Go_Right(fTimeDelta);
+
+		if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
+		{
+			_long			MouseMove = 0;
+
+			if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_X))
+				m_pTransform->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * MouseMove * 0.1f);
+
+			if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_Y))
+				m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), fTimeDelta * MouseMove * 0.1f);
+
+
+		}
+	}
+
+
+	if(true == bCamAttach)
+		Set_CamPos();
 
 	if (m_pPlayer->Get_PlayerInfo().bSub)
 		m_pPlayer = m_pPlayer->Get_SubChar();
 	if (m_pTarget->Get_PlayerInfo().bSub)
 		m_pTarget = m_pTarget->Get_SubChar();
 
-	Move_CamPos(fTimeDelta);
+	if(true == bCamAttach)
+		Move_CamPos(fTimeDelta);
 	//
+
+	RELEASE_INSTANCE(CGameInstance);
+
+
 	if (FAILED(Bind_OnPipeLine()))
 		return;
 }

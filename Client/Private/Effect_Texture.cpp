@@ -75,10 +75,11 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 
 	if (m_fTime > m_TextureInfo.fStartTime && m_fTime < m_TextureInfo.fLifeTime + m_TextureInfo.fStartTime) {
 		// Texture Size º¸°£
+		_float	fTimefromStart = m_fTime - m_TextureInfo.fStartTime;
 		_float fLife = m_TextureInfo.fLifeTime / 3.f;
 		_vector vSize;
 
-		if (fLife > m_fTime) {
+		if (fLife > fTimefromStart) {
 			_vector vFirstSize = XMVectorSet(m_TextureInfo.vSize[0].x, m_TextureInfo.vSize[0].y, 1.f, 0.f);
 			_vector vSecondSize = XMVectorSet(m_TextureInfo.vSize[1].x, m_TextureInfo.vSize[1].y, 1.f, 0.f);
 
@@ -86,7 +87,7 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 
 			vSize = XMVectorLerp(vFirstSize, vSecondSize, fTime);
 		}
-		else if (fLife <= m_fTime && fLife * 2 > m_fTime) {
+		else if (fLife <= fTimefromStart && fLife * 2 > fTimefromStart) {
 			_vector vFirstSize = XMVectorSet(m_TextureInfo.vSize[1].x, m_TextureInfo.vSize[1].y, 1.f, 0.f);
 			_vector vSecondSize = XMVectorSet(m_TextureInfo.vSize[2].x, m_TextureInfo.vSize[2].y, 1.f, 0.f);
 
@@ -94,7 +95,7 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 
 			vSize = XMVectorLerp(vFirstSize, vSecondSize, fTime);
 		}
-		else if (fLife * 2 <= m_fTime && fLife * 3 > m_fTime) {
+		else if (fLife * 2 <= fTimefromStart && fLife * 3 > fTimefromStart) {
 			_vector vFirstSize = XMVectorSet(m_TextureInfo.vSize[2].x, m_TextureInfo.vSize[2].y, 1.f, 0.f);
 			_vector vSecondSize = XMVectorSet(m_TextureInfo.vSize[3].x, m_TextureInfo.vSize[3].y, 1.f, 0.f);
 
