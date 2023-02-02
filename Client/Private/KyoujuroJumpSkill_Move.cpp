@@ -13,7 +13,7 @@ CJumpSkill_MoveState::CJumpSkill_MoveState(_float fPositionY)
 {
 	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_KyoujuroJumpSkill"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
 		return;
 
 
@@ -83,12 +83,85 @@ CKyoujuroState * CJumpSkill_MoveState::Tick(CKyoujuro * pKyojuro, _float fTimeDe
 
 CKyoujuroState * CJumpSkill_MoveState::Late_Tick(CKyoujuro * pKyojuro, _float fTimeDelta)
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 
-	RELEASE_INSTANCE(CGameInstance);
+	CCharacters* m_pTarget = pKyojuro->Get_BattleTarget();
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLooAt.m128_f32[1] = 0.f;
+	pKyojuro->Get_Transform()->LookAt(vLooAt);
+
+	m_fMove += fTimeDelta;
+	
+	if (m_fMove > 0.3f)
+	{
+		m_fDelay += fTimeDelta;
+		_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+		CCollider*	pMyCollider2 = pKyojuro->Get_SphereCollider();
+		if (m_fDelay > 0.2f && m_iHit < 4)
+		{
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pKyojuro->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.3f, false);
+				}
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				++m_iHit;
+			}
+
+		}
 
 
+		if (pMyCollider2->Collision(pTargetCollider))
+		{
+			_float fSpeed = pKyojuro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 2.5f;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pKyojuro->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			_vector vPlayerPosY = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vPos.m128_f32[1] = vPlayerPosY.m128_f32[1];
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+			if (pKyojuro->Get_NavigationCom()->Cheak_Cell(vPos))
+				pKyojuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pKyojuro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pKyojuro->Get_NavigationCom());
+		}
+	}
 
 
 	pKyojuro->Get_Model()->Play_Animation(fTimeDelta);
@@ -98,9 +171,6 @@ CKyoujuroState * CJumpSkill_MoveState::Late_Tick(CKyoujuro * pKyojuro, _float fT
 		m_pCollBox->Set_Dead();
 		return new CIdleState();
 	}
-
-
-
 
 	return nullptr;
 }
@@ -133,19 +203,19 @@ void CJumpSkill_MoveState::Exit(CKyoujuro * pKyojuro)
 CKyoujuroState * CJumpSkill_MoveState::Move(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
 	static _float fY = (m_vPosition.y - m_fPositionY) / 2.f;
-
-	
-
 	CCharacters* m_pTarget = pKyoujuro->Get_BattleTarget();
-	_vector vLookAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	pKyoujuro->Get_Transform()->Set_PlayerLookAt(vLookAt);
-
+	if (!m_bLook)
+	{
+		m_bLook = true;
+		_vector vLookAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		pKyoujuro->Get_Transform()->Set_PlayerLookAt(vLookAt);
+	}
 	_vector vMyPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTargetPosition = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vDistance = vMyPosition - vTargetPosition;
 	_float fDistance = XMVectorGetX(XMVector3Length(vDistance));
 
-	if(fDistance >= 2.5f)
+	if(fDistance >= 4.f) 
 		pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
 
 	
@@ -161,7 +231,7 @@ CKyoujuroState * CJumpSkill_MoveState::Move(CKyoujuro * pKyoujuro, _float fTimeD
 
 CKyoujuroState* CJumpSkill_MoveState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
-	static _float fGravity = -14.81f;
+	static _float fGravity = -34.81f;
 	static _float fVelocity = 0.f;
 	static _float3 vPosition;
 

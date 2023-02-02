@@ -359,8 +359,6 @@ void CMoveJumpState::Move(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	{
 		pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
 
-		if (m_eDirection != DIR_STOP)
-			pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta, pKyoujuro->Get_NavigationCom());
 		CCharacters* m_pTarget = pKyoujuro->Get_BattleTarget();
 		CCollider*	pMyCollider = pKyoujuro->Get_SphereCollider();
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();

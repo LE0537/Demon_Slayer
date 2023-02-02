@@ -1,7 +1,7 @@
 #pragma once
 
 #include "KyoujuroState.h"
-#include "BaseAtk.h"
+#include "KyoujuroJumpSkill.h"
 BEGIN(Client)
 BEGIN(Kyoujuro)
 class CJumpSkill_CommonState : public CKyoujuroState
@@ -21,10 +21,11 @@ public:
 	CKyoujuroState* Jump(CKyoujuro*pKyoujuro, _float fTimeDelta);
 
 private:
-	CBaseAtk*	m_pCollBox = nullptr;
+	CKyoujuroJumpSkill*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;
 	_float m_fHitTime = 0.f;
 	_float m_fDelay = 0.f;
+	_float m_fMove = 0.f;
 	_int   m_iHit = 0;
 	_bool  m_bHit = false;
 	_float m_fPositionY = 0.f;

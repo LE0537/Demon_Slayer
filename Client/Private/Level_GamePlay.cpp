@@ -113,30 +113,32 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
 	LIGHTDESC			LightDesc;
 
+
+
+	/* For.Point */
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+
+	LightDesc.eType = LIGHTDESC::TYPE_FIELDSHADOW;
+	LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);
+	LightDesc.vDiffuse = _float4(60.f, -20.f, 60.f, 1.f);
+	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
+
+	_vector vLook = XMLoadFloat4(&LightDesc.vDiffuse) - XMLoadFloat4(&LightDesc.vDirection);
+
+	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
+
 	/* For.Directional*/
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
 	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
-	LightDesc.vDirection = _float4(-1.f, 2.f, -2.f, 0.f);
+	XMStoreFloat4(&LightDesc.vDirection,XMVector3Normalize(vLook));
 	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
 	LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
 
 	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
 		return E_FAIL;
-
-	/* For.Point */
-	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
-
-	LightDesc.eType = LIGHTDESC::TYPE_FIELDSHADOW;
-	LightDesc.vDirection = _float4(-30.f, 60.f, -30.f, 0.f);
-	LightDesc.vDiffuse = _float4(50.f, 0.f, 30.f, 1.f);
-	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
-
-
-	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
-		return E_FAIL;
-
 
 	RELEASE_INSTANCE(CGameInstance);
 

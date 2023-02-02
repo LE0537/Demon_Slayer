@@ -210,6 +210,17 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 
 	pKyojuro->Get_Model()->Play_Animation2(fTimeDelta);
 
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_3KIEN_START, pKyojuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_3KIEN_MAIN, pKyojuro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+
 	return nullptr;
 }
 
