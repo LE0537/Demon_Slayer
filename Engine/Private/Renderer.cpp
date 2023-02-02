@@ -399,9 +399,9 @@ HRESULT CRenderer::Ready_GlowDSV(_float fWinCX, _float fWinCY)
 	D3D11_TEXTURE2D_DESC	TextureDesc;
 	ZeroMemory(&TextureDesc, sizeof(D3D11_TEXTURE2D_DESC));
 
-	TextureDesc.Width = fWinCX;
+	TextureDesc.Width = (_uint)fWinCX;
 	m_fGlowWinCX = fWinCX;
-	TextureDesc.Height = fWinCY;
+	TextureDesc.Height = (_uint)fWinCY;
 	m_fGlowWinCY = fWinCY;
 	TextureDesc.MipLevels = 1;
 	TextureDesc.ArraySize = 1;

@@ -742,6 +742,9 @@
     <Filter Include="05.CollBox\08.KyoujuroJumpSkill">
       <UniqueIdentifier>{774addfc-6d62-4294-b860-cdbbfaaa0e5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel">
+      <UniqueIdentifier>{91127abc-4d60-4ea2-b63b-d7b957322ee2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1494,6 +1497,9 @@
     <ClInclude Include="..\public\KyoujuroJumpSkill.h">
       <Filter>05.CollBox\08.KyoujuroJumpSkill</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\MenuModel.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2215,6 +2221,9 @@
     </ClCompile>
     <ClCompile Include="..\private\KyoujuroJumpSkill.cpp">
       <Filter>05.CollBox\08.KyoujuroJumpSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MenuModel.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

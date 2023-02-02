@@ -160,7 +160,7 @@ HRESULT CRoundUI::SetUp_ShaderResources()
 
 void CRoundUI::ZoomIn(_float fTimeDelta)
 {
-	m_fZoomTime += fTimeDelta * 1.5;
+	m_fZoomTime += fTimeDelta * 1.5f;
 	
 	if (m_fZoomTime >= 0.005f)
 	{
@@ -185,7 +185,7 @@ void CRoundUI::ZoomOut(_float fTimeDelta)
 
 	if (m_fStopTime >= 1.f)
 	{
-		m_fZoomTime += fTimeDelta * 1.5;
+		m_fZoomTime += fTimeDelta * 1.5f;
 		if (m_fZoomTime >= 0.005f)
 		{
 			m_fSizeX -= m_fSizeX * 0.01f;

@@ -369,9 +369,18 @@ HRESULT CModel::Create_Materials(const char* pModelFilePath)
 				continue;
 
 			char			szName[MAX_PATH] = "";
-			char			szExt[MAX_PATH] = ".png";
+			char			szExt[MAX_PATH] = "";
+			char			szPng[MAX_PATH] = ".png";
+			char			szDds[MAX_PATH] = ".dds";
 			char			szTextureFileName[MAX_PATH] = "";
-
+			if (m_eModelType == TYPE_ANIM)
+			{
+				strcpy_s(szExt, szDds);
+			}
+			else
+			{
+				strcpy_s(szExt, szPng);
+			}
 			_splitpath_s(strPath.data, nullptr, 0, nullptr, 0, szName, MAX_PATH, nullptr, 0);
 
 			strcpy_s(szTextureFileName, szName);
@@ -563,7 +572,7 @@ HRESULT CModel::Get_HierarchyNodeData(DATA_BINSCENE * pBinScene)
 	}
 
 	pBinScene->pBinNodes = new DATA_BINNODE[m_Bones.size()];
-	pBinScene->iNodeCount = m_Bones.size();
+	pBinScene->iNodeCount = (_int)m_Bones.size();
 
 	for (_int i = 0; i < m_Bones.size(); ++i)
 	{
