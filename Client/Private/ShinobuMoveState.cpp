@@ -9,6 +9,8 @@
 #include "ShinobuGuardState.h"
 #include "ShinobuDashState.h"
 #include "ShinobuChangeState.h"
+#include "ShinobuSkill_Move.h"
+#include "ShinobuSkill_Upper.h"
 using namespace Shinobu;
 
 
@@ -36,9 +38,9 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 
 				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 				{
-					pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_SKILL_WINDMILL);
+					//pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_SKILL_WINDMILL);
 					pShinobu->Set_SkillBar(-200);
-					//return new CSkill_WindMillState();
+					return new CSkill_UpperState(STATE_TYPE::TYPE_START);
 				}
 
 			}
@@ -48,7 +50,7 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 				{
 					pShinobu->Set_SkillBar(-200);
-					//return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+					return new CSkill_MoveState(STATE_TYPE::TYPE_START);
 				}
 
 			}
@@ -189,9 +191,9 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 
 				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 				{
-					pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_SKILL_WINDMILL);
+					//pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM);
 					pShinobu->Set_SkillBar(-200);
-					//return new CSkill_WindMillState();
+					return new CSkill_UpperState(STATE_TYPE::TYPE_START);
 				}
 
 			}
@@ -201,7 +203,7 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 				{
 					pShinobu->Set_SkillBar(-200);
-					//return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+					return new CSkill_MoveState(STATE_TYPE::TYPE_START);
 				}
 
 			}

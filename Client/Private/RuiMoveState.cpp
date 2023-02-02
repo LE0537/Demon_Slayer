@@ -11,6 +11,7 @@
 #include "RuiGuardState.h"
 #include "RuiSkill_ShootNet.h"
 #include "RuiSkill_Sphere.h"
+#include "RuiAdvSkill_MoveState.h"
 using namespace Rui;
 
 
@@ -50,7 +51,14 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 				}
 			}
 		}
-
+		else if (pGameInstance->Key_Down(DIK_U))
+		{
+			//if (pRui->Get_PlayerInfo().iFriendBar >= 500)
+			{
+				// 친구 게이지 깎는 코드 넣어야함
+				return new CAdvSkill_MoveState();
+			}
+		}
 
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // 앞
@@ -207,6 +215,14 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 				}
 			}
 		}
+		else if (pGameInstance->Key_Down(DIK_DELETE))
+		{
+			//if (pRui->Get_PlayerInfo().iFriendBar >= 500)
+			{
+				// 친구 게이지 깎는 코드 넣어야함
+				return new CAdvSkill_MoveState();
+			}
+		}
 
 		if (pGameInstance->Key_Pressing(DIK_UP)) // 앞
 		{
@@ -329,6 +345,7 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			else
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
+		
 		else
 			return new CIdleState();
 

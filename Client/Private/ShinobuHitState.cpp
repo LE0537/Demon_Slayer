@@ -18,32 +18,40 @@ CShinobuState * CHitState::HandleInput(CShinobu* pShinobu)
 
 CShinobuState * CHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
-	if (!m_bReset)
+	m_fJumpTime += 0.035f;
+	if (m_bJumpHit && !m_bJump)
 	{
-		pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_HIT);
-		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_HIT);
-		m_bReset = true;
+		Jump(pShinobu, m_fJumpTime);
 	}
-	fHitTime += fTimeDelta * 60.f;
 
-	if (!m_bJumpHit)
+	_vector vPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+
+	if (m_bJumpHit == false)
 	{
-		if (fHitTime <= 20.f)
+		if (pShinobu->Get_Model()->Get_CurrentFrame() <= 60)
+		{
 			pShinobu->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
 
-		_vector vPlayerY = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	
-		vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
-		if (vPlayerY.m128_f32[1] < 0)
-			vPlayerY.m128_f32[1] = 0;
+			_vector vPlayerY = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-		pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
-		if (fHitTime >= 35.f)
+			vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
+			if (vPlayerY.m128_f32[1] < 0)
+				vPlayerY.m128_f32[1] = 0;
+
+			pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+
+		
+		}
+
+		pShinobu->Get_Model()->Play_Animation(fTimeDelta, false);
+
+		if (pShinobu->Get_Model()->Get_CurrentFrame() >= 54)
 			return new CIdleState();
 	}
-	else if (m_bJumpHit)
+	else
 	{
-		if (fHitTime <= 35.f)
+		if (pShinobu->Get_Model()->Get_CurrentFrame() <= 60)
 		{
 			if (!m_bTrun)
 			{
@@ -61,15 +69,27 @@ CShinobuState * CHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 			{
 				pShinobu->Get_Transform()->Go_Straight(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
 			}
-		}
+			pShinobu->Get_Model()->Play_Animation(fTimeDelta, false);
 
-		if (pShinobu->Get_Model()->Get_End(CShinobu::ANIM_HIT))
-		{
-			pShinobu->Get_Model()->Set_End(CShinobu::ANIM_HIT);
-			pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_HIT);
-			return new CIdleState();
 		}
+		
+		else if (pShinobu->Get_Model()->Get_CurrentTime() >= 86)
+		{
+			//if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
+			//{
+			//	pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+				//pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_HIT);
+				return new CIdleState();
+			//}
+		}
+		else
+			pShinobu->Get_Model()->Play_Animation(fTimeDelta, false);
+
 	}
+
+	
+
+
 	return nullptr;
 }
 
@@ -82,9 +102,6 @@ CShinobuState * CHitState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 	}
 	pShinobu->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
 
-
-
-
 	return nullptr;
 }
 
@@ -94,6 +111,21 @@ void CHitState::Enter(CShinobu* pShinobu)
 
 	pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT);
 	pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT);
+	
+	
+	
+	if (m_bJumpHit == false)
+	{
+		pShinobu->Get_Model()->Set_FrameNum(pShinobu->Get_AnimIndex(), 100);
+		//pAkaza->Get_Model()->Set_FrameTime(pAkaza->Get_AnimIndex(), 0, 20, 1.f);
+		pShinobu->Get_Model()->Set_UsingFrame(CShinobu::ANIM_HIT, 30, 60);
+	}
+	else
+	{
+		pShinobu->Get_Model()->Set_FrameNum(pShinobu->Get_AnimIndex(), 100);
+		//pAkaza->Get_Model()->Set_FrameTime(pAkaza->Get_AnimIndex(), 0, 20, 1.f);
+		pShinobu->Get_Model()->Set_UsingFrame(CShinobu::ANIM_HIT, 30, 100);
+	}
 }
 CShinobuState * CHitState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 {
@@ -126,6 +158,8 @@ CShinobuState * CHitState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 void CHitState::Exit(CShinobu* pShinobu)
 {
 	pShinobu->Set_HitTime(0.2f);
+	pShinobu->Get_Model()->Set_UsingFrame(CShinobu::ANIM_HIT, 0, 100);
+	pShinobu->Get_Model()->Clear_Frame(CShinobu::ANIM_HIT);
 }
 
 

@@ -35,6 +35,7 @@ public: // 민준 추가 키프레임 가져오기
 	HRESULT	Set_FrameNum(_uint iAnimationNum, _uint iFrameNum);
 	void	Set_FrameTime(_uint iAnimationNum, _uint iStartFrame, _uint iEndFrame, _float fFrameTime);
 	void	Set_UsingFrame(_uint iAnimationNum, _uint iStartFrame, _uint iEndFrame);
+	void	Set_DurationTime(_uint iAnimationNum, _float fDurationTime);
 	void	Clear_Frame(_uint iAnimationNum);
 public:
 	virtual HRESULT Initialize_Prototype(TYPE eModelType, const char* pModelFilePath, _fmatrix PivotMatrix);

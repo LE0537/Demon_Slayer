@@ -44,6 +44,7 @@ private:
 	_float m_fHeight;
 	_float m_fOriginPosY;
 	_bool m_bNextAnim;
+	
 };
 END
 END
