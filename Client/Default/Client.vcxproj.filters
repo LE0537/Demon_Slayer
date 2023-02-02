@@ -742,6 +742,9 @@
     <Filter Include="05.CollBox\08.KyoujuroJumpSkill">
       <UniqueIdentifier>{774addfc-6d62-4294-b860-cdbbfaaa0e5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\09.KaguraSkill">
+      <UniqueIdentifier>{e26b560e-8362-4b04-9f81-560f41e51129}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1494,6 +1497,9 @@
     <ClInclude Include="..\public\KyoujuroJumpSkill.h">
       <Filter>05.CollBox\08.KyoujuroJumpSkill</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\KaguraSkill.h">
+      <Filter>05.CollBox\09.KaguraSkill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2215,6 +2221,9 @@
     </ClCompile>
     <ClCompile Include="..\private\KyoujuroJumpSkill.cpp">
       <Filter>05.CollBox\08.KyoujuroJumpSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\KaguraSkill.cpp">
+      <Filter>05.CollBox\09.KaguraSkill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

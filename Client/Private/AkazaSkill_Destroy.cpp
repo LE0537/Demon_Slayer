@@ -45,7 +45,7 @@ CAkazaState * CSkill_DestoryState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 		_float fDist = XMVectorGetX(XMVector3Length(vLook2));
 
-		if (fDist < 13.f)
+		if (fDist < 18.f)
 		{
 			if (pAkaza->Get_Model()->Get_CurrentTime() > 30.f)
 			{
@@ -54,8 +54,9 @@ CAkazaState * CSkill_DestoryState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 				vTarget += XMVector3Normalize(vTargetPos) * 2.f;
 				vTarget.m128_f32[1] = 0.f;
-				pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTarget);
-				pAkaza->Get_NavigationCom()->Find_CurrentCellIndex(vTarget);
+				if(pAkaza->Get_NavigationCom()->Cheak_Cell(vTarget));
+					pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTarget);
+				//pAkaza->Get_NavigationCom()->Find_CurrentCellIndex(vTarget);
 				return new CSkill_DestoryState(CAkazaState::TYPE_END);
 			}
 		}

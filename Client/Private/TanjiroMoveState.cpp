@@ -13,6 +13,7 @@
 #include "TanjiroKaguraSkill_Move.h"
 #include "TanjiroKaguraSkill_Sphere.h"
 #include "TanjiroChangeState.h"
+#include "TanjiroKaguraAtk_1_State.h"
 using namespace Tanjiro;
 
 
@@ -30,7 +31,12 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 	{
 	case 1:
 		if (pGameInstance->Key_Down(DIK_J))
-			return new CAtk_1_State();
+		{
+			if (pTanjiro->Get_KaguraMode())
+				return new CAtk_1_KaguraState();
+			else
+				return new CAtk_1_State();
+		}
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_I))
@@ -201,7 +207,12 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
-			return new CAtk_1_State();
+		{
+			if (pTanjiro->Get_KaguraMode())
+				return new CAtk_1_KaguraState();
+			else
+				return new CAtk_1_State();
+		}
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_X))
