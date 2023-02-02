@@ -128,7 +128,6 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 		
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 
-	
 	RELEASE_INSTANCE(CGameInstance);
 }
 

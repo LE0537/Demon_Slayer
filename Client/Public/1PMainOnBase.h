@@ -19,9 +19,19 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 
+public:
+	void Move_FirstMain(_float fTimeDelta, _bool bFirstCheck, _bool bSecondCheck, _bool bOni);
+	void Move_SecondMain(_float fTimeDelta, _bool bFirstCheck, _bool bSecondCheck, _bool bOni);
+
 private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
+
+private:
+	_bool					m_bFirstMove = false;
+	_bool					m_bSecondMoveCheck = false;
+	_uint					m_iMoveCount = 0;
+	_float					m_fMoveTime = 0.f;
 
 
 public:
