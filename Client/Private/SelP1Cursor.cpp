@@ -78,7 +78,7 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 			{
 				if (m_iSelCount == 1)
 				{
-					if (!m_SelectInfo_2.bOni && m_SelectInfo.strName != m_SelectInfo_2.strName)
+					if (!m_SelectInfo_2.bOni && m_SelectInfo.strName != m_SelectInfo_2.strName) //중복선택 오니 안됨
 					{
 						++m_iSelCount;
 						if (m_iSelCount == 1)
@@ -87,7 +87,7 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 							m_bSecondSelCheck = true;
 					}
 				}
-				else
+				else //일반선택
 				{
 					++m_iSelCount;
 					if (m_iSelCount == 1)
