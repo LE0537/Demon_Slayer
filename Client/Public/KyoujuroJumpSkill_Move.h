@@ -39,6 +39,8 @@ private:
 	_bool m_bFinishAnim = false;
 	_bool m_bNextAnim = false;
 	_float m_fGravity = -19.8f;
+
+	_bool	m_bEffect = false;
 };
 END
 END
