@@ -344,14 +344,8 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 	vector			vDepth = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vAO = 0.1f * g_AOTexture.Sample(LinearSampler, In.vTexUV) * g_bRenderAO;
 
-	vector		vFogColor = 0; 
-	vFogColor.rgb = g_vFogColor;
+	Out.vColor = ((vDiffuse - vAO) * vShade + vSpecular);
 
-	float		fFogValue = 0.0f;
-
-	fFogValue = 0.3f - min((max((vDepth.y * g_fFar) - g_fFogDistance, 0.f) / g_fFogRange), 0.3f);
-
-	Out.vColor = ((vDiffuse - vAO) * vShade + vSpecular) + vFogColor * fFogValue;
 	//=================== 그림자 =======================================================
 
 	vector			vDepthDesc = g_DepthTexture.Sample(DepthSampler, In.vTexUV);
@@ -383,6 +377,18 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	if (vWorldPos.z - 0.1f > vShadowDepthInfo.x * g_fFar)
 		Out.vColor -= vector(0.2f, 0.2f, 0.2f, 0.f);
+
+
+
+	//=============================  Fog  =============================
+	float		fFogValue = saturate(min((max((vDepth.y * g_fFar) - g_fFogDistance, 0.f) / g_fFogRange), 0.3f));
+	//	g_vFogColor에 근접하는 Value입니다.
+	//	Depth에 의해 차이가 나타납니다.
+
+	vector		vFog_Final = 0;
+	Out.vColor.rgb += ((g_vFogColor.rgb - Out.vColor.rgb) * fFogValue);
+	//	위에서 구한 FogValue를 통해 카메라에 가까워질 수록 g_vFogColor 에 근접합니다.
+	//===========================  Fog End  =============================
 
 	if (Out.vColor.a == 0.f)
 		discard;
