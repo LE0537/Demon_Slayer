@@ -43,6 +43,12 @@ HRESULT CNumTimer::Initialize(void * pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	pUI_Manager->Set_TimerUI(this);
+
+	RELEASE_INSTANCE(CUI_Manager);
+
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
@@ -59,9 +65,6 @@ void CNumTimer::Tick(_float fTimeDelta)
 	if (!m_bTimerOnoff)
 	{
 		m_fTimer -= fTimeDelta;
-
-		if (m_fTimer <= 1.f)
-			m_fTimer = 99.f;
 
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_iFirstNum = (_uint)m_fTimer / 10;
