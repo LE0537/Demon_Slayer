@@ -45,7 +45,7 @@ float			g_fOutLineValue;
 float			g_fInnerLineValue;
 float			g_fFogDistance;
 float			g_fFogRange;
-float			g_fFogPower;
+float3			g_vFogColor;
 
 float			g_fAddValue;
 
@@ -344,7 +344,8 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 	vector			vDepth = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vAO = 0.1f * g_AOTexture.Sample(LinearSampler, In.vTexUV) * g_bRenderAO;
 
-	vector		vFogColor = g_fFogPower;
+	vector		vFogColor = 0; 
+	vFogColor.rgb = g_vFogColor;
 
 	float		fFogValue = 0.0f;
 
