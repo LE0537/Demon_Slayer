@@ -2,48 +2,46 @@
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;
+texture2D		g_DissolveTexture;
 texture2D		g_NormalTexture;
-texture2D		g_NoiseTexture[3];
+texture2D		g_NoiseTexture;
 
 vector			g_vCamPosition;
 
 float4			g_vColor;
 float3			g_vGlowColor;
 
-float			g_fEndALPHA;
-bool			g_bDisjolve;
+float			g_fAlphaRatio;
+float			g_fEndAlpha;		//	1 -> 0
+
+bool			g_bDissolve;
+bool			g_bDisappearStart;
 bool			g_bGlow;			//	글로우를 사용합니다.
 bool			g_bUseGlowColor;	//	글로우 색상을 독립적으로 사용합니다.
-bool			g_bUseRGB;			//	텍스쳐의 RGB를 사용합니다. false == a 사요
+bool			g_bUseRGB;			//	텍스쳐의 RGB를 사용합니다. false == a 사용
 bool			g_bUseColor;		//	g_vColor를 사용합니다.. false == g_DiffuseTexture 사용
-bool			g_bFlowMap;			//	FlowMap을 사용합니다.
-									//	추가 동반 텍스쳐 : Noise
-bool			g_iNumFlowMap;		//	사용할 FlowMap ( Noise Texture ) 입니다.
+bool			g_bFlowMap;			//	FlowMap을 사용합니다.		//	추가 동반 텍스쳐 : Noise
 
-float			g_fAliveTimeRatio;
 float			g_fPostProcesesingValue;
 
-float			g_fStatHp;
-float			g_fStatDmg;
-float			g_fStatSDmg;
-float			g_fStatDef;
-float			g_fStatSDef;
-float			g_fStatSpeed;
+//	추가.23.01.31.14:55 성준
+int				g_iFrame;
+int				g_iNumUV_U;
+int				g_iNumUV_V;
+//	추가 End
 
-float4			g_vLightDiffuse = float4(1.f, 1.f, 1.f, 1.f); //빛의색
-float4			g_vLightAmbient = float4(0.5f, 0.5f, 0.5f, 1.f); //빛의 최소 밝기
-float4			g_vLightSpecular = float4(1.f, 1.f, 1.f, 1.f); //빛의 하이라이트 (빤딱거리는 흰색)
+//	Flow Texture Value
+float			g_fDistortionScale = 1.f;		//	왜곡 수치
+float			g_fDistortionBias = 0.f;		//	초기 왜곡값
 
-float4			g_vLightDir = float4(3.f, -3.f, -3.f, 0.f); // 빛의방향 //방향성광원 // 해
+float			g_fDistortionU;					//	UV좌표의 U 왜곡 값
+float			g_fDistortionV;					//	UV좌표의 V 왜곡 값
 
-float4			g_vMtrlAmbient = float4(1.f, 1.f, 1.f, 1.f);  // 재질의 고유색
-float4			g_vMtrlSpecular = float4(0.1f, 0.1f, 0.1f, 1.f);  // 재질의 하이라이트 (빤딱거리는느낌)
+float			g_fMoveUV_U;					//	기본적인 UV좌표의 움직임값입니다.
+float			g_fMoveUV_V;					//	기본적인 UV좌표의 움직임값입니다.
 
-																  //	Flow Texture Value
-float	g_fDistortionScale = 1.f;		//	왜곡 수치
-float	g_fDistortionBias = 0.f;		//	초기 왜곡값
+float			g_fDisappearTimeRatio;			//	사라지는 시간 비율
 
-float g_fHP;
 
 struct VS_IN
 {
@@ -74,6 +72,10 @@ VS_OUT VS_MAIN(VS_IN In)
 	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
 	Out.vTexUV = In.vTexUV;
 
+	float			fTexU = ((g_iFrame % g_iNumUV_U) + In.vTexUV.x) / g_iNumUV_U;
+	float			fTexV = ((g_iFrame / g_iNumUV_U) + In.vTexUV.y) / g_iNumUV_V;
+	Out.vTexUV = float2(fTexU, fTexV);
+
 	return Out;
 }
 
@@ -95,16 +97,17 @@ VS_FLOWMAP_OUT VS_FLOWMAP(VS_IN In)
 	matWVP = mul(matWV, g_ProjMatrix);
 
 	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
-	Out.vTexUV = In.vTexUV;
 
 	Out.vTexCoord1 = (In.vTexUV * 1.f);
-	Out.vTexCoord1.y = Out.vTexCoord1.y + (g_fAliveTimeRatio * 0.1f);
+	Out.vTexCoord1.x = Out.vTexCoord1.x + ((1.f - g_fEndAlpha) * 0.1f);
+	Out.vTexCoord1.y = Out.vTexCoord1.y + ((1.f - g_fEndAlpha) * 0.1f);
+
+	float			fTexU = ((g_iFrame % g_iNumUV_U) + In.vTexUV.x) / g_iNumUV_U;
+	float			fTexV = ((g_iFrame / g_iNumUV_U) + In.vTexUV.y) / g_iNumUV_V;
+	Out.vTexUV = float2(fTexU, fTexV);
 
 	return Out;
 }
-
-
-
 
 //**********************************************************************
 //***************************  Pixel Shader  ***************************
@@ -138,13 +141,25 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
-	Out.vColor.a = vTexture.a * g_fEndALPHA;
+	//g_fAlphaRatio g_bDissolve
+
+	//Out.vColor.a = vTexture.a * g_fEndALPHA;
+
+	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + (g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
+	float fDissolveAlpha = saturate((((1 - g_bDissolve) * max(max(vDissolveTexture.x, vDissolveTexture.y), max(vDissolveTexture.y, vDissolveTexture.z))) * g_bDisappearStart + g_fAlphaRatio) +
+		(g_bDissolve * g_fAlphaRatio));
+
+	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
+		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
+
+	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
 	if (Out.vColor.a < 0.03f)
@@ -158,13 +173,21 @@ PS_OUT PS_COLORTEST(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
-	Out.vColor.a = vTexture.a * g_fEndALPHA;
+	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + (g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
+	float fDissolveAlpha = saturate((((1 - g_bDissolve) * max(max(vDissolveTexture.x, vDissolveTexture.y), max(vDissolveTexture.y, vDissolveTexture.z))) * g_bDisappearStart + g_fAlphaRatio) +
+		(g_bDissolve * g_fAlphaRatio));
+
+	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
+		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
+
+	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
 	if (Out.vColor.a <= 0.3f)
@@ -174,8 +197,6 @@ PS_OUT PS_COLORTEST(PS_IN In)
 
 	return Out;
 }
-
-
 
 struct PS_POSTPROCESSING_OUT
 {
@@ -189,8 +210,8 @@ PS_POSTPROCESSING_OUT PS_DISTORTION(PS_IN In)
 	//	필요한 데이터 = r
 
 	float4 DiffuseTex = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-	float4 NoiseTex = g_NoiseTexture[0].Sample(LinearSampler, In.vTexUV);
-	float fValueX = min(DiffuseTex.r, DiffuseTex.a) * (1.f - g_fAliveTimeRatio);
+	float4 NoiseTex = g_NoiseTexture.Sample(LinearSampler, In.vTexUV);
+	float fValueX = min(DiffuseTex.r, DiffuseTex.a) * g_fEndAlpha;
 	float fValueY = fValueX * NoiseTex.r;		//	방향은 NoiseTexture를 따라가되, 왜곡 정도는 DiffuseTexture를 따라갑니다.
 
 
@@ -226,20 +247,25 @@ PS_OUT PS_ALPHAGLOW(PS_IN In)
 	//	Alpha용 Glow 입니다. - 타겟이 다릅니다.
 
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
-	Out.vColor.a = vTexture.a * g_fEndALPHA;
+	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + (g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
+	float fDissolveAlpha = saturate((((1 - g_bDissolve) * max(max(vDissolveTexture.x, vDissolveTexture.y), max(vDissolveTexture.y, vDissolveTexture.z))) * g_bDisappearStart + g_fAlphaRatio) +
+		(g_bDissolve * g_fAlphaRatio));
+
+	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
+		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
+
+	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
 	return Out;
 }
-
-
-
 
 struct PS_FLOWMAP_IN
 {
@@ -249,80 +275,42 @@ struct PS_FLOWMAP_IN
 	float2		vTexCoord1 : TEXCOORD1;
 };
 
-PS_OUT PS_FLOWMAP_ALPHAGLOW(PS_FLOWMAP_IN In)
+PS_OUT PS_FLOWMAP(PS_FLOWMAP_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
 	//	NoiseTexture의 UV = In.vTexCoord1
-	float2 noise1 = g_NoiseTexture[0].Sample(LinearSampler, In.vTexCoord1);
+	float2 noise1 = g_NoiseTexture.Sample(LinearSampler, In.vTexCoord1);
+	float2 noise2 = g_NoiseTexture.Sample(LinearSampler, In.vTexCoord1 * 2.f);
 	noise1 = (noise1 - 0.5f) * 2.0f;
+	noise2 = (noise2 - 0.5f) * 2.0f;
 
-	float2 distortion1 = float2(0.1f, 0.1f);
+	float2 distortion1 = float2(g_fDistortionU, g_fDistortionV);
 	noise1.xy = noise1.xy * distortion1.xy;
+	noise2.xy = noise2.xy * distortion1.xy;
 
-	float2	finalNoise = noise1;
-
-	float	fAliveTimeRatio = saturate(saturate(g_fAliveTimeRatio) - 0.01f);
-
+	float2	finalNoise = noise1.x + noise2.y;		//	Noise[0]는 X를, Noise[1]는 Y를 왜곡합니다.
+	float	fAliveTimeRatio = saturate(saturate((1.f - g_fEndAlpha)) - 0.01f);
 	float	perturb = (fAliveTimeRatio * g_fDistortionScale) + g_fDistortionBias;
-
 
 	float2		vNewUV = In.vTexUV;
 	vNewUV.x = saturate(vNewUV.x);
 	vNewUV.y = saturate(vNewUV.y);
 
 	float2	noiseCoords = (finalNoise.xy * perturb) + vNewUV;
-
-
+	noiseCoords.x += g_fMoveUV_U;
+	noiseCoords.y += g_fMoveUV_V;
+	//	텍스쳐 왜곡 끝
 
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, noiseCoords);
+	vector		vDissolveTex = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
-	Out.vColor.a = vTexture.a * g_fEndALPHA;
-	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
-
-
-	return Out;
-}
-
-PS_OUT PS_FLOWMAP_ALPHATEST(PS_FLOWMAP_IN In)
-{
-	PS_OUT		Out = (PS_OUT)0;
-
-	//	NoiseTexture의 UV = In.vTexCoord1
-	float2 noise1 = g_NoiseTexture[0].Sample(LinearSampler, In.vTexCoord1);
-	noise1 = (noise1 - 0.5f) * 2.0f;
-
-	float2 distortion1 = float2(0.1f, 0.1f);
-	noise1.xy = noise1.xy * distortion1.xy;
-
-	float2	finalNoise = noise1;
-
-	float	fAliveTimeRatio = saturate(saturate(g_fAliveTimeRatio) - 0.01f);
-
-	float	perturb = (fAliveTimeRatio * g_fDistortionScale) + g_fDistortionBias;
-
-
-	float2		vNewUV = In.vTexUV;
-	vNewUV.x = saturate(vNewUV.x);
-	vNewUV.y = saturate(vNewUV.y);
-
-	float2	noiseCoords = (finalNoise.xy * perturb) + vNewUV;
-
-
-
-	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, noiseCoords);
-
-	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
-		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
-	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
-		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
-
-	Out.vColor.a = vTexture.a * g_fEndALPHA;
+	Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
 	if (Out.vColor.a < 0.1f)
@@ -330,8 +318,6 @@ PS_OUT PS_FLOWMAP_ALPHATEST(PS_FLOWMAP_IN In)
 
 	return Out;
 }
-
-
 
 technique11 DefaultTechnique
 {
@@ -409,7 +395,7 @@ technique11 DefaultTechnique
 
 		VertexShader = compile vs_5_0 VS_FLOWMAP();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_FLOWMAP_ALPHAGLOW();
+		PixelShader = compile ps_5_0 PS_FLOWMAP();
 	}
 
 	pass FlowMap_AlphaTest	//	7
@@ -420,6 +406,6 @@ technique11 DefaultTechnique
 
 		VertexShader = compile vs_5_0 VS_FLOWMAP();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_FLOWMAP_ALPHATEST();
+		PixelShader = compile ps_5_0 PS_FLOWMAP();
 	}
 }

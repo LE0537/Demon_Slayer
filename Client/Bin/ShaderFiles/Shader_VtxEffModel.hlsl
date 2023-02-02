@@ -236,10 +236,14 @@ PS_EFFECT_OUT PS_EFF_MAIN(PS_EFFECT_IN In)
 	vector	vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor.a = g_vColor.a * ((g_bDissolve * saturate(min(vTexture.x, vTexture.a) - g_fAlphaRatio)) +
-		((1 - g_bDissolve) * saturate(min(vTexture.x, vTexture.a) - saturate(vDissolveTexture.r * g_bDisappearStart + g_fAlphaRatio))));
+	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + (g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
+	float fDissolveAlpha = saturate((((1 - g_bDissolve) * max(max(vDissolveTexture.x, vDissolveTexture.y), max(vDissolveTexture.y, vDissolveTexture.z))) * g_bDisappearStart + g_fAlphaRatio) +
+		(g_bDissolve * g_fAlphaRatio));
 
-	if (Out.vColor.a < 0.1f)
+	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
+		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
+
+	if (Out.vColor.a < 0.03f)
 		discard;
 
 	return Out;
@@ -258,14 +262,21 @@ PS_EFFECT_OUT PS_EFF_COLORBLEND(PS_EFFECT_IN In)
 
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vMaskTexture = g_MaskTextureCom.Sample(LinearSampler, In.vTexUV);
+	//g_bUseColor  g_bUseRGB
 
-	Out.vColor.a = saturate((g_vColor.a * ((g_bDissolve * saturate(min(vTexture.x, vTexture.a) - g_fAlphaRatio)) +
-		((1 - g_bDissolve) * saturate(min(vTexture.x, vTexture.a) - saturate(vDissolveTexture.r * g_bDisappearStart + g_fAlphaRatio))))) + (g_UseMask * (vMaskTexture.a)));
+	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + (g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
+	float fDissolveAlpha = saturate((((1 - g_bDissolve) * max(max(vDissolveTexture.x, vDissolveTexture.y), max(vDissolveTexture.y, vDissolveTexture.z))) * g_bDisappearStart + g_fAlphaRatio) +
+		(g_bDissolve * g_fAlphaRatio));
 
-	//Out.vColor.a = (g_vColor.a * vTexture.x * g_fEndALPHA * (1 - g_UseMask)) + ( vDissolveTexture.r);
+	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
+		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
+
+	//Out.vColor.a = saturate((g_vColor.a * ((g_bDissolve * saturate(g_bUseRGB * vTexture.x + (1 - g_bUseRGB) * vTexture.a - g_fAlphaRatio)) +
+	//((1 - g_bDissolve) * saturate(g_bUseRGB * vTexture.x + (1 - g_bUseRGB) * vTexture.a - saturate(vDissolveTexture.r * g_bDisappearStart + g_fAlphaRatio))))) - (g_UseMask * (vMaskTexture.r)));
+
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
-	if (Out.vColor.a < 0.1f)
+	if (Out.vColor.a < 0.03f)
 		discard;
 
 	return Out;
@@ -285,10 +296,9 @@ PS_EFFECT_OUT PS_EFF_COLORTEST(PS_EFFECT_IN In)
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vMaskTexture = g_MaskTextureCom.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor.a = saturate((g_vColor.a * ((g_bDissolve * saturate(min(vTexture.x, vTexture.a) - g_fAlphaRatio)) +
-		((1 - g_bDissolve) * saturate(min(vTexture.x, vTexture.a) - saturate(vDissolveTexture.r * g_bDisappearStart + g_fAlphaRatio))))) + (g_UseMask * (vMaskTexture.a)));
+	Out.vColor.a = saturate((g_vColor.a * ((g_bDissolve * saturate(g_bUseRGB * vTexture.x + (1 - g_bUseRGB) * vTexture.a - g_fAlphaRatio)) +
+		((1 - g_bDissolve) * saturate(g_bUseRGB * vTexture.x + (1 - g_bUseRGB) * vTexture.a - saturate(vDissolveTexture.r * g_bDisappearStart + g_fAlphaRatio))))) - (g_UseMask * (vMaskTexture.r)));
 
-	//Out.vColor.a = (g_vColor.a * min(vTexture.x, vTexture.a) * (1 - g_UseMask) * g_fEndALPHA) + (g_UseMask * vDissolveTexture.r);
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
 	if (Out.vColor.a <= 0.1f)
@@ -314,7 +324,7 @@ PS_POSTPROCESSING_OUT PS_DISTORTION(PS_EFFECT_IN In)
 
 	float4 vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	float4 NoiseTex = g_NoiseTexture.Sample(LinearSampler, In.vTexUV);
-	float fValueX = min(vTexture.r, vTexture.a) * g_fEndALPHA;
+	float fValueX = (g_bUseRGB * vTexture.x + (1 - g_bUseRGB) * vTexture.a) * g_fEndALPHA;
 	float fValueY = fValueX * NoiseTex.r;		//	방향은 NoiseTexture를 따라가되, 왜곡 정도는 DiffuseTexture를 따라갑니다.
 
 
@@ -364,13 +374,16 @@ PS_EFFECT_OUT PS_ALPHAGLOW(PS_EFFECT_IN In)
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vMaskTexture = g_MaskTextureCom.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor.a = saturate((g_vColor.a * ((g_bDissolve * saturate(min(vTexture.x, vTexture.a) - g_fAlphaRatio)) +
-		((1 - g_bDissolve) * saturate(min(vTexture.x, vTexture.a) - saturate(vDissolveTexture.r * g_bDisappearStart + g_fAlphaRatio))))) + (g_UseMask * (vMaskTexture.a)));
+	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + (g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
+	float fDissolveAlpha = saturate((((1 - g_bDissolve) * max(max(vDissolveTexture.x, vDissolveTexture.y), max(vDissolveTexture.y, vDissolveTexture.z))) * g_bDisappearStart + g_fAlphaRatio) +
+		(g_bDissolve * g_fAlphaRatio));
 
-	//Out.vColor.a = min(vTexture.x, vTexture.a) * g_fEndALPHA;
+	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
+		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
+
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
-	if (Out.vColor.a <= 0.1f)
+	if (Out.vColor.a <= 0.03f)
 		discard;
 
 	return Out;
@@ -419,9 +432,6 @@ PS_EFFECT_OUT PS_FLOWMAP(PS_FLOWMAP_IN In)
 
 	float2	vTexUVMul = float2(g_iMulUV_U, g_iMulUV_V);
 
-	/*float2	vNoiseCoordsUpset = float2((g_bUVUpset * noiseCoords.y) + ((1.f - g_bUVUpset) * noiseCoords.x),
-	(g_bUVUpset * noiseCoords.x) + ((1.f - g_bUVUpset) * noiseCoords.y));*/
-
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, noiseCoords * vTexUVMul);
 
 	Out.vColor = g_bUseColor * g_vColor +
@@ -429,18 +439,20 @@ PS_EFFECT_OUT PS_FLOWMAP(PS_FLOWMAP_IN In)
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor)) * g_bGlow;
 
-	vector		vDifMaskTex = g_DissolveTexture.Sample(LinearSampler, noiseCoords);
+	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, noiseCoords);
 	vector		vMaskTexture = g_MaskTextureCom.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor.a = saturate((g_vColor.a * ((g_bDissolve * saturate(min(vTexture.x, vTexture.a) - g_fAlphaRatio)) +
-		((1 - g_bDissolve) * saturate(min(vTexture.x, vTexture.a) - saturate(vDifMaskTex.r * g_bDisappearStart + g_fAlphaRatio))))) + (g_UseMask * (vMaskTexture.r)));
-	//Out.vColor.a = min(vDifMaskTex.x, vDifMaskTex.a);
-	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
+	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + (g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
+	float fDissolveAlpha = saturate((((1 - g_bDissolve) * max(max(vDissolveTexture.x, vDissolveTexture.y), max(vDissolveTexture.y, vDissolveTexture.z))) * g_bDisappearStart + g_fAlphaRatio) +
+		(g_bDissolve * g_fAlphaRatio));
 
+	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
+		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
+
+	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
 	if (Out.vColor.a < 0.1f)
 		discard;
-
 
 	return Out;
 }

@@ -58,21 +58,6 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 {
 	m_fTime += fTimeDelta;
 
-	if (m_TextureInfo.bBillboard) {
-		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-		_float4x4		ViewMatrix;
-		ViewMatrix = pGameInstance->Get_TransformFloat4x4_Inverse(CPipeLine::D3DTS_VIEW);
-
-		RELEASE_INSTANCE(CGameInstance);
-
-		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, XMLoadFloat4((_float4*)&ViewMatrix.m[0][0]));
-		m_pTransformCom->Set_State(CTransform::STATE_UP, XMLoadFloat4((_float4*)&ViewMatrix.m[1][0]));
-		m_pTransformCom->Set_State(CTransform::STATE_LOOK, XMLoadFloat4((_float4*)&ViewMatrix.m[2][0]));
-
-		m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(m_TextureInfo.fRotation));
-	}
-
 	if (m_fTime > m_TextureInfo.fStartTime && m_fTime < m_TextureInfo.fLifeTime + m_TextureInfo.fStartTime) {
 		// Texture Size 보간
 		_float	fTimefromStart = m_fTime - m_TextureInfo.fStartTime;
@@ -109,18 +94,65 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 
 void CEffect_Texture::Late_Tick(_float fTimeDelta)
 {
+	if (m_TextureInfo.bBillboard) {
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+		_float4x4		ViewMatrix;
+		ViewMatrix = pGameInstance->Get_TransformFloat4x4_Inverse(CPipeLine::D3DTS_VIEW);
+
+		RELEASE_INSTANCE(CGameInstance);
+
+		_float3 vScale = m_pTransformCom->Get_Scale();
+
+		_vector vLook = XMLoadFloat4((_float4*)&ViewMatrix.m[2][0]);
+		_vector vAxisY = XMVector3Normalize(m_pTransformCom->Get_State(CTransform::STATE_UP));
+
+		_vector vRight = XMVector3Cross(vAxisY, vLook);
+		_vector	vUp = XMVector3Cross(vLook, vRight);
+
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, XMVector3Normalize(vRight) * vScale.x);
+		m_pTransformCom->Set_State(CTransform::STATE_UP, XMVector3Normalize(vUp) * vScale.y);
+		m_pTransformCom->Set_State(CTransform::STATE_LOOK, XMVector3Normalize(vLook) * vScale.z);
+	}
+
 	if (m_fTime > m_TextureInfo.fStartTime && m_fTime < m_TextureInfo.fLifeTime + m_TextureInfo.fStartTime) {
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_TextureInfo.vPosition.x, m_TextureInfo.vPosition.y, m_TextureInfo.vPosition.z, 1.f)
 			+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.001f * (_float)m_TextureInfo.iSortingFudge);
 
-		_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+		if (m_TextureInfo.bBillboard) {
+			_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
+			_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
 
-		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+			mtrWorld.r[3] += mtrParents.r[3];
+
+			XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld);
+		}
+		else {
+			_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+
+			XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+		}
 
 		Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
 
 		if (nullptr != m_pRendererCom)
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
+		{
+			switch (m_TextureInfo.iShader)
+			{
+			case CEffect::SHADER_DISTORTION:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_DISTORTION, this);
+				break;
+			case CEffect::SHADER_GRAYSCALE:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_GRAYSCALE, this);
+				break;
+			case CEffect::SHADER_ALPHATEST:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONLIGHT, this);
+				break;
+			case CEffect::SHADER_ALPHABLEND:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
+				break;
+			}
+		}
 	}
 }
 
@@ -143,7 +175,6 @@ HRESULT CEffect_Texture::Render()
 		m_pVIBufferCom->Render();
 		return S_OK;
 	}
-
 
 	if (m_TextureInfo.iShader == CEffect::SHADER_ALPHABLEND) {
 		if (true == m_TextureInfo.bUseFlowMap)
@@ -175,6 +206,19 @@ void CEffect_Texture::Set_TexInfo(TextureInfo TexInfo)
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pTextureCom)))
 		return;
+
+	char szDissolveName[MAX_PATH] = "Prototype_Component_Texture_";
+	strcat_s(szDissolveName, m_TextureInfo.szTextureType);
+	MultiByteToWideChar(CP_ACP, 0, szDissolveName, (_int)strlen(szDissolveName), szRealPath, MAX_PATH);
+
+	if (FAILED(__super::Add_Components(TEXT("Com_DissolveTexture"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pDissolveTextureCom)))
+		return;
+
+	_float3		vRotation = m_TextureInfo.fRotation;
+	vRotation.x = XMConvertToRadians(vRotation.x);
+	vRotation.y = XMConvertToRadians(vRotation.y);
+	vRotation.z = XMConvertToRadians(vRotation.z);
+	m_pTransformCom->RotationAll(vRotation);
 }
 
 HRESULT CEffect_Texture::SetUp_ShaderResources()
@@ -205,15 +249,41 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 
 	_float Time = 1.f;
 
-	if (m_TextureInfo.iDisappear == CEffect::DISAPPEAR_ALPHA) {
-		Time = 1 - m_fTime / m_TextureInfo.fLifeTime + m_TextureInfo.fStartTime;
-	}
-
-	if (m_TextureInfo.iDisappear == CEffect::DISAPPEAR_DISJOLVE) {
-	}
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndALPHA", &Time, sizeof(_float))))
+	//m_TextureInfo.fDisappearTimeRatio
+	Time = 1 - (m_fTime - m_TextureInfo.fStartTime) / m_TextureInfo.fLifeTime;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndAlpha", &Time, sizeof(_float))))
 		return E_FAIL;
+
+	_float AlphaRatio;
+	if (m_TextureInfo.fDisappearTimeRatio >= 1 - Time) {
+		_bool bStart = false;
+		m_pShaderCom->Set_RawValue("g_bDisappearStart", &bStart, sizeof(_bool));
+
+		AlphaRatio = 0;
+	}
+	else {
+		//0~1
+		_bool bStart = true;
+		m_pShaderCom->Set_RawValue("g_bDisappearStart", &bStart, sizeof(_bool));
+
+		_float fFullTime = m_TextureInfo.fLifeTime * m_TextureInfo.fDisappearTimeRatio;
+		_float fCurTime = m_fTime - m_TextureInfo.fStartTime;
+
+		fCurTime -= fFullTime;
+		fFullTime = m_TextureInfo.fLifeTime * (1 - m_TextureInfo.fDisappearTimeRatio);
+
+		AlphaRatio = fCurTime / fFullTime;
+	}
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlphaRatio", &AlphaRatio, sizeof(_float))))
+		return E_FAIL;
+
+	m_pShaderCom->Set_RawValue("g_bDissolve", &m_TextureInfo.bDisappearAlpha, sizeof(_bool));
+
+	if (m_pDissolveTextureCom != nullptr) {
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DissolveTexture", m_pDissolveTextureCom->Get_SRV(0))))
+			return E_FAIL;
+	}
 
 	m_pShaderCom->Set_RawValue("g_bUseRGB", &m_TextureInfo.bUseRGB, sizeof(_bool));//	Color * (RGB or A)
 	m_pShaderCom->Set_RawValue("g_bUseColor", &m_TextureInfo.bUseColor, sizeof(_bool));//	Color = g_vColor or DiffuseTexture
@@ -223,16 +293,22 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 	m_pShaderCom->Set_RawValue("g_bUseGlowColor", &m_TextureInfo.bUseGlowColor, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_vGlowColor", &m_TextureInfo.vGlowColor, sizeof(_float3));
 
-	_float		fAccTime = m_fTime - m_TextureInfo.fStartTime;
-	_float		fAllLifeTime = m_TextureInfo.fLifeTime - m_TextureInfo.fStartTime;
-	_float		fAliveTimeRatio = max(fAccTime / fAllLifeTime, 0.f);
-	m_pShaderCom->Set_RawValue("g_fAliveTimeRatio", &fAliveTimeRatio, sizeof(_float));
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_NoiseTexture", m_pNoiseTextureCom->Get_SRV())))
+		return E_FAIL;
 
-	ID3D11ShaderResourceView*		pSRVs[] = {
-		m_pNoiseTextureCom->Get_SRV()
-	};
+	//	추가.23.01.31.14:55 성준
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumUV_U", &m_TextureInfo.iNumUV_U, sizeof(_int))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumUV_V", &m_TextureInfo.iNumUV_V, sizeof(_int))))
+		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceViewArray("g_NoiseTexture", pSRVs, 1)))
+	_int		iTexFrame = (1.f - Time) * (m_TextureInfo.iNumUV_U * m_TextureInfo.iNumUV_V);
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iFrame", &iTexFrame, sizeof(_int))))
+		return E_FAIL;
+
+	//	추가 End
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fDisappearTimeRatio", &m_TextureInfo.fDisappearTimeRatio, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionScale", &m_TextureInfo.fDistortionScale, sizeof(_float))))
@@ -310,4 +386,6 @@ void CEffect_Texture::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pNoiseTextureCom);
+	Safe_Release(m_pDissolveTextureCom);
+	
 }
