@@ -16,6 +16,8 @@ public:
 	void Set_TimerStart() { m_bTimerOnoff = true; }
 	void Set_TimerStop() { m_bTimerOnoff = false; }
 
+	_float Get_Time() { return m_fTimer; }
+
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
