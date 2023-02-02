@@ -43,6 +43,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
+
 	static _bool	bCamAttach = true;
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	if (pGameInstance->Key_Down(DIK_NUMPAD0))
@@ -389,6 +390,15 @@ _bool CCamera_Dynamic::CheckSubChar()
 			return true;
 	}
 	return false;
+}
+
+void CCamera_Dynamic::Camera_Shake(_float fTimeDelta)
+{
+	_float fShake = m_fShakeAmount * sinf(fTimeDelta * m_fShakeAmount);
+	_vector vCampos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
+	vCampos += XMVectorSet(fShake, fShake, fShake, 0.f);
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vCampos);
+
 }
 
 

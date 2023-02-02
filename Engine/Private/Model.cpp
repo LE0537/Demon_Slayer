@@ -300,6 +300,11 @@ void CModel::Set_UsingFrame(_uint iAnimationNum, _uint iStartFrame, _uint iEndFr
 	m_Animations[iAnimationNum]->Set_UsingFrame(iStartFrame, iEndFrame);
 }
 
+void CModel::Set_DurationTime(_uint iAnimationNum, _float fDurationTime)
+{
+	m_Animations[iAnimationNum]->Set_Duration(fDurationTime);
+}
+
 void CModel::Clear_Frame(_uint iAnimationNum)
 {
 	m_Animations[iAnimationNum]->Clear_Frame();

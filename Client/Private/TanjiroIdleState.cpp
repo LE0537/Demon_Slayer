@@ -66,7 +66,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			else if (pGameInstance->Key_Down(DIK_J))
 			{
 				if (pTanjiro->Get_KaguraMode())
+				{
 					return new CAtk_1_KaguraState();
+				}
 				else
 					return new CAtk_1_State();
 			}
@@ -90,6 +92,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
 							pTanjiro->Set_SkillBar(-200);
+						
 							return new CSkill_WindMillState();
 						}
 					}
@@ -98,6 +101,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				{
 					if (pTanjiro->Get_KaguraMode())
 					{
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_KAGURA_COMMON);
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
 							pTanjiro->Set_SkillBar(-200);
@@ -184,6 +188,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					{
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
+							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_KAGURA_COMMON);
 							pTanjiro->Set_SkillBar(-200);
 							return new CKaguraSkill_CommonState();
 						}

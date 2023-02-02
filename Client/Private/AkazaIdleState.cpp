@@ -8,6 +8,7 @@
 #include "AkazaHitState.h"
 #include "AkazaSkill_Shoot.h"
 #include "AkazaSkill_Destroy.h"
+#include "AkazaAdvSkill_Common.h"
 
 using namespace Akaza;
 
@@ -93,6 +94,14 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 				}
 			}
 		}
+		else if (pGameInstance->Key_Pressing(DIK_U))
+		{
+			//if (500 <= pAkaza->Get_PlayerInfo().iFriendBar)
+			{
+				//pAkaza->Set_SkillBar(-200);
+				return new CAdvSkill_CommmonState(STATE_TYPE::TYPE_START);
+			}
+		}
 
 
 		break;
@@ -168,6 +177,14 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 					return new CSkill_ShootState(STATE_TYPE::TYPE_START);
 				}
 			}	
+		}
+		else if (pGameInstance->Key_Pressing(DIK_V))
+		{
+			//if (500 <= pAkaza->Get_PlayerInfo().iFriendBar)
+			{
+				//pAkaza->Set_SkillBar(-200);
+				return new CAdvSkill_CommmonState(STATE_TYPE::TYPE_START);
+			}
 		}
 
 	}
