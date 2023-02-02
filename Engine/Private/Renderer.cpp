@@ -339,16 +339,16 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 		switch (iIndex)
 		{
 		case ORDER_GLOW:
-			//if (FAILED(Render_Glow(pRTName, pMRTName))) return E_FAIL;
+			if (FAILED(Render_Glow(pRTName, pMRTName))) return E_FAIL;
 			break;
 		case ORDER_GRAYSCALE:
-			//if (FAILED(Render_GrayScale(pRTName, pMRTName))) return E_FAIL;
+			if (FAILED(Render_GrayScale(pRTName, pMRTName))) return E_FAIL;
 			break;
 		case ORDER_BLUR:
-			//if (FAILED(Render_Blur(pRTName, pMRTName))) return E_FAIL;
+			if (FAILED(Render_Blur(pRTName, pMRTName))) return E_FAIL;
 			break;
 		case ORDER_LIGHTSHAFT:
-			//	if (FAILED(Render_LightShaft(pRTName, pMRTName))) return E_FAIL;
+			if (FAILED(Render_LightShaft(pRTName, pMRTName))) return E_FAIL;
 			break;
 		case ORDER_DISTORTION:
 			if (FAILED(Render_Distortion(pRTName, pMRTName))) return E_FAIL;
@@ -871,7 +871,7 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_LightShaft"), m_pGlowDSV)))
 		return E_FAIL;
 
-	m_pShader->Begin(14);		//	LightShaft
+	//m_pShader->Begin(14);		//	LightShaft
 	m_pVIBuffer->Render();
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
@@ -892,7 +892,8 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
 
-	m_pShader->Begin(13);
+	m_pShader->Begin(0);
+	//m_pShader->Begin(13);
 	m_pVIBuffer->Render();
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
