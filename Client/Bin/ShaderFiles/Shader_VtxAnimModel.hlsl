@@ -3,6 +3,7 @@
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;
 texture2D		g_MaskTexture;
+
 matrix			g_BoneMatrices[630];
 
 struct VS_IN
@@ -116,7 +117,7 @@ PS_OUT PS_MASK(PS_IN In)
 
 	if (vMask.r == 0.f)
 		Out.vDiffuse.rgb = 1.f;
-	//
+	
 	return Out;
 }
 technique11 DefaultTechnique

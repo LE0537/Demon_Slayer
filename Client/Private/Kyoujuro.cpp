@@ -177,7 +177,8 @@ HRESULT CKyoujuro::Render()
 		{
 			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_MaskTexture", i, aiTextureType_NORMALS)))
 				return E_FAIL;
-
+			
+			//aiTextureType_NORMALS
 			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
 				return E_FAIL;
 		}
