@@ -20,10 +20,13 @@ public:
 private:
 	HRESULT Ready_Layer_Camera(const _tchar* pLayerTag);
 
+	_bool			 m_bCreateUI = false;
+	_float	           m_fDelayTime = 0.f;
+
 
 private:
-	_bool			 m_bCreateUI = false;
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
+
 public:
 	static CLevel_SelectChar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;

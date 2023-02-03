@@ -58,36 +58,37 @@ HRESULT CCharNameUI::Initialize(void * pArg)
 		pUI_Manager->Set_2P_2Char(this);
 
 	RELEASE_INSTANCE(CUI_Manager);
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+		if (m_ThrowUIinfo.iLayerNum == 0)
+		{
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
+				return E_FAIL;
+			m_pModel->Set_1P(1);
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+		{
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
+				return E_FAIL;
+			m_pModel->Set_1P(2);
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 2)
+		{
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
+				return E_FAIL;
+			m_pModel->Set_1P(3);
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 3)
+		{
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
+				return E_FAIL;
+			m_pModel->Set_1P(4);
+		}
 
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-	if (m_ThrowUIinfo.iLayerNum == 0)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
-			return E_FAIL;
-		m_pModel->Set_1P(1);
-	}
-	else if (m_ThrowUIinfo.iLayerNum == 1)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
-			return E_FAIL;
-		m_pModel->Set_1P(2);
-	}
-	else if (m_ThrowUIinfo.iLayerNum == 2)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
-			return E_FAIL;
-		m_pModel->Set_1P(3);
-	}
-	else if (m_ThrowUIinfo.iLayerNum == 3)
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
-			return E_FAIL;
-		m_pModel->Set_1P(4);
-	}
-	
 
-	RELEASE_INSTANCE(CGameInstance);
-
+		RELEASE_INSTANCE(CGameInstance);
+	}
 	return S_OK;
 }
 
@@ -148,7 +149,7 @@ void CCharNameUI::Tick(_float fTimeDelta)
 void CCharNameUI::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
 }
 
 HRESULT CCharNameUI::Render()
@@ -278,11 +279,11 @@ void CCharNameUI::Set_Name_SelLevel()
 		{
 			m_iImgNum = iSelNum1PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
-			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(250.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -330.f, 1.f));
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(270.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
 		}
 		else if(!(m_iImgNum == 2 || m_iImgNum == 3))
 		{
-			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(120.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -200.f, 1.f));
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(120.f - g_iWinSizeX * 0.5f, -780.f + g_iWinSizeY * 0.5f, -280.f, 1.f));
 		}
 
 	}
@@ -292,11 +293,11 @@ void CCharNameUI::Set_Name_SelLevel()
 		{
 			m_iImgNum = iSelNum2PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
-			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1030.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -330.f, 1.f));
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1010.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
 		}
 		else if(!(m_iImgNum == 2 || m_iImgNum == 3))
 		{
-			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1160.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -200.f, 1.f));
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1160.f - g_iWinSizeX * 0.5f, -780.f + g_iWinSizeY * 0.5f, -280.f, 1.f));
 		}
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 2)
@@ -305,7 +306,14 @@ void CCharNameUI::Set_Name_SelLevel()
 		{
 			m_iImgNum = iSelNum1PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
-			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(250.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -330.f, 1.f));
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(270.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+		}
+		else if (pSelP1Cursor->Get_SelComple())
+		{
+			m_iImgNum = iSelNum1PCursor;
+			m_pModel->Set_ModelIndex(m_iImgNum);
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(270.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+
 		}
 		else
 		{
@@ -319,7 +327,14 @@ void CCharNameUI::Set_Name_SelLevel()
 		{
 			m_iImgNum = iSelNum2PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
-			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1030.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -330.f, 1.f));
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1010.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+		}
+		else if (pSelP2Cursor->Get_SelComple())
+		{
+			m_iImgNum = iSelNum2PCursor;
+			m_pModel->Set_ModelIndex(m_iImgNum);
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1010.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+
 		}
 		else
 		{

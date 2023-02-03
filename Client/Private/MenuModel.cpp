@@ -87,7 +87,7 @@ void CMenuModel::Late_Tick(_float fTimeDelta)
 			m_pModelCom[m_iModelIndex]->Set_CurrentAnimIndex(1);
 		}
 		m_pModelCom[m_iModelIndex]->Play_Animation2(fTimeDelta);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 	}
 }
 
@@ -222,7 +222,7 @@ void CMenuModel::Set_Pos()
 		m_fSizeY = 150.f;
 		m_fX = 200.f;
 		m_fY = 800.f;
-		vScale = { m_fSizeX,m_fSizeY,100.f };
+		vScale = { m_fSizeX,m_fSizeY,1.f };
 		m_pTransformCom->Set_Scale(XMLoadFloat3(&vScale));
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -300.f, 1.f));
 		break;
@@ -232,7 +232,7 @@ void CMenuModel::Set_Pos()
 		m_fSizeY = 150.f;
 		m_fX = 1080.f;
 		m_fY = 800.f;
-		vScale = { m_fSizeX,m_fSizeY,100.f };
+		vScale = { m_fSizeX,m_fSizeY,1.f };
 		m_pTransformCom->Set_Scale(XMLoadFloat3(&vScale));
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -300.f, 1.f));
 		break;
@@ -242,7 +242,7 @@ void CMenuModel::Set_Pos()
 		m_fSizeY = 150.f;
 		m_fX = 200.f;
 		m_fY = 800.f;
-		vScale = { m_fSizeX,m_fSizeY,100.f };
+		vScale = { m_fSizeX,m_fSizeY,1.f };
 		m_pTransformCom->Set_Scale(XMLoadFloat3(&vScale));
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -300.f, 1.f));
 		break;
@@ -252,7 +252,7 @@ void CMenuModel::Set_Pos()
 		m_fSizeY = 150.f;
 		m_fX = 1080.f;
 		m_fY = 800.f;
-		vScale = { m_fSizeX,m_fSizeY,100.f };
+		vScale = { m_fSizeX,m_fSizeY,1.f };
 		m_pTransformCom->Set_Scale(XMLoadFloat3(&vScale));
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -300.f, 1.f));
 		break;

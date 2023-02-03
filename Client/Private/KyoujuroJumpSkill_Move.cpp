@@ -165,6 +165,17 @@ CKyoujuroState * CJumpSkill_MoveState::Late_Tick(CKyoujuro * pKyojuro, _float fT
 
 
 	pKyojuro->Get_Model()->Play_Animation(fTimeDelta);
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_3KIEN_START, pKyojuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_3KIEN_STARTFIRE, pKyojuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_3KIEN_MAIN, pKyojuro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	if (m_bNextAnim == true)
 	{
