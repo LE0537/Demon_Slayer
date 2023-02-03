@@ -58,7 +58,7 @@ CNezukoState * CSkill_FallCutState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 				vPos.m128_f32[1] = 0.f;
 				pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 			}
-			pNezuko->Get_Transform()->LookAt(pNezuko->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+			pNezuko->Get_Transform()->Set_PlayerLookAt(pNezuko->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 			return new CIdleState();
 			break;
 		}

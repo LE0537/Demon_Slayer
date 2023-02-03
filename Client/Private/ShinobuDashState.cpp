@@ -251,6 +251,7 @@ void CDashState::Enter(CShinobu* pShinobu)
 		m_bTrue = true;
 	}
 
+
 	switch (m_eDir)
 	{
 	case Client::DIR_STRAIGHT:
@@ -386,14 +387,14 @@ void CDashState::Enter(CShinobu* pShinobu)
 		{
 			pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_DASH_L_02);
 			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_DASH_L_02);
-			pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_DASH_L_02, 0.01f);
+			pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_DASH_L_02, 0.2f);
 			pShinobu->Set_AnimIndex(CShinobu::ANIM_DASH_L_02);
 		}
 		else if (iIndex == 2)
 		{
 			pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_DASH_R_02);
 			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_DASH_R_02);
-			pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_DASH_R_02, 0.01f);
+			pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_DASH_R_02, 0.2f);
 			pShinobu->Set_AnimIndex(CShinobu::ANIM_DASH_R_02);
 		}
 		break;
@@ -402,14 +403,14 @@ void CDashState::Enter(CShinobu* pShinobu)
 		{
 			pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_DASH_R_02);
 			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_DASH_R_02);
-			pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_DASH_R_02, 0.01f);
+			pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_DASH_R_02, 0.2f);
 			pShinobu->Set_AnimIndex(CShinobu::ANIM_DASH_R_02);
 		}
 		else if (iIndex == 2)
 		{
 			pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_DASH_L_02);
 			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_DASH_L_02);
-			pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_DASH_L_02, 0.01f);
+			pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_DASH_L_02, 0.2f);
 			pShinobu->Set_AnimIndex(CShinobu::ANIM_DASH_L_02);
 		}
 		break;
@@ -648,7 +649,17 @@ void CDashState::Move(CShinobu* pShinobu, _float fTimeDelta)
 	default:
 		break;
 	}
+
+
 	Check_Coll(pShinobu, fTimeDelta);
+
+
+	if (pShinobu->Get_AnimIndex() == CShinobu::ANIM_DASH_R_02 ||
+		pShinobu->Get_AnimIndex() == CShinobu::ANIM_DASH_L_02)
+	{
+		pShinobu->Get_Model()->Set_DurationTime(pShinobu->Get_AnimIndex(), 25.f);
+	}
+
 }
 
 void CDashState::Check_Coll(CShinobu* pShinobu, _float fTimeDelta)

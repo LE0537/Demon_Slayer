@@ -165,7 +165,8 @@ HRESULT CRoundUI::SetUp_ShaderResources()
 
 void CRoundUI::ZoomIn(_float fTimeDelta)
 {
-	m_fZoomTime += fTimeDelta * 1.5;
+
+	m_fZoomTime += fTimeDelta * 1.5f;
 
 	if (!m_bScaleCheck)
 	{
@@ -179,7 +180,7 @@ void CRoundUI::ZoomIn(_float fTimeDelta)
 			m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
 			m_fSizeY = m_ThrowUIinfo.vScale.y * 0.7f;
 		}
-	
+
 		m_bScaleCheck = true;
 	}
 	
@@ -206,8 +207,10 @@ void CRoundUI::ZoomOut(_float fTimeDelta)
 
 	if (m_fStopTime >= 1.f)
 	{
-		m_fZoomTime += fTimeDelta * 1.5;
+
+		m_fZoomTime += fTimeDelta * 1.5f;
 		if (m_fZoomTime >= 0.001f)
+
 		{
 			m_fSizeX -= m_fSizeX * 0.01f;
 			m_fSizeY -= m_fSizeY * 0.01f;

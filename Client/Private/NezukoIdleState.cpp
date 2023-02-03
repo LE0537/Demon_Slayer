@@ -10,6 +10,7 @@
 #include "NezukoSkill_Common.h"
 #include "NezukoSkill_FallCut.h"
 #include "NezukoChangeState.h"
+
 using namespace Nezuko;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -189,6 +190,7 @@ CNezukoState * CIdleState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
 
+	
 
 	return nullptr;
 }

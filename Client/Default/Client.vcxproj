@@ -181,6 +181,8 @@
     <ClInclude Include="..\DebugTool\imstb_textedit.h" />
     <ClInclude Include="..\DebugTool\imstb_truetype.h" />
     <ClInclude Include="..\Public\Akaza.h" />
+    <ClInclude Include="..\Public\AkazaAdvSkill_Common.h" />
+    <ClInclude Include="..\Public\AkazaAdvSkill_Move.h" />
     <ClInclude Include="..\Public\AkazaAtk_1_State.h" />
     <ClInclude Include="..\Public\AkazaAtk_2_State.h" />
     <ClInclude Include="..\Public\AkazaAtk_3_State.h" />
@@ -211,6 +213,7 @@
     <ClInclude Include="..\Public\CharFrame.h" />
     <ClInclude Include="..\Public\CharFrameEff.h" />
     <ClInclude Include="..\public\KyoujuroJumpSkill.h" />
+    <ClInclude Include="..\public\MenuModel.h" />
     <ClInclude Include="..\Public\NezukoHitState.h" />
     <ClInclude Include="..\Public\NumTimer.h" />
     <ClInclude Include="..\Public\RoundIcon.h" />
@@ -322,6 +325,9 @@
     <ClInclude Include="..\Public\ShinobuMoveJumpState.h" />
     <ClInclude Include="..\Public\ShinobuMoveState.h" />
     <ClInclude Include="..\public\ShinobuSheath.h" />
+    <ClInclude Include="..\Public\ShinobuSkill_Common.h" />
+    <ClInclude Include="..\Public\ShinobuSkill_Move.h" />
+    <ClInclude Include="..\Public\ShinobuSkill_Upper.h" />
     <ClInclude Include="..\Public\ShinobuState.h" />
     <ClInclude Include="..\Public\ShinobuToolState.h" />
     <ClInclude Include="..\public\ShinobuWeapon.h" />
@@ -414,6 +420,8 @@
     <ClInclude Include="..\Public\WindowBase.h" />
     <ClInclude Include="..\Public\WindowLeft.h" />
     <ClInclude Include="..\Public\WindowRight.h" />
+    <ClInclude Include="RuiAdvSkill_CommonState.h" />
+    <ClInclude Include="RuiAdvSkill_MoveState.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -433,6 +441,8 @@
     <ClCompile Include="..\DebugTool\imgui_tables.cpp" />
     <ClCompile Include="..\DebugTool\imgui_widgets.cpp" />
     <ClCompile Include="..\Private\Akaza.cpp" />
+    <ClCompile Include="..\Private\AkazaAdvSkill_Common.cpp" />
+    <ClCompile Include="..\Private\AkazaAdvSkill_Move.cpp" />
     <ClCompile Include="..\Private\AkazaAtk_1_State.cpp" />
     <ClCompile Include="..\Private\AkazaAtk_2_State.cpp" />
     <ClCompile Include="..\Private\AkazaAtk_3_State.cpp" />
@@ -462,6 +472,7 @@
     <ClCompile Include="..\Private\CharFrame.cpp" />
     <ClCompile Include="..\Private\CharFrameEff.cpp" />
     <ClCompile Include="..\private\KyoujuroJumpSkill.cpp" />
+    <ClCompile Include="..\private\MenuModel.cpp" />
     <ClCompile Include="..\Private\NezukoHitState.cpp" />
     <ClCompile Include="..\Private\NumTimer.cpp" />
     <ClCompile Include="..\Private\RoundIcon.cpp" />
@@ -571,6 +582,9 @@
     <ClCompile Include="..\Private\ShinobuMoveJumpState.cpp" />
     <ClCompile Include="..\Private\ShinobuMoveState.cpp" />
     <ClCompile Include="..\private\ShinobuSheath.cpp" />
+    <ClCompile Include="..\Private\ShinobuSkill_Common.cpp" />
+    <ClCompile Include="..\Private\ShinobuSkill_Move.cpp" />
+    <ClCompile Include="..\Private\ShinobuSkill_Upper.cpp" />
     <ClCompile Include="..\Private\ShinobuToolState.cpp" />
     <ClCompile Include="..\private\ShinobuWeapon.cpp" />
     <ClCompile Include="..\Private\SkyBox.cpp" />
@@ -659,6 +673,8 @@
     <ClCompile Include="..\Private\WindowBase.cpp" />
     <ClCompile Include="..\Private\WindowLeft.cpp" />
     <ClCompile Include="..\Private\WindowRight.cpp" />
+    <ClCompile Include="RuiAdvSkill_CommonState.cpp" />
+    <ClCompile Include="RuiAdvSkill_MoveState.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

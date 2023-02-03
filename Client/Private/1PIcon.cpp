@@ -94,6 +94,8 @@ HRESULT C1PIcon::Render()
 
 	if(m_ThrowUIinfo.iLayerNum == iLayerNum)
 		m_pVIBufferCom->Render();
+	if(m_bRenderOn)
+		m_pVIBufferCom->Render();
 
 	RELEASE_INSTANCE(CUI_Manager);
 	return S_OK;

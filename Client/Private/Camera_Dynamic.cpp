@@ -77,14 +77,16 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	if(true == bCamAttach)
 		Set_CamPos();
 
+
 	if (m_pPlayer->Get_PlayerInfo().bSub)
 		m_pPlayer = m_pPlayer->Get_SubChar();
 	if (m_pTarget->Get_PlayerInfo().bSub)
 		m_pTarget = m_pTarget->Get_SubChar();
 
+
 	if(true == bCamAttach)
 		Move_CamPos(fTimeDelta);
-	//
+	
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -98,12 +100,13 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 
 	__super::Late_Tick(fTimeDelta);
 
+
 	if (!m_bBattle)
 	{
 		Set_BattleTarget();
 		m_bBattle = true;
 	}
-
+	
 }
 
 HRESULT CCamera_Dynamic::Render()
@@ -389,6 +392,15 @@ _bool CCamera_Dynamic::CheckSubChar()
 			return true;
 	}
 	return false;
+}
+
+void CCamera_Dynamic::Camera_Shake(_float fTimeDelta)
+{
+	_float fShake = m_fShakeAmount * sinf(fTimeDelta * m_fShakeAmount);
+	_vector vCampos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
+	vCampos += XMVectorSet(fShake, fShake, fShake, 0.f);
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vCampos);
+
 }
 
 

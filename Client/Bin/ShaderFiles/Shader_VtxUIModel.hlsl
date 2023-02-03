@@ -2,14 +2,14 @@
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;
-
+texture2D		g_MaskTexture;
 vector			g_vCamPosition;
 
 float4			g_vLightDiffuse = float4(1.f, 1.f, 1.f, 1.f); //빛의색
-float4			g_vLightAmbient = float4(0.4f, 0.4f, 0.4f, 1.f); //빛의 최소 밝기
+float4			g_vLightAmbient = float4(0.3f, 0.3f, 0.3f, 1.f); //빛의 최소 밝기
 float4			g_vLightSpecular = float4(1.f, 1.f, 1.f, 1.f); //빛의 하이라이트 (빤딱거리는 흰색)
 
-float4			g_vLightDir = float4(1.f, -1.f, 1.f, 0.f); // 빛의방향 //방향성광원 // 해
+float4			g_vLightDir = float4(1.f, -1.f, 0.f, 0.f); // 빛의방향 //방향성광원 // 해
 
 float4			g_vMtrlAmbient = float4(1.f, 1.f, 1.f, 1.f);  // 재질의 고유색
 float4			g_vMtrlSpecular = float4(1.f, 1.f, 1.f, 1.f);  // 재질의 하이라이트 (빤딱거리는느낌)
@@ -18,7 +18,7 @@ float4			g_vMtrlSpecular = float4(1.f, 1.f, 1.f, 1.f);  // 재질의 하이라이트 (빤
 /* 정점들에게 곱해져야할 행렬. */
 /* 정점들은 메시에게 소속. 이때 곱해져야하는 뼈의 행렬 == 이 메시에 영향을 주는 뼈다. */
 /* 모델 전체에 정의된 뼈다(xxxxx) */
-matrix			g_BoneMatrices[256];
+matrix			g_BoneMatrices[630];
 
 struct VS_IN
 {
@@ -145,7 +145,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	vector		vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 
 
-	if (In.fShade < 0.5f)
+	if (In.fShade < 0.05f)
 	{
 		Out.vColor = (g_vLightDiffuse * vDiffuse) * saturate(0.6f + g_vLightAmbient * g_vMtrlAmbient);
 	}
@@ -160,7 +160,19 @@ PS_OUT PS_MAIN(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MASK(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
 
+	float4 vMask = g_MaskTexture.Sample(CLAMPSampler, In.vTexUV);
+
+	Out.vColor = g_DiffuseTexture.Sample(CLAMPSampler, In.vTexUV);
+
+	if (vMask.r == 0.f)
+		Out.vColor.rgb = 1.f;
+	
+	return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -174,7 +186,16 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
+	pass MASK //1
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
 
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MASK();
+	}
 
 
 }
