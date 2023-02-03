@@ -218,6 +218,8 @@
     <ClInclude Include="..\Public\NumTimer.h" />
     <ClInclude Include="..\Public\RoundIcon.h" />
     <ClInclude Include="..\Public\RoundUI.h" />
+    <ClInclude Include="..\Public\RuiAdvSkill_CommonState.h" />
+    <ClInclude Include="..\Public\RuiAdvSkill_MoveState.h" />
     <ClInclude Include="..\Public\SelNameShadow.h" />
     <ClInclude Include="..\Public\CharSelBg.h" />
     <ClInclude Include="..\Public\CloudUI.h" />
@@ -420,8 +422,6 @@
     <ClInclude Include="..\Public\WindowBase.h" />
     <ClInclude Include="..\Public\WindowLeft.h" />
     <ClInclude Include="..\Public\WindowRight.h" />
-    <ClInclude Include="RuiAdvSkill_CommonState.h" />
-    <ClInclude Include="RuiAdvSkill_MoveState.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -477,6 +477,8 @@
     <ClCompile Include="..\Private\NumTimer.cpp" />
     <ClCompile Include="..\Private\RoundIcon.cpp" />
     <ClCompile Include="..\Private\RoundUI.cpp" />
+    <ClCompile Include="..\Private\RuiAdvSkill_CommonState.cpp" />
+    <ClCompile Include="..\Private\RuiAdvSkill_MoveState.cpp" />
     <ClCompile Include="..\Private\SelNameShadow.cpp" />
     <ClCompile Include="..\Private\CharSelBg.cpp" />
     <ClCompile Include="..\Private\CloudUI.cpp" />
@@ -673,8 +675,6 @@
     <ClCompile Include="..\Private\WindowBase.cpp" />
     <ClCompile Include="..\Private\WindowLeft.cpp" />
     <ClCompile Include="..\Private\WindowRight.cpp" />
-    <ClCompile Include="RuiAdvSkill_CommonState.cpp" />
-    <ClCompile Include="RuiAdvSkill_MoveState.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
