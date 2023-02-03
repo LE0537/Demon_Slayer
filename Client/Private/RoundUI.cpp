@@ -28,7 +28,9 @@ HRESULT CRoundUI::Initialize(void * pArg)
 		return E_FAIL;
 
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
-
+	
+	m_ThrowUIinfo.vScale.x = m_ThrowUIinfo.vScale.x * 0.7f;
+	m_ThrowUIinfo.vScale.y =m_ThrowUIinfo.vScale.y * 0.7f; 
 	m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
 	m_fSizeY = m_ThrowUIinfo.vScale.y * 0.7f;
 	//m_fSizeX = 800.f;
@@ -51,6 +53,8 @@ void CRoundUI::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	
+	Battle_End(fTimeDelta);
+	ZeroTiemr_RoundUI(fTimeDelta);
 	ZeroHp_RoundUI(fTimeDelta);
 
 	UI_Function(fTimeDelta);
@@ -77,7 +81,8 @@ HRESULT CRoundUI::Render()
 
 	m_pShaderCom->Begin(12);
 
-	m_pVIBufferCom->Render();
+	if(m_bRoundOnOff)
+		m_pVIBufferCom->Render();
 
 	return S_OK;
 }
@@ -131,7 +136,7 @@ HRESULT CRoundUI::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
+ 	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (m_bRoundCheck)
@@ -160,9 +165,26 @@ HRESULT CRoundUI::SetUp_ShaderResources()
 
 void CRoundUI::ZoomIn(_float fTimeDelta)
 {
+
 	m_fZoomTime += fTimeDelta * 1.5f;
+
+	if (!m_bScaleCheck)
+	{
+		if (m_iStartEndImgNum == 0)
+		{
+			m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
+			m_fSizeY = m_ThrowUIinfo.vScale.y * 0.9f;
+		}
+		else
+		{
+			m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
+			m_fSizeY = m_ThrowUIinfo.vScale.y * 0.7f;
+		}
+
+		m_bScaleCheck = true;
+	}
 	
-	if (m_fZoomTime >= 0.005f)
+	if (m_fZoomTime >= 0.001f)
 	{
 		m_fSizeX += m_fSizeX * 0.01f;
 		m_fSizeY += m_fSizeY * 0.01f;
@@ -185,8 +207,10 @@ void CRoundUI::ZoomOut(_float fTimeDelta)
 
 	if (m_fStopTime >= 1.f)
 	{
+
 		m_fZoomTime += fTimeDelta * 1.5f;
-		if (m_fZoomTime >= 0.005f)
+		if (m_fZoomTime >= 0.001f)
+
 		{
 			m_fSizeX -= m_fSizeX * 0.01f;
 			m_fSizeY -= m_fSizeY * 0.01f;
@@ -208,14 +232,14 @@ void CRoundUI::ZoomOut(_float fTimeDelta)
 
 void CRoundUI::Fade_In(_float fTimeDelta)
 {
-	m_fFadeTime += fTimeDelta * 1.5f;
+	m_fFadeTime += fTimeDelta * 1.8f;
 	if (m_fFadeTime >= 1.f)
 		m_fFadeTime = 1.f;
 }
 
 void CRoundUI::Fade_Out(_float fTimeDelta)
 {
-	m_fFadeTime -= fTimeDelta * 1.5f;
+	m_fFadeTime -= fTimeDelta * 1.8f;
 	if (m_fFadeTime <= 0.f)
 		m_fFadeTime = 0.f;
 }
@@ -235,13 +259,14 @@ void CRoundUI::Case_ReturnEnd()
 	{
 		_int i1PMaxHp = pUI_Manager->Get_1P()->Get_PlayerInfo().iMaxHp;
 		_int i1PHp = pUI_Manager->Get_1P()->Get_PlayerInfo().iHp;
-		
+
 		_int i2PMaxHp = pUI_Manager->Get_2P()->Get_PlayerInfo().iMaxHp;
 		_int i2PHp = pUI_Manager->Get_2P()->Get_PlayerInfo().iHp;
 
 		auto pTarget = pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_RoundIconUI"));
 		if (i1PHp > i2PHp)
 		{
+			++m_i1PRoundWin;
 			for (auto iter : pTarget->Get_ObjectList())
 			{
 				_bool bCheck = dynamic_cast<CRoundIcon*>(iter)->Get_1PRoundCheck();
@@ -254,6 +279,7 @@ void CRoundUI::Case_ReturnEnd()
 		}
 		else if (i1PHp < i2PHp)
 		{
+			++m_i2PRoundWin;
 			for (auto iter : pTarget->Get_ObjectList())
 			{
 				_bool bCheck = dynamic_cast<CRoundIcon*>(iter)->Get_2PRoundCheck();
@@ -288,17 +314,50 @@ void CRoundUI::Case_ReturnEnd()
 		}
 
 		++m_iImgNum;
+		if (m_i1PRoundWin >= 3)
+		{
+			m_iImgNum = 0;
+			m_iStartEndImgNum = 1;
+			m_bStartCheck = true;
+		}
+		else if (m_i2PRoundWin >= 3)
+		{
+			m_iImgNum = 0;
+			m_iStartEndImgNum = 1;
+			m_bStartCheck = true;
+		}
+		else 
+			m_bRoundCheck = true;
+
+
 		pUI_Manager->Get_1P()->Set_Hp(i1PMaxHp - i1PHp);
 		pUI_Manager->Get_2P()->Set_Hp(i2PMaxHp - i2PHp);
+
 		m_bJudgmentCheck = false;
 		m_bRoundOnOff = true;
-		m_bRoundCheck = true;
 	}
 	else if (m_bStartCheck)
+	{
 		m_bStartCheck = false;
+
+		if (m_iStartEndImgNum == 1)
+		{
+			m_bRoundOnOff = true;
+			m_bWinCheck = true;
+			if (m_b1PRoundEnd)
+				m_iWinImgNum = 0;
+			else if (m_b2PRoundEnd)
+				m_iWinImgNum = 1;
+
+			m_i1PRoundWin = 0;
+			m_i2PRoundWin = 0;
+		}
+	
+	}
 	else if (m_bWinCheck)
 		m_bWinCheck = false;
-
+		
+	m_bScaleCheck = false;
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 }
@@ -319,22 +378,50 @@ void CRoundUI::UI_Function(_float fTimeDelta)
 	
 }
 
+void CRoundUI::ZeroTiemr_RoundUI(_float fTImeDelta)
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	_float fTimer = dynamic_cast<CNumTimer*>(pUI_Manager->Get_TimerUI())->Get_Time();
+
+	if (fTimer <= 0)
+	{
+		m_iJudgmentImgNum = 1;
+		m_bJudgmentCheck = true;
+		m_bRoundOnOff = true;
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
+}
+
 void CRoundUI::ZeroHp_RoundUI(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
 	if (pUI_Manager->Get_1P()->Get_PlayerInfo().iHp <= 0.f)
 	{
+		m_iJudgmentImgNum = 0;
 		m_bJudgmentCheck = true;
 		m_bRoundOnOff = true;
 	}
 	else if (pUI_Manager->Get_2P()->Get_PlayerInfo().iHp <= 0.f)
 	{
+		m_iJudgmentImgNum = 0;
 		m_bJudgmentCheck = true;
 		m_bRoundOnOff = true;
 	}
 
 	RELEASE_INSTANCE(CUI_Manager);
+}
+
+void CRoundUI::Battle_End(_float fTimeDelta)
+{
+	if (m_b1PRoundEnd)
+	{
+		m_iJudgmentImgNum = 0;
+		m_bJudgmentCheck = true;
+		m_bRoundOnOff = true;
+	}
 }
 
 CRoundUI * CRoundUI::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

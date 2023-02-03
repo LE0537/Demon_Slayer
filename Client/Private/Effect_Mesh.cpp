@@ -97,10 +97,12 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 	m_fTime += fTimeDelta;
 
 	if (m_fTime > m_MeshInfo.fStartTime && m_fTime < m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime) {
+		
+		_float	fTimefromStart = m_fTime - m_MeshInfo.fStartTime;
 		_float fLife = m_MeshInfo.fLifeTime / 3.f;
 		_vector vSize = XMVectorSet(1.f, 1.f, 1.f, 0.f);
 
-		if (fLife > m_fTime) {
+		if (fLife > fTimefromStart) {
 			_vector vFirstSize = XMVectorSet(m_MeshInfo.vSize[0].x, m_MeshInfo.vSize[0].y, m_MeshInfo.vSize[0].z, 0.f);
 			_vector vSecondSize = XMVectorSet(m_MeshInfo.vSize[1].x, m_MeshInfo.vSize[1].y, m_MeshInfo.vSize[1].z, 0.f);
 
@@ -108,7 +110,7 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 
 			vSize = XMVectorLerp(vFirstSize, vSecondSize, fTime);
 		}
-		else if (fLife <= m_fTime && fLife * 2 > m_fTime) {
+		else if (fLife <= fTimefromStart && fLife * 2 > fTimefromStart) {
 			_vector vFirstSize = XMVectorSet(m_MeshInfo.vSize[1].x, m_MeshInfo.vSize[1].y, m_MeshInfo.vSize[1].z, 0.f);
 			_vector vSecondSize = XMVectorSet(m_MeshInfo.vSize[2].x, m_MeshInfo.vSize[2].y, m_MeshInfo.vSize[2].z, 0.f);
 
@@ -116,7 +118,7 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 
 			vSize = XMVectorLerp(vFirstSize, vSecondSize, fTime);
 		}
-		else if (fLife * 2 <= m_fTime && fLife * 3 > m_fTime) {
+		else if (fLife * 2 <= fTimefromStart && fLife * 3 > fTimefromStart) {
 			_vector vFirstSize = XMVectorSet(m_MeshInfo.vSize[2].x, m_MeshInfo.vSize[2].y, m_MeshInfo.vSize[2].z, 0.f);
 			_vector vSecondSize = XMVectorSet(m_MeshInfo.vSize[3].x, m_MeshInfo.vSize[3].y, m_MeshInfo.vSize[3].z, 0.f);
 
@@ -179,6 +181,17 @@ HRESULT CEffect_Mesh::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	////////////////////////////////////////////////////////
+	_int		iMulUV_U = 1;
+	_int		iMulUV_V = 1;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iMulUV_U", &iMulUV_U, sizeof(_int))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iMulUV_V", &iMulUV_V, sizeof(_int))))
+		return E_FAIL;
+	////////////////////////////////////////////////////////
+
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
@@ -192,7 +205,7 @@ HRESULT CEffect_Mesh::Render()
 		}
 
 		if (m_MeshInfo.bMaskTest) {
-			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_OPACITY)))
+			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_MaskTextureCom", i, aiTextureType_OPACITY)))
 				return E_FAIL;
 		}
 
@@ -234,6 +247,8 @@ HRESULT CEffect_Mesh::Render()
 			}
 		}
 	}
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
@@ -304,7 +319,7 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 
 	_float Time = 1.f;
 	//m_TextureInfo.fDisappearTimeRatio
-	Time = 1 - m_fTime / m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime;
+	Time = 1 - (m_fTime - m_MeshInfo.fStartTime) / m_MeshInfo.fLifeTime;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndALPHA", &Time, sizeof(_float))))
 		return E_FAIL;
 
@@ -316,16 +331,19 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 		AlphaRatio = 0;
 	}
 	else {
+		//0~1
 		_bool bStart = true;
 		m_pShaderCom->Set_RawValue("g_bDisappearStart", &bStart, sizeof(_bool));
 
-		_float fFullTime = (m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime);
-		_float fCurTime = m_fTime;
+		_float fFullTime = m_MeshInfo.fLifeTime * m_MeshInfo.fDisappearTimeRatio;
+		_float fCurTime = m_fTime - m_MeshInfo.fStartTime;
 
-		fCurTime -= fFullTime * m_MeshInfo.fDisappearTimeRatio;
-		fFullTime -= fFullTime * m_MeshInfo.fDisappearTimeRatio;
+		fCurTime -= fFullTime;
+		fFullTime = m_MeshInfo.fLifeTime * (1 - m_MeshInfo.fDisappearTimeRatio);
 
 		AlphaRatio = fCurTime / fFullTime;
+
+		int a = 0;
 	}
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlphaRatio", &AlphaRatio, sizeof(_float))))
@@ -359,7 +377,7 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 		return E_FAIL;
 
 	_float		fAccTime = m_fTime - m_MeshInfo.fStartTime;
-	_float		fAllLifeTime = m_MeshInfo.fLifeTime - m_MeshInfo.fStartTime;
+	_float		fAllLifeTime = m_MeshInfo.fLifeTime;
 	_float		fAliveTimeRatio = max(fAccTime / fAllLifeTime, 0.f);
 	m_fMoveUV_U = fAliveTimeRatio * m_MeshInfo.fMove_Value_U;		//	텍스쳐가 텍스쳐의 x축으로 이동
 	m_fMoveUV_V = fAliveTimeRatio * m_MeshInfo.fMove_Value_V;		//	텍스쳐가 텍스쳐의 y축으로 이동
@@ -378,14 +396,6 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionBias", &m_MeshInfo.fDistortionBias, sizeof(_float))))
 		return E_FAIL;
-
-	_int		iMulUV_U = 1;
-	_int		iMulUV_V = 1;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iMulUV_U", &iMulUV_U, sizeof(_int))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iMulUV_V", &iMulUV_V, sizeof(_int))))
-		return E_FAIL;
-
 
 	return S_OK;
 }

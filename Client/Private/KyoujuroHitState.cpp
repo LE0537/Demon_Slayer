@@ -66,7 +66,7 @@ CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		if(pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_HIT))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_HIT);
-			pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro::ANIM_HIT);
+			//pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro::ANIM_HIT);
 			return new CIdleState();
 		}
 	}

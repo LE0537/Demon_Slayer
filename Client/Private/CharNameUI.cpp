@@ -102,7 +102,43 @@ void CCharNameUI::Tick(_float fTimeDelta)
 			Name_Selected(pUI_Manager->Get_2P()->Get_PlayerInfo().strName);
 	}
 	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
+		
+		if (m_ThrowUIinfo.iLayerNum == 0)
+		{
+			_float fX = pUI_Manager->Get_Sel1PMain(0)->Get_fX();
+			_float fY = pUI_Manager->Get_Sel1PMain(0)->Get_fY();
+
+			m_fX = fX;
+			m_fY = fY;
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+		{
+			_float fX = pUI_Manager->Get_Sel2PMain(0)->Get_fX();
+			_float fY = pUI_Manager->Get_Sel2PMain(0)->Get_fY();
+
+			m_fX = fX;
+			m_fY = fY;
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 2)
+		{
+			_float fX = pUI_Manager->Get_Sel1PMain(1)->Get_fX();
+			_float fY = pUI_Manager->Get_Sel1PMain(1)->Get_fY();
+
+			m_fX = fX;
+			m_fY = fY;
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 3)
+		{
+			_float fX = pUI_Manager->Get_Sel2PMain(1)->Get_fX();
+			_float fY = pUI_Manager->Get_Sel2PMain(1)->Get_fY();
+
+			m_fX = fX;
+			m_fY = fY;
+		}
+
 		Set_Name_SelLevel();
+	}
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));

@@ -8,8 +8,9 @@
 
 #include "ShinobuGuardState.h"
 #include "ShinobuGuardHitState.h"
-
+#include "ShinobuSkill_Common.h"
 #include "ShinobuChangeState.h"
+#include "ShinobuSkill_Upper.h"
 using namespace Shinobu;
 
 
@@ -73,7 +74,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
 						pShinobu->Set_SkillBar(-200);
-						//return new CSkill_WindMillState();
+						return new CSkill_UpperState(STATE_TYPE::TYPE_START);
 					}
 
 				}
@@ -83,7 +84,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
 						pShinobu->Set_SkillBar(-200);
-						//return new CSkill_CommonState();
+						return new CSkill_CommonState();
 					}
 
 				}
@@ -135,7 +136,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
 						pShinobu->Set_SkillBar(-200);
-						//return new CSkill_WindMillState();
+						return new CSkill_UpperState(STATE_TYPE::TYPE_START);
 					}
 
 				}
@@ -145,7 +146,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
 						pShinobu->Set_SkillBar(-200);
-						//return new CSkill_CommonState();
+						return new CSkill_CommonState();
 					}
 
 				}
