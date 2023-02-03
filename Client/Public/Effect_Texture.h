@@ -32,7 +32,6 @@ public:
 		_float							fMoveSpeed;
 		_float							fTurn;
 		_float							fTurnFalloff;
-		//_float								fRotation;
 		_float							fPostProcessingValue;
 		_float							fDistortionScale;
 		_float							fDistortionBias;
