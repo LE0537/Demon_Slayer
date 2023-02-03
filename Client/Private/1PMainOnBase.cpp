@@ -121,12 +121,12 @@ void C1PMainOnBase::Move_FirstMain(_float fTimeDelta, _bool bFirstCheck, _bool b
 	{
 		m_fMoveTime += fTimeDelta;
 
-		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 21)
+		if (m_fMoveTime >= 0.0001f && m_iMoveCount < 21)
 		{
-			m_fY -= 1.f;
-			++m_iMoveCount;
+			m_fY -= 2.f;
+			m_iMoveCount += 2;
 			m_fMoveTime = 0.f;
-			if (m_iMoveCount >= 21)
+			if (m_iMoveCount >= 20)
 				m_bFirstMove = true;
 		}
 	}
@@ -134,10 +134,10 @@ void C1PMainOnBase::Move_FirstMain(_float fTimeDelta, _bool bFirstCheck, _bool b
 	{
 		m_fMoveTime += fTimeDelta;
 
-		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 21)
+		if (m_fMoveTime >= 0.0001f && m_iMoveCount < 21)
 		{
-			m_fY -= 1.f;
-			++m_iMoveCount;
+			m_fY -= 2.f;
+			m_iMoveCount += 2;
 			m_fMoveTime = 0.f;
 		}
 	}
@@ -145,10 +145,10 @@ void C1PMainOnBase::Move_FirstMain(_float fTimeDelta, _bool bFirstCheck, _bool b
 	{
 		m_fMoveTime += fTimeDelta;
 
-		if (m_fMoveTime >= 0.0005f && m_iMoveCount > 0)
+		if (m_fMoveTime >= 0.0001f && m_iMoveCount > 0)
 		{
-			m_fY += 1.f;
-			--m_iMoveCount;
+			m_fY += 2.f;
+			m_iMoveCount -= 2;
 			m_fMoveTime = 0.f;
 			if (m_iMoveCount <= 0)
 				m_bFirstMove = false;
@@ -158,10 +158,10 @@ void C1PMainOnBase::Move_FirstMain(_float fTimeDelta, _bool bFirstCheck, _bool b
 	{
 		m_fMoveTime += fTimeDelta;
 
-		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 56)
+		if (m_fMoveTime >= 0.0001f && m_iMoveCount < 59)
 		{
-			m_fY -= 1.f;
-			++m_iMoveCount;
+			m_fY -= 2.f;
+			m_iMoveCount += 2;
 			m_fMoveTime = 0.f;
 		}
 	}
@@ -169,12 +169,12 @@ void C1PMainOnBase::Move_FirstMain(_float fTimeDelta, _bool bFirstCheck, _bool b
 	{
 		m_fMoveTime += fTimeDelta;
 
-		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 56)
+		if (m_fMoveTime >= 0.0001f && m_iMoveCount < 59)
 		{
-			m_fY -= 1.f;
-			++m_iMoveCount;
+			m_fY -= 2.f;
+			m_iMoveCount += 2;
 			m_fMoveTime = 0.f;
-			if (m_iMoveCount >= 55)
+			if (m_iMoveCount >= 58)
 				m_bSecondMoveCheck = true;
 		}
 	}
@@ -182,12 +182,12 @@ void C1PMainOnBase::Move_FirstMain(_float fTimeDelta, _bool bFirstCheck, _bool b
 	{
 		m_fMoveTime += fTimeDelta;
 
-		if (m_fMoveTime >= 0.0005f && m_iMoveCount > 21)
+		if (m_fMoveTime >= 0.0001f && m_iMoveCount > 21)
 		{
-			m_fY += 1.f;
-			--m_iMoveCount;
+			m_fY += 2.f;
+			m_iMoveCount -= 2;
 			m_fMoveTime = 0.f;
-			if(m_iMoveCount <= 21)
+			if (m_iMoveCount <= 21)
 				m_bSecondMoveCheck = false;
 		}
 	}
@@ -195,10 +195,10 @@ void C1PMainOnBase::Move_FirstMain(_float fTimeDelta, _bool bFirstCheck, _bool b
 	{
 		m_fMoveTime += fTimeDelta;
 
-		if (m_fMoveTime >= 0.0005f && m_iMoveCount > 0)
+		if (m_fMoveTime >= 0.0001f && m_iMoveCount > 0)
 		{
-			m_fY += 1.f;
-			--m_iMoveCount;
+			m_fY += 2.f;
+			m_iMoveCount -= 2;
 			m_fMoveTime = 0.f;
 		}
 	}
@@ -210,12 +210,12 @@ void C1PMainOnBase::Move_SecondMain(_float fTimeDelta, _bool bFirstCheck, _bool 
 	{
 		m_fMoveTime += fTimeDelta;
 
-		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 24)
+		if (m_fMoveTime >= 0.0001f && m_iMoveCount < 25)
 		{
-			m_fY += 1.f;
-			++m_iMoveCount;
+			m_fY += 2.f;
+			m_iMoveCount += 2;
 			m_fMoveTime = 0.f;
-			if(m_iMoveCount >= 24)
+			if (m_iMoveCount >= 24)
 				m_bFirstMove = true;
 		}
 	}
@@ -223,10 +223,10 @@ void C1PMainOnBase::Move_SecondMain(_float fTimeDelta, _bool bFirstCheck, _bool 
 	{
 		m_fMoveTime += fTimeDelta;
 
-		if (m_fMoveTime >= 0.0005f && m_iMoveCount > 0)
+		if (m_fMoveTime >= 0.0001f && m_iMoveCount > 0)
 		{
-			m_fY -= 1.f;
-			--m_iMoveCount;
+			m_fY -= 2.f;
+			m_iMoveCount -= 2;
 			m_fMoveTime = 0.f;
 		}
 	}
@@ -234,10 +234,10 @@ void C1PMainOnBase::Move_SecondMain(_float fTimeDelta, _bool bFirstCheck, _bool 
 	{
 		m_fMoveTime += fTimeDelta;
 
-		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 24)
+		if (m_fMoveTime >= 0.0001f && m_iMoveCount < 25)
 		{
-			m_fY += 1.f;
-			++m_iMoveCount;
+			m_fY += 2.f;
+			m_iMoveCount += 2;
 			m_fMoveTime = 0.f;
 		}
 	}
