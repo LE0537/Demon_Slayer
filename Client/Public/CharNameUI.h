@@ -32,6 +32,8 @@ private:
 	_bool				m_bChangeBefore;
 	wstring				m_sBeforeName;
 
+	class CCharacters*  m_pModel = nullptr;
+
 public:
 	static CCharNameUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

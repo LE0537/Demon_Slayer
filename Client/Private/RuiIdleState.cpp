@@ -7,6 +7,7 @@
 #include "RuiGuardState.h"
 #include "RuiSkill_Shoot.h"
 #include "RuiSkill_Sphere.h"
+#include "RuiAdvSkill_CommonState.h"
 using namespace Rui;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -91,8 +92,14 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 				}
 			}
 		}
-
-
+		else if (pGameInstance->Key_Down(DIK_U))
+		{
+			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
+			{
+				// 친구 게이지 깎는 코드 넣어야함
+				return new CAdvSkill_CommonState();
+			}
+		}
 
 		break;
 	case 2:
@@ -167,6 +174,15 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 				}
 			}
 		}
+		else if (pGameInstance->Key_Down(DIK_DELETE))
+		{
+			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
+			{
+				// 친구 게이지 깎는 코드 넣어야함
+				return new CAdvSkill_CommonState();
+			}
+		}
+
 		break;
 	}
 

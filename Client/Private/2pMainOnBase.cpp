@@ -46,12 +46,30 @@ HRESULT C2PMainOnBase::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	pUI_Manager->Set_Sel2PMain(this, m_ThrowUIinfo.iLayerNum);
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
 
 void C2PMainOnBase::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	_bool bFirstCheck = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_FirstSelCheck();
+	_bool bSecondCheck = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_SecondSelCheck();
+	_bool bOni = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_SelectUIInfo().bOni;
+
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		Move_FirstMain(fTimeDelta, bFirstCheck, bSecondCheck, bOni);
+	else if (m_ThrowUIinfo.iLayerNum == 1)
+		Move_SecondMain(fTimeDelta, bFirstCheck, bSecondCheck, bOni);
+
+	RELEASE_INSTANCE(CUI_Manager);
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -96,6 +114,134 @@ HRESULT C2PMainOnBase::Render()
 
 
 	return S_OK;
+}
+
+void C2PMainOnBase::Move_FirstMain(_float fTimeDelta, _bool bFirstCheck, _bool bSecondCheck, _bool bOni)
+{
+	if (bFirstCheck && !m_bFirstMove && !bOni)
+	{
+		m_fMoveTime += fTimeDelta;
+
+		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 21)
+		{
+			m_fY -= 1.f;
+			++m_iMoveCount;
+			m_fMoveTime = 0.f;
+			if (m_iMoveCount >= 21)
+				m_bFirstMove = true;
+		}
+	}
+	else if (m_bFirstMove && bFirstCheck && !bSecondCheck && !m_bSecondMoveCheck && !bOni)
+	{
+		m_fMoveTime += fTimeDelta;
+
+		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 21)
+		{
+			m_fY -= 1.f;
+			++m_iMoveCount;
+			m_fMoveTime = 0.f;
+		}
+	}
+	else if (m_bFirstMove && !bFirstCheck && !bSecondCheck && !m_bSecondMoveCheck && !bOni)
+	{
+		m_fMoveTime += fTimeDelta;
+
+		if (m_fMoveTime >= 0.0005f && m_iMoveCount > 0)
+		{
+			m_fY += 1.f;
+			--m_iMoveCount;
+			m_fMoveTime = 0.f;
+			if (m_iMoveCount <= 0)
+				m_bFirstMove = false;
+		}
+	}
+	else if (m_bFirstMove && bFirstCheck && bSecondCheck && m_bSecondMoveCheck && !bOni)
+	{
+		m_fMoveTime += fTimeDelta;
+
+		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 56)
+		{
+			m_fY -= 1.f;
+			++m_iMoveCount;
+			m_fMoveTime = 0.f;
+		}
+	}
+	else if (m_bFirstMove && bFirstCheck && bSecondCheck && !m_bSecondMoveCheck && !bOni)
+	{
+		m_fMoveTime += fTimeDelta;
+
+		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 56)
+		{
+			m_fY -= 1.f;
+			++m_iMoveCount;
+			m_fMoveTime = 0.f;
+			if (m_iMoveCount >= 55)
+				m_bSecondMoveCheck = true;
+		}
+	}
+	else if (m_bFirstMove && bFirstCheck && !bSecondCheck && m_bSecondMoveCheck && !bOni)
+	{
+		m_fMoveTime += fTimeDelta;
+
+		if (m_fMoveTime >= 0.0005f && m_iMoveCount > 21)
+		{
+			m_fY += 1.f;
+			--m_iMoveCount;
+			m_fMoveTime = 0.f;
+			if (m_iMoveCount <= 21)
+				m_bSecondMoveCheck = false;
+		}
+	}
+	else if (m_bFirstMove && !bFirstCheck && !bSecondCheck && m_bSecondMoveCheck && !bOni)
+	{
+		m_fMoveTime += fTimeDelta;
+
+		if (m_fMoveTime >= 0.0005f && m_iMoveCount > 0)
+		{
+			m_fY += 1.f;
+			--m_iMoveCount;
+			m_fMoveTime = 0.f;
+		}
+	}
+}
+
+void C2PMainOnBase::Move_SecondMain(_float fTimeDelta, _bool bFirstCheck, _bool bSecondCheck, _bool bOni)
+{
+	if (bFirstCheck && !m_bFirstMove && bSecondCheck && !bOni)
+	{
+		m_fMoveTime += fTimeDelta;
+
+		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 24)
+		{
+			m_fY += 1.f;
+			++m_iMoveCount;
+			m_fMoveTime = 0.f;
+			if (m_iMoveCount >= 24)
+				m_bFirstMove = true;
+		}
+	}
+	else if (bFirstCheck && m_bFirstMove && !bSecondCheck && !bOni)
+	{
+		m_fMoveTime += fTimeDelta;
+
+		if (m_fMoveTime >= 0.0005f && m_iMoveCount > 0)
+		{
+			m_fY -= 1.f;
+			--m_iMoveCount;
+			m_fMoveTime = 0.f;
+		}
+	}
+	else if (bFirstCheck && m_bFirstMove && bSecondCheck && !bOni)
+	{
+		m_fMoveTime += fTimeDelta;
+
+		if (m_fMoveTime >= 0.0005f && m_iMoveCount < 24)
+		{
+			m_fY += 1.f;
+			++m_iMoveCount;
+			m_fMoveTime = 0.f;
+		}
+	}
 }
 
 HRESULT C2PMainOnBase::Ready_Components()

@@ -66,6 +66,7 @@ public:
 	CCharacters*	Get_BattleTarget() { return m_pBattleTarget; }
 	CCollider* Get_SphereCollider() { return m_pSphereCom; }
 	_int	   Get_i1P() { return m_i1p; }
+	void	   Set_1P(_int i1p) { m_i1p = i1p; }
 	void	   Set_iTargetIndex(_int _iTargetIndex) { m_iTargetIndex = _iTargetIndex; }
 	_int       Get_iTargetIndex() { return m_iTargetIndex; }
 	void	   Set_SkillBar(_int _iSkill) { m_tInfo.iSkBar += _iSkill; }
@@ -80,7 +81,9 @@ public:
 	void	   Change_Info(PLAYERINFO _tinfo);
 	void	   Set_ChangeInfo(_bool _bChange) { m_tInfo.bChange = _bChange; }
 	void	   Set_ChangeDelay(_float _fDelayTime) { m_fChangeDelay = _fDelayTime; }
-
+	void	   Set_ModelIndex(_int _iIndex) { m_iModelIndex = _iIndex; }
+	void	   Set_AnimIndex(_int _iIndex) { m_iAnimIndex = _iIndex; }
+		   
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
 protected:
@@ -96,6 +99,9 @@ protected:
 	CNavigation*		m_pNavigationCom = nullptr;
 	_float					m_fDelta = 0.f;
 	_float					m_fChangeDelay = 0.f;
+
+	_int					m_iModelIndex = 0;
+	_int					m_iAnimIndex = 0;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

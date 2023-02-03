@@ -128,10 +128,14 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->AO_OnOff(bAO_OnOff);
 
-	static float fAOValue[CRenderer::VALUE_END] = { 0.2f, 100.f, 800.f, 1.36f, 0.4f, 1.f, 20.f, 5.f, 0.07f };
+	static float fAOValue[CRenderer::VALUE_END] = { 0.2f, 0.2, 0.2f, 100.f, 800.f, 1.36f, 0.4f, 1.f, 20.f, 5.f, 0.07f };
+	static float vFogColor[3] = { 0.2, 0.2f, 0.2f };
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("Fog Power", &fAOValue[CRenderer::VALUE_FOGPOWER], 0.001f, 0.001f, 1.f);
+	ImGui::DragFloat3("Fog Color", vFogColor, 0.001f, 0.000f, 1.f);
+	fAOValue[CRenderer::VALUE_FOGCOLOR_R] = vFogColor[0];
+	fAOValue[CRenderer::VALUE_FOGCOLOR_G] = vFogColor[1];
+	fAOValue[CRenderer::VALUE_FOGCOLOR_B] = vFogColor[2];
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
 	ImGui::DragFloat("Fog Distance", &fAOValue[CRenderer::VALUE_FOGDISTANCE], 1.f, 0.f, 500.f);

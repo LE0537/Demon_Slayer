@@ -65,7 +65,7 @@ CTanjiroState * CHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (pTanjiro->Get_Model()->Get_End(CTanjiro::ANIM_HIT))
 		{
 			pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_HIT);
-			pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_HIT);
+			//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_HIT);
 			return new CIdleState();
 		}
 	}

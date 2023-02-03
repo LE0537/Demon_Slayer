@@ -17,6 +17,8 @@ HRESULT CLevel_SelectChar::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
+
+
 	return S_OK;
 }
 
@@ -24,7 +26,7 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-
+	
 	if (!m_bCreateUI)
 	{
 		pUIManager->Add_Select_CharUI();
@@ -74,7 +76,31 @@ void CLevel_SelectChar::Late_Tick(_float fTimeDelta)
 
 
 }
+HRESULT CLevel_SelectChar::Ready_Layer_Camera(const _tchar * pLayerTag)
+{
+	CGameInstance*			pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
 
+	ZeroMemory(&CameraDesc, sizeof(CCamera_Dynamic::CAMERADESC_DERIVED));
+
+	CameraDesc.CameraDesc.vEye = _float4(0.f, 0.f, 0.f, 1.f);
+	CameraDesc.CameraDesc.vAt = _float4(0.f, 0.f, 1.f, 1.f);
+
+	CameraDesc.CameraDesc.fFovy = XMConvertToRadians(60.0f);
+	CameraDesc.CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
+	CameraDesc.CameraDesc.fNear = 0.2f;
+	CameraDesc.CameraDesc.fFar = 500.f;
+
+	CameraDesc.CameraDesc.TransformDesc.fSpeedPerSec = 10.f;
+	CameraDesc.CameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_SELECTCHAR, pLayerTag, &CameraDesc)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
 
 
 CLevel_SelectChar * CLevel_SelectChar::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

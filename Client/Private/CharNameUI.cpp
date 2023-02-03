@@ -56,7 +56,37 @@ HRESULT CCharNameUI::Initialize(void * pArg)
 		pUI_Manager->Set_1P_2Char(this);
 	else if (m_ThrowUIinfo.iLayerNum == 3)
 		pUI_Manager->Set_2P_2Char(this);
+
 	RELEASE_INSTANCE(CUI_Manager);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	if (m_ThrowUIinfo.iLayerNum == 0)
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
+			return E_FAIL;
+		m_pModel->Set_1P(1);
+	}
+	else if (m_ThrowUIinfo.iLayerNum == 1)
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
+			return E_FAIL;
+		m_pModel->Set_1P(2);
+	}
+	else if (m_ThrowUIinfo.iLayerNum == 2)
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
+			return E_FAIL;
+		m_pModel->Set_1P(3);
+	}
+	else if (m_ThrowUIinfo.iLayerNum == 3)
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
+			return E_FAIL;
+		m_pModel->Set_1P(4);
+	}
+	
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
@@ -72,7 +102,43 @@ void CCharNameUI::Tick(_float fTimeDelta)
 			Name_Selected(pUI_Manager->Get_2P()->Get_PlayerInfo().strName);
 	}
 	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
+		
+		if (m_ThrowUIinfo.iLayerNum == 0)
+		{
+			_float fX = pUI_Manager->Get_Sel1PMain(0)->Get_fX();
+			_float fY = pUI_Manager->Get_Sel1PMain(0)->Get_fY();
+
+			m_fX = fX;
+			m_fY = fY;
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+		{
+			_float fX = pUI_Manager->Get_Sel2PMain(0)->Get_fX();
+			_float fY = pUI_Manager->Get_Sel2PMain(0)->Get_fY();
+
+			m_fX = fX;
+			m_fY = fY;
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 2)
+		{
+			_float fX = pUI_Manager->Get_Sel1PMain(1)->Get_fX();
+			_float fY = pUI_Manager->Get_Sel1PMain(1)->Get_fY();
+
+			m_fX = fX;
+			m_fY = fY;
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 3)
+		{
+			_float fX = pUI_Manager->Get_Sel2PMain(1)->Get_fX();
+			_float fY = pUI_Manager->Get_Sel2PMain(1)->Get_fY();
+
+			m_fX = fX;
+			m_fY = fY;
+		}
+
 		Set_Name_SelLevel();
+	}
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
@@ -209,22 +275,56 @@ void CCharNameUI::Set_Name_SelLevel()
 	if (m_ThrowUIinfo.iLayerNum == 0)
 	{
 		if (!pSelP1Cursor->Get_FirstSelCheck())
+		{
 			m_iImgNum = iSelNum1PCursor;
+			m_pModel->Set_ModelIndex(m_iImgNum);
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(250.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -330.f, 1.f));
+		}
+		else if(!(m_iImgNum == 2 || m_iImgNum == 3))
+		{
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(120.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -200.f, 1.f));
+		}
+
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 1)
 	{
 		if (!pSelP2Cursor->Get_FirstSelCheck())
+		{
 			m_iImgNum = iSelNum2PCursor;
+			m_pModel->Set_ModelIndex(m_iImgNum);
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1030.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -330.f, 1.f));
+		}
+		else if(!(m_iImgNum == 2 || m_iImgNum == 3))
+		{
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1160.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -200.f, 1.f));
+		}
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 2)
 	{
 		if (!pSelP1Cursor->Get_SecondSelCheck())
+		{
 			m_iImgNum = iSelNum1PCursor;
+			m_pModel->Set_ModelIndex(m_iImgNum);
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(250.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -330.f, 1.f));
+		}
+		else
+		{
+			m_pModel->Set_ModelIndex(99);
+		}
+	
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 3)
 	{
 		if (!pSelP2Cursor->Get_SecondSelCheck())
+		{
 			m_iImgNum = iSelNum2PCursor;
+			m_pModel->Set_ModelIndex(m_iImgNum);
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1030.f - g_iWinSizeX * 0.5f, -800.f + g_iWinSizeY * 0.5f, -330.f, 1.f));
+		}
+		else
+		{
+			m_pModel->Set_ModelIndex(99);
+		}
 	}
 	
 	Select_NameReSize();

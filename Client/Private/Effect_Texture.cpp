@@ -280,17 +280,19 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_NoiseTexture", m_pNoiseTextureCom->Get_SRV())))
 		return E_FAIL;
 
-	//	추가.23.01.31.14:55 성준
 	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumUV_U", &m_TextureInfo.iNumUV_U, sizeof(_int))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumUV_V", &m_TextureInfo.iNumUV_V, sizeof(_int))))
 		return E_FAIL;
 
-	_int		iTexFrame = (1.f - Time) * (m_TextureInfo.iNumUV_U * m_TextureInfo.iNumUV_V);
+	_float		fAccTime = m_fTime - m_TextureInfo.fStartTime;
+	_float		fAllLifeTime = m_TextureInfo.fLifeTime;
+	_float		fAliveTimeRatio = max(fAccTime / fAllLifeTime, 0.f);
+	_int		iTexFrame = fAliveTimeRatio * (m_TextureInfo.iNumUV_U * m_TextureInfo.iNumUV_V);
+	if (m_TextureInfo.iNumUV_U * m_TextureInfo.iNumUV_V == iTexFrame)
+		iTexFrame = m_TextureInfo.iNumUV_U * m_TextureInfo.iNumUV_V - 1;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_iFrame", &iTexFrame, sizeof(_int))))
 		return E_FAIL;
-
-	//	추가 End
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fDisappearTimeRatio", &m_TextureInfo.fDisappearTimeRatio, sizeof(_float))))
 		return E_FAIL;
