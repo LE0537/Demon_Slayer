@@ -58,6 +58,8 @@ void CMenuModel::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
+	
+
 	if (!m_bPos)
 	{
 		Set_Pos();
@@ -93,41 +95,43 @@ void CMenuModel::Late_Tick(_float fTimeDelta)
 
 HRESULT CMenuModel::Render()
 {
-
-	if (nullptr == m_pShaderCom)
-		return E_FAIL;
-
-	if (FAILED(SetUp_ShaderResources()))
-		return E_FAIL;
-
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-	_uint		iNumMeshes = m_pModelCom[m_iModelIndex]->Get_NumMeshContainers();
-	 
-	for (_uint i = 0; i < iNumMeshes; ++i)
+	if (m_iModelIndex != 99)
 	{
-		if (FAILED(m_pModelCom[m_iModelIndex]->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+		if (nullptr == m_pShaderCom)
 			return E_FAIL;
 
-		if ((i == 0 || i == 1) && (m_iModelIndex == 0 || m_iModelIndex == 1))
-		{
-			if (FAILED(m_pModelCom[m_iModelIndex]->SetUp_Material(m_pShaderCom, "g_MaskTexture", i, aiTextureType_NORMALS)))
-				return E_FAIL;
+		if (FAILED(SetUp_ShaderResources()))
+			return E_FAIL;
 
-			if (FAILED(m_pModelCom[m_iModelIndex]->Render(m_pShaderCom, i, 1)))
-				return E_FAIL;
-		}
-		else
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+		_uint		iNumMeshes = m_pModelCom[m_iModelIndex]->Get_NumMeshContainers();
+
+		for (_uint i = 0; i < iNumMeshes; ++i)
 		{
-			if (FAILED(m_pModelCom[m_iModelIndex]->Render(m_pShaderCom, i, 0)))
+		
+			if (FAILED(m_pModelCom[m_iModelIndex]->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
+		
+			if ((i == 0 || i == 1) && (m_iModelIndex == 0 || m_iModelIndex == 1))
+			{
+				if (FAILED(m_pModelCom[m_iModelIndex]->SetUp_Material(m_pShaderCom, "g_MaskTexture", i, aiTextureType_NORMALS)))
+					return E_FAIL;
+				//aiTextureType_OPACITY
+				//aiTextureType_NORMALS
+				if (FAILED(m_pModelCom[m_iModelIndex]->Render(m_pShaderCom, i, 1)))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(m_pModelCom[m_iModelIndex]->Render(m_pShaderCom, i, 0)))
+					return E_FAIL;
+			}
 		}
+
+		RELEASE_INSTANCE(CGameInstance);
 
 	}
-
-	RELEASE_INSTANCE(CGameInstance);
-
-
 	return S_OK;
 }
 HRESULT CMenuModel::Render_ShadowDepth()

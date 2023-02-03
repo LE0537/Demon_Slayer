@@ -106,6 +106,7 @@
 #include "RuiShoot.h"
 #include "RuiSphere.h"
 #include "KyoujuroJumpSkill.h"
+#include "KaguraSkill.h"
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -1250,7 +1251,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CKyoujuro::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Akaza"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Akaza"),
 		CAkaza::Create(m_pDevice, m_pContext))))
@@ -1316,7 +1316,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_ShinobuMenu"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Shinobu(Menu)/Shinobu(Menu).fbx", PivotMatrix2))))
 	//	return E_FAIL;
-	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Tanjiro(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+ 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Tanjiro(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Kyoujuro(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rui(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Akaza(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
@@ -1352,6 +1352,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroJumpSkill"),
 		CKyoujuroJumpSkill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KaguraSkill"),
+		CKaguraSkill::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	//Map
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BattleField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);

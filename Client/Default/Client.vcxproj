@@ -212,6 +212,7 @@
     <ClInclude Include="..\Public\2PMainOnBase.h" />
     <ClInclude Include="..\Public\CharFrame.h" />
     <ClInclude Include="..\Public\CharFrameEff.h" />
+    <ClInclude Include="..\public\KaguraSkill.h" />
     <ClInclude Include="..\public\KyoujuroJumpSkill.h" />
     <ClInclude Include="..\public\MenuModel.h" />
     <ClInclude Include="..\Public\NezukoHitState.h" />
@@ -471,6 +472,7 @@
     <ClCompile Include="..\Private\2pMainOnBase.cpp" />
     <ClCompile Include="..\Private\CharFrame.cpp" />
     <ClCompile Include="..\Private\CharFrameEff.cpp" />
+    <ClCompile Include="..\private\KaguraSkill.cpp" />
     <ClCompile Include="..\private\KyoujuroJumpSkill.cpp" />
     <ClCompile Include="..\private\MenuModel.cpp" />
     <ClCompile Include="..\Private\NezukoHitState.cpp" />

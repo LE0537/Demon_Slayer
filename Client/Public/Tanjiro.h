@@ -145,7 +145,7 @@ public:
 
 	void Set_KaguraMode(_bool bKagura) { m_bIsKagura = bKagura; }
 	_bool Get_KaguraMode() const { return m_bIsKagura; }
-
+	void Set_Render(_bool _bRender) { m_bRender = _bRender; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -168,7 +168,7 @@ private:
 	_int					m_iSkillHit = 0;
 	_int					m_iWaterMillHit = 0;
 	_int					m_iWindMillHit = 0;
-
+	_bool					m_bRender = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

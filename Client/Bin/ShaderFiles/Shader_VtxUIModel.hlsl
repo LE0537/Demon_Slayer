@@ -3,6 +3,7 @@
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;
 texture2D		g_MaskTexture;
+
 vector			g_vCamPosition;
 
 float4			g_vLightDiffuse = float4(1.f, 1.f, 1.f, 1.f); //ºûÀÇ»ö
@@ -164,10 +165,10 @@ PS_OUT PS_MASK(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	float4 vMask = g_MaskTexture.Sample(CLAMPSampler, In.vTexUV);
+	vector vMask = g_MaskTexture.Sample(CLAMPSampler, In.vTexUV);
 
 	Out.vColor = g_DiffuseTexture.Sample(CLAMPSampler, In.vTexUV);
-
+	
 	if (vMask.r == 0.f)
 		Out.vColor.rgb = 1.f;
 	

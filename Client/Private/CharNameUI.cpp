@@ -302,13 +302,15 @@ void CCharNameUI::Set_Name_SelLevel()
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 2)
 	{
-		if (!pSelP1Cursor->Get_SecondSelCheck())
+		if (!pSelP1Cursor->Get_SecondSelCheck() && pSelP1Cursor->Get_FirstSelCheck() &&
+			!pSelP1Cursor->Get_SelectUIInfo().bOni)
 		{
 			m_iImgNum = iSelNum1PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(270.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
 		}
-		else if (pSelP1Cursor->Get_SelComple())
+		else if (pSelP1Cursor->Get_SelComple() && pSelP1Cursor->Get_FirstSelCheck() &&
+			!pSelP1Cursor->Get_SelectUIInfo().bOni)
 		{
 			m_iImgNum = iSelNum1PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
@@ -323,13 +325,16 @@ void CCharNameUI::Set_Name_SelLevel()
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 3)
 	{
-		if (!pSelP2Cursor->Get_SecondSelCheck())
+
+		if (!pSelP2Cursor->Get_SecondSelCheck() && pSelP2Cursor->Get_FirstSelCheck() &&
+			!pSelP2Cursor->Get_SelectUIInfo().bOni)
 		{
 			m_iImgNum = iSelNum2PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1010.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
 		}
-		else if (pSelP2Cursor->Get_SelComple())
+		else if (pSelP2Cursor->Get_SelComple() && pSelP2Cursor->Get_FirstSelCheck() &&
+			!pSelP2Cursor->Get_SelectUIInfo().bOni)
 		{
 			m_iImgNum = iSelNum2PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
