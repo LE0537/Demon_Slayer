@@ -9,6 +9,7 @@ class CEffect_Texture : public CGameObj
 public:
 	typedef struct TextureInfo {
 		char							m_szTextureName[MAX_PATH];
+
 		char							szTextureType[MAX_PATH];
 		char							szTextureDissolve[MAX_PATH];
 		char							szTextureMask[MAX_PATH];

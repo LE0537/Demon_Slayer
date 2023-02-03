@@ -17,37 +17,12 @@ CEffect_Texture::CEffect_Texture(const CEffect_Texture & rhs)
 
 HRESULT CEffect_Texture::Initialize_Prototype()
 {
-	/*m_TextureName.push_back("Eff_Circle");
-	m_TextureName.push_back("Eff_Sprk");
-	m_TextureName.push_back("Xef_Base");
-	m_TextureName.push_back("Eff_Tap");
-	m_TextureName.push_back("Xef_Burst");
-	m_TextureName.push_back("Xef_Dust");
-	m_TextureName.push_back("Xef_Fade00");
-	m_TextureName.push_back("Xef_Fade01");
-	m_TextureName.push_back("Xef_Fade02");
-	m_TextureName.push_back("Xef_Fade03");
-	m_TextureName.push_back("Xef_Light00");
-	m_TextureName.push_back("Eff_Light00");
-	m_TextureName.push_back("Xef_Light01");
-	m_TextureName.push_back("Xef_Line01");
-	m_TextureName.push_back("Xef_Squ01");
-	m_TextureName.push_back("Xef_Sun00");
-	m_TextureName.push_back("Xef_Sun01");
-	m_TextureName.push_back("Xef_Sun02");
-	m_TextureName.push_back("Xef_Uzu00");
-	m_TextureName.push_back("Spike00");
-	m_TextureName.push_back("Spike01");
-	m_TextureName.push_back("Wind02");*/
 
 	return S_OK;
 }
 
 HRESULT CEffect_Texture::Initialize(void * pArg)
 {
-	//if (pArg)
-		//strcpy_s(m_TextureInfo.m_szTextureName, MAX_PATH, (char*)pArg);
-
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -89,6 +64,11 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 			vSize = XMVectorLerp(vFirstSize, vSecondSize, fTime);
 		}
 		m_pTransformCom->Set_Scale(vSize);
+
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+
+		vPos += XMVector3Normalize(XMLoadFloat3(&m_TextureInfo.vMoveDirection)) * fTimeDelta * m_TextureInfo.fMoveSpeed;
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	}
 }
 
@@ -207,12 +187,16 @@ void CEffect_Texture::Set_TexInfo(TextureInfo TexInfo)
 	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pTextureCom)))
 		return;
 
-	char szDissolveName[MAX_PATH] = "Prototype_Component_Texture_";
-	strcat_s(szDissolveName, m_TextureInfo.szTextureType);
-	MultiByteToWideChar(CP_ACP, 0, szDissolveName, (_int)strlen(szDissolveName), szRealPath, MAX_PATH);
+	if (strcmp(m_TextureInfo.szTextureDissolve, "")) {
+		char szDissolveName[MAX_PATH] = "Prototype_Component_Texture_";
+		strcat_s(szDissolveName, m_TextureInfo.szTextureDissolve);
 
-	if (FAILED(__super::Add_Components(TEXT("Com_DissolveTexture"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pDissolveTextureCom)))
-		return;
+		_tchar			szDissolveRealPath[MAX_PATH] = TEXT("");
+		MultiByteToWideChar(CP_ACP, 0, szDissolveName, (_int)strlen(szDissolveName), szDissolveRealPath, MAX_PATH);
+
+		if (FAILED(__super::Add_Components(TEXT("Com_DissolveTexture"), LEVEL_STATIC, szDissolveRealPath, (CComponent**)&m_pDissolveTextureCom)))
+			return;
+	}
 
 	_float3		vRotation = m_TextureInfo.fRotation;
 	vRotation.x = XMConvertToRadians(vRotation.x);

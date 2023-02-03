@@ -159,7 +159,7 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
 		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
 
-	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
+	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTexture.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
 	if (Out.vColor.a < 0.03f)
@@ -175,8 +175,10 @@ PS_OUT PS_COLORTEST(PS_IN In)
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
-		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
+	//	Out.vColor = g_bUseColor * ((vTexture.r * g_bUseRGB + vTexture.a * (1 - g_bUseRGB)) * g_vColor) + (1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
+
+	Out.vColor = g_bUseColor * g_vColor + (1.f - g_bUseColor) * vTexture;
+
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
@@ -187,7 +189,7 @@ PS_OUT PS_COLORTEST(PS_IN In)
 	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
 		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
 
-	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
+	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTexture.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
 	if (Out.vColor.a <= 0.3f)
@@ -249,8 +251,11 @@ PS_OUT PS_ALPHAGLOW(PS_IN In)
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
-		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
+	//Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
+		//(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
+
+	Out.vColor = g_bUseColor * g_vColor + (1.f - g_bUseColor) * vTexture;
+
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
