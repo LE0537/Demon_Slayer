@@ -7,6 +7,14 @@
 #include "VIBuffer_Navigation.h"
 #include "Data_Manager.h"	
 #include "UI_Manager.h"
+#include "TanjiroWeapon.h"
+#include "TanjiroSheath.h"
+#include "KyoujuroWeapon.h"
+#include "KyoujuroSheath.h"
+#include "ShinobuWeapon.h"
+#include "ShinobuSheath.h"
+#include "KyoujuroWeaponMenu.h"
+#include "ShinobuWeaponMenu.h"
 
 CMenuModel::CMenuModel(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -30,7 +38,18 @@ HRESULT CMenuModel::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-
+	if (FAILED(Ready_TanjiroParts()))
+		return E_FAIL;
+	if (FAILED(Ready_TanjiroParts2()))
+		return E_FAIL;
+	if (FAILED(Ready_KyoujuroParts()))
+		return E_FAIL;
+	if (FAILED(Ready_KyoujuroParts2()))
+		return E_FAIL;
+	if (FAILED(Ready_ShinobuParts()))
+		return E_FAIL;
+	if (FAILED(Ready_ShinobuParts2()))
+		return E_FAIL;
 	_vector		vLook = { 0.3f,0.f,-1.f,0.f };
 
 	_vector		vAxisY = XMVectorSet(0.f, 1.f, 0.f, 0.f);
@@ -51,14 +70,41 @@ HRESULT CMenuModel::Initialize(void * pArg)
 	m_iAnimIndex = 1;
 	m_pModelCom[m_iModelIndex]->Set_CurrentAnimIndex(m_iAnimIndex);
 
+
+	m_fSizeX = 500.f;
+	m_fSizeY = 500.f;
+	_float fX = 350.f;
+	_float fY = 350.f;
+	_float3 vScale2 = { fX,fY,350.f };
+	_float3 vScale = { m_fSizeX,m_fSizeY,500.f };
+	dynamic_cast<CTanjiroWeapon*>(m_pWeapon[0])->Get_Transform()->Set_Scale(XMLoadFloat3(&vScale2));
+	dynamic_cast<CTanjiroWeapon*>(m_pWeapon[0])->Get_Transform()->Set_Rotation(_float3(0.f, 95.f, 90.f));
+	//	dynamic_cast<CTanjiroWeapon*>(m_pWeapon[0])->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -300.f, 1.f));
+	dynamic_cast<CTanjiroSheath*>(m_pSheath[0])->Get_Transform()->Set_Scale(XMLoadFloat3(&vScale2));
+	dynamic_cast<CTanjiroSheath*>(m_pSheath[0])->Get_Transform()->Set_Rotation(_float3(0.f, 90.f, 90.f));
+	//	dynamic_cast<CTanjiroSheath*>(m_pSheath[0])->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -300.f, 1.f));
+
+	dynamic_cast<CKyoujuroWeaponMenu*>(m_pWeapon[1])->Get_Transform()->Set_Scale(XMLoadFloat3(&vScale2));
+	dynamic_cast<CKyoujuroWeaponMenu*>(m_pWeapon[1])->Get_Transform()->Set_Rotation(_float3(0.f, 95.f, 90.f));
+	//	dynamic_cast<CKyoujuroWeapon*>(m_pWeapon[1])->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -300.f, 1.f));
+	dynamic_cast<CKyoujuroSheath*>(m_pSheath[1])->Get_Transform()->Set_Scale(XMLoadFloat3(&vScale2));
+	dynamic_cast<CKyoujuroSheath*>(m_pSheath[1])->Get_Transform()->Set_Rotation(_float3(0.f, 90.f, 90.f));
+	//	dynamic_cast<CKyoujuroSheath*>(m_pSheath[1])->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -300.f, 1.f));
+
+	dynamic_cast<CShinobuWeaponMenu*>(m_pWeapon[2])->Get_Transform()->Set_Scale(XMLoadFloat3(&vScale2));
+	dynamic_cast<CShinobuWeaponMenu*>(m_pWeapon[2])->Get_Transform()->Set_Rotation(_float3(0.f, 95.f, 90.f));
+	//	dynamic_cast<CShinobuWeapon*>(m_pWeapon[2])->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -300.f, 1.f));
+	dynamic_cast<CShinobuSheath*>(m_pSheath[2])->Get_Transform()->Set_Scale(XMLoadFloat3(&vScale2));
+	dynamic_cast<CShinobuSheath*>(m_pSheath[2])->Get_Transform()->Set_Rotation(_float3(0.f, 90.f, 90.f));
+	//	dynamic_cast<CShinobuSheath*>(m_pSheath[2])->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -300.f, 1.f));
+
+
 	return S_OK;
 }
 
 void CMenuModel::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-
-	
 
 	if (!m_bPos)
 	{
@@ -74,6 +120,7 @@ void CMenuModel::Tick(_float fTimeDelta)
 		}
 
 		m_iCurrentModelIndex = m_iModelIndex;
+
 	}
 }
 
@@ -88,8 +135,39 @@ void CMenuModel::Late_Tick(_float fTimeDelta)
 			m_iCurrentModelIndex = m_iModelIndex;
 			m_pModelCom[m_iModelIndex]->Set_CurrentAnimIndex(1);
 		}
-		m_pModelCom[m_iModelIndex]->Play_Animation2(fTimeDelta);
+		m_pModelCom[m_iModelIndex]->Play_Animation(fTimeDelta);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+
+		switch (m_iModelIndex)
+		{
+		case 0:
+			dynamic_cast<CTanjiroWeapon*>(m_pWeapon[0])->Set_Menu(true);
+			dynamic_cast<CTanjiroSheath*>(m_pSheath[0])->Set_Menu(true);
+			m_pWeapon[0]->Tick(fTimeDelta);
+			m_pSheath[0]->Tick(fTimeDelta);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, m_pWeapon[0]);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, m_pSheath[0]);
+			break;
+		case 1:
+			dynamic_cast<CKyoujuroWeaponMenu*>(m_pWeapon[1])->Set_Menu(true);
+			dynamic_cast<CKyoujuroSheath*>(m_pSheath[1])->Set_Menu(true);
+			m_pWeapon[1]->Tick(fTimeDelta);
+			m_pSheath[1]->Tick(fTimeDelta);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, m_pWeapon[1]);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, m_pSheath[1]);
+			break;
+		case 5:
+			dynamic_cast<CShinobuWeaponMenu*>(m_pWeapon[2])->Set_Menu(true);
+			dynamic_cast<CShinobuSheath*>(m_pSheath[2])->Set_Menu(true);
+			m_pWeapon[2]->Tick(fTimeDelta);
+			m_pSheath[2]->Tick(fTimeDelta);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, m_pWeapon[2]);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, m_pSheath[2]);
+			break;
+		default:
+			break;
+		}
+
 	}
 }
 
@@ -263,6 +341,146 @@ void CMenuModel::Set_Pos()
 	default:
 		break;
 	}
+
+}
+
+HRESULT CMenuModel::Ready_TanjiroParts()
+{
+	CHierarchyNode*		pSocket = m_pModelCom[0]->Get_BonePtr("L_Weapon_1");
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CTanjiroWeapon::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom[0]->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pWeapon[0] = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_TanjiroWeapon"), &WeaponDesc);
+	if (nullptr == m_pWeapon)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CMenuModel::Ready_TanjiroParts2()
+{
+	CHierarchyNode*		pSocket = m_pModelCom[0]->Get_BonePtr("L_Weapon_1");
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CTanjiroSheath::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom[0]->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pSheath[0] = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_TanjiroSheath"), &WeaponDesc);
+	if (nullptr == m_pSheath)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CMenuModel::Ready_KyoujuroParts()
+{
+	CHierarchyNode*		pSocket = m_pModelCom[1]->Get_BonePtr("L_Weapon_1");
+	
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CKyoujuroWeaponMenu::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom[1]->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pWeapon[1] = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_KyoujuroWeaponMenu"), &WeaponDesc);
+	if (nullptr == m_pWeapon)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CMenuModel::Ready_KyoujuroParts2()
+{
+	CHierarchyNode*		pSocket = m_pModelCom[1]->Get_BonePtr("L_Weapon_1");
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CKyoujuroSheath::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom[1]->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pSheath[1] = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_KyoujuroSheath"), &WeaponDesc);
+	if (nullptr == m_pSheath)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CMenuModel::Ready_ShinobuParts()
+{
+	CHierarchyNode*		pSocket = m_pModelCom[5]->Get_BonePtr("L_Weapon_1");
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CShinobuWeaponMenu::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom[5]->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pWeapon[2] = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_ShinobuWeaponMenu"), &WeaponDesc);
+	if (nullptr == m_pWeapon)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CMenuModel::Ready_ShinobuParts2()
+{
+	CHierarchyNode*		pSocket = m_pModelCom[5]->Get_BonePtr("L_Weapon_1");
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CShinobuSheath::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom[5]->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pSheath[2] = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_ShinobuSheath"), &WeaponDesc);
+	if (nullptr == m_pSheath)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
 }
 
 
@@ -281,8 +499,8 @@ HRESULT CMenuModel::SetUp_ShaderResources()
 		return E_FAIL;
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition", &pGameInstance->Get_CamPosition(), sizeof(_float4))))
-		return E_FAIL;
+	//if (FAILED(m_pShaderCom->Set_RawValue("g_vCamPosition", &pGameInstance->Get_CamPosition(), sizeof(_float4))))
+	//	return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
 		return E_FAIL;
@@ -298,9 +516,6 @@ HRESULT CMenuModel::SetUp_ShaderResources()
 
 	return S_OK;
 }
-
-
-
 
 CMenuModel * CMenuModel::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
@@ -338,5 +553,9 @@ void CMenuModel::Free()
 		Safe_Release(m_pModelCom[i]);
 
 	}
-
+	for (int i = 0; i < 3; ++i)
+	{
+		Safe_Release(m_pWeapon[i]);
+		Safe_Release(m_pSheath[i]);
+	}
 }

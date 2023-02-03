@@ -151,8 +151,6 @@ void CShinobu::Late_Tick(_float fTimeDelta)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 
-		dynamic_cast<CShinobuWeapon*>(m_pWeapon)->Set_Render(true);
-		dynamic_cast<CShinobuSheath*>(m_pSheath)->Set_Render(true);
 
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);

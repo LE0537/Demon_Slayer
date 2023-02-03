@@ -31,6 +31,8 @@
 #include "TanjiroSheath.h"
 #include "ShinobuWeapon.h"
 #include "ShinobuSheath.h"
+#include "KyoujuroWeaponMenu.h"
+#include "ShinobuWeaponMenu.h"
 //UI
 #include "HpBar.h"
 #include "HpBarBack.h"
@@ -1333,7 +1335,20 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 
 	_matrix PivotMatrix2 = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
-
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_KyoujuroWeaponMenu"),
+	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/KyoujuroWeapon(Menu)/KyoujuroWeapon(Menu).fbx", PivotMatrix2))))
+	//return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_ShinobuWeaponMenu"),
+	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/ShinobuWeapon(Menu)/ShinobuWeapon(Menu).fbx", PivotMatrix2))))
+	//return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyoujuroWeapon(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroWeaponMenu"),
+		CKyoujuroWeaponMenu::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("ShinobuWeapon(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ShinobuWeaponMenu"),
+		CShinobuWeaponMenu::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_TanjiroMenu"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Tanjiro(Menu)/Tanjiro(Menu).fbx", PivotMatrix2))))
 	//	return E_FAIL;

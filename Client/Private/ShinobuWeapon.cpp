@@ -36,6 +36,8 @@ HRESULT CShinobuWeapon::Initialize(void * pArg)
 	//	m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(0.0f));
 	//	m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(10.0f));
 
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
 
 
 	return S_OK;
@@ -43,6 +45,25 @@ HRESULT CShinobuWeapon::Initialize(void * pArg)
 
 void CShinobuWeapon::Tick(_float fTimeDelta)
 {
+	//if (m_bMenu && !m_bTrue)
+	//{
+	//	_vector		vLook = { 0.3f,0.f,-1.f,0.f };
+
+	//	_vector		vAxisY = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+
+	//	_vector		vRight = XMVector3Cross(vAxisY, vLook);
+
+	//	_vector		vUp = XMVector3Cross(vLook, vRight);
+
+	//	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, XMVector3Normalize(vRight));
+	//	m_pTransformCom->Set_State(CTransform::STATE_UP, XMVector3Normalize(vUp));
+	//	m_pTransformCom->Set_State(CTransform::STATE_LOOK, XMVector3Normalize(vLook));
+
+	//	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
+	//	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
+
+	//	m_bTrue = true;
+	//}
 
 	_matrix		SocketMatrix = m_WeaponDesc.pSocket->Get_CombinedTransformationMatrix() *
 		XMLoadFloat4x4(&m_WeaponDesc.SocketPivotMatrix) * XMLoadFloat4x4(m_WeaponDesc.pParentWorldMatrix);
@@ -79,11 +100,20 @@ HRESULT CShinobuWeapon::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-			return E_FAIL;
-
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-			return E_FAIL;
+		if (!m_bMenu)
+		{
+			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+				return E_FAIL;
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom2, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+				return E_FAIL;
+			if (FAILED(m_pModelCom->Render(m_pShaderCom2, i, 0)))
+				return E_FAIL;
+		}
 	}
 
 
@@ -150,8 +180,8 @@ HRESULT CShinobuWeapon::Ready_Components()
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
 		return E_FAIL;
-
-	/* For.Com_Shader */
+	if (FAILED(__super::Add_Components(TEXT("Com_Shader2"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxUIModel"), (CComponent**)&m_pShaderCom2)))
+		return E_FAIL;
 	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
@@ -177,15 +207,28 @@ HRESULT CShinobuWeapon::SetUp_ShaderResources()
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4))))
-		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
-		return E_FAIL;
+	if (!m_bMenu)
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
+			return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
-		return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pShaderCom2->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4))))
+			return E_FAIL;
 
+		if (FAILED(m_pShaderCom2->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom2->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+	}
 	RELEASE_INSTANCE(CGameInstance);
 
 
@@ -229,5 +272,6 @@ void CShinobuWeapon::Free()
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pShaderCom2);
 	Safe_Release(m_pRendererCom);
 }

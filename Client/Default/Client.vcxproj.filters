@@ -814,6 +814,12 @@
     <Filter Include="03.UI\02.Battle\BattleBottom\Bar">
       <UniqueIdentifier>{540e57b6-b12a-42b3-bc39-19453d9bad87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\KyoujuroWeapon%28Menu%29">
+      <UniqueIdentifier>{158b3a24-71fe-4294-b102-c1291eff15f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\ShinobuWeapon%28Menu%29">
+      <UniqueIdentifier>{c737a21a-83e6-4959-a77e-b3717062c30a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1620,6 +1626,12 @@
     <ClInclude Include="..\Public\RankFuda.h">
       <Filter>03.UI\02.Battle\Result\Rank\Fuda</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ShinobuWeaponMenu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\ShinobuWeapon%28Menu%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\KyoujuroWeaponMenu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\KyoujuroWeapon%28Menu%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2401,6 +2413,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\ResultUnder.cpp">
       <Filter>03.UI\02.Battle\Result\ResultUI\Under</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ShinobuWeaponMenu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\ShinobuWeapon%28Menu%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\KyoujuroWeaponMenu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\KyoujuroWeapon%28Menu%29</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

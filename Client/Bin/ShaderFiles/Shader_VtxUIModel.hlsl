@@ -174,6 +174,27 @@ PS_OUT PS_MASK(PS_IN In)
 	
 	return Out;
 }
+PS_OUT PS_UI(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector		vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+	Out.vColor = vDiffuse;
+	//if (In.fShade < 0.05f)
+	//{
+	//	Out.vColor = (g_vLightDiffuse * vDiffuse) * saturate(0.6f + g_vLightAmbient * g_vMtrlAmbient);
+	//}
+	//else
+	//{
+	//	Out.vColor = (g_vLightDiffuse * vDiffuse) * saturate(0.4f + g_vLightAmbient * g_vMtrlAmbient);
+	//}
+
+	//Out.vColor = (g_vLightDiffuse * vDiffuse) * saturate(In.fShade + g_vLightAmbient * g_vMtrlAmbient);
+	//+(g_vLightSpecular * g_vMtrlSpecular) * In.fSpecular;
+
+	return Out;
+}
 
 technique11 DefaultTechnique
 {
@@ -197,6 +218,15 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MASK();
 	}
+	pass UI //2
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
 
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_UI();
+	}
 
 }

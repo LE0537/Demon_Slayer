@@ -4,7 +4,13 @@
 #include "UI_Manager.h"
 #include "SelP1Cursor.h"
 #include "SelP2Cursor.h"
-
+#include "MenuModel.h"
+#include "TanjiroWeapon.h"
+#include "TanjiroSheath.h"
+#include "KyoujuroWeapon.h"
+#include "KyoujuroSheath.h"
+#include "ShinobuWeapon.h"
+#include "ShinobuSheath.h"
 CCharNameUI::CCharNameUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
@@ -282,10 +288,12 @@ void CCharNameUI::Set_Name_SelLevel()
 			m_iImgNum = iSelNum1PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(270.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+
 		}
 		else if(!(m_iImgNum == 2 || m_iImgNum == 3))
 		{
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(120.f - g_iWinSizeX * 0.5f, -780.f + g_iWinSizeY * 0.5f, -280.f, 1.f));
+
 		}
 
 	}
@@ -296,10 +304,12 @@ void CCharNameUI::Set_Name_SelLevel()
 			m_iImgNum = iSelNum2PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1010.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+
 		}
 		else if(!(m_iImgNum == 2 || m_iImgNum == 3))
 		{
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1160.f - g_iWinSizeX * 0.5f, -780.f + g_iWinSizeY * 0.5f, -280.f, 1.f));
+
 		}
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 2)
@@ -310,6 +320,7 @@ void CCharNameUI::Set_Name_SelLevel()
 			m_iImgNum = iSelNum1PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(270.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+
 		}
 		else if (pSelP1Cursor->Get_SelComple() && pSelP1Cursor->Get_FirstSelCheck() &&
 			!pSelP1Cursor->Get_SelectUIInfo().bOni)
@@ -334,6 +345,7 @@ void CCharNameUI::Set_Name_SelLevel()
 			m_iImgNum = iSelNum2PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1010.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+
 		}
 		else if (pSelP2Cursor->Get_SelComple() && pSelP2Cursor->Get_FirstSelCheck() &&
 			!pSelP2Cursor->Get_SelectUIInfo().bOni)
