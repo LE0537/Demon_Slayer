@@ -36,7 +36,7 @@ HRESULT CVIBuffer_Particle_Instance::Initialize_Prototype(_uint iNumInstance)
 
 	pVertices->vPosition = _float3(0.0f, 0.f, 0.f);
 	pVertices->vPSize = _float2(1.f, 1.f);
-	
+
 	ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
 	m_SubResourceData.pSysMem = pVertices;
 
@@ -91,7 +91,7 @@ HRESULT CVIBuffer_Particle_Instance::Initialize_Prototype(_uint iNumInstance)
 	m_BufferDesc.StructureByteStride = m_iInstanceStride;
 
 	VTXMATRIX*			pInstanceVtx = new VTXMATRIX[m_iNumVertices];
-	
+
 
 	for (_uint i = 0; i < m_iNumInstance; ++i)
 	{
@@ -150,15 +150,15 @@ HRESULT CVIBuffer_Particle_Instance::Initialize(void * pArg)
 
 		m_pSpeedPerSec[i] = rand() % 10 + 1;
 
-		XMStoreFloat4(&((VTXMATRIX*)MappedSubResource.pData)[i].vLook, 
-			XMVector3TransformNormal(XMLoadFloat4(&((VTXMATRIX*)MappedSubResource.pData)[i].vLook), RotationMatrix) 
-			);
+		XMStoreFloat4(&((VTXMATRIX*)MappedSubResource.pData)[i].vLook,
+			XMVector3TransformNormal(XMLoadFloat4(&((VTXMATRIX*)MappedSubResource.pData)[i].vLook), RotationMatrix)
+		);
 		XMStoreFloat4(&((VTXMATRIX*)MappedSubResource.pData)[i].vRight,
-			XMVector3TransformNormal(XMLoadFloat4(&((VTXMATRIX*)MappedSubResource.pData)[i].vRight), RotationMatrix) 
-			);
+			XMVector3TransformNormal(XMLoadFloat4(&((VTXMATRIX*)MappedSubResource.pData)[i].vRight), RotationMatrix)
+		);
 		XMStoreFloat4(&((VTXMATRIX*)MappedSubResource.pData)[i].vUp,
-			XMVector3TransformNormal(XMLoadFloat4(&((VTXMATRIX*)MappedSubResource.pData)[i].vUp), RotationMatrix) 
-			);
+			XMVector3TransformNormal(XMLoadFloat4(&((VTXMATRIX*)MappedSubResource.pData)[i].vUp), RotationMatrix)
+		);
 	}
 
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
@@ -166,7 +166,7 @@ HRESULT CVIBuffer_Particle_Instance::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float3 fScale, _float4x4 ParentMtr, _float iSpeedType, _float fGravity, 
+void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float3 fScale, _float4x4 ParentMtr, _float iSpeedType, _float fGravity,
 	_float3 vScale, _bool bRoof, _float fSpeed, _uint iParticleType, _uint iSizeX, _uint iSizeY)
 {
 
@@ -286,7 +286,7 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float3 fScale, _flo
 				int iRand = rand();
 
 				m_pLifeTime[i] = rand() % 100 * 0.01f;
-				
+
 				m_fTime[i] = 0.f;
 
 				m_pSpeedPerSec[i] = rand() % 50 * 0.1f + fSpeed - 2.5f;
@@ -401,7 +401,7 @@ void CVIBuffer_Particle_Instance::Reset(_float3 vScale, _float fLifeTime, _float
 		ScaleMatrix = XMMatrixIdentity();
 
 		int iRand = rand();
-		
+
 		if (bRoof) {
 			m_pLifeTime[i] = rand() % 100 * 0.01f;
 		}

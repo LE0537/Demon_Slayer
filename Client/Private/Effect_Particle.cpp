@@ -158,7 +158,7 @@ HRESULT CEffect_Particle::SetUp_ShaderResources()
 		Time = 1 - m_fTime / m_ParticleInfo.fLifeTime + m_ParticleInfo.fStartTime;
 	}
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndALPHA", &Time, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndAlpha", &Time, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_ParticleInfo.vColor, sizeof(_float4))))

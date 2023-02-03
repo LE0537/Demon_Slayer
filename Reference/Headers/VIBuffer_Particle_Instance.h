@@ -17,7 +17,7 @@ public:
 public:
 	void Update(_float fTimeDelta, _float3 fScale, _float4x4 ParentMtr, _float iSpeedType, _float fGravity, _float3 vScale,
 		_bool bRoof, _float fSpeed, _uint iParticleType, _uint iSizeX, _uint iSizeY);
-	void Reset(_float3 vScale, _float fLifeTime, _float fSpeed, _uint iParticleType, _float4x4 mtrParent, _uint iSizeX, 
+	void Reset(_float3 vScale, _float fLifeTime, _float fSpeed, _uint iParticleType, _float4x4 mtrParent, _uint iSizeX,
 		_uint iSizeY, _bool bRoof);
 
 private:

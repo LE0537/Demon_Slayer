@@ -234,7 +234,7 @@ PS_EFFECT_OUT PS_EFF_MAIN(PS_EFFECT_IN In)
 	PS_EFFECT_OUT		Out = (PS_EFFECT_OUT)0;
 
 	vector	vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
+	vector	vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 
 	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + (g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
 	float fDissolveAlpha = saturate((((1 - g_bDissolve) * max(max(vDissolveTexture.x, vDissolveTexture.y), max(vDissolveTexture.y, vDissolveTexture.z))) * g_bDisappearStart + g_fAlphaRatio) +
@@ -296,8 +296,15 @@ PS_EFFECT_OUT PS_EFF_COLORTEST(PS_EFFECT_IN In)
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vMaskTexture = g_MaskTextureCom.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor.a = saturate((g_vColor.a * ((g_bDissolve * saturate(g_bUseRGB * vTexture.x + (1 - g_bUseRGB) * vTexture.a - g_fAlphaRatio)) +
-		((1 - g_bDissolve) * saturate(g_bUseRGB * vTexture.x + (1 - g_bUseRGB) * vTexture.a - saturate(vDissolveTexture.r * g_bDisappearStart + g_fAlphaRatio))))) - (g_UseMask * (vMaskTexture.r)));
+	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + (g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
+	float fDissolveAlpha = saturate((((1 - g_bDissolve) * max(max(vDissolveTexture.x, vDissolveTexture.y), max(vDissolveTexture.y, vDissolveTexture.z))) * g_bDisappearStart + g_fAlphaRatio) +
+		(g_bDissolve * g_fAlphaRatio));
+
+	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
+		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
+
+	//Out.vColor.a = saturate((g_vColor.a * ((g_bDissolve * saturate(g_bUseRGB * vTexture.x + (1 - g_bUseRGB) * vTexture.a - g_fAlphaRatio)) +
+	//((1 - g_bDissolve) * saturate(g_bUseRGB * vTexture.x + (1 - g_bUseRGB) * vTexture.a - saturate(vDissolveTexture.r * g_bDisappearStart + g_fAlphaRatio))))) - (g_UseMask * (vMaskTexture.r)));
 
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 

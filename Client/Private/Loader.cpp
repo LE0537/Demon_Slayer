@@ -1155,7 +1155,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_5Tiger_Charge"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_Tiger_Main"));
 
-
 		pEffect_Manager->Load_Effect(TEXT("ParticleTest"));
 
 

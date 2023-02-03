@@ -86,6 +86,8 @@ private:
 private:
 	MESH_INFO						m_MeshInfo;
 
+	_bool							m_bStart = true;
+
 	_float							m_fTime = 0.f;
 	_float							m_fMoveUV_U = 0.f;
 	_float							m_fMoveUV_V = 0.f;

@@ -102,7 +102,12 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 	m_fTime += fTimeDelta;
 
 	if (m_fTime > m_MeshInfo.fStartTime && m_fTime < m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime) {
-		
+		if (m_bStart) {
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_MeshInfo.vPosition.x, m_MeshInfo.vPosition.y, m_MeshInfo.vPosition.z, 1.f));
+
+			m_bStart = false;
+		}
+
 		_float	fTimefromStart = m_fTime - m_MeshInfo.fStartTime;
 		_float fLife = m_MeshInfo.fLifeTime / 3.f;
 		_vector vSize = XMVectorSet(1.f, 1.f, 1.f, 0.f);
@@ -143,16 +148,19 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_fTurnSpeed);
 		if (m_MeshInfo.vTurnDirection.z == 1)
 			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), m_fTurnSpeed);
+
+		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+
+		vPos += XMVector3Normalize(XMLoadFloat3(&m_MeshInfo.vMoveDirection)) * fTimeDelta * m_MeshInfo.fMoveSpeed;
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	}
 }
 
 void CEffect_Mesh::Late_Tick(_float fTimeDelta)
 {
 	if (m_fTime > m_MeshInfo.fStartTime && m_fTime < m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime) {
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_MeshInfo.vPosition.x, m_MeshInfo.vPosition.y, m_MeshInfo.vPosition.z, 1.f));
-
+		
 		_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
-
 		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
 
 		Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
@@ -300,6 +308,8 @@ void CEffect_Mesh::Set_MeshInfo(MESH_INFO MeshInfo)
 	m_pTransformCom->RotationAll(vRotation);
 
 	m_fTurnSpeed = m_MeshInfo.fTurn;
+
+	
 }
 
 HRESULT CEffect_Mesh::SetUp_ShaderResources()
