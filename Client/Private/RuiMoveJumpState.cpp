@@ -5,6 +5,7 @@
 #include "RuiJumpState.h"
 #include "Layer.h"
 #include "GameInstance.h"
+#include "RuiJumpMoveAttackState.h"
 
 using namespace Rui;
 
@@ -27,6 +28,10 @@ CRuiState * CMoveJumpState::HandleInput(CRui* pRui)
 	case 1:
 		if (m_eStateType != CRuiState::TYPE_END)
 		{
+			if (pGameInstance->Key_Down(DIK_J))
+				return new CJumpMoveAttackState(TYPE_START);
+
+
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_A)) // аб
@@ -92,6 +97,9 @@ CRuiState * CMoveJumpState::HandleInput(CRui* pRui)
 	case 2:
 		if (m_eStateType != CRuiState::TYPE_END)
 		{
+			if (pGameInstance->Key_Down(DIK_Z))
+				return new CJumpMoveAttackState(TYPE_START);
+
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

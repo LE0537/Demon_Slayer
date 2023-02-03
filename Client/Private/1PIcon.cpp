@@ -91,11 +91,13 @@ HRESULT C1PIcon::Render()
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	_uint iLayerNum = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor())->Get_FrameLayerNum();
+	_uint iOnNum = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor())->Get_SelectUIInfo().iFrameNum;
 
 	if(m_ThrowUIinfo.iLayerNum == iLayerNum)
 		m_pVIBufferCom->Render();
-	if(m_bRenderOn)
+	if(iOnNum == m_ThrowUIinfo.iLayerNum)
 		m_pVIBufferCom->Render();
+
 
 	RELEASE_INSTANCE(CUI_Manager);
 	return S_OK;

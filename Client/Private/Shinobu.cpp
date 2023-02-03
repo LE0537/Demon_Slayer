@@ -15,6 +15,7 @@
 #include "ShinobuGuardState.h"
 #include "ShinobuToolState.h"
 #include "ShinobuHitState.h"
+#include "ShinobuBattleSTState.h"
 
 using namespace Shinobu;
 
@@ -85,7 +86,10 @@ HRESULT CShinobu::Initialize(void * pArg)
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
-	CShinobuState* pState = new CIdleState();
+	//CShinobuState* pState = new CIdleState();
+	//m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+
+	CShinobuState* pState = new CBattleStartState();
 	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 
 	return S_OK;
@@ -151,8 +155,6 @@ void CShinobu::Late_Tick(_float fTimeDelta)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 
-		dynamic_cast<CShinobuWeapon*>(m_pWeapon)->Set_Render(true);
-		dynamic_cast<CShinobuSheath*>(m_pSheath)->Set_Render(true);
 
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);

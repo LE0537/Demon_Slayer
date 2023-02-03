@@ -487,27 +487,6 @@
     <Filter Include="03.UI\97.KeyUI">
       <UniqueIdentifier>{0cb9cd9c-57b7-4f91-8731-6230b0738e23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom">
-      <UniqueIdentifier>{f5b5bc51-153b-4f35-bf58-ee601f650688}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\Eff">
-      <UniqueIdentifier>{f637d0e3-3b27-4327-a37a-9ce57cb29392}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\Frame">
-      <UniqueIdentifier>{1a6214d1-de4b-4eff-bf75-13f1043d127d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\Base">
-      <UniqueIdentifier>{a45f935c-bd8e-4481-8524-6b6cbfc3404f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\StockNum">
-      <UniqueIdentifier>{3d0da459-111a-430d-abbd-57116203dd98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\Deco">
-      <UniqueIdentifier>{11a3a066-48ad-4f45-a7d4-3e5b6f4a677e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\Bar">
-      <UniqueIdentifier>{540e57b6-b12a-42b3-bc39-19453d9bad87}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit">
       <UniqueIdentifier>{f6ea7561-ddb3-42de-8bf2-e5d709d969a5}</UniqueIdentifier>
     </Filter>
@@ -742,6 +721,9 @@
     <Filter Include="05.CollBox\08.KyoujuroJumpSkill">
       <UniqueIdentifier>{774addfc-6d62-4294-b860-cdbbfaaa0e5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\09.KaguraSkill">
+      <UniqueIdentifier>{e26b560e-8362-4b04-9f81-560f41e51129}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel">
       <UniqueIdentifier>{91127abc-4d60-4ea2-b63b-d7b957322ee2}</UniqueIdentifier>
     </Filter>
@@ -771,6 +753,144 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Move">
       <UniqueIdentifier>{4788b023-8efe-4d7e-8f04-dde538c0667d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result">
+      <UniqueIdentifier>{90608985-123d-4be0-bd3d-0826c6ecdd7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\Frame">
+      <UniqueIdentifier>{d98a5ee1-364e-4d32-bd73-159808758cd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\Rank">
+      <UniqueIdentifier>{ff987445-0ba1-4fa0-bccb-0bc1fdf4b138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\Rank\Icon">
+      <UniqueIdentifier>{eb6ce800-2e50-4c5c-bdd9-3acac7a9b6d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\Rank\Eff">
+      <UniqueIdentifier>{bb8d74c9-ed33-4e8c-a5d7-1ed59f3f6329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\Rank\Fuda">
+      <UniqueIdentifier>{b271456d-d53e-4f3d-b94f-9ea92e8363ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI">
+      <UniqueIdentifier>{58ae88c6-9a0b-4e75-8c0a-01715f334ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\CheckUI">
+      <UniqueIdentifier>{d0e38f90-e97e-4960-8f8d-74dd27e2453d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\WinUI">
+      <UniqueIdentifier>{e43eb986-aa4f-4a80-bc0b-274fba0b3ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\WinUI\Light">
+      <UniqueIdentifier>{45601a17-0c88-4fe0-ba7e-341f97b66640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\WinUI\WinUI">
+      <UniqueIdentifier>{3b626115-1897-4906-8ba2-cce5ff359cb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\Cloud">
+      <UniqueIdentifier>{38ab67fe-7f89-4cbb-a4f1-4c2e9dea379f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\Under">
+      <UniqueIdentifier>{e2692f70-ba92-4dd3-85f7-f54d639fd6aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom">
+      <UniqueIdentifier>{f5b5bc51-153b-4f35-bf58-ee601f650688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Eff">
+      <UniqueIdentifier>{f637d0e3-3b27-4327-a37a-9ce57cb29392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Frame">
+      <UniqueIdentifier>{1a6214d1-de4b-4eff-bf75-13f1043d127d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Base">
+      <UniqueIdentifier>{a45f935c-bd8e-4481-8524-6b6cbfc3404f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\StockNum">
+      <UniqueIdentifier>{3d0da459-111a-430d-abbd-57116203dd98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Deco">
+      <UniqueIdentifier>{11a3a066-48ad-4f45-a7d4-3e5b6f4a677e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Bar">
+      <UniqueIdentifier>{540e57b6-b12a-42b3-bc39-19453d9bad87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\KyoujuroWeapon%28Menu%29">
+      <UniqueIdentifier>{158b3a24-71fe-4294-b102-c1291eff15f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\ShinobuWeapon%28Menu%29">
+      <UniqueIdentifier>{c737a21a-83e6-4959-a77e-b3717062c30a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\JumpAttack">
+      <UniqueIdentifier>{9d3661d7-b98f-48c4-912a-e0beb4099a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\JumpAttack\JumpMoveAttack">
+      <UniqueIdentifier>{2916c101-845e-419d-86fb-8e119f35eaa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\TargetRush">
+      <UniqueIdentifier>{d1922186-6bb9-4e62-9384-8212c33cc5df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\JumpAttack">
+      <UniqueIdentifier>{ea8dca97-cc10-41d0-9d2b-c9864777c0fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\TargetRush">
+      <UniqueIdentifier>{9fc5f336-5ea7-4e95-bfe8-3ad04a36fb8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\JumpAttack\JumpMoveAttack">
+      <UniqueIdentifier>{99ea29e3-5002-4d64-a1c1-281484fe0a09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\TargetRush">
+      <UniqueIdentifier>{8ea809a3-aef0-4d63-ae15-5ac6c86f501d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\JumpAttack">
+      <UniqueIdentifier>{665b66e1-7594-45a8-92fe-05ec28a95a7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\TargetRush">
+      <UniqueIdentifier>{4a5227f1-3fbf-4fb7-a4d7-b4f6e9dbd2e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\JumpAttack">
+      <UniqueIdentifier>{f2cdf2f6-34cd-48e6-9bac-9eae2714a207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\JumpAttack\JumpMoveAttack">
+      <UniqueIdentifier>{2f604236-a907-432a-9a83-26fa043d7151}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\JumpAttack\JumpMoveAttack">
+      <UniqueIdentifier>{b96d4c32-17e9-474e-a76e-54ade662d789}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\TargetRush">
+      <UniqueIdentifier>{fddc39df-4720-4832-bc40-baf963493240}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\JumpAttack">
+      <UniqueIdentifier>{b2d70f82-dec4-4a5c-88cb-3a628145f51e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\JumpAttack\JumpMoveAttack">
+      <UniqueIdentifier>{02507fd4-b39a-4256-86cb-9458e27b89cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\TargetRush">
+      <UniqueIdentifier>{defb0c4a-9cec-471a-a43c-314843d2974e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack">
+      <UniqueIdentifier>{a5978d52-8047-47bc-94ad-362a386f2d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack">
+      <UniqueIdentifier>{59a427b9-4c76-445d-929f-b1fe03875ae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\BattleStart">
+      <UniqueIdentifier>{ad08e7df-a923-400f-b3ec-5b01f31d910b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\BattleStart">
+      <UniqueIdentifier>{5d6e62b4-363e-4b62-96b5-8d9381a17590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\BattleStart">
+      <UniqueIdentifier>{5c33a784-8bf4-463e-ae38-a30761861896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\BattleStart">
+      <UniqueIdentifier>{49db86fb-0542-4006-bf85-26cca1d174c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\BattleStart">
+      <UniqueIdentifier>{8337f6e0-9414-4f68-835c-6e5778d4f445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\BattleStart">
+      <UniqueIdentifier>{fba41093-5cad-40fa-913a-ae73b56fa9aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1252,22 +1372,22 @@
       <Filter>03.UI\02.Battle\BattleTop\Change\BarEff</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltStockEff.h">
-      <Filter>03.UI\02.Battle\BattleButtom\Eff</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Eff</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltStockFrame.h">
-      <Filter>03.UI\02.Battle\BattleButtom\Frame</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Frame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltStockBase.h">
-      <Filter>03.UI\02.Battle\BattleButtom\Base</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Base</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltGaugeDeco.h">
-      <Filter>03.UI\02.Battle\BattleButtom\Deco</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Deco</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltBar.h">
-      <Filter>03.UI\02.Battle\BattleButtom\Bar</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Bar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltStockNum.h">
-      <Filter>03.UI\02.Battle\BattleButtom\StockNum</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\StockNum</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KeyUI.h">
       <Filter>03.UI\97.KeyUI</Filter>
@@ -1524,6 +1644,9 @@
     <ClInclude Include="..\public\KyoujuroJumpSkill.h">
       <Filter>05.CollBox\08.KyoujuroJumpSkill</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\KaguraSkill.h">
+      <Filter>05.CollBox\09.KaguraSkill</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\MenuModel.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel</Filter>
     </ClInclude>
@@ -1536,17 +1659,122 @@
     <ClInclude Include="..\Public\ShinobuSkill_Upper.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Upper</Filter>
     </ClInclude>
-    <ClInclude Include="RuiAdvSkill_CommonState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="RuiAdvSkill_MoveState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\AkazaAdvSkill_Common.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Common</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AkazaAdvSkill_Move.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiAdvSkill_CommonState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiAdvSkill_MoveState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ResultFrame.h">
+      <Filter>03.UI\02.Battle\Result\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ResultCheckUI.h">
+      <Filter>03.UI\02.Battle\Result\ResultUI\CheckUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ResultCloud.h">
+      <Filter>03.UI\02.Battle\Result\ResultUI\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ResultUnder.h">
+      <Filter>03.UI\02.Battle\Result\ResultUI\Under</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TxtWinLight.h">
+      <Filter>03.UI\02.Battle\Result\ResultUI\WinUI\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TxtWinUI.h">
+      <Filter>03.UI\02.Battle\Result\ResultUI\WinUI\WinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RankIcon.h">
+      <Filter>03.UI\02.Battle\Result\Rank\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RankEff.h">
+      <Filter>03.UI\02.Battle\Result\Rank\Eff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RankFuda.h">
+      <Filter>03.UI\02.Battle\Result\Rank\Fuda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ShinobuWeaponMenu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\ShinobuWeapon%28Menu%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\KyoujuroWeaponMenu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\KyoujuroWeapon%28Menu%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TanjiroJumpAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\JumpAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroJumpMoveAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\JumpAttack\JumpMoveAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroTargetRushState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\TargetRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoJumpMoveAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\JumpAttack\JumpMoveAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoJumpAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\JumpAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoTargetRushState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\TargetRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiJumpAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\JumpAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiJumpMoveAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\JumpAttack\JumpMoveAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiTargetRushState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\TargetRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroJumpAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroTargetRushState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\TargetRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroJumpMoveAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaJumpAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\JumpAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaJumpMoveAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\JumpAttack\JumpMoveAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaTargetRushState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\TargetRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuJumpAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\JumpAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuTargetRushState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\TargetRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuJumpMoveAttackState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\JumpAttack\JumpMoveAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroBattleSTState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\BattleStart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiBattleSTState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\BattleStart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroBattleSTState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\BattleStart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaBattleSTState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\BattleStart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoBattleSTState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\BattleStart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuBattleSTState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\BattleStart</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2007,22 +2235,22 @@
       <Filter>03.UI\97.KeyUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltStockEff.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\Eff</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Eff</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltStockFrame.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\Frame</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Frame</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltStockBase.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\Base</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Base</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltStockNum.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\StockNum</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\StockNum</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltGaugeDeco.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\Deco</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Deco</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltBar.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\Bar</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Bar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AkazaAtk_2_State.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack2</Filter>
@@ -2198,9 +2426,6 @@
     <ClCompile Include="..\Private\RoundIcon.cpp">
       <Filter>03.UI\02.Battle\BattleTop\RoundIcon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\RoundUI.cpp">
-      <Filter>03.UI\02.Battle\Round</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\NezukoSkill_Common.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Common</Filter>
     </ClCompile>
@@ -2270,6 +2495,9 @@
     <ClCompile Include="..\private\KyoujuroJumpSkill.cpp">
       <Filter>05.CollBox\08.KyoujuroJumpSkill</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\KaguraSkill.cpp">
+      <Filter>05.CollBox\09.KaguraSkill</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\MenuModel.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel</Filter>
     </ClCompile>
@@ -2282,17 +2510,131 @@
     <ClCompile Include="..\Private\ShinobuSkill_Upper.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Upper</Filter>
     </ClCompile>
-    <ClCompile Include="RuiAdvSkill_CommonState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="RuiAdvSkill_MoveState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\AkazaAdvSkill_Common.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Common</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AkazaAdvSkill_Move.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiAdvSkill_CommonState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiAdvSkill_MoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiAdvSkill_MoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiAdvSkill_CommonState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RoundUI.cpp">
+      <Filter>03.UI\02.Battle\Round</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ResultFrame.cpp">
+      <Filter>03.UI\02.Battle\Result\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RankIcon.cpp">
+      <Filter>03.UI\02.Battle\Result\Rank\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RankEff.cpp">
+      <Filter>03.UI\02.Battle\Result\Rank\Eff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RankFuda.cpp">
+      <Filter>03.UI\02.Battle\Result\Rank\Fuda</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ResultCheckUI.cpp">
+      <Filter>03.UI\02.Battle\Result\ResultUI\CheckUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TxtWinLight.cpp">
+      <Filter>03.UI\02.Battle\Result\ResultUI\WinUI\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TxtWinUI.cpp">
+      <Filter>03.UI\02.Battle\Result\ResultUI\WinUI\WinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ResultCloud.cpp">
+      <Filter>03.UI\02.Battle\Result\ResultUI\Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ResultUnder.cpp">
+      <Filter>03.UI\02.Battle\Result\ResultUI\Under</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ShinobuWeaponMenu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\ShinobuWeapon%28Menu%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\KyoujuroWeaponMenu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\KyoujuroWeapon%28Menu%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TanjiroJumpAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\JumpAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroJumpMoveAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\JumpAttack\JumpMoveAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroTargetRushState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\TargetRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuJumpAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\JumpAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuTargetRushState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\TargetRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoJumpAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\JumpAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoTargetRushState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\TargetRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoJumpMoveAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\JumpAttack\JumpMoveAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaJumpAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\JumpAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaJumpMoveAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\JumpAttack\JumpMoveAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaTargetRushState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\TargetRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroJumpAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroJumpMoveAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroTargetRushState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\TargetRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiJumpAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\JumpAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiJumpMoveAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\JumpAttack\JumpMoveAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiTargetRushState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\TargetRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShionbuJumpMoveAttackState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\JumpAttack\JumpMoveAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroBattleSTState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\BattleStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiBattleSTState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\BattleStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroBattleSTState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\BattleStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaBattleSTState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\BattleStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoBattleSTState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\BattleStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuBattleSTState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\BattleStart</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2318,16 +2660,10 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
-      <Filter>97.ShaderFiles</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxRectInstance.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance.hlsl">
-      <Filter>97.ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxUIModel.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModelInstance.hlsl">
@@ -2346,6 +2682,12 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxEffPointInstance.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxUIModel.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

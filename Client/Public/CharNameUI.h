@@ -22,7 +22,7 @@ public:
 public:
 	void Name_Selected(wstring strName);
 	void Set_Name_SelLevel();
-	_float Select_NameReSize();
+	void Select_NameReSize();
 
 private:
 	HRESULT Ready_Components();

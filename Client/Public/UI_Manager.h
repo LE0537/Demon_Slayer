@@ -28,11 +28,13 @@ public:
 	void Add_Menu();
 	void Add_Loading();
 	void Add_BattleUI();
+	void Add_BattleResult();
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LogoUI(CUI::THROWUIINFO iter);
 	HRESULT Add_MenuUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LoadingUI(CUI::THROWUIINFO iter);
+	HRESULT Add_BattleResultUI(CUI::THROWUIINFO iter);
 	_bool P1_Oni_Check();
 	_bool P2_Oni_Check();
 
@@ -114,6 +116,7 @@ private:
 	list<CUI::LOADUIINFO>				MENU_LOADDATALIST;
 	list<CUI::LOADUIINFO>				LOADING_LOADDATALIST;
 	list<CUI::LOADUIINFO>				BATTLEUI_LOADDATALIST;
+	list<CUI::LOADUIINFO>				BATTLERESULT_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
@@ -124,6 +127,7 @@ private:
 	list<CUI::THROWUIINFO>				MENU_DATALIST;
 	list<CUI::THROWUIINFO>				LOADING_DATALIST;
 	list<CUI::THROWUIINFO>				BATTLEUI_DATALIST;
+	list<CUI::THROWUIINFO>				BATTLERESULT_DATALIST;
 
 	string							m_sFilePath;
 	CCharacters*					m_p1P;

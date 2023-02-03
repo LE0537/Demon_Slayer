@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TanjiroState.h"
-#include "WindMill.h"
+#include "KaguraSkill.h"
 
 BEGIN(Client)
 BEGIN(Tanjiro)
@@ -18,10 +18,25 @@ public:
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
 private:
-	CWindMill*	m_pCollBox = nullptr;
+	void Fall_Height(CTanjiro* pTanjiro, _float fTimeDelta);
+private:
+	CKaguraSkill*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;
 	_float m_fHitTime = 0.f;
 	_float m_fDelay = 0.f;
+	_float m_fMove = 0.f;
+	_bool  m_bHit = false;
+	_int   m_iHit = 0;
+	_bool   m_bLook = false;
+	_float4 m_vLook;
+private:
+	_vector m_vTargetPosition;
+	_float3 m_vPosition;
+	_float3 m_vVelocity;
+	_float m_fGravity;
+	_float m_fHeight;
+	_float m_fOriginPosY;
+	_bool m_bNextAnim;
 };
 END
 END

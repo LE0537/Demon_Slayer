@@ -4,7 +4,13 @@
 #include "UI_Manager.h"
 #include "SelP1Cursor.h"
 #include "SelP2Cursor.h"
-
+#include "MenuModel.h"
+#include "TanjiroWeapon.h"
+#include "TanjiroSheath.h"
+#include "KyoujuroWeapon.h"
+#include "KyoujuroSheath.h"
+#include "ShinobuWeapon.h"
+#include "ShinobuSheath.h"
 CCharNameUI::CCharNameUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
@@ -148,8 +154,10 @@ void CCharNameUI::Tick(_float fTimeDelta)
 
 void CCharNameUI::Late_Tick(_float fTimeDelta)
 {
-	if (nullptr != m_pRendererCom)
+	if (nullptr != m_pRendererCom && m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+	else if(nullptr != m_pRendererCom && m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
 HRESULT CCharNameUI::Render()
@@ -280,10 +288,12 @@ void CCharNameUI::Set_Name_SelLevel()
 			m_iImgNum = iSelNum1PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(270.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+
 		}
 		else if(!(m_iImgNum == 2 || m_iImgNum == 3))
 		{
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(120.f - g_iWinSizeX * 0.5f, -780.f + g_iWinSizeY * 0.5f, -280.f, 1.f));
+
 		}
 
 	}
@@ -294,21 +304,26 @@ void CCharNameUI::Set_Name_SelLevel()
 			m_iImgNum = iSelNum2PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1010.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+
 		}
 		else if(!(m_iImgNum == 2 || m_iImgNum == 3))
 		{
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1160.f - g_iWinSizeX * 0.5f, -780.f + g_iWinSizeY * 0.5f, -280.f, 1.f));
+
 		}
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 2)
 	{
-		if (!pSelP1Cursor->Get_SecondSelCheck())
+		if (!pSelP1Cursor->Get_SecondSelCheck() && pSelP1Cursor->Get_FirstSelCheck() &&
+			!pSelP1Cursor->Get_SelectUIInfo().bOni)
 		{
 			m_iImgNum = iSelNum1PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(270.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+
 		}
-		else if (pSelP1Cursor->Get_SelComple())
+		else if (pSelP1Cursor->Get_SelComple() && pSelP1Cursor->Get_FirstSelCheck() &&
+			!pSelP1Cursor->Get_SelectUIInfo().bOni)
 		{
 			m_iImgNum = iSelNum1PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
@@ -323,13 +338,17 @@ void CCharNameUI::Set_Name_SelLevel()
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 3)
 	{
-		if (!pSelP2Cursor->Get_SecondSelCheck())
+
+		if (!pSelP2Cursor->Get_SecondSelCheck() && pSelP2Cursor->Get_FirstSelCheck() &&
+			!pSelP2Cursor->Get_SelectUIInfo().bOni)
 		{
 			m_iImgNum = iSelNum2PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1010.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
+
 		}
-		else if (pSelP2Cursor->Get_SelComple())
+		else if (pSelP2Cursor->Get_SelComple() && pSelP2Cursor->Get_FirstSelCheck() &&
+			!pSelP2Cursor->Get_SelectUIInfo().bOni)
 		{
 			m_iImgNum = iSelNum2PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
@@ -347,22 +366,39 @@ void CCharNameUI::Set_Name_SelLevel()
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
-_float CCharNameUI::Select_NameReSize()
+void CCharNameUI::Select_NameReSize()
 {
 	if (m_iImgNum == 0)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.5f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
 	else if (m_iImgNum == 1)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.5f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
 	else if (m_iImgNum == 2)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.5f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
 	else if (m_iImgNum == 3)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.8f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
 	else if (m_iImgNum == 4)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.5f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
 	else if (m_iImgNum == 5)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
-	else
-		return 0.f;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.5f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
+
 }
 
 HRESULT CCharNameUI::Ready_Components()

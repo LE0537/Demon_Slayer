@@ -36,12 +36,22 @@ private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
 	void	Set_Pos();
+	HRESULT Ready_TanjiroParts();
+	HRESULT Ready_TanjiroParts2();
+	HRESULT Ready_KyoujuroParts();
+	HRESULT Ready_KyoujuroParts2();
+	HRESULT Ready_ShinobuParts();
+	HRESULT Ready_ShinobuParts2();
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);
-
+public:
+	CGameObject* Get_Weapon(_int _iIndex) { return m_pWeapon[_iIndex]; }
+	CGameObject* Get_Sheath(_int _iIndex) { return m_pSheath[_iIndex]; }
 private:
 	CModel*					m_pModelCom[6] = { nullptr };
+	CGameObject*			m_pWeapon[3] = { nullptr };
+	CGameObject*			m_pSheath[3] = { nullptr };
 
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
 	_float4x4				m_ViewMatrix, m_ProjMatrix;

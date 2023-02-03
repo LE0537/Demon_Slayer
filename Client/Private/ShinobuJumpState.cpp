@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "ShinobuIdleState.h"
 #include "ShinobuMoveState.h"
+#include "ShinobuJumpAttackState.h"
 
 using namespace Shinobu;
 
@@ -20,16 +21,19 @@ CShinobuState * CJumpstate::HandleInput(CShinobu* pShinobu)
 	switch (pShinobu->Get_i1P())
 	{
 	case 1:
-		if (pGameInstance->Key_Down(DIK_I))
-			
+		if (pGameInstance->Key_Down(DIK_J))
+		{
+			return new CJumpAttackState(TYPE_START);
+		}
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
-			
-		break;
-	default:
+		{
+			return new CJumpAttackState(TYPE_START);
+		}
 		break;
 	}
+
 
 	return nullptr;
 }

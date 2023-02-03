@@ -48,10 +48,25 @@ public:
 		ANIM_ATTACK_3 = 14,
 		ANIM_ATTACK_4 = 17,
 
+
+		ANIM_JUMPATTACK = 4,
+		ANIM_JUMP_MOVE_ATTACK_0 = 9,
+		ANIM_JUMP_MOVE_ATTACK_1 = 10,
+		ANIM_JUMP_MOVE_ATTACK_2 = 11,
+
+		ANIM_TARGET_RUSH_0 = 54,
+		ANIM_TARGET_RUSH_1 = 55,
+		ANIM_TARGET_RUSH_2 = 56,
+
+
+
+
 		ANIM_KAGURA_ATTACK_1 = 100,
 		ANIM_KAGURA_ATTACK_2 = 101,
 		ANIM_KAGURA_ATTACK_3 = 102,
 		ANIM_KAGURA_ATTACK_4 = 103,
+
+
 
 		// HIT
 		ANIM_HIT= 22,
@@ -83,7 +98,6 @@ public:
 		ANIM_DASH_R_02 = 84,
 
 
-
 		// SKILL
 
 		// WATER MILL
@@ -92,8 +106,9 @@ public:
 		ANIM_SKILL_WATERMILL_2 = 27,
 
 		// WIND MILL
-		ANIM_SKILL_WINDMILL = 32,
-
+		ANIM_SKILL_WINDMILL_0 = 29,
+		ANIM_SKILL_WINDMILL_1 = 30,
+		ANIM_SKILL_WINDMILL_2 = 31,
 
 		// COMMON
 		ANIM_SKILL_COMMON = 33,
@@ -104,7 +119,7 @@ public:
 		ANIM_SKILL_KAGURA_MOVE = 105,
 		ANIM_SKILL_KAGURA_SPHERE = 107,
 
-
+		ANIM_BATTLE_START = 99,
 
 		ANIM_END = 114
 	};
@@ -145,7 +160,7 @@ public:
 
 	void Set_KaguraMode(_bool bKagura) { m_bIsKagura = bKagura; }
 	_bool Get_KaguraMode() const { return m_bIsKagura; }
-
+	void Set_Render(_bool _bRender) { m_bRender = _bRender; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -168,7 +183,7 @@ private:
 	_int					m_iSkillHit = 0;
 	_int					m_iWaterMillHit = 0;
 	_int					m_iWindMillHit = 0;
-
+	_bool					m_bRender = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

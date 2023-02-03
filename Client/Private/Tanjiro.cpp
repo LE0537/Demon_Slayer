@@ -15,7 +15,7 @@
 #include "TanjiroToolState.h"
 #include "ImGuiManager.h"
 #include "Level_GamePlay.h"
-
+#include "TanjiroBattleSTState.h"
 using namespace Tanjiro;
 
 
@@ -83,10 +83,15 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		else if (m_i1p == 2)
 			CUI_Manager::Get_Instance()->Set_2P_2(this);
 	}
-	CTanjiroState* pState = new CIdleState();
+	//CTanjiroState* pState = new CIdleState();
+	//m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
+	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	CTanjiroState* pState = new CBattleStartState();
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 
-	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 	return S_OK;
 }
@@ -119,7 +124,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (pGameInstance->Key_Down(DIK_F3))
-		m_bIsKagura = m_bIsKagura == true ? false : true;
+		m_bIsKagura = !m_bIsKagura;
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -146,18 +151,19 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 		m_pWeapon->Tick(fTimeDelta);
 		m_pSheath->Tick(fTimeDelta);
 
+		if (!m_bRender)
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);
+			dynamic_cast<CTanjiroSheath*>(m_pSheath)->Set_Render(true);
 
-		dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);
-		dynamic_cast<CTanjiroSheath*>(m_pSheath)->Set_Render(true);
-
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
-
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+		}
 
 			if (g_bCollBox)
 			{

@@ -285,8 +285,8 @@ CAkazaState * CAdvSkill_CommmonState::Fall_Height(CAkaza * pAkaza, _float fTimeD
 	}
 
 
-	if (vPosition.y <= 3.f)
-		m_pCamera->Camera_Shake(fTimeDelta * 10.f);
+	//m_fGravity += fTimeDelta;
+	//m_pCamera->Camera_Shake(m_fGravity);
 
 
 	return nullptr;

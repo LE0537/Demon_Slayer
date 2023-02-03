@@ -31,6 +31,8 @@
 #include "TanjiroSheath.h"
 #include "ShinobuWeapon.h"
 #include "ShinobuSheath.h"
+#include "KyoujuroWeaponMenu.h"
+#include "ShinobuWeaponMenu.h"
 //UI
 #include "HpBar.h"
 #include "HpBarBack.h"
@@ -90,6 +92,15 @@
 #include "RoundIcon.h"
 #include "RoundUI.h"
 #include "NumTimer.h"
+#include "ResultCheckUI.h"
+#include "ResultFrame.h"
+#include "ResultCloud.h"
+#include "ResultUnder.h"
+#include "TxtWinLight.h"
+#include "TxtWinUI.h"
+#include "RankEff.h"
+#include "RankIcon.h"
+#include "RankFuda.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -106,6 +117,7 @@
 #include "RuiShoot.h"
 #include "RuiSphere.h"
 #include "KyoujuroJumpSkill.h"
+#include "KaguraSkill.h"
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -173,6 +185,33 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 #pragma region BattleUI
 		//Battle
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TxtWin"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Txt_Win.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TxtWinEff"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Result_Win_White.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ResultUnder"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Result_Under_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ResultFrame"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Result_Frame.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ResultCheckUI"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Reslt_Ply_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_RankFuda"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Rank_Fuda_%d.png"), 5))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_RankIcon"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Rank_%d.png"), 5))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_RankIconEff"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Eff_Rank_%d.png"), 5))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ResultCloud"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/cloud_%d.png"), 5))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_NumTimer"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Num_Timer/Num_Timer%d.png"), 10))))
 			return E_FAIL;
@@ -1252,7 +1291,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CKyoujuro::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Akaza"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Akaza"),
 		CAkaza::Create(m_pDevice, m_pContext))))
@@ -1299,7 +1337,20 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 
 	_matrix PivotMatrix2 = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
-
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_KyoujuroWeaponMenu"),
+	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/KyoujuroWeapon(Menu)/KyoujuroWeapon(Menu).fbx", PivotMatrix2))))
+	//return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_ShinobuWeaponMenu"),
+	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/ShinobuWeapon(Menu)/ShinobuWeapon(Menu).fbx", PivotMatrix2))))
+	//return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyoujuroWeapon(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroWeaponMenu"),
+		CKyoujuroWeaponMenu::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("ShinobuWeapon(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ShinobuWeaponMenu"),
+		CShinobuWeaponMenu::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_TanjiroMenu"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Tanjiro(Menu)/Tanjiro(Menu).fbx", PivotMatrix2))))
 	//	return E_FAIL;
@@ -1318,7 +1369,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_ShinobuMenu"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Shinobu(Menu)/Shinobu(Menu).fbx", PivotMatrix2))))
 	//	return E_FAIL;
-	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Tanjiro(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+ 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Tanjiro(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Kyoujuro(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rui(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Akaza(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
@@ -1355,6 +1406,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroJumpSkill"),
 		CKyoujuroJumpSkill::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KaguraSkill"),
+		CKaguraSkill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	//Map
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BattleField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 	//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BattleField"),
@@ -1370,6 +1424,33 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultUnder"),
+		CResultUnder::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultCloud"),
+		CResultCloud::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TxtWinLight"),
+		CTxtWinLight::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TxtWinUI"),
+		CTxtWinUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultCheckUI"),
+		CResultCheckUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RankEff"),
+		CRankEff::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RankIcon"),
+		CRankIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RankFuda"),
+		CRankFuda::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultFrame"),
+		CResultFrame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NumTimer"),
 		CNumTimer::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

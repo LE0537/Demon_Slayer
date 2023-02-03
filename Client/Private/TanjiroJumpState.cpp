@@ -3,7 +3,7 @@
 #include "GameInstance.h"
 #include "TanjiroIdleState.h"
 #include "TanjiroMoveState.h"
-
+#include "TanjiroJumpAttackState.h"
 using namespace Tanjiro;
 
 CJumpstate::CJumpstate(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -21,11 +21,21 @@ CTanjiroState * CJumpstate::HandleInput(CTanjiro * pTanjiro)
 	{
 	case 1:
 		if (pGameInstance->Key_Down(DIK_I))
-			
+		{
+		}
+		else if (pGameInstance->Key_Down(DIK_J))
+		{
+			return new CJumpAttackState(TYPE_START);
+		}
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
-			
+		{
+		}
+		else if (pGameInstance->Key_Down(DIK_J))
+		{
+			return new CJumpAttackState(TYPE_START);
+		}
 		break;
 	default:
 		break;
@@ -127,7 +137,10 @@ void CJumpstate::Enter(CTanjiro * pTanjiro)
 
 void CJumpstate::Exit(CTanjiro * pTanjiro)
 {
-
+	pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_JUMP_START);
+	pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_JUMP_LOOP_START);
+	pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_JUMP_LOOP_END);
+	pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_JUMP_END);
 }
 
 

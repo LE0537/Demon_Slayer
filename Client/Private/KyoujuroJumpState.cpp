@@ -3,7 +3,7 @@
 #include "KyoujuroIdleState.h"
 #include "GameInstance.h"
 #include "KyoujuroJumpSkill_Common.h"
-
+#include "KyoujuroJumpAttackState.h"
 
 using namespace Kyoujuro;
 
@@ -29,6 +29,10 @@ CKyoujuroState * CJumpState::HandleInput(CKyoujuro * pKyoujuro)
 				return new CJumpSkill_CommonState(m_fCurrentPosY);
 			}
 		}
+		else if (pGameInstance->Key_Down(DIK_J))
+		{
+			return new CJumpAttackState(TYPE_START);
+		}
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_X))
@@ -38,6 +42,10 @@ CKyoujuroState * CJumpState::HandleInput(CKyoujuro * pKyoujuro)
 				pKyoujuro->Set_SkillBar(-200);
 				return new CJumpSkill_CommonState(m_fCurrentPosY);
 			}
+		}
+		else if (pGameInstance->Key_Down(DIK_Z))
+		{
+			return new CJumpAttackState(TYPE_START);
 		}
 		break;
 	}

@@ -70,49 +70,45 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 		vPos += XMVector3Normalize(XMLoadFloat3(&m_TextureInfo.vMoveDirection)) * fTimeDelta * m_TextureInfo.fMoveSpeed;
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	}
-}
 
-void CEffect_Texture::Late_Tick(_float fTimeDelta)
-{
+	_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+
+	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+
 	if (m_TextureInfo.bBillboard) {
 		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-		_float4x4		ViewMatrix;
-		ViewMatrix = pGameInstance->Get_TransformFloat4x4_Inverse(CPipeLine::D3DTS_VIEW);
+		_float4 vCampos = pGameInstance->Get_CamPosition();
 
 		RELEASE_INSTANCE(CGameInstance);
 
 		_float3 vScale = m_pTransformCom->Get_Scale();
 
-		_vector vLook = XMLoadFloat4((_float4*)&ViewMatrix.m[2][0]);
-		_vector vAxisY = XMVector3Normalize(m_pTransformCom->Get_State(CTransform::STATE_UP));
+		_vector vLook = XMVector3Normalize(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION) - XMLoadFloat4(&vCampos));
+		_vector vAxisY = XMVectorSet(0.f, 1.f, 0.f, 0.f);
 
-		_vector vRight = XMVector3Cross(vAxisY, vLook);
+		_vector vRight = XMVector3Normalize(XMVector3Cross(vAxisY, vLook));
 		_vector	vUp = XMVector3Cross(vLook, vRight);
 
-		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, XMVector3Normalize(vRight) * vScale.x);
-		m_pTransformCom->Set_State(CTransform::STATE_UP, XMVector3Normalize(vUp) * vScale.y);
-		m_pTransformCom->Set_State(CTransform::STATE_LOOK, XMVector3Normalize(vLook) * vScale.z);
+		_matrix mtrCombinedWorld = XMLoadFloat4x4(&m_CombinedWorldMatrix);
+
+		_matrix RotationMatrix = XMMatrixRotationAxis(vLook, XMConvertToRadians(m_TextureInfo.fRotation.z));
+
+		mtrCombinedWorld.r[0] = XMVector3Normalize(vRight) * vScale.x;
+		mtrCombinedWorld.r[1] = XMVector3Normalize(vUp) * vScale.y;
+		mtrCombinedWorld.r[2] = XMVector3Normalize(vLook) * vScale.z;
+
+		mtrCombinedWorld.r[0] = XMVector3TransformNormal(mtrCombinedWorld.r[0], RotationMatrix);
+		mtrCombinedWorld.r[1] = XMVector3TransformNormal(mtrCombinedWorld.r[1], RotationMatrix);
+		mtrCombinedWorld.r[2] = XMVector3TransformNormal(mtrCombinedWorld.r[2], RotationMatrix);
+
+		XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrCombinedWorld);
 	}
+}
 
+void CEffect_Texture::Late_Tick(_float fTimeDelta)
+{
 	if (m_fTime > m_TextureInfo.fStartTime && m_fTime < m_TextureInfo.fLifeTime + m_TextureInfo.fStartTime) {
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_TextureInfo.vPosition.x, m_TextureInfo.vPosition.y, m_TextureInfo.vPosition.z, 1.f)
-			+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.001f * (_float)m_TextureInfo.iSortingFudge);
-
-		if (m_TextureInfo.bBillboard) {
-			_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
-			_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
-
-			mtrWorld.r[3] += mtrParents.r[3];
-
-			XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld);
-		}
-		else {
-			_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
-
-			XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
-		}
-
 		Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
 
 		if (nullptr != m_pRendererCom)
@@ -203,6 +199,9 @@ void CEffect_Texture::Set_TexInfo(TextureInfo TexInfo)
 	vRotation.y = XMConvertToRadians(vRotation.y);
 	vRotation.z = XMConvertToRadians(vRotation.z);
 	m_pTransformCom->RotationAll(vRotation);
+
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_TextureInfo.vPosition.x, m_TextureInfo.vPosition.y, m_TextureInfo.vPosition.z, 1.f)
+		+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.001f * (_float)m_TextureInfo.iSortingFudge);
 }
 
 HRESULT CEffect_Texture::SetUp_ShaderResources()
