@@ -1038,6 +1038,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Line", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Rui", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 
+		Load_Texture("Else", "../Bin/Resources/Effect/Mesh/MeshTexture/");
+
 	
 #pragma endregion Eeffect Texture
 
