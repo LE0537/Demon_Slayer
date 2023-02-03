@@ -41,26 +41,33 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 	{
 		if (pSel_P1Cursor->Get_SelComple() && pSel_P2Cursor->Get_SelComple())
 		{
-			_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
-			_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
-			_uint i1p_2 = pUIManager->Get_1P_2Char()->Get_ImgNum();
-			_uint i2p_2 = pUIManager->Get_2P_2Char()->Get_ImgNum();
+			m_fDelayTime += fTimeDelta;
 
-			pUIManager->Set_Sel1P(i1p);
-			pUIManager->Set_Sel2P(i2p);
+			if (m_fDelayTime >= 5.f)
+			{
+				_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
+				_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
+				_uint i1p_2 = pUIManager->Get_1P_2Char()->Get_ImgNum();
+				_uint i2p_2 = pUIManager->Get_2P_2Char()->Get_ImgNum();
 
-			if (!pUIManager->Get_1PCursor()->Get_SelectUIInfo().bOni)
-				pUIManager->Set_Sel1P_2(i1p_2);
-			else
-				pUIManager->Set_Sel1P_2(99);
+				pUIManager->Set_Sel1P(i1p);
+				pUIManager->Set_Sel2P(i2p);
 
-			if (!pUIManager->Get_2PCursor()->Get_SelectUIInfo().bOni)
-				pUIManager->Set_Sel2P_2(i2p_2);
-			else
-				pUIManager->Set_Sel2P_2(99);
+				if (!pUIManager->Get_1PCursor()->Get_SelectUIInfo().bOni)
+					pUIManager->Set_Sel1P_2(i1p_2);
+				else
+					pUIManager->Set_Sel1P_2(99);
 
-			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
-				return;
+				if (!pUIManager->Get_2PCursor()->Get_SelectUIInfo().bOni)
+					pUIManager->Set_Sel2P_2(i2p_2);
+				else
+					pUIManager->Set_Sel2P_2(99);
+
+				if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
+					return;
+
+				m_fDelayTime = 0.f;
+			}
 		}
 	}
 	

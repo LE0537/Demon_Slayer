@@ -90,6 +90,11 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 				}
 				else
 				{
+					if (m_iFrameLayerNum < 5 && m_iFrameLayerNum >= 0)
+						++m_iFrameLayerNum;
+					else if (m_iFrameLayerNum == 5)
+						m_iFrameLayerNum = 0;
+
 					++m_iSelCount;
 					if (m_iSelCount == 1)
 						m_bFirstSelCheck = true;
@@ -113,7 +118,10 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 			{
 				--m_iSelCount;
 				if (m_iSelCount == 0)
+				{
 					m_bFirstSelCheck = false;
+					m_iFrameLayerNum = m_SelectInfo.iFrameNum;
+				}
 				else if (m_iSelCount == 1)
 					m_bSecondSelCheck = false;
 			}

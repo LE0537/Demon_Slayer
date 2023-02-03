@@ -20,6 +20,9 @@ public:
 private:
 	HRESULT Ready_Layer_Camera(const _tchar* pLayerTag);
 
+	_bool			 m_bCreateUI = false;
+	_float	           m_fDelayTime = 0.f;
+
 
 private:
 	_bool			 m_bCreateUI = false;
