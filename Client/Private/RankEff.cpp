@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "ChangeBaseDeco.h"
+#include "RankEff.h"
 #include "GameInstance.h"
 
-CChangeBaseDeco::CChangeBaseDeco(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CRankEff::CRankEff(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CChangeBaseDeco::CChangeBaseDeco(const CChangeBaseDeco & rhs)
+CRankEff::CRankEff(const CRankEff & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CChangeBaseDeco::Initialize_Prototype()
+HRESULT CRankEff::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CChangeBaseDeco::Initialize(void * pArg)
+HRESULT CRankEff::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -32,7 +32,7 @@ HRESULT CChangeBaseDeco::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -48,18 +48,18 @@ HRESULT CChangeBaseDeco::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CChangeBaseDeco::Tick(_float fTimeDelta)
+void CRankEff::Tick(_float fTimeDelta)
 {
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void CChangeBaseDeco::Late_Tick(_float fTimeDelta)
+void CRankEff::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CChangeBaseDeco::Render()
+HRESULT CRankEff::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -78,7 +78,7 @@ HRESULT CChangeBaseDeco::Render()
 	return S_OK;
 }
 
-HRESULT CChangeBaseDeco::Ready_Components()
+HRESULT CRankEff::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -93,7 +93,7 @@ HRESULT CChangeBaseDeco::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeBaseDeco"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_RankIconEff"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -103,7 +103,7 @@ HRESULT CChangeBaseDeco::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CChangeBaseDeco::SetUp_ShaderResources()
+HRESULT CRankEff::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -121,9 +121,9 @@ HRESULT CChangeBaseDeco::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CChangeBaseDeco * CChangeBaseDeco::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CRankEff * CRankEff::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CChangeBaseDeco*	pInstance = new CChangeBaseDeco(pDevice, pContext);
+	CRankEff*	pInstance = new CRankEff(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
@@ -135,9 +135,9 @@ CChangeBaseDeco * CChangeBaseDeco::Create(ID3D11Device * pDevice, ID3D11DeviceCo
 }
 
 
-CGameObject * CChangeBaseDeco::Clone(void * pArg)
+CGameObject * CRankEff::Clone(void * pArg)
 {
-	CChangeBaseDeco*	pInstance = new CChangeBaseDeco(*this);
+	CRankEff*	pInstance = new CRankEff(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -148,7 +148,7 @@ CGameObject * CChangeBaseDeco::Clone(void * pArg)
 	return pInstance;
 }
 
-void CChangeBaseDeco::Free()
+void CRankEff::Free()
 {
 	__super::Free();
 

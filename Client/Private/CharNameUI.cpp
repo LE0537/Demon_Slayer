@@ -148,8 +148,10 @@ void CCharNameUI::Tick(_float fTimeDelta)
 
 void CCharNameUI::Late_Tick(_float fTimeDelta)
 {
-	if (nullptr != m_pRendererCom)
+	if (nullptr != m_pRendererCom && m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+	else if(nullptr != m_pRendererCom && m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
 HRESULT CCharNameUI::Render()
@@ -352,22 +354,39 @@ void CCharNameUI::Set_Name_SelLevel()
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
-_float CCharNameUI::Select_NameReSize()
+void CCharNameUI::Select_NameReSize()
 {
 	if (m_iImgNum == 0)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.5f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
 	else if (m_iImgNum == 1)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.5f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
 	else if (m_iImgNum == 2)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.5f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
 	else if (m_iImgNum == 3)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.8f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
 	else if (m_iImgNum == 4)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.5f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
 	else if (m_iImgNum == 5)
-		return m_fSizeX = m_ThrowUIinfo.vScale.x * 1.9f;
-	else
-		return 0.f;
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.5f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 0.8f;
+	}
+
 }
 
 HRESULT CCharNameUI::Ready_Components()

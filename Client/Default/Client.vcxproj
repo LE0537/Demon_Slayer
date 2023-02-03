@@ -217,6 +217,13 @@
     <ClInclude Include="..\public\MenuModel.h" />
     <ClInclude Include="..\Public\NezukoHitState.h" />
     <ClInclude Include="..\Public\NumTimer.h" />
+    <ClInclude Include="..\Public\RankEff.h" />
+    <ClInclude Include="..\Public\RankFuda.h" />
+    <ClInclude Include="..\Public\RankIcon.h" />
+    <ClInclude Include="..\Public\ResultCheckUI.h" />
+    <ClInclude Include="..\Public\ResultCloud.h" />
+    <ClInclude Include="..\Public\ResultFrame.h" />
+    <ClInclude Include="..\Public\ResultUnder.h" />
     <ClInclude Include="..\Public\RoundIcon.h" />
     <ClInclude Include="..\Public\RoundUI.h" />
     <ClInclude Include="..\Public\RuiAdvSkill_CommonState.h" />
@@ -410,6 +417,8 @@
     <ClInclude Include="..\Public\TanjiroToolState.h" />
     <ClInclude Include="..\Public\TanjiroWeapon.h" />
     <ClInclude Include="..\Public\Terrain.h" />
+    <ClInclude Include="..\Public\TxtWinLight.h" />
+    <ClInclude Include="..\Public\TxtWinUI.h" />
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Manager.h" />
     <ClInclude Include="..\public\WaterMill.h" />
@@ -477,6 +486,13 @@
     <ClCompile Include="..\private\MenuModel.cpp" />
     <ClCompile Include="..\Private\NezukoHitState.cpp" />
     <ClCompile Include="..\Private\NumTimer.cpp" />
+    <ClCompile Include="..\Private\RankEff.cpp" />
+    <ClCompile Include="..\Private\RankFuda.cpp" />
+    <ClCompile Include="..\Private\RankIcon.cpp" />
+    <ClCompile Include="..\Private\ResultCheckUI.cpp" />
+    <ClCompile Include="..\Private\ResultCloud.cpp" />
+    <ClCompile Include="..\Private\ResultFrame.cpp" />
+    <ClCompile Include="..\Private\ResultUnder.cpp" />
     <ClCompile Include="..\Private\RoundIcon.cpp" />
     <ClCompile Include="..\Private\RoundUI.cpp" />
     <ClCompile Include="..\Private\RuiAdvSkill_CommonState.cpp" />
@@ -664,6 +680,8 @@
     <ClCompile Include="..\Private\TanjiroToolState.cpp" />
     <ClCompile Include="..\Private\TanjiroWeapon.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\Private\TxtWinLight.cpp" />
+    <ClCompile Include="..\Private\TxtWinUI.cpp" />
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Manager.cpp" />
     <ClCompile Include="..\private\WaterMill.cpp" />

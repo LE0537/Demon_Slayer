@@ -102,6 +102,8 @@ void CUI_Manager::Load_Data(string sLoadName)
 			LOADING_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "BattleUI")
 			BATTLEUI_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
+		else if (sLoadName == "BattleResult")
+			BATTLERESULT_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -309,6 +311,26 @@ void CUI_Manager::Add_BattleUI()
 		Add_Btl_PlayerUI(iter);
 
 	m_iTimerLayerNum = 0;
+}
+
+void CUI_Manager::Add_BattleResult()
+{
+	for (auto iter : BATTLERESULT_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.pTarget = m_p1P;
+		m_ThrowInfo.pTargetSecond = m_p2P;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+
+		BATTLERESULT_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : BATTLERESULT_DATALIST)
+		Add_BattleResultUI(iter);
 }
 
 HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
@@ -963,6 +985,112 @@ HRESULT CUI_Manager::Add_LoadingUI(CUI::THROWUIINFO iter)
 	case 12:
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LoadingBar"), LEVEL_LOADING, TEXT("Layer_LoadingUI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	default:
+		break;
+	}
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_BattleResultUI(CUI::THROWUIINFO iter)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	switch (iter.iTextureNum)
+	{
+	case 0:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultUnder"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 1:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultUnder"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 2:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 3:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 4:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 5:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 6:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 7:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_TxtWinLight"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 8:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_TxtWinUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 9:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCheckUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 10:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PlayerNumIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 11:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RankEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 12:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RankIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 13:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RankFuda"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 14:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultFrame"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	}

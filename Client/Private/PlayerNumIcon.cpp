@@ -29,15 +29,19 @@ HRESULT CPlayerNumIcon::Initialize(void * pArg)
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
-	if (m_ThrowUIinfo.iTextureNum == 8)
-		m_iImgNum = 0;
-	else if (m_ThrowUIinfo.iTextureNum == 9)
-		m_iImgNum = 1;
+
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
+		if (m_ThrowUIinfo.iTextureNum == 8)
+			m_iImgNum = 0;
+		else if (m_ThrowUIinfo.iTextureNum == 9)
+			m_iImgNum = 1;
+	}
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -46,15 +50,27 @@ HRESULT CPlayerNumIcon::Initialize(void * pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
-	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
+		XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
+		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
 
+	}
+	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	{
+		XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
+		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
+	}
+	
 	return S_OK;
 }
 
 void CPlayerNumIcon::Tick(_float fTimeDelta)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, -200.f, 1.f));
+	if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, -200.f, 1.f));
+	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
 void CPlayerNumIcon::Late_Tick(_float fTimeDelta)

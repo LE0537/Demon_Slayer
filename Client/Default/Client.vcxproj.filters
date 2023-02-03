@@ -487,27 +487,6 @@
     <Filter Include="03.UI\97.KeyUI">
       <UniqueIdentifier>{0cb9cd9c-57b7-4f91-8731-6230b0738e23}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom">
-      <UniqueIdentifier>{f5b5bc51-153b-4f35-bf58-ee601f650688}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\Eff">
-      <UniqueIdentifier>{f637d0e3-3b27-4327-a37a-9ce57cb29392}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\Frame">
-      <UniqueIdentifier>{1a6214d1-de4b-4eff-bf75-13f1043d127d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\Base">
-      <UniqueIdentifier>{a45f935c-bd8e-4481-8524-6b6cbfc3404f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\StockNum">
-      <UniqueIdentifier>{3d0da459-111a-430d-abbd-57116203dd98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\Deco">
-      <UniqueIdentifier>{11a3a066-48ad-4f45-a7d4-3e5b6f4a677e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleButtom\Bar">
-      <UniqueIdentifier>{540e57b6-b12a-42b3-bc39-19453d9bad87}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit">
       <UniqueIdentifier>{f6ea7561-ddb3-42de-8bf2-e5d709d969a5}</UniqueIdentifier>
     </Filter>
@@ -774,6 +753,66 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Move">
       <UniqueIdentifier>{4788b023-8efe-4d7e-8f04-dde538c0667d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result">
+      <UniqueIdentifier>{90608985-123d-4be0-bd3d-0826c6ecdd7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\Frame">
+      <UniqueIdentifier>{d98a5ee1-364e-4d32-bd73-159808758cd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\Rank">
+      <UniqueIdentifier>{ff987445-0ba1-4fa0-bccb-0bc1fdf4b138}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\Rank\Icon">
+      <UniqueIdentifier>{eb6ce800-2e50-4c5c-bdd9-3acac7a9b6d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\Rank\Eff">
+      <UniqueIdentifier>{bb8d74c9-ed33-4e8c-a5d7-1ed59f3f6329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\Rank\Fuda">
+      <UniqueIdentifier>{b271456d-d53e-4f3d-b94f-9ea92e8363ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI">
+      <UniqueIdentifier>{58ae88c6-9a0b-4e75-8c0a-01715f334ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\CheckUI">
+      <UniqueIdentifier>{d0e38f90-e97e-4960-8f8d-74dd27e2453d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\WinUI">
+      <UniqueIdentifier>{e43eb986-aa4f-4a80-bc0b-274fba0b3ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\WinUI\Light">
+      <UniqueIdentifier>{45601a17-0c88-4fe0-ba7e-341f97b66640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\WinUI\WinUI">
+      <UniqueIdentifier>{3b626115-1897-4906-8ba2-cce5ff359cb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\Cloud">
+      <UniqueIdentifier>{38ab67fe-7f89-4cbb-a4f1-4c2e9dea379f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Result\ResultUI\Under">
+      <UniqueIdentifier>{e2692f70-ba92-4dd3-85f7-f54d639fd6aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom">
+      <UniqueIdentifier>{f5b5bc51-153b-4f35-bf58-ee601f650688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Eff">
+      <UniqueIdentifier>{f637d0e3-3b27-4327-a37a-9ce57cb29392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Frame">
+      <UniqueIdentifier>{1a6214d1-de4b-4eff-bf75-13f1043d127d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Base">
+      <UniqueIdentifier>{a45f935c-bd8e-4481-8524-6b6cbfc3404f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\StockNum">
+      <UniqueIdentifier>{3d0da459-111a-430d-abbd-57116203dd98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Deco">
+      <UniqueIdentifier>{11a3a066-48ad-4f45-a7d4-3e5b6f4a677e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Bar">
+      <UniqueIdentifier>{540e57b6-b12a-42b3-bc39-19453d9bad87}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1255,22 +1294,22 @@
       <Filter>03.UI\02.Battle\BattleTop\Change\BarEff</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltStockEff.h">
-      <Filter>03.UI\02.Battle\BattleButtom\Eff</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Eff</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltStockFrame.h">
-      <Filter>03.UI\02.Battle\BattleButtom\Frame</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Frame</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltStockBase.h">
-      <Filter>03.UI\02.Battle\BattleButtom\Base</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Base</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltGaugeDeco.h">
-      <Filter>03.UI\02.Battle\BattleButtom\Deco</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Deco</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltBar.h">
-      <Filter>03.UI\02.Battle\BattleButtom\Bar</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Bar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltStockNum.h">
-      <Filter>03.UI\02.Battle\BattleButtom\StockNum</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\StockNum</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KeyUI.h">
       <Filter>03.UI\97.KeyUI</Filter>
@@ -1553,6 +1592,33 @@
     </ClInclude>
     <ClInclude Include="..\Public\RuiAdvSkill_MoveState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ResultFrame.h">
+      <Filter>03.UI\02.Battle\Result\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ResultCheckUI.h">
+      <Filter>03.UI\02.Battle\Result\ResultUI\CheckUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ResultCloud.h">
+      <Filter>03.UI\02.Battle\Result\ResultUI\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ResultUnder.h">
+      <Filter>03.UI\02.Battle\Result\ResultUI\Under</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TxtWinLight.h">
+      <Filter>03.UI\02.Battle\Result\ResultUI\WinUI\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TxtWinUI.h">
+      <Filter>03.UI\02.Battle\Result\ResultUI\WinUI\WinUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RankIcon.h">
+      <Filter>03.UI\02.Battle\Result\Rank\Icon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RankEff.h">
+      <Filter>03.UI\02.Battle\Result\Rank\Eff</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RankFuda.h">
+      <Filter>03.UI\02.Battle\Result\Rank\Fuda</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2013,22 +2079,22 @@
       <Filter>03.UI\97.KeyUI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltStockEff.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\Eff</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Eff</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltStockFrame.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\Frame</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Frame</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltStockBase.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\Base</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Base</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltStockNum.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\StockNum</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\StockNum</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltGaugeDeco.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\Deco</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Deco</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\UltBar.cpp">
-      <Filter>03.UI\02.Battle\BattleButtom\Bar</Filter>
+      <Filter>03.UI\02.Battle\BattleBottom\Bar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AkazaAtk_2_State.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack2</Filter>
@@ -2204,9 +2270,6 @@
     <ClCompile Include="..\Private\RoundIcon.cpp">
       <Filter>03.UI\02.Battle\BattleTop\RoundIcon</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\RoundUI.cpp">
-      <Filter>03.UI\02.Battle\Round</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\NezukoSkill_Common.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Common</Filter>
     </ClCompile>
@@ -2308,6 +2371,36 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiAdvSkill_CommonState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RoundUI.cpp">
+      <Filter>03.UI\02.Battle\Round</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ResultFrame.cpp">
+      <Filter>03.UI\02.Battle\Result\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RankIcon.cpp">
+      <Filter>03.UI\02.Battle\Result\Rank\Icon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RankEff.cpp">
+      <Filter>03.UI\02.Battle\Result\Rank\Eff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RankFuda.cpp">
+      <Filter>03.UI\02.Battle\Result\Rank\Fuda</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ResultCheckUI.cpp">
+      <Filter>03.UI\02.Battle\Result\ResultUI\CheckUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TxtWinLight.cpp">
+      <Filter>03.UI\02.Battle\Result\ResultUI\WinUI\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TxtWinUI.cpp">
+      <Filter>03.UI\02.Battle\Result\ResultUI\WinUI\WinUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ResultCloud.cpp">
+      <Filter>03.UI\02.Battle\Result\ResultUI\Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ResultUnder.cpp">
+      <Filter>03.UI\02.Battle\Result\ResultUI\Under</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
