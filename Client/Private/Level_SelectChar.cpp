@@ -17,6 +17,13 @@ HRESULT CLevel_SelectChar::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+
+
+	pUIManager->Add_Select_CharUI();
+
+	RELEASE_INSTANCE(CUI_Manager);
+
 	return S_OK;
 }
 
@@ -24,13 +31,6 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-
-	if (!m_bCreateUI)
-	{
-		pUIManager->Add_Select_CharUI();
-		m_bCreateUI = true;
-	}
-
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
 
@@ -41,26 +41,33 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 	{
 		if (pSel_P1Cursor->Get_SelComple() && pSel_P2Cursor->Get_SelComple())
 		{
-			_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
-			_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
-			_uint i1p_2 = pUIManager->Get_1P_2Char()->Get_ImgNum();
-			_uint i2p_2 = pUIManager->Get_2P_2Char()->Get_ImgNum();
+			m_fDelayTime += fTimeDelta;
 
-			pUIManager->Set_Sel1P(i1p);
-			pUIManager->Set_Sel2P(i2p);
+			if (m_fDelayTime >= 5.f)
+			{
+				_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
+				_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
+				_uint i1p_2 = pUIManager->Get_1P_2Char()->Get_ImgNum();
+				_uint i2p_2 = pUIManager->Get_2P_2Char()->Get_ImgNum();
 
-			if (!pUIManager->Get_1PCursor()->Get_SelectUIInfo().bOni)
-				pUIManager->Set_Sel1P_2(i1p_2);
-			else
-				pUIManager->Set_Sel1P_2(99);
+				pUIManager->Set_Sel1P(i1p);
+				pUIManager->Set_Sel2P(i2p);
 
-			if (!pUIManager->Get_2PCursor()->Get_SelectUIInfo().bOni)
-				pUIManager->Set_Sel2P_2(i2p_2);
-			else
-				pUIManager->Set_Sel2P_2(99);
+				if (!pUIManager->Get_1PCursor()->Get_SelectUIInfo().bOni)
+					pUIManager->Set_Sel1P_2(i1p_2);
+				else
+					pUIManager->Set_Sel1P_2(99);
 
-			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
-				return;
+				if (!pUIManager->Get_2PCursor()->Get_SelectUIInfo().bOni)
+					pUIManager->Set_Sel2P_2(i2p_2);
+				else
+					pUIManager->Set_Sel2P_2(99);
+
+				if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
+					return;
+
+				m_fDelayTime = 0.f;
+			}
 		}
 	}
 	
@@ -74,7 +81,31 @@ void CLevel_SelectChar::Late_Tick(_float fTimeDelta)
 
 
 }
+HRESULT CLevel_SelectChar::Ready_Layer_Camera(const _tchar * pLayerTag)
+{
+	CGameInstance*			pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
 
+	ZeroMemory(&CameraDesc, sizeof(CCamera_Dynamic::CAMERADESC_DERIVED));
+
+	CameraDesc.CameraDesc.vEye = _float4(0.f, 0.f, 0.f, 1.f);
+	CameraDesc.CameraDesc.vAt = _float4(0.f, 0.f, 1.f, 1.f);
+
+	CameraDesc.CameraDesc.fFovy = XMConvertToRadians(60.0f);
+	CameraDesc.CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
+	CameraDesc.CameraDesc.fNear = 0.2f;
+	CameraDesc.CameraDesc.fFar = 500.f;
+
+	CameraDesc.CameraDesc.TransformDesc.fSpeedPerSec = 10.f;
+	CameraDesc.CameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Camera_Dynamic"), LEVEL_SELECTCHAR, pLayerTag, &CameraDesc)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
 
 
 CLevel_SelectChar * CLevel_SelectChar::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

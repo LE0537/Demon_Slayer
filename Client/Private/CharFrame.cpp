@@ -92,31 +92,37 @@ void CCharFrame::Set_Info()
 	{
 		m_SelectInfo.strName = TEXT("탄지로");
 		m_SelectInfo.bOni = false;
+		m_SelectInfo.iFrameNum = m_ThrowUIinfo.iLayerNum;
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 1)
 	{
 		m_SelectInfo.strName = TEXT("쿄주로");
 		m_SelectInfo.bOni = false;
+		m_SelectInfo.iFrameNum = m_ThrowUIinfo.iLayerNum;
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 2)
 	{
 		m_SelectInfo.strName = TEXT("루이");
 		m_SelectInfo.bOni = true;
+		m_SelectInfo.iFrameNum = m_ThrowUIinfo.iLayerNum;
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 3)
 	{
 		m_SelectInfo.strName = TEXT("아카자");
 		m_SelectInfo.bOni = true;
+		m_SelectInfo.iFrameNum = m_ThrowUIinfo.iLayerNum;
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 4)
 	{
 		m_SelectInfo.strName = TEXT("네즈코");
 		m_SelectInfo.bOni = false;
+		m_SelectInfo.iFrameNum = m_ThrowUIinfo.iLayerNum;
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 5)
 	{
 		m_SelectInfo.strName = TEXT("시노부");
 		m_SelectInfo.bOni = false;
+		m_SelectInfo.iFrameNum = m_ThrowUIinfo.iLayerNum;
 	}
 }
 

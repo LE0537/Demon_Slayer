@@ -43,6 +43,10 @@ public:
 	void Set_Player(CCharacters* _pPlayer) { m_pPlayer = _pPlayer; }
 	void Set_Target(CCharacters* _pTarget) { m_pTarget = _pTarget; }
 	_bool	Get_1PCam() { return m_b1P; }
+
+
+	// test
+	void Camera_Shake(_float fTimeDelta);
 private:
 	CCharacters*				m_pPlayer = nullptr;
 	CCharacters*				m_pTarget = nullptr;
@@ -57,6 +61,12 @@ private:
 	CCharacters*			m_p1P = nullptr;
 	_bool					m_b1P = false;
 	_int					m_iIniti = 0;
+
+
+	//shake test
+	_float m_fShakeAmount = 0.05f;
+	_float m_fShakeFrequency = 20.f;
+
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 

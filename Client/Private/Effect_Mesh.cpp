@@ -78,7 +78,13 @@ HRESULT CEffect_Mesh::Initialize_Prototype()
 	m_MeshName.push_back("Slash14");
 	m_MeshName.push_back("Slash15");
 	m_MeshName.push_back("Slash16");
+	m_MeshName.push_back("Water8_0");
+	m_MeshName.push_back("Water8_1");
+	m_MeshName.push_back("Water8_3");
+	m_MeshName.push_back("Water8_4");
 
+	m_MeshName.push_back("Ring_ShockWave");
+	m_MeshName.push_back("Rengoku_TigerFire");
 
 
 	return S_OK;

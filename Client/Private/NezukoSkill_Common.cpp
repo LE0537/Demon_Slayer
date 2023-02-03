@@ -73,7 +73,7 @@ CNezukoState * CSkill_CommonState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta
 
 	if (m_eStateType == TYPE_START)
 	{
-		pNezuko->Get_Transform()->Go_Straight(fTimeDelta * 1.5, pNezuko->Get_NavigationCom());
+		pNezuko->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pNezuko->Get_NavigationCom());
 		CCollider*	pMyCollider = pNezuko->Get_SphereCollider();
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 

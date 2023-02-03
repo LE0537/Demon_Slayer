@@ -112,6 +112,8 @@ void CToolState::Enter(CShinobu* pShinobu)
 		break;
 	}
 
+	pShinobu->Get_Model()->Set_FrameNum(pShinobu->Get_AnimIndex(), 100);
+
 }
 
 void CToolState::Exit(CShinobu* pShinobu)
