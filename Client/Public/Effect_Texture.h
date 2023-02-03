@@ -10,6 +10,8 @@ public:
 	typedef struct TextureInfo {
 		char							m_szTextureName[MAX_PATH];
 		char							szTextureType[MAX_PATH];
+		char							szTextureDissolve[MAX_PATH];
+		char							szTextureMask[MAX_PATH];
 
 		_bool							bBillboard;
 		_bool							bGlow;
@@ -17,27 +19,40 @@ public:
 		_bool							bUseColor;
 		_bool							bUseFlowMap;
 		_bool							bUseGlowColor;
+		_bool							bDisappearAlpha;
 
 		_int							iSortingFudge;
 
-		_uint							iDisappear;
 		_uint							iShader;
-		_uint							iTexLoad;
-		_uint							iTextureType;
+		_uint							iMoveType;
 
-		_float							fLifeTime;
-		_float							fPostProcessingValue;
 		_float							fStartTime;
-		_float							fRotation;
+		_float							fLifeTime;
+		_float							fMoveSpeed;
+		_float							fTurn;
+		_float							fTurnFalloff;
+		//_float								fRotation;
+		_float							fPostProcessingValue;
 		_float							fDistortionScale;
 		_float							fDistortionBias;
+		_float							fDistortion_U;
+		_float							fDistortion_V;
+		_float							fMove_Value_U;
+		_float							fMove_Value_V;
+		_float							fDisappearTimeRatio;
 
-		_float2							vSize[4];
+		_float2							vSize[6];
 
 		_float3							vPosition;
 		_float3							vGlowColor;
 
 		_float4							vColor;
+
+		_int							iNumUV_U = 1;
+		_int							iNumUV_V = 1;
+		_float3							fRotation;
+
+		_float3							vMoveDirection;
 
 	}TEXTURE_INFO;
 
@@ -59,6 +74,7 @@ public:
 
 private:
 	CTexture*						m_pNoiseTextureCom = nullptr;
+	CTexture*						m_pDissolveTextureCom = nullptr;
 
 private:
 	TEXTURE_INFO					m_TextureInfo;

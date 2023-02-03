@@ -300,6 +300,11 @@ void CModel::Set_UsingFrame(_uint iAnimationNum, _uint iStartFrame, _uint iEndFr
 	m_Animations[iAnimationNum]->Set_UsingFrame(iStartFrame, iEndFrame);
 }
 
+void CModel::Set_DurationTime(_uint iAnimationNum, _float fDurationTime)
+{
+	m_Animations[iAnimationNum]->Set_Duration(fDurationTime);
+}
+
 void CModel::Clear_Frame(_uint iAnimationNum)
 {
 	m_Animations[iAnimationNum]->Clear_Frame();
@@ -369,9 +374,18 @@ HRESULT CModel::Create_Materials(const char* pModelFilePath)
 				continue;
 
 			char			szName[MAX_PATH] = "";
-			char			szExt[MAX_PATH] = ".png";
+			char			szExt[MAX_PATH] = "";
+			char			szPng[MAX_PATH] = ".png";
+			char			szDds[MAX_PATH] = ".dds";
 			char			szTextureFileName[MAX_PATH] = "";
-
+			if (m_eModelType == TYPE_ANIM)
+			{
+				strcpy_s(szExt, szDds);
+			}
+			else
+			{
+				strcpy_s(szExt, szPng);
+			}
 			_splitpath_s(strPath.data, nullptr, 0, nullptr, 0, szName, MAX_PATH, nullptr, 0);
 
 			strcpy_s(szTextureFileName, szName);
@@ -563,7 +577,7 @@ HRESULT CModel::Get_HierarchyNodeData(DATA_BINSCENE * pBinScene)
 	}
 
 	pBinScene->pBinNodes = new DATA_BINNODE[m_Bones.size()];
-	pBinScene->iNodeCount = m_Bones.size();
+	pBinScene->iNodeCount = (_int)m_Bones.size();
 
 	for (_int i = 0; i < m_Bones.size(); ++i)
 	{

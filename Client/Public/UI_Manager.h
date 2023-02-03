@@ -64,14 +64,17 @@ public:
 	CUI*	Get_2P_2Char() { return m_p2P_2Char; } //레벨 캐릭터 넘겨줄때 이거사용 Get_ImgNum() 사용
 	void	Set_2P_2Char(CUI* p2P_2Char) { m_p2P_2Char = p2P_2Char; }
 
-	CUI*	Get_Sel1PMain() { return m_pSel1PMain; }
-	void	Set_Sel1PMain(CUI* p1PMain) { m_pSel1PMain = p1PMain; }
+	CUI*	Get_Sel1PMain(_uint iLayerNum) { return m_pSel1PMain[iLayerNum]; }
+	void	Set_Sel1PMain(CUI* p1PMain, _uint iLayerNum) { m_pSel1PMain[iLayerNum] = p1PMain; }
 
-	CUI*	Get_Sel2PMain() { return m_pSel2PMain; }
-	void	Set_Sel2PMain(CUI* p2PMain) { m_pSel2PMain = p2PMain; }
+	CUI*	Get_Sel2PMain(_uint iLayerNum) { return m_pSel2PMain[iLayerNum]; }
+	void	Set_Sel2PMain(CUI* p2PMain, _uint iLayerNum) { m_pSel2PMain[iLayerNum] = p2PMain; }
 
 	CUI*	Get_RoundUI() { return m_pRoundUI; }
-	void	Set_RoundUI(CUI* pRoundUI) { m_pRoundUI = pRoundUI; }
+	void	Set_RoundUI(CUI* pTargetUI) { m_pRoundUI = pTargetUI; }
+
+	CUI*	Get_TimerUI() { return m_pTimerUI; }
+	void	Set_TimerUI(CUI* pTargetUI) { m_pTimerUI = pTargetUI; }
 
 	CUI*	Get_SelectFrame(_uint iLayerNum) { return m_pSelectFrame[iLayerNum]; }
 	void	Set_SelectFrame(CUI* pTarget, _uint iLayerNum) { m_pSelectFrame[iLayerNum] = pTarget; }
@@ -135,10 +138,11 @@ private:
 	CUI*							m_p1P_2Char;
 	CUI*							m_p2P_2Char;
 	CUI*							m_pSelectFrame[6];
-	CUI*							m_pSel1PMain;
-	CUI*							m_pSel2PMain;
+	CUI*							m_pSel1PMain[2];
+	CUI*							m_pSel2PMain[2];
 	CUI*							m_pMenuCursor = nullptr;
 	CUI*							m_pRoundUI = nullptr;
+	CUI*							m_pTimerUI = nullptr;
 
 	CUI::THROWUIINFO				m_ThrowInfo;
 	_uint							m_iCharIconLayerNum = 0;

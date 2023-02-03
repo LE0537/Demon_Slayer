@@ -22,7 +22,9 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
-	m_fValue[VALUE_FOGPOWER] = 0.2f;
+	m_fValue[VALUE_FOGCOLOR_R] = 0.5f;
+	m_fValue[VALUE_FOGCOLOR_G] = 0.5f;
+	m_fValue[VALUE_FOGCOLOR_B] = 0.5f;
 	m_fValue[VALUE_FOGDISTANCE] = 100.f;
 	m_fValue[VALUE_FOGRANGE] = 800.f;
 	m_fValue[VALUE_AO] = 1.36f;
@@ -617,7 +619,8 @@ HRESULT CRenderer::Render_Blend()
 		return E_FAIL;
 
 
-	if (FAILED(m_pShader->Set_RawValue("g_fFogPower", &m_fValue[VALUE_FOGPOWER], sizeof(_float))))
+	_float3			vFogColor = _float3(m_fValue[VALUE_FOGCOLOR_R], m_fValue[VALUE_FOGCOLOR_G], m_fValue[VALUE_FOGCOLOR_B]);
+	if (FAILED(m_pShader->Set_RawValue("g_vFogColor", &vFogColor, sizeof(_float3))))
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_fFogDistance", &m_fValue[VALUE_FOGDISTANCE], sizeof(_float))))
 		return E_FAIL;

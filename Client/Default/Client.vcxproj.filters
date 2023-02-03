@@ -745,6 +745,36 @@
     <Filter Include="05.CollBox\09.KaguraSkill">
       <UniqueIdentifier>{e26b560e-8362-4b04-9f81-560f41e51129}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel">
+      <UniqueIdentifier>{91127abc-4d60-4ea2-b63b-d7b957322ee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Common">
+      <UniqueIdentifier>{49763eda-7a33-456f-b246-611ae5faf159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Move">
+      <UniqueIdentifier>{5c6aca9c-00f8-409c-99bd-ff0790123ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Upper">
+      <UniqueIdentifier>{158c1bb5-e63d-417c-bfd6-3bff4ec48d41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv">
+      <UniqueIdentifier>{e68f60f8-f899-4222-ba78-611a830e4a42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Common">
+      <UniqueIdentifier>{ef8e5622-b667-4b9c-b313-b82b25d75bc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move">
+      <UniqueIdentifier>{61edac17-ace1-4162-97de-7083e4f30932}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv">
+      <UniqueIdentifier>{47cf9044-1aaa-4f99-afa6-36563afe0783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Common">
+      <UniqueIdentifier>{83816fdf-c6b5-44e9-ab6d-73da3d6e4169}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Move">
+      <UniqueIdentifier>{4788b023-8efe-4d7e-8f04-dde538c0667d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1500,6 +1530,30 @@
     <ClInclude Include="..\public\KaguraSkill.h">
       <Filter>05.CollBox\09.KaguraSkill</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\MenuModel.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuSkill_Upper.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Upper</Filter>
+    </ClInclude>
+    <ClInclude Include="RuiAdvSkill_CommonState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="RuiAdvSkill_MoveState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaAdvSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaAdvSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Move</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2224,6 +2278,30 @@
     </ClCompile>
     <ClCompile Include="..\private\KaguraSkill.cpp">
       <Filter>05.CollBox\09.KaguraSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MenuModel.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuSkill_Move.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuSkill_Upper.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Upper</Filter>
+    </ClCompile>
+    <ClCompile Include="RuiAdvSkill_CommonState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="RuiAdvSkill_MoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaAdvSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaAdvSkill_Move.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Move</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -14,6 +14,8 @@
 #include "ShinobuGuardHitState.h"
 #include "ShinobuGuardState.h"
 #include "ShinobuToolState.h"
+#include "ShinobuHitState.h"
+
 using namespace Shinobu;
 
 CShinobu::CShinobu(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -124,7 +126,8 @@ void CShinobu::Tick(_float fTimeDelta)
 	}
 
 
-	if (m_pShinobuState->Get_ShinobuState() == CShinobuState::STATE_JUMP || m_pShinobuState->Get_ShinobuState() == CShinobuState::STATE_CHANGE)
+	if (m_pShinobuState->Get_ShinobuState() == CShinobuState::STATE_JUMP || m_pShinobuState->Get_ShinobuState() == CShinobuState::STATE_CHANGE
+		|| m_pShinobuState->Get_ShinobuState() == CShinobuState::STATE_SKILL_UPPER)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
@@ -308,7 +311,11 @@ HRESULT CShinobu::Render_ShadowDepth()
 
 void CShinobu::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+	if (m_pShinobuState->Get_ShinobuState() == CShinobuState::STATE_HIT)
+		m_pModelCom->Reset_Anim(CShinobu::ANIMID::ANIM_HIT);
 
+	CShinobuState* pState = new CHitState(_fPow, _bJumpHit);
+	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 }
 
 void CShinobu::Get_GuardHit(_int eType)

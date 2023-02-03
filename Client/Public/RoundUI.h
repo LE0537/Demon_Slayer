@@ -15,9 +15,10 @@ private:
 public:
 	_bool Get_StartCheck() { return m_bStartCheck; }
 	_bool Get_RoundOnOff() { return m_bRoundOnOff; }
-	_bool Get_Round1PWin(_uint iRound) { return m_bRound1PWin[iRound]; }
-	_bool Get_Round2PWin(_uint iRound) { return m_bRound2PWin[iRound]; }
 	_bool Get_Draw() { return m_bDraw; }
+
+	void Set_1PRoundEnd(_bool bTrue) { m_b1PRoundEnd = bTrue; }
+	void Set_2PRoundEnd(_bool bTrue) { m_b2PRoundEnd = bTrue; }
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -37,8 +38,9 @@ public:
 	void Fade_Out(_float fTimeDelta);
 	void Case_ReturnEnd();
 	void UI_Function(_float fTimeDelta);
-	void StartTextureCheck();
+	void ZeroTiemr_RoundUI(_float fTImeDelta);
 	void ZeroHp_RoundUI(_float fTimeDelta);
+	void Battle_End(_float fTimeDelta);
 
 private:
 	CTexture*				m_pTextureCom2 = nullptr;
@@ -49,6 +51,8 @@ private:
 	_uint					m_iStartEndImgNum = 0;
 	_uint					m_iJudgmentImgNum = 0;
 	_uint					m_iWinImgNum = 0;
+	_uint					m_i1PRoundWin = 0;
+	_uint					m_i2PRoundWin = 0;
 
 	_bool					m_bZoomCheck = false;
 	_bool					m_bRoundOnOff = true;
@@ -57,10 +61,12 @@ private:
 	_bool					m_bStartCheck = false;
 	_bool					m_bJudgmentCheck = false;
 	_bool					m_bWinCheck = false;
+	_bool					m_bBattleEndCheck = false;
 
-	_bool					m_bRound1PWin[5] = { false };
-	_bool					m_bRound2PWin[5] = { false };
+	_bool					m_bScaleCheck = false;
 	_bool					m_bDraw = false;
+	_bool					m_b1PRoundEnd = false;
+	_bool					m_b2PRoundEnd = false;
 
 	_float					m_fDelayTime = 0.f;
 	_float					m_fStopTime = 0.f;

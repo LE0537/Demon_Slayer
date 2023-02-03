@@ -109,7 +109,7 @@ CNezukoState * CHitState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 			}
 		}
 
-		pNezuko->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
+		pNezuko->Get_Model()->Play_Animation(fTimeDelta, false);
 
 
 		if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
