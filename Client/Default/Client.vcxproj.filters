@@ -775,6 +775,12 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Move">
       <UniqueIdentifier>{4788b023-8efe-4d7e-8f04-dde538c0667d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\KyoujuroWeapon%28Menu%29">
+      <UniqueIdentifier>{158b3a24-71fe-4294-b102-c1291eff15f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\ShinobuWeapon%28Menu%29">
+      <UniqueIdentifier>{c737a21a-83e6-4959-a77e-b3717062c30a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1554,6 +1560,12 @@
     <ClInclude Include="..\Public\RuiAdvSkill_MoveState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ShinobuWeaponMenu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\ShinobuWeapon%28Menu%29</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\KyoujuroWeaponMenu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\KyoujuroWeapon%28Menu%29</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2308,6 +2320,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiAdvSkill_CommonState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ShinobuWeaponMenu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\ShinobuWeapon%28Menu%29</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\KyoujuroWeaponMenu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\KyoujuroWeapon%28Menu%29</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

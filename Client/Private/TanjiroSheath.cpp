@@ -42,6 +42,10 @@ HRESULT CTanjiroSheath::Initialize(void * pArg)
 	vPos += XMVector3Normalize(vUp) * -0.3f;
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
+
+
 	return S_OK;
 }
 
@@ -57,7 +61,15 @@ void CTanjiroSheath::Tick(_float fTimeDelta)
 
 
 	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * SocketMatrix);
+	_matrix	matCollBox = XMLoadFloat4x4(&m_CombinedWorldMatrix);
 
+	_vector vLook = matCollBox.r[2];
+
+	if (m_bMenu)
+	{
+		matCollBox.r[3] -= XMVector3Normalize(vLook) * 15.f;
+		XMStoreFloat4x4(&m_CombinedWorldMatrix, matCollBox);
+	}
 }
 
 void CTanjiroSheath::Late_Tick(_float fTimeDelta)
@@ -79,11 +91,20 @@ HRESULT CTanjiroSheath::Render()
 
 		for (_uint i = 0; i < iNumMeshes; ++i)
 		{
-			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-				return E_FAIL;
-
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-				return E_FAIL;
+			if (!m_bMenu)
+			{
+				if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+					return E_FAIL;
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom2, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+					return E_FAIL;
+				if (FAILED(m_pModelCom->Render(m_pShaderCom2, i, 2)))
+					return E_FAIL;
+			}
 		}
 
 	
@@ -154,7 +175,8 @@ HRESULT CTanjiroSheath::Ready_Components()
 	/* For.Com_Shader */
 	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModel"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
-
+	if (FAILED(__super::Add_Components(TEXT("Com_Shader2"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxUIModel"), (CComponent**)&m_pShaderCom2)))
+		return E_FAIL;
 
 
 	/* For.Com_Model*/
@@ -177,14 +199,28 @@ HRESULT CTanjiroSheath::SetUp_ShaderResources()
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4))))
-		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
-		return E_FAIL;
+	if (!m_bMenu)
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
+			return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
-		return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pShaderCom2->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom2->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+
+		if (FAILED(m_pShaderCom2->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+	}
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -229,6 +265,6 @@ void CTanjiroSheath::Free()
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
-
+	Safe_Release(m_pShaderCom2);
 	Safe_Release(m_pRendererCom);
 }

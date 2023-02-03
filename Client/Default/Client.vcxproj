@@ -214,6 +214,7 @@
     <ClInclude Include="..\Public\CharFrameEff.h" />
     <ClInclude Include="..\public\KaguraSkill.h" />
     <ClInclude Include="..\public\KyoujuroJumpSkill.h" />
+    <ClInclude Include="..\public\KyoujuroWeaponMenu.h" />
     <ClInclude Include="..\public\MenuModel.h" />
     <ClInclude Include="..\Public\NezukoHitState.h" />
     <ClInclude Include="..\Public\NumTimer.h" />
@@ -334,6 +335,7 @@
     <ClInclude Include="..\Public\ShinobuState.h" />
     <ClInclude Include="..\Public\ShinobuToolState.h" />
     <ClInclude Include="..\public\ShinobuWeapon.h" />
+    <ClInclude Include="..\public\ShinobuWeaponMenu.h" />
     <ClInclude Include="..\Public\SkyBox.h" />
     <ClInclude Include="..\Public\TanjiroDashState.h" />
     <ClInclude Include="..\Public\TanjiroGuardAdvState.h" />
@@ -474,6 +476,7 @@
     <ClCompile Include="..\Private\CharFrameEff.cpp" />
     <ClCompile Include="..\private\KaguraSkill.cpp" />
     <ClCompile Include="..\private\KyoujuroJumpSkill.cpp" />
+    <ClCompile Include="..\private\KyoujuroWeaponMenu.cpp" />
     <ClCompile Include="..\private\MenuModel.cpp" />
     <ClCompile Include="..\Private\NezukoHitState.cpp" />
     <ClCompile Include="..\Private\NumTimer.cpp" />
@@ -591,6 +594,7 @@
     <ClCompile Include="..\Private\ShinobuSkill_Upper.cpp" />
     <ClCompile Include="..\Private\ShinobuToolState.cpp" />
     <ClCompile Include="..\private\ShinobuWeapon.cpp" />
+    <ClCompile Include="..\private\ShinobuWeaponMenu.cpp" />
     <ClCompile Include="..\Private\SkyBox.cpp" />
     <ClCompile Include="..\Private\TanjiroDashState.cpp" />
     <ClCompile Include="..\Private\TanjiroGuardAdvState.cpp" />
