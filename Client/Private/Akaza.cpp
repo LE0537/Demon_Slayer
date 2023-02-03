@@ -10,6 +10,7 @@
 #include "AkazaToolState.h"
 #include "AkazaHitState.h"
 #include "Level_GamePlay.h"
+#include "AkazaBattleSTState.h"
 
 using namespace Akaza;
 
@@ -69,7 +70,12 @@ HRESULT CAkaza::Initialize(void * pArg)
 	}
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
-	CAkazaState* pState = new CIdleState();
+	//CAkazaState* pState = new CIdleState();
+	//m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+
+	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	CAkazaState* pState = new CBattleStartState();
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 
 	return S_OK;

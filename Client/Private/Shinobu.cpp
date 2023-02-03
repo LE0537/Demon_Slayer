@@ -15,6 +15,7 @@
 #include "ShinobuGuardState.h"
 #include "ShinobuToolState.h"
 #include "ShinobuHitState.h"
+#include "ShinobuBattleSTState.h"
 
 using namespace Shinobu;
 
@@ -85,7 +86,10 @@ HRESULT CShinobu::Initialize(void * pArg)
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
-	CShinobuState* pState = new CIdleState();
+	//CShinobuState* pState = new CIdleState();
+	//m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+
+	CShinobuState* pState = new CBattleStartState();
 	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 
 	return S_OK;

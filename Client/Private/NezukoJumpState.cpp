@@ -2,6 +2,7 @@
 #include "NezukoJumpState.h"
 #include "NezukoIdleState.h"
 #include "GameInstance.h"
+#include "NezukoJumpAttackState.h"
 
 using namespace Nezuko;
 
@@ -14,6 +15,25 @@ CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
 
 CNezukoState * CJumpState::HandleInput(CNezuko* pNezuko)
 {
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	switch (pNezuko->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Down(DIK_J))
+		{
+			return new CJumpAttackState(TYPE_START);
+		}
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_Z))
+		{
+			return new CJumpAttackState(TYPE_START);
+		}
+		break;
+	}
+
+
 	return nullptr;
 }
 

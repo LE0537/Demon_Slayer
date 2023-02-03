@@ -1,0 +1,143 @@
+#include "stdafx.h"
+#include "KyoujuroJumpAttackState.h"
+#include "GameInstance.h"
+#include "KyoujuroIdleState.h"
+#include "KyoujuroMoveState.h"
+using namespace Kyoujuro;
+
+CJumpAttackState::CJumpAttackState(STATE_TYPE eType)
+{
+	m_eStateType = eType;
+}
+
+CKyoujuroState * CJumpAttackState::HandleInput(CKyoujuro* pKyoujuro)
+{
+	return nullptr;
+}
+
+CKyoujuroState * CJumpAttackState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
+{
+
+	if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
+	{
+		switch (m_eStateType)
+		{
+		case Client::CKyoujuroState::TYPE_START: // 공격 모션
+			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+			return new CJumpAttackState(TYPE_LOOP);
+			break;
+		case Client::CKyoujuroState::TYPE_LOOP: // 떨어지는 모션
+			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());;
+			break;
+		case Client::CKyoujuroState::TYPE_END: // 착지 모션
+			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+			return new CIdleState(STATE_JUMP);
+			break;
+		}
+		pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+	}
+
+	switch (m_eStateType)
+	{
+	case Client::CKyoujuroState::TYPE_LOOP:
+		Jump(pKyoujuro, fTimeDelta);
+
+	if (m_bNextAnim == true)
+		return new CJumpAttackState(TYPE_END);
+		break;
+	}
+
+
+	return nullptr;
+}
+
+CKyoujuroState * CJumpAttackState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
+{
+
+	if (m_eStateType == TYPE_END)
+		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
+	else
+		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
+
+
+
+	return nullptr;
+}
+
+void CJumpAttackState::Enter(CKyoujuro* pKyoujuro)
+{
+	m_eStateId = STATE_JUMP_ATTACK;
+
+	switch (m_eStateType)
+	{
+	case Client::CKyoujuroState::TYPE_START:
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_JUMPATTACK);
+		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_JUMPATTACK);
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_JUMPATTACK, false);
+		pKyoujuro->Get_Transform()->Set_PlayerLookAt(pKyoujuro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		break;
+	case Client::CKyoujuroState::TYPE_LOOP:
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_JUMP_LOOP_END);
+		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_JUMP_LOOP_END);
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_JUMP_LOOP_END, true);
+		Initialize_value(pKyoujuro);
+		break;
+	case Client::CKyoujuroState::TYPE_END:
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_JUMP_END);
+		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_JUMP_END);
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_JUMP_LOOP_END, false);
+		break;
+	}
+}
+
+void CJumpAttackState::Exit(CKyoujuro* pKyoujuro)
+{
+}
+
+void CJumpAttackState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)
+{
+	static _float fGravity = -100.f;
+	static _float fVelocity = 0.f; 
+	static _float3 vPosition;
+
+	vPosition.x = XMVectorGetX(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	vPosition.y = XMVectorGetY(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	vPosition.z = XMVectorGetZ(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	m_vVelocity.y += fGravity *fTimeDelta;
+	vPosition.y += m_vVelocity.y * fTimeDelta;
+
+	_vector vecPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vecPos = XMVectorSetY(vecPos, vPosition.y);
+
+	if (vPosition.y <= m_fOriginPosY)
+	{ 
+		vPosition.y = m_fOriginPosY;
+		fVelocity = m_fOriginPosY;
+
+		_vector vecPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vecPos = XMVectorSetY(vecPos, vPosition.y);
+
+		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		m_bNextAnim = true;
+	}
+	else
+	{
+		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+	}
+}
+
+void CJumpAttackState::Initialize_value(CKyoujuro* pKyoujuro)
+{
+	m_vPosition.x = XMVectorGetX(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_vPosition.y = XMVectorGetY(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_vPosition.z = XMVectorGetZ(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_vVelocity.x = 0.f;
+	m_vVelocity.y = 0.f;
+	m_vVelocity.z = 0.f;
+
+	pKyoujuro->Set_NavigationHeight(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	//m_fOriginPosY = pKyoujuro->Get_NavigationHeight().y;
+	m_fOriginPosY = 0.f;
+}
+

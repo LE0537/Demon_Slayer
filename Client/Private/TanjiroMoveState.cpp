@@ -49,9 +49,13 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 				{
 					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 					{
-						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+						//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::anim_skil);
 						pTanjiro->Set_SkillBar(-200);
-						return new CSkill_WindMillState();
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_IDLE);
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_0);
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_1);
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_2);
+						return new CSkill_WindMillState(TYPE_START);
 					}
 				}
 			}
@@ -220,9 +224,12 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 				{
 					if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 					{
-						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+						//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
 						pTanjiro->Set_SkillBar(-200);
-						return new CSkill_WindMillState();
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_0);
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_1);
+						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_2);
+						return new CSkill_WindMillState(TYPE_START);
 					}
 				}
 			}

@@ -9,6 +9,7 @@
 #include "KyoujuroSkill_Common.h"
 #include "KyoujuroSkill_DoubleUpper.h"
 #include "KyoujuroChangeState.h"
+#include "KyoujuroTargetRushState.h"
 using namespace Kyoujuro;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -60,6 +61,8 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				return new CAtk_1_State();
 			else if (pGameInstance->Key_Pressing(DIK_O))
 				return new CGuardState(STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_L))
+				return new CTargetRushState(STATE_TYPE::TYPE_START);
 			else if (pGameInstance->Key_Down(DIK_I))
 			{
 				if (pGameInstance->Key_Down(DIK_O))
@@ -116,6 +119,8 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				return new CAtk_1_State();
 			else if (pGameInstance->Key_Pressing(DIK_C))
 				return new CGuardState(STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CTargetRushState(STATE_TYPE::TYPE_START);
 			else if (pGameInstance->Key_Down(DIK_X))
 			{
 				if (pGameInstance->Key_Down(DIK_C))

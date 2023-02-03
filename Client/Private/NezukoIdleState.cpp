@@ -10,7 +10,8 @@
 #include "NezukoSkill_Common.h"
 #include "NezukoSkill_FallCut.h"
 #include "NezukoChangeState.h"
-
+#include "NezukoDashState.h"
+#include "NezukoTargetRushState.h"
 using namespace Nezuko;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -78,6 +79,9 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_O))
 				return new CGuardState(STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_L))
+				return new CTargetRushState(STATE_TYPE::TYPE_START);
+
 			else if (pGameInstance->Key_Down(DIK_I))
 			{
 				if (pGameInstance->Key_Down(DIK_O))
@@ -154,6 +158,8 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 
 			else if (pGameInstance->Key_Pressing(DIK_C))
 				return new CGuardState(STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CTargetRushState(STATE_TYPE::TYPE_START);
 			else if (pGameInstance->Key_Down(DIK_X))
 			{
 				if (pGameInstance->Key_Down(DIK_C))

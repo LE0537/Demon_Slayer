@@ -4,6 +4,7 @@
 #include "ShinobuIdlestate.h"
 #include "GameInstance.h"
 #include "ShinobuJumpState.h"
+#include "ShinobuJumpMoveAttackState.h"
 
 
 using namespace Shinobu;
@@ -26,6 +27,12 @@ CShinobuState * CMoveJumpState::HandleInput(CShinobu* pShinobu)
 	case 1:
 		if (m_eStateType != STATE_TYPE::TYPE_DEFAULT)
 		{
+			if (pGameInstance->Key_Pressing(DIK_J)) // ╬у
+			{
+				return new CJumpMoveAttackState(TYPE_START);
+			}
+
+
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_A)) // аб
@@ -90,6 +97,11 @@ CShinobuState * CMoveJumpState::HandleInput(CShinobu* pShinobu)
 	case 2:
 		if (m_eStateType != STATE_TYPE::TYPE_DEFAULT)
 		{
+			if (pGameInstance->Key_Pressing(DIK_Z)) // ╬у
+			{
+				return new CJumpMoveAttackState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

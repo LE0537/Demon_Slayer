@@ -4,7 +4,7 @@
 #include "TanjiroMoveState.h"
 #include "TanjiroIdlestate.h"
 #include "GameInstance.h"
-
+#include "TanjiroJumpMoveAttackState.h"
 
 using namespace Tanjiro;
 
@@ -26,6 +26,10 @@ CTanjiroState * CMoveJumpState::HandleInput(CTanjiro * pTanjiro)
 	case 1:
 		if (m_eStateType != STATE_TYPE::TYPE_DEFAULT)
 		{
+			if (pGameInstance->Key_Down(DIK_J))
+				return new CJumpMoveAttackState(TYPE_START);
+
+
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_A)) // аб
@@ -90,6 +94,9 @@ CTanjiroState * CMoveJumpState::HandleInput(CTanjiro * pTanjiro)
 	case 2:
 		if (m_eStateType != STATE_TYPE::TYPE_DEFAULT)
 		{
+			if (pGameInstance->Key_Down(DIK_Z))
+				return new CJumpMoveAttackState(TYPE_START);
+
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

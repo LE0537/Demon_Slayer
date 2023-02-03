@@ -5,7 +5,7 @@
 #include "AkazaJumpState.h"
 #include "Layer.h"
 #include "GameInstance.h"
-
+#include "AkazaJumpMoveAttackState.h"
 using namespace Akaza;
 
 
@@ -27,6 +27,11 @@ CAkazaState * CMoveJumpState::HandleInput(CAkaza* pAkaza)
 	case 1:
 		if (m_eStateType != CAkazaState::TYPE_END)
 		{
+			if (pGameInstance->Key_Pressing(DIK_J)) // ╬у
+			{
+				return new CJumpMoveAttackState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_A)) // аб
@@ -92,6 +97,12 @@ CAkazaState * CMoveJumpState::HandleInput(CAkaza* pAkaza)
 	case 2:
 		if (m_eStateType != CAkazaState::TYPE_END)
 		{
+			if (pGameInstance->Key_Pressing(DIK_Z)) // ╬у
+			{
+				return new CJumpMoveAttackState(TYPE_START);
+			}
+
+
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

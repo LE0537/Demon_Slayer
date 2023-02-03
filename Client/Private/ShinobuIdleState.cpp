@@ -11,6 +11,7 @@
 #include "ShinobuSkill_Common.h"
 #include "ShinobuChangeState.h"
 #include "ShinobuSkill_Upper.h"
+#include "ShinobuTargetRushState.h"
 using namespace Shinobu;
 
 
@@ -66,6 +67,8 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_O))
 				return new CGuardState(STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_L))
+				return new CTargetRushState(STATE_TYPE::TYPE_START);
 			else if (pGameInstance->Key_Down(DIK_I))
 			{
 				if (pGameInstance->Key_Down(DIK_O))
@@ -128,6 +131,8 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_C))
 				return new CGuardState(STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CTargetRushState(STATE_TYPE::TYPE_START);
 			else if (pGameInstance->Key_Down(DIK_X))
 			{
 				if (pGameInstance->Key_Down(DIK_C))

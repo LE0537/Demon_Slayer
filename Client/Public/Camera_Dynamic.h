@@ -64,8 +64,8 @@ private:
 
 
 	//shake test
-	_float m_fShakeAmount = 0.05f;
-	_float m_fShakeFrequency = 20.f;
+	_float m_fShakeAmount = 1.f;
+	_float m_fShakeFrequency = 5.f;
 
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;

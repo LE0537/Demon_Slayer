@@ -15,7 +15,7 @@
 #include "TanjiroToolState.h"
 #include "ImGuiManager.h"
 #include "Level_GamePlay.h"
-
+#include "TanjiroBattleSTState.h"
 using namespace Tanjiro;
 
 
@@ -83,10 +83,15 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		else if (m_i1p == 2)
 			CUI_Manager::Get_Instance()->Set_2P_2(this);
 	}
-	CTanjiroState* pState = new CIdleState();
+	//CTanjiroState* pState = new CIdleState();
+	//m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
+	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	CTanjiroState* pState = new CBattleStartState();
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 
-	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 	return S_OK;
 }
