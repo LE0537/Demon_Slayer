@@ -17,7 +17,12 @@ HRESULT CLevel_SelectChar::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
+
+	pUIManager->Add_Select_CharUI();
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
@@ -26,13 +31,6 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	
-	if (!m_bCreateUI)
-	{
-		pUIManager->Add_Select_CharUI();
-		m_bCreateUI = true;
-	}
-
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
 

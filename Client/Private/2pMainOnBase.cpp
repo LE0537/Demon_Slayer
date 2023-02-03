@@ -76,7 +76,7 @@ void C2PMainOnBase::Tick(_float fTimeDelta)
 void C2PMainOnBase::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
 }
 
 HRESULT C2PMainOnBase::Render()
