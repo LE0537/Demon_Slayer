@@ -19,6 +19,7 @@ public:
 
 private:
 	_bool			 m_bCreateUI = false;
+	_float			 m_fDelayTime = 0.f;
 
 public:
 	static CLevel_SelectChar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

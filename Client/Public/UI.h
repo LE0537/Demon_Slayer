@@ -37,6 +37,7 @@ public:
 	{
 		wstring		strName; 
 		_bool		bOni;
+		_uint		iFrameNum;
 	}SELUIINFO;
 
 protected:
