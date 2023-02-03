@@ -25,8 +25,8 @@ private:
 
 
 private:
-	_bool			 m_bCreateUI = false;
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
+
 public:
 	static CLevel_SelectChar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;
