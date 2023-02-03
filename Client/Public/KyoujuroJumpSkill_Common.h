@@ -36,6 +36,8 @@ private:
 	_float3 m_vPosition;
 	_float3 m_vVelocity;
 	_bool m_bOnGround = false;
+
+	_bool	m_bEffect = false;
 };
 END
 END
