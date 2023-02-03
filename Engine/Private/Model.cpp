@@ -732,14 +732,27 @@ HRESULT CModel::Bin_Ready_Materials(const char * pModelFilePath)
 			char			szFullPath[MAX_PATH] = "";
 			char			szExt[MAX_PATH] = ".dds";
 			char*			szExt2 = "";
+			char			szExtpng[MAX_PATH] = ".png";
 			char			szFront[MAX_PATH] = "";
-
+			char			szTanjiroMask[MAX_PATH] = "T_P0001_V00_C00_0_Eye_Mask";
+			char			szKyoujuroMask[MAX_PATH] = "T_P0012_V00_C00_0_Eye_Ma";
 			if (m_eModelType == TYPE_ANIM || m_eModelType == TYPE_NONANIM_INSTANCING)
 			{
 				_splitpath_s(pAIMaterial.cNames[j], nullptr, 0, nullptr, 0, szFullPath, MAX_PATH, nullptr, 0);
 				strcpy_s(szFront, strtok_s(pAIMaterial.cNames[j], ".", &szExt2));
 				strcpy_s(szFullPath, pModelFilePath);
-				strcat_s(szFront, szExt);
+				if (!strcmp(szFront, szTanjiroMask))
+				{
+					strcat_s(szFront, szExtpng);
+				}
+				else if (!strcmp(szFront, szKyoujuroMask))
+				{
+					strcat_s(szFront, szExtpng);
+				}
+				else
+				{
+					strcat_s(szFront, szExt);
+				}
 				strcat_s(szFullPath, szFront);
 			}
 			else
@@ -750,6 +763,7 @@ HRESULT CModel::Bin_Ready_Materials(const char * pModelFilePath)
 			}
 			
 			
+
 			_tchar			szWideFullPath[MAX_PATH] = TEXT("");
 
 			MultiByteToWideChar(CP_ACP, 0, szFullPath, strlen(szFullPath), szWideFullPath, MAX_PATH);

@@ -742,6 +742,9 @@
     <Filter Include="05.CollBox\08.KyoujuroJumpSkill">
       <UniqueIdentifier>{774addfc-6d62-4294-b860-cdbbfaaa0e5f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\09.KaguraSkill">
+      <UniqueIdentifier>{e26b560e-8362-4b04-9f81-560f41e51129}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel">
       <UniqueIdentifier>{91127abc-4d60-4ea2-b63b-d7b957322ee2}</UniqueIdentifier>
     </Filter>
@@ -1524,6 +1527,9 @@
     <ClInclude Include="..\public\KyoujuroJumpSkill.h">
       <Filter>05.CollBox\08.KyoujuroJumpSkill</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\KaguraSkill.h">
+      <Filter>05.CollBox\09.KaguraSkill</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\MenuModel.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel</Filter>
     </ClInclude>
@@ -2270,6 +2276,9 @@
     <ClCompile Include="..\private\KyoujuroJumpSkill.cpp">
       <Filter>05.CollBox\08.KyoujuroJumpSkill</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\KaguraSkill.cpp">
+      <Filter>05.CollBox\09.KaguraSkill</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\MenuModel.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel</Filter>
     </ClCompile>
@@ -2293,6 +2302,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiAdvSkill_MoveState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiAdvSkill_MoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiAdvSkill_CommonState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2318,16 +2333,10 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
-      <Filter>97.ShaderFiles</Filter>
-    </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxRectInstance.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance.hlsl">
-      <Filter>97.ShaderFiles</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxUIModel.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModelInstance.hlsl">
@@ -2346,6 +2355,12 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxEffPointInstance.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxUIModel.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>
