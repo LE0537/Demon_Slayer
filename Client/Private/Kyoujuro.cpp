@@ -13,6 +13,7 @@
 #include "KyoujuroToolState.h"
 #include "ImGuiManager.h"
 #include "Level_GamePlay.h"
+#include "KyoujuroBattleSTState.h"
 
 using namespace Kyoujuro;
 
@@ -82,9 +83,14 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 		else if(m_i1p == 2)
 			CUI_Manager::Get_Instance()->Set_2P_2(this);
 	}
-	CKyoujuroState* pState = new CIdleState();
-	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+	//CKyoujuroState* pState = new CIdleState();
+	//m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
+
+	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	CKyoujuroState* pState = new CBattleStartState();
+	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 

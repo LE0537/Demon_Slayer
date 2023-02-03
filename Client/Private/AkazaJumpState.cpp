@@ -2,6 +2,7 @@
 #include "AkazaJumpState.h"
 #include "AkazaIdleState.h"
 #include "GameInstance.h"
+#include "AkazaJumpAttackState.h"
 
 using namespace Akaza;
 
@@ -14,6 +15,25 @@ CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
 
 CAkazaState * CJumpState::HandleInput(CAkaza* pAkaza)
 {
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	switch (pAkaza->Get_i1P())
+	{
+	case 1:
+	if (pGameInstance->Key_Down(DIK_J))
+		{
+			return new CJumpAttackState(TYPE_START);
+		}
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_Z))
+		{
+			return new CJumpAttackState(TYPE_START);
+		}
+		break;
+	}
+
+
 	return nullptr;
 }
 

@@ -13,6 +13,7 @@
 
 
 #include "RuiHitState.h"
+#include "RuiBattleSTState.h"
 
 using namespace Rui;
 
@@ -71,9 +72,14 @@ HRESULT CRui::Initialize(void * pArg)
 		m_pSubChar->Set_SubChar(this);
 	}
 
-	CRuiState* pState = new CIdleState();
-	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+	//CRuiState* pState = new CIdleState();
+	//m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 
+
+	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	CRuiState* pState = new CBattleStartState();
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 

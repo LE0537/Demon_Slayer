@@ -2,7 +2,7 @@
 #include "RuiJumpState.h"
 #include "RuiIdleState.h"
 #include "GameInstance.h"
-
+#include "RuiJumpAttackState.h"
 using namespace Rui;
 
 CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -14,6 +14,32 @@ CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
 
 CRuiState * CJumpState::HandleInput(CRui * pRui)
 {
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	switch (pRui->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Down(DIK_I))
+		{
+		}
+		else if (pGameInstance->Key_Down(DIK_J))
+		{
+			return new CJumpAttackState(TYPE_START);
+		}
+		break;
+	case 2:
+		if (pGameInstance->Key_Down(DIK_X))
+		{
+		}
+		else if (pGameInstance->Key_Down(DIK_Z))
+		{
+			return new CJumpAttackState(TYPE_START);
+		}
+		break;
+	default:
+		break;
+	}
+
 	return nullptr;
 }
 

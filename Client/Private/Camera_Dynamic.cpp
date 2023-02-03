@@ -396,11 +396,12 @@ _bool CCamera_Dynamic::CheckSubChar()
 
 void CCamera_Dynamic::Camera_Shake(_float fTimeDelta)
 {
-	_float fShake = m_fShakeAmount * sinf(fTimeDelta * m_fShakeAmount);
-	_vector vCampos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
-	vCampos += XMVectorSet(fShake, fShake, fShake, 0.f);
-	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vCampos);
+	_float fProgress = (fTimeDelta - 0.016667) / m_fShakeFrequency;
+	_float fShake = m_fShakeAmount * (1.f - fProgress) * ((rand() % 200) - 100) * 0.01f;
+	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
+	vPos += XMVectorSet(fShake, fShake, fShake, 0.f);
 
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 }
 
 

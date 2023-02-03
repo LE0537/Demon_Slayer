@@ -11,6 +11,7 @@
 #include "NezukoIdleState.h"
 #include "NezukoToolState.h"
 #include "NezukoHitState.h"
+#include "NezukoBattleSTState.h"
 
 using namespace Nezuko;
 
@@ -76,9 +77,13 @@ HRESULT CNezuko::Initialize(void * pArg)
 
 
 
-	CNezukoState* pState = new CIdleState();
-	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+	//CNezukoState* pState = new CIdleState();
+	//m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 
+
+	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	CNezukoState* pState = new CBattleStartState();
+	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	return S_OK;

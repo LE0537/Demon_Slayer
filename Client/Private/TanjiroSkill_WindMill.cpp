@@ -10,7 +10,7 @@
 using namespace Tanjiro;
 
 
-CSkill_WindMillState::CSkill_WindMillState()
+CSkill_WindMillState::CSkill_WindMillState(STATE_TYPE eType)
 {
 	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
@@ -19,6 +19,7 @@ CSkill_WindMillState::CSkill_WindMillState()
 
 	RELEASE_INSTANCE(CGameInstance);
 	m_fHitTime = 0.13f;
+	m_eStateType = eType;
 }
 
 CTanjiroState * CSkill_WindMillState::HandleInput(CTanjiro * pTanjiro)
@@ -33,23 +34,45 @@ CTanjiroState * CSkill_WindMillState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CSkill_WindMillState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-
-	pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
-
+	
 
 	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	{
-		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-		return new CIdleState();
+		switch (m_eStateType)
+		{
+		case Client::CTanjiroState::TYPE_START:
+			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+
+			if (m_bNextAnim == true)
+				return new CSkill_WindMillState(TYPE_LOOP);
+			break;
+		case Client::CTanjiroState::TYPE_END:
+			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+			return new CIdleState();
+			break;
+		}
+		
 	}
-	
+
+
+
+
+
+
+
+
+
 
 	return nullptr;
 }
 
 CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	
+
+	if (m_eStateType == TYPE_START)
+		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
+	else
+		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
@@ -66,7 +89,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 	m_fHitTime += fTimeDelta;
 	if (m_fTime < 0.4f)
 	{
-		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.5f, pTanjiro->Get_NavigationCom());
+		//pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.5f, pTanjiro->Get_NavigationCom());
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 		CCollider*	pMyCollider2 = pTanjiro->Get_SphereCollider();
 		
@@ -141,12 +164,33 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
-	if (!m_bJump)
+	
+
+
+
+
+	switch (m_eStateType)
 	{
-		m_fJumpTime += 0.035f;
-		Jump(pTanjiro, m_fJumpTime);
+	case Client::CTanjiroState::TYPE_START: // 공격 모션
+
+		if (pTanjiro->Get_Model()->Get_CurrentTime() <= 6.f)
+		{
+			pTanjiro->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+			pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
+		}
+		else
+			Increase_Height(pTanjiro, fTimeDelta);
+
+		break;
+	case Client::CTanjiroState::TYPE_LOOP:
+		Fall_Height(pTanjiro, fTimeDelta);
+
+		if (m_bNextAnim == true)
+			return new CSkill_WindMillState(TYPE_END);
+		break;
 	}
-	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
+
+	
 
 	if (!m_bEffect)
 	{
@@ -165,44 +209,115 @@ void CSkill_WindMillState::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_ID::STATE_SKILL_WINDMILL;
 
-	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL);
-	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL, 0.2f);
-	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_WINDMILL);
-	m_fCurrentPosY = XMVectorGetY(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-}
-CTanjiroState* CSkill_WindMillState::Jump(CTanjiro* pTanjiro, _float fTimeDelta)
-{
-	static _float fStartHeight = m_fCurrentPosY;
-	static _float fEndHeight = m_fCurrentPosY;
-	static _float fVelocity = 12.5f;
-	static _float fGravity = 25.f;
 
-
-	_vector      vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	_float fSpeed = 0.f;
-	fSpeed = fStartHeight + fVelocity * fTimeDelta - (0.5f * fGravity * fTimeDelta * fTimeDelta);
-	vPosition = XMVectorSetY(vPosition, fSpeed);
-	_float y = XMVectorGetY(vPosition);
-	//m_fCurrentPosY = y;
-
-	if (y <= fEndHeight)
+	switch (m_eStateType)
 	{
-		vPosition = XMVectorSetY(vPosition, fEndHeight);
-		m_fJumpTime = 0.f;
-		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
-		m_bJump = true;
+	case Client::CTanjiroState::TYPE_START:
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL_0);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL_0, 0.2f);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_WINDMILL_0);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL_0);
+		m_vVelocity.x = 0.f;
+		m_vVelocity.y = 10.f;
+		m_vVelocity.z = 0.f;
+		break;
+	case Client::CTanjiroState::TYPE_LOOP:
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL_1);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL_1, 0.01f);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_WINDMILL_1);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL_1, true);
+		m_vVelocity.x = 0.f;
+		m_vVelocity.y = 0.f;
+		m_vVelocity.z = 0.f;
+		break;
+	case Client::CTanjiroState::TYPE_END:
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL_2);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL_2, 0.01f);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_WINDMILL_2);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL_2);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL_1, false);
+	default:
+		break;
 	}
 
 
-	pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
-
-	return nullptr;
 }
+
+
+
+
 void CSkill_WindMillState::Exit(CTanjiro * pTanjiro)
 {
-	//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+//	pTanjiro->Get_Model()->Reset_Anim(pTanjiro->Get_AnimIndex());
 	m_pCollBox->Set_Dead();
 	pTanjiro->Reset_WindMillHit();
+}
+
+void CSkill_WindMillState::Increase_Height(CTanjiro * pTanjiro, _float fTimeDelta)
+{
+	static _float fJump_Velocity = 10.f;
+	static _float fGravity = 5.f;
+	static _float fDelay = 0.f;
+
+	m_vPosition.x = XMVectorGetX(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_vPosition.y = XMVectorGetY(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_vPosition.z = XMVectorGetZ(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	//m_vVelocity.x += fGravity * fTimeDelta;
+	m_vVelocity.y += fGravity * fTimeDelta;
+	//m_vVelocity.z += fGravity * fTimeDelta;
+
+
+	m_vPosition.y += m_vVelocity.y * fTimeDelta;
+
+	_vector vCurrentPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
+
+	if (XMVectorGetY(vCurrentPos) > 5.f)
+	{
+		fDelay += fTimeDelta;
+
+		if(fDelay >= 0.3f)
+			m_bNextAnim = true;
+	}
+	else
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+
+}
+
+void CSkill_WindMillState::Fall_Height(CTanjiro * pTanjiro, _float fTimeDelta)
+{
+	static _float fGravity = -50.f;
+	static _float fVelocity = 0.f;
+	static _float3 vPosition;
+
+	vPosition.x = XMVectorGetX(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	vPosition.y = XMVectorGetY(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	vPosition.z = XMVectorGetZ(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	fVelocity += fGravity *fTimeDelta;
+	vPosition.y += fVelocity * fTimeDelta;
+
+	_vector vecPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vecPos = XMVectorSetY(vecPos, vPosition.y);
+
+	if (vPosition.y <= 0.f)
+	{
+		vPosition.y = 0.f;
+		fVelocity = 0.f;
+
+		_vector vecPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vecPos = XMVectorSetY(vecPos, vPosition.y);
+		
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+
+		m_bNextAnim = true;
+	}
+	else
+	{
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+	}
 }
 

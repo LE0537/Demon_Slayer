@@ -8,6 +8,7 @@
 #include "RuiSkill_Shoot.h"
 #include "RuiSkill_Sphere.h"
 #include "RuiAdvSkill_CommonState.h"
+#include "RuiTargetRushState.h"
 using namespace Rui;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -73,6 +74,8 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Pressing(DIK_L))
+			return new CTargetRushState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_I))
 		{
 			if (pGameInstance->Key_Down(DIK_O))
@@ -154,7 +157,8 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
-
+		else if (pGameInstance->Key_Pressing(DIK_LSHIFT)) 
+			return new CTargetRushState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_X))
 		{
 			if (pGameInstance->Key_Down(DIK_C))
@@ -174,7 +178,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 				}
 			}
 		}
-		else if (pGameInstance->Key_Down(DIK_DELETE))
+		else if (pGameInstance->Key_Down(DIK_V))
 		{
 			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{

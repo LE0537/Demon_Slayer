@@ -14,6 +14,7 @@
 #include "TanjiroKaguraSkill_Common.h"
 #include "TanjiroKaguraSkill_Sphere.h"
 #include "TanjiroChangeState.h"
+#include "TanjiroTargetRushState.h"
 using namespace Tanjiro;
 
 
@@ -74,6 +75,8 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_O))
 				return new CGuardState(STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_L))
+				return new CTargetRushState(STATE_TYPE::TYPE_START);
 			else if (pGameInstance->Key_Down(DIK_I))
 			{
 				if (pGameInstance->Key_Down(DIK_O))
@@ -88,12 +91,15 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					}
 					else
 					{
-						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+						//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
 							pTanjiro->Set_SkillBar(-200);
-						
-							return new CSkill_WindMillState();
+							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_0);
+							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_1);
+							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_2);
+			
+							return new CSkill_WindMillState(TYPE_START);
 						}
 					}
 				}
@@ -160,6 +166,8 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_C))
 				return new CGuardState(STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CTargetRushState(STATE_TYPE::TYPE_START);
 			else if (pGameInstance->Key_Down(DIK_X))
 			{
 				if (pGameInstance->Key_Down(DIK_C))
@@ -174,11 +182,14 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					}
 					else
 					{
-						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
+						//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
 							pTanjiro->Set_SkillBar(-200);
-							return new CSkill_WindMillState();
+							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_0);
+							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_1);
+							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_2);
+							return new CSkill_WindMillState(TYPE_START);
 						}
 					}
 				}

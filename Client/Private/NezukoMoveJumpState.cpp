@@ -5,6 +5,7 @@
 #include "NezukoJumpState.h"
 #include "Layer.h"
 #include "GameInstance.h"
+#include "NezukoJumpMoveAttackState.h"
 
 using namespace Nezuko;
 
@@ -27,6 +28,12 @@ CNezukoState * CMoveJumpState::HandleInput(CNezuko* pNezuko)
 	case 1:
 		if (m_eStateType != CNezukoState::TYPE_END)
 		{
+			if (pGameInstance->Key_Pressing(DIK_J)) // ╬у
+			{
+				return new CJumpMoveAttackState(TYPE_START);
+			}
+
+
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_A)) // аб
@@ -92,6 +99,11 @@ CNezukoState * CMoveJumpState::HandleInput(CNezuko* pNezuko)
 	case 2:
 		if (m_eStateType != CNezukoState::TYPE_END)
 		{
+			if (pGameInstance->Key_Pressing(DIK_Z)) // ╬у
+			{
+				return new CJumpMoveAttackState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

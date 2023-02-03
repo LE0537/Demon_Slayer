@@ -9,7 +9,7 @@
 #include "AkazaSkill_Shoot.h"
 #include "AkazaSkill_Destroy.h"
 #include "AkazaAdvSkill_Common.h"
-
+#include "AkazaTargetRushState.h"
 using namespace Akaza;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -75,6 +75,8 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_O))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Pressing(DIK_L))
+			return new CTargetRushState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_I))
 		{
 			if (pGameInstance->Key_Down(DIK_O))
@@ -159,6 +161,8 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 
 		else if (pGameInstance->Key_Pressing(DIK_C))
 			return new CGuardState(STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+			return new CTargetRushState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_X))
 		{
 			if (pGameInstance->Key_Down(DIK_C))

@@ -7,6 +7,7 @@
 #include "GameInstance.h"
 #include "KyoujuroJumpSkill_Common.h"
 #include "KyoujuroJumpSkill_Move.h"
+#include "KyoujuroJumpMoveAttackState.h"
 using namespace Kyoujuro;
 
 
@@ -28,6 +29,11 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 	case 1:
 		if (m_eStateType != CKyoujuroState::TYPE_DEFAULT)
 		{
+			if (pGameInstance->Key_Pressing(DIK_J)) // ╬у
+			{
+				return new CJumpMoveAttackState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_A)) // аб
@@ -114,6 +120,10 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 	case 2:
 		if (m_eStateType != CKyoujuroState::TYPE_DEFAULT)
 		{
+			if (pGameInstance->Key_Pressing(DIK_Z)) // ╬у
+			{
+				return new CJumpMoveAttackState(TYPE_START);
+			}
 	
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
