@@ -23,6 +23,14 @@ HRESULT CLevel_SelectChar::Initialize()
 	pUIManager->Add_Select_CharUI();
 
 	RELEASE_INSTANCE(CUI_Manager);
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ProgressBar"), LEVEL_SELECTCHAR, TEXT("Layer_ProgressBar"))))
+		return E_FAIL;
+	
+	RELEASE_INSTANCE(CGameInstance);
+
+	
 
 	return S_OK;
 }

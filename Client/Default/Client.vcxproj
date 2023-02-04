@@ -225,6 +225,7 @@
     <ClInclude Include="..\Public\NezukoJumpAttackState.h" />
     <ClInclude Include="..\Public\NezukoJumpMoveAttackState.h" />
     <ClInclude Include="..\Public\NezukoTargetRushState.h" />
+    <ClInclude Include="..\public\ProgressBar.h" />
     <ClInclude Include="..\public\RuiBall.h" />
     <ClInclude Include="..\Public\RuiBattleSTState.h" />
     <ClInclude Include="..\Public\RuiJumpAttackState.h" />
@@ -521,6 +522,7 @@
     <ClCompile Include="..\Private\NezukoJumpAttackState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpMoveAttackState.cpp" />
     <ClCompile Include="..\Private\NezukoTargetRushState.cpp" />
+    <ClCompile Include="..\private\ProgressBar.cpp" />
     <ClCompile Include="..\private\RuiBall.cpp" />
     <ClCompile Include="..\Private\RuiBattleSTState.cpp" />
     <ClCompile Include="..\Private\RuiJumpAttackState.cpp" />

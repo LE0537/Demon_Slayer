@@ -56,13 +56,12 @@ CTanjiroState * CJumpMoveAttackState::Tick(CTanjiro * pTanjiro, _float fTimeDelt
 	}
 
 
-
 	return nullptr;
 }
 
 CTanjiroState * CJumpMoveAttackState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	if (m_eStateType == CTanjiroState::TYPE_LOOP)
+	if (m_eStateType == CTanjiroState::TYPE_END)
 	{
 		CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
 
@@ -94,6 +93,8 @@ CTanjiroState * CJumpMoveAttackState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 					{
 						m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
 						m_pTarget->Take_Damage(0.5f, false);
+						pTanjiro->Set_Combo(1);
+						pTanjiro->Set_ComboTime(1.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

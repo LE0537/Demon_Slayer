@@ -101,6 +101,7 @@
 #include "RankEff.h"
 #include "RankIcon.h"
 #include "RankFuda.h"
+#include "ProgressBar.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -1642,6 +1643,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ChangeIcon"),
 		CChangeIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ProgressBar"),
+		CProgressBar::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion UI°´Ã¼
 

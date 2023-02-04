@@ -21,6 +21,7 @@ public:
 	HRESULT Bin_Initialize(DATA_BINANIM* pAIAnimation, class CModel* pModel); // Ãß°¡
 	void Invalidate_TransformationMatrix(_float fTimeDelta);
 	void Invalidate_TransformationMatrix2(_float fTimeDelta, vector<class CChannel*> _Channel);
+	void Invalidate_TransformationMatrix3(_float fTimeDelta);
 	_bool	Get_AnimEnd() { return m_bAnimEnd; }
 	_bool	Get_End() { return m_bEnd; }
 	void	Set_AnimEnd() { m_bAnimEnd = false; }

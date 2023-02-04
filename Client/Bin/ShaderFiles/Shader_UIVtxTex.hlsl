@@ -8,6 +8,7 @@ texture2D		g_MaskTexture;
 #define PI 		3.14159265359
 #define TWO_PI  6.28318530718
 
+float2 g_WinXY = float2(1.f, 1.f);
 vector			g_vCamPosition;
 
 float2			g_fViewPort;
@@ -25,6 +26,7 @@ float			g_fUvMoveTime;
 float			g_fAlphaTime;
 float			g_fMinusHp;
 float			g_fMinus_BeforeHp;
+
 
 
 struct VS_IN
@@ -280,36 +282,43 @@ PS_OUT PS_GamePlyCharIcon(PS_IN In)
 PS_OUT PS_Circle_Progressbar(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
+	float4 DiffuseTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	float duration = 60.f;
 
-	//float2 uvView = In.vTexUV.xy / g_fViewPort.xy;
+	float progress = g_fTime / duration;
 
-	//float 	SMOOTH = 0.005;
-	//float2 	uv = (uvView*2.0) - 1.0;
-	//float2  origin = float2(0.0, 0.0);
-	//uv.x /= 9.0 / 16.0; //remove this line in UE (compensating for 16:9 on ShaderToy)
+	float innerRadius = 0.1f;
+	float outerRadius = 0.2f;
 
-	//float 	ir = 0.75;
-	//float 	or = 0.95;
-	//float 	d = length(uv);
-	//float 	ring = smoothstep(or + SMOOTH, or - SMOOTH, d) - smoothstep(ir + SMOOTH, ir - SMOOTH, d);
-	//float 	a = atan2(uv.y - origin.y, uv.x - origin.x);
-	//float	theta = (a < 0.0) ? (a + TWO_PI) / TWO_PI : a / TWO_PI;
-	//float	bar = step(theta, 0.7f);
-	//float	ui = ring * bar;
+	float middleRadius = 0.5f * (innerRadius + outerRadius); 
+	float halfWidth = 0.5f * (outerRadius - innerRadius); 
 
-	//float4 	colour = float4(ui, ui, ui, 1.f);
+	float2 pos = In.vTexUV.xy - 0.5f * g_WinXY.xy;
 
-	float2 uv = In.vTexUV;//( - 0.5 * g_fViewPort.xy) / g_fViewPort.y;
-	float circle = 0.5f;//smoothstep(0.4 + (1 / g_fViewPort.y), 0.4 - (1 / g_fViewPort.y), abs(length(uv) - 0.4) + 0.4 - 0.05);
-	float radial = 0.5f;//(atan2(uv.x, -uv.y) / 3.14159265359 * 0.5) + 0.5;
-	float time = g_fTime / (3.14159265359 * 2.0);
-	radial += time;
-	circle *= step(frac(radial), frac(time));
+	float radius = length(pos.xy);
 
-	Out.vColor = float4(circle, circle, circle, 1.0);
+	float fr = halfWidth - abs(radius - middleRadius) + 1.f; 	
+	/*if(fr < 0.0) 
+		discard;*/
+	fr = saturate(fr);
+
+	float angle = degrees(atan2(-pos.x, pos.y)) + 180.f; 
+	float fa = radians(angle - progress * 360.f) * radius + 1.f; 
+	fa = saturate(fa);
+	if(fa != 1.f)
+		discard;
+	vector color = vector(0.f, 0.f, 0.f, 1);
+	vector col = lerp(color, DiffuseTexture, fa);
+//	col.a *= fr;
+
+	//col = col * col2;//DiffuseTexture;
+
+	Out.vColor = col;
 
 	return Out;
 }
+
+
 
 technique11 DefaultTechnique
 {

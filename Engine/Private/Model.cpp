@@ -210,6 +210,17 @@ HRESULT CModel::Play_Animation2(_float fTimeDelta)
 
 	return S_OK;
 }
+HRESULT CModel::Play_Animation3(_float fTimeDelta)
+{
+	m_Animations[m_iPrevAnimIndex]->Invalidate_TransformationMatrix3(fTimeDelta);
+
+	for (auto& pBoneNode : m_Bones)
+	{
+		pBoneNode->Invalidate_CombinedTransformationmatrix(false);
+	}
+
+	return S_OK;
+}
 HRESULT CModel::Play_Animation_ReMoveTranslation(_float fTimeDelta, _fvector vPosition, _bool bRemoveTranslation)
 {
 	if (m_iCurrentAnimIndex != m_iPrevAnimIndex)

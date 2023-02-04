@@ -3,11 +3,18 @@
 #include "GameInstance.h"
 #include "AkazaIdleState.h"
 #include "AkazaMoveState.h"
+#include "Effect_Manager.h"
 using namespace Akaza;
 
 CJumpMoveAttackState::CJumpMoveAttackState(STATE_TYPE eType)
 {
 	m_eStateType = eType;
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+		return;
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 CAkazaState * CJumpMoveAttackState::HandleInput(CAkaza* pAkaza)
@@ -54,9 +61,85 @@ CAkazaState * CJumpMoveAttackState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 CAkazaState * CJumpMoveAttackState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
+	if (m_eStateType == CAkazaState::TYPE_END)
+	{
+		CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
 
+
+		_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+		CCollider*	pMyCollider2 = pAkaza->Get_SphereCollider();
+		if (!m_bHit)
+		{
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.5f, false);
+					pAkaza->Set_Combo(1);
+					pAkaza->Set_ComboTime(1.f);
+				}
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				m_bHit = true;
+			}
+
+		}
+
+
+		if (pMyCollider2->Collision(pTargetCollider))
+		{
+			_float fSpeed = pAkaza->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 1.5f;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			vPos.m128_f32[1] = 0.f;
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+			if (pAkaza->Get_NavigationCom()->Cheak_Cell(vPos))
+				pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pAkaza->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pAkaza->Get_NavigationCom());
+		}
+
+	}
 	if (m_eStateType == TYPE_END)
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
+	else if(m_eStateType == TYPE_START)
+		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 2.f);
 	else
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta);
 
@@ -96,11 +179,12 @@ void CJumpMoveAttackState::Enter(CAkaza* pAkaza)
 
 void CJumpMoveAttackState::Exit(CAkaza* pAkaza)
 {
+	m_pCollBox->Set_Dead();
 }
 
 void CJumpMoveAttackState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 {
-	static _float fGravity = 100.f;
+	static _float fGravity = 200.f;
 	static _float fVelocity = 0.f;
 	
 
@@ -117,14 +201,14 @@ void CJumpMoveAttackState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 	if (m_bRange == true)
 	{
 		//m_vPosition.x += m_vVelocity.x * fTimeDelta * XMVectorGetX(m_vTargetPosition);
-		m_vPosition.y += m_vVelocity.y * fTimeDelta * XMVectorGetY(m_vTargetPosition) * 5.f;
+		m_vPosition.y += m_vVelocity.y * fTimeDelta * XMVectorGetY(m_vTargetPosition) * 10.f;
 		//m_vPosition.z += m_vVelocity.z * fTimeDelta * XMVectorGetZ(m_vTargetPosition);
 	}
 	else if (m_bRange == false)
 	{
-		m_vPosition.x += m_vVelocity.x * fTimeDelta * XMVectorGetX(m_vTargetPosition)* 3.f;
-		m_vPosition.y += m_vVelocity.y * fTimeDelta * XMVectorGetY(m_vTargetPosition)* 5.f;
-		m_vPosition.z += m_vVelocity.z * fTimeDelta * XMVectorGetZ(m_vTargetPosition)* 3.f;
+		m_vPosition.x += m_vVelocity.x * fTimeDelta * XMVectorGetX(m_vTargetPosition)* 6.f;
+		m_vPosition.y += m_vVelocity.y * fTimeDelta * XMVectorGetY(m_vTargetPosition)* 10.f;
+		m_vPosition.z += m_vVelocity.z * fTimeDelta * XMVectorGetZ(m_vTargetPosition)* 6.f;
 	}
 
 
@@ -142,13 +226,14 @@ void CJumpMoveAttackState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 		vecPos = XMVectorSetX(vecPos, m_vPosition.x);
 		vecPos = XMVectorSetY(vecPos, m_vPosition.y);
 		vecPos = XMVectorSetZ(vecPos, m_vPosition.z);
-
-		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		if (pAkaza->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 		m_bNextAnim = true;
 	}
 	else
 	{
-		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		if (pAkaza->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 	}
 }
 

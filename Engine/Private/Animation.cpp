@@ -107,6 +107,49 @@ void CAnimation::Invalidate_TransformationMatrix2(_float fTimeDelta, vector<clas
 	
 }
 
+void CAnimation::Invalidate_TransformationMatrix3(_float fTimeDelta)
+{
+	//
+	if (m_pFrames != nullptr)
+	{
+		if (m_fCurrentTime >= m_pFrames[m_iCurrentFrame].fStartTime &&
+			m_fCurrentTime < m_pFrames[m_iCurrentFrame].fEndTime)
+		{
+			m_fTestTime = m_pFrames[m_iCurrentFrame].fFrameTime;
+		}
+		else if (m_iCurrentFrame < m_iFrameNum && m_fCurrentTime > m_pFrames[m_iCurrentFrame].fEndTime)
+		{
+			++m_iCurrentFrame;
+		}
+	}
+
+	/* 현재 재생중인 시간. */
+	m_fCurrentTime += m_fTickPerSecond * fTimeDelta * m_fTestTime;
+
+	if (m_iCurrentFrame > m_iEndFrame || m_fCurrentTime >= m_fDuration)
+	{
+		//m_pFrames 초기화 하기.
+		m_iCurrentFrame = m_iStartFrame;
+
+		m_fCurrentTime = 0.f;
+
+		m_isFinished = true;
+		m_bEnd = true;
+	}
+	if (!m_isLoop && m_bEnd)
+		return;
+
+	for (auto& pChannel : m_Channels)
+	{
+		
+
+		pChannel->Invalidate_TransformationMatrix(m_fCurrentTime);
+	}
+
+	if (true == m_isFinished && true == m_isLoop)
+		m_isFinished = false;
+}
+
 void CAnimation::Reset2()
 {
 	for (auto& pChannel : m_Channels)

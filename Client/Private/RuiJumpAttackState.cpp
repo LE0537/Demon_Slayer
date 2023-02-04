@@ -3,11 +3,18 @@
 #include "GameInstance.h"
 #include "RuiIdleState.h"
 #include "RuiMoveState.h"
+#include "Effect_Manager.h"
 using namespace Rui;
 
 CJumpAttackState::CJumpAttackState(STATE_TYPE eType)
 {
 	m_eStateType = eType;
+	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+		return;
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 CRuiState * CJumpAttackState::HandleInput(CRui* pRui)
@@ -54,7 +61,81 @@ CRuiState * CJumpAttackState::Tick(CRui* pRui, _float fTimeDelta)
 
 CRuiState * CJumpAttackState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
+	if (m_eStateType == CRuiState::TYPE_START)
+	{
+		CCharacters* m_pTarget = pRui->Get_BattleTarget();
 
+
+		_vector vCollPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos.m128_f32[1] += 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+		CCollider*	pMyCollider2 = pRui->Get_SphereCollider();
+		if (!m_bHit)
+		{
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pRui->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.5f, true);
+					pRui->Set_Combo(1);
+					pRui->Set_ComboTime(1.f);
+				}
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				m_bHit = true;
+			}
+
+		}
+
+
+		if (pMyCollider2->Collision(pTargetCollider))
+		{
+			_float fSpeed = pRui->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 1.5f;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			vPos.m128_f32[1] = 0.f;
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+			if (pRui->Get_NavigationCom()->Cheak_Cell(vPos))
+				pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pRui->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pRui->Get_NavigationCom());
+		}
+
+	}
 	if (m_eStateType == TYPE_END)
 		pRui->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else
@@ -92,6 +173,7 @@ void CJumpAttackState::Enter(CRui* pRui)
 
 void CJumpAttackState::Exit(CRui* pRui)
 {
+	m_pCollBox->Set_Dead();
 }
 
 void CJumpAttackState::Jump(CRui* pRui, _float fTimeDelta)
