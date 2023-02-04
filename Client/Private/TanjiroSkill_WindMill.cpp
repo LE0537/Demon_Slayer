@@ -55,14 +55,6 @@ CTanjiroState * CSkill_WindMillState::Tick(CTanjiro * pTanjiro, _float fTimeDelt
 	}
 
 
-
-
-
-
-
-
-
-
 	return nullptr;
 }
 
@@ -72,7 +64,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 	if (m_eStateType == TYPE_START)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.4f);
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
@@ -84,20 +76,22 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 		pTanjiro->Get_Transform()->Set_PlayerLookAt(vLooAt);
 		m_bLook = true;
 	}
-	_int iHit = pTanjiro->Get_WindMillHit();
-	m_fTime += fTimeDelta;
-	m_fHitTime += fTimeDelta;
-	if (m_fTime < 0.4f)
+	if (m_eStateType == CTanjiroState::TYPE_START)
 	{
-		//pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.5f, pTanjiro->Get_NavigationCom());
-		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-		CCollider*	pMyCollider2 = pTanjiro->Get_SphereCollider();
-		
+		_int iHit = pTanjiro->Get_WindMillHit();
+		m_fTime += fTimeDelta;
+		m_fHitTime += fTimeDelta;
+		if (m_fTime < 0.4f)
+		{
+			//pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.5f, pTanjiro->Get_NavigationCom());
+			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+			CCollider*	pMyCollider2 = pTanjiro->Get_SphereCollider();
+
 			_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 			_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			
+
 			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 
@@ -120,7 +114,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 						m_pTarget->Set_Hp(-30);
 						if (!m_bHit)
 						{
-							m_pTarget->Take_Damage(0.6f,true);
+							m_pTarget->Take_Damage(0.6f, true);
 							m_bHit = true;
 						}
 					}
@@ -161,13 +155,10 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 				else
 					pTanjiro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pTanjiro->Get_NavigationCom());
 			}
+		}
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
-	
-
-
-
 
 	switch (m_eStateType)
 	{
@@ -192,7 +183,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 
 	
 
-	if (!m_bEffect)
+	if (!m_bEffect && m_eStateType == CTanjiroState::TYPE_START)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
@@ -277,9 +268,9 @@ void CSkill_WindMillState::Increase_Height(CTanjiro * pTanjiro, _float fTimeDelt
 
 	if (XMVectorGetY(vCurrentPos) > 5.f)
 	{
-		fDelay += fTimeDelta;
+	/*	fDelay += fTimeDelta;
 
-		if(fDelay >= 0.3f)
+		if(fDelay >= 0.3f)*/
 			m_bNextAnim = true;
 	}
 	else
@@ -289,7 +280,7 @@ void CSkill_WindMillState::Increase_Height(CTanjiro * pTanjiro, _float fTimeDelt
 
 void CSkill_WindMillState::Fall_Height(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	static _float fGravity = -50.f;
+	static _float fGravity = -200.f;
 	static _float fVelocity = 0.f;
 	static _float3 vPosition;
 

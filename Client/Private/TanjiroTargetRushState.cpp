@@ -46,7 +46,6 @@ CTanjiroState * CTargetRushState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 		if (m_bNextAnim == true)
 		{
-			pTanjiro->Get_BattleTarget()->Take_Damage(0.1f);
 			return new CTargetRushState(TYPE_END);
 		}
 		break;
@@ -130,6 +129,18 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 	if (pTanjiro->Get_SphereCollider()->Collision(pTanjiro->Get_BattleTarget()->Get_SphereCollider()))
 	{
 		m_bNextAnim = true;
+		_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+		pTanjiro->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
+
+		if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().bGuard)
+		{
+			pTanjiro->Get_BattleTarget()->Get_GuardHit(0);
+		}
+		else
+		{
+			pTanjiro->Get_BattleTarget()->Take_Damage(0.3f, false);
+		}
 	}
 	else
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

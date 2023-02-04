@@ -46,7 +46,6 @@ CNezukoState * CTargetRushState::Tick(CNezuko * pNezuko, _float fTimeDelta)
 
 		if (m_bNextAnim == true)
 		{
-			pNezuko->Get_BattleTarget()->Take_Damage(0.1f);
 			return new CTargetRushState(TYPE_END);
 		}
 		break;
@@ -130,6 +129,18 @@ void CTargetRushState::Move(CNezuko * pNezuko, _float fTimeDelta)
 	if (pNezuko->Get_SphereCollider()->Collision(pNezuko->Get_BattleTarget()->Get_SphereCollider()))
 	{
 		m_bNextAnim = true;
+		_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+		pNezuko->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
+
+		if (pNezuko->Get_BattleTarget()->Get_PlayerInfo().bGuard)
+		{
+			pNezuko->Get_BattleTarget()->Get_GuardHit(0);
+		}
+		else
+		{
+			pNezuko->Get_BattleTarget()->Take_Damage(0.3f, false);
+		}
 	}
 	else
 		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
