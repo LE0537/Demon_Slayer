@@ -105,6 +105,8 @@ struct PS_IN
 struct PS_OUT
 {
 	float4		vColor : SV_TARGET0;
+	float4		vNormal : SV_TARGET1;	//	외곽선용1
+	float4		vDepth : SV_TARGET2;	//	외곽선용2
 };
 
 /* 이렇게 만들어진 픽셀을 PS_MAIN함수의 인자로 던진다. */

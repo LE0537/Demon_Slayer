@@ -443,7 +443,8 @@ PS_OUT PS_INNERLINE(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	float		fValue = g_NormalTexture.Sample(LinearSampler, In.vTexUV).a;
+	vector		vNormalTexture = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
+	float		fValue = vNormalTexture.a;
 	if (fValue == 0.f)
 		discard;
 
@@ -463,6 +464,34 @@ PS_OUT PS_INNERLINE(PS_IN In)
 
 	if (gray_normal > 0.1f)
 		discard;
+
+
+	//vector			vDepthDesc = g_DepthTexture.Sample(DepthSampler, In.vTexUV);
+
+	//float			fViewZ = vDepthDesc.y * g_fFar;
+
+	//vector			vWorldPos = (vector)0.f;
+
+	//vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
+	//vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
+	//vWorldPos.z = vDepthDesc.r;
+	//vWorldPos.w = 1.0f;
+
+	//vWorldPos *= fViewZ;
+
+	//vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+	//vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+
+	//float3 vPixelNormal = vNormalTexture.xyz;
+	//float fAngle = degrees(acos(dot(g_vCamPosition - vWorldPos, vPixelNormal)));
+	//
+	//float	fTestValue = (sign(fAngle - 90.f) * (fAngle - 90.f));	//	-면 +로 변환.
+
+	//float	fCutValue = 1.f;
+	//Out.vColor = 0.f;
+
+	//if (fTestValue >= fCutValue)
+	//	discard;
 
 	return Out;
 }
