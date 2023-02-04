@@ -86,6 +86,40 @@ HRESULT CEffect_Mesh::Initialize_Prototype()
 	m_MeshName.push_back("Rengoku_TigerFire");
 	m_MeshName.push_back("Water_6_Wind2");
 
+	m_MeshName.push_back("Ring_RuiSkl3_1");
+	m_MeshName.push_back("Ring_RuiSkl3_2");
+	m_MeshName.push_back("Rui_BigWeb3");
+	m_MeshName.push_back("Rui_Dome1");
+	m_MeshName.push_back("Rui_Dome2");
+	m_MeshName.push_back("Rui_Dome3");
+	m_MeshName.push_back("Rui_Dome4");
+	m_MeshName.push_back("Rui_DomeEnd1");
+	m_MeshName.push_back("Rui_DomeEnd4_1");
+	m_MeshName.push_back("Rui_DomeEnd4_2");
+	m_MeshName.push_back("Fragment1");
+	m_MeshName.push_back("Fragment2");
+	m_MeshName.push_back("Fragment3");
+	m_MeshName.push_back("Fragment4");
+	m_MeshName.push_back("Fragment5");
+	m_MeshName.push_back("Fragment6");
+	m_MeshName.push_back("Rui_Line3");
+	m_MeshName.push_back("Rui_Line4");
+	m_MeshName.push_back("Rui_Line5");
+	m_MeshName.push_back("Rui_Line6");
+	m_MeshName.push_back("Rui_Line7");
+	m_MeshName.push_back("Rui_Line8");
+	m_MeshName.push_back("Rui_Line10");
+	m_MeshName.push_back("Rui_Plane1");
+	m_MeshName.push_back("Rui_Ring1");
+	m_MeshName.push_back("Rui_Ring2");
+	m_MeshName.push_back("Rui_Skl3Line3");
+	m_MeshName.push_back("Rui_Skl3Line4");
+	m_MeshName.push_back("Rui_Smoke3");
+	m_MeshName.push_back("Rui_UpWeb5");
+	m_MeshName.push_back("Rui_UpWeb6");
+	m_MeshName.push_back("Rui_Web3");
+	m_MeshName.push_back("Rui_Web4");
+
 
 	return S_OK;
 }

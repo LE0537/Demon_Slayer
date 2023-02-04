@@ -162,7 +162,7 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTexture.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
-	if (Out.vColor.a < 0.03f)
+	if (Out.vColor.a < 0.1f)
 		discard;
 
 	return Out;
@@ -237,7 +237,7 @@ PS_POSTPROCESSING_OUT PS_GRAYSCALE(PS_IN In)
 	float fValue = (g_bUseRGB * DiffuseTex.r) + ((1.f - g_bUseRGB) * DiffuseTex.a);
 	Out.vValue = fValue * g_fPostProcesesingValue;
 
-	if (Out.vValue.r <= 0.03f)
+	if (Out.vValue.r <= 0.1f)
 		discard;
 
 	return Out;
@@ -268,6 +268,9 @@ PS_OUT PS_ALPHAGLOW(PS_IN In)
 
 	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
+
+	if (0.1f > Out.vColor.a)
+		discard;
 
 	return Out;
 }
