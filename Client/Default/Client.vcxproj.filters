@@ -625,9 +625,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_3">
       <UniqueIdentifier>{4579d1b1-fea6-47dc-9c46-2b8567499f16}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_4">
-      <UniqueIdentifier>{8240904d-935b-44fe-8feb-04c7d74733ed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Change">
       <UniqueIdentifier>{0b9b64bc-e68b-40fb-8058-7b03cb033e06}</UniqueIdentifier>
     </Filter>
@@ -903,6 +900,12 @@
     </Filter>
     <Filter Include="03.UI\96.MsgUI\CharselMsg">
       <UniqueIdentifier>{0b59d1d2-872a-4cdb-a000-a0bbc9eead79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_4">
+      <UniqueIdentifier>{8240904d-935b-44fe-8feb-04c7d74733ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Change\ProgressBar">
+      <UniqueIdentifier>{cb63ac55-e279-4cea-aa8d-87ca8ae3c944}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1797,6 +1800,9 @@
     <ClInclude Include="..\Public\CharSelMsg.h">
       <Filter>03.UI\96.MsgUI\CharselMsg</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ProgressBar.h">
+      <Filter>03.UI\02.Battle\BattleTop\Change\ProgressBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2665,6 +2671,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\CharSelMsg.cpp">
       <Filter>03.UI\96.MsgUI\CharselMsg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ProgressBar.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Change\ProgressBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

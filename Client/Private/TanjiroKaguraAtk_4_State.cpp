@@ -229,6 +229,8 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 				{
 					m_pTarget->Set_Hp(-15);
 					m_pTarget->Take_Damage(0.3f, false);
+					pTanjiro->Set_Combo(1);
+					pTanjiro->Set_ComboTime(1.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -270,6 +272,8 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 				{
 					m_pTarget->Set_Hp(-15);
 					m_pTarget->Take_Damage(0.5f, false);
+					pTanjiro->Set_Combo(1);
+					pTanjiro->Set_ComboTime(1.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

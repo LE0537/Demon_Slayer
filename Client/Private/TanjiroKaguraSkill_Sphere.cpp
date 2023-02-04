@@ -113,6 +113,8 @@ CTanjiroState * CKaguraSkill_SphereState::Late_Tick(CTanjiro * pTanjiro, _float 
 				{
 					m_pTarget->Set_Hp(-40);
 					m_pTarget->Take_Damage(0.3f, false);
+					pTanjiro->Set_Combo(1);
+					pTanjiro->Set_ComboTime(1.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -154,6 +156,8 @@ CTanjiroState * CKaguraSkill_SphereState::Late_Tick(CTanjiro * pTanjiro, _float 
 				{
 					m_pTarget->Set_Hp(-40);
 					m_pTarget->Take_Damage(0.5f, false);
+					pTanjiro->Set_Combo(1);
+					pTanjiro->Set_ComboTime(1.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

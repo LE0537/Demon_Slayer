@@ -1,6 +1,6 @@
 #pragma once
 #include "RuiState.h"
-
+#include "RuiAtk.h"
 
 BEGIN(Client)
 BEGIN(Rui)
@@ -23,7 +23,14 @@ private:
 	_float m_fOriginPosY;
 	_bool m_bNextAnim = false;
 
-
+	CRuiAtk*	m_pCollBox = nullptr;
+	_bool m_bAtkCombo = false;
+	_float m_fTime = 0.f;
+	_float m_fComboDelay = 0.f;
+	_bool  m_bEffect = false;
+	_float m_fMove = 0.f;
+	_int   m_iHit = 0;
+	_bool   m_bHit = false;
 };
 
 END

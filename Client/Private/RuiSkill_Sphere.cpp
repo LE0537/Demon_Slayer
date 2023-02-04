@@ -98,6 +98,8 @@ CRuiState * CSkill_SphereState::Late_Tick(CRui* pRui, _float fTimeDelta)
 				{
 					m_pTarget->Set_Hp(-10);
 					m_pTarget->Take_Damage(0.f, false);
+					pRui->Set_Combo(1);
+					pRui->Set_ComboTime(1.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -145,6 +147,8 @@ CRuiState * CSkill_SphereState::Late_Tick(CRui* pRui, _float fTimeDelta)
 				{
 					m_pTarget->Set_Hp(-30);
 					m_pTarget->Take_Damage(0.5f, true);
+					pRui->Set_Combo(1);
+					pRui->Set_ComboTime(1.f);
 				}
 	
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

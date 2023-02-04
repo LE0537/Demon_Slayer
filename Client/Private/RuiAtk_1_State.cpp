@@ -175,7 +175,6 @@ CRuiState * CAtk_1_State::Tick(CRui* pRui, _float fTimeDelta)
 
 	m_fTime += fTimeDelta * 60;
 	m_fComboDelay += fTimeDelta * 60;
-	//printf_s("AttackTime : %f \n", (_float)m_fTime);
 
 
 	if (m_bAtkCombo == true && m_fTime >= 40.f)
@@ -236,6 +235,8 @@ CRuiState * CAtk_1_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 				{
 					m_pTarget->Set_Hp(-pRui->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.3f,false);
+					pRui->Set_Combo(1);
+					pRui->Set_ComboTime(1.f);
 				}
 				
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
