@@ -39,6 +39,7 @@ struct VS_OUT
 	float		fSpecular : COLOR1;
 	float2		vTexUV : TEXCOORD0;
 	float4		vWorldPos : TEXCOORD1;
+	float4		vProjPos : TEXCOORD2;
 };
 
 
@@ -85,6 +86,13 @@ VS_OUT VS_MAIN(VS_IN In)
 
 	Out.vWorldPos = vWorldPos;
 
+	//	¿Ü°û¼±¿ë Normal, Depth
+	vector		vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
+	vNormal = normalize(mul(vNormal, g_WorldMatrix));
+	Out.vNormal = vNormal;
+	Out.vProjPos = Out.vPosition;
+
+
 	return Out;
 }
 VS_OUT VS_BreakCar(VS_IN In)
@@ -127,11 +135,14 @@ struct PS_IN
 	float		fSpecular : COLOR1;
 	float2		vTexUV : TEXCOORD0;
 	float4		vWorldPos : TEXCOORD1;
+	float4		vProjPos : TEXCOORD2;
 };
 
 struct PS_OUT
 {
 	float4		vColor : SV_TARGET0;
+	float4		vNormal : SV_TARGET1;	//	¿Ü°û¼±¿ë1
+	float4		vDepth : SV_TARGET2;	//	¿Ü°û¼±¿ë2
 };
 
 
@@ -155,6 +166,9 @@ PS_OUT PS_MAIN(PS_IN In)
 		Out.vColor = (g_vLightDiffuse * vDiffuse) * saturate(0.4f + g_vLightAmbient * g_vMtrlAmbient);
 	}
 
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 500.f, 0.f, 0.1f);
+
 	//Out.vColor = (g_vLightDiffuse * vDiffuse) * saturate(In.fShade + g_vLightAmbient * g_vMtrlAmbient);
 	//+(g_vLightSpecular * g_vMtrlSpecular) * In.fSpecular;
 
@@ -168,7 +182,10 @@ PS_OUT PS_MASK(PS_IN In)
 	vector vMask = g_MaskTexture.Sample(CLAMPSampler, In.vTexUV);
 
 	Out.vColor = g_DiffuseTexture.Sample(CLAMPSampler, In.vTexUV);
-	
+
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 500.f, 0.f, 0.1f);
+
 	if (vMask.r == 0.f)
 		Out.vColor.rgb = 1.f;
 	
