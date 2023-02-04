@@ -76,7 +76,7 @@ void CNumTimer::Tick(_float fTimeDelta)
 	}
 	else
 	{
-		m_fTimer = 99.f;
+		m_fTimer = 10.f;
 
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_iFirstNum = (_uint)m_fTimer / 10;
