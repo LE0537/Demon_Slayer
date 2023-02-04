@@ -1246,6 +1246,20 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_Jump5Tiger_After"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_Jump5Tiger_End"));
 
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk2_1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk2_2"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk3_1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk3_2"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk4"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendCom_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendCom_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendMove"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_ShotBall_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_2"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_3"));
+
 		pEffect_Manager->Load_Effect(TEXT("ParticleTest"));
 
 
