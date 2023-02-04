@@ -30,7 +30,7 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 private:
-	_float				m_fTimer = 100.f;
+	_float				m_fTimer = 10.f;
 	_bool				m_bTimerOnoff = false;
 	_uint				m_iFirstNum = 9;
 	_uint				m_iSecondNum = 9;
