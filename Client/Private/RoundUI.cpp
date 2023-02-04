@@ -210,8 +210,6 @@ void CRoundUI::ZoomOut(_float fTimeDelta)
 
 		m_fZoomTime += fTimeDelta * 1.5f;
 		if (m_fZoomTime >= 0.001f)
-
-
 		{
 			m_fSizeX -= m_fSizeX * 0.01f;
 			m_fSizeY -= m_fSizeY * 0.01f;
@@ -314,7 +312,9 @@ void CRoundUI::Case_ReturnEnd()
 			}
 		}
 
-		++m_iImgNum;
+		if (!m_b1PRoundEnd && !m_b2PRoundEnd)
+			++m_iImgNum;
+
 		if (m_i1PRoundWin >= 3)
 		{
 			m_iImgNum = 0;
@@ -420,8 +420,9 @@ void CRoundUI::Battle_End(_float fTimeDelta)
 	if (m_b1PRoundEnd)
 	{
 		m_iJudgmentImgNum = 0;
-		m_bJudgmentCheck = true;
-		m_bRoundOnOff = true;
+		m_bRoundOnOff = false; //true로 바꿔놓자
+		if (!m_bJudgmentCheck)
+			m_bJudgmentCheck = true;
 	}
 }
 
