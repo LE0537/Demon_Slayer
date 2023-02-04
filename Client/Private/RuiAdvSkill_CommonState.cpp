@@ -27,7 +27,6 @@ CRuiState * CAdvSkill_CommonState::Tick(CRui * pRui, _float fTimeDelta)
 		pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 
 		return new CIdleState();
-
 	}
 
 

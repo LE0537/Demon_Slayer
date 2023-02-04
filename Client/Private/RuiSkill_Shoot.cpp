@@ -62,6 +62,9 @@ CRuiState * CSkill_ShootState::Late_Tick(CRui* pRui, _float fTimeDelta)
 			return nullptr;
 
 		RELEASE_INSTANCE(CGameInstance);
+
+
+
 		m_fMove = 0.f;
 		++m_iHit;
 	}
@@ -88,7 +91,25 @@ CRuiState * CSkill_ShootState::Late_Tick(CRui* pRui, _float fTimeDelta)
 			break;
 		}
 	}
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		switch (m_eStateType)
+		{
+		case Client::CRuiState::TYPE_START:
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUI_SHOTBALL_START_1, pRui);
+			break;
+		case Client::CRuiState::TYPE_LOOP:
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUI_SHOTBALL_START_2, pRui);
+			break;
+		case Client::CRuiState::TYPE_END:
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUI_SHOTBALL_START_3, pRui);
+			break;
+		}
 	
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }
