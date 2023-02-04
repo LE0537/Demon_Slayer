@@ -126,7 +126,6 @@ CRuiState * CAdvSkill_CommonState::Late_Tick(CRui * pRui, _float fTimeDelta)
 
 
 
-
 	pRui->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;

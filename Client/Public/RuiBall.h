@@ -1,6 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "CollBox.h"
+#include "Characters.h"
 
 BEGIN(Engine)
 class CTransform;
@@ -8,12 +9,17 @@ END
 
 BEGIN(Client)
 
-class CRuiSphere : public CCollBox
+class CRuiBall : public CCollBox
 {
+public:
+	typedef struct tagRuiInfo {
+		CCharacters*		pPlayer;
+		CCharacters*		pTarget;
+	}RUISHOOTINFO;
 protected:
-	CRuiSphere(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CRuiSphere(const CRuiSphere& rhs);
-	virtual ~CRuiSphere() = default;
+	CRuiBall(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CRuiBall(const CRuiBall& rhs);
+	virtual ~CRuiBall() = default;
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
@@ -24,9 +30,11 @@ public:
 private:
 	HRESULT Ready_Components();
 private:
-	_bool  m_bEffect = false;
+	RUISHOOTINFO	 m_ShootInfo;
+	_float		   m_fDeadTime = 0.f;
+	_bool		   m_bHit = false;
 public:
-	static CRuiSphere* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CRuiBall* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };

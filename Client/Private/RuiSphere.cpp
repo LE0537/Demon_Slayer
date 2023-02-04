@@ -2,7 +2,7 @@
 #include "..\Public\RuiSphere.h"
 
 #include "GameInstance.h"
-
+#include "Effect_Manager.h"
 CRuiSphere::CRuiSphere(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCollBox(pDevice, pContext)
 {
@@ -25,6 +25,9 @@ HRESULT CRuiSphere::Initialize(void * pArg)
 
 	*(CRuiSphere**)pArg = this;
 
+	
+	
+	
 	return S_OK;
 }
 
@@ -36,6 +39,15 @@ void CRuiSphere::Tick(_float fTimeDelta)
 
 void CRuiSphere::Late_Tick(_float fTimeDelta)
 {
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, (CCharacters*)this);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 	if (g_bCollBox)
 	{
 		m_pRendererCom->Add_Debug(m_pOBBCom);

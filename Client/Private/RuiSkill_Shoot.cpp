@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-#include "AkazaShoot.h"
+#include "RuiBall.h"
 
 using namespace Rui;
 
@@ -50,7 +50,7 @@ CRuiState * CSkill_ShootState::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 	m_fMove += fTimeDelta;
 
-	CAkazaShoot::AKAZASHOOTINFO	tInfo;
+	CRuiBall::RUISHOOTINFO	tInfo;
 	tInfo.pPlayer = pRui;
 	tInfo.pTarget = m_pTarget;
 
@@ -58,7 +58,7 @@ CRuiState * CSkill_ShootState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	{
 		CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
-		if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_AkazaShoot"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+		if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiBall"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
 			return nullptr;
 
 		RELEASE_INSTANCE(CGameInstance);

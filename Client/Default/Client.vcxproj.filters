@@ -892,6 +892,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\TargetRush">
       <UniqueIdentifier>{8ea809a3-aef0-4d63-ae15-5ac6c86f501d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\10.RuiBall">
+      <UniqueIdentifier>{6edb8b4b-c180-4909-9cc8-3e1cb518bb35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1776,6 +1779,9 @@
     <ClInclude Include="..\Public\ShinobuBattleSTState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\BattleStart</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RuiBall.h">
+      <Filter>05.CollBox\10.RuiBall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2635,6 +2641,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ShinobuBattleSTState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\BattleStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiBall.cpp">
+      <Filter>05.CollBox\10.RuiBall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
