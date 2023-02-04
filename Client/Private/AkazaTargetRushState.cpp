@@ -46,7 +46,6 @@ CAkazaState * CTargetRushState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 		if (m_bNextAnim == true)
 		{
-			pAkaza->Get_BattleTarget()->Take_Damage(0.1f);
 			return new CTargetRushState(TYPE_END);
 		}
 		break;
@@ -130,6 +129,18 @@ void CTargetRushState::Move(CAkaza* pAkaza, _float fTimeDelta)
 	if (pAkaza->Get_SphereCollider()->Collision(pAkaza->Get_BattleTarget()->Get_SphereCollider()))
 	{
 		m_bNextAnim = true;
+		_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+		pAkaza->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
+
+		if (pAkaza->Get_BattleTarget()->Get_PlayerInfo().bGuard)
+		{
+			pAkaza->Get_BattleTarget()->Get_GuardHit(0);
+		}
+		else
+		{
+			pAkaza->Get_BattleTarget()->Take_Damage(0.3f, false);
+		}
 	}
 	else
 		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

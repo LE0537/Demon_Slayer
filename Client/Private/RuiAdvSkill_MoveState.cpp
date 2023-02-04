@@ -2,11 +2,17 @@
 #include "RuiAdvSkill_MoveState.h"
 #include "RuiIdleState.h"
 #include "GameInstance.h"
-
+#include "Effect_Manager.h"
 using namespace Rui;
 
 CAdvSkill_MoveState::CAdvSkill_MoveState()
 {
+	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiSphere"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+		return;
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 CRuiState * CAdvSkill_MoveState::HandleInput(CRui * pRui)
@@ -33,6 +39,55 @@ CRuiState * CAdvSkill_MoveState::Tick(CRui * pRui, _float fTimeDelta)
 
 CRuiState * CAdvSkill_MoveState::Late_Tick(CRui * pRui, _float fTimeDelta)
 {
+	if (m_fBackStepTime > 0.2f)
+	{
+		CCharacters* m_pTarget = pRui->Get_BattleTarget();
+		_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vLooAt.m128_f32[1] = 0.f;
+		pRui->Get_Transform()->LookAt(vLooAt);
+
+			m_fMove += fTimeDelta;
+
+
+			_vector vCollPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+			_vector vCollLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+			vCollPos += XMVector3Normalize(vCollLook) * 4.f; //추가
+			vCollPos.m128_f32[1] = 1.f; //추가
+			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+			CCollider*	pMyCollider2 = pRui->Get_SphereCollider();
+			if (m_fMove > 0.2f && m_iHit == 0)
+			{
+				if (nullptr == pTargetCollider)
+					return nullptr;
+
+				if (pMyCollider->Collision(pTargetCollider))
+				{
+					_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+					if (m_pTarget->Get_PlayerInfo().bGuard)
+					{
+						m_pTarget->Get_GuardHit(0);
+					}
+					else
+					{
+						m_pTarget->Set_Hp(-80);
+						m_pTarget->Take_Damage(0.3f, true);
+					}
+
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+					RELEASE_INSTANCE(CEffect_Manager);
+
+					++m_iHit;
+				}
+			}
+		
+	}
 	pRui->Get_Model()->Play_Animation(fTimeDelta * 0.8f);
 
 	return nullptr;
@@ -50,6 +105,7 @@ void CAdvSkill_MoveState::Enter(CRui * pRui)
 
 void CAdvSkill_MoveState::Exit(CRui * pRui)
 {
+	m_pCollBox->Set_Dead(); //추가
 }
 
 

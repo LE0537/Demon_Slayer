@@ -66,8 +66,85 @@ CShinobuState * CSkill_UpperState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
-	CCharacters* m_pTarget = pShinobu->Get_BattleTarget();
+	if (m_eStateType == CShinobuState::TYPE_START)
+	{
+		CCharacters* m_pTarget = pShinobu->Get_BattleTarget();
+	
+		if (m_fTime > 0.4f)
+			m_fMove += fTimeDelta;
 
+		if (m_fMove < 0.3f)
+		{
+			pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pShinobu->Get_NavigationCom());
+
+			_vector vCollPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+			_vector vCollLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+			vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
+			vCollPos.m128_f32[1] = 1.f; //추가
+			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+			CCollider*	pMyCollider2 = pShinobu->Get_SphereCollider();
+			if (m_fMove > 0.1f && !m_bHit)
+			{
+				if (nullptr == pTargetCollider)
+					return nullptr;
+
+				if (pMyCollider->Collision(pTargetCollider))
+				{
+					_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+					if (m_pTarget->Get_PlayerInfo().bGuard)
+					{
+						m_pTarget->Get_GuardHit(0);
+					}
+					else
+					{
+						m_pTarget->Set_Hp(-70);
+						m_pTarget->Take_Damage(0.6f, true);
+					}
+
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+					RELEASE_INSTANCE(CEffect_Manager);
+
+					m_bHit = true;
+				}
+
+			}
+
+
+			if (pMyCollider2->Collision(pTargetCollider))
+			{
+				_float fSpeed = pShinobu->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 1.5f;
+
+				_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+				_vector vMyLook = vTargetLook * -1.f;
+
+				_vector vPow = XMVector3Dot(pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+				_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+				vPos += vMyLook * (fSpeed - fSpeed * fPow);
+				vTargetPos += vTargetLook * fSpeed * fPow;
+				vPos.m128_f32[1] = 0.f;
+				_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+				if (pShinobu->Get_NavigationCom()->Cheak_Cell(vPos))
+					pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+				if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+					m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+				else
+					pShinobu->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pShinobu->Get_NavigationCom());
+			}
+		}
+	}
 	pShinobu->Get_Model()->Play_Animation(fTimeDelta);
 
 	switch (m_eStateType)
@@ -152,7 +229,6 @@ void CSkill_UpperState::Move(CShinobu * pShinobu, _float fTimeDelta)
 {
 	_vector vMyPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTargetPosition = pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
 	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
 
 	pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
@@ -165,9 +241,9 @@ void CSkill_UpperState::Move(CShinobu * pShinobu, _float fTimeDelta)
 
 	fVelocity += fGravity * fTimeDelta;
 
-	vPosition.x += XMVectorGetX(XMVector3Normalize(vTargetPosition- vMyPosition)) * fVelocity * fTimeDelta;
+	vPosition.x += XMVectorGetX(XMVector3Normalize(vMyPosition - vTargetPosition)) * fVelocity * fTimeDelta;
 		//vPosition.y += XMVectorGetY(m_vTargetPosition) * -fVelocity * fTimeDelta;
-	vPosition.z += XMVectorGetZ(XMVector3Normalize(vTargetPosition- vMyPosition)) * fVelocity * fTimeDelta;
+	vPosition.z += XMVectorGetZ(XMVector3Normalize(vMyPosition - vTargetPosition)) * fVelocity * fTimeDelta;
 
 
 	_vector vecPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -237,14 +313,16 @@ CShinobuState * CSkill_UpperState::Fall_Height(CShinobu * pShinobu, _float fTime
 		_vector vecPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		
 		vecPos = XMVectorSetY(vecPos, vPosition.y);
-	
-		pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		if (pShinobu->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 		
 		m_bNextAnim = true;
 	}
 	else
-		pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
-	
+	{
+		if (pShinobu->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+	}
 
 	return nullptr;
 }

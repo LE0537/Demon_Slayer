@@ -122,9 +122,9 @@ void CJumpMoveAttackState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 	}
 	else if (m_bRange == false)
 	{
-		m_vPosition.x += m_vVelocity.x * fTimeDelta * XMVectorGetX(m_vTargetPosition)* 3.f;
-		m_vPosition.y += m_vVelocity.y * fTimeDelta * XMVectorGetY(m_vTargetPosition)* 5.f;
-		m_vPosition.z += m_vVelocity.z * fTimeDelta * XMVectorGetZ(m_vTargetPosition)* 3.f;
+		m_vPosition.x += m_vVelocity.x * fTimeDelta * XMVectorGetX(m_vTargetPosition)* 6.f;
+		m_vPosition.y += m_vVelocity.y * fTimeDelta * XMVectorGetY(m_vTargetPosition)* 10.f;
+		m_vPosition.z += m_vVelocity.z * fTimeDelta * XMVectorGetZ(m_vTargetPosition)* 6.f;
 	}
 
 
@@ -142,13 +142,14 @@ void CJumpMoveAttackState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 		vecPos = XMVectorSetX(vecPos, m_vPosition.x);
 		vecPos = XMVectorSetY(vecPos, m_vPosition.y);
 		vecPos = XMVectorSetZ(vecPos, m_vPosition.z);
-
-		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 		m_bNextAnim = true;
 	}
 	else
 	{
-		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 	}
 }
 

@@ -838,9 +838,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\JumpAttack\JumpMoveAttack">
       <UniqueIdentifier>{99ea29e3-5002-4d64-a1c1-281484fe0a09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\TargetRush">
-      <UniqueIdentifier>{8ea809a3-aef0-4d63-ae15-5ac6c86f501d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\JumpAttack">
       <UniqueIdentifier>{665b66e1-7594-45a8-92fe-05ec28a95a7f}</UniqueIdentifier>
     </Filter>
@@ -891,6 +888,9 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\BattleStart">
       <UniqueIdentifier>{fba41093-5cad-40fa-913a-ae73b56fa9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\TargetRush">
+      <UniqueIdentifier>{8ea809a3-aef0-4d63-ae15-5ac6c86f501d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1735,7 +1735,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroTargetRushState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\TargetRush</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\TargetRush</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroJumpMoveAttackState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack</Filter>
@@ -2604,7 +2604,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroTargetRushState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\TargetRush</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\TargetRush</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\RuiJumpAttackState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\JumpAttack</Filter>

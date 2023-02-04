@@ -46,7 +46,6 @@ CRuiState * CTargetRushState::Tick(CRui* pRui, _float fTimeDelta)
 
 		if (m_bNextAnim == true)
 		{
-			pRui->Get_BattleTarget()->Take_Damage(0.1f);
 			return new CTargetRushState(TYPE_END);
 		}
 		break;
@@ -130,6 +129,18 @@ void CTargetRushState::Move(CRui* pRui, _float fTimeDelta)
 	if (pRui->Get_SphereCollider()->Collision(pRui->Get_BattleTarget()->Get_SphereCollider()))
 	{
 		m_bNextAnim = true;
+		_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+		pRui->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
+
+		if (pRui->Get_BattleTarget()->Get_PlayerInfo().bGuard)
+		{
+			pRui->Get_BattleTarget()->Get_GuardHit(0);
+		}
+		else
+		{
+			pRui->Get_BattleTarget()->Take_Damage(0.3f, false);
+		}
 	}
 	else
 		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
