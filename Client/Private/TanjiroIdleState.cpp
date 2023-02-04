@@ -266,7 +266,7 @@ void CIdleState::Enter(CTanjiro * pTanjiro)
 
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_IDLE);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_IDLE);
-
+	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_IDLE, 0.01f);
 	pTanjiro->Get_Model()->Set_FrameNum(pTanjiro->Get_AnimIndex(), 100);
 
 }

@@ -181,11 +181,13 @@ CRuiState * CAtk_1_State::Tick(CRui* pRui, _float fTimeDelta)
 		return new CAtk_2_State();
 
 
-
-	if (pRui->Get_Model()->Get_End(CRui::ANIM_ATTACK_1))
+	if(m_bAtkCombo == false)
 	{
-		pRui->Get_Model()->Set_End(CRui::ANIM_ATTACK_1);
-		return new CIdleState();
+		if (pRui->Get_Model()->Get_End(CRui::ANIM_ATTACK_1))
+		{
+			pRui->Get_Model()->Set_End(CRui::ANIM_ATTACK_1);
+			return new CIdleState();
+		}
 	}
 
 

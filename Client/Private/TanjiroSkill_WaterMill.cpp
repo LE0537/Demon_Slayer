@@ -164,7 +164,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;
 }
@@ -189,6 +189,7 @@ void CSkill_WaterMillState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_SKILL_WATERMILL_2);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_SKILL_WATERMILL_2, 0.01f);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_WATERMILL_2);
+	
 		break;
 	}
 

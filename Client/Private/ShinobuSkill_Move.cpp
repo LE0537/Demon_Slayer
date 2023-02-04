@@ -4,7 +4,6 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-
 using namespace Shinobu;
 
 

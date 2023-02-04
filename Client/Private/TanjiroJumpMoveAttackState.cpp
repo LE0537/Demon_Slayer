@@ -3,7 +3,11 @@
 #include "GameInstance.h"
 #include "TanjiroIdleState.h"
 #include "TanjiroMoveState.h"
+
 #include "Effect_Manager.h"
+
+
+
 using namespace Tanjiro;
 
 CJumpMoveAttackState::CJumpMoveAttackState(STATE_TYPE eType)
