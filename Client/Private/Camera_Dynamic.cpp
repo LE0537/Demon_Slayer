@@ -106,6 +106,8 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 		Set_BattleTarget();
 		m_bBattle = true;
 	}
+
+
 	
 }
 
