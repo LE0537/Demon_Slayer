@@ -101,8 +101,14 @@ public:
 	CUI*   Get_MenuCursor() { return m_pMenuCursor; }
 	void	Set_MenuCursor(CUI* MenuCursor) { m_pMenuCursor = MenuCursor; }
 
-
 	void	Set_CharNameUIZero() { m_iCharNameLayerNum = 0; }
+
+	_bool	Get_LevelResultOn() { return m_bLevelResultOn; }
+	void	Set_LevelResultOn(_bool bCheck) { m_bLevelResultOn = bCheck; }
+
+
+	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }
+	void Set_Result_Info(CUI::RESULTINFO ResultInfo) { m_ResultInfo = ResultInfo; }
 
 private:
 	ID3D11Device*					m_pDevice = nullptr;
@@ -149,6 +155,7 @@ private:
 	CUI*							m_pTimerUI = nullptr;
 
 	CUI::THROWUIINFO				m_ThrowInfo;
+	CUI::RESULTINFO					m_ResultInfo;
 	_uint							m_iCharIconLayerNum = 0;
 	_uint							m_iCharNameLayerNum = 0;
 	_uint							m_iCharFrameLayerNum = 0;
@@ -160,11 +167,15 @@ private:
 	_uint							m_iTimerLayerNum = 0;
 	_uint							m_iSelStampLayerNum = 0;
 	_uint							m_iRoundIconLayerNum = 0;
+	_uint							m_iCharSelMsgLayerNum = 0;
+	_uint							m_iSelNameShadowLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;
 	_uint                           m_i2p_2 = 0;
 	_uint							m_iLogoButtonNum = 0;
+
+	_bool							m_bLevelResultOn = false;
 
 public:
 	virtual void Free() override;

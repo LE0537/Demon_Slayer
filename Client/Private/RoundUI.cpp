@@ -51,7 +51,15 @@ HRESULT CRoundUI::Initialize(void * pArg)
 
 void CRoundUI::Tick(_float fTimeDelta)
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (pGameInstance->Key_Down(DIK_M))
+	{
+		_int iHp = pUI_Manager->Get_1P()->Get_PlayerInfo().iHp;
+
+		pUI_Manager->Get_1P()->Set_Hp(-iHp);
+	}
 	
 	Battle_End(fTimeDelta);
 	ZeroTiemr_RoundUI(fTimeDelta);
@@ -59,8 +67,29 @@ void CRoundUI::Tick(_float fTimeDelta)
 
 	UI_Function(fTimeDelta);
 
+	if (m_bResultOn)
+	{
+		if (m_b1PRoundEnd)
+		{
+			m_ResultInfo.iFirstTarget = pUI_Manager->Get_Sel1P();
+			m_ResultInfo.iSecondTarget = pUI_Manager->Get_Sel1P_2();
+			m_ResultInfo.bPlayerWin = false;
+		}
+		else if (m_b2PRoundEnd)
+		{
+			m_ResultInfo.iFirstTarget = pUI_Manager->Get_Sel1P();
+			m_ResultInfo.iSecondTarget = pUI_Manager->Get_Sel1P_2();
+			m_ResultInfo.bPlayerWin = true;
+		}
+		pUI_Manager->Set_Result_Info(m_ResultInfo);
+		pUI_Manager->Set_LevelResultOn(true);
+		m_bResultOn = false;
+	}
+
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
@@ -356,7 +385,10 @@ void CRoundUI::Case_ReturnEnd()
 	
 	}
 	else if (m_bWinCheck)
+	{
 		m_bWinCheck = false;
+		m_bResultOn = true;
+	}
 		
 	m_bScaleCheck = false;
 	RELEASE_INSTANCE(CUI_Manager);
@@ -420,8 +452,8 @@ void CRoundUI::Battle_End(_float fTimeDelta)
 	if (m_b1PRoundEnd)
 	{
 		m_iJudgmentImgNum = 0;
-		m_bRoundOnOff = false; //true·Î ¹Ù²ã³õÀÚ
-		if (!m_bJudgmentCheck)
+		m_bRoundOnOff = true;
+		if (!m_bJudgmentCheck && m_iStartEndImgNum == 0)
 			m_bJudgmentCheck = true;
 	}
 }

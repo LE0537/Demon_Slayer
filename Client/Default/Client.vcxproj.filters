@@ -895,6 +895,15 @@
     <Filter Include="05.CollBox\10.RuiBall">
       <UniqueIdentifier>{6edb8b4b-c180-4909-9cc8-3e1cb518bb35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\04.GameResult">
+      <UniqueIdentifier>{7b0f8f79-1e59-436a-a802-23b3bc8974a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\96.MsgUI">
+      <UniqueIdentifier>{44db4640-8ab4-4c05-a8ac-20d83e6ca8ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\96.MsgUI\CharselMsg">
+      <UniqueIdentifier>{0b59d1d2-872a-4cdb-a000-a0bbc9eead79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1782,6 +1791,12 @@
     <ClInclude Include="..\public\RuiBall.h">
       <Filter>05.CollBox\10.RuiBall</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_GameResult.h">
+      <Filter>01.Levels\04.GameResult</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CharSelMsg.h">
+      <Filter>03.UI\96.MsgUI\CharselMsg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2644,6 +2659,12 @@
     </ClCompile>
     <ClCompile Include="..\private\RuiBall.cpp">
       <Filter>05.CollBox\10.RuiBall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_GameResult.cpp">
+      <Filter>01.Levels\04.GameResult</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CharSelMsg.cpp">
+      <Filter>03.UI\96.MsgUI\CharselMsg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

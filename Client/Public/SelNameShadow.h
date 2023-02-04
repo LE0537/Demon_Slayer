@@ -23,6 +23,8 @@ private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
+private:
+	_float2					m_fMainPos;
 
 public:
 	static CSelNameShadow* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -48,6 +48,11 @@ HRESULT CPatternWind::Initialize(void * pArg)
 
 void CPatternWind::Tick(_float fTimeDelta)
 {
+	if (m_fUvMoveTime < 1.f)
+		m_fUvMoveTime += fTimeDelta * 0.03f;
+	else
+		m_fUvMoveTime = 0.f;
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -200.f, 1.f));
 }
 
@@ -66,10 +71,7 @@ HRESULT CPatternWind::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(18);
 
 	m_pVIBufferCom->Render();
 
@@ -111,6 +113,9 @@ HRESULT CPatternWind::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fUvMoveTime", &m_fUvMoveTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

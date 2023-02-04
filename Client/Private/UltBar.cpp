@@ -74,6 +74,10 @@ HRESULT CUltBar::Render()
 
 	if (m_ThrowUIinfo.iLayerNum == 1)
 		m_pShaderCom->Begin(15);
+	else if(m_ThrowUIinfo.iLayerNum == 3)
+		m_pShaderCom->Begin(15);
+	else 
+		m_pShaderCom->Begin(0);
 
 	m_pVIBufferCom->Render();
 

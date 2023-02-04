@@ -235,6 +235,8 @@ void CUI_Manager::Add_Select_CharUI()
 	m_i1PMainLayerNum = 0;
 	m_i2PMainLayerNum = 0;
 	m_iSelStampLayerNum = 0;
+	m_iSelNameShadowLayerNum = 0;
+	m_iCharSelMsgLayerNum = 0;
 }
 
 void CUI_Manager::Add_Logo_Title()
@@ -319,12 +321,11 @@ void CUI_Manager::Add_BattleResult()
 	{
 		m_ThrowInfo.bReversal = iter.bReversal;
 		m_ThrowInfo.iTextureNum = iter.iTextureNum;
-		m_ThrowInfo.pTarget = m_p1P;
-		m_ThrowInfo.pTargetSecond = m_p2P;
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
-		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+		m_ThrowInfo.bPlyCheck = m_ResultInfo.bPlayerWin;
+		m_ThrowInfo.iLevelIndex = LEVEL_GAMERESULT;
 
 		BATTLERESULT_DATALIST.push_back(m_ThrowInfo);
 	}
@@ -529,204 +530,153 @@ HRESULT CUI_Manager::Add_SelectUI(CUI::THROWUIINFO iter)
 
 	switch (iter.iTextureNum)
 	{
-	case 0: //HpBar
-	{
+	case 0:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelectBg"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 1:
-	{
+	
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PatternWind"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 2:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PatternOne"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 3:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CloudUI"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 4:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CloudUI"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 5:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CloudUI"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 6:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CloudUI"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 7:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CloudUI"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 8:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PlayerNumIcon"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 9:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PlayerNumIcon"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 10:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharSelBg"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 11:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CloudUI"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 12:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CloudUI"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 13:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WindowBase"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 14:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WindowLeft"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 15:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WindowRight"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 16:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharFrameEff"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 17:
-	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SleNameShadow"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
+		iter.iLayerNum = m_iSelNameShadowLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelNameShadow"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iSelNameShadowLayerNum;
 		break;
-	}
 	case 18:
-	{
 		iter.iLayerNum = m_iCharFrameLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharFrame"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iCharFrameLayerNum;
 		break;
-	}
 	case 19:
-	{
 		iter.iLayerNum = m_iCharIconLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharIcon"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iCharIconLayerNum;
 		break;
-	}
 	case 20:
-	{
 		iter.iLayerNum = 0;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_P1Cursor"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 21:
-	{
 		iter.iLayerNum = 1;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_P2Cursor"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 22:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniIcon"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 23:
-	{
 		iter.iLayerNum = m_i1PIconLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_1P_Icon"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_i1PIconLayerNum;
 		break;
-	}
 	case 24:
-	{
 		iter.iLayerNum = m_i2PIconLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_2P_Icon"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_i2PIconLayerNum;
 		break;
-	}
 	case 25:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniLight"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 26:
-	{
 		iter.iLayerNum = m_i1PMainLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_1P_MainOnBase"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_i1PMainLayerNum;
 		break;
-	}
 	case 27:
-	{
 		iter.iLayerNum = m_i2PMainLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_2P_MainOnBase"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_i2PMainLayerNum;
 		break;
-	}
 	case 28:
-	{
 		iter.iLayerNum = m_iCharNameLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharNameUI"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iCharNameLayerNum;
 		break;
-	}
 	case 29:
-	{
 		iter.iLayerNum = m_iSelStampLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelStamp"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iSelStampLayerNum;
 		break;
-	}
+	case 30:
+		iter.iLayerNum = m_iCharSelMsgLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharSelMsg"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iCharSelMsgLayerNum;
+		break;
 
 	default:
 		break;
