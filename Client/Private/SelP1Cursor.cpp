@@ -30,6 +30,13 @@ HRESULT CSelP1Cursor::Initialize(void * pArg)
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
+	m_SelectInfo.bOni = false;
+	m_SelectInfo.iFrameNum = 0;
+	m_SelectInfo.strName = TEXT("");
+	m_SelectInfo_2.bOni = false;
+	m_SelectInfo_2.iFrameNum = 0;
+	m_SelectInfo_2.strName = TEXT("");
+
 	if (m_ThrowUIinfo.iLayerNum == 0)
 		m_iImgNum = 0;
 

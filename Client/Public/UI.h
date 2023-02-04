@@ -40,6 +40,14 @@ public:
 		_uint		iFrameNum;
 	}SELUIINFO;
 
+	typedef struct tagResultInfo
+	{
+		_bool bPlayerWin; // false¸é 1P true¸é 2P
+		_uint iFirstTarget;
+		_uint iSecondTarget;
+		_uint iMapNum;
+	}RESULTINFO;
+
 protected:
 	CUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CUI(const CUI& rhs);

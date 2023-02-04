@@ -68,11 +68,15 @@ private:
 	_bool					m_b1PRoundEnd = false;
 	_bool					m_b2PRoundEnd = false;
 
+	_bool					m_bResultOn = false;
+
 	_float					m_fDelayTime = 0.f;
 	_float					m_fStopTime = 0.f;
 	_float					m_fFadeTime = 0.f;
 	_float					m_fZoomTime = 0.f;
 	
+	RESULTINFO				m_ResultInfo;
+
 public:
 	static CRoundUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

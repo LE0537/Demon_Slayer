@@ -101,6 +101,7 @@
 #include "RankEff.h"
 #include "RankIcon.h"
 #include "RankFuda.h"
+#include "CharSelMsg.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -142,6 +143,9 @@ unsigned int APIENTRY Thread_Main(void* pArg)
 		break;
 	case LEVEL_GAMEPLAY:
 		pLoader->Loading_ForGamePlayLevel();
+		break;
+	case LEVEL_GAMERESULT:
+		pLoader->Loading_ForGameResult();
 		break;
 	}
 	
@@ -303,6 +307,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region SelectUI
 		//SelectChar
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSelMsg"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/Profile_Voice_Base.png"), 1))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelectBG"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/CharSel_Bg.png"), 1))))
 			return E_FAIL;
@@ -1424,6 +1431,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI객체
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharSelMsg"),
+		CCharSelMsg::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultUnder"),
 		CResultUnder::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1562,7 +1572,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharFrameEff"),
 		CCharFrameEff::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SleNameShadow"),
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelNameShadow"),
 		CSelNameShadow::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharFrame"),
@@ -1682,6 +1692,36 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 
 	Safe_Release(pGameInstance);
 	
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForGameResult()
+{
+	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
+	if (nullptr == pGameInstance)
+		return E_FAIL;
+
+	Safe_AddRef(pGameInstance);
+
+
+	/* 텍스쳐 로딩 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+
+
+
+	/* 객체 생성 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
+
+	/* UI 객체 */
+
+
+
+	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
+
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
 	return S_OK;
 }
 

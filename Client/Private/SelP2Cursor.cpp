@@ -25,7 +25,6 @@ HRESULT CSelP2Cursor::Initialize(void * pArg)
 
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
-
 	if (m_ThrowUIinfo.iLayerNum == 1)
 		m_iImgNum = 1;
 
@@ -33,6 +32,13 @@ HRESULT CSelP2Cursor::Initialize(void * pArg)
 	m_fSizeY = m_ThrowUIinfo.vScale.y;
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
+
+	m_SelectInfo.bOni = false;
+	m_SelectInfo.iFrameNum = 0;
+	m_SelectInfo.strName = TEXT("");
+	m_SelectInfo_2.bOni = false;
+	m_SelectInfo_2.iFrameNum = 0;
+	m_SelectInfo_2.strName = TEXT("");
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 

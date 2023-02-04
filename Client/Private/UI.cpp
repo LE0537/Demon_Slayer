@@ -18,6 +18,9 @@ HRESULT CUI::Initialize_Prototype()
 
 HRESULT CUI::Initialize(void * pArg)
 {
+	ZeroMemory(&m_SelectInfo, sizeof(SELUIINFO));
+	ZeroMemory(&m_SelectInfo_2, sizeof(SELUIINFO));
+
 	return S_OK;
 }
 

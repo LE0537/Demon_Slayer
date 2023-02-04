@@ -127,7 +127,7 @@ CChangeBaseDeco * CChangeBaseDeco::Create(ID3D11Device * pDevice, ID3D11DeviceCo
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CRankEff"));
+		ERR_MSG(TEXT("Failed to Created : CChangeBaseDeco"));
 		Safe_Release(pInstance);
 	}
 
@@ -141,7 +141,7 @@ CGameObject * CChangeBaseDeco::Clone(void * pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CRankEff"));
+		ERR_MSG(TEXT("Failed to Cloned : CChangeBaseDeco"));
 		Safe_Release(pInstance);
 	}
 

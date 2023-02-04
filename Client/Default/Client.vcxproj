@@ -209,6 +209,7 @@
     <ClInclude Include="..\Public\AkazaToolState.h" />
     <ClInclude Include="..\public\BaseAtk.h" />
     <ClInclude Include="..\Public\BtlFixedImg.h" />
+    <ClInclude Include="..\Public\CharSelMsg.h" />
     <ClInclude Include="..\public\CollBox.h" />
     <ClInclude Include="..\Public\1PIcon.h" />
     <ClInclude Include="..\Public\1PMainOnBase.h" />
@@ -221,6 +222,7 @@
     <ClInclude Include="..\Public\KyoujuroJumpAttackState.h" />
     <ClInclude Include="..\Public\KyoujuroJumpMoveAttackState.h" />
     <ClInclude Include="..\Public\KyoujuroTargetRushState.h" />
+    <ClInclude Include="..\Public\Level_GameResult.h" />
     <ClInclude Include="..\Public\NezukoBattleSTState.h" />
     <ClInclude Include="..\Public\NezukoJumpAttackState.h" />
     <ClInclude Include="..\Public\NezukoJumpMoveAttackState.h" />
@@ -504,6 +506,7 @@
     <ClCompile Include="..\Private\AkazaToolState.cpp" />
     <ClCompile Include="..\private\BaseAtk.cpp" />
     <ClCompile Include="..\Private\BtlFixedImg.cpp" />
+    <ClCompile Include="..\Private\CharSelMsg.cpp" />
     <ClCompile Include="..\private\CollBox.cpp" />
     <ClCompile Include="..\Private\1PIcon.cpp" />
     <ClCompile Include="..\Private\1PMainOnBase.cpp" />
@@ -516,6 +519,7 @@
     <ClCompile Include="..\Private\KyoujuroJumpAttackState.cpp" />
     <ClCompile Include="..\Private\KyoujuroJumpMoveAttackState.cpp" />
     <ClCompile Include="..\Private\KyoujuroTargetRushState.cpp" />
+    <ClCompile Include="..\Private\Level_GameResult.cpp" />
     <ClCompile Include="..\Private\NezukoBattleSTState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpAttackState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpMoveAttackState.cpp" />

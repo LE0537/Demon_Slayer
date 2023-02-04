@@ -154,6 +154,23 @@ PS_OUT PS_SkillBarMinus(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_UltBarMinus(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	if (g_fCurBar / g_fMaxBar < In.vTexUV.x)
+		discard;
+	else
+	{
+		Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+		Out.vColor.rg = 1.f;
+		Out.vColor.b = 0.f;
+		Out.vColor.a = 1.f;
+ 	}
+
+	return Out;
+}
+
 PS_OUT PS_LogoEff(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
@@ -166,8 +183,38 @@ PS_OUT PS_LogoEff(PS_IN In)
 
 	Out.vColor.a += g_fAlphaTime;
 
-	//if(Out.vColor.r <)
 	Out.vColor.a -= 0.95f;
+
+	return Out;
+}
+
+PS_OUT PS_PatternWind(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float2 vNewUV = In.vTexUV;
+
+	vNewUV.x -= g_fUvMoveTime;
+	vNewUV.y -= g_fUvMoveTime;
+
+	Out.vColor = g_DiffuseTexture.Sample(PointSampler, vNewUV);
+
+	return Out;
+}
+
+PS_OUT PS_PatternOne(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float2 vNewUV = In.vTexUV;
+
+	vNewUV.x *= 15.f;
+	vNewUV.y *= 15.f;
+
+	vNewUV.x += g_fUvMoveTime;
+	vNewUV.y += g_fUvMoveTime;
+
+	Out.vColor = g_DiffuseTexture.Sample(PointSampler, vNewUV);
 
 	return Out;
 }
@@ -205,12 +252,14 @@ PS_OUT PS_SelNameShadow(PS_IN In)
 	PS_OUT      Out = (PS_OUT)0;
 
 	float2 vNewUV = In.vTexUV;
-	vNewUV.x += 0.5f;
+	//vNewUV.x += 0.5f;
 
 	float4 DiffuseTexture = g_DiffuseTexture.Sample(PointSampler, vNewUV);
 
 	Out.vColor.rgb = DiffuseTexture.rgb;
-	Out.vColor.a = DiffuseTexture.a;
+
+	float fAlpha = DiffuseTexture.a - 0.2f;
+	Out.vColor.a = fAlpha;
 
 	return Out;
 }
@@ -481,13 +530,13 @@ technique11 DefaultTechnique
 
 	pass UltBar //15
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_UI);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_SkillBarMinus();
+		PixelShader = compile ps_5_0 PS_UltBarMinus();
 	}
 
 	pass GamePlyCharIcon //16
@@ -511,5 +560,29 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_Circle_Progressbar();
 	}
+
+	pass PatternWind //18
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_PatternWind();
+	}
+
+	pass PatternOne //19
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_PatternOne();
+	}
+	
+
 	
 }

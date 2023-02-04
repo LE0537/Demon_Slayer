@@ -5,6 +5,7 @@
 #include "Camera_Dynamic.h"
 #include "SoundMgr.h"
 #include "UI_Manager.h"
+#include "Level_Loading.h"
 
 #include "GameObj.h"
 #include "MeshObj_Static.h"
@@ -62,6 +63,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
 	if (!m_bCreateUI)
 	{
@@ -78,7 +80,6 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			CUI_Manager::Get_Instance()->Add_P2_OniHpUI();
 
 		CUI_Manager::Get_Instance()->Add_BattleUI();
-		//CUI_Manager::Get_Instance()->Add_BattleResult();
 		m_bCreateUI = true;
 	}
 
@@ -95,8 +96,14 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 
 		RELEASE_INSTANCE(CEffect_Manager)*/;
 	}
+
+	if (pUIManager->Get_LevelResultOn())
+	{
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMERESULT))))
+			return;
+	}
 		
-	
+	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 }
 
