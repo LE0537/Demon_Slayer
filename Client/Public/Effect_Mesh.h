@@ -18,6 +18,7 @@ public:
 		char							m_szMeshName[MAX_PATH];
 
 		char							szMeshType[MAX_PATH];
+		char							szMeshDiffuse[MAX_PATH];
 		char							szMeshDissolve[MAX_PATH];
 		char							szMeshMask[MAX_PATH];
 
@@ -26,20 +27,24 @@ public:
 		_bool							bUseColor;
 		_bool							bUseFlowMap;
 		_bool							bUseGlowColor;
-		_bool							bMaskTest;
+		_bool							bUseMask;
 		_bool							bUseMeshDiffuse;
 		_bool							bDisappearAlpha;
 
 		_uint							iMeshType;
 		_uint							iShader;
 		_uint							iMoveType;
+		_int							iNumUV_U = 1;
+		_int							iNumUV_V = 1;
 
 		_float							fLifeTime;
 		_float							fStartTime;
 		_float							fPostProcessingValue;
 		_float							fMoveSpeed;
+		_float							fMoveFalloffSpeed;
 		_float							fTurn;
 		_float							fTurnFalloff;
+		_float							fGravity;
 		_float							fDistortionScale;
 		_float							fDistortionBias;
 		_float							fDistortion_U;

@@ -18,7 +18,6 @@ public:
 	typedef struct ParticleInfo {
 		char							m_szParticleName[MAX_PATH];
 
-		char							szParticleType[MAX_PATH];
 		char							szParticleDissolve[MAX_PATH];
 		char							szParticleMask[MAX_PATH];
 
@@ -45,15 +44,13 @@ public:
 		_uint							iMoveType;
 
 		_float							fGravitySpeed;
-		_float							fLifeTime;
-		_float							fSpeed;
-		_float							fPostProcessingValue;
+		_float							fLifeTime[2];
 		_float							fStartTime;
+		_float							fSpeed[2];
+		_float							fPostProcessingValue;
 		_float							fRotation;
 		_float							fSpeedType;
 		_float							fMoveSpeed;
-		_float							fTurn;
-		_float							fTurnFalloff;
 		_float							fDistortionScale;
 		_float							fDistortionBias;
 		_float							fDistortion_U;
@@ -61,8 +58,11 @@ public:
 		_float							fMove_Value_U;
 		_float							fMove_Value_V;
 		_float							fDisappearTimeRatio;
+		_float							fRoofTime[2];
+		_float							fRoofTerm;
 
-		_float3							vSize;
+		_float2							vSize[2];
+
 		_float3							vPosition;
 		_float3							vGlowColor;
 

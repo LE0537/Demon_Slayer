@@ -20,9 +20,12 @@ public:
 		_bool							bUseColor;
 		_bool							bUseFlowMap;
 		_bool							bUseGlowColor;
+		_bool							bUseMask;
 		_bool							bDisappearAlpha;
 
 		_int							iSortingFudge;
+		_int							iNumUV_U = 1;
+		_int							iNumUV_V = 1;
 
 		_uint							iShader;
 		_uint							iMoveType;
@@ -30,9 +33,11 @@ public:
 		_float							fStartTime;
 		_float							fLifeTime;
 		_float							fMoveSpeed;
+		_float							fMoveFalloffSpeed;
 		_float							fTurn;
 		_float							fTurnFalloff;
 		_float							fPostProcessingValue;
+		_float							fGravity;
 		_float							fDistortionScale;
 		_float							fDistortionBias;
 		_float							fDistortion_U;
@@ -45,14 +50,10 @@ public:
 
 		_float3							vPosition;
 		_float3							vGlowColor;
+		_float3							fRotation;
+		_float3							vMoveDirection;
 
 		_float4							vColor;
-
-		_int							iNumUV_U = 1;
-		_int							iNumUV_V = 1;
-		_float3							fRotation;
-
-		_float3							vMoveDirection;
 
 	}TEXTURE_INFO;
 

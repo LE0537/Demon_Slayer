@@ -30,9 +30,9 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 {
 	m_fTime += fTimeDelta;
 
-	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime + m_ParticleInfo.fStartTime) {
+	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[0] + m_ParticleInfo.fStartTime) {
 		_float3 fSize;
-		_float fLive = m_ParticleInfo.fLifeTime / 4;
+		_float fLive = m_ParticleInfo.fLifeTime[0] / 4;
 
 		if (m_ParticleInfo.bSizePix)
 			fSize = _float3(0.f, 0.f, 0.f);
@@ -52,14 +52,14 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 		else
 			m_fGravity = 0.f;
 
-		m_pVIBufferCom->Update(fTimeDelta, fSize, m_CombinedWorldMatrix, m_ParticleInfo.fSpeedType, m_fGravity, m_ParticleInfo.vSize, m_ParticleInfo.bRoof, m_ParticleInfo.fSpeed,
+		m_pVIBufferCom->Update(fTimeDelta, fSize, m_CombinedWorldMatrix, m_ParticleInfo.fSpeedType, m_fGravity, _float3(m_ParticleInfo.vSize[0].x, m_ParticleInfo.vSize[0].y, 1.f), m_ParticleInfo.bRoof, m_ParticleInfo.fSpeed[0],
 			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY);
 	}
 }
 
 void CEffect_Particle::Late_Tick(_float fTimeDelta)
 {
-	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime + m_ParticleInfo.fStartTime) {
+	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[0] + m_ParticleInfo.fStartTime) {
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_ParticleInfo.vPosition.x, m_ParticleInfo.vPosition.y, m_ParticleInfo.vPosition.z, 1.f)
 			+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.001f);
 
@@ -155,7 +155,7 @@ HRESULT CEffect_Particle::SetUp_ShaderResources()
 	_float Time = 1.f;
 
 	if (m_ParticleInfo.iDisappear == CEffect::DISAPPEAR_ALPHA) {
-		Time = 1 - m_fTime / m_ParticleInfo.fLifeTime + m_ParticleInfo.fStartTime;
+		Time = 1 - m_fTime / m_ParticleInfo.fLifeTime[0] + m_ParticleInfo.fStartTime;
 	}
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndAlpha", &Time, sizeof(_float))))
@@ -204,7 +204,7 @@ void CEffect_Particle::Set_ParticleInfo(PARTICLE_INFO ParticleInfo)
 	if (FAILED(__super::Add_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pVIBufferCom, &vSize)))
 		return;
 
-	m_pVIBufferCom->Reset(m_ParticleInfo.vSize, m_ParticleInfo.fLifeTime, m_ParticleInfo.fSpeed, m_ParticleInfo.iParticleType, m_CombinedWorldMatrix, m_ParticleInfo.iConeSizeX,
+	m_pVIBufferCom->Reset(_float3(m_ParticleInfo.vSize[0].x, m_ParticleInfo.vSize[0].y, 1.f), m_ParticleInfo.fLifeTime[0], m_ParticleInfo.fSpeed[0], m_ParticleInfo.iParticleType, m_CombinedWorldMatrix, m_ParticleInfo.iConeSizeX,
 		m_ParticleInfo.iConeSizeY, m_ParticleInfo.bRoof);
 
 	m_fTime = 0.f;

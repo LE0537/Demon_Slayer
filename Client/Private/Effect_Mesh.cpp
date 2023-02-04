@@ -218,7 +218,7 @@ HRESULT CEffect_Mesh::Render()
 				return E_FAIL;
 		}
 
-		if (m_MeshInfo.bMaskTest) {
+		if (m_MeshInfo.bUseMask) {
 			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_MaskTextureCom", i, aiTextureType_OPACITY)))
 				return E_FAIL;
 		}
@@ -291,9 +291,9 @@ void CEffect_Mesh::Set_MeshInfo(MESH_INFO MeshInfo)
 			return;
 	}
 
-	if (strcmp("", m_MeshInfo.szMeshType) != 0) {
+	if (strcmp("", m_MeshInfo.szMeshDiffuse) != 0) {
 		char szDiffuseName[MAX_PATH] = "Prototype_Component_Texture_";
-		strcat_s(szDiffuseName, m_MeshInfo.szMeshType);
+		strcat_s(szDiffuseName, m_MeshInfo.szMeshDiffuse);
 
 		_tchar			szDiffuseRealPath[MAX_PATH] = TEXT("");
 		MultiByteToWideChar(CP_ACP, 0, szDiffuseName, (_int)strlen(szDiffuseName), szDiffuseRealPath, MAX_PATH);
@@ -375,7 +375,7 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 	m_pShaderCom->Set_RawValue("g_bUseRGB", &m_MeshInfo.bUseRGB, sizeof(_bool));//	Color * (RGB or A)
 	m_pShaderCom->Set_RawValue("g_bUseColor", &m_MeshInfo.bUseColor, sizeof(_bool));//	Color = g_vColor or DiffuseTexture
 	m_pShaderCom->Set_RawValue("g_bGlow", &m_MeshInfo.bGlow, sizeof(_bool));
-	m_pShaderCom->Set_RawValue("g_UseMask", &m_MeshInfo.bMaskTest, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_UseMask", &m_MeshInfo.bUseMask, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bUseGlowColor", &m_MeshInfo.bUseGlowColor, sizeof(_bool));
 
 	m_pShaderCom->Set_RawValue("g_fPostProcesesingValue", &m_MeshInfo.fPostProcessingValue, sizeof(_float));
