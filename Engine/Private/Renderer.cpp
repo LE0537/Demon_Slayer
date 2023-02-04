@@ -197,10 +197,6 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_UIMaster"), TEXT("Target_UIDepth"))))
 		return E_FAIL;
 
-	/* For.MRT_UIModelOutLine */
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_UIModelOutLine"), TEXT("Target_UIModelOutLine"))))
-		return E_FAIL;
-
 	m_pVIBuffer = CVIBuffer_Rect::Create(m_pDevice, m_pContext);
 	if (nullptr == m_pVIBuffer)
 		return E_FAIL;
@@ -383,11 +379,11 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 		return E_FAIL;
 	if (FAILED(Render_UIPOKE()))
 		return E_FAIL;
-	//
-	//if (FAILED(Render_UIMaster()))		//	PostProcessing2
-	//	return E_FAIL;
+	
+	if (FAILED(Render_UIMaster()))		//	PostProcessing2
+		return E_FAIL;					//	구조상 불가능해서 임의로 줌.
 
-	//	객체 Render가 끝나면 Master를 메인 버퍼에 그립니다.
+	//	객체 Render가 끝나면 PostProcessing_n 를 메인 버퍼에 그립니다.
 	if (FAILED(Render_Master(pRTName)))
 		return E_FAIL;
 
