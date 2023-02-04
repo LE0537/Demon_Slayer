@@ -6,7 +6,7 @@
 #include "Layer.h"
 #include "GameInstance.h"
 #include "RuiJumpMoveAttackState.h"
-
+#include "RuiJumpSkill_Move.h"
 using namespace Rui;
 
 
@@ -30,7 +30,14 @@ CRuiState * CMoveJumpState::HandleInput(CRui* pRui)
 		{
 			if (pGameInstance->Key_Down(DIK_J))
 				return new CJumpMoveAttackState(TYPE_START);
-
+			else if (pGameInstance->Key_Down(DIK_I))
+			{
+				if (200 <= pRui->Get_PlayerInfo().iSkBar)
+				{
+					pRui->Set_SkillBar(-200);
+					return new CJumpSkill_MoveState(TYPE_START);
+				}
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
@@ -99,7 +106,14 @@ CRuiState * CMoveJumpState::HandleInput(CRui* pRui)
 		{
 			if (pGameInstance->Key_Down(DIK_Z))
 				return new CJumpMoveAttackState(TYPE_START);
-
+			else if (pGameInstance->Key_Down(DIK_X))
+			{
+				if (200 <= pRui->Get_PlayerInfo().iSkBar)
+				{
+					pRui->Set_SkillBar(-200);
+					return new CJumpSkill_MoveState(TYPE_START);
+				}
+			}
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

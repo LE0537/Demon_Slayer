@@ -4,10 +4,10 @@
 
 BEGIN(Client)
 BEGIN(Shinobu)
-class CJumpMoveAttackState : public CShinobuState
+class CJumpMoveSkillState : public CShinobuState
 {
 public:
-	CJumpMoveAttackState(STATE_TYPE eType, _bool bContinueSkill = false);
+	CJumpMoveSkillState(STATE_TYPE eType);
 	virtual CShinobuState* HandleInput(CShinobu* pShinobu) override;
 	virtual CShinobuState* Tick(CShinobu* pShinobu, _float fTimeDelta) override;
 	virtual CShinobuState* Late_Tick(CShinobu* pShinobu, _float fTimeDelta) override;
@@ -26,7 +26,7 @@ private:
 	_float m_fOriginPosY;
 	_bool m_bNextAnim = false;
 	_bool m_bRange = false;
-	_bool m_bContinue = false;
+
 
 };
 

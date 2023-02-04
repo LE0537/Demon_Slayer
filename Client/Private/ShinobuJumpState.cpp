@@ -4,7 +4,8 @@
 #include "ShinobuIdleState.h"
 #include "ShinobuMoveState.h"
 #include "ShinobuJumpAttackState.h"
-
+#include "ShinobuJumpSkill_Common.h"
+#include "ShinobuJumpMoveAttackState.h"
 using namespace Shinobu;
 
 CJumpstate::CJumpstate(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -25,11 +26,27 @@ CShinobuState * CJumpstate::HandleInput(CShinobu* pShinobu)
 		{
 			return new CJumpAttackState(TYPE_START);
 		}
+		else if (pGameInstance->Key_Down(DIK_I))
+		{
+			if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
+			{
+				pShinobu->Set_SkillBar(-200);
+				return new CJumpCommonSkillState(STATE_TYPE::TYPE_START);
+			}
+		}
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
 		{
 			return new CJumpAttackState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Down(DIK_X))
+		{
+			if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
+			{
+				pShinobu->Set_SkillBar(-200);
+				return new CJumpCommonSkillState(STATE_TYPE::TYPE_START);
+			}
 		}
 		break;
 	}

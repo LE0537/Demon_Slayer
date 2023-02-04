@@ -31,7 +31,14 @@ CShinobuState * CMoveJumpState::HandleInput(CShinobu* pShinobu)
 			{
 				return new CJumpMoveAttackState(TYPE_START);
 			}
-
+			else if (pGameInstance->Key_Down(DIK_I))
+			{
+				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
+				{
+					pShinobu->Set_SkillBar(-200);
+					return new CJumpMoveAttackState(STATE_TYPE::TYPE_START,true);
+				}
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 			{
@@ -100,6 +107,14 @@ CShinobuState * CMoveJumpState::HandleInput(CShinobu* pShinobu)
 			if (pGameInstance->Key_Pressing(DIK_Z)) // ¾Õ
 			{
 				return new CJumpMoveAttackState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Down(DIK_X))
+			{
+				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
+				{
+					pShinobu->Set_SkillBar(-200);
+					return new CJumpMoveAttackState(STATE_TYPE::TYPE_START, true);
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ

@@ -1,23 +1,21 @@
 #include "stdafx.h"
-#include "ShinobuJumpMoveAttackState.h"
+#include "ShinobuJumpSkill_Common.h"
 #include "GameInstance.h"
 #include "ShinobuIdleState.h"
 #include "ShinobuMoveState.h"
-#include "ShinobuSkill_Move.h"
 using namespace Shinobu;
 
-CJumpMoveAttackState::CJumpMoveAttackState(STATE_TYPE eType, _bool bContinueSkill)
+CJumpCommonSkillState::CJumpCommonSkillState(STATE_TYPE eType)
 {
 	m_eStateType = eType;
-	m_bContinue = bContinueSkill;
 }
 
-CShinobuState * CJumpMoveAttackState::HandleInput(CShinobu* pShinobu)
+CShinobuState * CJumpCommonSkillState::HandleInput(CShinobu* pShinobu)
 {
 	return nullptr;
 }
 
-CShinobuState * CJumpMoveAttackState::Tick(CShinobu* pShinobu, _float fTimeDelta)
+CShinobuState * CJumpCommonSkillState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
 
 	if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
@@ -26,20 +24,14 @@ CShinobuState * CJumpMoveAttackState::Tick(CShinobu* pShinobu, _float fTimeDelta
 		{
 		case Client::CShinobuState::TYPE_START: // 공격 모션
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-			return new CJumpMoveAttackState(TYPE_LOOP, m_bContinue);
+			return new CJumpCommonSkillState(TYPE_LOOP);
 			break;
 		case Client::CShinobuState::TYPE_LOOP: // 떨어지는 모션
-			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());;
 			break;
 		case Client::CShinobuState::TYPE_END: // 착지 모션
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-
-			if (m_bContinue == true)
-			{
-				return new CSkill_MoveState(TYPE_LOOP);
-			}
-			else
-				return new CIdleState(STATE_JUMP);
+			return new CIdleState(STATE_JUMP);
 			break;
 		}
 		pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
@@ -51,7 +43,7 @@ CShinobuState * CJumpMoveAttackState::Tick(CShinobu* pShinobu, _float fTimeDelta
 		Jump(pShinobu, fTimeDelta);
 
 		if (m_bNextAnim == true)
-			return new CJumpMoveAttackState(TYPE_END, m_bContinue);
+			return new CJumpCommonSkillState(TYPE_END);
 		break;
 	}
 
@@ -60,7 +52,7 @@ CShinobuState * CJumpMoveAttackState::Tick(CShinobu* pShinobu, _float fTimeDelta
 	return nullptr;
 }
 
-CShinobuState * CJumpMoveAttackState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
+CShinobuState * CJumpCommonSkillState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
 
 	if (m_eStateType == TYPE_END)
@@ -73,40 +65,40 @@ CShinobuState * CJumpMoveAttackState::Late_Tick(CShinobu* pShinobu, _float fTime
 	return nullptr;
 }
 
-void CJumpMoveAttackState::Enter(CShinobu* pShinobu)
+void CJumpCommonSkillState::Enter(CShinobu* pShinobu)
 {
 	m_eStateId = STATE_JUMP_ATTACK;
 
 	switch (m_eStateType)
 	{
 	case Client::CShinobuState::TYPE_START:
-		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_0);
-		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_MOVE_ATTACK_0);
-		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_0);
-		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_0, 0.01f);
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_SKILL_COMMON_0);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_SKILL_COMMON_0);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_COMMON_0);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_JUMP_SKILL_COMMON_0, 0.01f);
 		pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
-		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_1);
-		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_MOVE_ATTACK_1);
-		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_1, true);
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_SKILL_COMMON_1);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_SKILL_COMMON_1);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_COMMON_1, true);
 		Initialize_value(pShinobu);
 		break;
 	case Client::CShinobuState::TYPE_END:
-		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_2);
-		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_MOVE_ATTACK_2);
-		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_1, false);
-		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_2);
-		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_2, 0.01f);
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_SKILL_COMMON_2);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_SKILL_COMMON_2);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_COMMON_2, false);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_COMMON_2);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_JUMP_SKILL_COMMON_2, 0.01f);
 		break;
 	}
 }
 
-void CJumpMoveAttackState::Exit(CShinobu* pShinobu)
+void CJumpCommonSkillState::Exit(CShinobu* pShinobu)
 {
 }
 
-void CJumpMoveAttackState::Jump(CShinobu* pShinobu, _float fTimeDelta)
+void CJumpCommonSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 {
 	static _float fGravity = 100.f;
 	static _float fVelocity = 0.f;
@@ -160,7 +152,7 @@ void CJumpMoveAttackState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 	}
 }
 
-void CJumpMoveAttackState::Initialize_value(CShinobu* pShinobu)
+void CJumpCommonSkillState::Initialize_value(CShinobu* pShinobu)
 {
 	m_vPosition.x = XMVectorGetX(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 	m_vPosition.y = XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));

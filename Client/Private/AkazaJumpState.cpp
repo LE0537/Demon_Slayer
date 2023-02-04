@@ -3,6 +3,7 @@
 #include "AkazaIdleState.h"
 #include "GameInstance.h"
 #include "AkazaJumpAttackState.h"
+#include "AkazaJumpSkill_Common.h"
 
 using namespace Akaza;
 
@@ -24,11 +25,27 @@ CAkazaState * CJumpState::HandleInput(CAkaza* pAkaza)
 		{
 			return new CJumpAttackState(TYPE_START);
 		}
+	else if(pGameInstance->Key_Down(DIK_I))
+	{
+		if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
+		{
+			pAkaza->Set_SkillBar(-200);
+			return new CJumpSkill_CommmonState(STATE_TYPE::TYPE_START);
+		}
+	}
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
 		{
 			return new CJumpAttackState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Down(DIK_X))
+		{
+			if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
+			{
+				pAkaza->Set_SkillBar(-200);
+				return new CJumpSkill_CommmonState(STATE_TYPE::TYPE_START);
+			}
 		}
 		break;
 	}

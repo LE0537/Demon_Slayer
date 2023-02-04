@@ -99,6 +99,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 		{
 			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
+				pRui->Get_Model()->Reset_Anim(CRui::ANIM_ADVSKILL_COMMON);
 				// 친구 게이지 깎는 코드 넣어야함
 				return new CAdvSkill_CommonState();
 			}
@@ -182,6 +183,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 		{
 			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
+				pRui->Get_Model()->Reset_Anim(CRui::ANIM_ADVSKILL_COMMON);
 				// 친구 게이지 깎는 코드 넣어야함
 				return new CAdvSkill_CommonState();
 			}

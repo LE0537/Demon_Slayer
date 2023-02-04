@@ -838,9 +838,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\JumpAttack\JumpMoveAttack">
       <UniqueIdentifier>{99ea29e3-5002-4d64-a1c1-281484fe0a09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\TargetRush">
-      <UniqueIdentifier>{8ea809a3-aef0-4d63-ae15-5ac6c86f501d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\JumpAttack">
       <UniqueIdentifier>{665b66e1-7594-45a8-92fe-05ec28a95a7f}</UniqueIdentifier>
     </Filter>
@@ -891,6 +888,39 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\BattleStart">
       <UniqueIdentifier>{fba41093-5cad-40fa-913a-ae73b56fa9aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\TargetRush">
+      <UniqueIdentifier>{8ea809a3-aef0-4d63-ae15-5ac6c86f501d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\JumpCommon">
+      <UniqueIdentifier>{b5f3d480-8735-4c56-a68a-5203dd1aafac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\JumpMove">
+      <UniqueIdentifier>{7cce1e5b-e49c-4dc4-a961-f7940988ba12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillCommon">
+      <UniqueIdentifier>{2418ecc5-47f2-4158-a0de-c50cd3dec918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove">
+      <UniqueIdentifier>{c2e2964f-1b16-4472-bba9-b725916669a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\JumpCommon">
+      <UniqueIdentifier>{0f83eaf6-d022-47de-9244-921b69223af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\JumpMove">
+      <UniqueIdentifier>{8b2a15be-0688-4d1e-b9f8-66c28bdb54ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\JumpCommon">
+      <UniqueIdentifier>{a2fd529c-6fc1-48bd-b3df-4e6eab6a68a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\JumpMove">
+      <UniqueIdentifier>{2da338c4-ba42-4825-94c2-32a921f8b627}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpCommon">
+      <UniqueIdentifier>{2d2412fe-ac33-43ed-b351-f3853475dd33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpMove">
+      <UniqueIdentifier>{a0896b3e-ee61-44cb-9ca4-bd52bb59c163}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1735,7 +1765,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroTargetRushState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\TargetRush</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\TargetRush</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroJumpMoveAttackState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack</Filter>
@@ -1775,6 +1805,36 @@
     </ClInclude>
     <ClInclude Include="..\Public\ShinobuBattleSTState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\BattleStart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroJumpSkillCommonState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\JumpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroJumpSkillMoveState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\JumpMove</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiJumpSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiJumpSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaJumpSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\JumpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaJumpSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\JumpMove</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoJumpSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\JumpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoJumpSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\JumpMove</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuJumpSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpMove</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuJumpSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpCommon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2604,7 +2664,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroTargetRushState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\TargetRush</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\TargetRush</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\RuiJumpAttackState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\JumpAttack</Filter>
@@ -2635,6 +2695,36 @@
     </ClCompile>
     <ClCompile Include="..\Private\ShinobuBattleSTState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\BattleStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroJumpSkillCommonState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\JumpCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroJumpSkillMoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\JumpMove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiJumpSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiJumpSkill_Move.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaJumpSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\JumpCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaJumpSkill_Move.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\JumpMove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoJumpSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\JumpCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoJumpSkill_Move.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\JumpMove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuJumpSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuJumpSkill_Move.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpMove</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

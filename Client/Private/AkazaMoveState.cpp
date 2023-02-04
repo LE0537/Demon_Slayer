@@ -51,6 +51,13 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 				}
 			}
 		}
+		else if (pGameInstance->Key_Pressing(DIK_U)) // ¿ì
+		{
+			//if(pAkaza->Get_PlayerInfo().iFriendBar >= 500)
+			{
+				return new CAdvSkill_MoveState(STATE_TYPE::TYPE_START);
+			}
+		}
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 		{
@@ -177,13 +184,6 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 			}
 			else
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
-		}
-		else if (pGameInstance->Key_Pressing(DIK_U)) // ¿ì
-		{
-			//if(pAkaza->Get_PlayerInfo().iFriendBar >= 500)
-			{
-				return new CAdvSkill_MoveState(STATE_TYPE::TYPE_START);
-			}
 		}
 		else
 			return new CIdleState();

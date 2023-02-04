@@ -3,7 +3,7 @@
 #include "NezukoIdleState.h"
 #include "GameInstance.h"
 #include "NezukoJumpAttackState.h"
-
+#include "NezukoJumpSkill_Common.h"
 using namespace Nezuko;
 
 CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -24,11 +24,27 @@ CNezukoState * CJumpState::HandleInput(CNezuko* pNezuko)
 		{
 			return new CJumpAttackState(TYPE_START);
 		}
+		else if (pGameInstance->Key_Down(DIK_I))
+		{
+			if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
+			{
+				pNezuko->Set_SkillBar(-200);
+				return new CJumpSkill_CommmonState(STATE_TYPE::TYPE_START);
+			}
+		}
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
 		{
 			return new CJumpAttackState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Down(DIK_X))
+		{
+			if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
+			{
+				pNezuko->Set_SkillBar(-200);
+				return new CJumpSkill_CommmonState(STATE_TYPE::TYPE_START);
+			}
 		}
 		break;
 	}
