@@ -64,6 +64,20 @@ const float		g_fWeight29[29] =
 };
 const float		g_fWeight29Total = 12.339f;
 
+const float		g_fWeight41[41] =
+{
+	0.007, 0.011, 0.017, 0.027, 0.041, 0.06, 0.086, 0.121, 0.165, 0.22, 0.287, 0.363, 0.449, 0.542, 0.638, 0.732, 0.819, 0.894, 0.951, 0.988, 1,
+	0.988, 0.951, 0.894, 0.819, 0.732, 0.638, 0.542, 0.449, 0.363, 0.287, 0.22, 0.165, 0.121, 0.086, 0.06, 0.041, 0.027, 0.017, 0.011, 0.007
+};
+const float		g_fWeight41Total = 12.339f;
+
+const float		g_fWeight41_Big[41] =
+{
+	0.041,0.056,0.075,0.099,0.129,0.165,0.208,0.259,0.316,0.38, 0.449,0.523,0.599,0.676,0.75, 0.819,0.88, 0.931,0.969,0.992,1,
+	0.992, 0.969, 0.931, 0.88,  0.819, 0.75,  0.676, 0.599, 0.523, 0.449, 0.38,  0.316, 0.259, 0.208, 0.165, 0.129, 0.099, 0.075, 0.056, 0.041
+};
+const float		g_fWeight41BigTotal = 19.632;
+
 
 float3 g_vRandom[16] =
 {
@@ -461,14 +475,14 @@ PS_OUT PS_GLOWX(PS_IN In)
 	vector	vColor = 0;
 	vector	vAccColor = 0;
 
-	for (int i = -14; i < 14; ++i)
+	for (int i = -20; i < 20; ++i)
 	{
 		vNewUV = In.vTexUV + float2(i / g_fWinSizeX, 0.f);
 
-		vAccColor += g_fWeight29[14 + i] * g_GlowTexture.Sample(LinearSampler, vNewUV);
+		vAccColor += g_fWeight41_Big[20 + i] * g_GlowTexture.Sample(LinearSampler, vNewUV);
 	}
 
-	Out.vColor.rgb = vAccColor / g_fWeight29Total;
+	Out.vColor.rgb = vAccColor / g_fWeight41BigTotal;
 	//
 
 	return Out;
@@ -482,14 +496,14 @@ PS_OUT PS_GLOWXY(PS_IN In)
 	vector	vColor = 0;
 	vector	vAccColor = 0;
 
-	for (int i = -14; i < 14; ++i)
+	for (int i = -20; i < 20; ++i)
 	{
 		vNewUV = In.vTexUV + float2(0.f, i / (g_fWinSizeY / 2.f));
 
-		vAccColor += g_fWeight29[14 + i] * g_GlowTexture.Sample(LinearSampler, vNewUV);
+		vAccColor += g_fWeight41_Big[20 + i] * g_GlowTexture.Sample(LinearSampler, vNewUV);
 	}
 
-	Out.vColor.rgb = vAccColor / g_fWeight29Total;
+	Out.vColor.rgb = vAccColor / g_fWeight41BigTotal;
 	//
 	return Out;
 }
