@@ -39,7 +39,7 @@ public:
 
 public:
 	void Load_Effect(const _tchar* EffectName);
-	void Create_Effect(_uint iEffectNum, CCharacters* pTarget);
+	void Create_Effect(_uint iEffectNum, CGameObj* pTarget);
 
 private:
 	ID3D11Device* m_pDevice = nullptr;

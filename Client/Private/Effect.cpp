@@ -43,8 +43,12 @@ HRESULT CEffect::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if (nullptr != pArg)
-		m_pTarget = (CCharacters*)pArg;
+	if (nullptr != pArg) {
+		if (EFFMOVE_TARGET == m_EffectInfo.iMoveType)
+			pArg = this;
+		else
+			m_pTarget = (CCharacters*)pArg;
+	}
 	
 	_float3 vRadian;
 	vRadian.x = XMConvertToRadians(m_EffectInfo.vRotation.x);
