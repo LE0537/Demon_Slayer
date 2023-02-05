@@ -62,21 +62,25 @@ HRESULT CAkaza::Initialize(void * pArg)
 			CUI_Manager::Get_Instance()->Set_2P(this);
 		}
 		RELEASE_INSTANCE(CGameInstance);
+
+		CAkazaState* pState = new CBattleStartState();
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 	}
 	else
 	{
 		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
 		m_pSubChar->Set_SubChar(this);
+
+		CAkazaState* pState = new CIdleState();
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 	}
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
-	//CAkazaState* pState = new CIdleState();
-	//m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+
 
 	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-	CAkazaState* pState = new CBattleStartState();
-	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+
 
 	return S_OK;
 }

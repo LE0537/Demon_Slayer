@@ -397,8 +397,8 @@ PS_OUT PS_Circle_Progressbar(PS_IN In)
 		discard;*/
 	fr = saturate(fr);
 
-	float angle = degrees(atan2(-pos.x, pos.y)) + 180.f; 
-	float fa = radians(angle - progress * 360.f) * radius + 1.f; 
+	float angle = degrees(atan2(pos.x, pos.y)) + 180.f; 
+	float fa = radians(angle - progress * 30.f) * radius + 1.f; 
 	fa = saturate(fa);
 	if(fa != 1.f)
 		discard;

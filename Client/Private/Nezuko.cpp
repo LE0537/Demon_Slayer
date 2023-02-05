@@ -62,6 +62,9 @@ HRESULT CNezuko::Initialize(void * pArg)
 			CUI_Manager::Get_Instance()->Set_2P(this);
 		}
 		RELEASE_INSTANCE(CGameInstance);
+
+		CNezukoState* pState = new CBattleStartState();
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 	}
 	else
 	{
@@ -73,17 +76,18 @@ HRESULT CNezuko::Initialize(void * pArg)
 			CUI_Manager::Get_Instance()->Set_1P_2(this);
 		else if (m_i1p == 2)
 			CUI_Manager::Get_Instance()->Set_2P_2(this);
+
+		CNezukoState* pState = new CIdleState();
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 	}
 
 
 
-	//CNezukoState* pState = new CIdleState();
-	//m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+
 
 
 	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-	CNezukoState* pState = new CBattleStartState();
-	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	return S_OK;

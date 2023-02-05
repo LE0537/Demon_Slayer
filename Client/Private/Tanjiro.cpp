@@ -71,6 +71,8 @@ HRESULT CTanjiro::Initialize(void * pArg)
 			CUI_Manager::Get_Instance()->Set_2P(this);
 		}
 		RELEASE_INSTANCE(CGameInstance);
+		CTanjiroState* pState = new CBattleStartState();
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 	}
 	else
 	{
@@ -82,14 +84,15 @@ HRESULT CTanjiro::Initialize(void * pArg)
 			CUI_Manager::Get_Instance()->Set_1P_2(this);
 		else if (m_i1p == 2)
 			CUI_Manager::Get_Instance()->Set_2P_2(this);
+
+		CTanjiroState* pState = new CIdleState();
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 	}
-	//CTanjiroState* pState = new CIdleState();
-	//m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
 
 	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-	CTanjiroState* pState = new CBattleStartState();
-	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
