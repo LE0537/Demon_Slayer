@@ -367,9 +367,6 @@
     <Filter Include="03.UI\03.SelectChar\CharSelIcon\Eff">
       <UniqueIdentifier>{c7d5bfc0-d47f-4415-9c0b-40ac29181e39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\03.SelectChar\CharSelIcon\Shdow">
-      <UniqueIdentifier>{060bfa0e-9df7-416f-bfd7-86b189cd2018}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\03.SelectChar\CharSelIcon\Frame">
       <UniqueIdentifier>{0d8a6e00-7bff-4de1-9e2c-17f211aff0c1}</UniqueIdentifier>
     </Filter>
@@ -903,6 +900,9 @@
     </Filter>
     <Filter Include="03.UI\96.MsgUI\CharselMsg">
       <UniqueIdentifier>{0b59d1d2-872a-4cdb-a000-a0bbc9eead79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.SelectChar\Main\Shdow">
+      <UniqueIdentifier>{060bfa0e-9df7-416f-bfd7-86b189cd2018}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1510,7 +1510,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Move</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SelNameShadow.h">
-      <Filter>03.UI\03.SelectChar\CharSelIcon\Shdow</Filter>
+      <Filter>03.UI\03.SelectChar\Main\Shdow</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SelStamp.h">
       <Filter>03.UI\03.SelectChar\SelStamp</Filter>
@@ -2379,7 +2379,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\Move</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SelNameShadow.cpp">
-      <Filter>03.UI\03.SelectChar\CharSelIcon\Shdow</Filter>
+      <Filter>03.UI\03.SelectChar\Main\Shdow</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SelStamp.cpp">
       <Filter>03.UI\03.SelectChar\SelStamp</Filter>

@@ -120,12 +120,16 @@ HRESULT CSelNameShadow::Render()
 
 	if(p1PCursor->Get_FirstSelCheck() && !p1PCursor->Get_SecondSelCheck() && m_ThrowUIinfo.iLayerNum == 0)
 		m_pVIBufferCom->Render();
-	if(!p1PCursor->Get_SelectUIInfo().bOni && p1PCursor->Get_SelectUIInfoSecond().bOni && m_ThrowUIinfo.iLayerNum == 2)
+	if(!p1PCursor->Get_SelectUIInfo().bOni && p1PCursor->Get_SelectUIInfoSecond().bOni && m_ThrowUIinfo.iLayerNum == 2 && p1PCursor->Get_FirstSelCheck())
+		m_pVIBufferCom->Render();
+	else if (p1PCursor->Get_SelectUIInfo().strName == p1PCursor->Get_SelectUIInfoSecond().strName && m_ThrowUIinfo.iLayerNum == 2 && p1PCursor-> Get_FirstSelCheck())
 		m_pVIBufferCom->Render();
 
 	if (p2PCursor->Get_FirstSelCheck() && !p2PCursor->Get_SecondSelCheck() && m_ThrowUIinfo.iLayerNum == 1)
 		m_pVIBufferCom->Render();
-	if (!p2PCursor->Get_SelectUIInfo().bOni && p2PCursor->Get_SelectUIInfoSecond().bOni && m_ThrowUIinfo.iLayerNum == 3)
+	if (!p2PCursor->Get_SelectUIInfo().bOni && p2PCursor->Get_SelectUIInfoSecond().bOni && m_ThrowUIinfo.iLayerNum == 3 && p2PCursor->Get_FirstSelCheck())
+		m_pVIBufferCom->Render();
+	else if (p2PCursor->Get_SelectUIInfo().strName == p2PCursor->Get_SelectUIInfoSecond().strName && m_ThrowUIinfo.iLayerNum == 3 && p2PCursor->Get_FirstSelCheck())
 		m_pVIBufferCom->Render();
 
 	RELEASE_INSTANCE(CUI_Manager);
