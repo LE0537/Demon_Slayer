@@ -1,5 +1,6 @@
 #pragma once
 #include "TanjiroState.h"
+#include "WaterMill.h"
 
 
 BEGIN(Client)
@@ -22,7 +23,13 @@ private:
 	_float3 m_vVelocity;
 	_float m_fOriginPosY;
 	_bool m_bNextAnim = false;
-
+private:
+	CWaterMill*	m_pCollBox = nullptr;
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_bool  m_bEffect = false;
+	_float4 m_vLook;
+	_bool   m_bLook = false;
 
 };
 

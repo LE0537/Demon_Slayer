@@ -3,11 +3,18 @@
 #include "GameInstance.h"
 #include "ShinobuIdleState.h"
 #include "ShinobuMoveState.h"
+#include "Effect_Manager.h"
 using namespace Shinobu;
 
 CJumpCommonSkillState::CJumpCommonSkillState(STATE_TYPE eType)
 {
 	m_eStateType = eType;
+	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_WindMill"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+		return;
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 CShinobuState * CJumpCommonSkillState::HandleInput(CShinobu* pShinobu)
@@ -54,6 +61,158 @@ CShinobuState * CJumpCommonSkillState::Tick(CShinobu* pShinobu, _float fTimeDelt
 
 CShinobuState * CJumpCommonSkillState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
+	CCharacters* m_pTarget = pShinobu->Get_BattleTarget();
+
+	m_fDelay += fTimeDelta;
+
+	m_fTime += fTimeDelta;
+	m_fHitTime += fTimeDelta;
+
+
+	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+	CCollider*	pMyCollider2 = pShinobu->Get_SphereCollider();
+	if (m_eStateType == Client::CShinobuState::TYPE_START)
+	{
+		_vector vCollPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+																						 //m_pCollBox->Get_Transform()->LookAt(vLooAt);
+		m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+
+		if (m_fHitTime > 0.15f && m_iHit < 5)
+		{
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-10);
+					m_pTarget->Take_Damage(0.f, false);
+					pShinobu->Set_Combo(1);
+					pShinobu->Set_ComboTime(1.f);
+				}
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				m_fHitTime = 0.f;
+			}
+		}
+
+
+		if (pMyCollider2->Collision(pTargetCollider))
+		{
+			_float fSpeed = pShinobu->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 1.5f;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			_vector vPlayerPosY = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vPos.m128_f32[1] = vPlayerPosY.m128_f32[1];
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+			if (pShinobu->Get_NavigationCom()->Cheak_Cell(vPos))
+				pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pShinobu->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pShinobu->Get_NavigationCom());
+		}
+	}
+	if (m_eStateType == Client::CShinobuState::TYPE_END)
+	{
+		_vector vCollPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+																						 //m_pCollBox->Get_Transform()->LookAt(vLooAt);
+		m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+
+		if (m_fHitTime > 0.10f && m_iHit < 1 && m_fDelay < 0.3f)
+		{
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-20);
+					m_pTarget->Take_Damage(0.5f, false);
+					pShinobu->Set_Combo(1);
+					pShinobu->Set_ComboTime(1.f);
+				}
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				m_fHitTime = 0.f;
+			}
+		}
+
+
+		if (pMyCollider2->Collision(pTargetCollider))
+		{
+			_float fSpeed = pShinobu->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 1.5f;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			_vector vPlayerPosY = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vPos.m128_f32[1] = vPlayerPosY.m128_f32[1];
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+			if (pShinobu->Get_NavigationCom()->Cheak_Cell(vPos))
+				pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pShinobu->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pShinobu->Get_NavigationCom());
+		}
+	}
 
 	if (m_eStateType == TYPE_END)
 		pShinobu->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
@@ -96,6 +255,7 @@ void CJumpCommonSkillState::Enter(CShinobu* pShinobu)
 
 void CJumpCommonSkillState::Exit(CShinobu* pShinobu)
 {
+	m_pCollBox->Set_Dead();
 }
 
 void CJumpCommonSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)

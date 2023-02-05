@@ -30,6 +30,15 @@ private:
 	_bool m_bNextAnim = false;
 	_uint m_iCount = 0;
 	_float m_fNextAnim = 0.f;
+private:
+
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_float m_fDelay = 0.f;
+	_bool m_bCombo = false;
+
+	_float m_fMove = 0.f;
+	_int   m_iHit = 0;
 };
 END
 END

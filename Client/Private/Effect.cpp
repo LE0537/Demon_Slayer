@@ -78,7 +78,7 @@ void CEffect::Tick(_float fTimeDelta)
 			m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
 			m_bStart = false;
 		}
-		else {
+		else { 
 			if (m_EffectInfo.iMoveType == EFFMOVE_PLAYER) {
 				m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 			}

@@ -234,6 +234,7 @@
     <ClInclude Include="..\public\ProgressBar.h" />
     <ClInclude Include="..\public\RuiBall.h" />
     <ClInclude Include="..\Public\RuiBattleSTState.h" />
+    <ClInclude Include="..\public\RuiBigBall.h" />
     <ClInclude Include="..\Public\RuiJumpAttackState.h" />
     <ClInclude Include="..\Public\RuiJumpMoveAttackState.h" />
     <ClInclude Include="..\Public\RuiJumpSkill_Common.h" />
@@ -543,6 +544,7 @@
     <ClCompile Include="..\private\ProgressBar.cpp" />
     <ClCompile Include="..\private\RuiBall.cpp" />
     <ClCompile Include="..\Private\RuiBattleSTState.cpp" />
+    <ClCompile Include="..\private\RuiBigBall.cpp" />
     <ClCompile Include="..\Private\RuiJumpAttackState.cpp" />
     <ClCompile Include="..\Private\RuiJumpMoveAttackState.cpp" />
     <ClCompile Include="..\Private\RuiJumpSkill_Common.cpp" />

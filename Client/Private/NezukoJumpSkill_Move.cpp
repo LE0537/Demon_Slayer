@@ -13,6 +13,10 @@ CJumpSkill_MoveState::CJumpSkill_MoveState(STATE_TYPE eType)
 	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 	m_eStateType = eType;
 
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+		return;
+	m_fTime = 0.f;
+	m_fMove = 0.1f;
 	RELEASE_INSTANCE(CGameInstance);
 
 }
@@ -74,7 +78,104 @@ CNezukoState * CJumpSkill_MoveState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 CNezukoState * CJumpSkill_MoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
+	CCharacters* m_pTarget = pNezuko->Get_BattleTarget();
 
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLooAt.m128_f32[1] = 0.f;
+	pNezuko->Get_Transform()->LookAt(vLooAt);
+	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+	CCollider*	pMyCollider2 = pNezuko->Get_SphereCollider();
+	m_fMove += fTimeDelta;
+
+	if (m_eStateType == STATE_TYPE::TYPE_START)
+	{
+		if (m_bLook)
+			pNezuko->Get_Transform()->Go_Backward(fTimeDelta * 0.1f, pNezuko->Get_NavigationCom());
+	}
+	if (m_eStateType == STATE_TYPE::TYPE_LOOP)
+	{
+		_vector vCollPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pNezuko->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+
+		if (m_fMove > 0.1f && m_iHit < 2)
+		{
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-30);
+					m_pTarget->Take_Damage(0.2f, false);
+					pNezuko->Set_Combo(1);
+					pNezuko->Set_ComboTime(1.f);
+				}
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				++m_iHit;
+			}
+		}
+	}
+	if (m_eStateType == STATE_TYPE::TYPE_END)
+	{
+		_vector vCollPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pNezuko->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+
+		if (!m_bHit)
+		{
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-30);
+					m_pTarget->Take_Damage(0.8f, true);
+					pNezuko->Set_Combo(1);
+					pNezuko->Set_ComboTime(1.f);
+				}
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				m_bHit = true;
+			}
+		}
+	}
 	pNezuko->Get_Model()->Play_Animation(fTimeDelta * 2.f);
 
 	return nullptr;
@@ -141,7 +242,7 @@ void CJumpSkill_MoveState::Enter(CNezuko* pNezuko)
 
 void CJumpSkill_MoveState::Exit(CNezuko* pNezuko)
 {
-
+	m_pCollBox->Set_Dead();
 }
 
 void CJumpSkill_MoveState::Jump(CNezuko * pNezuko, _float fTimeDelta)

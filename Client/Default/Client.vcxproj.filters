@@ -937,6 +937,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpMove">
       <UniqueIdentifier>{a0896b3e-ee61-44cb-9ca4-bd52bb59c163}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\11.RuiBigBall">
+      <UniqueIdentifier>{86b33068-6a14-4082-8174-5df479bb4f34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1863,6 +1866,9 @@
     <ClInclude Include="..\Public\ShinobuJumpSkill_Common.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpCommon</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RuiBigBall.h">
+      <Filter>05.CollBox\11.RuiBigBall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2764,6 +2770,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ShinobuJumpSkill_Move.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpMove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiBigBall.cpp">
+      <Filter>05.CollBox\11.RuiBigBall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

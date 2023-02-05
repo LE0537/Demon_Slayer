@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-
+#include "AkazaShoot.h"
 using namespace Akaza;
 
 
@@ -94,6 +94,36 @@ CAkazaState * CJumpSkill_CommmonState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 CAkazaState * CJumpSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
+
+	CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLooAt.m128_f32[1] = 0.f;
+	pAkaza->Get_Transform()->LookAt(vLooAt);
+
+		m_fMove += fTimeDelta;
+
+	CAkazaShoot::AKAZASHOOTINFO	tInfo;
+	tInfo.pPlayer = pAkaza;
+	tInfo.pTarget = m_pTarget;
+
+
+	if (m_eStateType == Client::CAkazaState::TYPE_LOOP)
+	{
+		if (m_fMove > 0.07f && m_iHit < 4)
+		{
+			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+			if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_AkazaShoot"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+				return nullptr;
+
+			RELEASE_INSTANCE(CGameInstance);
+			m_fMove = 0.f;
+			++m_iHit;
+		}
+	}
+
+
+
 	if (m_eStateType == TYPE_END)
 	{
 		//if(pAkaza->Get_Model()->Get_CurrentTime() <= 20.f)

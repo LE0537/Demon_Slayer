@@ -1,6 +1,6 @@
 #pragma once
 #include "ShinobuState.h"
-
+#include "WindMill.h"
 
 BEGIN(Client)
 BEGIN(Shinobu)
@@ -26,7 +26,15 @@ private:
 	_float m_fOriginPosY;
 	_bool m_bNextAnim = false;
 	_bool m_bRange = false;
-
+private:
+	CWindMill*	m_pCollBox = nullptr;
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_float m_fDelay = 0.f;
+	_float4 m_vLook;
+	_bool   m_bLook = false;
+	_bool  m_bEffect = false;
+	_int   m_iHit = 0;
 
 };
 

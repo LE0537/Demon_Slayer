@@ -1,71 +1,43 @@
 #include "stdafx.h"
-#include "..\Public\RuiShoot.h"
+#include "..\Public\RuiBigBall.h"
 
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-CRuiShoot::CRuiShoot(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CRuiBigBall::CRuiBigBall(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCollBox(pDevice, pContext)
 {
 }
 
-CRuiShoot::CRuiShoot(const CRuiShoot & rhs)
+CRuiBigBall::CRuiBigBall(const CRuiBigBall & rhs)
 	: CCollBox(rhs)
 {
 }
 
-HRESULT CRuiShoot::Initialize_Prototype()
+HRESULT CRuiBigBall::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CRuiShoot::Initialize(void * pArg)
+HRESULT CRuiBigBall::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	memcpy(&m_ShootInfo, pArg, sizeof(RUISHOOTINFO));
+	memcpy(&m_ShootInfo, pArg, sizeof(RUIBIGBALLINFO));
 
 	_vector vLook = m_ShootInfo.pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	_vector vLook2 = vLook;
-	vLook.m128_f32[1] = 0.f;
-	
+	vLook.m128_f32[1] += 1.5f;
+
 	_vector vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	_vector vPos2 = vPos;
-	vPos.m128_f32[1] = 0.f;
+	vPos.m128_f32[1] += 1.5f;
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransformCom->LookAt(vLook);
-
-	switch (m_ShootInfo.iIndex)
-	{
-	case 1:
-		m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(15.f));
-		break;
-	case 2:
-		m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-15.f));
-		break;
-	case 3:
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos2);
-		m_pTransformCom->LookAt(vLook2);
-		break;
-	case 4:
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos2);
-		m_pTransformCom->LookAt(vLook2);
-		m_pTransformCom->Turn2(m_pTransformCom->Get_State(CTransform::STATE_UP), XMConvertToRadians(15.f));
-		break;
-	case 5:
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos2);
-		m_pTransformCom->LookAt(vLook2);
-		m_pTransformCom->Turn2(m_pTransformCom->Get_State(CTransform::STATE_UP), XMConvertToRadians(-15.f));
-		break;
-	default:
-		break;
-	}
 
 	return S_OK;
 }
 
-void CRuiShoot::Tick(_float fTimeDelta)
+void CRuiBigBall::Tick(_float fTimeDelta)
 {
 	m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
 
@@ -75,7 +47,7 @@ void CRuiShoot::Tick(_float fTimeDelta)
 		Set_Dead();
 }
 
-void CRuiShoot::Late_Tick(_float fTimeDelta)
+void CRuiBigBall::Late_Tick(_float fTimeDelta)
 {
 	CCollider*	pMyCollider = m_pOBBCom;
 	CCollider*	pTargetCollider = m_ShootInfo.pTarget->Get_SphereCollider();
@@ -86,7 +58,7 @@ void CRuiShoot::Late_Tick(_float fTimeDelta)
 	if (pMyCollider->Collision(pTargetCollider) && !m_bHit)
 	{
 		_vector vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		vPos.m128_f32[1] = 0.f;
+		//vPos.m128_f32[1] = 0.f;
 		m_ShootInfo.pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
 		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard)
@@ -95,7 +67,7 @@ void CRuiShoot::Late_Tick(_float fTimeDelta)
 		}
 		else
 		{
-			m_ShootInfo.pTarget->Set_Hp(-30);
+			m_ShootInfo.pTarget->Set_Hp(-60);
 			m_ShootInfo.pTarget->Take_Damage(0.1f, false);
 			m_ShootInfo.pTarget->Get_BattleTarget()->Set_Combo(1);
 			m_ShootInfo.pTarget->Get_BattleTarget()->Set_ComboTime(1.f);
@@ -116,17 +88,17 @@ void CRuiShoot::Late_Tick(_float fTimeDelta)
 	}
 }
 
-HRESULT CRuiShoot::Render()
+HRESULT CRuiBigBall::Render()
 {
 	return S_OK;
 }
 
-HRESULT CRuiShoot::Render_ShadowDepth()
+HRESULT CRuiBigBall::Render_ShadowDepth()
 {
 	return S_OK;
 }
 
-HRESULT CRuiShoot::Ready_Components()
+HRESULT CRuiBigBall::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -149,7 +121,7 @@ HRESULT CRuiShoot::Ready_Components()
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
 	/* For.Com_OBB*/
-	ColliderDesc.vScale = _float3(2.f, 10.f, 2.f);
+	ColliderDesc.vScale = _float3(6.f, 6.f, 6.f);
 	ColliderDesc.vPosition = _float3(0.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
 		return E_FAIL;
@@ -159,13 +131,13 @@ HRESULT CRuiShoot::Ready_Components()
 
 
 
-CRuiShoot * CRuiShoot::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CRuiBigBall * CRuiBigBall::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CRuiShoot*	pInstance = new CRuiShoot(pDevice, pContext);
+	CRuiBigBall*	pInstance = new CRuiBigBall(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CRuiShoot"));
+		ERR_MSG(TEXT("Failed to Created : CRuiBigBall"));
 		Safe_Release(pInstance);
 	}
 
@@ -173,20 +145,20 @@ CRuiShoot * CRuiShoot::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pCon
 }
 
 
-CGameObject * CRuiShoot::Clone(void * pArg)
+CGameObject * CRuiBigBall::Clone(void * pArg)
 {
-	CGameObject*	pInstance = new CRuiShoot(*this);
+	CGameObject*	pInstance = new CRuiBigBall(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CRuiShoot"));
+		ERR_MSG(TEXT("Failed to Cloned : CRuiBigBall"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CRuiShoot::Free()
+void CRuiBigBall::Free()
 {
 	__super::Free();
 	Safe_Release(m_pTransformCom);

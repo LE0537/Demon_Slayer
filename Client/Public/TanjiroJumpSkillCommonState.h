@@ -1,6 +1,6 @@
 #pragma once
 #include "TanjiroState.h"
-
+#include "WindMill.h"
 
 BEGIN(Client)
 BEGIN(Tanjiro)
@@ -24,7 +24,14 @@ private:
 	_float m_fOriginPosY;
 	_bool m_bNextAnim = false;
 
-
+private:
+	CWindMill*	m_pCollBox = nullptr;
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_float m_fDelay = 0.f;
+	_float4 m_vLook;
+	_bool   m_bLook = false;
+	_bool  m_bEffect = false;
 };
 
 END
