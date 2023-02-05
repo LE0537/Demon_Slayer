@@ -165,8 +165,9 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	if (!m_bEffect)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
+		
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK3, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK3_GROUND, pTanjiro);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
