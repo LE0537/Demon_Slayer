@@ -150,7 +150,7 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 void CSelP1Cursor::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
 HRESULT CSelP1Cursor::Render()

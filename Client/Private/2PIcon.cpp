@@ -68,7 +68,7 @@ void C2PIcon::Tick(_float fTimeDelta)
 void C2PIcon::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
 HRESULT C2PIcon::Render()
@@ -87,10 +87,11 @@ HRESULT C2PIcon::Render()
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	_uint iLayerNum = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_FrameLayerNum();
+	_uint iOnNum = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_SelectUIInfo().iFrameNum;
 
 	if (m_ThrowUIinfo.iLayerNum == iLayerNum)
 		m_pVIBufferCom->Render();
-	if(m_bRenderOn)
+	if(iOnNum == m_ThrowUIinfo.iLayerNum)
 		m_pVIBufferCom->Render();
 
 	RELEASE_INSTANCE(CUI_Manager);
