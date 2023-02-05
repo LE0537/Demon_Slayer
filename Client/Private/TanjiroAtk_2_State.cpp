@@ -9,6 +9,14 @@
 #include "Effect_Manager.h"
 #include "TanjiroDashState.h"
 
+
+#include "TanjiroJumpState.h"
+#include "TanjiroSkill_Common.h"
+#include "TanjiroSkill_WaterMill.h"
+#include "TanjiroSkill_WindMill.h"
+#include "TanjiroDashState.h"
+#include "TanjiroTargetRushState.h"
+#include "TanjiroJumpState.h"
 using namespace Tanjiro;
 
 
@@ -166,7 +174,7 @@ CTanjiroState * CAtk_2_State::HandleInput(CTanjiro * pTanjiro)
 		}
 	}
 
-	return nullptr;
+	return CommandCheck(pTanjiro);
 }
 
 CTanjiroState * CAtk_2_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
@@ -233,7 +241,7 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
-					m_pTarget->Take_Damage(0.3f,false);
+					m_pTarget->Take_Damage(0.3f, false);
 					pTanjiro->Set_Combo(1);
 					pTanjiro->Set_ComboTime(1.f);
 				}
@@ -267,7 +275,7 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			{
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
-				
+
 				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{
 					m_pTarget->Get_GuardHit(0);
@@ -275,7 +283,7 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
-					m_pTarget->Take_Damage(0.f,false);
+					m_pTarget->Take_Damage(0.f, false);
 					pTanjiro->Set_Combo(1);
 					pTanjiro->Set_ComboTime(1.f);
 				}
@@ -285,7 +293,7 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 				RELEASE_INSTANCE(CEffect_Manager);
-				
+
 				m_bHit = true;
 			}
 		}
@@ -305,7 +313,7 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
 	}
-	
+
 	return nullptr;
 }
 
@@ -321,5 +329,91 @@ void CAtk_2_State::Enter(CTanjiro * pTanjiro)
 void CAtk_2_State::Exit(CTanjiro * pTanjiro)
 {
 	m_pCollBox->Set_Dead(); //추가
+}
+
+CTanjiroState * CAtk_2_State::CommandCheck(CTanjiro * pTanjiro)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pTanjiro->Get_Model()->Get_Duration();
+	m_fCurrentDuration = pTanjiro->Get_Model()->Get_CurrentTime();
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+
+	switch (pTanjiro->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
+		{
+			if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_O))
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_WindMillState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_WaterMillState(TYPE_START); // move skill
+				}
+
+				else
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_CommonState();
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_L))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_SPACE))
+		{
+			return new CJumpstate(TYPE_START, 0.f, 0.f);
+		}
+		break;
+	case 2:
+		if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
+		{
+			if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_C))
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_WindMillState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+				{
+
+
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_WaterMillState(TYPE_START); // move skill
+
+				}
+
+				else
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_CommonState();
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+		{
+			return new CJumpstate(TYPE_START, 0.f, 0.f);
+		}
+		break;
+	}
+
+
+
+	return nullptr;
 }
 

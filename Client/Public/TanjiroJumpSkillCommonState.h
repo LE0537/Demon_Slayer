@@ -18,6 +18,8 @@ public:
 	void Jump(CTanjiro* pTanjiro, _float fTimeDelta);
 	void Initialize_value(CTanjiro * pTanjiro);
 
+
+
 private:
 	_float3 m_vPosition;
 	_float3 m_vVelocity;
