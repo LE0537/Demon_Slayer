@@ -29,6 +29,7 @@ public:
 		_bool							bUseMask;
 		_bool							bBillboard;
 		_bool							bYBillboard;
+		_bool							bDisappearStart;
 		_bool							bGravity;
 		_bool							bPositionPix;
 		_bool							bSizePix;
@@ -41,14 +42,14 @@ public:
 		_uint							iParticleType;
 		_uint							iConeSizeX;
 		_uint							iConeSizeY;
-		_uint							iMoveType;
+		_uint							iNumUV_U;
+		_uint							iNumUV_V;
 
 		_float							fGravitySpeed;
 		_float							fLifeTime[2];
 		_float							fStartTime;
 		_float							fSpeed[2];
 		_float							fPostProcessingValue;
-		_float							fRotation;
 		_float							fSpeedType;
 		_float							fMoveSpeed;
 		_float							fDistortionScale;
@@ -65,6 +66,7 @@ public:
 
 		_float3							vPosition;
 		_float3							vGlowColor;
+		_float3							vRotation;
 
 		_float4							vColor;
 

@@ -82,6 +82,18 @@ namespace Engine
 		XMFLOAT4		vPosition;
 	}VTXMATRIX;
 
+	typedef struct tagVertexParticle
+	{
+		XMFLOAT4		vRight;
+		XMFLOAT4		vUp;
+		XMFLOAT4		vLook;
+		XMFLOAT4		vPosition;
+		XMFLOAT2		vSize;
+		float			fSpeed;
+		float			fLifeTime;
+
+	}VTXPARTICLE;
+
 	typedef struct ENGINE_DLL tagVertexRectInstance_Declaration
 	{
 		static const unsigned int iNumElements = 6;

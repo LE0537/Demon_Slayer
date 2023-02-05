@@ -30,14 +30,8 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 {
 	m_fTime += fTimeDelta;
 
-	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[0] + m_ParticleInfo.fStartTime) {
-		_float3 fSize;
-		_float fLive = m_ParticleInfo.fLifeTime[0] / 4;
-
-		if (m_ParticleInfo.bSizePix)
-			fSize = _float3(0.f, 0.f, 0.f);
-		else
-			fSize = _float3(0.f, 0.005f, 0.f);
+	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime) {
+		_float fLive = m_ParticleInfo.fLifeTime[1] / 4;
 
 		if (m_ParticleInfo.bGravity) {
 			if (m_fGravity == 0.f)
@@ -52,7 +46,14 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 		else
 			m_fGravity = 0.f;
 
-		m_pVIBufferCom->Update(fTimeDelta, fSize, m_CombinedWorldMatrix, m_ParticleInfo.fSpeedType, m_fGravity, _float3(m_ParticleInfo.vSize[0].x, m_ParticleInfo.vSize[0].y, 1.f), m_ParticleInfo.bRoof, m_ParticleInfo.fSpeed[0],
+		_float3 fSize;
+
+		if (m_ParticleInfo.bSizePix)
+			fSize = _float3(0.f, 0.f, 0.f);
+		else
+			fSize = _float3(0.00005f, 0.00005f, 0.f);
+
+		m_pVIBufferCom->Update(fTimeDelta, fSize, m_CombinedWorldMatrix, m_ParticleInfo.fSpeedType, m_fGravity, _float3(1.f, 1.f, 1.f), m_ParticleInfo.bRoof, m_ParticleInfo.fSpeed[0],
 			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY);
 	}
 }
@@ -60,16 +61,30 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 void CEffect_Particle::Late_Tick(_float fTimeDelta)
 {
 	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[0] + m_ParticleInfo.fStartTime) {
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_ParticleInfo.vPosition.x, m_ParticleInfo.vPosition.y, m_ParticleInfo.vPosition.z, 1.f)
-			+ m_pTransformCom->Get_State(CTransform::STATE_LOOK) * 0.001f);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_ParticleInfo.vPosition.x, m_ParticleInfo.vPosition.y, m_ParticleInfo.vPosition.z, 1.f));
 
 		_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
 		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
 
 		Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
 
-		if (nullptr != m_pRendererCom)
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
+		if (nullptr != m_pRendererCom && !m_bDead) {
+			switch (m_ParticleInfo.iShader)
+			{
+			case CEffect::SHADER_DISTORTION:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_DISTORTION, this);
+				break;
+			case CEffect::SHADER_GRAYSCALE:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_GRAYSCALE, this);
+				break;
+			case CEffect::SHADER_ALPHATEST:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONLIGHT, this);
+				break;
+			case CEffect::SHADER_ALPHABLEND:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
+				break;
+			}
+		}
 	}
 }
 
@@ -158,7 +173,7 @@ HRESULT CEffect_Particle::SetUp_ShaderResources()
 		Time = 1 - m_fTime / m_ParticleInfo.fLifeTime[0] + m_ParticleInfo.fStartTime;
 	}
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndAlpha", &Time, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndALPHA", &Time, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_ParticleInfo.vColor, sizeof(_float4))))
@@ -170,17 +185,13 @@ HRESULT CEffect_Particle::SetUp_ShaderResources()
 	m_pShaderCom->Set_RawValue("g_bMask", &m_ParticleInfo.bUseMask, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bGlow", &m_ParticleInfo.bGlow, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bBillboard", &m_ParticleInfo.bBillboard, sizeof(_bool));
-	m_pShaderCom->Set_RawValue("g_bYBillboard", &m_ParticleInfo.bYBillboard, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_bDisappearStart", &m_ParticleInfo.bDisappearStart, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_bDissolve", &m_ParticleInfo.iDisappear, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_bUseGlowColor", &m_ParticleInfo.bUseGlowColor, sizeof(_bool));
 
 	m_pShaderCom->Set_RawValue("g_fPostProcesesingValue", &m_ParticleInfo.fPostProcessingValue, sizeof(_float));
 
-	/*ID3D11ShaderResourceView*		pSRVs[] = {
-	m_pNoiseTextureCom->Get_SRV()
-	};
-
-	if (FAILED(m_pShaderCom->Set_ShaderResourceViewArray("g_NoiseTexture", pSRVs, 1)))
-	return E_FAIL;*/
-	//	Test End
+	m_pShaderCom->Set_RawValue("g_vGlowColor", &m_ParticleInfo.vGlowColor, sizeof(_float3));
 
 	return S_OK;
 }
@@ -204,11 +215,26 @@ void CEffect_Particle::Set_ParticleInfo(PARTICLE_INFO ParticleInfo)
 	if (FAILED(__super::Add_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pVIBufferCom, &vSize)))
 		return;
 
-	m_pVIBufferCom->Reset(_float3(m_ParticleInfo.vSize[0].x, m_ParticleInfo.vSize[0].y, 1.f), m_ParticleInfo.fLifeTime[0], m_ParticleInfo.fSpeed[0], m_ParticleInfo.iParticleType, m_CombinedWorldMatrix, m_ParticleInfo.iConeSizeX,
-		m_ParticleInfo.iConeSizeY, m_ParticleInfo.bRoof);
+	if (m_ParticleInfo.bRoof) {
+		m_pVIBufferCom->Reset(m_ParticleInfo.fRoofTime, m_ParticleInfo.fSpeed, m_ParticleInfo.vSize, m_pTransformCom->Get_World4x4(),
+			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY);
+	}
+	else {
+		m_pVIBufferCom->Reset(m_ParticleInfo.fLifeTime, m_ParticleInfo.fSpeed, m_ParticleInfo.vSize, m_pTransformCom->Get_World4x4(),
+			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY);
+	}
 
 	m_fTime = 0.f;
 	m_fGravity = 0.f;
+
+	_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+
+	_float3		vRotation = m_ParticleInfo.vRotation;
+	vRotation.x = XMConvertToRadians(vRotation.x);
+	vRotation.y = XMConvertToRadians(vRotation.y);
+	vRotation.z = XMConvertToRadians(vRotation.z);
+	m_pTransformCom->RotationAll(vRotation);
 }
 
 CEffect_Particle * CEffect_Particle::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

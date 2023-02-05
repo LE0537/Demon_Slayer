@@ -182,6 +182,17 @@ void CEffect_Texture::Set_TexInfo(TextureInfo TexInfo)
 	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pTextureCom)))
 		return;
 
+	if (strcmp(m_TextureInfo.szTextureMask, "")) {
+		char szMaskName[MAX_PATH] = "Prototype_Component_Texture_";
+		strcat_s(szMaskName, m_TextureInfo.szTextureMask);
+
+		_tchar			szMaskRealPath[MAX_PATH] = TEXT("");
+		MultiByteToWideChar(CP_ACP, 0, szMaskName, (_int)strlen(szMaskName), szMaskRealPath, MAX_PATH);
+
+		if (FAILED(__super::Add_Components(TEXT("Com_MaskTexture"), LEVEL_STATIC, szMaskRealPath, (CComponent**)&m_pMaskTextureCom)))
+			return;
+	}
+
 	if (strcmp(m_TextureInfo.szTextureDissolve, "")) {
 		char szDissolveName[MAX_PATH] = "Prototype_Component_Texture_";
 		strcat_s(szDissolveName, m_TextureInfo.szTextureDissolve);
@@ -268,16 +279,19 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 			return E_FAIL;
 	}
 
+	if (m_pMaskTextureCom != nullptr) {
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pMaskTextureCom->Get_SRV(0))))
+			return E_FAIL;
+	}
+
 	m_pShaderCom->Set_RawValue("g_bUseRGB", &m_TextureInfo.bUseRGB, sizeof(_bool));//	Color * (RGB or A)
 	m_pShaderCom->Set_RawValue("g_bUseColor", &m_TextureInfo.bUseColor, sizeof(_bool));//	Color = g_vColor or DiffuseTexture
 	m_pShaderCom->Set_RawValue("g_bGlow", &m_TextureInfo.bGlow, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_bUseMask", &m_TextureInfo.bUseMask, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_fPostProcesesingValue", &m_TextureInfo.fPostProcessingValue, sizeof(_float));
 
 	m_pShaderCom->Set_RawValue("g_bUseGlowColor", &m_TextureInfo.bUseGlowColor, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_vGlowColor", &m_TextureInfo.vGlowColor, sizeof(_float3));
-
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_NoiseTexture", m_pNoiseTextureCom->Get_SRV())))
-		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumUV_U", &m_TextureInfo.iNumUV_U, sizeof(_int))))
 		return E_FAIL;
@@ -293,12 +307,26 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_iFrame", &iTexFrame, sizeof(_int))))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionU", &m_TextureInfo.fDistortion_U, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionV", &m_TextureInfo.fDistortion_V, sizeof(_float))))
+		return E_FAIL;
+
+	m_pShaderCom->Set_RawValue("g_vGlowColor", &m_TextureInfo.vGlowColor, sizeof(_float3));
+
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fDisappearTimeRatio", &m_TextureInfo.fDisappearTimeRatio, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionScale", &m_TextureInfo.fDistortionScale, sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionBias", &m_TextureInfo.fDistortionBias, sizeof(_float))))
+		return E_FAIL;
+
+	m_fMoveUV_U = fAliveTimeRatio * m_TextureInfo.fMove_Value_U;		//	텍스쳐가 텍스쳐의 x축으로 이동
+	m_fMoveUV_V = fAliveTimeRatio * m_TextureInfo.fMove_Value_V;		//	텍스쳐가 텍스쳐의 y축으로 이동
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMoveUV_U", &m_fMoveUV_U, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMoveUV_V", &m_fMoveUV_V, sizeof(_float))))
 		return E_FAIL;
 
 	return S_OK;
@@ -372,5 +400,6 @@ void CEffect_Texture::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pNoiseTextureCom);
 	Safe_Release(m_pDissolveTextureCom);
+	Safe_Release(m_pMaskTextureCom);
 	
 }

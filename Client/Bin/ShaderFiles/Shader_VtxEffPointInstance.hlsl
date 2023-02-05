@@ -3,15 +3,20 @@
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;
+texture2D		g_DissolveTexture;
 vector			g_vCamPosition;
 
 float4			g_vColor;
+float3			g_vGlowColor;
 
-float			g_fEndAlpha;
+float			g_fAlphaRatio;
+float			g_fEndALPHA;
 
 bool			g_bMask;
-bool			g_bDisjolve;
+bool			g_bDisappearStart;
+bool			g_bDissolve;
 bool			g_bGlow;			//	글로우를 사용합니다.
+bool			g_bUseGlowColor;
 bool			g_bUseRGB;			//	텍스쳐의 RGB를 사용합니다. false == a 사요
 bool			g_bUseColor;		//	g_vColor를 사용합니다.. false == g_DiffuseTexture 사용
 bool			g_bFlowMap;			//	FlowMap을 사용합니다.
@@ -20,6 +25,10 @@ bool			g_iNumFlowMap;		//	사용할 FlowMap ( Noise Texture ) 입니다.
 
 bool			g_bBillboard;
 bool			g_bYBillboard;
+
+int				g_iFrame;
+int				g_iNumUV_U;
+int				g_iNumUV_V;
 
 struct VS_IN
 {
@@ -45,7 +54,7 @@ struct VS_OUT
 VS_OUT VS_MAIN(VS_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;
-	
+
 	float4x4	TransformMatrix = float4x4(In.vRight, In.vUp, In.vLook, In.vTranslation);
 
 	vector		vPosition = mul(vector(In.vPosition, 1.f), mul(TransformMatrix, g_WorldMatrix));
@@ -87,21 +96,23 @@ struct GS_OUT
 [maxvertexcount(20)]
 void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> DataStream)
 {
-	GS_OUT			Out[4];	
+	GS_OUT			Out[4];
 
 	float3			vLook = ((g_vCamPosition.xyz - In[0].vPosition) * g_bBillboard)
 		+ ((g_vCamPosition.xyz - In[0].vPosition) * g_bYBillboard)
 		+ (In[0].vLook * (1 - g_bBillboard) * (1 - g_bYBillboard));
-	float3			vRight = ((normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * (In[0].vPSize.x * 0.5f)) * g_bBillboard)
-		+ ((normalize(cross(In[0].vUp, vLook)) * (In[0].vPSize.x * 0.5f)) * g_bYBillboard)
+	float3			vRight = ((normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * (In[0].vPSize.x)) * g_bBillboard)
+		+ ((normalize(cross(In[0].vUp, vLook)) * (In[0].vPSize.x)) * g_bYBillboard)
 		+ (In[0].vRight * (1 - g_bBillboard) * (1 - g_bYBillboard));
-	float3			vUp = ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y * 0.5f)) * g_bBillboard) 
-		+ ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y * 0.5f)) * g_bYBillboard)
-		+ (In[0].vUp * (1- g_bBillboard) * (1 - g_bYBillboard));
+	float3			vUp = ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y)) * g_bBillboard)
+		+ ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y)) * g_bYBillboard)
+		+ (In[0].vUp * (1 - g_bBillboard) * (1 - g_bYBillboard));
 
 	matrix			matVP;
 
 	matVP = mul(g_ViewMatrix, g_ProjMatrix);
+
+	float3 vPos = In[0].vPosition;
 
 	Out[0].vPosition = float4(In[0].vPosition + vRight + vUp, 1.f);
 	Out[0].vPosition = mul(Out[0].vPosition, matVP);
@@ -128,7 +139,7 @@ void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> DataStream)
 	DataStream.Append(Out[2]);
 	DataStream.Append(Out[3]);
 	DataStream.RestartStrip();
-	
+
 }
 
 struct PS_IN
@@ -140,7 +151,7 @@ struct PS_IN
 struct PS_OUT
 {
 	float4		vColor : SV_TARGET0;
-	float4		vGlowColor : SV_TARGET3;
+	float4		vGlowColor : SV_TARGET1;
 };
 
 /* 이렇게 만들어진 픽셀을 PS_MAIN함수의 인자로 던진다. */
@@ -151,7 +162,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-		
+
 	if (Out.vColor.a < 0.5f)
 		discard;
 
@@ -166,10 +177,14 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
-	Out.vGlowColor = Out.vColor * g_bGlow;
+	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
+		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
-	Out.vColor.a = (vTexture.a * g_fEndAlpha * g_vColor.a * (1 - g_bMask)) + (g_bMask * g_fEndAlpha * vTexture.x);
-	Out.vGlowColor.a = Out.vColor.a * g_bGlow * g_fEndAlpha;
+	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + saturate(g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
+
+	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha)) + saturate((1 - g_bUseColor) * (fTexAlpha)));
+
+	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
 	if (Out.vColor.a < 0.03f)
 		discard;
@@ -185,12 +200,15 @@ PS_OUT PS_COLORTEST(PS_IN In)
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
-	Out.vGlowColor = Out.vColor * g_bGlow;
+	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
+		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
-	Out.vColor.a = (vTexture.a * g_fEndAlpha * g_vColor.a * (1 - g_bMask)) + (g_bMask * g_fEndAlpha * vTexture.x);
-	Out.vGlowColor.a = Out.vColor.a * g_bGlow * g_fEndAlpha;
+	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + (g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
+	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha)) + saturate((1 - g_bUseColor) * (fTexAlpha)));
 
-	if (Out.vColor.a <= 0.3f)
+	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
+
+	if (Out.vColor.a <= 0.1f)
 		discard;
 
 	return Out;

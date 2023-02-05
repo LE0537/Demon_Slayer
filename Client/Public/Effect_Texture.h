@@ -76,11 +76,15 @@ public:
 private:
 	CTexture*						m_pNoiseTextureCom = nullptr;
 	CTexture*						m_pDissolveTextureCom = nullptr;
+	CTexture*						m_pMaskTextureCom = nullptr;
 
 private:
 	TEXTURE_INFO					m_TextureInfo;
 
 	_float							m_fTime = 0.f;
+	_float							m_fMoveUV_U = 0.f;
+	_float							m_fMoveUV_V = 0.f;
+	_float							m_fTurnSpeed = 0.f;
 
 	_float4x4						m_CombinedWorldMatrix;
 

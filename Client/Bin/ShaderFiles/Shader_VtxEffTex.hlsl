@@ -5,6 +5,7 @@ texture2D		g_DiffuseTexture;
 texture2D		g_DissolveTexture;
 texture2D		g_NormalTexture;
 texture2D		g_NoiseTexture;
+texture2D		g_MaskTexture;
 
 vector			g_vCamPosition;
 
@@ -16,6 +17,7 @@ float			g_fEndAlpha;		//	1 -> 0
 
 bool			g_bDissolve;
 bool			g_bDisappearStart;
+bool			g_bUseMask;
 bool			g_bGlow;			//	글로우를 사용합니다.
 bool			g_bUseGlowColor;	//	글로우 색상을 독립적으로 사용합니다.
 bool			g_bUseRGB;			//	텍스쳐의 RGB를 사용합니다. false == a 사용
@@ -142,6 +144,7 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vMaskTexture = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
@@ -159,6 +162,8 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
 		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
 
+	Out.vColor.a = Out.vColor.a * saturate((1 - g_bUseMask) + vMaskTexture.r);
+
 	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
@@ -174,6 +179,7 @@ PS_OUT PS_COLORTEST(PS_IN In)
 
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vMaskTexture = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
@@ -186,6 +192,8 @@ PS_OUT PS_COLORTEST(PS_IN In)
 
 	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
 		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
+
+	Out.vColor.a = Out.vColor.a * saturate((1 - g_bUseMask) + vMaskTexture.r);
 
 	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
@@ -246,6 +254,7 @@ PS_OUT PS_ALPHAGLOW(PS_IN In)
 
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
+	vector		vMaskTexture = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
 		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
@@ -258,6 +267,7 @@ PS_OUT PS_ALPHAGLOW(PS_IN In)
 
 	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
 		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
+	Out.vColor.a = Out.vColor.a * saturate((1 - g_bUseMask) + vMaskTexture.r);
 
 	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;

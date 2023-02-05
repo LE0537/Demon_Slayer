@@ -19,13 +19,12 @@ public:
 		_bool bRoof, _float fSpeed, _uint iParticleType, _uint iSizeX, _uint iSizeY);
 	void Reset(_float3 vScale, _float fLifeTime, _float fSpeed, _uint iParticleType, _float4x4 mtrParent, _uint iSizeX,
 		_uint iSizeY, _bool bRoof);
+	void Reset(_float* fLifeTime, _float* fSpeed, _float2* vTexScale, _float4x4 mtrParent, _uint iParticleType,
+		_uint iPartSizeX, _uint iPartSizeY);
 
 private:
-	_float*				m_pSpeedPerSec = nullptr;
-	_float3*			m_pSizePerSec = nullptr;
-	_float*				m_pLifeTime = nullptr;
-
 	_float*				m_fTime = nullptr;
+	VTXPARTICLE*		m_pParticleData = nullptr;
 
 public:
 	static CVIBuffer_Particle_Instance* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uint iNumInstance);

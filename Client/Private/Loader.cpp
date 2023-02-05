@@ -1075,6 +1075,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Common", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Dissolve", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Water", "../Bin/Resources/Effect/Texture/");
+		Load_Texture("Ground Mask", "../Bin/Resources/Effect/Texture/");
 
 		Load_Texture("Shock", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Slash", "../Bin/Resources/Effect/Mesh/MeshTexture/");
@@ -1225,6 +1226,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		pEffect_Manager->Load_Effect(TEXT("HitEffect1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1"));
+		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1_GroundMask"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack2_1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack2_2"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack3"));
@@ -1267,9 +1269,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_1"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_2"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_3"));
-
-		pEffect_Manager->Load_Effect(TEXT("ParticleTest"));
-
 
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
