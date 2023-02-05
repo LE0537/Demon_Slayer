@@ -51,6 +51,7 @@ public:
 	HRESULT SetUp_Material(class CShader* pShader, const char* pConstantName, _uint iMeshIndex, aiTextureType eType);
 	HRESULT Play_Animation(_float fTimeDelta, _bool bRemoveTranslation = false);
 	HRESULT Play_Animation2(_float fTimeDelta);
+	HRESULT Play_Animation3(_float fTimeDelta);
 	HRESULT Play_Animation_ReMoveTranslation(_float fTimeDelta, _fvector vPosition ,_bool bRemoveTranslation = false);
 	HRESULT Render(class CShader* pShader, _uint iMeshIndex, _uint iPassIndex = 0);
 

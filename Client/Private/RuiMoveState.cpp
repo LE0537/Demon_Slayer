@@ -215,7 +215,7 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 				}
 			}
 		}
-		else if (pGameInstance->Key_Down(DIK_DELETE))
+		else if (pGameInstance->Key_Down(DIK_V))
 		{
 			//if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{

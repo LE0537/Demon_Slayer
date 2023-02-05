@@ -3,11 +3,18 @@
 #include "GameInstance.h"
 #include "KyoujuroIdleState.h"
 #include "KyoujuroMoveState.h"
+#include "Effect_Manager.h"
 using namespace Kyoujuro;
 
 CJumpMoveAttackState::CJumpMoveAttackState(STATE_TYPE eType)
 {
 	m_eStateType = eType;
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+		return;
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 CKyoujuroState * CJumpMoveAttackState::HandleInput(CKyoujuro* pKyoujuro)
@@ -54,7 +61,81 @@ CKyoujuroState * CJumpMoveAttackState::Tick(CKyoujuro* pKyoujuro, _float fTimeDe
 
 CKyoujuroState * CJumpMoveAttackState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
+	if (m_eStateType == CKyoujuroState::TYPE_END)
+	{
+		CCharacters* m_pTarget = pKyoujuro->Get_BattleTarget();
 
+
+		_vector vCollPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+		CCollider*	pMyCollider2 = pKyoujuro->Get_SphereCollider();
+		if (!m_bHit)
+		{
+			if (nullptr == pTargetCollider)
+				return nullptr;
+
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
+				{
+					m_pTarget->Get_GuardHit(0);
+				}
+				else
+				{
+					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg);
+					m_pTarget->Take_Damage(0.5f, false);
+					pKyoujuro->Set_Combo(1);
+					pKyoujuro->Set_ComboTime(1.f);
+				}
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				m_bHit = true;
+			}
+
+		}
+
+
+		if (pMyCollider2->Collision(pTargetCollider))
+		{
+			_float fSpeed = pKyoujuro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta * 1.5f;
+
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			vPos.m128_f32[1] = 0.f;
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+			if (pKyoujuro->Get_NavigationCom()->Cheak_Cell(vPos))
+				pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pKyoujuro->Get_NavigationCom());
+		}
+
+	}
 	if (m_eStateType == TYPE_END)
 		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else
@@ -96,6 +177,7 @@ void CJumpMoveAttackState::Enter(CKyoujuro* pKyoujuro)
 
 void CJumpMoveAttackState::Exit(CKyoujuro* pKyoujuro)
 {
+	m_pCollBox->Set_Dead();
 }
 
 void CJumpMoveAttackState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)
@@ -142,13 +224,14 @@ void CJumpMoveAttackState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		vecPos = XMVectorSetX(vecPos, m_vPosition.x);
 		vecPos = XMVectorSetY(vecPos, m_vPosition.y);
 		vecPos = XMVectorSetZ(vecPos, m_vPosition.z);
-
-		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		if (pKyoujuro->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 		m_bNextAnim = true;
 	}
 	else
 	{
-		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		if (pKyoujuro->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 	}
 }
 

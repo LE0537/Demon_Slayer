@@ -121,6 +121,8 @@ CKyoujuroState * CJumpSkill_MoveState::Late_Tick(CKyoujuro * pKyojuro, _float fT
 				{
 					m_pTarget->Set_Hp(-pKyojuro->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.3f, false);
+					pKyojuro->Set_Combo(1);
+					pKyojuro->Set_ComboTime(1.f);
 				}
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 

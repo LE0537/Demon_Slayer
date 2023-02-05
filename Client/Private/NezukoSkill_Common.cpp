@@ -140,6 +140,8 @@ CNezukoState * CSkill_CommonState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta
 					{
 						m_pTarget->Set_Hp(-15);
 						m_pTarget->Take_Damage(0.f, false);
+						pNezuko->Set_Combo(1);
+						pNezuko->Set_ComboTime(1.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -219,6 +221,8 @@ CNezukoState * CSkill_CommonState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta
 					{
 						m_pTarget->Set_Hp(-30);
 						m_pTarget->Take_Damage(0.5f, false);
+						pNezuko->Set_Combo(1);
+						pNezuko->Set_ComboTime(1.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

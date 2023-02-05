@@ -5,7 +5,7 @@
 #include "TanjiroIdlestate.h"
 #include "GameInstance.h"
 #include "TanjiroJumpMoveAttackState.h"
-
+#include "TanjiroJumpSkillMoveState.h"
 using namespace Tanjiro;
 
 CMoveJumpState::CMoveJumpState(OBJDIR eDir, STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -28,7 +28,15 @@ CTanjiroState * CMoveJumpState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Down(DIK_J))
 				return new CJumpMoveAttackState(TYPE_START);
+			else if (pGameInstance->Key_Down(DIK_I))
+			{
+				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CJumpSkillMoveState(TYPE_START);
+				}
 
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
@@ -96,7 +104,15 @@ CTanjiroState * CMoveJumpState::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (pGameInstance->Key_Down(DIK_Z))
 				return new CJumpMoveAttackState(TYPE_START);
+			else if (pGameInstance->Key_Down(DIK_X))
+			{
+				if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CJumpSkillMoveState(TYPE_START);
+				}
 
+			}
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

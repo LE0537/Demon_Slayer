@@ -92,6 +92,8 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 					{
 						m_pTarget->Set_Hp(-15);
 						m_pTarget->Take_Damage(0.1f, false);
+						pTanjiro->Set_Combo(1);
+						pTanjiro->Set_ComboTime(1.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

@@ -3,6 +3,7 @@
 #include "RuiIdleState.h"
 #include "GameInstance.h"
 #include "RuiJumpAttackState.h"
+#include "RuiJumpSkill_Common.h"
 using namespace Rui;
 
 CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -21,6 +22,11 @@ CRuiState * CJumpState::HandleInput(CRui * pRui)
 	case 1:
 		if (pGameInstance->Key_Down(DIK_I))
 		{
+			if(200 <= pRui->Get_PlayerInfo().iSkBar)
+			{
+				pRui->Set_SkillBar(-200);
+				return new CJumpSkill_CommonState(TYPE_START);
+			}
 		}
 		else if (pGameInstance->Key_Down(DIK_J))
 		{
@@ -30,6 +36,11 @@ CRuiState * CJumpState::HandleInput(CRui * pRui)
 	case 2:
 		if (pGameInstance->Key_Down(DIK_X))
 		{
+			if (200 <= pRui->Get_PlayerInfo().iSkBar)
+			{
+				pRui->Set_SkillBar(-200);
+				return new CJumpSkill_CommonState(TYPE_START);
+			}
 		}
 		else if (pGameInstance->Key_Down(DIK_Z))
 		{

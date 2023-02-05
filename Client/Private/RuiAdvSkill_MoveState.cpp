@@ -75,6 +75,8 @@ CRuiState * CAdvSkill_MoveState::Late_Tick(CRui * pRui, _float fTimeDelta)
 					{
 						m_pTarget->Set_Hp(-80);
 						m_pTarget->Take_Damage(0.3f, true);
+						pRui->Set_Combo(1);
+						pRui->Set_ComboTime(1.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

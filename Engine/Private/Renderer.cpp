@@ -110,7 +110,11 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Master"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.f)))) return E_FAIL;
 
 
-
+	/* For.Target_UINormal */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_UINormal"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_FLOAT, &_float4(1.f, 1.f, 1.f, 1.f)))) return E_FAIL;
+	/* For.Target_UIDepth */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_UIDepth"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
+	
 
 	/* For.MRT_Deferred */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Diffuse"))))
@@ -185,7 +189,13 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Master"), TEXT("Target_Master"))))
 		return E_FAIL;
 
-
+	/* For.MRT_UIMaster */
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_UIMaster"), TEXT("Target_Master"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_UIMaster"), TEXT("Target_UINormal"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_UIMaster"), TEXT("Target_UIDepth"))))
+		return E_FAIL;
 
 	m_pVIBuffer = CVIBuffer_Rect::Create(m_pDevice, m_pContext);
 	if (nullptr == m_pVIBuffer)
@@ -360,23 +370,26 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 
 		++iIndex;
 	}
-	//	객체 Render가 끝나면 Master를 메인 버퍼에 그립니다.
-	if (FAILED(Render_Master(pRTName)))
-		return E_FAIL;
 
 
 
 
-	if (FAILED(Render_Debug(_bDebug)))
-		return E_FAIL;
-	
 
 	if (FAILED(Render_UI()))
 		return E_FAIL;
 	if (FAILED(Render_UIPOKE()))
 		return E_FAIL;
+	
+	if (FAILED(Render_UIMaster()))		//	PostProcessing2
+		return E_FAIL;					//	구조상 불가능해서 임의로 줌.
+
+	//	객체 Render가 끝나면 PostProcessing_n 를 메인 버퍼에 그립니다.
+	if (FAILED(Render_Master(pRTName)))
+		return E_FAIL;
 
 
+	if (FAILED(Render_Debug(_bDebug)))
+		return E_FAIL;
 
 	//	Clear MRT_Master
 	if (FAILED(m_pTarget_Manager->MRT_Clear(m_pContext, TEXT("MRT_Master"))))
@@ -677,9 +690,9 @@ HRESULT CRenderer::Render_OutLine()
 
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Diffuse"), m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Shade"), m_pShader, "g_ShadeTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Normal"), m_pShader, "g_NormalTexture")))
 		return E_FAIL;
 
 
@@ -694,6 +707,10 @@ HRESULT CRenderer::Render_OutLine()
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_fInnerLineValue", &m_fValue[VALUE_INNERLINE], sizeof(_float))))
 		return E_FAIL;
+	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+	if (FAILED(m_pShader->Set_RawValue("g_vCamPosition", &pPipeLine->Get_CamPosition(), sizeof(_float4))))
+		return E_FAIL;
+	RELEASE_INSTANCE(CPipeLine);
 
 
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
@@ -1145,6 +1162,9 @@ HRESULT CRenderer::Render_Master(const _tchar* pTexName)
 
 HRESULT CRenderer::Render_UI()
 {
+	//	Target_UIMaster를 클리어합니다.
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_UIMaster"))))
+		return E_FAIL;
 	for (auto& pGameObject : m_GameObjects[RENDER_UI])
 	{
 		if (nullptr != pGameObject)
@@ -1153,12 +1173,55 @@ HRESULT CRenderer::Render_UI()
 			Safe_Release(pGameObject);
 		}
 	}
+	m_GameObjects[RENDER_UI].clear();	
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
 
-	m_GameObjects[RENDER_UI].clear();
+
+
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_UIDepth"), m_pShader, "g_DepthTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_UINormal"), m_pShader, "g_NormalTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrixInv", &m_ViewMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	_float		fOutLineValue = 10;
+	if (FAILED(m_pShader->Set_RawValue("g_fOutLineValue", &m_fValue[VALUE_OUTLINE], sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fInnerLineValue", &m_fValue[VALUE_INNERLINE], sizeof(_float))))
+		return E_FAIL;
+
+
+
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
+		return E_FAIL;
+
+	//	OutLine
+	m_pShader->Begin(4);
+	m_pVIBuffer->Render();
+
+	//	InnerLine
+	m_pShader->Begin(5);
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
 	return S_OK;
 }
+
 HRESULT CRenderer::Render_UIPOKE()
 {
+	//	Target_UIMaster를 클리어하지 않습니다.
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_UIMaster"))))
+		return E_FAIL;
 	for (auto& pGameObject : m_GameObjects[RENDER_UIPOKE])
 	{
 		if (nullptr != pGameObject)
@@ -1167,10 +1230,39 @@ HRESULT CRenderer::Render_UIPOKE()
 			Safe_Release(pGameObject);
 		}
 	}
-
 	m_GameObjects[RENDER_UIPOKE].clear();
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+
+
 	return S_OK;
 }
+
+HRESULT CRenderer::Render_UIMaster()
+{
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_PostProcessing_2"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(L"Target_Master", m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	m_pShader->Begin(0);
+	m_pVIBuffer->Render();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Render_Debug(_bool _bDebug)
 {
 	if (nullptr == m_pShader ||

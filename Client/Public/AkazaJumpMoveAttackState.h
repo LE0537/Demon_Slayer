@@ -1,5 +1,6 @@
 #pragma once
 #include "AkazaState.h"
+#include "BaseAtk.h"
 
 
 BEGIN(Client)
@@ -27,7 +28,15 @@ private:
 	_bool m_bNextAnim = false;
 	_bool m_bRange = false;
 
+private:
+	CBaseAtk*	m_pCollBox = nullptr;
 
+	_bool m_bAtkCombo = false;
+	_float m_fTime = 0.f;
+	_float m_fComboDelay = 0.f;
+	_float m_fMove = 0.f;
+	_bool  m_bHit = false;
+	_bool  m_bEffect = false;
 };
 
 END

@@ -54,7 +54,7 @@ CAkazaState * CSkill_DestoryState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 				vTarget += XMVector3Normalize(vTargetPos) * 2.f;
 				vTarget.m128_f32[1] = 0.f;
-				if(pAkaza->Get_NavigationCom()->Cheak_Cell(vTarget));
+				if(pAkaza->Get_NavigationCom()->Cheak_Cell(vTarget))
 					pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTarget);
 				//pAkaza->Get_NavigationCom()->Find_CurrentCellIndex(vTarget);
 				return new CSkill_DestoryState(CAkazaState::TYPE_END);
@@ -126,6 +126,8 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 					{
 						m_pTarget->Set_Hp(-20);
 						m_pTarget->Take_Damage(0.1f, false);
+						pAkaza->Set_Combo(1);
+						pAkaza->Set_ComboTime(1.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -202,6 +204,8 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 					{
 						m_pTarget->Set_Hp(-30);
 						m_pTarget->Take_Damage(0.5f, true);
+						pAkaza->Set_Combo(1);
+						pAkaza->Set_ComboTime(1.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

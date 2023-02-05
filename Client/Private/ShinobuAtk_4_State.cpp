@@ -209,6 +209,8 @@ CShinobuState * CAtk_4_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 				{
 					m_pTarget->Set_Hp(-pShinobu->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.1f, false);
+					pShinobu->Set_Combo(1);
+					pShinobu->Set_ComboTime(1.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -254,6 +256,8 @@ CShinobuState * CAtk_4_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 				{
 					m_pTarget->Set_Hp(-pShinobu->Get_PlayerInfo().iDmg * 3);
 					m_pTarget->Take_Damage(0.6f, false);
+					pShinobu->Set_Combo(1);
+					pShinobu->Set_ComboTime(1.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

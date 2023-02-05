@@ -118,6 +118,8 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 					{
 						m_pTarget->Set_Hp(-30);
 						m_pTarget->Take_Damage(0.3f,false);
+						pTanjiro->Set_Combo(1);
+						pTanjiro->Set_ComboTime(1.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -162,7 +164,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;
 }
@@ -187,6 +189,7 @@ void CSkill_WaterMillState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_SKILL_WATERMILL_2);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_SKILL_WATERMILL_2, 0.01f);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_WATERMILL_2);
+	
 		break;
 	}
 

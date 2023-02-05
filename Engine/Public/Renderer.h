@@ -103,6 +103,7 @@ private:
 	HRESULT Render_Master(const _tchar* pTexName);
 	HRESULT Render_UI();
 	HRESULT Render_UIPOKE();
+	HRESULT Render_UIMaster();
 
 	HRESULT Render_Debug(_bool _bDebug);
 public:

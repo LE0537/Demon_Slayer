@@ -4,7 +4,6 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-
 using namespace Shinobu;
 
 
@@ -108,6 +107,8 @@ CShinobuState * CSkill_MoveState::Late_Tick(CShinobu* pShinobu, _float fTimeDelt
 					{
 						m_pTarget->Set_Hp(-50);
 						m_pTarget->Take_Damage(0.6f, false);
+						pShinobu->Set_Combo(1);
+						pShinobu->Set_ComboTime(1.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
