@@ -54,8 +54,8 @@ public:
 		_float							fMoveSpeed;
 		_float							fDistortionScale;
 		_float							fDistortionBias;
-		_float							fDistortion_U;
-		_float							fDistortion_V;
+		_float							fDirectionX;
+		_float							fDirectionY;
 		_float							fMove_Value_U;
 		_float							fMove_Value_V;
 		_float							fDisappearTimeRatio;

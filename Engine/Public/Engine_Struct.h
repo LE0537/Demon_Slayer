@@ -91,6 +91,7 @@ namespace Engine
 		XMFLOAT2		vSize;
 		float			fSpeed;
 		float			fLifeTime;
+		float			fStartTime;
 
 	}VTXPARTICLE;
 

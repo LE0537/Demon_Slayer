@@ -180,9 +180,24 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float3 fScale, _flo
 		_vector		vPosition = XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition);
 		_vector		vUp = XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp);
 
+
+
+		if (m_pParticleData[i].fStartTime > m_fTime[i]) {
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x = 0.f;
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y = 0.f;
+		}
+		else {
+			m_pParticleData[i].vSize.x -= fScale.x;
+			m_pParticleData[i].vSize.y -= fScale.y;
+
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x = m_pParticleData[i].vSize.x;
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y = m_pParticleData[i].vSize.y;
+		}
+
 		((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed += 0.01f * iSpeedType;
 
 		if (((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed < 0) {
+
 			if (bRoof) {
 				((VTXPARTICLE*)MappedSubResource.pData)[i].vRight = _float4(1.f, 0.f, 0.f, 0.f);
 				((VTXPARTICLE*)MappedSubResource.pData)[i].vUp = _float4(0.f, 1.f, 0.f, 0.f);
@@ -260,9 +275,6 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float3 fScale, _flo
 				((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y *= 0;
 			}
 		}
-
-		((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x -= fScale.x;
-		((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y -= fScale.y;
 
 		if (((VTXPARTICLE*)MappedSubResource.pData)[i].fLifeTime < m_fTime[i]) {
 			if (bRoof) {
@@ -353,6 +365,7 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float3 fScale, _flo
 
 		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition, vPosition);
 
+
 		if (((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x < 0) {
 			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x = 0.f;
 		}
@@ -361,11 +374,11 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float3 fScale, _flo
 		}
 
 		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook,
-			XMVector3Normalize(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook)));
+			XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vLook)));
 		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight,
-			XMVector3Normalize(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight)) * ((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x);
+			XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vRight)) * ((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x);
 		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp,
-			XMVector3Normalize(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp)) * ((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y);
+			XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vUp)) * ((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y);
 	}
 
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
@@ -462,16 +475,24 @@ void CVIBuffer_Particle_Instance::Reset(_float3 vScale, _float fLifeTime, _float
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
 }
 
-void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _float2 * vTexScale, _float4x4 mtrParent, _uint iParticleType, _uint iPartSizeX, _uint iPartSizeY)
+void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _float2 * vTexScale, _float4x4 mtrParent, _uint iParticleType, _uint iPartSizeX,
+	_uint iPartSizeY, _float fDirectionX, _float fDirectionY)
 {
 	random_device rd;
 	mt19937 Seed(rd());
 
+	_float Min = -1.f * (iPartSizeX / 2.f);
+	_float Max = -1.f * (iPartSizeY / 2.f);
+
 	uniform_real_distribution<float> Dgree360(0, 360);
-	uniform_real_distribution<float> Dgree20(0, 20);
+	uniform_real_distribution<float> Dgree20(0, 5);
 	uniform_real_distribution<float> LifeTimeRand(fLifeTime[0], fLifeTime[1]);
+	uniform_real_distribution<float> StartTimeRand(fLifeTime[0] / 5.f, fLifeTime[1] / 5.f);
 	uniform_real_distribution<float> PartSizeXRand(0, iPartSizeX);
 	uniform_real_distribution<float> PartSizeYRand(0, iPartSizeY);
+	uniform_real_distribution<float> ConeSizeXRand(Min, iPartSizeX / 2);
+	uniform_real_distribution<float> ConeSizeYRand(Max, iPartSizeY / 2);
+	uniform_real_distribution<float> DirectionRand(fDirectionX, fDirectionY);
 	uniform_real_distribution<float> SpeedRand(fSpeed[0], fSpeed[1]);
 	uniform_real_distribution<float> TexSizeXRand(vTexScale[0].x, vTexScale[1].x);
 	uniform_real_distribution<float> TexSizeYRand(vTexScale[0].y, vTexScale[1].y);
@@ -496,6 +517,8 @@ void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _fl
 		m_pParticleData[i].fSpeed = SpeedRand(Seed);
 
 		m_pParticleData[i].vSize = _float2(TexSizeXRand(Seed), TexSizeYRand(Seed));
+
+		m_pParticleData[i].fStartTime = 0.f;
 
 		ScaleMatrix = XMMatrixScaling(m_pParticleData[i].vSize.x, m_pParticleData[i].vSize.y, 1.f);
 
@@ -527,9 +550,25 @@ void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _fl
 				XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vLook), XMConvertToRadians(z));
 		}
 		else if (iParticleType == 3) {
-			_float x = PartSizeXRand(Seed);
+			_float x = ConeSizeXRand(Seed);
 			_float y = Dgree360(Seed);
-			_float z = PartSizeYRand(Seed);
+			_float z = ConeSizeYRand(Seed);
+
+			RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vRight), XMConvertToRadians(x)) *
+				XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vUp), XMConvertToRadians(y)) *
+				XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vLook), XMConvertToRadians(z));
+		}
+		else if (iParticleType == 4) {
+			_float fSizeX = PartSizeXRand(Seed);
+			_float fSizeZ = PartSizeYRand(Seed);
+
+			PositionMatrix = XMMatrixTranslation(fSizeX, 0.f, fSizeZ);
+
+			m_pParticleData[i].fStartTime = StartTimeRand(Seed);
+
+			_float x = 0;
+			_float y = Dgree360(Seed);
+			_float z = DirectionRand(Seed);
 
 			RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vRight), XMConvertToRadians(x)) *
 				XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vUp), XMConvertToRadians(y)) *

@@ -75,7 +75,8 @@ void CEffect::Tick(_float fTimeDelta)
 
 	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 		if (m_bStart) {
-			m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
+			if(m_EffectInfo.iMoveType != EFFMOVE_TARGET)
+				m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
 			m_bStart = false;
 		}
 		else {

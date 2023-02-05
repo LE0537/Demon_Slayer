@@ -20,7 +20,7 @@ public:
 	void Reset(_float3 vScale, _float fLifeTime, _float fSpeed, _uint iParticleType, _float4x4 mtrParent, _uint iSizeX,
 		_uint iSizeY, _bool bRoof);
 	void Reset(_float* fLifeTime, _float* fSpeed, _float2* vTexScale, _float4x4 mtrParent, _uint iParticleType,
-		_uint iPartSizeX, _uint iPartSizeY);
+		_uint iPartSizeX, _uint iPartSizeY, _float fDirectionX, _float fDirectionY);
 
 private:
 	_float*				m_fTime = nullptr;

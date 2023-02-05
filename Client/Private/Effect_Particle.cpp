@@ -217,11 +217,11 @@ void CEffect_Particle::Set_ParticleInfo(PARTICLE_INFO ParticleInfo)
 
 	if (m_ParticleInfo.bRoof) {
 		m_pVIBufferCom->Reset(m_ParticleInfo.fRoofTime, m_ParticleInfo.fSpeed, m_ParticleInfo.vSize, m_pTransformCom->Get_World4x4(),
-			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY);
+			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY, m_ParticleInfo.fDirectionX, m_ParticleInfo.fDirectionY);
 	}
 	else {
 		m_pVIBufferCom->Reset(m_ParticleInfo.fLifeTime, m_ParticleInfo.fSpeed, m_ParticleInfo.vSize, m_pTransformCom->Get_World4x4(),
-			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY);
+			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY, m_ParticleInfo.fDirectionX, m_ParticleInfo.fDirectionY);
 	}
 
 	m_fTime = 0.f;
