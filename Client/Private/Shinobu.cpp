@@ -70,7 +70,12 @@ HRESULT CShinobu::Initialize(void * pArg)
 
 			CUI_Manager::Get_Instance()->Set_2P(this);
 		}
+	
 		RELEASE_INSTANCE(CGameInstance);
+
+		CShinobuState* pState = new CBattleStartState();
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+
 	}
 	else
 	{
@@ -82,15 +87,15 @@ HRESULT CShinobu::Initialize(void * pArg)
 			CUI_Manager::Get_Instance()->Set_1P_2(this);
 		else if (m_i1p == 2)
 			CUI_Manager::Get_Instance()->Set_2P_2(this);
+
+		CShinobuState* pState = new CIdleState();
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 	}
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
-	//CShinobuState* pState = new CIdleState();
-	//m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+	
 
-	CShinobuState* pState = new CBattleStartState();
-	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 
 	return S_OK;
 }

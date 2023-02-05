@@ -80,8 +80,10 @@ HRESULT CCharSelMsg::Render()
 	SELUIINFO Select1PInfo_2 = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor())->Get_SelectUIInfoSecond();
 	SELUIINFO Select2PInfo = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_SelectUIInfo();
 	SELUIINFO Select2PInfo_2 = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_SelectUIInfoSecond();
+	CSelP1Cursor* pP1Cursor = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor());
+	CSelP2Cursor* pP2Cursor = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor());
 
-	if(!Select1PInfo.bOni && Select1PInfo_2.bOni)
+	if(!Select1PInfo.bOni && Select1PInfo_2.bOni && pP1Cursor->Get_FirstSelCheck())
 	{
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_pVIBufferCom->Render();
@@ -93,7 +95,7 @@ HRESULT CCharSelMsg::Render()
 			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("이 캐릭터와는 협력할 수 없습니다."), XMVectorSet(m_fX - 140.f, m_fY - 10.f, 0.f, 1.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 		}
 	}
-	else if (Select1PInfo.strName == Select1PInfo_2.strName)
+	else if (Select1PInfo.strName == Select1PInfo_2.strName && pP1Cursor->Get_FirstSelCheck())
 	{
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_pVIBufferCom->Render();
@@ -106,7 +108,7 @@ HRESULT CCharSelMsg::Render()
 		}
 	}
 
-	if (!Select2PInfo.bOni && Select2PInfo_2.bOni)
+	if (!Select2PInfo.bOni && Select2PInfo_2.bOni && pP2Cursor->Get_FirstSelCheck())
 	{
 		if (m_ThrowUIinfo.iLayerNum == 3)
 			m_pVIBufferCom->Render();
@@ -118,7 +120,7 @@ HRESULT CCharSelMsg::Render()
 			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("이 캐릭터와는 협력할 수 없습니다."), XMVectorSet(m_fX - 140.f, m_fY - 10.f, 0.f, 1.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 		}		
 	}
-	else if (Select2PInfo.strName == Select2PInfo_2.strName)
+	else if (Select2PInfo.strName == Select2PInfo_2.strName && pP2Cursor->Get_FirstSelCheck())
 	{
 		if (m_ThrowUIinfo.iLayerNum == 3)
 			m_pVIBufferCom->Render();

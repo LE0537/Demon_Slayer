@@ -28,7 +28,7 @@ HRESULT CProgressBar::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(300.f, 300.f, 0.f, 1.f));
 
 	
-	m_fX = 640.f;
+	m_fX = 100.f;
 	m_fY = 360.f;
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
@@ -42,9 +42,9 @@ HRESULT CProgressBar::Initialize(void * pArg)
 
 void CProgressBar::Tick(_float fTimeDelta)
 {
-	m_fTime += 1.f;
-	if (m_fTime > 60.f)
-		m_fTime = 0.f;
+	m_fTime -= 1.f;
+	if (m_fTime < 0.f)
+		m_fTime = 60.f;
 }
 
 void CProgressBar::Late_Tick(_float fTimeDelta)

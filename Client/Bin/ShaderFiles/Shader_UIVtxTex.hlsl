@@ -192,6 +192,48 @@ PS_OUT PS_LogoEff(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_WindowLeft(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float2 vNewUV = In.vTexUV;
+
+	vNewUV.x += 1.f;
+	vNewUV.x -= g_fUvMoveTime;
+
+	float4 vDiffuseTexture = g_DiffuseTexture.Sample(CLAMPSampler, vNewUV);
+
+	float4 vMaskTexture = g_MaskTexture.Sample(PointSampler, In.vTexUV);
+
+
+	Out.vColor.rgba = vDiffuseTexture.rgba;
+
+	if (vMaskTexture.r == 0)
+		discard;
+
+	return Out;
+}
+PS_OUT PS_WindowRight(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float2 vNewUV = In.vTexUV;
+
+	vNewUV.x -= 1.f;
+	vNewUV.x += g_fUvMoveTime;
+
+	float4 vDiffuseTexture = g_DiffuseTexture.Sample(CLAMPSampler, vNewUV);
+
+	float4 vMaskTexture = g_MaskTexture.Sample(PointSampler, In.vTexUV);
+
+	Out.vColor.rgba = vDiffuseTexture.rgba;
+
+	if (vMaskTexture.r == 0)
+		discard;
+
+	return Out;
+}
+
 PS_OUT PS_PatternWind(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
@@ -235,6 +277,8 @@ PS_OUT PS_LogoLight(PS_IN In)
 
 	return Out;
 }
+
+
 
 PS_OUT PS_SelCharIcon(PS_IN In)
 {
@@ -353,8 +397,8 @@ PS_OUT PS_Circle_Progressbar(PS_IN In)
 		discard;*/
 	fr = saturate(fr);
 
-	float angle = degrees(atan2(-pos.x, pos.y)) + 180.f; 
-	float fa = radians(angle - progress * 360.f) * radius + 1.f; 
+	float angle = degrees(atan2(pos.x, pos.y)) + 180.f; 
+	float fa = radians(angle - progress * 30.f) * radius + 1.f; 
 	fa = saturate(fa);
 	if(fa != 1.f)
 		discard;
@@ -593,7 +637,26 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_PatternOne();
 	}
-	
 
-	
+	pass WindowLeft //20
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_WindowLeft();
+	}
+
+	pass WindowRight //21
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_WindowRight();
+	}
 }
