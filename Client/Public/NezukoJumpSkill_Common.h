@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NezukoState.h"
-#include "BaseAtk.h"
+#include "WindMill.h"
 
 
 BEGIN(Client)
@@ -30,6 +30,15 @@ private:
 	_bool m_bNextAnim = false;
 	_uint m_iCount = 0;
 	_float m_fNextAnim = 0.f;
+private:
+	CWindMill*	m_pCollBox = nullptr;
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_float m_fDelay = 0.f;
+	_float4 m_vLook;
+	_bool   m_bLook = false;
+	_bool  m_bEffect = false;
+	_int   m_iHit = 0;
 };
 END
 END

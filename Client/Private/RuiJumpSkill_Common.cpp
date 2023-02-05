@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-#include "AkazaShoot.h"
+#include "RuiBigBall.h"
 
 using namespace Rui;
 
@@ -74,11 +74,29 @@ CRuiState * CJumpSkill_CommonState::Tick(CRui* pRui, _float fTimeDelta)
 
 CRuiState * CJumpSkill_CommonState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
-	
-	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.3f);
+	CCharacters* m_pTarget = pRui->Get_BattleTarget();
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLooAt.m128_f32[1] = 0.f;
+	pRui->Get_Transform()->LookAt(vLooAt);
+	if(m_eStateType == CRuiState::TYPE_START)
+		m_fMove += fTimeDelta;
 
-	
-	
+	CRuiBigBall::RUIBIGBALLINFO	tInfo;
+	tInfo.pPlayer = pRui;
+	tInfo.pTarget = m_pTarget;
+
+	if (m_fMove > 0.17f && m_iHit < 1)
+	{
+		CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+		if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiBigBall"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+			return nullptr;
+
+		RELEASE_INSTANCE(CGameInstance);
+		++m_iHit;
+	}
+
+	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.3f);
 
 	return nullptr;
 }

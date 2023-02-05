@@ -4,7 +4,8 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-#include "AkazaShoot.h"
+#include "RuiShoot.h"
+
 
 using namespace Rui;
 
@@ -65,11 +66,42 @@ CRuiState * CJumpSkill_MoveState::Tick(CRui* pRui, _float fTimeDelta)
 
 CRuiState * CJumpSkill_MoveState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
-	
-	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.3f);
+	CCharacters* m_pTarget = pRui->Get_BattleTarget();
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLooAt.m128_f32[1] = 0.f;
+	pRui->Get_Transform()->LookAt(vLooAt);
 
-	
-	
+	if (m_eStateType == CRuiState::TYPE_START)
+	{
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+		m_fMove += fTimeDelta;
+
+		CRuiShoot::RUISHOOTINFO	tInfo;
+		tInfo.pPlayer = pRui;
+		tInfo.pTarget = m_pTarget;
+
+		if (m_iHit < 1)
+		{
+			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+			tInfo.iIndex = 3;
+			if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiShoot"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+				return nullptr;
+			tInfo.iIndex = 4;
+			if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiShoot"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+				return nullptr;
+			tInfo.iIndex = 5;
+			if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiShoot"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+				return nullptr;
+
+			RELEASE_INSTANCE(CGameInstance);
+			m_fMove = 0.f;
+			++m_iHit;
+		}
+
+		RELEASE_INSTANCE(CGameInstance);
+	}
+	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.3f);
 
 	return nullptr;
 }

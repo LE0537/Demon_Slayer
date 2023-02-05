@@ -943,6 +943,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\JumpMove">
       <UniqueIdentifier>{08bc1599-d96a-4756-8a49-50d0346a5f94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\11.RuiBigBall">
+      <UniqueIdentifier>{86b33068-6a14-4082-8174-5df479bb4f34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1875,6 +1878,9 @@
     <ClInclude Include="..\Public\TanjiroKaguraJumpSkill_Move.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\JumpMove</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RuiBigBall.h">
+      <Filter>05.CollBox\11.RuiBigBall</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2782,6 +2788,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroKaguraJumpSkill_Common.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\JumpCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiBigBall.cpp">
+      <Filter>05.CollBox\11.RuiBigBall</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

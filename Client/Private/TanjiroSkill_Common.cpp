@@ -68,6 +68,7 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 		{
 			_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 			_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+			vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
 			vCollPos.m128_f32[1] = 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 																							 //m_pCollBox->Get_Transform()->LookAt(vLooAt);
