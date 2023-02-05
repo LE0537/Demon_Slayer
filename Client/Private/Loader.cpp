@@ -309,6 +309,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region SelectUI
 		//SelectChar
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MaskWindowLeft"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Char_Window_Mask1.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MaskWindowRight"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/Char_Window_Mask2.png"), 1))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSelMsg"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/Profile_Voice_Base.png"), 1))))
 			return E_FAIL;

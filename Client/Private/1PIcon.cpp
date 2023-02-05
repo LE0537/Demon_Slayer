@@ -72,7 +72,7 @@ void C1PIcon::Tick(_float fTimeDelta)
 void C1PIcon::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
 HRESULT C1PIcon::Render()
