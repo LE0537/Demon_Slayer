@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "UI_Manager.h"
 #include "SelP2Cursor.h"
+#include "SelP1Cursor.h"
 
 C2PIcon::C2PIcon(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -67,8 +68,28 @@ void C2PIcon::Tick(_float fTimeDelta)
 
 void C2PIcon::Late_Tick(_float fTimeDelta)
 {
-	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	CSelP1Cursor* p1PCursor = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor());
+	CSelP2Cursor* p2PCursor = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor());
+
+	if (!p1PCursor->Get_SelComple() && !p2PCursor->Get_SelComple())
+	{
+		if (nullptr != m_pRendererCom)
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+	}
+	else if(p1PCursor->Get_SelComple() && p2PCursor->Get_SelComple())
+	{
+		if (nullptr != m_pRendererCom)
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+	}
+	else
+	{
+		if (nullptr != m_pRendererCom)
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 HRESULT C2PIcon::Render()
