@@ -27,7 +27,6 @@ private:
 	_float m_fOriginPosY;
 	_bool m_bNextAnim = false;
 	_bool m_bRange = false;
-
 private:
 	CBaseAtk*	m_pCollBox = nullptr;
 
@@ -37,6 +36,7 @@ private:
 	_float m_fMove = 0.f;
 	_bool  m_bHit = false;
 	_bool  m_bEffect = false;
+
 
 	_bool m_bContinue = false;
 

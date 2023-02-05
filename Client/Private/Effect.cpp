@@ -45,7 +45,7 @@ HRESULT CEffect::Initialize(void * pArg)
 
 	if (nullptr != pArg) {
 		if (EFFMOVE_TARGET == m_EffectInfo.iMoveType)
-			pArg = this;
+			*(CGameObj**)pArg = this;
 		else
 			m_pTarget = (CCharacters*)pArg;
 	}

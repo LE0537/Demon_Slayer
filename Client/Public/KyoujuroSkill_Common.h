@@ -20,6 +20,7 @@ public:
 private:
 	CKyoujuroSkill*	m_pCollBox2 = nullptr;
 	CBaseAtk*	m_pCollBox = nullptr;
+	CGameObj*   m_pEffect = nullptr;
 	_float m_fTime = 0.f;
 	_float m_fHitTime = 0.f;
 	_float m_fDelay = 0.f;
@@ -29,6 +30,8 @@ private:
 	_bool   m_bLook = false;
 
 	_bool	m_bEffect = false;
+
+	_bool   m_bTrue = false;
 };
 END
 END

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AkazaState.h"
-#include "BaseAtk.h"
+#include "WindMill.h"
 BEGIN(Client)
 BEGIN(Akaza)
 class CJumpSkill_MoveState : public CAkazaState
@@ -34,6 +34,15 @@ private:
 	_float3 m_vMovePosition;
 	_float3 m_vMoveVelocity;
 	_float m_fMoveOriginPosY;
+private:
+	CWindMill*	m_pCollBox = nullptr;
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_float m_fDelay = 0.f;
+	_float4 m_vLook;
+	_bool   m_bLook = false;
+	_bool  m_bEffect = false;
+	_int   m_iHit = 0;
 };
 END
 END

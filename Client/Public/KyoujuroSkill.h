@@ -28,6 +28,7 @@ public:
 	static CKyoujuroSkill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
+
 };
 
 END

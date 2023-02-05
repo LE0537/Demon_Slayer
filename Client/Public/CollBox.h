@@ -25,9 +25,11 @@ public:
 public:
 	CCollider*		Get_Collider() {return m_pOBBCom;}
 	void			Set_TargetPos(_float4 _vTargetPos) { m_vTargetPos = _vTargetPos; }
+	void			Set_Effect(CGameObj* _Effect) { m_pEffect = _Effect; }
 protected:
 	CCollider*				m_pOBBCom = nullptr;
-
+protected:
+	CGameObj*				 m_pEffect = nullptr;
 	_float4					m_vTargetPos;
 public:
 	static CCollBox* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

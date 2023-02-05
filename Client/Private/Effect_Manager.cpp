@@ -93,7 +93,7 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 	return;
 }
 
-void CEffect_Manager::Create_Effect(_uint iEffectNum, CGameObj* pTarget)
+void CEffect_Manager::Create_Effect(_uint iEffectNum, void* pTarget)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 

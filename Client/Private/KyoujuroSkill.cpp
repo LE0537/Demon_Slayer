@@ -2,7 +2,7 @@
 #include "..\Public\KyoujuroSkill.h"
 
 #include "GameInstance.h"
-
+#include "Effect_Manager.h"
 CKyoujuroSkill::CKyoujuroSkill(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCollBox(pDevice, pContext)
 {
@@ -24,6 +24,11 @@ HRESULT CKyoujuroSkill::Initialize(void * pArg)
 		return E_FAIL;
 
 	*(CKyoujuroSkill**)pArg = this;
+
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_5TIGER_MAIN, this);
+	RELEASE_INSTANCE(CEffect_Manager);
 
 	return S_OK;
 }
@@ -62,7 +67,7 @@ HRESULT CKyoujuroSkill::Ready_Components()
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
-	TransformDesc.fSpeedPerSec = 5.f;
+	TransformDesc.fSpeedPerSec = 15.f;
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
