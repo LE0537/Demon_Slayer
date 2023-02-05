@@ -5,9 +5,6 @@ texture2D		g_DiffuseTexture;
 texture2D		g_NormalTexture;
 texture2D		g_MaskTexture;
 
-#define PI 		3.14159265359
-#define TWO_PI  6.28318530718
-
 float2 g_WinXY = float2(1.f, 1.f);
 vector			g_vCamPosition;
 
@@ -278,8 +275,6 @@ PS_OUT PS_LogoLight(PS_IN In)
 	return Out;
 }
 
-
-
 PS_OUT PS_SelCharIcon(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
@@ -406,6 +401,57 @@ PS_OUT PS_Circle_Progressbar(PS_IN In)
 	vector col = lerp(color, DiffuseTexture, fa);
 //	col.a *= fr;
 
+	//col = col * col2;//DiffuseTexture;
+
+	Out.vColor = col;
+
+	return Out;
+}
+
+PS_OUT PS_Combo_Progressbar(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+	float4 DiffuseTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	float4 MaskTexture = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
+	float duration = 60.f;
+
+	if (MaskTexture.r == 0.f)
+		discard;
+	float progress = g_fTime / duration;
+
+	float innerRadius = 0.1f;
+	float outerRadius = 0.2f;
+
+	float middleRadius = 0.5f * (innerRadius + outerRadius);
+	float halfWidth = 0.5f * (outerRadius - innerRadius);
+
+	float2 pos = In.vTexUV.xy - 0.5f * g_WinXY.xy;
+
+	float radius = length(pos.xy);
+
+	float fr = halfWidth - abs(radius - middleRadius) + 1.f;
+
+	if(fr < 0.f)
+		discard;
+
+	fr = saturate(fr);
+
+	float angle = degrees(atan2(pos.x, pos.y)) + 180.f;
+	float fa = radians(angle - progress * 360.f) * radius + 1.f;
+	fa = saturate(fa);
+	if (fa != 1.f)
+		discard;
+	vector color = vector(0.f, 0.f, 0.f, 1);
+	vector col = lerp(color, MaskTexture, fa);
+	//	col.a *= fr;
+	vector BarColor = vector(1.f, 0.855f, 0.f, 1.f);
+	
+	if (col.r != 0.f)
+	{
+		col.r = BarColor.r;
+		col.g = BarColor.g;
+		col.b = BarColor.b;
+	}
 	//col = col * col2;//DiffuseTexture;
 
 	Out.vColor = col;
@@ -658,5 +704,16 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_WindowRight();
+	}
+
+	pass Test //22
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_Combo_Progressbar();
 	}
 }

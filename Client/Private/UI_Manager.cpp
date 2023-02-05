@@ -104,6 +104,11 @@ void CUI_Manager::Load_Data(string sLoadName)
 			BATTLEUI_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "BattleResult")
 			BATTLERESULT_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
+		else if (sLoadName == "1P_Combo")
+			P1_COMBO_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
+		else if (sLoadName == "2P_Combo")
+			P2_COMBO_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
+		
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -334,6 +339,49 @@ void CUI_Manager::Add_BattleResult()
 		Add_BattleResultUI(iter);
 }
 
+void CUI_Manager::Add_P1_Combo()
+{
+	for (auto iter : P1_COMBO_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.bPlyCheck = false;
+		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+
+		P1_COMBO_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : P1_COMBO_DATALIST)
+		Add_Btl_PlayerUI(iter);
+
+	m_iComboNumLayerNum = 0;
+}
+
+void CUI_Manager::Add_P2_Combo()
+{
+	for (auto iter : P2_COMBO_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.vPos.x = iter.vPos.x + 1040.f;
+		m_ThrowInfo.vPos.y = iter.vPos.y;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.bPlyCheck = true;
+		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+
+		P2_COMBO_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : P2_COMBO_DATALIST)
+		Add_Btl_PlayerUI(iter);
+
+	m_iComboNumLayerNum = 0;
+}
+
 HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
@@ -513,6 +561,28 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 		break;
 	case 40:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RoundUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 41:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 42:
+		iter.iLayerNum = m_iComboNumLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboNum"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iComboNumLayerNum;
+		break;
+	case 43:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboTxt"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 44:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboHitBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 45:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboHitDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	default:

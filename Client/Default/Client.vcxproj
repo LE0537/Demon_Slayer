@@ -219,6 +219,11 @@
     <ClInclude Include="..\Public\2PMainOnBase.h" />
     <ClInclude Include="..\Public\CharFrame.h" />
     <ClInclude Include="..\Public\CharFrameEff.h" />
+    <ClInclude Include="..\Public\ComboBase.h" />
+    <ClInclude Include="..\Public\ComboHitBase.h" />
+    <ClInclude Include="..\Public\ComboHitDeco.h" />
+    <ClInclude Include="..\Public\ComboHitTxt.h" />
+    <ClInclude Include="..\Public\ComboNum.h" />
     <ClInclude Include="..\public\KaguraSkill.h" />
     <ClInclude Include="..\Public\KyoujuroBattleSTState.h" />
     <ClInclude Include="..\Public\KyoujuroJumpAttackState.h" />
@@ -528,6 +533,11 @@
     <ClCompile Include="..\Private\2pMainOnBase.cpp" />
     <ClCompile Include="..\Private\CharFrame.cpp" />
     <ClCompile Include="..\Private\CharFrameEff.cpp" />
+    <ClCompile Include="..\Private\ComboBase.cpp" />
+    <ClCompile Include="..\Private\ComboHitBase.cpp" />
+    <ClCompile Include="..\Private\ComboHitDeco.cpp" />
+    <ClCompile Include="..\Private\ComboHitTxt.cpp" />
+    <ClCompile Include="..\Private\ComboNum.cpp" />
     <ClCompile Include="..\private\KaguraSkill.cpp" />
     <ClCompile Include="..\Private\KyoujuroBattleSTState.cpp" />
     <ClCompile Include="..\Private\KyoujuroJumpAttackState.cpp" />

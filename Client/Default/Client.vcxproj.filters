@@ -937,6 +937,21 @@
     <Filter Include="03.UI\03.SelectChar\Main\Shdow">
       <UniqueIdentifier>{060bfa0e-9df7-416f-bfd7-86b189cd2018}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\02.Battle\Combo">
+      <UniqueIdentifier>{9368ba68-6e4b-4a7c-94f4-3f106e6a1542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Combo\Base">
+      <UniqueIdentifier>{25e7b317-de9f-4de3-899e-3ea54891318d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Combo\Num">
+      <UniqueIdentifier>{27ebfcaa-7579-41ea-a22e-4b8e60c5d9d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Combo\HitTxt">
+      <UniqueIdentifier>{bf37215d-4174-4764-bb6a-992f389af392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\Combo\HitBase">
+      <UniqueIdentifier>{64c014ec-d500-44b9-bf2b-20c7ae45eaed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1863,6 +1878,21 @@
     <ClInclude Include="..\Public\ShinobuJumpSkill_Common.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpCommon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ComboBase.h">
+      <Filter>03.UI\02.Battle\Combo\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ComboHitTxt.h">
+      <Filter>03.UI\02.Battle\Combo\HitTxt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ComboHitBase.h">
+      <Filter>03.UI\02.Battle\Combo\HitBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ComboHitDeco.h">
+      <Filter>03.UI\02.Battle\Combo\HitBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ComboNum.h">
+      <Filter>03.UI\02.Battle\Combo\Num</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2764,6 +2794,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\ShinobuJumpSkill_Move.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpMove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ComboBase.cpp">
+      <Filter>03.UI\02.Battle\Combo\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ComboNum.cpp">
+      <Filter>03.UI\02.Battle\Combo\Num</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ComboHitTxt.cpp">
+      <Filter>03.UI\02.Battle\Combo\HitTxt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ComboHitBase.cpp">
+      <Filter>03.UI\02.Battle\Combo\HitBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ComboHitDeco.cpp">
+      <Filter>03.UI\02.Battle\Combo\HitBase</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

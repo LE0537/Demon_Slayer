@@ -103,6 +103,11 @@
 #include "RankFuda.h"
 #include "CharSelMsg.h"
 #include "ProgressBar.h"
+#include "ComboBase.h"
+#include "ComboHitBase.h"
+#include "ComboHitDeco.h"
+#include "ComboHitTxt.h"
+#include "ComboNum.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -191,6 +196,24 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 #pragma region BattleUI
 		//Battle
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ComboHitTimeMask"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Combo/Hit_Gauge_Mask.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ComboNum"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Combo/Num_Combo%d.png"), 10))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ComboHitDeco"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Combo/Hit_Gauge_Shadow.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ComboHitBase"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Combo/HUD_Hit_Base.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ComboHitTxt"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Combo/Text_Hit.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ComboBase"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Combo/Base_Combo.png"), 1))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TxtWin"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Txt_Win.png"), 1))))
 			return E_FAIL;
@@ -1456,6 +1479,21 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ComboBase"),
+		CComboBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ComboHitBase"),
+		CComboHitBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ComboHitDeco"),
+		CComboHitDeco::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ComboTxt"),
+		CComboHitTxt::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ComboNum"),
+		CComboNum::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CharSelMsg"),
 		CCharSelMsg::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
