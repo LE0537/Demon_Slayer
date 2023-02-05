@@ -5,6 +5,7 @@
 #include "TanjiroMoveState.h"
 #include "TanjiroJumpAttackState.h"
 #include "TanjiroJumpSkillCommonState.h"
+#include "TanjiroKaguraJumpSkill_Common.h"
 using namespace Tanjiro;
 
 CJumpstate::CJumpstate(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -25,8 +26,16 @@ CTanjiroState * CJumpstate::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 			{
-				pTanjiro->Set_SkillBar(-200);
-				return new CJumpSkillCommonState(TYPE_START);
+				if (pTanjiro->Get_KaguraMode() == true)
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CKaguraJumpSkill_CommonState();
+				}
+				else
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CJumpSkillCommonState(TYPE_START);
+				}
 			}
 			
 		}
@@ -40,8 +49,16 @@ CTanjiroState * CJumpstate::HandleInput(CTanjiro * pTanjiro)
 		{
 			if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 			{
-				pTanjiro->Set_SkillBar(-200);
-				return new CJumpSkillCommonState(TYPE_START);
+				if (pTanjiro->Get_KaguraMode() == true)
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CKaguraJumpSkill_CommonState();
+				}
+				else
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CJumpSkillCommonState(TYPE_START);
+				}
 			}
 		}
 		else if (pGameInstance->Key_Down(DIK_Z))

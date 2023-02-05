@@ -16,6 +16,7 @@ public:
 	virtual void Exit(CShinobu* pShinobu) override;
 
 	void Jump(CShinobu* pShinobu, _float fTimeDelta);
+	void Move(CShinobu* pShinobu, _float fTimeDelta);
 	void Initialize_value(CShinobu* pShinobu);
 
 private:

@@ -208,7 +208,7 @@ void CIdleState::Enter(CShinobu* pShinobu)
 
 	pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_IDLE);
 	pShinobu->Set_AnimIndex(CShinobu::ANIM_IDLE);
-
+	pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_IDLE, 0.05f);
 	pShinobu->Get_Model()->Set_FrameNum(pShinobu->Get_AnimIndex(), 100);
 
 }

@@ -75,7 +75,7 @@ CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 
 		if (m_fMove < 0.3f)
 		{
-			pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pShinobu->Get_NavigationCom());
+			//pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pShinobu->Get_NavigationCom());
 
 			_vector vCollPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 			_vector vCollLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
@@ -152,7 +152,7 @@ CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 	switch (m_eStateType)
 	{
 	case Client::CShinobuState::TYPE_START:
-		if (m_fTime <= 0.4f)
+		if (m_fTime <= 0.2f)
 			Move(pShinobu, fTimeDelta);
 		else
 			Increase_Height(pShinobu, fTimeDelta);
@@ -192,7 +192,7 @@ void CSkill_UpperState::Enter(CShinobu* pShinobu)
 		m_vVelocity.y = 10.f;
 		m_vVelocity.z = 0.f;
 		m_fGravity = 0.f;
-
+		pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_SKILL_UPPER_1);
@@ -229,33 +229,21 @@ void CSkill_UpperState::Exit(CShinobu* pShinobu)
 
 void CSkill_UpperState::Move(CShinobu * pShinobu, _float fTimeDelta)
 {
+	
 	_vector vMyPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTargetPosition = pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
 
-	pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-	//pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 1.3f, pShinobu->Get_NavigationCom());
-
-	static _float fGravity = 10.f;
-	static _float fVelocity = 0.f;
-	static _float3 vPosition;  XMStoreFloat3(&vPosition, vMyPosition);
-
-	fVelocity += fGravity * fTimeDelta;
-
-	vPosition.x += XMVectorGetX(XMVector3Normalize(vMyPosition - vTargetPosition)) * fVelocity * fTimeDelta;
-		//vPosition.y += XMVectorGetY(m_vTargetPosition) * -fVelocity * fTimeDelta;
-	vPosition.z += XMVectorGetZ(XMVector3Normalize(vMyPosition - vTargetPosition)) * fVelocity * fTimeDelta;
-
-
-	_vector vecPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-	vecPos = XMVectorSetX(vecPos, vPosition.x);
-	vecPos = XMVectorSetZ(vecPos, vPosition.z);
-
-	
-	if(fDistance >=3.f)
-		pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+	if (fDistance < 3.f)
+	{
+		//pShinobu->Get_Transform()->Go_Straight(fTimeDelta, pShinobu->Get_NavigationCom());
+		m_bNextAnim = true;
+	}
+	else
+	{
+		pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 1.2f, pShinobu->Get_NavigationCom());
+	}
 }
 
 
@@ -282,7 +270,11 @@ CShinobuState * CSkill_UpperState::Increase_Height(CShinobu * pShinobu, _float f
 		m_bNextAnim = true;
 	}
 	else
-		pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	{
+		if (pShinobu->Get_NavigationCom()->Cheak_Cell(vCurrentPos))
+			pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	}
+		
 
 
 	return nullptr;

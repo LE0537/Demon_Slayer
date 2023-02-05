@@ -937,6 +937,12 @@
     <Filter Include="03.UI\03.SelectChar\Main\Shdow">
       <UniqueIdentifier>{060bfa0e-9df7-416f-bfd7-86b189cd2018}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\JumpCommon">
+      <UniqueIdentifier>{eca6583d-68f5-4768-ad57-c411477bd988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\JumpMove">
+      <UniqueIdentifier>{08bc1599-d96a-4756-8a49-50d0346a5f94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1863,6 +1869,12 @@
     <ClInclude Include="..\Public\ShinobuJumpSkill_Common.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpCommon</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroKaguraJumpSkill_Common.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\JumpCommon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroKaguraJumpSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\JumpMove</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2764,6 +2776,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\ShinobuJumpSkill_Move.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpMove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroKaguraJumpSkill_Move.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\JumpMove</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroKaguraJumpSkill_Common.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Skill\JumpCommon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

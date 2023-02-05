@@ -22,30 +22,64 @@ CShinobuState * CJumpMoveSkillState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 	{
 		switch (m_eStateType)
 		{
-		case Client::CShinobuState::TYPE_START: // 공격 모션
+		case Client::CShinobuState::TYPE_START:
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
 			return new CJumpMoveSkillState(TYPE_LOOP);
 			break;
-		case Client::CShinobuState::TYPE_LOOP: // 떨어지는 모션
-			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());;
-			break;
-		case Client::CShinobuState::TYPE_END: // 착지 모션
+		case Client::CShinobuState::TYPE_LOOP:
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-			return new CIdleState(STATE_JUMP);
+			break;
+		case Client::CShinobuState::TYPE_END:
+			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			return new CJumpMoveSkillState(TYPE_DEFAULT);
+			break;
+		case Client::CShinobuState::TYPE_DEFAULT:
+			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			
+			break;
+		case Client::CShinobuState::TYPE_CHANGE:
+			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			return new CIdleState();
 			break;
 		}
 		pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
 	}
 
+
 	switch (m_eStateType)
 	{
+	case Client::CShinobuState::TYPE_START:
+		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		Jump(pShinobu, fTimeDelta);
-
-		if (m_bNextAnim == true)
-			return new CJumpMoveSkillState(TYPE_END);
+		break;
+	case Client::CShinobuState::TYPE_END:
+		break;
+	case Client::CShinobuState::TYPE_DEFAULT:
+		Move(pShinobu, fTimeDelta);
+		break;
+	case Client::CShinobuState::TYPE_CHANGE:
+		break;
+	default:
 		break;
 	}
+
+	if (TYPE_LOOP == m_eStateType)
+	{
+		if (m_bNextAnim == true)
+			return new CJumpMoveSkillState(TYPE_END);
+	}
+
+	else if (TYPE_DEFAULT == m_eStateType)
+	{
+		if (m_bNextAnim == true)
+				return new CJumpMoveSkillState(TYPE_CHANGE);
+	}
+
+	 
+
+
+
 
 
 
@@ -56,7 +90,7 @@ CShinobuState * CJumpMoveSkillState::Late_Tick(CShinobu* pShinobu, _float fTimeD
 {
 
 	if (m_eStateType == TYPE_END)
-		pShinobu->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
+		pShinobu->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
 	else
 		pShinobu->Get_Model()->Play_Animation(fTimeDelta);
 
@@ -68,41 +102,63 @@ CShinobuState * CJumpMoveSkillState::Late_Tick(CShinobu* pShinobu, _float fTimeD
 void CJumpMoveSkillState::Enter(CShinobu* pShinobu)
 {
 	m_eStateId = STATE_JUMP_ATTACK;
+	m_eStateId = STATE_JUMP;
 
 	switch (m_eStateType)
 	{
 	case Client::CShinobuState::TYPE_START:
-		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_0);
-		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_MOVE_ATTACK_0);
-		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_0);
-		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_0, 0.01f);
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_0);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_SKILL_MOVE_0);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_0);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_0, 0.01f);
 		pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
-		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_1);
-		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_MOVE_ATTACK_1);
-		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_1, true);
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_1);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_SKILL_MOVE_1);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_1, true);
 		Initialize_value(pShinobu);
 		break;
 	case Client::CShinobuState::TYPE_END:
-		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_2);
-		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_MOVE_ATTACK_2);
-		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_1, false);
-		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_2);
-		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_JUMP_MOVE_ATTACK_2, 0.01f);
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_2);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_SKILL_MOVE_2);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_2);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_2, 0.01f);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_1);
+		break;
+	case Client::CShinobuState::TYPE_DEFAULT:
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_3);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_SKILL_MOVE_3);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_3);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_3, true);
+		break;
+	case Client::CShinobuState::TYPE_CHANGE:
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_4);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_SKILL_MOVE_4);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_4);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_4, 0.01f);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_4);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_3);
+		break;
+	default:
 		break;
 	}
+
+
 }
 
 void CJumpMoveSkillState::Exit(CShinobu* pShinobu)
 {
+
+
+
 }
 
 void CJumpMoveSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 {
 	static _float fGravity = 100.f;
 	static _float fVelocity = 0.f;
-	
+
 
 	m_vPosition.x = XMVectorGetX(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 	m_vPosition.y = XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
@@ -111,7 +167,7 @@ void CJumpMoveSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 	m_vVelocity.x += fGravity * fTimeDelta;
 	m_vVelocity.y += fGravity * fTimeDelta;
 	m_vVelocity.z += fGravity * fTimeDelta;
-	 
+
 
 
 	if (m_bRange == true)
@@ -122,9 +178,9 @@ void CJumpMoveSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 	}
 	else if (m_bRange == false)
 	{
-		m_vPosition.x += m_vVelocity.x * fTimeDelta * XMVectorGetX(m_vTargetPosition)* 3.f;
+		m_vPosition.x += m_vVelocity.x * fTimeDelta * XMVectorGetX(m_vTargetPosition)* 1.5f;
 		m_vPosition.y += m_vVelocity.y * fTimeDelta * XMVectorGetY(m_vTargetPosition)* 5.f;
-		m_vPosition.z += m_vVelocity.z * fTimeDelta * XMVectorGetZ(m_vTargetPosition)* 3.f;
+		m_vPosition.z += m_vVelocity.z * fTimeDelta * XMVectorGetZ(m_vTargetPosition)* 1.5f;
 	}
 
 
@@ -142,13 +198,33 @@ void CJumpMoveSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 		vecPos = XMVectorSetX(vecPos, m_vPosition.x);
 		vecPos = XMVectorSetY(vecPos, m_vPosition.y);
 		vecPos = XMVectorSetZ(vecPos, m_vPosition.z);
-
-		pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		if (pShinobu->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 		m_bNextAnim = true;
 	}
 	else
 	{
-		pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		if (pShinobu->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+	}
+}
+
+void CJumpMoveSkillState::Move(CShinobu * pShinobu, _float fTimeDelta)
+{
+	pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	_vector vMyPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTargetPosition = pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
+
+	if (fDistance < 5.f)
+	{
+		//pShinobu->Get_Transform()->Go_Straight(fTimeDelta, pShinobu->Get_NavigationCom());
+		m_bNextAnim = true;
+	}
+	else
+	{
+		pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 2.0f, pShinobu->Get_NavigationCom());
 	}
 }
 

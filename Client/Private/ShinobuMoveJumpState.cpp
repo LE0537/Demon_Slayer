@@ -5,6 +5,7 @@
 #include "GameInstance.h"
 #include "ShinobuJumpState.h"
 #include "ShinobuJumpMoveAttackState.h"
+#include "ShinobuJumpSkill_Move.h"
 
 
 using namespace Shinobu;
@@ -36,7 +37,7 @@ CShinobuState * CMoveJumpState::HandleInput(CShinobu* pShinobu)
 				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 				{
 					pShinobu->Set_SkillBar(-200);
-					return new CJumpMoveAttackState(STATE_TYPE::TYPE_START,true);
+					return new CJumpMoveSkillState(TYPE_START);
 				}
 			}
 
@@ -113,7 +114,7 @@ CShinobuState * CMoveJumpState::HandleInput(CShinobu* pShinobu)
 				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 				{
 					pShinobu->Set_SkillBar(-200);
-					return new CJumpMoveAttackState(STATE_TYPE::TYPE_START, true);
+					return new CJumpMoveSkillState(STATE_TYPE::TYPE_START);
 				}
 			}
 
