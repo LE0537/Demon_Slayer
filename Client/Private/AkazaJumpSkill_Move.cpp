@@ -56,7 +56,10 @@ CAkazaState * CJumpSkill_MoveState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	}
 
 	if (m_bJump == true)
+	{
+	
 		Jump(pAkaza, fTimeDelta);
+	}
 
 
 
@@ -81,7 +84,8 @@ void CJumpSkill_MoveState::Enter(CAkaza* pAkaza)
 	case Client::CAkazaState::TYPE_START:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_SKILL_JUMPMOVE_0);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SKILL_JUMPMOVE_0);
-		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		//pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		pAkaza->Get_Transform()->LookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_SKILL_JUMPMOVE_0);
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
 		Initialize_MoveValue(pAkaza);
@@ -100,6 +104,7 @@ void CJumpSkill_MoveState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_SKILL_JUMPMOVE_2);
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
+		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		break;
 	case Client::CAkazaState::TYPE_DEFAULT:
 		break;
@@ -177,12 +182,14 @@ void CJumpSkill_MoveState::Move(CAkaza * pAkaza, _float fTimeDelta)
 	m_vVelocity.z += fGravity * fTimeDelta;
 
 	m_vPosition.x += XMVectorGetX(m_vTargetPosition) *   m_vVelocity.x * 15.f * fTimeDelta;
+	m_vPosition.y += XMVectorGetY(m_vTargetPosition) *   m_vVelocity.y * 10.f * fTimeDelta;
 	m_vPosition.z += XMVectorGetZ(m_vTargetPosition) *   m_vVelocity.z * 15.f * fTimeDelta;
 
 	_vector vCurrentPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-	_vector vPosition = XMVectorSet(m_vPosition.x, XMVectorGetY(vCurrentPos), m_vPosition.z, 1.f);
-
+	//_vector vPosition = XMVectorSet(m_vPosition.x, XMVectorGetY(vCurrentPos), m_vPosition.z, 1.f);
+	_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
+	
 	//if (fDistance <= 3.f)
 	//{
 	//	m_bNextAnim = true;

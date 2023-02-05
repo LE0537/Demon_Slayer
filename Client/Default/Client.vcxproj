@@ -434,6 +434,8 @@
     <ClInclude Include="..\Public\TanjiroKaguraAtk_2_State.h" />
     <ClInclude Include="..\Public\TanjiroKaguraAtk_3_State.h" />
     <ClInclude Include="..\Public\TanjiroKaguraAtk_4_State.h" />
+    <ClInclude Include="..\Public\TanjiroKaguraJumpSkill_Common.h" />
+    <ClInclude Include="..\Public\TanjiroKaguraJumpSkill_Move.h" />
     <ClInclude Include="..\Public\TanjiroKaguraSkill_Common.h" />
     <ClInclude Include="..\Public\TanjiroKaguraSkill_Move.h" />
     <ClInclude Include="..\Public\TanjiroKaguraSkill_Sphere.h" />
@@ -739,6 +741,8 @@
     <ClCompile Include="..\Private\TanjiroKaguraAtk_2_State.cpp" />
     <ClCompile Include="..\Private\TanjiroKaguraAtk_3_State.cpp" />
     <ClCompile Include="..\Private\TanjiroKaguraAtk_4_State.cpp" />
+    <ClCompile Include="..\Private\TanjiroKaguraJumpSkill_Common.cpp" />
+    <ClCompile Include="..\Private\TanjiroKaguraJumpSkill_Move.cpp" />
     <ClCompile Include="..\Private\TanjiroKaguraSkill_Common.cpp" />
     <ClCompile Include="..\Private\TanjiroKaguraSkill_Move.cpp" />
     <ClCompile Include="..\Private\TanjiroKaguraSkill_Sphere.cpp" />

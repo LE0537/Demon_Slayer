@@ -41,8 +41,8 @@ CRuiState * CJumpSkill_MoveState::Tick(CRui* pRui, _float fTimeDelta)
 		case Client::CRuiState::TYPE_DEFAULT:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 			pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-			if(m_bNextAnim == true)
-				return new CJumpSkill_MoveState(CRuiState::TYPE_CHANGE);
+			/*if(m_bNextAnim == true)
+				return new CJumpSkill_MoveState(CRuiState::TYPE_CHANGE);*/
 			break;
 		case Client::CRuiState::TYPE_CHANGE:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
@@ -56,6 +56,9 @@ CRuiState * CJumpSkill_MoveState::Tick(CRui* pRui, _float fTimeDelta)
 	if (m_eStateType == TYPE_DEFAULT)
 		Jump(pRui, fTimeDelta);
 
+
+	if (m_bNextAnim == true)
+		return new CJumpSkill_MoveState(CRuiState::TYPE_CHANGE);
 
 	return nullptr;
 }

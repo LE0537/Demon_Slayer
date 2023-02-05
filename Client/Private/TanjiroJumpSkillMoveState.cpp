@@ -105,7 +105,7 @@ void CJumpSkillMoveState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 	m_vVelocity.y += fGravity *fTimeDelta;
 	vPosition.y += m_vVelocity.y * fTimeDelta;
 
-	pTanjiro->Get_Transform()->Go_Straight(fTimeDelta);
+	//pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
 
 	_vector vecPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vecPos = XMVectorSetY(vecPos, vPosition.y);
