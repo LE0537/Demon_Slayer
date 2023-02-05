@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Effect.h"
 #include "GameInstance.h"
+#include "CollBox.h"
 
 CEffect::CEffect(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObj(pDevice, pContext)
@@ -44,8 +45,10 @@ HRESULT CEffect::Initialize(void * pArg)
 		return E_FAIL;
 
 	if (nullptr != pArg) {
-		if (EFFMOVE_TARGET == m_EffectInfo.iMoveType)
-			*(CGameObj**)pArg = this;
+		if (EFFMOVE_TARGET == m_EffectInfo.iMoveType) {
+			m_pTarget = (CGameObj*)pArg;
+			static_cast<CCollBox*>(m_pTarget)->Set_Effect(this);
+		}
 		else
 			m_pTarget = (CCharacters*)pArg;
 	}
@@ -75,12 +78,11 @@ void CEffect::Tick(_float fTimeDelta)
 
 	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 		if (m_bStart) {
-			if(m_EffectInfo.iMoveType != EFFMOVE_TARGET)
-				m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
+			m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
 			m_bStart = false;
 		}
 		else { 
-			if (m_EffectInfo.iMoveType == EFFMOVE_PLAYER) {
+			if (m_EffectInfo.iMoveType == EFFMOVE_PLAYER || m_EffectInfo.iMoveType == EFFMOVE_TARGET) {
 				m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 			}
 		}

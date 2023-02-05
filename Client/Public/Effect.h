@@ -61,7 +61,7 @@ private:
 
 	_bool										m_bStart;
 
-	CCharacters*								m_pTarget;
+	CGameObj*								m_pTarget;
 
 	vector<class CEffect_Texture*>				m_Textures;
 	vector<class CEffect_Mesh*>					m_Meshes;
