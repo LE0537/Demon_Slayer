@@ -371,6 +371,9 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 		++iIndex;
 	}
 
+	//	객체 Render가 끝나면 PostProcessing_n 를 Master Target에 그립니다.
+	if (FAILED(Render_Master(pRTName)))
+		return E_FAIL;
 
 
 
@@ -383,9 +386,6 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 	if (FAILED(Render_UIMaster()))		//	PostProcessing2
 		return E_FAIL;					//	구조상 불가능해서 임의로 줌.
 
-	//	객체 Render가 끝나면 PostProcessing_n 를 메인 버퍼에 그립니다.
-	if (FAILED(Render_Master(pRTName)))
-		return E_FAIL;
 
 
 	if (FAILED(Render_Debug(_bDebug)))
@@ -1154,15 +1154,18 @@ HRESULT CRenderer::Render_Master(const _tchar* pTexName)
 	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
+		return E_FAIL;
 	m_pShader->Begin(0);
 	m_pVIBuffer->Render();
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
 
 	return S_OK;
 }
 
 HRESULT CRenderer::Render_UI()
 {
-	//	Target_UIMaster를 클리어합니다.
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_UIMaster"))))
 		return E_FAIL;
 	for (auto& pGameObject : m_GameObjects[RENDER_UI])
@@ -1173,7 +1176,7 @@ HRESULT CRenderer::Render_UI()
 			Safe_Release(pGameObject);
 		}
 	}
-	m_GameObjects[RENDER_UI].clear();	
+	m_GameObjects[RENDER_UI].clear();
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
@@ -1219,7 +1222,6 @@ HRESULT CRenderer::Render_UI()
 
 HRESULT CRenderer::Render_UIPOKE()
 {
-	//	Target_UIMaster를 클리어하지 않습니다.
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_UIMaster"))))
 		return E_FAIL;
 	for (auto& pGameObject : m_GameObjects[RENDER_UIPOKE])
@@ -1241,8 +1243,11 @@ HRESULT CRenderer::Render_UIPOKE()
 
 HRESULT CRenderer::Render_UIMaster()
 {
+	/*
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_PostProcessing_2"))))
 		return E_FAIL;
+	*/
+
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(L"Target_Master", m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
 
@@ -1255,10 +1260,10 @@ HRESULT CRenderer::Render_UIMaster()
 
 	m_pShader->Begin(0);
 	m_pVIBuffer->Render();
-
+/*
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
-
+*/
 
 	return S_OK;
 }
