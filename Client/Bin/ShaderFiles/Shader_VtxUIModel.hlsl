@@ -8,6 +8,7 @@ vector			g_vCamPosition;
 
 float4			g_vLightDiffuse = float4(1.f, 1.f, 1.f, 1.f); //빛의색
 float4			g_vLightAmbient = float4(0.3f, 0.3f, 0.3f, 1.f); //빛의 최소 밝기
+float4			g_vBlackAmbient = float4(0.0f, 0.0f, 0.0f, 1.f); //빛의 최소 밝기
 float4			g_vLightSpecular = float4(1.f, 1.f, 1.f, 1.f); //빛의 하이라이트 (빤딱거리는 흰색)
 
 float4			g_vLightDir = float4(1.f, -1.f, 0.f, 0.f); // 빛의방향 //방향성광원 // 해
@@ -198,14 +199,27 @@ PS_OUT PS_UI(PS_IN In)
 	vector		vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = vDiffuse;
-	//if (In.fShade < 0.05f)
-	//{
-	//	Out.vColor = (g_vLightDiffuse * vDiffuse) * saturate(0.6f + g_vLightAmbient * g_vMtrlAmbient);
-	//}
-	//else
-	//{
-	//	Out.vColor = (g_vLightDiffuse * vDiffuse) * saturate(0.4f + g_vLightAmbient * g_vMtrlAmbient);
-	//}
+
+	return Out;
+}
+PS_OUT PS_UI_BLACK(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector		vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+
+	if (In.fShade < 0.05f)
+	{
+		Out.vColor = (g_vLightDiffuse * vDiffuse) * saturate(0.6f + g_vBlackAmbient * g_vMtrlAmbient);
+	}
+	else
+	{
+		Out.vColor = (g_vLightDiffuse * vDiffuse) * saturate(0.4f + g_vBlackAmbient * g_vMtrlAmbient);
+	}
+
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 500.f, 0.f, 0.1f);
 
 	//Out.vColor = (g_vLightDiffuse * vDiffuse) * saturate(In.fShade + g_vLightAmbient * g_vMtrlAmbient);
 	//+(g_vLightSpecular * g_vMtrlSpecular) * In.fSpecular;
@@ -213,6 +227,22 @@ PS_OUT PS_UI(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MASK_BLACK(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector vMask = g_MaskTexture.Sample(CLAMPSampler, In.vTexUV);
+
+	Out.vColor = g_DiffuseTexture.Sample(CLAMPSampler, In.vTexUV);
+
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 500.f, 0.f, 0.1f);
+
+	if (vMask.r == 0.f)
+		Out.vColor.rgb = 0.7f;
+
+	return Out;
+}
 technique11 DefaultTechnique
 {
 	pass Default
@@ -245,5 +275,24 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_UI();
 	}
+	pass MASK_BLACK //3
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
 
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MASK_BLACK();
+	}
+	pass UI_BLACK //4
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_UI_BLACK();
+	}
 }

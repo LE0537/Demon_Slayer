@@ -308,7 +308,7 @@ void CCharNameUI::Set_Name_SelLevel()
 		}
 		else if(!(m_iImgNum == 2 || m_iImgNum == 3))
 		{
-			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1160.f - g_iWinSizeX * 0.5f, -780.f + g_iWinSizeY * 0.5f, -280.f, 1.f));
+			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1160.f - g_iWinSizeX * 0.5f, -780.f + g_iWinSizeY * 0.5f, -220.f, 1.f));
 
 		}
 	}
@@ -320,7 +320,10 @@ void CCharNameUI::Set_Name_SelLevel()
 			m_iImgNum = iSelNum1PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(270.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
-
+			if (pSelP1Cursor->Get_SelectUIInfo().iFrameNum == m_iImgNum || (m_iImgNum == 2 || m_iImgNum == 3))
+				dynamic_cast<CMenuModel*>(m_pModel)->Set_Black(true);
+			else
+				dynamic_cast<CMenuModel*>(m_pModel)->Set_Black(false);
 		}
 		else if (pSelP1Cursor->Get_SelComple() && pSelP1Cursor->Get_FirstSelCheck() &&
 			!pSelP1Cursor->Get_SelectUIInfo().bOni)
@@ -345,7 +348,10 @@ void CCharNameUI::Set_Name_SelLevel()
 			m_iImgNum = iSelNum2PCursor;
 			m_pModel->Set_ModelIndex(m_iImgNum);
 			m_pModel->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1010.f - g_iWinSizeX * 0.5f, -820.f + g_iWinSizeY * 0.5f, -270.f, 1.f));
-
+			if (pSelP2Cursor->Get_SelectUIInfo().iFrameNum == m_iImgNum || (m_iImgNum == 2 || m_iImgNum == 3))
+				dynamic_cast<CMenuModel*>(m_pModel)->Set_Black(true);
+			else
+				dynamic_cast<CMenuModel*>(m_pModel)->Set_Black(false);
 		}
 		else if (pSelP2Cursor->Get_SelComple() && pSelP2Cursor->Get_FirstSelCheck() &&
 			!pSelP2Cursor->Get_SelectUIInfo().bOni)

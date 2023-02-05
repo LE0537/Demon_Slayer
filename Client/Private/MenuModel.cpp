@@ -185,6 +185,13 @@ HRESULT CMenuModel::Render()
 
 		_uint		iNumMeshes = m_pModelCom[m_iModelIndex]->Get_NumMeshContainers();
 
+		_int iDiffuse = 0;
+		_int iMask = 1;
+		if (m_bBlack)
+		{
+			iDiffuse = 4;
+			iMask = 3;
+		}
 		for (_uint i = 0; i < iNumMeshes; ++i)
 		{
 		
@@ -195,14 +202,13 @@ HRESULT CMenuModel::Render()
 			{
 				if (FAILED(m_pModelCom[m_iModelIndex]->SetUp_Material(m_pShaderCom, "g_MaskTexture", i, aiTextureType_NORMALS)))
 					return E_FAIL;
-				//aiTextureType_OPACITY
-				//aiTextureType_NORMALS
-				if (FAILED(m_pModelCom[m_iModelIndex]->Render(m_pShaderCom, i, 1)))
+
+				if (FAILED(m_pModelCom[m_iModelIndex]->Render(m_pShaderCom, i, iMask)))
 					return E_FAIL;
 			}
 			else
 			{
-				if (FAILED(m_pModelCom[m_iModelIndex]->Render(m_pShaderCom, i, 0)))
+				if (FAILED(m_pModelCom[m_iModelIndex]->Render(m_pShaderCom, i, iDiffuse)))
 					return E_FAIL;
 			}
 		}
