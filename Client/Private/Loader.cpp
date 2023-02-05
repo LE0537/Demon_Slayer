@@ -1254,7 +1254,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_2Nobori_2"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_5Tiger_Charge"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_5Tiger_Main"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_RengokuColl_5Tiger_Particle"));	//	0205.18:20
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_5TigerColl_Particle"));	//	0205.18:20
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_Jump3Kien_Start"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_Jump3Kien_StartFire"));
