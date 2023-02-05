@@ -36,7 +36,6 @@ CKyoujuroState * CSkill_CommonState::Tick(CKyoujuro * pKyojuro, _float fTimeDelt
 		return new CIdleState();
 	}
 
-
 	return nullptr;
 }
 
@@ -144,10 +143,16 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 		{
 			_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 			_vector vCollLook = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-		
-			vCollPos.m128_f32[1] = 1.f; //추가
-			m_pCollBox2->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
+
+			if (!m_bTrue)
+			{
+				vCollPos.m128_f32[1] = 1.f; //추가
+				m_pCollBox2->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+				m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
+				m_bTrue = true;
+			}
+			m_pCollBox2->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
+
 			CCollider*	pMyCollider = m_pCollBox2->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
@@ -192,7 +197,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_5TIGER_CHARGE, pKyojuro);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_5TIGER_MAIN, pKyojuro);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_5TIGER_MAIN, &m_pEffect);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;

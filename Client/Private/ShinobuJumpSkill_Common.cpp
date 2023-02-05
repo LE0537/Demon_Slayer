@@ -64,9 +64,10 @@ CShinobuState * CJumpCommonSkillState::Late_Tick(CShinobu* pShinobu, _float fTim
 	CCharacters* m_pTarget = pShinobu->Get_BattleTarget();
 
 	m_fDelay += fTimeDelta;
-
+	if(m_fDelay > 0.3f)
+		m_fHitTime += fTimeDelta;
 	m_fTime += fTimeDelta;
-	m_fHitTime += fTimeDelta;
+	
 
 
 	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
@@ -111,6 +112,7 @@ CShinobuState * CJumpCommonSkillState::Late_Tick(CShinobu* pShinobu, _float fTim
 				RELEASE_INSTANCE(CEffect_Manager);
 
 				m_fHitTime = 0.f;
+				m_iHit++;
 			}
 		}
 
@@ -182,6 +184,7 @@ CShinobuState * CJumpCommonSkillState::Late_Tick(CShinobu* pShinobu, _float fTim
 				RELEASE_INSTANCE(CEffect_Manager);
 
 				m_fHitTime = 0.f;
+				++m_iHit;
 			}
 		}
 

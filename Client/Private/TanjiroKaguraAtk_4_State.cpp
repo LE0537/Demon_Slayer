@@ -245,7 +245,7 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 	}
 	else if (m_fMove < 1.2f && m_fMove >= 0.9f)
 	{
-		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.3, pTanjiro->Get_NavigationCom());
+		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pTanjiro->Get_NavigationCom());
 		if (!m_bHit)
 		{
 			_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //Ãß°¡
