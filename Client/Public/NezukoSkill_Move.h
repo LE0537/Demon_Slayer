@@ -18,7 +18,7 @@ public:
 	virtual void Enter(CNezuko* pNezuko) override;
 	virtual void Exit(CNezuko* pNezuko) override;
 
-
+	virtual CNezukoState* CommandCheck(CNezuko* pNezuko) override;
 private:
 	void Fall_Height(CNezuko* pNezuko, _float fTimeDelta);
 	void Increase_Height(CNezuko* pNezuko, _float fTimeDelta);
@@ -44,7 +44,7 @@ private:
 	_float m_fHeight;
 	_float m_fOriginPosY;
 	_bool m_bNextAnim;
-	
+	_float m_fComboDelay = 0.f;
 };
 END
 END

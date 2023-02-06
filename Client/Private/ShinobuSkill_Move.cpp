@@ -4,6 +4,14 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
+
+#include "ShinobuSkill_Common.h"
+#include "ShinobuSkill_Move.h"
+#include "ShinobuSkill_Upper.h"
+#include "ShinobuTargetRushState.h"
+#include "ShinobuAtk_1_State.h"
+#include "ShinobuDashState.h"
+#include "ShinobuJumpState.h"
 using namespace Shinobu;
 
 
@@ -26,9 +34,136 @@ CShinobuState * CSkill_MoveState::HandleInput(CShinobu* pShinobu)
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 
+	m_fDuration = pShinobu->Get_Model()->Get_Duration_Index(CShinobu::ANIM_SKILL_COMMON_2);
+	m_fCurrentDuration = pShinobu->Get_Model()->Get_CurrentTime_Index(CShinobu::ANIM_SKILL_COMMON_2);
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+	if (fRatio >= 0.7f)
+	{
+		switch (pShinobu->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // аб
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RF);
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_S)) // ╣з
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // аб
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LB);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_BACK);
+				}
+			}
 
 
-	return nullptr;
+			else if (pGameInstance->Key_Pressing(DIK_A)) // аб
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RIGHT);
+			}
+			break;
+		case 2:
+			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RF);
+
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // ╣з
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LB);
+
+
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_BACK);
+
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RIGHT);
+
+			}
+			break;
+		}
+	}
+	return CommandCheck(pShinobu);
 }
 
 CShinobuState * CSkill_MoveState::Tick(CShinobu* pShinobu, _float fTimeDelta)
@@ -221,5 +356,96 @@ void CSkill_MoveState::Move(CShinobu * pShinobu, _float fTimeDelta)
 		pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 2.0f, pShinobu->Get_NavigationCom());
 	}
 
+}
+
+CShinobuState * CSkill_MoveState::CommandCheck(CShinobu * pShinobu)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pShinobu->Get_Model()->Get_Duration_Index(CShinobu::ANIM_SKILL_MOVE_2);
+	m_fCurrentDuration = pShinobu->Get_Model()->Get_CurrentTime_Index(CShinobu::ANIM_SKILL_MOVE_2);
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+	if (fRatio >= 0.7f)
+	{
+		switch (pShinobu->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Down(DIK_J))
+				return new CAtk_1_State();
+
+			if (pGameInstance->Key_Pressing(DIK_I)) // ╫╨еЁ е╟ 
+			{
+				if (pShinobu->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_O))
+					{
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_UpperState(TYPE_START);
+					}
+					else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+					{
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_MoveState(TYPE_START); // move skill
+					}
+					else
+					{
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_L))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_SPACE))
+			{
+				return new CJumpstate(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		case 2:
+			if (pGameInstance->Key_Down(DIK_Z))
+				return new CAtk_1_State();
+
+			if (pGameInstance->Key_Pressing(DIK_X)) // ╫╨еЁ е╟ 
+			{
+				if (pShinobu->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_C))
+					{
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_UpperState(TYPE_START);
+					}
+					else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+					{
+
+
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_MoveState(TYPE_START); // move skill
+
+					}
+					else
+					{
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+			{
+				return new CJumpstate(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		}
+
+	}
+
+	return nullptr;
 }
 

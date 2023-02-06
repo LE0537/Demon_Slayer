@@ -23,7 +23,7 @@ private:
 	void Increase_Height(CTanjiro* pTanjiro, _float fTimeDelta);
 	void Fall_Height(CTanjiro* pTanjiro, _float fTimeDelta);
 
-
+	virtual CTanjiroState* CommandCheck(CTanjiro* pTanjiro) override;
 
 private:
 	CWindMill*	m_pCollBox = nullptr;

@@ -20,7 +20,7 @@ public:
 
 
 	void Move(CShinobu* pShinobu, _float fTimeDelta);
-
+	virtual CShinobuState* CommandCheck(CShinobu* pShinobu) override;
 	CShinobuState* Increase_Height(CShinobu* pShinobu, _float fTimeDelta);
 	CShinobuState* Fall_Height(CShinobu* pShinobu, _float fTimeDelta);
 private:

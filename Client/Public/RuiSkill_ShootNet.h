@@ -17,6 +17,7 @@ public:
 
 	virtual void Enter(CRui* pRui) override;
 	virtual void Exit(CRui* pRui) override;
+	virtual CRuiState* CommandCheck(CRui* pRui) override;
 private:
 
 	_float m_fTime = 0.f;

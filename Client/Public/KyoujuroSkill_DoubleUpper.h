@@ -17,6 +17,7 @@ public:
 
 	virtual void Enter(CKyoujuro* pKyoujuro) override;
 	virtual void Exit(CKyoujuro* pKyoujuro) override;
+	virtual CKyoujuroState* CommandCheck(CKyoujuro* pKyoujuro) override;
 private:
 	CKyoujuroState* Jump(CKyoujuro* pKyoujuro, _float fTimeDelta);
 private:

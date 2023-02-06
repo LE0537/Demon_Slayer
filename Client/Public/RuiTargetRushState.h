@@ -17,7 +17,7 @@ public:
 
 	void Move(CRui* pRui, _float fTimeDelta);
 	void Initialize_value(CRui* pRui);
-
+	virtual CRuiState* CommandCheck(CRui* pRui) override;
 private:
 	_vector m_vTargetPosition;
 	_float m_fDistance;
