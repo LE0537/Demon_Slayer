@@ -188,7 +188,7 @@ CKyoujuroState * CSkill_CommonState::Tick(CKyoujuro * pKyojuro, _float fTimeDelt
 
 CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTimeDelta)
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CCharacters* m_pTarget = pKyojuro->Get_BattleTarget();
 	if (!m_bLook)
@@ -213,8 +213,8 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 			vCollPos.m128_f32[1] = 0.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
-			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
-			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+			CCollider*   pMyCollider = m_pCollBox->Get_Collider(); //추가
+			CCollider*   pTargetCollider = m_pTarget->Get_SphereCollider();
 
 			if (nullptr == pTargetCollider)
 				return nullptr;
@@ -232,7 +232,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 					m_pTarget->Set_Hp(-15);
 					m_pTarget->Take_Damage(0.2f, false);
 					pKyojuro->Set_Combo(1);
-					pKyojuro->Set_ComboTime(0.f);
+					pKyojuro->Set_ComboTime(1.f);
 				}
 				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
 
@@ -247,8 +247,8 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 		}
 
 
-		CCollider*	pMyCollider = pKyojuro->Get_SphereCollider();
-		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+		CCollider*   pMyCollider = pKyojuro->Get_SphereCollider();
+		CCollider*   pTargetCollider = m_pTarget->Get_SphereCollider();
 
 		if (nullptr == pTargetCollider)
 			return nullptr;
@@ -293,40 +293,39 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 			m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 			m_bTrue = true;
 		}
-			if (m_fTime < 0.9f)
-			{
-				pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pKyojuro->Get_NavigationCom());
-			}
-			if (m_fTime < 1.5f)
-			{
-				m_pCollBox2->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 2.f);
-			}
-			m_fHitTime += fTimeDelta;
-			if (m_iHit < 5 && m_fHitTime > 0.08f)
-			{
+		if (m_fTime < 0.9f)
+		{
+			pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pKyojuro->Get_NavigationCom());
+		}
+		if (m_fTime < 1.5f)
+		{
+			m_pCollBox2->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 2.f);
+		}
+		m_fHitTime += fTimeDelta;
+		if (m_iHit < 5 && m_fHitTime > 0.08f)
+		{
 
-				CCollider*	pMyCollider = m_pCollBox2->Get_Collider(); //추가
-				CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+			CCollider*   pMyCollider = m_pCollBox2->Get_Collider(); //추가
+			CCollider*   pTargetCollider = m_pTarget->Get_SphereCollider();
 
-				if (nullptr == pTargetCollider)
-					return nullptr;
+			if (nullptr == pTargetCollider)
+				return nullptr;
 
-				if (pMyCollider->Collision(pTargetCollider))
+			if (pMyCollider->Collision(pTargetCollider))
+			{
+				_vector vPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{
-					_vector vPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
-
-					if (m_pTarget->Get_PlayerInfo().bGuard)
-					{
-						m_pTarget->Get_GuardHit(0);
-					}
-
+					m_pTarget->Get_GuardHit(0);
+				}
 				else
 				{
 					m_pTarget->Set_Hp(-15);
 					m_pTarget->Take_Damage(0.2f, false);
 					pKyojuro->Set_Combo(1);
-					pKyojuro->Set_ComboTime(0.f);
+					pKyojuro->Set_ComboTime(1.f);
 				}
 
 				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
@@ -338,10 +337,10 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 				RELEASE_INSTANCE(CEffect_Manager);
 				m_fHitTime = 0.f;
 				++m_iHit;
-
 			}
 		}
-	
+	}
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	pKyojuro->Get_Model()->Play_Animation(fTimeDelta);
