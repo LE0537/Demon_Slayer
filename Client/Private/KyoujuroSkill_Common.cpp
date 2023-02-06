@@ -6,6 +6,14 @@
 #include "Layer.h"
 #include "Tanjiro.h"
 #include "Effect_Manager.h"
+#include "KyoujuroDashState.h"
+#include "KyoujuroDashState.h"
+#include "KyoujuroSkill_Common.h"
+#include "KyoujuroSkill_DashSlash.h"
+#include "KyoujuroSkill_DoubleUpper.h"
+#include "KyoujuroJumpState.h"
+#include "KyoujuroTargetRushState.h"
+#include "KyoujuroAtk_1_State.h"
 using namespace Kyoujuro;
 
 
@@ -23,7 +31,146 @@ CSkill_CommonState::CSkill_CommonState()
 CKyoujuroState * CSkill_CommonState::HandleInput(CKyoujuro * pKyojuro)
 {
 
-	return nullptr;
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pKyojuro->Get_Model()->Get_Duration_Index(pKyojuro->Get_AnimIndex());
+	m_fCurrentDuration = pKyojuro->Get_Model()->Get_CurrentTime_Index(pKyojuro->Get_AnimIndex());
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+	if (fRatio >= 0.6f)
+	{
+		switch (pKyojuro->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Down(DIK_J))
+				return new CAtk_1_State();
+
+			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // аб
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RF);
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_S)) // ╣з
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // аб
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LB);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_BACK);
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_A)) // аб
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RIGHT);
+			}
+			break;
+		case 2:
+			if (pGameInstance->Key_Down(DIK_Z))
+				return new CAtk_1_State();
+
+			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RF);
+
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // ╣з
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LB);
+
+
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_BACK);
+
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RIGHT);
+
+			}
+			break;
+		}
+	}
+
+
+	return CommandCheck(pKyojuro);
 }
 
 CKyoujuroState * CSkill_CommonState::Tick(CKyoujuro * pKyojuro, _float fTimeDelta)
@@ -217,5 +364,91 @@ void CSkill_CommonState::Exit(CKyoujuro * pKyojuro)
 	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_COMMON);
 	m_pCollBox->Set_Dead();
 	m_pCollBox2->Set_Dead();
+}
+
+CKyoujuroState * CSkill_CommonState::CommandCheck(CKyoujuro * pKyoujuro)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pKyoujuro->Get_Model()->Get_Duration_Index(CKyoujuro::ANIM_SKILL_COMMON);
+	m_fCurrentDuration = pKyoujuro->Get_Model()->Get_CurrentTime_Index(CKyoujuro::ANIM_SKILL_COMMON);
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+
+	if (fRatio >= 0.5f)
+	{
+		switch (pKyoujuro->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Pressing(DIK_I)) // ╫╨еЁ е╟ 
+			{
+				if (pKyoujuro->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_O))
+					{
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_DoubleUpperState();
+					}
+					else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+					{
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_DashSlashState(); // move skill
+					}
+					else
+					{
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_L))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_SPACE))
+			{
+				return new CJumpState(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		case 2:
+			if (pGameInstance->Key_Pressing(DIK_X)) // ╫╨еЁ е╟ 
+			{
+				if (pKyoujuro->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_C))
+					{
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_DoubleUpperState();
+					}
+					else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+					{
+
+
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_DashSlashState(); // move skill
+
+					}
+					else
+					{
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+			{
+				return new CJumpState(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		}
+
+	}
+
+	return nullptr;
 }
 

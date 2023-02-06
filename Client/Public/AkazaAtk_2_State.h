@@ -17,7 +17,7 @@ public:
 	virtual void Enter(CAkaza* pAkaza) override;
 	virtual void Exit(CAkaza* pAkaza) override;
 
-
+	virtual CAkazaState* CommandCheck(CAkaza* pAkaza) override;
 private:
 	CBaseAtk*	m_pCollBox = nullptr;
 	_bool m_bAtkCombo = false;

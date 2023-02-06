@@ -9,6 +9,13 @@
 #include "TanjiroSkill_WaterMill.h"
 #include "TanjiroSkill_WindMill.h"
 #include "TanjiroAtk_1_State.h"
+
+#include "TanjiroKaguraSkill_Common.h"
+#include "TanjiroKaguraSkill_Move.h"
+#include "TanjiroKaguraSkill_Sphere.h"
+#include "TanjiroKaguraJumpSkill_Common.h"
+#include "TanjiroKaguraJumpSkill_Move.h"
+#include "TanjiroKaguraAtk_1_State.h"
 using namespace Tanjiro;
 
 CTargetRushState::CTargetRushState(STATE_TYPE eType)
@@ -26,7 +33,15 @@ CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 	{
 	case 1:
 		if (pGameInstance->Key_Down(DIK_J))
-			return new CAtk_1_State();
+		{
+			if (pTanjiro->Get_KaguraMode() == true)
+			{
+				return new CAtk_1_KaguraState();
+			}
+			else
+				return new CAtk_1_State();
+		}
+			
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 		{
@@ -85,7 +100,14 @@ CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 	case 2:
 
 		if (pGameInstance->Key_Down(DIK_Z))
-			return new CAtk_1_State();
+		{
+			if (pTanjiro->Get_KaguraMode() == true)
+			{
+				return new CAtk_1_KaguraState();
+			}
+			else
+				return new CAtk_1_State();
+		}
 
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 		{
@@ -332,13 +354,19 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 				if (pGameInstance->Key_Pressing(DIK_O))
 				{
 					pTanjiro->Set_SkillBar(-200);
-					return new CSkill_WindMillState(TYPE_START);
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_SphereState();
+					else
+						return new CSkill_WindMillState(TYPE_START);
 				}
 				else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
 				{
 
-
 					pTanjiro->Set_SkillBar(-200);
+
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_MoveState();
+					else
 					return new CSkill_WaterMillState(TYPE_START); // move skill
 
 				}
@@ -346,6 +374,10 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 				else
 				{
 					pTanjiro->Set_SkillBar(-200);
+
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_CommonState();
+					else
 					return new CSkill_CommonState();
 				}
 			}
@@ -367,6 +399,9 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 				if (pGameInstance->Key_Pressing(DIK_C))
 				{
 					pTanjiro->Set_SkillBar(-200);
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_SphereState();
+					else
 					return new CSkill_WindMillState(TYPE_START);
 				}
 				else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
@@ -374,6 +409,9 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 
 
 					pTanjiro->Set_SkillBar(-200);
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_MoveState();
+					else
 					return new CSkill_WaterMillState(TYPE_START); // move skill
 
 				}
@@ -381,6 +419,9 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 				else
 				{
 					pTanjiro->Set_SkillBar(-200);
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_CommonState();
+					else
 					return new CSkill_CommonState();
 				}
 			}

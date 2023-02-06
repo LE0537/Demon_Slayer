@@ -6,6 +6,14 @@
 #include "Layer.h"
 #include "Kyoujuro.h"
 #include "Effect_Manager.h"
+
+#include "TanjiroJumpState.h"
+#include "TanjiroKaguraSkill_Common.h"
+#include "TanjiroKaguraSkill_Move.h"
+#include "TanjiroKaguraSkill_Sphere.h"
+#include "TanjiroDashState.h"
+#include "TanjiroTargetRushState.h"
+#include "TanjiroJumpState.h"
 using namespace Tanjiro;
 
 
@@ -23,7 +31,7 @@ CKaguraSkill_CommonState::CKaguraSkill_CommonState()
 CTanjiroState * CKaguraSkill_CommonState::HandleInput(CTanjiro * pTanjiro)
 {
 
-	return nullptr;
+	return CommandCheck(pTanjiro);
 }
 
 CTanjiroState * CKaguraSkill_CommonState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
@@ -188,5 +196,98 @@ void CKaguraSkill_CommonState::Enter(CTanjiro * pTanjiro)
 void CKaguraSkill_CommonState::Exit(CTanjiro * pTanjiro)
 {
 	m_pCollBox->Set_Dead();
+}
+
+CTanjiroState * CKaguraSkill_CommonState::CommandCheck(CTanjiro * pTanjiro)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pTanjiro->Get_Model()->Get_Duration_Index(CTanjiro::ANIM_SKILL_KAGURA_COMMON);
+	m_fCurrentDuration = pTanjiro->Get_Model()->Get_CurrentTime_Index(CTanjiro::ANIM_SKILL_KAGURA_COMMON);
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+	//printf_s("Ratio : %f \n", fRatio);
+	//printf_s("Duration : %f \n", m_fDuration);
+	//printf_s("current : %f \n", m_fCurrentDuration);
+
+	if (fRatio >= 0.2f)
+	{
+		switch (pTanjiro->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
+			{
+				if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_O))
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_SphereState();
+					}
+					else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+					{
+
+
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_MoveState(); // move skill
+
+					}
+
+					else
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_L))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_SPACE))
+			{
+				return new CJumpstate(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		case 2:
+			if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
+			{
+				if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_C))
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_SphereState();
+					}
+					else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+					{
+
+
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_MoveState(); // move skill
+
+					}
+
+					else
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CKaguraSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+			{
+				return new CJumpstate(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		}
+	}
+
+	return nullptr;
 }
 

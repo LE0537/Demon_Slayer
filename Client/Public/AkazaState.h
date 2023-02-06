@@ -52,7 +52,7 @@ public:
 
 	virtual void Enter(CAkaza* pAkaza) {};
 	virtual void Exit(CAkaza* pAkaza) {};
-
+	virtual CAkazaState* CommandCheck(CAkaza* pAkaza) { return nullptr; };
 	CAkazaState* ChangeState(CAkaza* pAkaza, CAkazaState* pCurrentState, CAkazaState* pNewState)
 	{
 		if (pCurrentState)
@@ -76,6 +76,8 @@ protected:
 	STATE_ID m_eStateId = STATE_END;
 
 	STATE_ID m_ePreState = STATE_END;
+	_float m_fDuration = 0.f;
+	_float m_fCurrentDuration = 0.f;
 };
 
 END

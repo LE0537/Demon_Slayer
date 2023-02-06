@@ -33,129 +33,137 @@ CTanjiroState * CSkill_CommonState::HandleInput(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	switch (pTanjiro->Get_i1P())
+	m_fDuration = pTanjiro->Get_Model()->Get_Duration_Index(CTanjiro::ANIM_SKILL_COMMON);
+	m_fCurrentDuration = pTanjiro->Get_Model()->Get_CurrentTime_Index(CTanjiro::ANIM_SKILL_COMMON);
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+
+	if (fRatio >= 0.7f)
 	{
-	case 1:
-		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
+		switch (pTanjiro->Get_i1P())
 		{
-			if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+		case 1:
+			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RF);
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_S)) // µÚ
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LB);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_BACK);
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+			{
+
 				if (pGameInstance->Key_Pressing(DIK_L))
-					return new CDashState(DIR_LF);
+					return new CDashState(DIR_LEFT);
+
 			}
 			else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
 			{
 				if (pGameInstance->Key_Pressing(DIK_L))
-					return new CDashState(DIR_RF);
+					return new CDashState(DIR_RIGHT);
 			}
-			else
+			break;
+		case 2:
+
+			if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 			{
-				if (pGameInstance->Key_Pressing(DIK_L))
-					return new CDashState(DIR_STRAIGHT);
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RF);
+
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_STRAIGHT);
+				}
 			}
-		}
 
-		else if (pGameInstance->Key_Pressing(DIK_S)) // µÚ
-		{
-			if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // µÚ
 			{
-				if (pGameInstance->Key_Pressing(DIK_L))
-					return new CDashState(DIR_LB);
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LB);
+
+
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_BACK);
+
+				}
 			}
-			else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì 
+
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
 			{
-
-				if (pGameInstance->Key_Pressing(DIK_L))
-					return new CDashState(DIR_RB);
-
-			}
-			else
-			{
-				if (pGameInstance->Key_Pressing(DIK_L))
-					return new CDashState(DIR_BACK);
-			}
-		}
-
-
-		else if (pGameInstance->Key_Pressing(DIK_A)) // ÁÂ
-		{
-
-			if (pGameInstance->Key_Pressing(DIK_L))
-				return new CDashState(DIR_LEFT);
-
-		}
-		else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
-		{
-			if (pGameInstance->Key_Pressing(DIK_L))
-				return new CDashState(DIR_RIGHT);
-		}
-		break;
-	case 2:
-
-		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
-		{
-			if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
-			{
-
 				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-					return new CDashState(DIR_LF);
+					return new CDashState(DIR_LEFT);
+
 			}
 			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
 			{
-
 				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-					return new CDashState(DIR_RF);
-
+					return new CDashState(DIR_RIGHT);
 
 			}
-			else
-			{
-				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-					return new CDashState(DIR_STRAIGHT);
-			}
+			break;
 		}
-
-		else if (pGameInstance->Key_Pressing(DIK_DOWN)) // µÚ
-		{
-			if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
-			{
-
-				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-					return new CDashState(DIR_LB);
-
-
-			}
-			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì 
-			{
-
-				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-					return new CDashState(DIR_RB);
-
-			}
-			else
-			{
-				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-					return new CDashState(DIR_BACK);
-
-			}
-		}
-
-
-		else if (pGameInstance->Key_Pressing(DIK_LEFT)) // ÁÂ
-		{
-			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-				return new CDashState(DIR_LEFT);
-
-		}
-		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ¿ì
-		{
-			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-				return new CDashState(DIR_RIGHT);
-
-		}
-		break;
 	}
-
 
 	return CommandCheck(pTanjiro);
 }
@@ -305,16 +313,16 @@ CTanjiroState * CSkill_CommonState::CommandCheck(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	m_fDuration = pTanjiro->Get_Model()->Get_Duration();
-	m_fCurrentDuration = pTanjiro->Get_Model()->Get_CurrentTime();
+	m_fDuration = pTanjiro->Get_Model()->Get_Duration_Index(CTanjiro::ANIM_SKILL_COMMON);
+	m_fCurrentDuration = pTanjiro->Get_Model()->Get_CurrentTime_Index(CTanjiro::ANIM_SKILL_COMMON);
 
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
-	printf_s("Ratio : %f \n", fRatio);
-	printf_s("Duration : %f \n", m_fDuration);
-	printf_s("current : %f \n", m_fCurrentDuration);
+	//printf_s("Ratio : %f \n", fRatio);
+	//printf_s("Duration : %f \n", m_fDuration);
+	//printf_s("current : %f \n", m_fCurrentDuration);
 
-	if (fRatio >= 0.8f)
+	if (fRatio >= 0.7f)
 	{
 		switch (pTanjiro->Get_i1P())
 		{
