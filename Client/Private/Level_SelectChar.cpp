@@ -51,7 +51,7 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 		{
 			m_fDelayTime += fTimeDelta;
 
-			if (m_fDelayTime >= 7.f)
+			if (m_fDelayTime >= 4.f)
 			{
 				_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
 				_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
