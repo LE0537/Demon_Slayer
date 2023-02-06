@@ -29,6 +29,8 @@ public:
 	void Add_Loading();
 	void Add_BattleUI();
 	void Add_BattleResult();
+	void Add_P1_Combo();
+	void Add_P2_Combo();
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LogoUI(CUI::THROWUIINFO iter);
@@ -81,6 +83,9 @@ public:
 	CUI*	Get_SelectFrame(_uint iLayerNum) { return m_pSelectFrame[iLayerNum]; }
 	void	Set_SelectFrame(CUI* pTarget, _uint iLayerNum) { m_pSelectFrame[iLayerNum] = pTarget; }
 
+	CUI*	Get_ComboUI(_uint iPlyNum) { return m_pComboNum[iPlyNum]; }
+	void	Set_ComboUI(CUI* pTargetUI,_uint iPlyNum) { m_pComboNum[iPlyNum] = pTargetUI; }
+
 	_uint   Get_Sel1P() { return m_i1p; }
 	void	Set_Sel1P(_uint _i1p) { m_i1p = _i1p; }
 
@@ -123,6 +128,8 @@ private:
 	list<CUI::LOADUIINFO>				LOADING_LOADDATALIST;
 	list<CUI::LOADUIINFO>				BATTLEUI_LOADDATALIST;
 	list<CUI::LOADUIINFO>				BATTLERESULT_LOADDATALIST;
+	list<CUI::LOADUIINFO>				P1_COMBO_LOADDATALIST;
+	list<CUI::LOADUIINFO>				P2_COMBO_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
@@ -134,6 +141,8 @@ private:
 	list<CUI::THROWUIINFO>				LOADING_DATALIST;
 	list<CUI::THROWUIINFO>				BATTLEUI_DATALIST;
 	list<CUI::THROWUIINFO>				BATTLERESULT_DATALIST;
+	list<CUI::THROWUIINFO>				P1_COMBO_DATALIST;
+	list<CUI::THROWUIINFO>				P2_COMBO_DATALIST;
 
 	string							m_sFilePath;
 	CCharacters*					m_p1P;
@@ -153,6 +162,7 @@ private:
 	CUI*							m_pMenuCursor = nullptr;
 	CUI*							m_pRoundUI = nullptr;
 	CUI*							m_pTimerUI = nullptr;
+	CUI*							m_pComboNum[2];
 
 	CUI::THROWUIINFO				m_ThrowInfo;
 	CUI::RESULTINFO					m_ResultInfo;
@@ -169,6 +179,7 @@ private:
 	_uint							m_iRoundIconLayerNum = 0;
 	_uint							m_iCharSelMsgLayerNum = 0;
 	_uint							m_iSelNameShadowLayerNum = 0;
+	_uint							m_iComboNumLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;

@@ -53,7 +53,7 @@ void CPatternWind::Tick(_float fTimeDelta)
 	else
 		m_fUvMoveTime = 0.f;
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -180.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 50.f, 1.f));
 }
 
 void CPatternWind::Late_Tick(_float fTimeDelta)

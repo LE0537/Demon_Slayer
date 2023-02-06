@@ -159,324 +159,156 @@ HRESULT CVIBuffer_Particle_Instance::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float3 fScale, _float4x4 ParentMtr, _float iSpeedType, _float fGravity,
-	_float3 vScale, _bool bRoof, _float fSpeed, _uint iParticleType, _uint iSizeX, _uint iSizeY)
+void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float2 fScale, _float4x4 ParentMtr, _float * fLifeTime, _float iSpeedType, _float fGravity)
 {
-
-	D3D11_MAPPED_SUBRESOURCE		MappedSubResource;
-	ZeroMemory(&MappedSubResource, sizeof MappedSubResource);
-
-	m_pContext->Map(m_pInstanceBuffer, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &MappedSubResource);
-
-	random_device rd;
-	mt19937 gen(rd());
-
-	normal_distribution<float> Rand(0, 99);
-
 	for (_uint i = 0; i < m_iNumInstance; ++i)
 	{
 		m_fTime[i] += fTimeDelta;
 
-		_vector		vPosition = XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition);
-		_vector		vUp = XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp);
-
-
-
-		if (m_pParticleData[i].fStartTime > m_fTime[i]) {
-			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x = 0.f;
-			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y = 0.f;
+		if (m_pParticleData[i].vSize.x < 0 || m_pParticleData[i].vSize.y < 0) {
+			m_pParticleData[i].vSize.x = 0.f;
+			m_pParticleData[i].vSize.y = 0.f;
 		}
-		else {
+
+		m_pParticleData[i].fSpeed += 0.01f * iSpeedType;
+
+		if (m_pParticleData[i].fSpeed < 0) {
+			m_pParticleData[i].fSpeed = 0.f;
+
+			m_pParticleData[i].vSize.x = 0;
+			m_pParticleData[i].vSize.y = 0;
+		}
+
+		_vector		vPosition = XMLoadFloat4(&m_pParticleData[i].vPosition);
+		_vector		vUp = XMLoadFloat4(&m_pParticleData[i].vUp);
+
+		if (m_pParticleData[i].fStartTime <= m_fTime[i]) {
 			m_pParticleData[i].vSize.x -= fScale.x;
 			m_pParticleData[i].vSize.y -= fScale.y;
 
-			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x = m_pParticleData[i].vSize.x;
-			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y = m_pParticleData[i].vSize.y;
+			vPosition += XMVector3Normalize(vUp) * m_pParticleData[i].fSpeed * fTimeDelta;
+
+			_vector vGravityDriction = XMVector3TransformNormal(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMMatrixInverse(nullptr, XMLoadFloat4x4(&ParentMtr)));
+
+			vPosition += vGravityDriction * fGravity * fTimeDelta;
 		}
 
-		((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed += 0.01f * iSpeedType;
-
-		if (((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed < 0) {
-
-			if (bRoof) {
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vRight = _float4(1.f, 0.f, 0.f, 0.f);
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vUp = _float4(0.f, 1.f, 0.f, 0.f);
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vLook = _float4(0.f, 0.f, 1.f, 0.f);
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition = _float4(0.f, 0.f, 0.f, 1.f);
-
-				_matrix		RotationMatrix, PositionMatrix, ScaleMatrix, WorldMatrix;
-
-				RotationMatrix = XMMatrixIdentity();
-				PositionMatrix = XMMatrixIdentity();
-				WorldMatrix = XMMatrixIdentity();
-				ScaleMatrix = XMMatrixIdentity();
-
-				int iRand = rand();
-
-				((VTXPARTICLE*)MappedSubResource.pData)[i].fLifeTime = rand() % 100 * 0.01f;
-
-				m_fTime[i] = 0.f;
-
-				((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed = rand() % 50 * 0.1f + fSpeed - 2.5f;
-
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vSize = _float2((rand() % 50 * 0.1f * vScale.x + vScale.x),
-					(rand() % 50 * 0.1f * vScale.x + vScale.y));
-
-				ScaleMatrix = XMMatrixScaling(((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x, ((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y, 1.f);
-
-				if (iParticleType == 0) {
-					_float x = rand() % 360;
-					_float y = rand() % 360;
-					_float z = rand() % 360;
-
-					RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight), XMConvertToRadians(x)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp), XMConvertToRadians(y)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook), XMConvertToRadians(z));
-				}
-				else if (iParticleType == 1) {
-					_float z = rand() % 360;
-					RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&(_float4)ParentMtr.m[2]), XMConvertToRadians(z));
-				}
-				else if (iParticleType == 2) {
-					_float fSizeX = (rand() % 100) * 0.001f;
-					_float fSizeZ = (rand() % 200) * 0.01f;
-
-					PositionMatrix = XMMatrixTranslation(fSizeX, 0.f, fSizeZ);
-
-					_float x = rand() % 10;
-					_float y = rand() % 360;
-					_float z = rand() % 20;
-
-					RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight), XMConvertToRadians(x)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp), XMConvertToRadians(y)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook), XMConvertToRadians(z));
-				}
-				else if (iParticleType == 3) {
-					_float x = rand() % iSizeX - iSizeX / 2;
-					_float y = rand() % 360;
-					_float z = rand() % iSizeY - iSizeY / 2;
-
-					RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight), XMConvertToRadians(x)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp), XMConvertToRadians(y)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook), XMConvertToRadians(z));
-				}
-
-				WorldMatrix = ScaleMatrix * RotationMatrix * PositionMatrix /** XMLoadFloat4x4(&mtrParent)*/;
-
-				XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight, WorldMatrix.r[0]);
-				XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp, WorldMatrix.r[1]);
-				XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook, WorldMatrix.r[2]);
-				vPosition = WorldMatrix.r[3];
-			}
-			else {
-				((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed = 0.f;
-
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x *= 0;
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y *= 0;
-			}
+		if (m_pParticleData[i].fLifeTime < m_fTime[i]) {
+			m_pParticleData[i].vSize.x = 0;
+			m_pParticleData[i].vSize.y = 0;
 		}
 
-		if (((VTXPARTICLE*)MappedSubResource.pData)[i].fLifeTime < m_fTime[i]) {
-			if (bRoof) {
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vRight = _float4(1.f, 0.f, 0.f, 0.f);
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vUp = _float4(0.f, 1.f, 0.f, 0.f);
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vLook = _float4(0.f, 0.f, 1.f, 0.f);
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition = _float4(0.f, 0.f, 0.f, 1.f);
+		XMStoreFloat4(&m_pParticleData[i].vPosition, vPosition);
 
-				_matrix		RotationMatrix, PositionMatrix, ScaleMatrix, WorldMatrix;
-
-				RotationMatrix = XMMatrixIdentity();
-				PositionMatrix = XMMatrixIdentity();
-				WorldMatrix = XMMatrixIdentity();
-				ScaleMatrix = XMMatrixIdentity();
-
-				int iRand = rand();
-
-				((VTXPARTICLE*)MappedSubResource.pData)[i].fLifeTime = rand() % 100 * 0.01f;
-
-				m_fTime[i] = 0.f;
-
-				((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed = rand() % 50 * 0.1f + fSpeed - 2.5f;
-
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vSize = _float2((rand() % 50 * 0.1f * vScale.x + vScale.x),
-					(rand() % 50 * 0.1f * vScale.x + vScale.y));
-
-				ScaleMatrix = XMMatrixScaling(((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x, ((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y, 1.f);
-
-				if (iParticleType == 0) {
-					_float x = rand() % 360;
-					_float y = rand() % 360;
-					_float z = rand() % 360;
-
-					RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight), XMConvertToRadians(x)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp), XMConvertToRadians(y)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook), XMConvertToRadians(z));
-				}
-				else if (iParticleType == 1) {
-					_float z = rand() % 360;
-					RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&(_float4)ParentMtr.m[2]), XMConvertToRadians(z));
-				}
-				else if (iParticleType == 2) {
-
-					_float fSizeX = (rand() % iSizeX) * 0.01f;
-					_float fSizeZ = (rand() % iSizeY) * 0.01f;
-
-					//_float fSizeX = (rand() % 100) * 0.001f;
-					//_float fSizeZ = (rand() % 200) * 0.01f;
-
-					PositionMatrix = XMMatrixTranslation(fSizeX, 0.f, fSizeZ);
-
-					_float x = rand() % 10;
-					_float y = rand() % 360;
-					_float z = rand() % 20;
-
-					RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight), XMConvertToRadians(x)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp), XMConvertToRadians(y)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook), XMConvertToRadians(z));
-				}
-				else if (iParticleType == 3) {
-					_float x = rand() % iSizeX - iSizeX / 2;
-					_float y = rand() % 360;
-					_float z = rand() % iSizeY - iSizeY / 2;
-
-					RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight), XMConvertToRadians(x)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp), XMConvertToRadians(y)) *
-						XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook), XMConvertToRadians(z));
-				}
-
-				WorldMatrix = ScaleMatrix * RotationMatrix * PositionMatrix /** XMLoadFloat4x4(&mtrParent)*/;
-
-				XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight, WorldMatrix.r[0]);
-				XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp, WorldMatrix.r[1]);
-				XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook, WorldMatrix.r[2]);
-				vPosition = WorldMatrix.r[3];
-			}
-			else {
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x *= 0;
-				((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y *= 0;
-			}
-		}
-
-		vPosition += XMVector3Normalize(vUp) * ((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed * fTimeDelta;
-
-		_vector vGravityDriction = XMVector3TransformNormal(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMMatrixInverse(nullptr, XMLoadFloat4x4(&ParentMtr)));
-
-		vPosition += vGravityDriction * fGravity * fTimeDelta;
-
-		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition, vPosition);
-
-
-		if (((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x < 0) {
-			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x = 0.f;
-		}
-		if (((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y < 0) {
-			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y = 0.f;
-		}
-
-		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook,
-			XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vLook)));
-		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight,
-			XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vRight)) * ((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x);
-		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp,
-			XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vUp)) * ((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y);
+		XMStoreFloat4(&m_pParticleData[i].vRight, XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vRight)) * m_pParticleData[i].vSize.x);
+		XMStoreFloat4(&m_pParticleData[i].vUp, XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vUp)) * m_pParticleData[i].vSize.y);
+		XMStoreFloat4(&m_pParticleData[i].vLook, XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vLook)));
 	}
 
-	m_pContext->Unmap(m_pInstanceBuffer, 0);
-}
-
-void CVIBuffer_Particle_Instance::Reset(_float3 vScale, _float fLifeTime, _float fSpeed, _uint iParticleType,
-	_float4x4 mtrParent, _uint iSizeX, _uint iSizeY, _bool bRoof)
-{
 	D3D11_MAPPED_SUBRESOURCE		MappedSubResource;
 	ZeroMemory(&MappedSubResource, sizeof MappedSubResource);
 
 	m_pContext->Map(m_pInstanceBuffer, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &MappedSubResource);
 
-	random_device rd;
-	mt19937 gen(rd());
+	for (_uint i = 0; i < m_iNumInstance; ++i)
+	{
+		((VTXPARTICLE*)MappedSubResource.pData)[i].fLifeTime = m_pParticleData[i].fLifeTime;
+		((VTXPARTICLE*)MappedSubResource.pData)[i].fStartTime = m_pParticleData[i].fStartTime;
+		((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed = m_pParticleData[i].fSpeed;
+		((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition = m_pParticleData[i].vPosition;
 
-	normal_distribution<float> Rand(0, 99);
+		if (m_pParticleData[i].fStartTime <= m_fTime[i]) {
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize = m_pParticleData[i].vSize;
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vRight = m_pParticleData[i].vRight;
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vUp = m_pParticleData[i].vUp;
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vLook = m_pParticleData[i].vLook;
+		}
+		else {
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize = _float2(0.f, 0.f);
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vRight = _float4(0.f, 0.f, 0.f, 0.f);
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vUp = _float4(0.f, 0.f, 0.f, 0.f);
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vLook = _float4(0.f, 0.f, 0.f, 0.f);
+
+		}
+	}
+
+	m_pContext->Unmap(m_pInstanceBuffer, 0);
+}
+
+void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float2 fScale, _float2 * vTexScale, _float4x4 ParentMtr, _float * fLifeTime, _float iSpeedType, _float fGravity,
+	_float * fSpeed, _uint iParticleType, _uint iSizeX, _uint iSizeY, _float fDirectionX, _float fDirectionY, _float fRemaintingTime)
+{
+	for (_uint i = 0; i < m_iNumInstance; ++i)
+	{
+		m_fTime[i] += fTimeDelta;
+
+
+
+		m_pParticleData[i].fSpeed += 0.01f * iSpeedType;
+
+		if ((m_pParticleData[i].fLifeTime < m_fTime[i] || m_pParticleData[i].fSpeed < 0 || m_pParticleData[i].vSize.x < 0 || m_pParticleData[i].vSize.y < 0)) {
+			if (fRemaintingTime > fLifeTime[1]) {
+				Reset_One(i, vTexScale, ParentMtr, fLifeTime, fSpeed, iParticleType, iSizeX, iSizeY, fDirectionX, fDirectionY);
+			}
+			else {
+				m_pParticleData[i].vSize.x = 0;
+				m_pParticleData[i].vSize.y = 0;
+			}
+		}
+
+		_vector		vPosition = XMLoadFloat4(&m_pParticleData[i].vPosition);
+		_vector		vUp = XMLoadFloat4(&m_pParticleData[i].vUp);
+
+		if (m_pParticleData[i].fStartTime <= m_fTime[i]) {
+			m_pParticleData[i].vSize.x -= fScale.x;
+			m_pParticleData[i].vSize.y -= fScale.y;
+
+			vPosition += XMVector3Normalize(vUp) * m_pParticleData[i].fSpeed * fTimeDelta;
+
+			_vector vGravityDriction = XMVector3TransformNormal(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMMatrixInverse(nullptr, XMLoadFloat4x4(&ParentMtr)));
+
+			vPosition += vGravityDriction * fGravity * fTimeDelta;
+		}
+
+		XMStoreFloat4(&m_pParticleData[i].vPosition, vPosition);
+
+		XMStoreFloat4(&m_pParticleData[i].vRight, XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vRight)) * m_pParticleData[i].vSize.x);
+		XMStoreFloat4(&m_pParticleData[i].vUp, XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vUp)) * m_pParticleData[i].vSize.y);
+		XMStoreFloat4(&m_pParticleData[i].vLook, XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vLook)));
+	}
+
+	D3D11_MAPPED_SUBRESOURCE		MappedSubResource;
+	ZeroMemory(&MappedSubResource, sizeof MappedSubResource);
+
+	m_pContext->Map(m_pInstanceBuffer, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &MappedSubResource);
 
 	for (_uint i = 0; i < m_iNumInstance; ++i)
 	{
-		((VTXPARTICLE*)MappedSubResource.pData)[i].vRight = _float4(1.f, 0.f, 0.f, 0.f);
-		((VTXPARTICLE*)MappedSubResource.pData)[i].vUp = _float4(0.f, 1.f, 0.f, 0.f);
-		((VTXPARTICLE*)MappedSubResource.pData)[i].vLook = _float4(0.f, 0.f, 1.f, 0.f);
-		((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition = _float4(0.f, 0.f, 0.f, 1.f);
+		((VTXPARTICLE*)MappedSubResource.pData)[i].fLifeTime = m_pParticleData[i].fLifeTime;
+		((VTXPARTICLE*)MappedSubResource.pData)[i].fStartTime = m_pParticleData[i].fStartTime;
+		((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed = m_pParticleData[i].fSpeed;
+		((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition = m_pParticleData[i].vPosition;
 
-		_matrix		RotationMatrix, PositionMatrix, ScaleMatrix, WorldMatrix;
-
-		RotationMatrix = XMMatrixIdentity();
-		PositionMatrix = XMMatrixIdentity();
-		WorldMatrix = XMMatrixIdentity();
-		ScaleMatrix = XMMatrixIdentity();
-
-		int iRand = rand();
-
-		if (bRoof) {
-			((VTXPARTICLE*)MappedSubResource.pData)[i].fLifeTime = rand() % 100 * 0.01f;
+		if (m_pParticleData[i].fStartTime <= m_fTime[i]) {
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize = m_pParticleData[i].vSize;
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vRight = m_pParticleData[i].vRight;
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vUp = m_pParticleData[i].vUp;
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vLook = m_pParticleData[i].vLook;
 		}
 		else {
-			((VTXPARTICLE*)MappedSubResource.pData)[i].fLifeTime = iRand % 20 * 0.1f + fLifeTime - 1.f;
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vSize = _float2(0.f, 0.f);
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vRight = _float4(0.f, 0.f, 0.f, 0.f);
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vUp = _float4(0.f, 0.f, 0.f, 0.f);
+			((VTXPARTICLE*)MappedSubResource.pData)[i].vLook = _float4(0.f, 0.f, 0.f, 0.f);
+
 		}
-		m_fTime[i] = 0.f;
-
-		((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed = rand() % 50 * 0.1f + fSpeed - 2.5f;
-
-		((VTXPARTICLE*)MappedSubResource.pData)[i].vSize = _float2((rand() % 50 * 0.1f * vScale.x + vScale.x),
-			(rand() % 50 * 0.1f * vScale.x + vScale.y));
-
-		ScaleMatrix = XMMatrixScaling(((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.x, ((VTXPARTICLE*)MappedSubResource.pData)[i].vSize.y, 1.f);
-
-		if (iParticleType == 0) {
-			_float x = rand() % 360;
-			_float y = rand() % 360;
-			_float z = rand() % 360;
-
-			RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight), XMConvertToRadians(x)) *
-				XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp), XMConvertToRadians(y)) *
-				XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook), XMConvertToRadians(z));
-		}
-		else if (iParticleType == 1) {
-			_float z = rand() % 360;
-			RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&(_float4)mtrParent.m[2]), XMConvertToRadians(z));
-		}
-		else if (iParticleType == 2) {
-			_float fSizeX = (rand() % iSizeX) * 0.01f;
-			_float fSizeZ = (rand() % iSizeY) * 0.01f;
-
-			PositionMatrix = XMMatrixTranslation(fSizeX, 0.f, fSizeZ);
-
-			_float x = rand() % 10;
-			_float y = rand() % 360;
-			_float z = rand() % 20;
-
-			RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight), XMConvertToRadians(x)) *
-				XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp), XMConvertToRadians(y)) *
-				XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook), XMConvertToRadians(z));
-		}
-		else if (iParticleType == 3) {
-			_float x = rand() % iSizeX - iSizeX / 2;
-			_float y = rand() % 360;
-			_float z = rand() % iSizeY - iSizeY / 2;
-
-			RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight), XMConvertToRadians(x)) *
-				XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp), XMConvertToRadians(y)) *
-				XMMatrixRotationAxis(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook), XMConvertToRadians(z));
-		}
-
-		WorldMatrix = ScaleMatrix * RotationMatrix * PositionMatrix /** XMLoadFloat4x4(&mtrParent)*/;
-
-		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight, WorldMatrix.r[0]);
-		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp, WorldMatrix.r[1]);
-		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook, WorldMatrix.r[2]);
-		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition, WorldMatrix.r[3]);
 	}
+
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
 }
 
 void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _float2 * vTexScale, _float4x4 mtrParent, _uint iParticleType, _uint iPartSizeX,
-	_uint iPartSizeY, _float fDirectionX, _float fDirectionY)
+	_uint iPartSizeY, _float fDirectionX, _float fDirectionY, _float StartTurm)
 {
 	random_device rd;
 	mt19937 Seed(rd());
@@ -487,7 +319,7 @@ void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _fl
 	uniform_real_distribution<float> Dgree360(0, 360);
 	uniform_real_distribution<float> Dgree20(0, 5);
 	uniform_real_distribution<float> LifeTimeRand(fLifeTime[0], fLifeTime[1]);
-	uniform_real_distribution<float> StartTimeRand(fLifeTime[0] / 5.f, fLifeTime[1] / 5.f);
+	uniform_real_distribution<float> StartTimeRand(0, StartTurm);
 	uniform_real_distribution<float> PartSizeXRand(0, iPartSizeX);
 	uniform_real_distribution<float> PartSizeYRand(0, iPartSizeY);
 	uniform_real_distribution<float> ConeSizeXRand(Min, iPartSizeX / 2);
@@ -518,7 +350,7 @@ void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _fl
 
 		m_pParticleData[i].vSize = _float2(TexSizeXRand(Seed), TexSizeYRand(Seed));
 
-		m_pParticleData[i].fStartTime = 0.f;
+		m_pParticleData[i].fStartTime = StartTimeRand(Seed);
 
 		ScaleMatrix = XMMatrixScaling(m_pParticleData[i].vSize.x, m_pParticleData[i].vSize.y, 1.f);
 
@@ -564,8 +396,6 @@ void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _fl
 
 			PositionMatrix = XMMatrixTranslation(fSizeX, 0.f, fSizeZ);
 
-			m_pParticleData[i].fStartTime = StartTimeRand(Seed);
-
 			_float x = 0;
 			_float y = Dgree360(Seed);
 			_float z = DirectionRand(Seed);
@@ -591,6 +421,7 @@ void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _fl
 	for (_uint i = 0; i < m_iNumInstance; ++i)
 	{
 		((VTXPARTICLE*)MappedSubResource.pData)[i].fLifeTime = m_pParticleData[i].fLifeTime;
+		((VTXPARTICLE*)MappedSubResource.pData)[i].fStartTime = m_pParticleData[i].fStartTime;
 		((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed = m_pParticleData[i].fSpeed;
 		((VTXPARTICLE*)MappedSubResource.pData)[i].vLook = m_pParticleData[i].vLook;
 		((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition = m_pParticleData[i].vPosition;
@@ -600,6 +431,107 @@ void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _fl
 	}
 
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
+}
+
+void CVIBuffer_Particle_Instance::Reset_One(_uint iNum, _float2 * vTexScale, _float4x4 ParentMtr, _float * fLifeTime, _float * fSpeed, _uint iParticleType, _uint iSizeX, _uint iSizeY,
+	_float fDirectionX, _float fDirectionY)
+{
+	random_device rd;
+	mt19937 Seed(rd());
+
+	uniform_real_distribution<float> Dgree360(0, 360);
+	uniform_real_distribution<float> Dgree20(0, 5);
+	uniform_real_distribution<float> LifeTimeRand(fLifeTime[0], fLifeTime[1]);
+	uniform_real_distribution<float> PartSizeXRand(0, iSizeX);
+	uniform_real_distribution<float> PartSizeYRand(0, iSizeY);
+	uniform_real_distribution<float> ConeSizeXRand(-1.f * (iSizeX / 2.f), iSizeX / 2.f);
+	uniform_real_distribution<float> ConeSizeYRand(-1.f * (iSizeY / 2.f), iSizeY / 2.f);
+	uniform_real_distribution<float> DirectionRand(fDirectionX, fDirectionY);
+	uniform_real_distribution<float> SpeedRand(fSpeed[0], fSpeed[1]);
+	uniform_real_distribution<float> TexSizeXRand(vTexScale[0].x, vTexScale[1].x);
+	uniform_real_distribution<float> TexSizeYRand(vTexScale[0].y, vTexScale[1].y);
+
+	m_pParticleData[iNum].vRight = _float4(1.f, 0.f, 0.f, 0.f);
+	m_pParticleData[iNum].vUp = _float4(0.f, 1.f, 0.f, 0.f);
+	m_pParticleData[iNum].vLook = _float4(0.f, 0.f, 1.f, 0.f);
+	m_pParticleData[iNum].vPosition = _float4(0.f, 0.f, 0.f, 1.f);
+
+	_matrix		RotationMatrix, PositionMatrix, ScaleMatrix, WorldMatrix;
+
+	RotationMatrix = XMMatrixIdentity();
+	PositionMatrix = XMMatrixIdentity();
+	WorldMatrix = XMMatrixIdentity();
+	ScaleMatrix = XMMatrixIdentity();
+
+	m_pParticleData[iNum].fLifeTime = LifeTimeRand(Seed);
+
+	m_fTime[iNum] = 0.f;
+
+	m_pParticleData[iNum].fSpeed = SpeedRand(Seed);
+
+	m_pParticleData[iNum].vSize = _float2(TexSizeXRand(Seed), TexSizeYRand(Seed));
+
+	m_pParticleData[iNum].fStartTime = 0.f;
+
+	ScaleMatrix = XMMatrixScaling(m_pParticleData[iNum].vSize.x, m_pParticleData[iNum].vSize.y, 1.f);
+
+	if (iParticleType == 0) {
+		_float x = Dgree360(Seed);
+		_float y = Dgree360(Seed);
+		_float z = Dgree360(Seed);
+
+		RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vRight), XMConvertToRadians(x)) *
+			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vUp), XMConvertToRadians(y)) *
+			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vLook), XMConvertToRadians(z));
+	}
+	else if (iParticleType == 1) {
+		_float z = Dgree360(Seed);
+		RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&(_float4)ParentMtr.m[2]), XMConvertToRadians(z));
+	}
+	else if (iParticleType == 2) {
+		_float fSizeX = PartSizeXRand(Seed);
+		_float fSizeZ = PartSizeYRand(Seed);
+
+		PositionMatrix = XMMatrixTranslation(fSizeX, 0.f, fSizeZ);
+
+		_float x = Dgree20(Seed);
+		_float y = Dgree360(Seed);
+		_float z = Dgree20(Seed);
+
+		RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vRight), XMConvertToRadians(x)) *
+			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vUp), XMConvertToRadians(y)) *
+			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vLook), XMConvertToRadians(z));
+	}
+	else if (iParticleType == 3) {
+		_float x = ConeSizeXRand(Seed);
+		_float y = Dgree360(Seed);
+		_float z = ConeSizeYRand(Seed);
+
+		RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vRight), XMConvertToRadians(x)) *
+			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vUp), XMConvertToRadians(y)) *
+			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vLook), XMConvertToRadians(z));
+	}
+	else if (iParticleType == 4) {
+		_float fSizeX = PartSizeXRand(Seed);
+		_float fSizeZ = PartSizeYRand(Seed);
+
+		PositionMatrix = XMMatrixTranslation(fSizeX, 0.f, fSizeZ);
+
+		_float x = 0;
+		_float y = Dgree360(Seed);
+		_float z = DirectionRand(Seed);
+
+		RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vRight), XMConvertToRadians(x)) *
+			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vUp), XMConvertToRadians(y)) *
+			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vLook), XMConvertToRadians(z));
+	}
+
+	WorldMatrix = ScaleMatrix * RotationMatrix * PositionMatrix;
+
+	XMStoreFloat4(&m_pParticleData[iNum].vRight, WorldMatrix.r[0]);
+	XMStoreFloat4(&m_pParticleData[iNum].vUp, WorldMatrix.r[1]);
+	XMStoreFloat4(&m_pParticleData[iNum].vLook, WorldMatrix.r[2]);
+	XMStoreFloat4(&m_pParticleData[iNum].vPosition, WorldMatrix.r[3]);
 }
 
 CVIBuffer_Particle_Instance * CVIBuffer_Particle_Instance::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, _uint iNumInstance)

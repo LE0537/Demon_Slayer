@@ -51,7 +51,7 @@ HRESULT CCloudUI::Initialize(void * pArg)
 
 void CCloudUI::Tick(_float fTimeDelta)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -180.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 50.f, 1.f));
 }
 
 void CCloudUI::Late_Tick(_float fTimeDelta)

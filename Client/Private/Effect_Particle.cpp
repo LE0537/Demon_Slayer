@@ -46,15 +46,20 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 		else
 			m_fGravity = 0.f;
 
-		_float3 fSize;
+		_float2 fSize;
 
 		if (m_ParticleInfo.bSizePix)
-			fSize = _float3(0.f, 0.f, 0.f);
+			fSize = _float2(0.f, 0.f);
 		else
-			fSize = _float3(0.00005f, 0.00005f, 0.f);
+			fSize = _float2(0.00005f, 0.00005f);
 
-		m_pVIBufferCom->Update(fTimeDelta, fSize, m_CombinedWorldMatrix, m_ParticleInfo.fSpeedType, m_fGravity, _float3(1.f, 1.f, 1.f), m_ParticleInfo.bRoof, m_ParticleInfo.fSpeed[0],
-			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY);
+		if (m_ParticleInfo.bRoof) {
+			m_pVIBufferCom->Update(fTimeDelta, fSize, m_ParticleInfo.vSize, m_CombinedWorldMatrix, m_ParticleInfo.fRoofTime, m_ParticleInfo.fSpeedType, m_fGravity, m_ParticleInfo.fSpeed,
+				m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY, m_ParticleInfo.fDirectionX, m_ParticleInfo.fDirectionY, m_ParticleInfo.fLifeTime[1] - m_fTime);
+		}
+		else {
+			m_pVIBufferCom->Update(fTimeDelta, fSize, m_CombinedWorldMatrix, m_ParticleInfo.fLifeTime, m_ParticleInfo.fSpeedType, m_fGravity);
+		}
 	}
 }
 
@@ -189,10 +194,7 @@ HRESULT CEffect_Particle::SetUp_ShaderResources()
 	m_pShaderCom->Set_RawValue("g_bDissolve", &m_ParticleInfo.iDisappear, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bUseGlowColor", &m_ParticleInfo.bUseGlowColor, sizeof(_bool));
 
-	m_pShaderCom->Set_RawValue("g_fPostProcesesingValue", &m_ParticleInfo.fPostProcessingValue, sizeof(_float));
-
 	m_pShaderCom->Set_RawValue("g_vGlowColor", &m_ParticleInfo.vGlowColor, sizeof(_float3));
-
 	return S_OK;
 }
 
@@ -217,11 +219,11 @@ void CEffect_Particle::Set_ParticleInfo(PARTICLE_INFO ParticleInfo)
 
 	if (m_ParticleInfo.bRoof) {
 		m_pVIBufferCom->Reset(m_ParticleInfo.fRoofTime, m_ParticleInfo.fSpeed, m_ParticleInfo.vSize, m_pTransformCom->Get_World4x4(),
-			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY, m_ParticleInfo.fDirectionX, m_ParticleInfo.fDirectionY);
+			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY, m_ParticleInfo.fDirectionX, m_ParticleInfo.fDirectionY, m_ParticleInfo.fStartTurm);
 	}
 	else {
 		m_pVIBufferCom->Reset(m_ParticleInfo.fLifeTime, m_ParticleInfo.fSpeed, m_ParticleInfo.vSize, m_pTransformCom->Get_World4x4(),
-			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY, m_ParticleInfo.fDirectionX, m_ParticleInfo.fDirectionY);
+			m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY, m_ParticleInfo.fDirectionX, m_ParticleInfo.fDirectionY, m_ParticleInfo.fStartTurm);
 	}
 
 	m_fTime = 0.f;

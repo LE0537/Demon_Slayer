@@ -133,6 +133,15 @@ HRESULT CCharSelMsg::Render()
 		}
 	}
 
+	if (m_ThrowUIinfo.iLayerNum >= 6)
+	{
+		m_pVIBufferCom->Render();
+		if (pP1Cursor->Get_SelComple() && pP2Cursor->Get_SelComple())
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("잠시 후 대전이 시작됩니다."), XMVectorSet(m_fX - 105.f, m_fY - 10.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		else
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("캐릭터를 선택해 주세요."), XMVectorSet(m_fX - 105.f, m_fY - 10.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+	}
+
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;

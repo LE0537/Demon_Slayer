@@ -63,9 +63,9 @@ VS_OUT VS_MAIN(VS_IN In)
 	Out.vPSize.x = In.vPSize.x * length(In.vRight.xyz);
 	Out.vPSize.y = In.vPSize.y * length(In.vUp.xyz);
 
-	Out.vRight = In.vRight;
-	Out.vUp = In.vUp;
-	Out.vLook = In.vLook;
+	Out.vRight = mul(In.vRight, g_WorldMatrix);
+	Out.vUp = mul(In.vUp, g_WorldMatrix);
+	Out.vLook = mul(In.vLook, g_WorldMatrix);
 
 	return Out;
 }

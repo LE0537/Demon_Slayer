@@ -49,7 +49,7 @@ public:
 		_float							fLifeTime[2];
 		_float							fStartTime;
 		_float							fSpeed[2];
-		_float							fPostProcessingValue;
+		_float							fStartTurm;
 		_float							fSpeedType;
 		_float							fMoveSpeed;
 		_float							fDistortionScale;
