@@ -133,6 +133,12 @@ HRESULT CCharSelMsg::Render()
 		}
 	}
 
+	if (m_ThrowUIinfo.iLayerNum >= 6)
+	{
+		m_pVIBufferCom->Render();
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("같은 캐릭터는 선택할 수 없습니다."), XMVectorSet(m_fX - 145.f, m_fY - 10.f, 0.f, 1.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+	}
+
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
