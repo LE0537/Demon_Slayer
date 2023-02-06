@@ -143,7 +143,16 @@ CRuiState * CJumpMoveAttackState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	else
 		pRui->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (!m_bEffect && m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIATK_JUMPMOVE_PULLMAIN, pRui);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIATK_JUMPMOVE_PLAYERMAIN, pRui);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIATK_JUMPMOVE_MAIN, pRui);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }

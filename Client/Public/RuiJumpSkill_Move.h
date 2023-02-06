@@ -35,6 +35,7 @@ private:
 	_bool m_bCombo = false;
 	_float m_fMove = 0.f;
 	_int   m_iHit = 0;
+	_bool  m_bEffect = false;
 };
 END
 END
