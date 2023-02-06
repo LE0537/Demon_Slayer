@@ -134,7 +134,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 				pKyojuro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pKyojuro->Get_NavigationCom());
 		}
 	}
-	else if (m_fTime >= 0.5f)
+	else if (m_fTime >= 0.5f && m_fTime < 1.5f)
 	{
 		if(m_fTime < 0.9f)
 			pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pKyojuro->Get_NavigationCom());
@@ -221,6 +221,6 @@ void CSkill_CommonState::Exit(CKyoujuro * pKyojuro)
 {
 	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_COMMON);
 	m_pCollBox->Set_Dead();
-	m_pCollBox2->Set_Dead();
+
 }
 

@@ -37,10 +37,22 @@ void CKyoujuroSkill::Tick(_float fTimeDelta)
 {
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
 
+	m_fTime += fTimeDelta;
+
+	if(m_fTime > 2.f)
+	{ 
+		m_pEffect->Set_Dead();
+		
+	}
 }
 
 void CKyoujuroSkill::Late_Tick(_float fTimeDelta)
 {
+	if (m_fTime > 2.1f)
+	{
+		
+		Set_Dead();
+	}
 	if (g_bCollBox)
 	{
 		m_pRendererCom->Add_Debug(m_pOBBCom);
