@@ -61,7 +61,7 @@ void C2PIcon::Tick(_float fTimeDelta)
 	m_fX = fP2CursorX + 20.f;
 	m_fY = fP2CursorY + 18.f;*/
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.45f, 1.f));
 
 	RELEASE_INSTANCE(CUI_Manager);
 }
@@ -76,17 +76,17 @@ void C2PIcon::Late_Tick(_float fTimeDelta)
 	if (!p1PCursor->Get_SelComple() && !p2PCursor->Get_SelComple())
 	{
 		if (nullptr != m_pRendererCom)
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+			m_pRendererCom->Add_RenderGroup_Front(CRenderer::RENDER_UIPOKE, this);
 	}
 	else if(p1PCursor->Get_SelComple() && p2PCursor->Get_SelComple())
 	{
 		if (nullptr != m_pRendererCom)
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+			m_pRendererCom->Add_RenderGroup_Front(CRenderer::RENDER_UIPOKE, this);
 	}
 	else
 	{
 		if (nullptr != m_pRendererCom)
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+			m_pRendererCom->Add_RenderGroup_Front(CRenderer::RENDER_UIPOKE, this);
 	}
 
 	RELEASE_INSTANCE(CUI_Manager);

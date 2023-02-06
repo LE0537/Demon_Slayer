@@ -22,6 +22,8 @@ HRESULT CLevel_Logo::Initialize()
 	pUIManager->Load_Data("P2_Person_BtlUI");
 	pUIManager->Load_Data("P2_Oni_BtlUI");
 	pUIManager->Load_Data("BattleUI");
+	pUIManager->Load_Data("1P_Combo");
+	pUIManager->Load_Data("2P_Combo");
 	pUIManager->Load_Data("BattleResult");
 	pUIManager->Load_Data("Change_Select");
 	pUIManager->Load_Data("LogoTitle");

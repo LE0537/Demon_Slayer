@@ -29,6 +29,16 @@ private:
 	_float3 m_vVelocity;
 	_float m_fOriginPosY;
 	_bool m_bNextAnim = false;
+private:
+	CRuiAtk*	m_pCollBox = nullptr;
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_float m_fDelay = 0.f;
+	_float m_fMove = 0.f;
+	_int   m_iMove = 0;
+	_int   m_iHit = 0;
+	_bool   m_bLook = false;
+	_float4 m_vLook;
 };
 END
 END
