@@ -17,7 +17,7 @@ public:
 
 	void Move(CKyoujuro* pKyoujuro, _float fTimeDelta);
 	void Initialize_value(CKyoujuro* pKyoujuro);
-
+	virtual CKyoujuroState* CommandCheck(CKyoujuro* pKyoujuro) override;
 private:
 	_vector m_vTargetPosition;
 	_float m_fDistance;

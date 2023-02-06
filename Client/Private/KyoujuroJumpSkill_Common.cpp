@@ -81,14 +81,14 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 						m_pTarget->Set_Hp(-20);
 						m_pTarget->Take_Damage(0.7f, true);
 						pKyojuro->Set_Combo(1);
-						pKyojuro->Set_ComboTime(1.f);
+						pKyojuro->Set_ComboTime(0.f);
 					}
 					else
 					{
 						m_pTarget->Set_Hp(-10);
 						m_pTarget->Take_Damage(0.2f, false);
 						pKyojuro->Set_Combo(1);
-						pKyojuro->Set_ComboTime(1.f);
+						pKyojuro->Set_ComboTime(0.f);
 					}
 				}
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

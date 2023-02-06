@@ -1,59 +1,70 @@
 #include "stdafx.h"
-#include "..\Public\ProgressBar.h"
-
+#include "ChangeBar.h"
 #include "GameInstance.h"
 
-CProgressBar::CProgressBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CChangeBar::CChangeBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CProgressBar::CProgressBar(const CProgressBar & rhs)
+CChangeBar::CChangeBar(const CChangeBar & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CProgressBar::Initialize_Prototype()
+HRESULT CChangeBar::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CProgressBar::Initialize(void * pArg)
+HRESULT CChangeBar::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
+
+	m_fSizeX = m_ThrowUIinfo.vScale.x;
+	m_fSizeY = m_ThrowUIinfo.vScale.y;
+	m_fX = m_ThrowUIinfo.vPos.x;
+	m_fY = m_ThrowUIinfo.vPos.y;
+
+	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 
-	m_pTransformCom->Set_Scale(XMVectorSet(300.f, 300.f, 0.f, 1.f));
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
 
-	
-	m_fX = 100.f;
-	m_fY = 360.f;
+	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+	if (!m_ThrowUIinfo.bReversal)
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
+	else
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-
 	return S_OK;
 }
 
-void CProgressBar::Tick(_float fTimeDelta)
+void CChangeBar::Tick(_float fTimeDelta)
 {
-	m_fTime -= 1.f;
-	if (m_fTime < 0.f)
-		m_fTime = 60.f;
+	m_fTime = 56.3f;
+
+	/*if (m_fTime < 56.f)
+	m_fTime = 60.f;*/
+
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void CProgressBar::Late_Tick(_float fTimeDelta)
+void CChangeBar::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CProgressBar::Render()
+HRESULT CChangeBar::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -69,7 +80,7 @@ HRESULT CProgressBar::Render()
 	return S_OK;
 }
 
-HRESULT CProgressBar::Ready_Components()
+HRESULT CChangeBar::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -84,7 +95,7 @@ HRESULT CProgressBar::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelCursor"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeGaugeBar"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -94,7 +105,7 @@ HRESULT CProgressBar::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CProgressBar::SetUp_ShaderResources()
+HRESULT CChangeBar::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -114,13 +125,13 @@ HRESULT CProgressBar::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CProgressBar * CProgressBar::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CChangeBar * CChangeBar::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CProgressBar*	pInstance = new CProgressBar(pDevice, pContext);
+	CChangeBar*	pInstance = new CChangeBar(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CRankEff"));
+		ERR_MSG(TEXT("Failed to Created : CChangeBar"));
 		Safe_Release(pInstance);
 	}
 
@@ -128,20 +139,20 @@ CProgressBar * CProgressBar::Create(ID3D11Device * pDevice, ID3D11DeviceContext 
 }
 
 
-CGameObject * CProgressBar::Clone(void * pArg)
+CGameObject * CChangeBar::Clone(void * pArg)
 {
-	CProgressBar*	pInstance = new CProgressBar(*this);
+	CChangeBar*	pInstance = new CChangeBar(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CRankEff"));
+		ERR_MSG(TEXT("Failed to Cloned : CChangeBar"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CProgressBar::Free()
+void CChangeBar::Free()
 {
 	__super::Free();
 

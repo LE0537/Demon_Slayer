@@ -17,7 +17,7 @@ public:
 
 	void Move(CNezuko* pNezuko, _float fTimeDelta);
 	void Initialize_value(CNezuko* pNezuko);
-
+	virtual CNezukoState* CommandCheck(CNezuko* pNezuko) override;
 private:
 	_vector m_vTargetPosition;
 	_float m_fDistance;
@@ -27,7 +27,7 @@ private:
 	_bool m_bNextAnim = false;
 	_bool m_bRange = false;
 
-
+	_float m_fComboDelay = 0.f;
 };
 
 END

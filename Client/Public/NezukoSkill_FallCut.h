@@ -20,7 +20,7 @@ public:
 
 	CNezukoState* Increase_Height(CNezuko* pNezuko, _float fTimeDelta);
 	CNezukoState* Fall_Height(CNezuko* pNezuko, _float fTimeDelta);
-
+	virtual CNezukoState* CommandCheck(CNezuko* pNezuko) override;
 private:
 	CBaseAtk*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;
@@ -41,7 +41,7 @@ private:
 	_float m_fGravity;
 	_bool m_bNextAnim = false;
 	_vector m_vTargetPosition;
-	
+	_float m_fComboDelay = 0.f;
 };
 END
 END

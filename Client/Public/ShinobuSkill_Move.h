@@ -20,7 +20,7 @@ public:
 
 
 	void Move(CShinobu* pShinobu, _float fTimeDelta);
-
+	virtual CShinobuState* CommandCheck(CShinobu* pShinobu) override;
 private:
 	CBaseAtk*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;

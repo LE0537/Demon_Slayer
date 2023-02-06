@@ -35,7 +35,10 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pSubTransform->Set_WorldMatrix(m_pTransform->Get_WorldMatrix());
-
+	m_fStartTime = 0.f;
+	m_fFov = 14.f;
+	m_fLookAtY = 4.f;
+	m_fAngle = 30.f;
 	return S_OK;
 }
 
@@ -72,9 +75,46 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 
 		}
 	}
+	m_fStartTime += fTimeDelta;
+#ifdef _DEBUG
+	if (!m_bLerp && m_fStartTime > 8.f)
+	{
+		m_CameraDesc.fFovy = XMConvertToRadians(25.f);
+		m_bStart = true;
+		_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(75.343f, 5.5f, 19.231f, 1.f), m_fLerpTime);
 
+		if (m_fLerpTime > 1.f)
+		{
+			m_bLerp = true;
+		}
 
-	if(true == bCamAttach)
+		m_fLerpTime += fTimeDelta;
+		m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
+		m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	}
+#else
+	if (!m_bLerp && m_fStartTime > 4.5f)
+	{
+		m_CameraDesc.fFovy = XMConvertToRadians(25.f);
+		m_bStart = true;
+		
+		_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(75.343f, 5.5f, 19.231f, 1.f), m_fLerpTime);
+		
+		if (m_fLerpTime > 1.f)
+		{
+			m_bLerp = true;
+		}
+
+		m_fLerpTime += fTimeDelta;
+		m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
+		m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	}
+#endif
+
+	if (!m_bStart)
+		Set_StartPos(fTimeDelta);
+
+	if(true == bCamAttach && m_bLerp)
 		Set_CamPos();
 
 
@@ -84,7 +124,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 		m_pTarget = m_pTarget->Get_SubChar();
 
 
-	if(true == bCamAttach)
+	if(true == bCamAttach && m_bLerp)
 		Move_CamPos(fTimeDelta);
 	
 
@@ -100,15 +140,24 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 
 	__super::Late_Tick(fTimeDelta);
 
-
 	if (!m_bBattle)
 	{
-		Set_BattleTarget();
+		Set_BattleTarget(fTimeDelta);
 		m_bBattle = true;
 	}
-
-
-	
+#ifdef _DEBUG
+	if (!m_bStartBattle && m_fStartTime > 4.5f)
+	{
+		Set_BattleStart(fTimeDelta);
+		m_bStartBattle = true;
+	}
+#else
+	if (!m_bStartBattle && m_fStartTime > 1.5f)
+	{
+		Set_BattleStart(fTimeDelta);
+		m_bStartBattle = true;
+	}
+#endif
 }
 
 HRESULT CCamera_Dynamic::Render()
@@ -352,10 +401,13 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 
 
 
-void CCamera_Dynamic::Set_BattleTarget()
+void CCamera_Dynamic::Set_BattleTarget(_float fTimeDelta)
 {
 	m_pPlayer->Set_BattleTarget(m_pTarget);
 	m_pTarget->Set_BattleTarget(m_pPlayer);
+	m_pPlayer->Get_Transform()->LookAt(m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_pTarget->Get_Transform()->LookAt(m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
 }
 
 _bool CCamera_Dynamic::CheckSubChar()
@@ -396,9 +448,79 @@ _bool CCamera_Dynamic::CheckSubChar()
 	return false;
 }
 
+void CCamera_Dynamic::Set_StartPos(_float fTimeDelta)
+{
+	_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTarget = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vLook2 = vPos - vTarget;
+
+	_float fDist = XMVectorGetX(XMVector3Length(vLook2));
+
+	vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
+	vPos.m128_f32[1] = m_fLookAtY;
+	m_pTransform->LookAt(vPos);
+	XMStoreFloat4(&m_vLerpLook, vPos);
+	vPos.m128_f32[1] = 0.f;
+	
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+//	m_pTransform->
+//	m_pTransform->Set_Rotation(_float3(0.f, 30.f, 0.f));
+
+	_vector vLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
+
+	vPos -= vLook * 35.f;
+	vPos.m128_f32[1] = 0.f;
+	vPos.m128_f32[1] += 4.7f;
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+
+	m_CameraDesc.fFovy = XMConvertToRadians(m_fFov);
+	m_fFovTime += fTimeDelta;
+#ifdef _DEBUG
+	if (m_fFovTime < 5.5f && m_fFovTime > 5.f)
+	{
+		m_fFov -= 0.6f;
+		m_fLookAtY -= 0.075f;
+	}
+	else if (m_fFovTime < 6.8f && m_fFovTime > 6.f)
+	{
+		m_fFov += 0.6f;
+		m_fLookAtY += 0.3f;
+	}
+#else
+	if (m_fFovTime < 2.5f && m_fFovTime > 2.f)
+	{
+		m_fFov -= 0.6f;
+		m_fLookAtY -= 0.075f;
+	}
+	else if (m_fFovTime < 3.8f && m_fFovTime > 3.f)
+	{
+		m_fFov += 0.6f;
+	//	m_fLookAtY += 0.3f;
+	}
+#endif
+	if (m_fLookAtY < 3.f)
+		m_fLookAtY = 3.f;
+	else if (m_fLookAtY > 4.f)
+		m_fLookAtY = 4.f;
+	if (m_fFov < 10.f)
+		m_fFov = 10.f;
+	else if (m_fFov > 25.f)
+		m_fFov = 25.f;
+
+	
+	XMStoreFloat4(&m_vCamPos, m_pTransform->Get_State(CTransform::STATE_TRANSLATION));
+}
+
+void CCamera_Dynamic::Set_BattleStart(_float fTimeDelta)
+{
+	m_pPlayer->Set_BattleStart(true);
+	m_pTarget->Set_BattleStart(true);
+
+}
+
 void CCamera_Dynamic::Camera_Shake(_float fTimeDelta)
 {
-	_float fProgress = (fTimeDelta - 0.016667) / m_fShakeFrequency;
+	_float fProgress = (fTimeDelta - 0.016667f) / m_fShakeFrequency;
 	_float fShake = m_fShakeAmount * (1.f - fProgress) * ((rand() % 200) - 100) * 0.01f;
 	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
 	vPos += XMVectorSet(fShake, fShake, fShake, 0.f);

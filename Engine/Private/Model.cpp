@@ -71,6 +71,16 @@ void CModel::Set_CurrentTime(_float fCurrentTime)
 	 m_Animations[m_iCurrentAnimIndex]->Set_CurrentTime(fCurrentTime);
 }
 
+_float CModel::Get_Duration_Index(_uint iIndex)
+{
+	return m_Animations[iIndex]->Get_Duration();
+}
+
+_float CModel::Get_CurrentTime_Index(_uint iIndex)
+{
+	return m_Animations[iIndex]->Get_CurrentTime();
+}
+
 _float CModel::Get_CurrentTime()
 {
 	return m_Animations[m_iCurrentAnimIndex]->Get_CurrentTime();

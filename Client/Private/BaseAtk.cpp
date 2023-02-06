@@ -75,7 +75,7 @@ HRESULT CBaseAtk::Ready_Components()
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
 	/* For.Com_OBB*/
-	ColliderDesc.vScale = _float3(3.f, 3.f, 3.f);
+	ColliderDesc.vScale = _float3(4.f, 4.f, 4.f);
 	ColliderDesc.vPosition = _float3(0.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
 		return E_FAIL;

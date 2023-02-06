@@ -52,7 +52,7 @@ public:
 
 	virtual void Enter(CKyoujuro* pKyoujuro) {};
 	virtual void Exit(CKyoujuro* pKyoujuro) {};
-
+	virtual CKyoujuroState* CommandCheck(CKyoujuro* pKyoujuro) { return nullptr; };
 	CKyoujuroState* ChangeState(CKyoujuro* pKyoujuro, CKyoujuroState* pCurrentState, CKyoujuroState* pNewState)
 	{
 		if (pCurrentState)
@@ -76,6 +76,9 @@ protected:
 	STATE_ID m_eStateId = STATE_END;
 
 	STATE_ID m_ePreState = STATE_END;
+
+	_float m_fDuration = 0.f;
+	_float m_fCurrentDuration = 0.f;
 };
 
 END

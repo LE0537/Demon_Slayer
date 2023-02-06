@@ -13,7 +13,7 @@ public:
 	virtual CNezukoState* HandleInput(CNezuko* pNezuko) override;
 	virtual CNezukoState* Tick(CNezuko* pNezuko, _float fTimeDelta) override;
 	virtual CNezukoState* Late_Tick(CNezuko* pNezuko, _float fTimeDelta) override;
-
+	virtual CNezukoState* CommandCheck(CNezuko* pNezuko) override;
 
 	virtual void Enter(CNezuko* pNezuko) override;
 	virtual void Exit(CNezuko* pNezuko) override;
@@ -29,6 +29,8 @@ private:
 	_bool  m_bHit = false;
 	_float4 m_vLook;
 	_bool   m_bLook = false;
+
+	_float m_fComboDelay = 0.f;
 };
 END
 END

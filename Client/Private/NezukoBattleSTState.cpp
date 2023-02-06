@@ -40,9 +40,9 @@ CNezukoState * CBattleStartState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 CNezukoState * CBattleStartState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
-	
-	pNezuko->Get_Model()->Play_Animation(fTimeDelta);
 
+		pNezuko->Get_Model()->Play_Animation2(fTimeDelta);
+	
 	return nullptr;
 }
 

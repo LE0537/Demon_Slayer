@@ -17,6 +17,7 @@ public:
 
 	virtual void Enter(CAkaza* pAkaza) override;
 	virtual void Exit(CAkaza* pAkaza) override;
+	virtual CAkazaState* CommandCheck(CAkaza* pAkaza) override;
 private:
 	CBaseAtk*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;

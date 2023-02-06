@@ -98,7 +98,7 @@ void CRuiShoot::Late_Tick(_float fTimeDelta)
 			m_ShootInfo.pTarget->Set_Hp(-30);
 			m_ShootInfo.pTarget->Take_Damage(0.1f, false);
 			m_ShootInfo.pTarget->Get_BattleTarget()->Set_Combo(1);
-			m_ShootInfo.pTarget->Get_BattleTarget()->Set_ComboTime(1.f);
+			m_ShootInfo.pTarget->Get_BattleTarget()->Set_ComboTime(0.f);
 		}
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

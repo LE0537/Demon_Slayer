@@ -9,6 +9,12 @@
 #include "Effect_Manager.h"
 #include "KyoujuroDashState.h"
 
+#include "KyoujuroSkill_Common.h"
+#include "KyoujuroSkill_DashSlash.h"
+#include "KyoujuroSkill_DoubleUpper.h"
+#include "KyoujuroJumpState.h"
+#include "KyoujuroTargetRushState.h"
+
 using namespace Kyoujuro;
 
 
@@ -166,7 +172,7 @@ CKyoujuroState * CAtk_1_State::HandleInput(CKyoujuro * pKyoujuro)
 	}
 
 
-	return nullptr;
+	return CommandCheck(pKyoujuro);
 }
 
 CKyoujuroState * CAtk_1_State::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
@@ -237,7 +243,7 @@ CKyoujuroState * CAtk_1_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.3f,false);
 					pKyoujuro->Set_Combo(1);
-					pKyoujuro->Set_ComboTime(1.f);
+					pKyoujuro->Set_ComboTime(0.f);
 				}
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
@@ -306,5 +312,91 @@ void CAtk_1_State::Enter(CKyoujuro * pKyoujuro)
 void CAtk_1_State::Exit(CKyoujuro * pKyoujuro)
 {
 	m_pCollBox->Set_Dead(); //추가
+}
+
+CKyoujuroState * CAtk_1_State::CommandCheck(CKyoujuro * pKyoujuro)
+{
+
+
+
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pKyoujuro->Get_Model()->Get_Duration();
+	m_fCurrentDuration = pKyoujuro->Get_Model()->Get_CurrentTime();
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+	switch (pKyoujuro->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
+		{
+			if (pKyoujuro->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_O))
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_DoubleUpperState();
+				}
+				else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_DashSlashState(); // move skill
+				}
+				else
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_CommonState();
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_L))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_SPACE))
+		{
+			return new CJumpState(TYPE_START, 0.f, 0.f);
+		}
+		break;
+	case 2:
+		if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
+		{
+			if (pKyoujuro->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_C))
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_DoubleUpperState();
+				}
+				else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+				{
+
+
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_DashSlashState(); // move skill
+
+				}
+				else
+				{
+					pKyoujuro->Set_SkillBar(-200);
+					return new CSkill_CommonState();
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+		{
+			return new CJumpState(TYPE_START, 0.f, 0.f);
+		}
+		break;
+	}
+
+
+
+	return nullptr;
 }
 
