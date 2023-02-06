@@ -5,12 +5,12 @@
 
 BEGIN(Client)
 
-class CProgressBar final : public CUI
+class CChangeBar final : public CUI
 {
 private:
-	CProgressBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CProgressBar(const CProgressBar& rhs);
-	virtual ~CProgressBar() = default;
+	CChangeBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CChangeBar(const CChangeBar& rhs);
+	virtual ~CChangeBar() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -26,7 +26,7 @@ private:
 private:
 	_float		m_fTime = 0.f;
 public:
-	static CProgressBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CChangeBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };

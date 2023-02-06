@@ -112,7 +112,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 					else
 					{
 						pTanjiro->Set_Combo(1);
-						pTanjiro->Set_ComboTime(1.f);
+						pTanjiro->Set_ComboTime(0.f);
 						m_pTarget->Set_Hp(-30);
 						if (!m_bHit)
 						{

@@ -105,7 +105,7 @@ CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 						m_pTarget->Set_Hp(-70);
 						m_pTarget->Take_Damage(0.6f, true);
 						pShinobu->Set_Combo(1);
-						pShinobu->Set_ComboTime(1.f);
+						pShinobu->Set_ComboTime(0.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

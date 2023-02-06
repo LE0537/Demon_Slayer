@@ -85,7 +85,7 @@ public:
 	void	   Set_AnimIndex(_int _iIndex) { m_iAnimIndex = _iIndex; }
 	void	   Set_Combo(_int _iCombo) { m_tInfo.iCombo += _iCombo; }
 	void	   Reset_Combo() { m_tInfo.iCombo = 0; }
-	void	   Set_ComboTime(_float _fTime) { m_tInfo.fComboTime += _fTime; }
+	void	   Set_ComboTime(_float _fTime) { m_tInfo.fComboTime = _fTime; }
 
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;

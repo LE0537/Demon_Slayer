@@ -59,8 +59,16 @@ void CBtlFixedImg::Tick(_float fTimeDelta)
 
 void CBtlFixedImg::Late_Tick(_float fTimeDelta)
 {
-	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+	if (m_ThrowUIinfo.iTextureNum == 15)
+	{
+		if (nullptr != m_pRendererCom)
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+	}
+	else
+	{
+		if (nullptr != m_pRendererCom)
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+	}
 }
 
 HRESULT CBtlFixedImg::Render()

@@ -139,6 +139,7 @@ void CUI_Manager::Add_P1_PersonHpUI()
 	m_iUltBarLayerNum = 0;
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
+	m_iChangeBarLayerNum = 0;
 }
 
 void CUI_Manager::Add_P1_OniHpUI()
@@ -188,6 +189,7 @@ void CUI_Manager::Add_P2_PersonHpUI()
 	m_iUltBarLayerNum = 0;
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
+	m_iChangeBarLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_OniHpUI()
@@ -584,6 +586,12 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 	case 45:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboHitDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		break;
+	case 46:
+		iter.iLayerNum = m_iChangeBarLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeGagueBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iChangeBarLayerNum;
 		break;
 	default:
 		break;

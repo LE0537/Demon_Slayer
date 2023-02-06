@@ -94,7 +94,7 @@ CNezukoState * CJumpMoveAttackState::Late_Tick(CNezuko* pNezuko, _float fTimeDel
 					m_pTarget->Set_Hp(-pNezuko->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.5f, false);
 					pNezuko->Set_Combo(1);
-					pNezuko->Set_ComboTime(1.f);
+					pNezuko->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
