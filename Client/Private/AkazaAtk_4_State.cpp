@@ -5,7 +5,13 @@
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "AkazaDashState.h"
-
+#include "AkazaAdvSkill_Common.h"
+#include "AkazaAdvSkill_Move.h"
+#include "AkazaSkill_Destroy.h"
+#include "AkazaSkill_Punch.h"
+#include "AkazaSkill_Shoot.h"
+#include "AkazaTargetRushState.h"
+#include "AkazaJumpState.h"
 using namespace Akaza;
 
 
@@ -292,5 +298,118 @@ void CAtk_4_State::Enter(CAkaza* pAkaza)
 void CAtk_4_State::Exit(CAkaza* pAkaza)
 {
 	m_pCollBox->Set_Dead(); //추가
+}
+
+CAkazaState * CAtk_4_State::CommandCheck(CAkaza * pAkaza)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pAkaza->Get_Model()->Get_Duration_Index(pAkaza->Get_AnimIndex());
+	m_fCurrentDuration = pAkaza->Get_Model()->Get_CurrentTime_Index(pAkaza->Get_AnimIndex());
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+
+	switch (pAkaza->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
+		{
+			if (pAkaza->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_O))
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CSkill_DestoryState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CSkill_PunchState(TYPE_START); // move skill
+				}
+				else
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CSkill_ShootState(TYPE_START);
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_L))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_SPACE))
+		{
+			return new CJumpState(TYPE_START, 0.f, 0.f);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_U))
+		{
+			if (pAkaza->Get_PlayerInfo().iFriendBar >= 500)
+			{
+				if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+				{
+					pAkaza->Set_FriendSkillBar(-500);
+					return new CAdvSkill_MoveState(TYPE_START);
+				}
+				else
+				{
+					pAkaza->Set_FriendSkillBar(-500);
+					return new CAdvSkill_CommmonState(TYPE_START);
+				}
+			}
+		}
+
+		break;
+	case 2:
+		if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
+		{
+			if (pAkaza->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_C))
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CSkill_DestoryState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CSkill_PunchState(TYPE_START); // move skill
+				}
+				else
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CSkill_ShootState(TYPE_START);
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+		{
+			return new CJumpState(TYPE_START, 0.f, 0.f);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_V))
+		{
+			if (pAkaza->Get_PlayerInfo().iFriendBar >= 500)
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+				{
+					pAkaza->Set_FriendSkillBar(-500);
+					return new CAdvSkill_MoveState(TYPE_START);
+				}
+				else
+				{
+					pAkaza->Set_FriendSkillBar(-500);
+					return new CAdvSkill_CommmonState(TYPE_START);
+				}
+			}
+		}
+	}
+
+
+
+	return nullptr;
 }
 

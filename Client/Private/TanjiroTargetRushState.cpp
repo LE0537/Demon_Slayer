@@ -3,6 +3,19 @@
 #include "GameInstance.h"
 #include "TanjiroIdleState.h"
 #include "TanjiroMoveState.h"
+#include "TanjiroDashState.h"
+#include "TanjiroJumpState.h"
+#include "TanjiroSkill_Common.h"
+#include "TanjiroSkill_WaterMill.h"
+#include "TanjiroSkill_WindMill.h"
+#include "TanjiroAtk_1_State.h"
+
+#include "TanjiroKaguraSkill_Common.h"
+#include "TanjiroKaguraSkill_Move.h"
+#include "TanjiroKaguraSkill_Sphere.h"
+#include "TanjiroKaguraJumpSkill_Common.h"
+#include "TanjiroKaguraJumpSkill_Move.h"
+#include "TanjiroKaguraAtk_1_State.h"
 using namespace Tanjiro;
 
 CTargetRushState::CTargetRushState(STATE_TYPE eType)
@@ -12,7 +25,156 @@ CTargetRushState::CTargetRushState(STATE_TYPE eType)
 
 CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 {
-	return nullptr;
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+
+
+	switch (pTanjiro->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Down(DIK_J))
+		{
+			if (pTanjiro->Get_KaguraMode() == true)
+			{
+				return new CAtk_1_KaguraState();
+			}
+			else
+				return new CAtk_1_State();
+		}
+			
+
+		if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
+		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // аб
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LF);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RF);
+			}
+			else
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_STRAIGHT);
+			}
+		}
+
+		else if (pGameInstance->Key_Pressing(DIK_S)) // ╣з
+		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // аб
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LB);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л 
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RB);
+
+			}
+			else
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_BACK);
+			}
+		}
+
+
+		else if (pGameInstance->Key_Pressing(DIK_A)) // аб
+		{
+
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_LEFT);
+
+		}
+		else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
+		{
+			if (pGameInstance->Key_Pressing(DIK_L))
+				return new CDashState(DIR_RIGHT);
+		}
+		break;
+	case 2:
+
+		if (pGameInstance->Key_Down(DIK_Z))
+		{
+			if (pTanjiro->Get_KaguraMode() == true)
+			{
+				return new CAtk_1_KaguraState();
+			}
+			else
+				return new CAtk_1_State();
+		}
+
+		if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
+		{
+			if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LF);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RF);
+
+
+			}
+			else
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_STRAIGHT);
+			}
+		}
+
+		else if (pGameInstance->Key_Pressing(DIK_DOWN)) // ╣з
+		{
+			if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LB);
+
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л 
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RB);
+
+			}
+			else
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_BACK);
+
+			}
+		}
+
+
+		else if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+		{
+			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CDashState(DIR_LEFT);
+
+		}
+		else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
+		{
+			if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+				return new CDashState(DIR_RIGHT);
+
+		}
+		break;
+	}
+
+
+	return CommandCheck(pTanjiro);
 }
 
 CTanjiroState * CTargetRushState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
@@ -24,14 +186,14 @@ CTanjiroState * CTargetRushState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	{
 		switch (m_eStateType)
 		{
-		case Client::CTanjiroState::TYPE_START: 
+		case Client::CTanjiroState::TYPE_START:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 			return new CTargetRushState(TYPE_LOOP);
 			break;
-		case Client::CTanjiroState::TYPE_LOOP: 
+		case Client::CTanjiroState::TYPE_LOOP:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());;
 			break;
-		case Client::CTanjiroState::TYPE_END: 
+		case Client::CTanjiroState::TYPE_END:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 			return new CIdleState(STATE_JUMP);
 			break;
@@ -170,5 +332,113 @@ void CTargetRushState::Initialize_value(CTanjiro * pTanjiro)
 		m_bRange = true;
 	else
 		m_bRange = false;
+}
+
+CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pTanjiro->Get_Model()->Get_Duration();
+	m_fCurrentDuration = pTanjiro->Get_Model()->Get_CurrentTime();
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+
+	switch (pTanjiro->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Pressing(DIK_I)) // ╫╨еЁ е╟ 
+		{
+			if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_O))
+				{
+					pTanjiro->Set_SkillBar(-200);
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_SphereState();
+					else
+						return new CSkill_WindMillState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+				{
+
+					pTanjiro->Set_SkillBar(-200);
+
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_MoveState();
+					else
+					return new CSkill_WaterMillState(TYPE_START); // move skill
+
+				}
+
+				else
+				{
+					pTanjiro->Set_SkillBar(-200);
+
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_CommonState();
+					else
+					return new CSkill_CommonState();
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_L))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_SPACE))
+		{
+			return new CJumpstate(TYPE_START, 0.f, 0.f);
+		}
+		break;
+	case 2:
+		if (pGameInstance->Key_Pressing(DIK_X)) // ╫╨еЁ е╟ 
+		{
+			if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_C))
+				{
+					pTanjiro->Set_SkillBar(-200);
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_SphereState();
+					else
+					return new CSkill_WindMillState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+				{
+
+
+					pTanjiro->Set_SkillBar(-200);
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_MoveState();
+					else
+					return new CSkill_WaterMillState(TYPE_START); // move skill
+
+				}
+
+				else
+				{
+					pTanjiro->Set_SkillBar(-200);
+					if (pTanjiro->Get_KaguraMode() == true)
+						return new CKaguraSkill_CommonState();
+					else
+					return new CSkill_CommonState();
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+		{
+			return new CJumpstate(TYPE_START, 0.f, 0.f);
+		}
+		break;
+	}
+
+
+
+	return nullptr;
 }
 

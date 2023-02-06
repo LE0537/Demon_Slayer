@@ -17,6 +17,7 @@ public:
 
 	virtual void Enter(CKyoujuro* pKyoujuro) override;
 	virtual void Exit(CKyoujuro* pKyoujuro) override;
+	virtual CKyoujuroState* CommandCheck(CKyoujuro* pKyoujuro) override;
 private:
 	CBaseAtk*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;

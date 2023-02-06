@@ -17,7 +17,7 @@ public:
 
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
-
+	virtual CTanjiroState* CommandCheck(CTanjiro* pTanjiro) override;
 
 private:
 	CBaseAtk*	m_pCollBox = nullptr;

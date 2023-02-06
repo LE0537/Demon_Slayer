@@ -54,6 +54,9 @@ public:
 	virtual void Enter(CTanjiro* pTanjiro) {};
 	virtual void Exit(CTanjiro* pTanjiro) {};
 
+
+	virtual CTanjiroState* CommandCheck(CTanjiro* pTanjiro) { return nullptr; };
+
 	CTanjiroState* ChangeState(CTanjiro* pTanjiro, CTanjiroState* pCurrentState, CTanjiroState* pNewState)
 	{
 		if (pCurrentState)
@@ -77,6 +80,9 @@ protected:
 	STATE_ID m_eStateId = STATE_END;
 
 	STATE_ID m_ePreState = STATE_END;
+
+	_float m_fDuration = 0.f;
+	_float m_fCurrentDuration = 0.f;
 };
 
 END

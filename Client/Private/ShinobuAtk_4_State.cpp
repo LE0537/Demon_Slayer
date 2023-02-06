@@ -5,6 +5,11 @@
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "ShinobuDashState.h"
+#include "ShinobuSkill_Common.h"
+#include "ShinobuSkill_Move.h"
+#include "ShinobuSkill_Upper.h"
+#include "ShinobuTargetRushState.h"
+#include "ShinobuJumpState.h"
 using namespace Shinobu;
 
 
@@ -147,7 +152,7 @@ CShinobuState * CAtk_4_State::HandleInput(CShinobu* pShinobu)
 			break;
 		}
 	}
-	return nullptr;
+	return CommandCheck(pShinobu);
 }
 
 CShinobuState * CAtk_4_State::Tick(CShinobu* pShinobu, _float fTimeDelta)
@@ -326,5 +331,93 @@ void CAtk_4_State::Enter(CShinobu* pShinobu)
 void CAtk_4_State::Exit(CShinobu* pShinobu)
 {
 	m_pCollBox->Set_Dead(); //추가
+}
+
+CShinobuState * CAtk_4_State::CommandCheck(CShinobu * pShinobu)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	//m_fDuration = pShinobu->Get_Model()->Get_Duration_Index();
+	//m_fCurrentDuration = pShinobu->Get_Model()->Get_CurrentTime_Index(CShinobu::ANIM_SKILL_COMMON_2);
+
+	//_float fRatio = m_fCurrentDuration / m_fDuration;
+
+	//if (fRatio >= 0.7f)
+	{
+		switch (pShinobu->Get_i1P())
+		{
+		case 1:
+	
+
+			if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
+			{
+				if (pShinobu->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_O))
+					{
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_UpperState(TYPE_START);
+					}
+					else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+					{
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_MoveState(TYPE_START); // move skill
+					}
+					else
+					{
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_L))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_SPACE))
+			{
+				return new CJumpstate(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		case 2:
+		
+			if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
+			{
+				if (pShinobu->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_C))
+					{
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_UpperState(TYPE_START);
+					}
+					else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+					{
+
+
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_MoveState(TYPE_START); // move skill
+
+					}
+					else
+					{
+						pShinobu->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+			{
+				return new CJumpstate(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		}
+
+	}
+
+	return nullptr;
 }
 

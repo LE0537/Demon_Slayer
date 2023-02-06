@@ -17,6 +17,7 @@ public:
 
 	void Move(CTanjiro* pTanjiro, _float fTimeDelta);
 	void Initialize_value(CTanjiro * pTanjiro);
+	virtual CTanjiroState* CommandCheck(CTanjiro* pTanjiro) override;
 
 private:
 	_vector m_vTargetPosition;

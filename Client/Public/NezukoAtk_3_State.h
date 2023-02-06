@@ -17,7 +17,7 @@ public:
 	virtual void Enter(CNezuko* pNezuko) override;
 	virtual void Exit(CNezuko* pNezuko) override;
 
-
+	virtual CNezukoState* CommandCheck(CNezuko* pNezuko) override;
 private:
 	CBaseAtk*	m_pCollBox = nullptr;
 	_bool m_bAtkCombo = false;

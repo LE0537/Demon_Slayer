@@ -388,7 +388,7 @@ CNezukoState * CMoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 void CMoveState::Enter(CNezuko* pNezuko)
 {
 	m_eStateId = STATE_ID::STATE_MOVE;
-
+	pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIMID::ANIM_MOVE_END);
 	switch (m_eStateType)
 	{
 	case Client::CNezukoState::TYPE_START:

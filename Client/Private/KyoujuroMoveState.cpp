@@ -373,7 +373,7 @@ CKyoujuroState * CMoveState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 void CMoveState::Enter(CKyoujuro * pKyoujuro)
 {
 	m_eStateId = STATE_ID::STATE_MOVE;
-
+	
 	switch (m_eStateType)
 	{
 	case Client::CKyoujuroState::TYPE_START:
