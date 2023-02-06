@@ -98,7 +98,7 @@ CTanjiroState * CJumpMoveAttackState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 						m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
 						m_pTarget->Take_Damage(0.5f, false);
 						pTanjiro->Set_Combo(1);
-						pTanjiro->Set_ComboTime(1.f);
+						pTanjiro->Set_ComboTime(0.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

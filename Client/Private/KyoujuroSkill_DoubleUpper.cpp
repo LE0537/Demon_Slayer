@@ -231,7 +231,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 					m_pTarget->Set_Hp(-50);
 					m_pTarget->Take_Damage(0.8f, true);
 					pKyojuro->Set_Combo(1);
-					pKyojuro->Set_ComboTime(1.f);
+					pKyojuro->Set_ComboTime(0.f);
 				}
 				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
 
@@ -311,7 +311,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 				else
 				{
 					pKyojuro->Set_Combo(1);
-					pKyojuro->Set_ComboTime(1.f);
+					pKyojuro->Set_ComboTime(0.f);
 					m_pTarget->Set_Hp(-50);
 					if(!m_bHit)
 						m_pTarget->Take_Damage(0.5f, true);

@@ -377,30 +377,30 @@ PS_OUT PS_Circle_Progressbar(PS_IN In)
 
 	float progress = g_fTime / duration;
 
-	float innerRadius = 0.1f;
-	float outerRadius = 0.2f;
+	float innerRadius = 0.12f;
+	float outerRadius = 0.18f;
 
-	float middleRadius = 0.5f * (innerRadius + outerRadius); 
-	float halfWidth = 0.5f * (outerRadius - innerRadius); 
+	float middleRadius = 0.5f * (innerRadius + outerRadius);
+	float halfWidth = 0.5f * (outerRadius - innerRadius);
 
 	float2 pos = In.vTexUV.xy - 0.5f * g_WinXY.xy;
-
+	//float2 pos = In.vTexUV.xy;
 	float radius = length(pos.xy);
 
-	float fr = halfWidth - abs(radius - middleRadius) + 1.f; 	
-	/*if(fr < 0.0) 
-		discard;*/
+	float fr = halfWidth - abs(radius - middleRadius) + 1.f;
+	/*if(fr < 0.0)
+	discard;*/
 	fr = saturate(fr);
 
-	float angle = degrees(atan2(pos.x, pos.y) + 0.f) + 180.f;
-	float fa = radians(angle - progress * 30.f) * radius + 1.f; 
+	float angle = degrees(atan2(-pos.x, pos.y) + 0.f) + 180.f;
+	float fa = radians(angle - progress * 360.f) * radius + 1.f;
 
 	fa = saturate(fa);
-	if(fa != 1.f)
+	if (fa != 1.f)
 		discard;
 	vector color = vector(0.f, 0.f, 0.f, 1);
 	vector col = lerp(color, DiffuseTexture, fa);
-//	col.a *= fr;
+	//   col.a *= fr;
 
 	//col = col * col2;//DiffuseTexture;
 
@@ -418,9 +418,9 @@ PS_OUT PS_Combo_Progressbar(PS_IN In)
 
 	if (MaskTexture.r == 0.f)
 		discard;
-	float progress = g_fTime / duration;
+	float progress = g_fTime;
 
-	float innerRadius = 0.1f;
+	float innerRadius = 0.19f;
 	float outerRadius = 0.2f;
 
 	float middleRadius = 0.5f * (innerRadius + outerRadius);
@@ -437,9 +437,10 @@ PS_OUT PS_Combo_Progressbar(PS_IN In)
 
 	fr = saturate(fr);
 
-	float angle = degrees(atan2(pos.x, pos.y)) + 180.f;
+	float angle = degrees(atan2(-pos.x, pos.y)) + 180.f;
 	float fa = radians(angle - progress * 360.f) * radius + 1.f;
 	fa = saturate(fa);
+
 	if (fa != 1.f)
 		discard;
 	vector color = vector(0.f, 0.f, 0.f, 1);

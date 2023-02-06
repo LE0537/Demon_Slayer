@@ -102,7 +102,7 @@ CShinobuState * CJumpCommonSkillState::Late_Tick(CShinobu* pShinobu, _float fTim
 					m_pTarget->Set_Hp(-10);
 					m_pTarget->Take_Damage(0.f, false);
 					pShinobu->Set_Combo(1);
-					pShinobu->Set_ComboTime(1.f);
+					pShinobu->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -174,7 +174,7 @@ CShinobuState * CJumpCommonSkillState::Late_Tick(CShinobu* pShinobu, _float fTim
 					m_pTarget->Set_Hp(-20);
 					m_pTarget->Take_Damage(0.5f, false);
 					pShinobu->Set_Combo(1);
-					pShinobu->Set_ComboTime(1.f);
+					pShinobu->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
