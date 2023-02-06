@@ -1319,6 +1319,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtkMove_PlayerMain"));	//	0206.18:00
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtkMove_Main"));	//	0206.18:00
 
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtk_Main"));	//	0206.18:00
+
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
 	}
