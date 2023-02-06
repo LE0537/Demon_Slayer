@@ -283,38 +283,44 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 	}
 	else if (m_fTime >= 0.5f && m_fTime < 1.5f)
 	{
-		if(m_fTime < 0.9f)
-			pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pKyojuro->Get_NavigationCom());
-		m_fHitTime += fTimeDelta;
-		if (m_iHit < 5 && m_fHitTime > 0.08f)
+		_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+
+		if (!m_bTrue)
 		{
-			_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
-			_vector vCollLook = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-
-			if (!m_bTrue)
+			vCollPos.m128_f32[1] = 1.f; //추가
+			m_pCollBox2->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+			m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
+			m_bTrue = true;
+		}
+			if (m_fTime < 0.9f)
 			{
-				vCollPos.m128_f32[1] = 1.f; //추가
-				m_pCollBox2->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-				m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
-				m_bTrue = true;
+				pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pKyojuro->Get_NavigationCom());
 			}
-			m_pCollBox2->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
-
-			CCollider*	pMyCollider = m_pCollBox2->Get_Collider(); //추가
-			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-
-			if (nullptr == pTargetCollider)
-				return nullptr;
-
-			if (pMyCollider->Collision(pTargetCollider))
+			if (m_fTime < 1.5f)
 			{
-				_vector vPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+				m_pCollBox2->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 2.f);
+			}
+			m_fHitTime += fTimeDelta;
+			if (m_iHit < 5 && m_fHitTime > 0.08f)
+			{
 
-				if (m_pTarget->Get_PlayerInfo().bGuard)
+				CCollider*	pMyCollider = m_pCollBox2->Get_Collider(); //추가
+				CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+
+				if (nullptr == pTargetCollider)
+					return nullptr;
+
+				if (pMyCollider->Collision(pTargetCollider))
 				{
-					m_pTarget->Get_GuardHit(0);
-				}
+					_vector vPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+					if (m_pTarget->Get_PlayerInfo().bGuard)
+					{
+						m_pTarget->Get_GuardHit(0);
+					}
+
 				else
 				{
 					m_pTarget->Set_Hp(-15);
@@ -332,10 +338,10 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 				RELEASE_INSTANCE(CEffect_Manager);
 				m_fHitTime = 0.f;
 				++m_iHit;
+
 			}
 		}
-	}
-
+	
 	RELEASE_INSTANCE(CGameInstance);
 
 	pKyojuro->Get_Model()->Play_Animation(fTimeDelta);

@@ -235,7 +235,15 @@ CRuiState * CSkill_ShootNetState::Late_Tick(CRui* pRui, _float fTimeDelta)
 		RELEASE_INSTANCE(CGameInstance);
 	}
 	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_SHOTNET_STARTEFF, pRui);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 	return nullptr;
 }
 

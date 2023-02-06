@@ -141,7 +141,15 @@ CRuiState * CJumpAttackState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	else
 		pRui->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (!m_bEffect && m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIATK_JUMP_MAIN, pRui);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }

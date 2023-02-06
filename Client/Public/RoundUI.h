@@ -74,7 +74,8 @@ private:
 	_float					m_fStopTime = 0.f;
 	_float					m_fFadeTime = 0.f;
 	_float					m_fZoomTime = 0.f;
-	
+	_float					m_fStartDelayTime = 0.f;
+
 	RESULTINFO				m_ResultInfo;
 
 public:

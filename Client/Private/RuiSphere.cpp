@@ -23,31 +23,126 @@ HRESULT CRuiSphere::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	*(CRuiSphere**)pArg = this;
+	memcpy(&m_ShootInfo, pArg, sizeof(RUISPHEREINFO));
+	
+	_vector vPos;
 
+	switch (m_ShootInfo.iIndex)
+	{
+	case 0:
+		vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vPos.m128_f32[1] = 1.f;
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		break;
+	case 1:
+		vPos = m_ShootInfo.pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vPos.m128_f32[1] = 1.f;
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		break;
+
+	default:
+		break;
+	}
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_FRIENDCOM_START, this);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_FRIENDCOM_MAIN, this);
+		RELEASE_INSTANCE(CEffect_Manager);
+		
 	
 	
-	
-	return S_OK;
+	return S_OK; 
 }
 
 void CRuiSphere::Tick(_float fTimeDelta)
 {
+
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
 
+	m_fDeadTime += fTimeDelta;
+	if (m_fDeadTime > 3.f)
+		Set_Dead();
 }
 
 void CRuiSphere::Late_Tick(_float fTimeDelta)
 {
-	if (!m_bEffect)
+	m_fMove += fTimeDelta;
+
+	if (m_fMove > 0.6f)
+		m_fDelay += fTimeDelta;
+	if (m_fDelay > 0.1f && m_iHit < 4)
 	{
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, (CCharacters*)this);
+		CCollider*	pMyCollider = m_pOBBCom;
+		CCollider*	pTargetCollider = m_ShootInfo.pTarget->Get_SphereCollider();
 
-		RELEASE_INSTANCE(CEffect_Manager);
-		m_bEffect = true;
+		if (nullptr == pTargetCollider)
+			return;
+
+		if (pMyCollider->Collision(pTargetCollider))
+		{
+			_vector vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			m_ShootInfo.pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+			if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard)
+			{
+				m_ShootInfo.pTarget->Get_GuardHit(0);
+			}
+			else
+			{
+				m_ShootInfo.pTarget->Set_Hp(-15);
+				m_ShootInfo.pTarget->Take_Damage(0.1f, false);
+				m_ShootInfo.pPlayer->Set_Combo(1);
+				m_ShootInfo.pPlayer->Set_ComboTime(1.f);
+			}
+
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_ShootInfo.pTarget);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_fDelay = 0.f;
+			++m_iHit;
+		}
+
 	}
+	if (m_fMove > 1.1f && !m_bHit && m_fMove < 1.3f)
+	{
+
+		CCollider*	pMyCollider = m_pOBBCom;
+		CCollider*	pTargetCollider = m_ShootInfo.pTarget->Get_SphereCollider();
+
+		if (nullptr == pTargetCollider)
+			return;
+
+		if (pMyCollider->Collision(pTargetCollider))
+		{
+			_vector vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			m_ShootInfo.pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+			if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard)
+			{
+				m_ShootInfo.pTarget->Get_GuardHit(0);
+			}
+			else
+			{
+				m_ShootInfo.pTarget->Set_Hp(-30);
+				m_ShootInfo.pTarget->Take_Damage(0.1f, true);
+				m_ShootInfo.pPlayer->Set_Combo(1);
+				m_ShootInfo.pPlayer->Set_ComboTime(1.f);
+			}
+
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_ShootInfo.pTarget);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+
+			m_bHit = true;
+		}
+
+	}
+
 	if (g_bCollBox)
 	{
 		m_pRendererCom->Add_Debug(m_pOBBCom);
