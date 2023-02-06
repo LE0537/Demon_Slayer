@@ -41,7 +41,7 @@ HRESULT CAkaza::Initialize(void * pArg)
 	m_i1p = tCharacterDesc.i1P2P;
 	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
 	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
-
+	
 	Set_Info();
 	m_tInfo.bSub = tCharacterDesc.bSub;
 	m_bChange = tCharacterDesc.bSub;
@@ -63,24 +63,18 @@ HRESULT CAkaza::Initialize(void * pArg)
 		}
 		RELEASE_INSTANCE(CGameInstance);
 
-		//CAkazaState* pState = new CBattleStartState();
-		//m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 	}
 	else
 	{
 		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
 		m_pSubChar->Set_SubChar(this);
 
-		//CAkazaState* pState = new CIdleState();
-		//m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 	}
+
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
-	CAkazaState* pState = new CBattleStartState();
+	CAkazaState* pState = new CIdleState();
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
-
-	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-
 
 
 	return S_OK;
@@ -89,6 +83,14 @@ HRESULT CAkaza::Initialize(void * pArg)
 void CAkaza::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	if (m_bBattleStart)
+	{
+		CAkazaState* pState = new CBattleStartState();
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+		m_bBattleStart = false;
+	}
+
 	m_fDelta = fTimeDelta;
 	if (m_tInfo.fHitTime > 0.f)
 		m_tInfo.fHitTime -= fTimeDelta;

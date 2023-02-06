@@ -40,9 +40,9 @@ CRuiState * CBattleStartState::Tick(CRui* pRui, _float fTimeDelta)
 
 CRuiState * CBattleStartState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
-	
-	pRui->Get_Model()->Play_Animation(fTimeDelta);
 
+		pRui->Get_Model()->Play_Animation2(fTimeDelta);
+	
 	return nullptr;
 }
 

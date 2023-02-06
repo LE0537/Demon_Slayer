@@ -65,23 +65,18 @@ HRESULT CRui::Initialize(void * pArg)
 			CUI_Manager::Get_Instance()->Set_2P(this);
 		}
 		RELEASE_INSTANCE(CGameInstance);
-		CRuiState* pState = new CBattleStartState();
-		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+
 	}
 	else
 	{
 		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
 		m_pSubChar->Set_SubChar(this);
-		CRuiState* pState = new CIdleState();
-		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+
 
 	}
 
-
-
-	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-
-
+	CRuiState* pState = new CIdleState();
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
@@ -93,6 +88,13 @@ void CRui::Tick(_float fTimeDelta)
 {
 	if (!m_tInfo.bSub)
 	{
+		if (m_bBattleStart)
+		{
+			CRuiState* pState = new CBattleStartState();
+			m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+			m_bBattleStart = false;
+		}
+
 		m_fDelta = fTimeDelta;
 		if (m_tInfo.fHitTime > 0.f)
 			m_tInfo.fHitTime -= fTimeDelta;

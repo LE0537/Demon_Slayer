@@ -71,8 +71,7 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 			CUI_Manager::Get_Instance()->Set_2P(this);
 		}
 		RELEASE_INSTANCE(CGameInstance);
-		CKyoujuroState* pState = new CBattleStartState();
-		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+
 	}
 	else
 	{
@@ -85,13 +84,11 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 		else if(m_i1p == 2)
 			CUI_Manager::Get_Instance()->Set_2P_2(this);
 
-		CKyoujuroState* pState = new CIdleState();
-		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+
 	}
 
-
-
-	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	CKyoujuroState* pState = new CIdleState();
+	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
 
 
@@ -105,6 +102,12 @@ void CKyoujuro::Tick(_float fTimeDelta)
 {
 	if (!m_bChange)
 	{
+		if (m_bBattleStart)
+		{
+			CKyoujuroState* pState = new CBattleStartState();
+			m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+			m_bBattleStart = false;
+		}
 		__super::Tick(fTimeDelta);
 		m_fDelta = fTimeDelta;
 		if (m_tInfo.fHitTime > 0.f)

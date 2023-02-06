@@ -37,8 +37,10 @@ private:
 	void	Move_CamPos(_float fTimeDelta);
 	void	Lerp_SubCam(_float fTimeDelta);
 	void	ConvertToViewPort(_float fTimeDelta);
-	void	Set_BattleTarget();
+	void	Set_BattleTarget(_float fTimeDelta);
 	_bool	CheckSubChar();
+	void	Set_StartPos(_float fTimeDelta);
+	void	Set_BattleStart(_float fTimeDelta);
 public:
 	void Set_Player(CCharacters* _pPlayer) { m_pPlayer = _pPlayer; }
 	void Set_Target(CCharacters* _pTarget) { m_pTarget = _pTarget; }
@@ -61,8 +63,17 @@ private:
 	CCharacters*			m_p1P = nullptr;
 	_bool					m_b1P = false;
 	_int					m_iIniti = 0;
-
-
+	_float					m_fFov = 0.f;
+	_float					m_fFovTime = 0.f;
+	_float					m_fLookAtY = 0.f;
+	_bool					m_bStartBattle = false;
+	//Start
+	_bool  m_bStart = false;
+	_bool  m_bLerp = false;
+	_float m_fStartTime = 0.f;
+	_float m_fLerpTime = 0.f;
+	_float4 m_vCamPos, m_vLerpLook;
+	
 	//shake test
 	_float m_fShakeAmount = 1.f;
 	_float m_fShakeFrequency = 5.f;

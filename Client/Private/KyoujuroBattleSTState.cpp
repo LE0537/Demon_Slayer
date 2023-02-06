@@ -40,9 +40,9 @@ CKyoujuroState * CBattleStartState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta
 
 CKyoujuroState * CBattleStartState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
-	
-	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 
+		pKyoujuro->Get_Model()->Play_Animation2(fTimeDelta);
+	
 	return nullptr;
 }
 

@@ -399,14 +399,22 @@ void CRoundUI::UI_Function(_float fTimeDelta)
 {
 	if (m_bRoundOnOff)
 	{
+#ifdef _DEBUG
 		m_fDelayTime += fTimeDelta;
-		if (m_fDelayTime >= 5.f)
+		if (m_fDelayTime >= 3.f)
 		{
 			if (!m_bZoomCheck)
 				ZoomIn(fTimeDelta);
 			else if (m_bZoomCheck)
 				ZoomOut(fTimeDelta);
 		}
+#else
+		if (!m_bZoomCheck)
+			ZoomIn(fTimeDelta);
+		else if (m_bZoomCheck)
+			ZoomOut(fTimeDelta);
+#endif
+		
 	}
 	
 }
