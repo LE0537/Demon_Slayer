@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ChangeBar.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CChangeBar::CChangeBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,12 +51,71 @@ HRESULT CChangeBar::Initialize(void * pArg)
 
 void CChangeBar::Tick(_float fTimeDelta)
 {
-	m_fTime = 56.3f;
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	/*if (m_fTime < 56.f)
-	m_fTime = 60.f;*/
+
+	if (!m_ThrowUIinfo.bPlyCheck)
+	{
+		m_fFriendBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iFriendBar;
+		m_fFriendMaxBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iFriendMaxBar;
+	}
+	else
+	{
+		m_fFriendBar = pUI_Manager->Get_2P()->Get_PlayerInfo().iFriendBar;
+		m_fFriendMaxBar = pUI_Manager->Get_2P()->Get_PlayerInfo().iFriendMaxBar;
+	}
+	 
+
+	if (m_ThrowUIinfo.iLayerNum == 0)
+	{
+		if (m_fFriendBar < 500)
+		{
+			if (!m_bCurPerBarCheck)
+			{
+				_float fPerCurBar = (m_fFriendBar * 0.002f) * 100.f;
+				m_fTime = 30.83 * (fPerCurBar * 0.01f);
+				m_bCurPerBarCheck = true;
+			}
+
+			m_fTime -= 0.06166;
+			if(!m_ThrowUIinfo.bPlyCheck)
+				pUI_Manager->Get_1P()->Set_FriendSkillBar(0.2f);
+			else 
+				pUI_Manager->Get_2P()->Set_FriendSkillBar(0.2f);
+
+			if (m_fFriendBar <= 469.17f)
+			{
+				m_fTime = 469.17f;
+				m_bCurPerBarCheck = false;
+			}
+		}
+		else 
+			m_fTime = 469.17f;
+	}
+	else if (m_ThrowUIinfo.iLayerNum == 1 && m_fFriendBar >= 500)
+	{
+		if (m_fFriendBar <= 500.f)
+			m_fTime = 500.f;
+		if (m_fFriendBar < 1000)
+		{
+			m_fTime -= 0.06166f;
+
+			if(!m_ThrowUIinfo.bPlyCheck)
+				pUI_Manager->Get_1P()->Set_FriendSkillBar(0.2f);
+			else
+				pUI_Manager->Get_2P()->Set_FriendSkillBar(0.2f);
+		}
+		else if (m_fFriendBar >= 1000.f)
+		{
+			m_fTime = 469.17f;
+			m_bCurPerBarCheck = false;
+		}
+	}
+	
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CChangeBar::Late_Tick(_float fTimeDelta)
@@ -73,7 +133,10 @@ HRESULT CChangeBar::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(17);
+	if(!m_ThrowUIinfo.bPlyCheck)
+		m_pShaderCom->Begin(23);
+	else
+		m_pShaderCom->Begin(17);
 
 	m_pVIBufferCom->Render();
 

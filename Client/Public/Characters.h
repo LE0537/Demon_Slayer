@@ -48,8 +48,8 @@ public:
 		_float		fComboTime;
 		_bool		bPowerUp;
 		_float		fPowerUpTime;
-		_int		iFriendMaxBar; //맥스친구게이지
-		_int		iFriendBar;    //친구게이지
+		_float		iFriendMaxBar; //맥스친구게이지
+		_float		iFriendBar;    //친구게이지
 		_bool		bGuard;
 		_bool		bJump;
 		_float		fHitTime;
@@ -70,7 +70,7 @@ public:
 	void	   Set_iTargetIndex(_int _iTargetIndex) { m_iTargetIndex = _iTargetIndex; }
 	_int       Get_iTargetIndex() { return m_iTargetIndex; }
 	void	   Set_SkillBar(_int _iSkill) { m_tInfo.iSkBar += _iSkill; }
-	void	   Set_FriendSkillBar(_int _iSkill) { m_tInfo.iFriendBar += _iSkill; }
+	void	   Set_FriendSkillBar(_float _fSkill) { m_tInfo.iFriendBar += _fSkill; }
 	CNavigation*	Get_NavigationCom() { return m_pNavigationCom; }
 	void	   Set_HitTime(_float _fHitTime) { m_tInfo.fHitTime = _fHitTime; }
 	void	   Set_Sub(_bool _bSub){ m_tInfo.bSub = _bSub; }
