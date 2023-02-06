@@ -141,7 +141,7 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 	else
 		m_bSelComplete = false;
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.45f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);
 }
@@ -149,7 +149,7 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 void CSelP2Cursor::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
 HRESULT CSelP2Cursor::Render()
