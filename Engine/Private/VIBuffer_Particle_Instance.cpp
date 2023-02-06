@@ -242,8 +242,6 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float2 fScale, _flo
 	{
 		m_fTime[i] += fTimeDelta;
 
-
-
 		m_pParticleData[i].fSpeed += 0.01f * iSpeedType;
 
 		if ((m_pParticleData[i].fLifeTime < m_fTime[i] || m_pParticleData[i].fSpeed < 0 || m_pParticleData[i].vSize.x < 0 || m_pParticleData[i].vSize.y < 0)) {
