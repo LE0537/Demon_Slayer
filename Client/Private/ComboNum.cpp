@@ -74,7 +74,7 @@ void CComboNum::Tick(_float fTimeDelta)
 		else if (m_ThrowUIinfo.iLayerNum == 1)
 			m_iSecondNum = (_uint)m_iComboNum % 10;
 
-		if (fComboTime > 1.f)
+		if (fComboTime > 2.f)
 		{
 			pUI_Manager->Get_1P()->Set_ComboTime(0.f);
 			pUI_Manager->Get_1P()->Reset_Combo();
@@ -100,7 +100,7 @@ void CComboNum::Tick(_float fTimeDelta)
 		else if (m_ThrowUIinfo.iLayerNum == 1)
 			m_iSecondNum = (_uint)m_iComboNum % 10;
 
-		if (fComboTime >= 1.f)
+		if (fComboTime >= 2.f)
 		{
 			pUI_Manager->Get_2P()->Set_ComboTime(0);
 			pUI_Manager->Get_2P()->Reset_Combo();
