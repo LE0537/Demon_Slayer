@@ -80,6 +80,8 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			CUI_Manager::Get_Instance()->Add_P2_OniHpUI();
 
 		CUI_Manager::Get_Instance()->Add_BattleUI();
+		CUI_Manager::Get_Instance()->Add_P1_Combo();
+		CUI_Manager::Get_Instance()->Add_P2_Combo();
 		m_bCreateUI = true;
 	}
 
