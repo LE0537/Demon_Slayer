@@ -89,6 +89,7 @@ HRESULT CRui::Initialize(void * pArg)
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
+	_vector vec = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 
 	return S_OK;
 }

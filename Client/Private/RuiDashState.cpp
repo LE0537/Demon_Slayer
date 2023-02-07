@@ -5,6 +5,8 @@
 #include "Layer.h"
 #include "RuiMoveState.h"
 
+#include "AiState.h"
+
 using namespace Rui;
 
 CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
@@ -215,7 +217,15 @@ CRuiState * CDashState::HandleInput(CRui* pRui)
 
 CRuiState * CDashState::Tick(CRui* pRui, _float fTimeDelta)
 {
-
+	if (pRui->Get_IsAIMode() == true)
+	{
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+			return new CAiState();
+		}
+	}
 
 
 
@@ -236,7 +246,7 @@ void CDashState::Enter(CRui* pRui)
 {
 	m_eStateId = STATE_ID::STATE_DASH;
 
-	if (!m_bTrue)
+	if (!m_bTrue && pRui->Get_IsAIMode() == false)
 	{
 		_float fCamAngle = pRui->Get_CamAngle();
 		iIndex = pRui->Get_iTargetIndex();
@@ -253,6 +263,9 @@ void CDashState::Enter(CRui* pRui)
 		}
 		m_bTrue = true;
 	}
+
+	if (pRui->Get_IsAIMode() == true)
+		iIndex = pRui->Get_iTargetIndex();
 
 	switch (m_eDir)
 	{

@@ -1,7 +1,7 @@
 #pragma once
 #include "Client_Defines.h"
 #include "Characters.h"
-
+#include <queue>
 
 BEGIN(Engine)
 
@@ -137,6 +137,8 @@ public:
 	_bool   Get_IsAIMode() const { return m_bAiState; }
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
+	void   Set_QueueCombo(queue<_uint> eQueue) { m_queueDash = eQueue; }
+	queue<_uint> Get_QueueCombo() { return m_queueDash; }
 	_bool Get_RuiHit();
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
@@ -176,6 +178,9 @@ private:
 	
 	_bool m_bStart = false;
 	_bool m_bAiState = false;
+
+	queue<_uint> m_queueDash;
+
 public:
 	static CRui* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
