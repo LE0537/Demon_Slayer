@@ -8,7 +8,7 @@ BEGIN(Tanjiro)
 class CKaguraSkill_SphereState : public CTanjiroState
 {
 public:
-	CKaguraSkill_SphereState();
+	CKaguraSkill_SphereState(STATE_TYPE eType = TYPE_START);
 
 	virtual CTanjiroState* HandleInput(CTanjiro* pTanjiro) override;
 	virtual CTanjiroState* Tick(CTanjiro* pTanjiro, _float fTimeDelta) override;
@@ -17,6 +17,8 @@ public:
 
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
+	virtual CTanjiroState* CommandCheck(CTanjiro* pTanjiro) override;
+
 private:
 	void Fall_Height(CTanjiro* pTanjiro, _float fTimeDelta);
 private:
@@ -28,6 +30,7 @@ private:
 	_bool  m_bHit = false;
 	_int   m_iHit = 0;
 	_bool   m_bLook = false;
+	_bool m_bNextAnim = false;
 	_float4 m_vLook;
 private:
 	_vector m_vTargetPosition;
@@ -36,7 +39,6 @@ private:
 	_float m_fGravity;
 	_float m_fHeight;
 	_float m_fOriginPosY;
-	_bool m_bNextAnim;
 };
 END
 END

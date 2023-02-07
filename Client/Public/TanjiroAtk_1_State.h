@@ -18,6 +18,8 @@ public:
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
 
+	virtual CTanjiroState* CommandCheck(CTanjiro* pTanjiro) override;
+
 
 private:
 	CBaseAtk*	m_pCollBox = nullptr;
@@ -28,6 +30,8 @@ private:
 	_float m_fMove = 0.f;
 	_bool  m_bHit = false;
 	_bool  m_bEffect = false;
+
+
 };
 END
 END

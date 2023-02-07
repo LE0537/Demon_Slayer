@@ -4,7 +4,13 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-
+#include "NezukoDashState.h"
+#include "NezukoSkill_Common.h"
+#include "NezukoSkill_FallCut.h"
+#include "NezukoSkill_Move.h"
+#include "NezukojumpState.h"
+#include "NezukoTargetRushState.h"
+#include "NezukoAtk_1_State.h"
 using namespace Nezuko;
 
 
@@ -24,15 +30,144 @@ CSkill_FallCutState::CSkill_FallCutState(STATE_TYPE eType)
 CNezukoState * CSkill_FallCutState::HandleInput(CNezuko* pNezuko)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	m_fDuration = pNezuko->Get_Model()->Get_Duration_Index(CNezuko::ANIM_SKILL_COMMON_2);
+	m_fCurrentDuration = pNezuko->Get_Model()->Get_CurrentTime_Index(CNezuko::ANIM_SKILL_COMMON_2);
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+	if (fRatio >= 0.7f)
+	{
+		switch (pNezuko->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // аб
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RF);
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_S)) // ╣з
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // аб
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LB);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_BACK);
+				}
+			}
 
 
-	
+			else if (pGameInstance->Key_Pressing(DIK_A)) // аб
+			{
 
-	return nullptr;
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RIGHT);
+			}
+			break;
+		case 2:
+			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RF);
+
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // ╣з
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LB);
+
+
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_BACK);
+
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RIGHT);
+
+			}
+			break;
+		}
+	}
+
+
+	return CommandCheck(pNezuko);
 }
 
 CNezukoState * CSkill_FallCutState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
+	m_fComboDelay += fTimeDelta * 60;
+
 	if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
 	{
 		switch (m_eStateType)
@@ -326,6 +461,97 @@ CNezukoState * CSkill_FallCutState::Fall_Height(CNezuko * pNezuko, _float fTimeD
 			vecPos = XMVectorSetZ(vecPos, XMVectorGetZ(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)));
 			pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 		}
+	}
+
+	return nullptr;
+}
+
+CNezukoState * CSkill_FallCutState::CommandCheck(CNezuko * pNezuko)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pNezuko->Get_Model()->Get_Duration_Index(CNezuko::ANIM_SKILL_FALLCUT_2);
+	m_fCurrentDuration = pNezuko->Get_Model()->Get_CurrentTime_Index(CNezuko::ANIM_SKILL_FALLCUT_2);
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+	if (fRatio >= 0.5f)
+	{
+		switch (pNezuko->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Down(DIK_J))
+				return new CAtk_1_State();
+
+			if (pGameInstance->Key_Pressing(DIK_I)) // ╫╨еЁ е╟ 
+			{
+				if (pNezuko->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_O))
+					{
+						pNezuko->Set_SkillBar(-200);
+						return new CSkill_FallCutState(TYPE_START);
+					}
+					else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+					{
+						pNezuko->Set_SkillBar(-200);
+						return new CSkill_MoveState(TYPE_START); // move skill
+					}
+					else
+					{
+						pNezuko->Set_SkillBar(-200);
+						return new CSkill_CommonState(TYPE_START);
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_L))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_SPACE))
+			{
+				return new CJumpState(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		case 2:
+			if (pGameInstance->Key_Down(DIK_Z))
+				return new CAtk_1_State();
+
+			if (pGameInstance->Key_Pressing(DIK_X)) // ╫╨еЁ е╟ 
+			{
+				if (pNezuko->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_C))
+					{
+						pNezuko->Set_SkillBar(-200);
+						return new CSkill_FallCutState(TYPE_START);
+					}
+					else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+					{
+
+
+						pNezuko->Set_SkillBar(-200);
+						return new CSkill_MoveState(TYPE_START); // move skill
+
+					}
+					else
+					{
+						pNezuko->Set_SkillBar(-200);
+						return new CSkill_CommonState(TYPE_START);
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+			{
+				return new CJumpState(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		}
+
 	}
 
 	return nullptr;

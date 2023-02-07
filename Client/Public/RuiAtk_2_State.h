@@ -17,7 +17,7 @@ public:
 	virtual void Enter(CRui* pRui) override;
 	virtual void Exit(CRui* pRui) override;
 
-
+	virtual CRuiState* CommandCheck(CRui* pRui) override;
 private:
 	CRuiAtk*	m_pCollBox = nullptr;
 	_bool m_bAtkCombo = false;

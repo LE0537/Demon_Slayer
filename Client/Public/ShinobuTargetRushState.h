@@ -17,7 +17,7 @@ public:
 
 	void Move(CShinobu* pShinobu, _float fTimeDelta);
 	void Initialize_value(CShinobu* pShinobu);
-
+	virtual CShinobuState* CommandCheck(CShinobu* pShinobu) override;
 private:
 	_vector m_vTargetPosition;
 	_float m_fDistance;

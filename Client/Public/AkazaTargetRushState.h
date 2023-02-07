@@ -18,6 +18,7 @@ public:
 	void Move(CAkaza* pAkaza, _float fTimeDelta);
 	void Initialize_value(CAkaza* pAkaza);
 
+	virtual CAkazaState* CommandCheck(CAkaza* pAkaza) override;
 private:
 	_vector m_vTargetPosition;
 	_float m_fDistance;

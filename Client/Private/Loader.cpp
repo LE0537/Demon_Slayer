@@ -1092,7 +1092,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 41))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 42))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -1298,15 +1298,29 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk3_1"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk3_2"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk4"));
+
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendCom_Start"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendCom_Main"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendMove"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Coll_FriendMove"));
+
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_ShotBall_Main"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_1"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_2"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_3"));
+
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotNet_StartEff"));	//	0205.18:20
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_ShotNet_Main"));	//	0205.18:20
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpBall_Start"));	//	0206.18:00
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Coll_JumpBall_Main"));	//	0206.18:00
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpShotNet_StartEff"));	//	0206.18:00
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_JumpShotNet_Main"));	//	0206.18:00
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtkMove_PullMain"));	//	0206.18:00
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtkMove_PlayerMain"));	//	0206.18:00
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtkMove_Main"));	//	0206.18:00
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtk_Main"));	//	0206.18:00
 
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object

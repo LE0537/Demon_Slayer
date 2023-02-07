@@ -10,6 +10,14 @@
 #include "GameObj.h"
 #include "TanjiroDashState.h"
 
+#include "TanjiroJumpState.h"
+#include "TanjiroSkill_Common.h"
+#include "TanjiroSkill_WaterMill.h"
+#include "TanjiroSkill_WindMill.h"
+#include "TanjiroDashState.h"
+#include "TanjiroTargetRushState.h"
+#include "TanjiroJumpState.h"
+
 using namespace Tanjiro;
 
 
@@ -41,7 +49,7 @@ CTanjiroState * CAtk_1_State::HandleInput(CTanjiro * pTanjiro)
 	default:
 		break;
 	}
-	
+
 	if (m_fComboDelay <= 35.f)
 	{
 		switch (pTanjiro->Get_i1P())
@@ -166,11 +174,14 @@ CTanjiroState * CAtk_1_State::HandleInput(CTanjiro * pTanjiro)
 			break;
 		}
 	}
-	return nullptr;
+
+	return CommandCheck(pTanjiro);
 }
 
 CTanjiroState * CAtk_1_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+
+
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_ATTACK_1);
 	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_ATTACK_1, 0.01f);
 
@@ -179,7 +190,7 @@ CTanjiroState * CAtk_1_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	if (m_bAtkCombo == true && m_fTime >= 33.f)
 		return new CAtk_2_State();
-	
+
 
 	printf_s("%f \n", m_fTime);
 
@@ -194,7 +205,7 @@ CTanjiroState * CAtk_1_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	
+
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
@@ -203,11 +214,11 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	pTanjiro->Get_Transform()->LookAt(vLooAt);
 
 	m_fMove += fTimeDelta;
-	
+
 	if (m_fMove < 0.3f)
 	{
 		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pTanjiro->Get_NavigationCom());
-		
+
 		_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
@@ -224,7 +235,7 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			if (pMyCollider->Collision(pTargetCollider))
 			{
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			
+
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
 				if (m_pTarget->Get_PlayerInfo().bGuard)
@@ -234,7 +245,7 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
-					m_pTarget->Take_Damage(0.3f,false);
+					m_pTarget->Take_Damage(0.3f, false);
 					pTanjiro->Set_Combo(1);
 					pTanjiro->Set_ComboTime(1.f);
 				}
@@ -256,7 +267,7 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			_float fSpeed = pTanjiro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
 
 			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); 
+			_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
 			_vector vMyLook = vTargetLook * -1.f;
 
@@ -306,5 +317,89 @@ void CAtk_1_State::Enter(CTanjiro * pTanjiro)
 void CAtk_1_State::Exit(CTanjiro * pTanjiro)
 {
 	m_pCollBox->Set_Dead(); //추가
+}
+
+CTanjiroState * CAtk_1_State::CommandCheck(CTanjiro* pTanjiro)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pTanjiro->Get_Model()->Get_Duration();
+	m_fCurrentDuration = pTanjiro->Get_Model()->Get_CurrentTime();
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+
+	switch (pTanjiro->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
+		{
+			if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_O))
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_WindMillState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_WaterMillState(TYPE_START); // move skill
+				}
+				else
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_CommonState();
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_L))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_SPACE))
+		{
+			return new CJumpstate(TYPE_START, 0.f, 0.f);
+		}
+		break;
+	case 2:
+		if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
+		{
+			if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_C))
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_WindMillState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+				{
+
+
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_WaterMillState(TYPE_START); // move skill
+
+				}
+				else
+				{
+					pTanjiro->Set_SkillBar(-200);
+					return new CSkill_CommonState();
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+		{
+			return new CJumpstate(TYPE_START, 0.f, 0.f);
+		}
+		break;
+	}
+
+
+
+	return nullptr;
 }
 
