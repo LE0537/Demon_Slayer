@@ -48,8 +48,8 @@ void CRuiBigBall::Tick(_float fTimeDelta)
 
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
 	m_fDeadTime += fTimeDelta;
-	if (m_fDeadTime > 3.9f)
-		m_pEffect->Set_Dead();
+	//if (m_fDeadTime > 3.9f)
+	//	m_pEffect->Set_Dead();
 	if (m_fDeadTime > 4.f)
 		Set_Dead();
 }

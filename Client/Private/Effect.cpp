@@ -83,7 +83,10 @@ void CEffect::Tick(_float fTimeDelta)
 		}
 		else { 
 			if (m_EffectInfo.iMoveType == EFFMOVE_PLAYER || m_EffectInfo.iMoveType == EFFMOVE_TARGET) {
-				m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+				if(!m_bDead){
+					m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+				}
 			}
 		}
 

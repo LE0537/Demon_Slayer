@@ -39,17 +39,17 @@ void CKyoujuroSkill::Tick(_float fTimeDelta)
 
 	m_fTime += fTimeDelta;
 
-	if(m_fTime > 5.f)
-	{ 
-		m_pEffect->Set_Dead();
-		
-	}
+	//if(m_fTime > 5.f)
+	//{ 
+	//	m_pEffect->Set_Dead();
+	//	
+	//}
 }
 
 void CKyoujuroSkill::Late_Tick(_float fTimeDelta)
 {
 
-	if (m_fTime > 5.1f)
+	if (m_fTime > 4.f)
 	{
 		
 		Set_Dead();
