@@ -23,6 +23,10 @@ HRESULT CInkEff::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	memcpy(&m_iImgNum, pArg, sizeof(_uint));
+
+	m_bDownCheck = false;
+
 	m_fSizeX = 1280.f;
 	m_fSizeY = 720.f;
 	m_fX = 640.f;
@@ -43,23 +47,25 @@ void CInkEff::Tick(_float fTimeDelta)
 
 	m_fSpriteTime += fTimeDelta;
 
+	if (m_iImgNum == 1)
+		m_bDownCheck = true;
+
 	if (m_fSpriteTime >= 0.03f)
 	{
 		++m_iFrame;
 		m_fSpriteTime = 0.f;
 	}
 
-	if (m_iFrame == 47 && m_iImgNum == 0 && !m_bDownCheck)
+	if (m_iFrame == 46 && m_iImgNum == 0)
 	{
-		pUI_Manager->Add_Menu();
-		m_iFrame = 0;
-		m_bDownCheck = true;
+		pUI_Manager->Set_LevelMenuOn(true);
+
 	}
 
-	if (m_bDownCheck && m_iFrame == 47)
+	if (m_iImgNum == 1 && m_iFrame == 29)
 		m_bDead = true;
-	
 
+		
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
@@ -81,7 +87,7 @@ HRESULT CInkEff::Render()
 	m_pShaderCom->Begin(13);
 
 	m_pVIBufferCom->Render();
-
+	
 	return S_OK;
 }
 
@@ -129,7 +135,8 @@ HRESULT CInkEff::SetUp_ShaderResources()
 	}
 	if (m_iImgNum == 1)
 	{
-
+		m_iNumTextureU = 5;
+		m_iNumTextureV = 6;
 	}
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_iFrame", &m_iFrame, sizeof(_uint))))

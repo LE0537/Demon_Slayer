@@ -18,8 +18,6 @@ HRESULT CLevel_SelectChar::Initialize()
 		return E_FAIL;
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-
-
 	pUIManager->Add_Select_CharUI();
 
 	RELEASE_INSTANCE(CUI_Manager);
