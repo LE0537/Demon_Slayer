@@ -784,6 +784,9 @@ HRESULT CRenderer::Render_AlphaBlend()
 
 HRESULT CRenderer::Render_Effect()
 {
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_AlphaDeferred"))))
+		return E_FAIL;
+
 	for (auto& pGameObject : m_GameObjects[RENDER_EFFECT])
 	{
 		if (nullptr != pGameObject)
@@ -792,8 +795,11 @@ HRESULT CRenderer::Render_Effect()
 			Safe_Release(pGameObject);
 		}
 	}
-
 	m_GameObjects[RENDER_EFFECT].clear();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
 
 	return S_OK;
 }

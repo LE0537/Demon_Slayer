@@ -1103,7 +1103,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 42))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 43))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -1293,6 +1293,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CEffect_Manager* pEffect_Manager = GET_INSTANCE(CEffect_Manager);
 
 		pEffect_Manager->Load_Effect(TEXT("HitEffect1"));
+		pEffect_Manager->Load_Effect(TEXT("HitEffect2"));
+		pEffect_Manager->Load_Effect(TEXT("HitEffect3"));
+		pEffect_Manager->Load_Effect(TEXT("HitEffect4"));
+		pEffect_Manager->Load_Effect(TEXT("HitEffect5"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1_GroundMask"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack2_1"));
