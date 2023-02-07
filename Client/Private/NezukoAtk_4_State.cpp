@@ -5,7 +5,11 @@
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "NezukoDashState.h"
-
+#include "NezukoSkill_Common.h"
+#include "NezukoSkill_FallCut.h"
+#include "NezukoSkill_Move.h"
+#include "NezukojumpState.h"
+#include "NezukoTargetRushState.h"
 using namespace Nezuko;
 
 
@@ -163,7 +167,7 @@ CNezukoState * CAtk_4_State::HandleInput(CNezuko* pNezuko)
 	}
 
 
-	return nullptr;
+	return CommandCheck(pNezuko);
 }
 
 CNezukoState * CAtk_4_State::Tick(CNezuko* pNezuko, _float fTimeDelta)
@@ -233,7 +237,7 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 					m_pTarget->Set_Hp(-pNezuko->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.3f, false);
 					pNezuko->Set_Combo(1);
-					pNezuko->Set_ComboTime(1.f);
+					pNezuko->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -307,7 +311,7 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 					m_pTarget->Set_Hp(-pNezuko->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.5f, false);
 					pNezuko->Set_Combo(1);
-					pNezuko->Set_ComboTime(1.f);
+					pNezuko->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -368,5 +372,88 @@ void CAtk_4_State::Enter(CNezuko* pNezuko)
 void CAtk_4_State::Exit(CNezuko* pNezuko)
 {
 	m_pCollBox->Set_Dead(); //추가
+}
+
+CNezukoState * CAtk_4_State::CommandCheck(CNezuko * pNezuko)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pNezuko->Get_Model()->Get_Duration_Index(pNezuko->Get_AnimIndex());
+	m_fCurrentDuration = pNezuko->Get_Model()->Get_CurrentTime_Index(pNezuko->Get_AnimIndex());
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+	switch (pNezuko->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
+		{
+			if (pNezuko->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_O))
+				{
+					pNezuko->Set_SkillBar(-200);
+					return new CSkill_FallCutState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+				{
+					pNezuko->Set_SkillBar(-200);
+					return new CSkill_MoveState(TYPE_START); // move skill
+				}
+				else
+				{
+					pNezuko->Set_SkillBar(-200);
+					return new CSkill_CommonState(TYPE_START);
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_L))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_SPACE))
+		{
+			return new CJumpState(TYPE_START, 0.f, 0.f);
+		}
+		break;
+	case 2:
+		if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
+		{
+			if (pNezuko->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_C))
+				{
+					pNezuko->Set_SkillBar(-200);
+					return new CSkill_FallCutState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+				{
+
+
+					pNezuko->Set_SkillBar(-200);
+					return new CSkill_MoveState(TYPE_START); // move skill
+
+				}
+				else
+				{
+					pNezuko->Set_SkillBar(-200);
+					return new CSkill_CommonState(TYPE_START);
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+		{
+			return new CJumpState(TYPE_START, 0.f, 0.f);
+		}
+		break;
+	}
+
+
+
+	return nullptr;
 }
 

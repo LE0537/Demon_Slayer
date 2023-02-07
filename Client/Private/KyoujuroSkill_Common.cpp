@@ -6,6 +6,14 @@
 #include "Layer.h"
 #include "Tanjiro.h"
 #include "Effect_Manager.h"
+#include "KyoujuroDashState.h"
+#include "KyoujuroDashState.h"
+#include "KyoujuroSkill_Common.h"
+#include "KyoujuroSkill_DashSlash.h"
+#include "KyoujuroSkill_DoubleUpper.h"
+#include "KyoujuroJumpState.h"
+#include "KyoujuroTargetRushState.h"
+#include "KyoujuroAtk_1_State.h"
 using namespace Kyoujuro;
 
 
@@ -23,7 +31,146 @@ CSkill_CommonState::CSkill_CommonState()
 CKyoujuroState * CSkill_CommonState::HandleInput(CKyoujuro * pKyojuro)
 {
 
-	return nullptr;
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pKyojuro->Get_Model()->Get_Duration_Index(pKyojuro->Get_AnimIndex());
+	m_fCurrentDuration = pKyojuro->Get_Model()->Get_CurrentTime_Index(pKyojuro->Get_AnimIndex());
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+	if (fRatio >= 0.6f)
+	{
+		switch (pKyojuro->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Down(DIK_J))
+				return new CAtk_1_State();
+
+			if (pGameInstance->Key_Pressing(DIK_W)) // 앞
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // 좌
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // 우
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RF);
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_S)) // 뒤
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // 좌
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LB);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // 우 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_BACK);
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_A)) // 좌
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // 우
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RIGHT);
+			}
+			break;
+		case 2:
+			if (pGameInstance->Key_Down(DIK_Z))
+				return new CAtk_1_State();
+
+			if (pGameInstance->Key_Pressing(DIK_UP)) // 앞
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 좌
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 우
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RF);
+
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 뒤
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 좌
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LB);
+
+
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 우 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_BACK);
+
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 좌
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 우
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RIGHT);
+
+			}
+			break;
+		}
+	}
+
+
+	return CommandCheck(pKyojuro);
 }
 
 CKyoujuroState * CSkill_CommonState::Tick(CKyoujuro * pKyojuro, _float fTimeDelta)
@@ -41,7 +188,7 @@ CKyoujuroState * CSkill_CommonState::Tick(CKyoujuro * pKyojuro, _float fTimeDelt
 
 CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTimeDelta)
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CCharacters* m_pTarget = pKyojuro->Get_BattleTarget();
 	if (!m_bLook)
@@ -66,8 +213,8 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 			vCollPos.m128_f32[1] = 0.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
-			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
-			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+			CCollider*   pMyCollider = m_pCollBox->Get_Collider(); //추가
+			CCollider*   pTargetCollider = m_pTarget->Get_SphereCollider();
 
 			if (nullptr == pTargetCollider)
 				return nullptr;
@@ -100,8 +247,8 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 		}
 
 
-		CCollider*	pMyCollider = pKyojuro->Get_SphereCollider();
-		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+		CCollider*   pMyCollider = pKyojuro->Get_SphereCollider();
+		CCollider*   pTargetCollider = m_pTarget->Get_SphereCollider();
 
 		if (nullptr == pTargetCollider)
 			return nullptr;
@@ -136,25 +283,30 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 	}
 	else if (m_fTime >= 0.5f && m_fTime < 1.5f)
 	{
-		if(m_fTime < 0.9f)
+		_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+		_vector vCollLook = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+
+		if (!m_bTrue)
+		{
+			vCollPos.m128_f32[1] = 1.f; //추가
+			m_pCollBox2->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+			m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
+			m_bTrue = true;
+		}
+		if (m_fTime < 0.9f)
+		{
 			pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pKyojuro->Get_NavigationCom());
+		}
+		if (m_fTime < 1.5f)
+		{
+			m_pCollBox2->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 2.f);
+		}
 		m_fHitTime += fTimeDelta;
 		if (m_iHit < 5 && m_fHitTime > 0.08f)
 		{
-			_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
-			_vector vCollLook = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 
-			if (!m_bTrue)
-			{
-				vCollPos.m128_f32[1] = 1.f; //추가
-				m_pCollBox2->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-				m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
-				m_bTrue = true;
-			}
-			m_pCollBox2->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
-
-			CCollider*	pMyCollider = m_pCollBox2->Get_Collider(); //추가
-			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+			CCollider*   pMyCollider = m_pCollBox2->Get_Collider(); //추가
+			CCollider*   pTargetCollider = m_pTarget->Get_SphereCollider();
 
 			if (nullptr == pTargetCollider)
 				return nullptr;
@@ -222,5 +374,91 @@ void CSkill_CommonState::Exit(CKyoujuro * pKyojuro)
 	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_COMMON);
 	m_pCollBox->Set_Dead();
 
+}
+
+CKyoujuroState * CSkill_CommonState::CommandCheck(CKyoujuro * pKyoujuro)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pKyoujuro->Get_Model()->Get_Duration_Index(CKyoujuro::ANIM_SKILL_COMMON);
+	m_fCurrentDuration = pKyoujuro->Get_Model()->Get_CurrentTime_Index(CKyoujuro::ANIM_SKILL_COMMON);
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+
+	if (fRatio >= 0.5f)
+	{
+		switch (pKyoujuro->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
+			{
+				if (pKyoujuro->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_O))
+					{
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_DoubleUpperState();
+					}
+					else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+					{
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_DashSlashState(); // move skill
+					}
+					else
+					{
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_L))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_SPACE))
+			{
+				return new CJumpState(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		case 2:
+			if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
+			{
+				if (pKyoujuro->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_C))
+					{
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_DoubleUpperState();
+					}
+					else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+					{
+
+
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_DashSlashState(); // move skill
+
+					}
+					else
+					{
+						pKyoujuro->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+			{
+				return new CJumpState(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		}
+
+	}
+
+	return nullptr;
 }
 

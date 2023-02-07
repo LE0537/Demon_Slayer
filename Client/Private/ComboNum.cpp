@@ -61,8 +61,9 @@ void CComboNum::Tick(_float fTimeDelta)
 
 	if (!m_ThrowUIinfo.bPlyCheck)
 	{
-		if(pUI_Manager->Get_1P()->Get_PlayerInfo().iCombo == m_iComboNum)
-			pUI_Manager->Get_1P()->Set_ComboTime(-fTimeDelta);
+		_float fTime = pUI_Manager->Get_1P()->Get_PlayerInfo().fComboTime + fTimeDelta;
+
+		pUI_Manager->Get_1P()->Set_ComboTime(fTime);
 
 		_float fComboTime = pUI_Manager->Get_1P()->Get_PlayerInfo().fComboTime;
 
@@ -73,20 +74,22 @@ void CComboNum::Tick(_float fTimeDelta)
 		else if (m_ThrowUIinfo.iLayerNum == 1)
 			m_iSecondNum = (_uint)m_iComboNum % 10;
 
-		if (fComboTime < 0.f)
+		if (fComboTime > 2.f)
 		{
-			pUI_Manager->Get_1P()->Set_ComboTime(1.f - fComboTime);
+			pUI_Manager->Get_1P()->Set_ComboTime(0.f);
 			pUI_Manager->Get_1P()->Reset_Combo();
 			m_iComboNum = 0;
 			m_bRenderOnOff = true;
 		}
-		else if(m_iComboNum > 0)
+		else if(fComboTime <= 1.f)
 			m_bRenderOnOff = false;
 	}
 	else
 	{
-		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iCombo == m_iComboNum)
-			pUI_Manager->Get_2P()->Set_ComboTime(-fTimeDelta);
+		
+		_float fTime = pUI_Manager->Get_2P()->Get_PlayerInfo().fComboTime + fTimeDelta;
+
+		pUI_Manager->Get_2P()->Set_ComboTime(fTime);
 
 		_float fComboTime = pUI_Manager->Get_2P()->Get_PlayerInfo().fComboTime;
 
@@ -97,14 +100,14 @@ void CComboNum::Tick(_float fTimeDelta)
 		else if (m_ThrowUIinfo.iLayerNum == 1)
 			m_iSecondNum = (_uint)m_iComboNum % 10;
 
-		if (fComboTime < 0.f)
+		if (fComboTime >= 2.f)
 		{
-			pUI_Manager->Get_2P()->Set_ComboTime(1.f - fComboTime);
+			pUI_Manager->Get_2P()->Set_ComboTime(0);
 			pUI_Manager->Get_2P()->Reset_Combo();
 			m_iComboNum = 0;
 			m_bRenderOnOff = true;
 		}
-		else if (m_iComboNum > 0)
+		else if (fComboTime <= 1.f)
 			m_bRenderOnOff = false;
 	}
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
@@ -131,12 +134,9 @@ HRESULT CComboNum::Render()
 
 	if (m_bRenderOnOff == false)
 	{
-		if (m_ThrowUIinfo.iLayerNum != 0 && m_iImgNum != 0)
+		if (m_ThrowUIinfo.iLayerNum != 0 && m_iComboNum > 0) // 뒷자리이고 콤보가 0 이상일때 랜더
 			m_pVIBufferCom->Render();
-		else if (m_ThrowUIinfo.iLayerNum == 0 && m_iImgNum > 0)
-			m_pVIBufferCom->Render();
-
-		if (m_ThrowUIinfo.iLayerNum == 1 && m_iImgNum == 0 && m_iComboNum > 0)
+		else if (m_ThrowUIinfo.iLayerNum == 0 && m_iImgNum > 0)// 앞자리이고 앞자리가 0 이상일때
 			m_pVIBufferCom->Render();
 	}
 	

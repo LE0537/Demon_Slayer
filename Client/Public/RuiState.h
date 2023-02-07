@@ -52,7 +52,7 @@ public:
 
 	virtual void Enter(CRui* pRui) {};
 	virtual void Exit(CRui* pRui) {};
-
+	virtual CRuiState* CommandCheck(CRui* pRui) { return nullptr; };
 	CRuiState* ChangeState(CRui* pRui, CRuiState* pCurrentState, CRuiState* pNewState)
 	{
 		if (pCurrentState)
@@ -76,6 +76,8 @@ protected:
 	STATE_ID m_eStateId = STATE_END;
 
 	STATE_ID m_ePreState = STATE_END;
+	_float m_fDuration = 0.f;
+	_float m_fCurrentDuration = 0.f;
 };
 
 END

@@ -17,6 +17,7 @@ public:
 
 	virtual void Enter(CRui* pRui) override;
 	virtual void Exit(CRui* pRui) override;
+	virtual CRuiState* CommandCheck(CRui* pRui) override;
 private:
 
 	_float m_fTime = 0.f;
@@ -25,6 +26,7 @@ private:
 	_bool m_bCombo = false;
 	_float m_fMove = 0.f;
 	_int   m_iHit = 0;
+	_bool  m_bEffect = false;
 };
 END
 END

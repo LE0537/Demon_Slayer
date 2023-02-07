@@ -6,7 +6,13 @@
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "RuiDashState.h"
-
+#include "RuiTargetRushState.h"
+#include "RuiSkill_Shoot.h"
+#include "RuiSkill_ShootNet.h"
+#include "RuiSkill_Sphere.h"
+#include "RuiAdvSkill_CommonState.h"
+#include "RuiAdvSkill_MoveState.h"
+#include "RuiJumpState.h"
 using namespace Rui;
 
 
@@ -150,7 +156,7 @@ CRuiState * CAtk_4_State::HandleInput(CRui* pRui)
 	}
 
 
-	return nullptr;
+	return CommandCheck(pRui);
 }
 
 CRuiState * CAtk_4_State::Tick(CRui* pRui, _float fTimeDelta)
@@ -221,7 +227,7 @@ CRuiState * CAtk_4_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 					m_pTarget->Set_Hp(-pRui->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.3f,false);
 					pRui->Set_Combo(1);
-					pRui->Set_ComboTime(1.f);
+					pRui->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -291,5 +297,118 @@ void CAtk_4_State::Enter(CRui* pRui)
 void CAtk_4_State::Exit(CRui* pRui)
 {
 	m_pCollBox->Set_Dead(); //추가
+}
+
+CRuiState * CAtk_4_State::CommandCheck(CRui * pRui)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pRui->Get_Model()->Get_Duration();
+	m_fCurrentDuration = pRui->Get_Model()->Get_CurrentTime();
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+
+	switch (pRui->Get_i1P())
+	{
+	case 1:
+		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
+		{
+			if (pRui->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_O))
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_SphereState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_ShootNetState(TYPE_START); // move skill
+				}
+				else
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_ShootState(TYPE_START);
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_L))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_SPACE))
+		{
+			return new CJumpState(TYPE_START, 0.f, 0.f);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_U))
+		{
+			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
+			{
+				if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+				{
+					pRui->Set_FriendSkillBar(-500);
+					return new CAdvSkill_MoveState();
+				}
+				else
+				{
+					pRui->Set_FriendSkillBar(-500);
+					return new CAdvSkill_CommonState();
+				}
+			}
+		}
+
+		break;
+	case 2:
+		if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
+		{
+			if (pRui->Get_PlayerInfo().iSkBar >= 200)
+			{
+				if (pGameInstance->Key_Pressing(DIK_C))
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_SphereState(TYPE_START);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_ShootNetState(TYPE_START); // move skill
+				}
+				else
+				{
+					pRui->Set_SkillBar(-200);
+					return new CSkill_ShootState(TYPE_START);
+				}
+			}
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+		{
+			return new CTargetRushState(TYPE_START);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+		{
+			return new CJumpState(TYPE_START, 0.f, 0.f);
+		}
+		else if (pGameInstance->Key_Pressing(DIK_V))
+		{
+			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+				{
+					pRui->Set_FriendSkillBar(-500);
+					return new CAdvSkill_MoveState();
+				}
+				else
+				{
+					pRui->Set_FriendSkillBar(-500);
+					return new CAdvSkill_CommonState();
+				}
+			}
+		}
+	}
+
+
+
+	return nullptr;
 }
 

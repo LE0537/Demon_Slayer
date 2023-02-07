@@ -17,6 +17,8 @@ public:
 
 	virtual void Enter(CShinobu* pShinobu) override;
 	virtual void Exit(CShinobu* pShinobu) override;
+private:
+	_float  m_fTime = 0.f;
 };
 END
 END

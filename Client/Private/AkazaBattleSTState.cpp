@@ -29,20 +29,20 @@ CAkazaState * CBattleStartState::HandleInput(CAkaza* pAkaza)
 CAkazaState * CBattleStartState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
 	
-	if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_BATTLE_START))
-	{
-		pAkaza->Get_Model()->Set_End(CAkaza::ANIM_BATTLE_START);
-		return new CIdleState();
-	}
-
+		if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_BATTLE_START))
+		{
+			pAkaza->Get_Model()->Set_End(CAkaza::ANIM_BATTLE_START);
+			return new CIdleState();
+		}
+	
 	return nullptr;
 }
 
 CAkazaState * CBattleStartState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
-	
-	pAkaza->Get_Model()->Play_Animation(fTimeDelta);
 
+		pAkaza->Get_Model()->Play_Animation2(fTimeDelta);
+	
 	return nullptr;
 }
 

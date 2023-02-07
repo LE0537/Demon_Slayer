@@ -6,6 +6,16 @@
 #include "Layer.h"
 #include "Kyoujuro.h"
 #include "Effect_Manager.h"
+
+
+#include "TanjiroJumpState.h"
+#include "TanjiroSkill_Common.h"
+#include "TanjiroSkill_WaterMill.h"
+#include "TanjiroSkill_WindMill.h"
+#include "TanjiroDashState.h"
+#include "TanjiroTargetRushState.h"
+#include "TanjiroJumpState.h"
+#include "TanjiroAtk_1_State.h"
 using namespace Tanjiro;
 
 
@@ -29,9 +39,139 @@ CTanjiroState * CSkill_WaterMillState::HandleInput(CTanjiro * pTanjiro)
 {
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	m_fDuration = pTanjiro->Get_Model()->Get_Duration_Index(CTanjiro::ANIM_SKILL_WATERMILL_2);
+	m_fCurrentDuration = pTanjiro->Get_Model()->Get_CurrentTime_Index(CTanjiro::ANIM_SKILL_WATERMILL_2);
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
 
 
-	return nullptr;
+	if (fRatio >= 0.7f)
+	{
+		switch (pTanjiro->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // аб
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RF);
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_S)) // ╣з
+			{
+				if (pGameInstance->Key_Pressing(DIK_A)) // аб
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_LB);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_L))
+						return new CDashState(DIR_BACK);
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_A)) // аб
+			{
+
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
+			{
+				if (pGameInstance->Key_Pressing(DIK_L))
+					return new CDashState(DIR_RIGHT);
+			}
+			break;
+		case 2:
+
+			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LF);
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RF);
+
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_STRAIGHT);
+				}
+			}
+
+			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // ╣з
+			{
+				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_LB);
+
+
+				}
+				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л 
+				{
+
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_RB);
+
+				}
+				else
+				{
+					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+						return new CDashState(DIR_BACK);
+
+				}
+			}
+
+
+			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_LEFT);
+
+			}
+			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // ©Л
+			{
+				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+					return new CDashState(DIR_RIGHT);
+
+			}
+			break;
+		}
+	}
+
+	return CommandCheck(pTanjiro);
 }
 
 CTanjiroState * CSkill_WaterMillState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
@@ -119,7 +259,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 						m_pTarget->Set_Hp(-30);
 						m_pTarget->Take_Damage(0.3f,false);
 						pTanjiro->Set_Combo(1);
-						pTanjiro->Set_ComboTime(1.f);
+						pTanjiro->Set_ComboTime(0.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -207,5 +347,100 @@ void CSkill_WaterMillState::Exit(CTanjiro * pTanjiro)
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		pTanjiro->Reset_WaterMillHit();
 	}
+}
+
+CTanjiroState * CSkill_WaterMillState::CommandCheck(CTanjiro * pTanjiro)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	m_fDuration = pTanjiro->Get_Model()->Get_Duration_Index(CTanjiro::ANIM_SKILL_WATERMILL_2);
+	m_fCurrentDuration = pTanjiro->Get_Model()->Get_CurrentTime_Index(CTanjiro::ANIM_SKILL_WATERMILL_2);
+
+	_float fRatio = m_fCurrentDuration / m_fDuration;
+
+	if (fRatio >= 0.3f)
+	{
+		switch (pTanjiro->Get_i1P())
+		{
+		case 1:
+			if (pGameInstance->Key_Down(DIK_J))
+				return new CAtk_1_State();
+
+			if (pGameInstance->Key_Pressing(DIK_I)) // ╫╨еЁ е╟ 
+			{
+				if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_O))
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_WindMillState(TYPE_START);
+					}
+					else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
+					{
+
+
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_WaterMillState(TYPE_START); // move skill
+
+					}
+
+					else
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_L))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_SPACE))
+			{
+				return new CJumpstate(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		case 2:
+			if (pGameInstance->Key_Down(DIK_Z))
+				return new CAtk_1_State();
+
+			if (pGameInstance->Key_Pressing(DIK_X)) // ╫╨еЁ е╟ 
+			{
+				if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)
+				{
+					if (pGameInstance->Key_Pressing(DIK_C))
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_WindMillState(TYPE_START);
+					}
+					else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
+					{
+
+
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_WaterMillState(TYPE_START); // move skill
+
+					}
+
+					else
+					{
+						pTanjiro->Set_SkillBar(-200);
+						return new CSkill_CommonState();
+					}
+				}
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+			{
+				return new CTargetRushState(TYPE_START);
+			}
+			else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
+			{
+				return new CJumpstate(TYPE_START, 0.f, 0.f);
+			}
+			break;
+		}
+	}
+
+	return nullptr;
 }
 

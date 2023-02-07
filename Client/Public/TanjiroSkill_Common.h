@@ -17,6 +17,9 @@ public:
 
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
+
+
+	virtual CTanjiroState* CommandCheck(CTanjiro* pTanjiro) override;
 private:
 	CWindMill*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;

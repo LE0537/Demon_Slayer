@@ -17,6 +17,7 @@ public:
 
 	virtual void Enter(CKyoujuro* pKyoujuro) override;
 	virtual void Exit(CKyoujuro* pKyoujuro) override;
+	virtual CKyoujuroState* CommandCheck(CKyoujuro* pKyoujuro) override;
 private:
 	CKyoujuroSkill*	m_pCollBox2 = nullptr;
 	CBaseAtk*	m_pCollBox = nullptr;

@@ -901,9 +901,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Attack_4">
       <UniqueIdentifier>{8240904d-935b-44fe-8feb-04c7d74733ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\02.Battle\BattleTop\Change\ProgressBar">
-      <UniqueIdentifier>{cb63ac55-e279-4cea-aa8d-87ca8ae3c944}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\JumpCommon">
       <UniqueIdentifier>{b5f3d480-8735-4c56-a68a-5203dd1aafac}</UniqueIdentifier>
     </Filter>
@@ -960,6 +957,9 @@
     </Filter>
     <Filter Include="03.UI\02.Battle\Combo\HitBase">
       <UniqueIdentifier>{64c014ec-d500-44b9-bf2b-20c7ae45eaed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Change\ChangeBar">
+      <UniqueIdentifier>{cb63ac55-e279-4cea-aa8d-87ca8ae3c944}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1854,9 +1854,6 @@
     <ClInclude Include="..\Public\CharSelMsg.h">
       <Filter>03.UI\96.MsgUI\CharselMsg</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\ProgressBar.h">
-      <Filter>03.UI\02.Battle\BattleTop\Change\ProgressBar</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\TanjiroJumpSkillCommonState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\JumpCommon</Filter>
     </ClInclude>
@@ -1910,6 +1907,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\ComboNum.h">
       <Filter>03.UI\02.Battle\Combo\Num</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ChangeBar.h">
+      <Filter>03.UI\02.Battle\BattleTop\Change\ChangeBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2780,9 +2780,6 @@
     <ClCompile Include="..\Private\CharSelMsg.cpp">
       <Filter>03.UI\96.MsgUI\CharselMsg</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\ProgressBar.cpp">
-      <Filter>03.UI\02.Battle\BattleTop\Change\ProgressBar</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\TanjiroJumpSkillCommonState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\JumpCommon</Filter>
     </ClCompile>
@@ -2836,6 +2833,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\ComboHitDeco.cpp">
       <Filter>03.UI\02.Battle\Combo\HitBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ChangeBar.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Change\ChangeBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

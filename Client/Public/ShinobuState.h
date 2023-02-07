@@ -52,6 +52,8 @@ public:
 	virtual void Enter(CShinobu* pShinobu) {};
 	virtual void Exit(CShinobu* pShinobu) {};
 
+	virtual CShinobuState* CommandCheck(CShinobu* pShinobu) { return nullptr; };
+
 	CShinobuState* ChangeState(CShinobu* pShinobu, CShinobuState* pCurrentState, CShinobuState* pNewState)
 	{
 		if (pCurrentState)
@@ -75,6 +77,9 @@ protected:
 	STATE_ID m_eStateId = STATE_END;
 
 	STATE_ID m_ePreState = STATE_END;
+
+	_float m_fDuration = 0.f;
+	_float m_fCurrentDuration = 0.f;
 };
 
 END

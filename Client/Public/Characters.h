@@ -70,6 +70,7 @@ public:
 	void	   Set_iTargetIndex(_int _iTargetIndex) { m_iTargetIndex = _iTargetIndex; }
 	_int       Get_iTargetIndex() { return m_iTargetIndex; }
 	void	   Set_SkillBar(_int _iSkill) { m_tInfo.iSkBar += _iSkill; }
+	void	   Set_FriendSkillBar(_int _iSkill) { m_tInfo.iFriendBar += _iSkill; }
 	CNavigation*	Get_NavigationCom() { return m_pNavigationCom; }
 	void	   Set_HitTime(_float _fHitTime) { m_tInfo.fHitTime = _fHitTime; }
 	void	   Set_Sub(_bool _bSub){ m_tInfo.bSub = _bSub; }
@@ -85,7 +86,8 @@ public:
 	void	   Set_AnimIndex(_int _iIndex) { m_iAnimIndex = _iIndex; }
 	void	   Set_Combo(_int _iCombo) { m_tInfo.iCombo += _iCombo; }
 	void	   Reset_Combo() { m_tInfo.iCombo = 0; }
-	void	   Set_ComboTime(_float _fTime) { m_tInfo.fComboTime += _fTime; }
+	void	   Set_ComboTime(_float _fTime) { m_tInfo.fComboTime = _fTime; }
+	void	   Set_BattleStart(_bool m_bStart) { m_bBattleStart = m_bStart; }
 
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
@@ -105,6 +107,7 @@ protected:
 
 	_int					m_iModelIndex = 0;
 	_int					m_iAnimIndex = 0;
+	_bool					m_bBattleStart = false;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

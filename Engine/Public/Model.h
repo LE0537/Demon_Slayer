@@ -27,6 +27,10 @@ public: // 민준 추가 키프레임 가져오기
 	_bool Is_KeyFrame(char* pChannelName, _uint iKeyFrame);
 	_float	Get_Duration();
 	void  Set_CurrentTime(_float fCurrentTime);
+
+	_float	Get_Duration_Index(_uint iIndex);
+	_float  Get_CurrentTime_Index(_uint iIndex);
+
 	_float  Get_CurrentTime();
 	_uint Get_AllFrame();
 	_uint Get_CurrentFrame();
@@ -140,4 +144,4 @@ public:
 	virtual void Free() override;
 };
 
-END
+END 

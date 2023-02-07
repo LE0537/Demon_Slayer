@@ -17,7 +17,7 @@ public:
 
 	virtual void Enter(CShinobu* pShinobu) override;
 	virtual void Exit(CShinobu* pShinobu) override;
-
+	virtual CShinobuState* CommandCheck(CShinobu* pShinobu) override;
 private:
 	CBaseAtk*	m_pCollBox = nullptr;
 

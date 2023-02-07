@@ -17,6 +17,8 @@ public:
 
 	virtual void Enter(CNezuko* pNezuko) override;
 	virtual void Exit(CNezuko* pNezuko) override;
+private:
+	_float  m_fTime = 0.f;
 };
 END
 END
