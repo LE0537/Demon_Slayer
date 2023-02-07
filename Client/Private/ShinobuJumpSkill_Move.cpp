@@ -4,6 +4,8 @@
 #include "ShinobuIdleState.h"
 #include "ShinobuMoveState.h"
 #include "Effect_Manager.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Shinobu;
 
 CJumpMoveSkillState::CJumpMoveSkillState(STATE_TYPE eType)
@@ -206,6 +208,9 @@ CShinobuState * CJumpMoveSkillState::Late_Tick(CShinobu* pShinobu, _float fTimeD
 					}
 					else
 					{
+						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.2f);
+						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(-50);
 						m_pTarget->Take_Damage(0.6f, false);
 						pShinobu->Set_Combo(1);

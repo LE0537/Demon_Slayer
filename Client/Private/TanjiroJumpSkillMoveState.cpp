@@ -4,6 +4,8 @@
 #include "TanjiroIdleState.h"
 #include "TanjiroMoveState.h"
 #include "Effect_Manager.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Tanjiro;
 
 CJumpSkillMoveState::CJumpSkillMoveState(STATE_TYPE eType)
@@ -119,6 +121,9 @@ CTanjiroState * CJumpSkillMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTime
 					}
 					else
 					{
+						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+					//	dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(-30);
 						m_pTarget->Take_Damage(0.3f, false);
 						pTanjiro->Set_Combo(1);

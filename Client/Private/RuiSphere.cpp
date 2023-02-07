@@ -3,6 +3,8 @@
 
 #include "GameInstance.h"
 #include "Effect_Manager.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 CRuiSphere::CRuiSphere(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCollBox(pDevice, pContext)
 {
@@ -90,6 +92,9 @@ void CRuiSphere::Late_Tick(_float fTimeDelta)
 			}
 			else
 			{
+				CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.1f);
+				RELEASE_INSTANCE(CGameInstance);
 				m_ShootInfo.pTarget->Set_Hp(-15);
 				m_ShootInfo.pTarget->Take_Damage(0.1f, false);
 				m_ShootInfo.pPlayer->Set_Combo(1);
@@ -126,6 +131,9 @@ void CRuiSphere::Late_Tick(_float fTimeDelta)
 			}
 			else
 			{
+				CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.2f);
+				RELEASE_INSTANCE(CGameInstance);
 				m_ShootInfo.pTarget->Set_Hp(-30);
 				m_ShootInfo.pTarget->Take_Damage(0.1f, true);
 				m_ShootInfo.pPlayer->Set_Combo(1);

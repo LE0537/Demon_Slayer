@@ -12,6 +12,7 @@
 #include "KyoujuroSkill_DoubleUpper.h"
 #include "KyoujuroJumpState.h"
 #include "KyoujuroTargetRushState.h"
+#include "Camera_Dynamic.h"
 using namespace Kyoujuro;
 
 
@@ -247,6 +248,9 @@ CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 				}
 				else
 				{
+					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg * 2);
 					m_pTarget->Take_Damage(0.5f,false);
 					pKyoujuro->Set_Combo(1);

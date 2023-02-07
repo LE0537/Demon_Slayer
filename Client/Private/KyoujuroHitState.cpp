@@ -122,7 +122,7 @@ CKyoujuroState * CHitState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 }
 void CHitState::Exit(CKyoujuro* pKyoujuro)
 {
-	pKyoujuro->Set_HitTime(0.2f);
+	pKyoujuro->Set_HitTime(0.5f);
 }
 
 
