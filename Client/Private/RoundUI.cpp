@@ -195,7 +195,7 @@ HRESULT CRoundUI::SetUp_ShaderResources()
 void CRoundUI::ZoomIn(_float fTimeDelta)
 {
 
-	m_fZoomTime += fTimeDelta * 1.5f;
+	m_fZoomTime += fTimeDelta * 2.5f;
 
 	if (!m_bScaleCheck)
 	{
@@ -215,8 +215,8 @@ void CRoundUI::ZoomIn(_float fTimeDelta)
 	
 	if (m_fZoomTime >= 0.001f)
 	{
-		m_fSizeX += m_fSizeX * 0.01f;
-		m_fSizeY += m_fSizeY * 0.01f;
+		m_fSizeX += m_fSizeX * 0.025f;
+		m_fSizeY += m_fSizeY * 0.025f;
 		Fade_In(fTimeDelta);
 		m_fZoomTime = 0.f;
 	}
@@ -237,11 +237,11 @@ void CRoundUI::ZoomOut(_float fTimeDelta)
 	if (m_fStopTime >= 1.f)
 	{
 
-		m_fZoomTime += fTimeDelta * 1.5f;
+		m_fZoomTime += fTimeDelta * 2.5f;
 		if (m_fZoomTime >= 0.001f)
 		{
-			m_fSizeX -= m_fSizeX * 0.01f;
-			m_fSizeY -= m_fSizeY * 0.01f;
+			m_fSizeX -= m_fSizeX * 0.025f;
+			m_fSizeY -= m_fSizeY * 0.025f;
 			Fade_Out(fTimeDelta);
 			m_fZoomTime = 0.f;
 		}
@@ -403,38 +403,18 @@ void CRoundUI::UI_Function(_float fTimeDelta)
 		m_fDelayTime += fTimeDelta;
 		if (m_fDelayTime >= 3.f)
 		{
-			m_fStartDelayTime += fTimeDelta;
-			if (m_fStartDelayTime >= 3.5f && m_bStartCheck)
-			{
-				if (!m_bZoomCheck)
-					ZoomIn(fTimeDelta);
-				else if (m_bZoomCheck)
-					ZoomOut(fTimeDelta);
-	}
-			else if (!m_bStartCheck)
-			{
-				if (!m_bZoomCheck)
-					ZoomIn(fTimeDelta);
-				else if (m_bZoomCheck)
-					ZoomOut(fTimeDelta);
-			}
+			if (!m_bZoomCheck)
+				ZoomIn(fTimeDelta);
+			else if (m_bZoomCheck)
+				ZoomOut(fTimeDelta);
 		}
 #else
-		m_fStartDelayTime += fTimeDelta;
-		if (m_fStartDelayTime >= 3.5f && m_bStartCheck)
-		{
+
 			if (!m_bZoomCheck)
 				ZoomIn(fTimeDelta);
 			else if (m_bZoomCheck)
 				ZoomOut(fTimeDelta);
-		}
-		else if(!m_bStartCheck)
-		{
-			if (!m_bZoomCheck)
-				ZoomIn(fTimeDelta);
-			else if (m_bZoomCheck)
-				ZoomOut(fTimeDelta);
-		}
+
 #endif
 
 	}

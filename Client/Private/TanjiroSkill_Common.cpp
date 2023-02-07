@@ -15,6 +15,7 @@
 #include "TanjiroTargetRushState.h"
 #include "TanjiroJumpState.h"
 #include "TanjiroAtk_1_State.h"
+#include "Camera_Dynamic.h"
 using namespace Tanjiro;
 
 
@@ -39,7 +40,7 @@ CTanjiroState * CSkill_CommonState::HandleInput(CTanjiro * pTanjiro)
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
 
-	if (fRatio >= 0.7f)
+	if (fRatio >= 0.7f && pTanjiro->Get_SubSkill() == 0)
 	{
 		switch (pTanjiro->Get_i1P())
 		{
@@ -175,6 +176,11 @@ CTanjiroState * CSkill_CommonState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	{
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+		if (pTanjiro->Get_SubSkill() != 0)
+		{
+			pTanjiro->Set_Sub(true);
+			pTanjiro->Set_SubSkill(0);
+		}
 		return new CIdleState();
 	}
 
@@ -233,6 +239,9 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 					}
 					else
 					{
+						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.4f);
+						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(-15);
 						m_pTarget->Take_Damage(0.1f, false);
 						pTanjiro->Set_Combo(1);

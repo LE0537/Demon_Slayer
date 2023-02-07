@@ -146,8 +146,8 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vMaskTexture = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
-		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
+	Out.vColor = g_bUseColor * (g_vColor)+
+		(1.f - g_bUseColor) * vTexture;
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
@@ -181,8 +181,7 @@ PS_OUT PS_COLORTEST(PS_IN In)
 	vector		vDissolveTexture = g_DissolveTexture.Sample(LinearSampler, In.vTexUV);
 	vector		vMaskTexture = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
-		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
+	Out.vColor = g_bUseColor * (g_vColor)+(1.f - g_bUseColor) * vTexture;
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
@@ -257,7 +256,7 @@ PS_OUT PS_ALPHAGLOW(PS_IN In)
 	vector		vMaskTexture = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
-		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
+		(1.f - g_bUseColor) * vTexture;
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
@@ -425,5 +424,16 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_FLOWMAP();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_FLOWMAP();
+	}
+
+	pass EFFECTTEST //8
+	{
+		SetRasterizerState(RS_Effect);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Effect, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_COLORTEST();
 	}
 }

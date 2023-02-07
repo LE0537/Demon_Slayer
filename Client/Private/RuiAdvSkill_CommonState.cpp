@@ -36,8 +36,6 @@ CRuiState * CAdvSkill_CommonState::Late_Tick(CRui * pRui, _float fTimeDelta)
 	vLooAt.m128_f32[1] = 0.f;
 	pRui->Get_Transform()->LookAt(vLooAt);
 
-		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
 		m_fMove += fTimeDelta;
 
 		CRuiSphere::RUISPHEREINFO	tInfo;
@@ -56,8 +54,6 @@ CRuiState * CAdvSkill_CommonState::Late_Tick(CRui * pRui, _float fTimeDelta)
 			m_fMove = 0.f;
 			++m_iHit;
 		}
-
-
 
 	pRui->Get_Model()->Play_Animation(fTimeDelta);
 

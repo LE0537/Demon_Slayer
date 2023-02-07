@@ -16,7 +16,7 @@ public:
 	{
 		CCamera::CAMERADESC			CameraDesc;
 	}CAMERADESC_DERIVED;
-
+	enum SHAKE{ SHAKE_DOWN,SHAKE_HIT,SHAKE_END};
 private:
 	CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCamera_Dynamic(const CCamera_Dynamic& rhs);
@@ -45,10 +45,14 @@ public:
 	void Set_Player(CCharacters* _pPlayer) { m_pPlayer = _pPlayer; }
 	void Set_Target(CCharacters* _pTarget) { m_pTarget = _pTarget; }
 	_bool	Get_1PCam() { return m_b1P; }
+	void Set_Shake(SHAKE eShake, _float _fTime) { m_ShakeInfo = eShake, m_ShakeTime = _fTime; }
 
 
-	// test
-	void Camera_Shake(_float fTimeDelta);
+private:
+	//Shake
+	void Check_Shake(_float fTimeDelta);
+	void Camera_ShakeDown(_float fTimeDelta);
+	void Camera_ShakeHit(_float fTimeDelta);
 private:
 	CCharacters*				m_pPlayer = nullptr;
 	CCharacters*				m_pTarget = nullptr;
@@ -74,10 +78,11 @@ private:
 	_float m_fLerpTime = 0.f;
 	_float4 m_vCamPos, m_vLerpLook;
 	
-	//shake test
-	_float m_fShakeAmount = 1.f;
-	_float m_fShakeFrequency = 5.f;
-
+	//shake 
+	_float m_fShakeAmount = 0.f;
+	_float m_fShakeFrequency = 0.f;
+	_float m_ShakeTime = 0.f;
+	SHAKE  m_ShakeInfo;
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 

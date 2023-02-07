@@ -138,6 +138,9 @@ void CEffect_Texture::Late_Tick(_float fTimeDelta)
 			case CEffect::SHADER_ALPHABLEND:
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
 				break;
+			case CEffect::SHADER_PRIORITY_TEST:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this);
+				break;
 			}
 		}
 	}
@@ -174,6 +177,9 @@ HRESULT CEffect_Texture::Render()
 			m_pShaderCom->Begin(7);		//	FlowMap_AlphaTest
 		else
 			m_pShaderCom->Begin(2);
+	}
+	else if (m_TextureInfo.iShader == CEffect::SHADER_PRIORITY_TEST) {
+		m_pShaderCom->Begin(8);
 	}
 	m_pVIBufferCom->Render();
 

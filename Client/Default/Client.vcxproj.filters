@@ -46,9 +46,6 @@
     <Filter Include="03.UI">
       <UniqueIdentifier>{9f5b62f3-8f25-4092-b437-3914a5ba6d02}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Effect">
-      <UniqueIdentifier>{fe3725ee-5fd5-41aa-a76f-ed316cb11c2e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\02.Map\01.MeshObj_Static">
       <UniqueIdentifier>{32e5c8cf-ccb0-43da-a7e8-c1c8dbcf2218}</UniqueIdentifier>
     </Filter>
@@ -198,18 +195,6 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_4">
       <UniqueIdentifier>{735d8c88-857f-47ff-9e99-cac2977f93d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Effect\00.EffectManager">
-      <UniqueIdentifier>{d37213a8-20f9-49ce-b9e9-4d74351c7bf3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Effect\01.EffectTexture">
-      <UniqueIdentifier>{5ad5de8a-607a-4461-bc82-b56b8ad95b8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Effect\02.EffectMesh">
-      <UniqueIdentifier>{4518dd4c-db1e-4d95-800e-eec751748f0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Effect\03.EffectParticle">
-      <UniqueIdentifier>{4b874ab3-fb8c-42a1-a396-84e644f167f3}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit">
       <UniqueIdentifier>{de32ec51-5739-4edb-a503-78eb5d647557}</UniqueIdentifier>
@@ -963,6 +948,27 @@
     </Filter>
     <Filter Include="05.CollBox\12.RuiMoveSkill">
       <UniqueIdentifier>{90ce68e6-e609-419e-be88-775fb1cdc8fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Change\OniSpSkillBar">
+      <UniqueIdentifier>{5a5728f2-87c1-4d9f-a824-bb75c79270e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect">
+      <UniqueIdentifier>{fe3725ee-5fd5-41aa-a76f-ed316cb11c2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect\00.EffectManager">
+      <UniqueIdentifier>{d37213a8-20f9-49ce-b9e9-4d74351c7bf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect\01.EffectTexture">
+      <UniqueIdentifier>{5ad5de8a-607a-4461-bc82-b56b8ad95b8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect\02.EffectMesh">
+      <UniqueIdentifier>{4518dd4c-db1e-4d95-800e-eec751748f0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Effect\03.EffectParticle">
+      <UniqueIdentifier>{4b874ab3-fb8c-42a1-a396-84e644f167f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\AiState">
+      <UniqueIdentifier>{40d491a7-201e-4970-a0ba-450943b6ff7b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1917,6 +1923,12 @@
     <ClInclude Include="..\public\RuiMoveSkill.h">
       <Filter>05.CollBox\12.RuiMoveSkill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\OniSpecialSkillBar.h">
+      <Filter>03.UI\02.Battle\BattleTop\Change\OniSpSkillBar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AiState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\AiState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2845,6 +2857,12 @@
     </ClCompile>
     <ClCompile Include="..\private\RuiMoveSkill.cpp">
       <Filter>05.CollBox\12.RuiMoveSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\OniSpecialSkillBar.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Change\OniSpSkillBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AiState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\AiState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
+#include "ShinobuSkill_Common.h"
+#include "ShinobuSkill_Move.h"
 using namespace Shinobu;
 
 
@@ -39,7 +41,20 @@ CShinobuState * CChangeState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 		case Client::CShinobuState::TYPE_END:
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
 			pShinobu->Set_ChangeInfo(false);
-			return new CIdleState();
+			switch (pShinobu->Get_SubSkill())
+			{
+			case 0:
+				return new CIdleState();
+				break;
+			case 1:
+				return new CSkill_CommonState();
+				break;
+			case 2:
+				return new CSkill_MoveState(STATE_TYPE::TYPE_START);
+				break;
+			default:
+				break;
+			}
 			break;
 		}
 		pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());

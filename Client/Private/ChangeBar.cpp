@@ -33,12 +33,20 @@ HRESULT CChangeBar::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360 && !m_ThrowUIinfo.bPlyCheck)
 		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
+	else
+	{
+		if(m_ThrowUIinfo.iLayerNum == 0)
+			m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(166.f));
+		if (m_ThrowUIinfo.iLayerNum == 1)
+			m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(134.5f));
+	}
+
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-	if (!m_ThrowUIinfo.bReversal)
+	if (!m_ThrowUIinfo.bPlyCheck)
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
@@ -68,7 +76,7 @@ void CChangeBar::Tick(_float fTimeDelta)
 
 	if (m_ThrowUIinfo.iLayerNum == 0)
 	{
-		if (m_fFriendBar < 500)
+		if (m_fFriendBar < 500.f)
 		{
 			if (!m_bCurPerBarCheck)
 			{
@@ -90,14 +98,14 @@ void CChangeBar::Tick(_float fTimeDelta)
 				m_bCurPerBarCheck = false;
 			}
 		}
-		else if (m_fFriendBar >= 500)
+		else if (m_fFriendBar >= 500.f)
 		{
 			m_fTime = 469.17f;
 		}
 	}
 	else if (m_ThrowUIinfo.iLayerNum == 1 )
 	{
-		if(m_fFriendBar >= 500)
+		if(m_fFriendBar >= 500.f)
 		{
 			if (!m_bCurPerBarCheck)
 			{
@@ -122,7 +130,7 @@ void CChangeBar::Tick(_float fTimeDelta)
 				m_bCurPerBarCheck = false;
 			}
 		}
-		else if (m_fFriendBar < 500)
+		else if (m_fFriendBar < 500.f)
 			m_fTime = 500.f;
 	}
 	
@@ -147,10 +155,9 @@ HRESULT CChangeBar::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if(!m_ThrowUIinfo.bPlyCheck)
-		m_pShaderCom->Begin(23);
-	else
-		m_pShaderCom->Begin(17);
+	//if(!m_ThrowUIinfo.bPlyCheck)
+
+	m_pShaderCom->Begin(23);
 
 	m_pVIBufferCom->Render();
 

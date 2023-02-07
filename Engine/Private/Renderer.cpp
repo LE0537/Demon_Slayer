@@ -320,6 +320,8 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 		return E_FAIL;
 
 
+	if (FAILED(Render_Effect()))
+		return E_FAIL;
 
 	//	NonAlpha의 Glow, Alpha의 Glow를 취합합니다.
 	if (FAILED(Ready_GlowTexture()))
@@ -776,6 +778,22 @@ HRESULT CRenderer::Render_AlphaBlend()
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Effect()
+{
+	for (auto& pGameObject : m_GameObjects[RENDER_EFFECT])
+	{
+		if (nullptr != pGameObject)
+		{
+			pGameObject->Render();
+			Safe_Release(pGameObject);
+		}
+	}
+
+	m_GameObjects[RENDER_EFFECT].clear();
 
 	return S_OK;
 }

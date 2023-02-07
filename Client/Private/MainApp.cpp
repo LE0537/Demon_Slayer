@@ -65,8 +65,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Add_Fonts(m_pDevice, m_pContext, TEXT("Font_Nexon"), TEXT("../Bin/Resources/Fonts/130.spritefont"))))
 		return E_FAIL;
 
-	//if (FAILED(Open_DebugCMD()))
-	//	return E_FAIL;
+	if (FAILED(Open_DebugCMD()))
+		return E_FAIL;
 
 	if (FAILED(m_pImGuiManager->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;

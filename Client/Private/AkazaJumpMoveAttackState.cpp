@@ -4,6 +4,8 @@
 #include "AkazaIdleState.h"
 #include "AkazaMoveState.h"
 #include "Effect_Manager.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Akaza;
 
 CJumpMoveAttackState::CJumpMoveAttackState(STATE_TYPE eType)
@@ -91,6 +93,9 @@ CAkazaState * CJumpMoveAttackState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				}
 				else
 				{
+					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.5f, false);
 					pAkaza->Set_Combo(1);

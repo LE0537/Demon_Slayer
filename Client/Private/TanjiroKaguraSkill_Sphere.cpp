@@ -240,10 +240,12 @@ CTanjiroState * CKaguraSkill_SphereState::Late_Tick(CTanjiro * pTanjiro, _float 
 		}
 
 
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+		
 
-		return nullptr;
+	
 	}
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	return nullptr;
 }
 
 void CKaguraSkill_SphereState::Enter(CTanjiro * pTanjiro)

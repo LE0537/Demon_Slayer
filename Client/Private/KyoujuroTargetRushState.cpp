@@ -10,6 +10,8 @@
 #include "KyoujuroJumpState.h"
 #include "KyoujuroTargetRushState.h"
 #include "KyoujuroAtk_1_State.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Kyoujuro;
 
 CTargetRushState::CTargetRushState(STATE_TYPE eType)
@@ -272,6 +274,9 @@ void CTargetRushState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		}
 		else
 		{
+			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+			RELEASE_INSTANCE(CGameInstance);
 			pKyoujuro->Get_BattleTarget()->Take_Damage(0.3f, false);
 		}
 	}

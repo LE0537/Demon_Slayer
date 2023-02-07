@@ -13,6 +13,7 @@
 #include "ShinobuAtk_1_State.h"
 #include "ShinobuDashState.h"
 #include "ShinobuJumpState.h"
+#include "Camera_Dynamic.h"
 using namespace Shinobu;
 
 
@@ -38,7 +39,7 @@ CShinobuState * CSkill_CommonState::HandleInput(CShinobu* pShinobu)
 
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
-	if (fRatio >= 0.85f)
+	if (fRatio >= 0.85f && pShinobu->Get_SubSkill() == 0)
 	{
 		switch (pShinobu->Get_i1P())
 		{
@@ -173,6 +174,11 @@ CShinobuState * CSkill_CommonState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 	if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
 	{
 		pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+		if (pShinobu->Get_SubSkill() != 0)
+		{
+			pShinobu->Set_Sub(true);
+			pShinobu->Set_SubSkill(0);
+		}
 		return new CIdleState();
 
 	}
@@ -224,6 +230,9 @@ CShinobuState * CSkill_CommonState::Late_Tick(CShinobu* pShinobu, _float fTimeDe
 				}
 				else
 				{
+					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.1f);
+					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(-15);
 					m_pTarget->Take_Damage(0.1f, false);
 					pShinobu->Set_Combo(1);
@@ -267,6 +276,9 @@ CShinobuState * CSkill_CommonState::Late_Tick(CShinobu* pShinobu, _float fTimeDe
 				}
 				else
 				{
+					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.2f);
+					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(-30);
 					m_pTarget->Take_Damage(0.7f, false);
 					pShinobu->Set_Combo(1);

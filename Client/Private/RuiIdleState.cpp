@@ -9,6 +9,7 @@
 #include "RuiSkill_Sphere.h"
 #include "RuiAdvSkill_CommonState.h"
 #include "RuiTargetRushState.h"
+#include "AiState.h"
 using namespace Rui;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -100,7 +101,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
 				pRui->Get_Model()->Reset_Anim(CRui::ANIM_ADVSKILL_COMMON);
-				// 친구 게이지 깎는 코드 넣어야함
+				pRui->Set_FriendSkillBar(-500.f);
 				return new CAdvSkill_CommonState();
 			}
 		}
@@ -184,7 +185,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
 				pRui->Get_Model()->Reset_Anim(CRui::ANIM_ADVSKILL_COMMON);
-				// 친구 게이지 깎는 코드 넣어야함
+				pRui->Set_FriendSkillBar(-500.f);
 				return new CAdvSkill_CommonState();
 			}
 		}
@@ -202,8 +203,10 @@ CRuiState * CIdleState::Tick(CRui * pRui, _float fTimeDelta)
 		pRui->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
 	}
 
-
-	return nullptr;
+	if (pRui->Get_IsAIMode() == true)
+		return new CAiState();
+	else
+		return nullptr;
 }
 
 CRuiState * CIdleState::Late_Tick(CRui * pRui, _float fTimeDelta)

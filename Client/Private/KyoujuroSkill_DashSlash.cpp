@@ -37,7 +37,7 @@ CKyoujuroState * CSkill_DashSlashState::HandleInput(CKyoujuro * pKyojuro)
 
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
-	if (fRatio >= 0.6f)
+	if (fRatio >= 0.6f && pKyojuro->Get_SubSkill() == 0)
 	{
 		switch (pKyojuro->Get_i1P())
 		{
@@ -179,6 +179,11 @@ CKyoujuroState * CSkill_DashSlashState::Tick(CKyoujuro * pKyojuro, _float fTimeD
 	if (pKyojuro->Get_Model()->Get_End(pKyojuro->Get_AnimIndex()))
 	{
 		pKyojuro->Get_Model()->Set_End(pKyojuro->Get_AnimIndex());
+		if (pKyojuro->Get_SubSkill() != 0)
+		{
+			pKyojuro->Set_Sub(true);
+			pKyojuro->Set_SubSkill(0);
+		}
 		return new CIdleState();
 	}
 

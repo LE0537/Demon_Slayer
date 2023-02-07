@@ -133,9 +133,11 @@ public:
 public:
 	//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
 	CModel* Get_Model() const { return m_pModelCom; }
-
+	void	Set_Start() { m_bStart = true; }
+	_bool   Get_IsAIMode() const { return m_bAiState; }
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
+	_bool Get_RuiHit();
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:
@@ -146,9 +148,11 @@ private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
 
-
+	void	Boss_Tick(_float fTimeDelta);
+	void	Boss_LateTick(_float fTimeDelta);
+	void	Boss_Render();
 	void	Set_Info();
-
+	
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);
@@ -161,12 +165,17 @@ private:
 
 	CGameObject*			m_pTrail = nullptr;
 
+
+
+
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
-
+ 
 	class CRuiState* m_pRuiState = nullptr;
-
+	
+	_bool m_bStart = false;
+	_bool m_bAiState = false;
 public:
 	static CRui* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

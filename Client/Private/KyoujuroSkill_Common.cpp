@@ -14,6 +14,8 @@
 #include "KyoujuroJumpState.h"
 #include "KyoujuroTargetRushState.h"
 #include "KyoujuroAtk_1_State.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Kyoujuro;
 
 
@@ -38,7 +40,7 @@ CKyoujuroState * CSkill_CommonState::HandleInput(CKyoujuro * pKyojuro)
 
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
-	if (fRatio >= 0.6f)
+	if (fRatio >= 0.6f && pKyojuro->Get_SubSkill() == 0)
 	{
 		switch (pKyojuro->Get_i1P())
 		{
@@ -180,6 +182,12 @@ CKyoujuroState * CSkill_CommonState::Tick(CKyoujuro * pKyojuro, _float fTimeDelt
 	if (pKyojuro->Get_Model()->Get_End(pKyojuro->Get_AnimIndex()))
 	{
 		pKyojuro->Get_Model()->Set_End(pKyojuro->Get_AnimIndex());
+		
+		if(pKyojuro->Get_SubSkill() != 0)
+		{
+			pKyojuro->Set_Sub(true);
+			pKyojuro->Set_SubSkill(0);
+		}
 		return new CIdleState();
 	}
 
@@ -321,6 +329,9 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 				}
 				else
 				{
+					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.1f);
+					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(-15);
 					m_pTarget->Take_Damage(0.2f, false);
 					pKyojuro->Set_Combo(1);

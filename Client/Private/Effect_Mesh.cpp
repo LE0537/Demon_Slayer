@@ -16,7 +16,7 @@ CEffect_Mesh::CEffect_Mesh(const CEffect_Mesh & rhs)
 
 HRESULT CEffect_Mesh::Initialize_Prototype()
 {
-	m_MeshName.push_back("EffectSlash1");
+	/*m_MeshName.push_back("EffectSlash1");
 	m_MeshName.push_back("EffectSlash2");
 	m_MeshName.push_back("EffectSlash3");
 	m_MeshName.push_back("EffectSlash4");
@@ -118,7 +118,7 @@ HRESULT CEffect_Mesh::Initialize_Prototype()
 	m_MeshName.push_back("Rui_UpWeb5");
 	m_MeshName.push_back("Rui_UpWeb6");
 	m_MeshName.push_back("Rui_Web3");
-	m_MeshName.push_back("Rui_Web4");
+	m_MeshName.push_back("Rui_Web4");*/
 
 	//	Akaza
 	m_MeshName.push_back("Akaza_Angry1");
@@ -253,18 +253,7 @@ HRESULT CEffect_Mesh::Render()
 
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
-
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-	////////////////////////////////////////////////////////
-	_int		iMulUV_U = 1;
-	_int		iMulUV_V = 1;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iMulUV_U", &iMulUV_U, sizeof(_int))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_iMulUV_V", &iMulUV_V, sizeof(_int))))
-		return E_FAIL;
-	////////////////////////////////////////////////////////
-
+	
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
@@ -274,11 +263,6 @@ HRESULT CEffect_Mesh::Render()
 		}
 		else {
 			if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pDiffuseTextureCom->Get_SRV(0))))
-				return E_FAIL;
-		}
-
-		if (m_MeshInfo.bUseMask) {
-			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_MaskTextureCom", i, aiTextureType_OPACITY)))
 				return E_FAIL;
 		}
 
@@ -321,7 +305,6 @@ HRESULT CEffect_Mesh::Render()
 		}
 	}
 
-	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
@@ -332,7 +315,7 @@ void CEffect_Mesh::Set_MeshInfo(MESH_INFO MeshInfo)
 
 	/* For.Com_Mesh */
 	char szName[MAX_PATH] = "Prototype_Component_Model_";
-	strcat_s(szName, m_MeshName[MeshInfo.iMeshType]);
+	strcat_s(szName, m_MeshInfo.szMeshType);
 
 	_tchar			szRealPath[MAX_PATH] = TEXT("");
 	MultiByteToWideChar(CP_ACP, 0, szName, (_int)strlen(szName), szRealPath, MAX_PATH);
@@ -358,6 +341,18 @@ void CEffect_Mesh::Set_MeshInfo(MESH_INFO MeshInfo)
 		MultiByteToWideChar(CP_ACP, 0, szDiffuseName, (_int)strlen(szDiffuseName), szDiffuseRealPath, MAX_PATH);
 
 		if (FAILED(__super::Add_Components(TEXT("Com_DiffuseTexture"), LEVEL_STATIC, szDiffuseRealPath, (CComponent**)&m_pDiffuseTextureCom)))
+			return;
+	}
+
+
+	if (strcmp("", m_MeshInfo.szMeshMask) != 0) {
+		char szMaskName[MAX_PATH] = "Prototype_Component_Texture_";
+		strcat_s(szMaskName, m_MeshInfo.szMeshMask);
+
+		_tchar			szMaskRealPath[MAX_PATH] = TEXT("");
+		MultiByteToWideChar(CP_ACP, 0, szMaskName, (_int)strlen(szMaskName), szMaskRealPath, MAX_PATH);
+
+		if (FAILED(__super::Add_Components(TEXT("Com_MaskTexture"), LEVEL_STATIC, szMaskRealPath, (CComponent**)&m_pMaskTextureCom)))
 			return;
 	}
 
@@ -417,14 +412,17 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 		fFullTime = m_MeshInfo.fLifeTime * (1 - m_MeshInfo.fDisappearTimeRatio);
 
 		AlphaRatio = fCurTime / fFullTime;
-
-		int a = 0;
 	}
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlphaRatio", &AlphaRatio, sizeof(_float))))
 		return E_FAIL;
 
 	m_pShaderCom->Set_RawValue("g_bDissolve", &m_MeshInfo.bDisappearAlpha, sizeof(_bool));
+
+	if (m_pMaskTextureCom != nullptr) {
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pMaskTextureCom->Get_SRV(0))))
+			return E_FAIL;
+	}
 
 	if (m_pDissolveTextureCom != nullptr) {
 		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DissolveTexture", m_pDissolveTextureCom->Get_SRV(0))))
@@ -434,15 +432,12 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 	m_pShaderCom->Set_RawValue("g_bUseRGB", &m_MeshInfo.bUseRGB, sizeof(_bool));//	Color * (RGB or A)
 	m_pShaderCom->Set_RawValue("g_bUseColor", &m_MeshInfo.bUseColor, sizeof(_bool));//	Color = g_vColor or DiffuseTexture
 	m_pShaderCom->Set_RawValue("g_bGlow", &m_MeshInfo.bGlow, sizeof(_bool));
-	m_pShaderCom->Set_RawValue("g_UseMask", &m_MeshInfo.bUseMask, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_bUseMask", &m_MeshInfo.bUseMask, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bUseGlowColor", &m_MeshInfo.bUseGlowColor, sizeof(_bool));
-
 	m_pShaderCom->Set_RawValue("g_fPostProcesesingValue", &m_MeshInfo.fPostProcessingValue, sizeof(_float));
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_NoiseTexture", m_pNoiseTextureCom->Get_SRV())))
 		return E_FAIL;
-	//if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DissolveTexture", m_pDissolveTextureCom->Get_SRV(0))))
-	//return E_FAIL;
 
 	m_pShaderCom->Set_RawValue("g_vGlowColor", &m_MeshInfo.vGlowColor, sizeof(_float3));
 
@@ -466,6 +461,10 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 								//if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseMaskTextureCom", m_pDiffuseMaskTextureCom->Get_SRV())))
 								//return E_FAIL;			//	DiffuseTex의 RGBA중 A를 담당합니다.
 
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iMulUV_U", &m_MeshInfo.iNumUV_U, sizeof(_int))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iMulUV_V", &m_MeshInfo.iNumUV_V, sizeof(_int))))
+		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionScale", &m_MeshInfo.fDistortionScale, sizeof(_float))))
 		return E_FAIL;
@@ -539,6 +538,7 @@ void CEffect_Mesh::Free()
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pNoiseTextureCom);
 	Safe_Release(m_pDiffuseTextureCom);
-	Safe_Release(m_pDissolveTextureCom);
+	Safe_Release(m_pMaskTextureCom);
+	Safe_Release(m_pDissolveTextureCom); 
 
 }

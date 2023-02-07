@@ -52,7 +52,8 @@ void CBattleStartState::Enter(CShinobu* pShinobu)
 
 	pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_BATTLE_START);
 	pShinobu->Set_AnimIndex(CShinobu::ANIM_BATTLE_START);
-
+	pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+	pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.01f);
 }
 
 void CBattleStartState::Exit(CShinobu* pShinobu)
