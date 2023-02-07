@@ -199,7 +199,7 @@ PS_OUT PS_COLORTEST(PS_IN In)
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
-		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
+		(1.f - g_bUseColor) * vTexture;
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
