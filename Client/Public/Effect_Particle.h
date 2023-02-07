@@ -24,7 +24,7 @@ public:
 		_bool							bGlow;
 		_bool							bUseRGB;
 		_bool							bUseColor;
-		_bool							bUseFlowMap;
+		_bool							bRotationPix;
 		_bool							bUseGlowColor;
 		_bool							bUseMask;
 		_bool							bBillboard;

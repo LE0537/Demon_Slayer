@@ -303,6 +303,11 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 			return E_FAIL;
 	}
 
+	if (m_pNoiseTextureCom != nullptr) {
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_NoiseTexture", m_pNoiseTextureCom->Get_SRV())))
+			return E_FAIL;
+	}
+
 	m_pShaderCom->Set_RawValue("g_bUseRGB", &m_TextureInfo.bUseRGB, sizeof(_bool));//	Color * (RGB or A)
 	m_pShaderCom->Set_RawValue("g_bUseColor", &m_TextureInfo.bUseColor, sizeof(_bool));//	Color = g_vColor or DiffuseTexture
 	m_pShaderCom->Set_RawValue("g_bGlow", &m_TextureInfo.bGlow, sizeof(_bool));
@@ -420,5 +425,4 @@ void CEffect_Texture::Free()
 	Safe_Release(m_pNoiseTextureCom);
 	Safe_Release(m_pDissolveTextureCom);
 	Safe_Release(m_pMaskTextureCom);
-	
 }
