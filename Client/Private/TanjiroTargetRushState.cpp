@@ -235,7 +235,7 @@ CTanjiroState * CTargetRushState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDel
 
 void CTargetRushState::Enter(CTanjiro * pTanjiro)
 {
-	m_eStateId = STATE_JUMP_ATTACK;
+	m_eStateId = STATE_RUSH;
 
 	switch (m_eStateType)
 	{

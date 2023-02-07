@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 #include "RuiGuardAdvState.h"
 #include "Layer.h"
-
+#include "AiState.h"
 using namespace Rui;
 
 
@@ -63,28 +63,35 @@ CRuiState * CGuardState::Tick(CRui* pRui, _float fTimeDelta)
 
 	
 
-	if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
-	{  
-		switch (m_eStateType)
+	
+	if (pRui->Get_IsAIMode() == false)
+	{
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 		{
-		case Client::CRuiState::TYPE_START:
+			switch (m_eStateType)
+			{
+			case Client::CRuiState::TYPE_START:
+				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+				return new CGuardState(STATE_TYPE::TYPE_LOOP);
+				break;
+			case Client::CRuiState::TYPE_LOOP:
+				break;
+			case Client::CRuiState::TYPE_END:
+				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+				return new CIdleState();
+				break;
+			case Client::CRuiState::TYPE_DEFAULT:
+				break;
+			default:
+				break;
+			}
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			return new CGuardState(STATE_TYPE::TYPE_LOOP);
-			break;
-		case Client::CRuiState::TYPE_LOOP:
-			break;
-		case Client::CRuiState::TYPE_END:
-			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			return new CIdleState();
-			break;
-		case Client::CRuiState::TYPE_DEFAULT:
-			break;
-		default:
-			break;
 		}
-		pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 	}
-
+	else
+	{
+		return AIGuard(pRui, fTimeDelta);
+	}
 
 	return nullptr;
 }
@@ -132,5 +139,38 @@ void CGuardState::Enter(CRui* pRui)
 
 void CGuardState::Exit(CRui* pRui)
 {
+}
+
+CRuiState * CGuardState::AIGuard(CRui * pRui, _float fTimeDelta)
+{
+	static _float fContinueTime = 0.f;
+
+	fContinueTime += fTimeDelta;
+
+	pRui->Set_bGuard(true);
+
+	if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+	{
+		switch (m_eStateType)
+		{
+		case Client::CRuiState::TYPE_START:
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CGuardState(STATE_TYPE::TYPE_LOOP);
+			break;
+		case Client::CRuiState::TYPE_LOOP:
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+
+			if(fContinueTime >= 2.f)
+				return new CGuardState(STATE_TYPE::TYPE_END);
+			break;
+		case Client::CRuiState::TYPE_END:
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CAiState();
+			break;
+		}
+		pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+	}
+
+	return nullptr;
 }
 

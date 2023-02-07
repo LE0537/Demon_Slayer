@@ -9,6 +9,7 @@
 #include "RuiSkill_Sphere.h"
 #include "RuiAdvSkill_CommonState.h"
 #include "RuiTargetRushState.h"
+#include "AiState.h"
 using namespace Rui;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -202,8 +203,10 @@ CRuiState * CIdleState::Tick(CRui * pRui, _float fTimeDelta)
 		pRui->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
 	}
 
-
-	return nullptr;
+	if (pRui->Get_IsAIMode() == true)
+		return new CAiState();
+	else
+		return nullptr;
 }
 
 CRuiState * CIdleState::Late_Tick(CRui * pRui, _float fTimeDelta)

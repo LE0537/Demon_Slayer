@@ -145,6 +145,11 @@ void CTanjiro::Tick(_float fTimeDelta)
 	else
 		m_tInfo.bJump = false;
 
+
+	if (m_pTanjiroState != nullptr)
+	{
+		m_iState = m_pTanjiroState->Get_TanjiroState();
+	}
 }
 
 

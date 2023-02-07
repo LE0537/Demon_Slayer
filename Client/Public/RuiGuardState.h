@@ -17,7 +17,7 @@ public:
 	virtual void Enter(CRui* pRui) override;
 	virtual void Exit(CRui* pRui) override;
 
-
+	CRuiState* AIGuard(CRui* pRui, _float fTimeDelta);
 private:
 	_float m_fTime = 0.f;
 };

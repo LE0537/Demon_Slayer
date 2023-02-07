@@ -52,6 +52,8 @@ void CBattleStartState::Enter(CTanjiro * pTanjiro)
 
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_BATTLE_START);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_BATTLE_START);
+	pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
+	pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(),0.01f);
 
 }
 

@@ -52,7 +52,8 @@ void CBattleStartState::Enter(CAkaza* pAkaza)
 
 	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_BATTLE_START);
 	pAkaza->Set_AnimIndex(CAkaza::ANIM_BATTLE_START);
-
+	pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
+	pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
 }
 
 void CBattleStartState::Exit(CAkaza* pAkaza)

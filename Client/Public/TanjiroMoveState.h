@@ -21,7 +21,7 @@ public:
 
 private:
 	void Move(CTanjiro* pTanjiro, _float fTimeDelta);
-
+	
 
 private:
 	OBJDIR	m_eDirection = OBJDIR::DIR_END;

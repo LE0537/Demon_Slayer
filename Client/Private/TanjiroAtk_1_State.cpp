@@ -192,7 +192,7 @@ CTanjiroState * CAtk_1_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		return new CAtk_2_State();
 
 
-	printf_s("%f \n", m_fTime);
+	
 
 	if (pTanjiro->Get_Model()->Get_End(CTanjiro::ANIM_ATTACK_1))
 	{

@@ -12,6 +12,8 @@
 #include "RuiSkill_ShootNet.h"
 #include "RuiSkill_Sphere.h"
 #include "RuiAdvSkill_MoveState.h"
+#include "AiState.h"
+
 using namespace Rui;
 
 
@@ -55,7 +57,8 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		{
 			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
-				pRui->Set_FriendSkillBar(-500.f);
+				// 친구 게이지 깎는 코드 넣어야함
+				pRui->Set_FriendSkillBar(-500);
 				return new CAdvSkill_MoveState();
 			}
 		}
@@ -219,7 +222,7 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		{
 			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
-				pRui->Set_FriendSkillBar(-500.f);
+				pRui->Set_FriendSkillBar(-500);
 				return new CAdvSkill_MoveState();
 			}
 		}
@@ -361,28 +364,43 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 CRuiState * CMoveState::Tick(CRui* pRui, _float fTimeDelta)
 {
 
-	if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+	if (pRui->Get_IsAIMode() == false)
 	{
-		switch (m_eStateType)
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 		{
-		case Client::CRuiState::TYPE_START:
-			m_eStateType = CRuiState::TYPE_LOOP;
-			break;
-		case Client::CRuiState::TYPE_LOOP:
+			switch (m_eStateType)
+			{
+			case Client::CRuiState::TYPE_START:
+				m_eStateType = CRuiState::TYPE_LOOP;
+				break;
+			case Client::CRuiState::TYPE_LOOP:
+				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+				return new CIdleState();
+				break;
+			case Client::CRuiState::TYPE_DEFAULT:
+				break;
+			default:
+				break;
+			}
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			return new CIdleState();
-			break;
-		case Client::CRuiState::TYPE_DEFAULT:
-			break;
-		default:
-			break;
 		}
-		pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+	}
+	else
+	{
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			switch (m_eStateType)
+			{
+			case Client::CRuiState::TYPE_START:
+				m_eStateType = CRuiState::TYPE_LOOP;
+			}
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+		}
+		return AIMove(pRui,  m_eDirection ,fTimeDelta);
 	}
 
+
 	return nullptr;
-
-
 }
 
 CRuiState * CMoveState::Late_Tick(CRui* pRui, _float fTimeDelta)
@@ -496,4 +514,40 @@ void CMoveState::Move(CRui* pRui, _float fTimeDelta)
 	}
 	
 	RELEASE_INSTANCE(CGameInstance);
+}
+
+CRuiState* CMoveState::AIMove(CRui * pRui,  OBJDIR eDir ,_float fTimeDelta)
+{
+	static _float fContinueTime = 0.f;
+	static _bool bSetLook = false;
+
+	if (bSetLook == false)
+	{
+		pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		bSetLook = true;
+	}
+
+	switch (eDir)
+	{
+	case Client::DIR_STRAIGHT:
+		pRui->Get_Transform()->Go_Straight(fTimeDelta, pRui->Get_NavigationCom());
+		break;
+	case Client::DIR_LEFT:
+		pRui->Get_Transform()->Go_Left(fTimeDelta, pRui->Get_NavigationCom());
+		break;
+	case Client::DIR_RIGHT:
+		pRui->Get_Transform()->Go_Right(fTimeDelta, pRui->Get_NavigationCom());
+		break;
+	case Client::DIR_BACK:
+		pRui->Get_Transform()->Go_Backward(fTimeDelta, pRui->Get_NavigationCom());
+		break;
+	}
+
+	fContinueTime += fTimeDelta;
+
+	if (fContinueTime >= 1.4f)
+		return new CAiState();
+
+	return nullptr;
+
 }
