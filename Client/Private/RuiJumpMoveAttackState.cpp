@@ -37,7 +37,7 @@ CRuiState * CJumpMoveAttackState::Tick(CRui* pRui, _float fTimeDelta)
 			return new CJumpMoveAttackState(TYPE_LOOP);
 			break;
 		case Client::CRuiState::TYPE_LOOP: // ¶³¾îÁö´Â ¸ð¼Ç
-			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());;
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 			break;
 		case Client::CRuiState::TYPE_END: // ÂøÁö ¸ð¼Ç
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());

@@ -1872,9 +1872,6 @@
     <ClInclude Include="..\Public\RuiJumpSkill_Common.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillCommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\RuiJumpSkill_Move.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\AkazaJumpSkill_Common.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\JumpCommon</Filter>
     </ClInclude>
@@ -1928,6 +1925,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\AiState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\AiState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiJumpSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

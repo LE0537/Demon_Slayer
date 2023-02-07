@@ -4,13 +4,15 @@
 #include "GameInstance.h"
 #include "RuiJumpAttackState.h"
 #include "RuiJumpSkill_Common.h"
+#include "RuiJumpMoveAttackState.h"
 using namespace Rui;
 
-CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
+CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime, _bool bAiMoveAttack)
 {
 	m_eStateType = eType;
 	m_fCurrentPosY = fPositionY;
 	m_fJumpTime = fJumpTime;
+	m_bMoveAtkJump = bAiMoveAttack;
 }
 
 CRuiState * CJumpState::HandleInput(CRui * pRui)
@@ -22,7 +24,7 @@ CRuiState * CJumpState::HandleInput(CRui * pRui)
 	case 1:
 		if (pGameInstance->Key_Down(DIK_I))
 		{
-			if(200 <= pRui->Get_PlayerInfo().iSkBar)
+			if (200 <= pRui->Get_PlayerInfo().iSkBar)
 			{
 				pRui->Set_SkillBar(-200);
 				return new CJumpSkill_CommonState(TYPE_START);
@@ -64,7 +66,6 @@ CRuiState * CJumpState::Tick(CRui * pRui, _float fTimeDelta)
 	pRui->Get_Model()->Set_Loop(CRui::ANIM_JUMP_END);
 
 
-
 	if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 	{
 		switch (m_eStateType)
@@ -87,20 +88,24 @@ CRuiState * CJumpState::Tick(CRui * pRui, _float fTimeDelta)
 		pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 	}
 
-	  
+
 	return nullptr;
 }
 
 CRuiState * CJumpState::Late_Tick(CRui * pRui, _float fTimeDelta)
 {
 
-	
+
 	pRui->Get_Model()->Play_Animation(fTimeDelta);
 
 	m_fJumpTime += 0.05f;
 
 	if (m_eStateType != TYPE_END)
 		Jump(pRui, fTimeDelta + m_fJumpTime);
+
+	if (m_fJumpPower >= 0.5f && pRui->Get_IsAIMode() && m_bMoveAtkJump == true)
+		return new CJumpMoveAttackState(TYPE_START);
+
 
 	return nullptr;
 }
