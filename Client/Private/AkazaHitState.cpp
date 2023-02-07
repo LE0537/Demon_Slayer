@@ -186,7 +186,7 @@ CAkazaState * CHitState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 void CHitState::Exit(CAkaza* pAkaza)
 {
 	pAkaza->Get_Model()->Set_UsingFrame(CAkaza::ANIM_HIT, 0, 100);
-	pAkaza->Set_HitTime(0.2f);
+	pAkaza->Set_HitTime(0.5f);
 }
 
 

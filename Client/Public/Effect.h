@@ -27,10 +27,10 @@ public:
 	enum DISAPPEAR { DISAPPEAR_DISJOLVE, DISAPPEAR_ALPHA, DISAPPEAR_NONE, DISAPPEAR_END };
 	enum EFFECTSHADER {
 		SHADER_BLUR, SHADER_DISTORTION, SHADER_ALPHABLEND, SHADER_ALPHATEST,
-		SHADER_GRAYSCALE, SHADER_END
+		SHADER_GRAYSCALE, SHADER_PRIORITY_TEST, SHADER_END
 	};
 	enum PARTICLETYPE { PART_SPHERER, PART_CIRCLE1, PART_LINE, PART_CONE, PART_LINE2, PART_END };
-	enum EFFMOVE { EFFMOVE_NONE, EFFMOVE_PLAYER, EFFMOVE_TARGET, EFFMOVE_END };
+	enum EFFMOVE { EFFMOVE_NONE, EFFMOVE_PLAYER, EFFMOVE_TARGET, EFFMOVE_STOP, EFFMOVE_END };
 
 private:
 	CEffect(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -43,6 +43,9 @@ public:
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
 	virtual void Late_Tick(_float fTimeDelta);
+
+public:
+	_uint Get_EffectMove() { return m_EffectInfo.iMoveType; }
 
 private:
 	HRESULT Ready_Components();
@@ -61,7 +64,7 @@ private:
 
 	_bool										m_bStart;
 
-	CGameObj*								m_pTarget;
+	CGameObj*									m_pTarget;
 
 	vector<class CEffect_Texture*>				m_Textures;
 	vector<class CEffect_Mesh*>					m_Meshes;

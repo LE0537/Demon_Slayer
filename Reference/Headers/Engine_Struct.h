@@ -92,6 +92,7 @@ namespace Engine
 		float			fSpeed;
 		float			fLifeTime;
 		float			fStartTime;
+		float			fGravity;
 
 	}VTXPARTICLE;
 

@@ -63,8 +63,6 @@ HRESULT CNezuko::Initialize(void * pArg)
 		}
 		RELEASE_INSTANCE(CGameInstance);
 
-		CNezukoState* pState = new CBattleStartState();
-		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 	}
 	else
 	{
@@ -77,16 +75,12 @@ HRESULT CNezuko::Initialize(void * pArg)
 		else if (m_i1p == 2)
 			CUI_Manager::Get_Instance()->Set_2P_2(this);
 
-		CNezukoState* pState = new CIdleState();
-		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+	
 	}
 
 
-
-
-
-
-	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	CNezukoState* pState = new CIdleState();
+	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
@@ -97,6 +91,12 @@ void CNezuko::Tick(_float fTimeDelta)
 {
 	if (!m_bChange)
 	{
+		if (m_bBattleStart)
+		{
+			CNezukoState* pState = new CBattleStartState();
+			m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+			m_bBattleStart = false;
+		}
 		__super::Tick(fTimeDelta);
 		m_fDelta = fTimeDelta;
 		if (m_tInfo.fHitTime > 0.f)
@@ -174,7 +174,7 @@ HRESULT CNezuko::Render()
 				m_fChangeTime += m_fDelta;
 				if (m_fChangeTime > 0.5f)
 				{
-					m_tInfo.iFriendBar -= 100;
+					m_tInfo.iFriendBar -= 500;
 					m_tInfo.bSub = true;
 					CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
 					CUI_Manager::Get_Instance()->Set_1P_2(this);
@@ -199,7 +199,7 @@ HRESULT CNezuko::Render()
 				m_fChangeTime += m_fDelta;
 				if (m_fChangeTime > 0.5f)
 				{
-					m_tInfo.iFriendBar -= 100;
+					m_tInfo.iFriendBar -= 500;
 					m_tInfo.bSub = true;
 					CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
 					CUI_Manager::Get_Instance()->Set_2P_2(this);

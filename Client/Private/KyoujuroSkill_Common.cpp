@@ -14,6 +14,8 @@
 #include "KyoujuroJumpState.h"
 #include "KyoujuroTargetRushState.h"
 #include "KyoujuroAtk_1_State.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Kyoujuro;
 
 
@@ -188,7 +190,7 @@ CKyoujuroState * CSkill_CommonState::Tick(CKyoujuro * pKyojuro, _float fTimeDelt
 
 CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTimeDelta)
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 
 	CCharacters* m_pTarget = pKyojuro->Get_BattleTarget();
 	if (!m_bLook)
@@ -198,7 +200,15 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 		pKyojuro->Get_Transform()->Set_PlayerLookAt(vLooAt);
 		m_bLook = true;
 	}
+	_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 
+	if (!m_bTrue)
+	{
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox2->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
+		m_bTrue = true;
+	}
 	m_fTime += fTimeDelta;
 
 	if (m_fTime < 0.5f)
@@ -207,14 +217,14 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 
 		if (!m_bHit && m_fTime > 0.3f)
 		{
-			_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+	
 			_vector vCollLook = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 			vCollPos += XMVector3Normalize(vCollLook) * 1.f; //추가
 			vCollPos.m128_f32[1] = 0.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
-			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
-			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+			CCollider*   pMyCollider = m_pCollBox->Get_Collider(); //추가
+			CCollider*   pTargetCollider = m_pTarget->Get_SphereCollider();
 
 			if (nullptr == pTargetCollider)
 				return nullptr;
@@ -247,8 +257,8 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 		}
 
 
-		CCollider*	pMyCollider = pKyojuro->Get_SphereCollider();
-		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+		CCollider*   pMyCollider = pKyojuro->Get_SphereCollider();
+		CCollider*   pTargetCollider = m_pTarget->Get_SphereCollider();
 
 		if (nullptr == pTargetCollider)
 			return nullptr;
@@ -283,25 +293,21 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 	}
 	else if (m_fTime >= 0.5f && m_fTime < 1.5f)
 	{
-		if(m_fTime < 0.9f)
+
+		if (m_fTime < 0.9f)
+		{
 			pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pKyojuro->Get_NavigationCom());
+		}
+		if (m_fTime < 1.5f)
+		{
+			m_pCollBox2->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 2.f);
+		}
 		m_fHitTime += fTimeDelta;
 		if (m_iHit < 5 && m_fHitTime > 0.08f)
 		{
-			_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
-			_vector vCollLook = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 
-			if (!m_bTrue)
-			{
-				vCollPos.m128_f32[1] = 1.f; //추가
-				m_pCollBox2->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-				m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
-				m_bTrue = true;
-			}
-			m_pCollBox2->Get_Transform()->Go_StraightNoNavi(fTimeDelta * 1.5f);
-
-			CCollider*	pMyCollider = m_pCollBox2->Get_Collider(); //추가
-			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+			CCollider*   pMyCollider = m_pCollBox2->Get_Collider(); //추가
+			CCollider*   pTargetCollider = m_pTarget->Get_SphereCollider();
 
 			if (nullptr == pTargetCollider)
 				return nullptr;
@@ -317,6 +323,9 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 				}
 				else
 				{
+					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.1f);
+					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(-15);
 					m_pTarget->Take_Damage(0.2f, false);
 					pKyojuro->Set_Combo(1);

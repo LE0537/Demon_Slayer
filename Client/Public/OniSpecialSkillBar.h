@@ -5,12 +5,12 @@
 
 BEGIN(Client)
 
-class CProgressBar final : public CUI
+class COniSpecialSkillBar final : public CUI
 {
 private:
-	CProgressBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CProgressBar(const CProgressBar& rhs);
-	virtual ~CProgressBar() = default;
+	COniSpecialSkillBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	COniSpecialSkillBar(const COniSpecialSkillBar& rhs);
+	virtual ~COniSpecialSkillBar() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -24,9 +24,15 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 private:
-	_float		m_fTime = 0.f;
+	CTexture*					m_pTextureCom1 = nullptr;
+
+private:
+	_float			m_fSpecialSkillBar = 0.f;
+	_float			m_fSpecialSkillMaxBar = 0.f;
+	_bool			m_bCurPerBarCheck = false;
+
 public:
-	static CProgressBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static COniSpecialSkillBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };

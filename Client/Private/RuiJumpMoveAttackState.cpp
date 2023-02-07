@@ -4,6 +4,8 @@
 #include "RuiIdleState.h"
 #include "RuiMoveState.h"
 #include "Effect_Manager.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Rui;
 
 CJumpMoveAttackState::CJumpMoveAttackState(STATE_TYPE eType)
@@ -92,10 +94,13 @@ CRuiState * CJumpMoveAttackState::Late_Tick(CRui* pRui, _float fTimeDelta)
 				}
 				else
 				{
+					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(-pRui->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.5f, false);
 					pRui->Set_Combo(1);
-					pRui->Set_ComboTime(1.f);
+					pRui->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -143,7 +148,16 @@ CRuiState * CJumpMoveAttackState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	else
 		pRui->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (!m_bEffect && m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIATK_JUMPMOVE_PULLMAIN, pRui);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIATK_JUMPMOVE_PLAYERMAIN, pRui);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIATK_JUMPMOVE_MAIN, pRui);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }

@@ -12,6 +12,7 @@
 #include "ShinobuAtk_1_State.h"
 #include "ShinobuDashState.h"
 #include "ShinobuJumpState.h"
+#include "Camera_Dynamic.h"
 using namespace Shinobu;
 
 
@@ -240,10 +241,13 @@ CShinobuState * CSkill_MoveState::Late_Tick(CShinobu* pShinobu, _float fTimeDelt
 					}
 					else
 					{
+						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.2f);
+						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(-50);
 						m_pTarget->Take_Damage(0.6f, false);
 						pShinobu->Set_Combo(1);
-						pShinobu->Set_ComboTime(1.f);
+						pShinobu->Set_ComboTime(0.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

@@ -17,6 +17,9 @@ public:
 
 	virtual void Enter(CAkaza* pAkaza) override;
 	virtual void Exit(CAkaza* pAkaza) override;
+private:
+	_float  m_fTime = 0.f;
+
 };
 END
 END

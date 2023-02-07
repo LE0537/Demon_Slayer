@@ -10,6 +10,7 @@
 #include "NezukoSkill_Move.h"
 #include "NezukojumpState.h"
 #include "NezukoTargetRushState.h"
+#include "Camera_Dynamic.h"
 using namespace Nezuko;
 
 
@@ -237,7 +238,7 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 					m_pTarget->Set_Hp(-pNezuko->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.3f, false);
 					pNezuko->Set_Combo(1);
-					pNezuko->Set_ComboTime(1.f);
+					pNezuko->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -308,10 +309,13 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 				}
 				else
 				{
+					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(-pNezuko->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.5f, false);
 					pNezuko->Set_Combo(1);
-					pNezuko->Set_ComboTime(1.f);
+					pNezuko->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

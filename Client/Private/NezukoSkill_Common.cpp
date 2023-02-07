@@ -11,6 +11,7 @@
 #include "NezukojumpState.h"
 #include "NezukoTargetRushState.h"
 #include "NezukoAtk_1_State.h"
+#include "Camera_Dynamic.h"
 using namespace Nezuko;
 
 
@@ -273,10 +274,13 @@ CNezukoState * CSkill_CommonState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta
 					}
 					else
 					{
+						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.1f);
+						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(-15);
 						m_pTarget->Take_Damage(0.f, false);
 						pNezuko->Set_Combo(1);
-						pNezuko->Set_ComboTime(1.f);
+						pNezuko->Set_ComboTime(0.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -325,15 +329,15 @@ CNezukoState * CSkill_CommonState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta
 			}
 		}
 	}
-	if (m_eStateType == TYPE_LOOP)
+	if (m_eStateType == TYPE_END)
 	{
-		if (m_fMove < 0.4f)
+		if (m_fMove > 0.4f)
 		{
 			if (!m_bHit)
 			{
 				_vector vCollPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 				_vector vCollLook = pNezuko->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-				vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
+				vCollPos += XMVector3Normalize(vCollLook) * 4.f; //추가
 				vCollPos.m128_f32[1] = 1.f; //추가
 				m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 				m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
@@ -357,7 +361,7 @@ CNezukoState * CSkill_CommonState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta
 						m_pTarget->Set_Hp(-30);
 						m_pTarget->Take_Damage(0.5f, false);
 						pNezuko->Set_Combo(1);
-						pNezuko->Set_ComboTime(1.f);
+						pNezuko->Set_ComboTime(0.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

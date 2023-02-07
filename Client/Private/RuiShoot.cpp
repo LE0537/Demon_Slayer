@@ -62,6 +62,11 @@ HRESULT CRuiShoot::Initialize(void * pArg)
 		break;
 	}
 
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_SHOTNET_MAIN, this);
+	RELEASE_INSTANCE(CEffect_Manager);
+
 	return S_OK;
 }
 
@@ -71,12 +76,19 @@ void CRuiShoot::Tick(_float fTimeDelta)
 
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
 	m_fDeadTime += fTimeDelta;
+	//if (m_fDeadTime > 3.9f)
+	//	m_pEffect->Set_Dead();
 	if (m_fDeadTime > 4.f)
 		Set_Dead();
 }
 
 void CRuiShoot::Late_Tick(_float fTimeDelta)
 {
+	if (m_bEffectDead)
+	{
+		Set_Dead();
+		return;
+	}
 	CCollider*	pMyCollider = m_pOBBCom;
 	CCollider*	pTargetCollider = m_ShootInfo.pTarget->Get_SphereCollider();
 
@@ -98,7 +110,7 @@ void CRuiShoot::Late_Tick(_float fTimeDelta)
 			m_ShootInfo.pTarget->Set_Hp(-30);
 			m_ShootInfo.pTarget->Take_Damage(0.1f, false);
 			m_ShootInfo.pTarget->Get_BattleTarget()->Set_Combo(1);
-			m_ShootInfo.pTarget->Get_BattleTarget()->Set_ComboTime(1.f);
+			m_ShootInfo.pTarget->Get_BattleTarget()->Set_ComboTime(0.f);
 		}
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -107,7 +119,8 @@ void CRuiShoot::Late_Tick(_float fTimeDelta)
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bHit = true;
-		Set_Dead();
+		m_pEffect->Set_Dead();
+		m_bEffectDead = true;
 	}
 
 	if (g_bCollBox)

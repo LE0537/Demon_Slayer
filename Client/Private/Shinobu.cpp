@@ -73,8 +73,6 @@ HRESULT CShinobu::Initialize(void * pArg)
 	
 		RELEASE_INSTANCE(CGameInstance);
 
-		CShinobuState* pState = new CBattleStartState();
-		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 
 	}
 	else
@@ -88,13 +86,13 @@ HRESULT CShinobu::Initialize(void * pArg)
 		else if (m_i1p == 2)
 			CUI_Manager::Get_Instance()->Set_2P_2(this);
 
-		CShinobuState* pState = new CIdleState();
-		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+
 	}
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
-	
+	CShinobuState* pState = new CIdleState();
+	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 
 
 	return S_OK;
@@ -104,6 +102,12 @@ void CShinobu::Tick(_float fTimeDelta)
 {
 	if (!m_bChange)
 	{
+		if (m_bBattleStart)
+		{
+			CShinobuState* pState = new CBattleStartState();
+			m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+			m_bBattleStart = false;
+		}
 		__super::Tick(fTimeDelta);
 		m_fDelta = fTimeDelta;
 		if (m_tInfo.fHitTime > 0.f)
@@ -219,7 +223,7 @@ HRESULT CShinobu::Render()
 				m_fChangeTime += m_fDelta;
 				if (m_fChangeTime > 0.5f)
 				{
-					m_tInfo.iFriendBar -= 100;
+					m_tInfo.iFriendBar -= 500;
 					m_tInfo.bSub = true;
 					CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
 					CUI_Manager::Get_Instance()->Set_1P_2(this);
@@ -244,7 +248,7 @@ HRESULT CShinobu::Render()
 				m_fChangeTime += m_fDelta;
 				if (m_fChangeTime > 0.5f)
 				{
-					m_tInfo.iFriendBar -= 100;
+					m_tInfo.iFriendBar -= 500;
 					m_tInfo.bSub = true;
 					CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
 					CUI_Manager::Get_Instance()->Set_2P_2(this);

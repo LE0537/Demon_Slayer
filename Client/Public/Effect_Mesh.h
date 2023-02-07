@@ -87,6 +87,7 @@ private:
 	CTexture*						m_pNoiseTextureCom = nullptr;
 	CTexture*						m_pDissolveTextureCom = nullptr;
 	CTexture*						m_pDiffuseTextureCom = nullptr;
+	CTexture*						m_pMaskTextureCom = nullptr;
 
 private:
 	MESH_INFO						m_MeshInfo;

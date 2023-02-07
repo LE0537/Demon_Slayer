@@ -16,6 +16,7 @@
 #include "TanjiroTargetRushState.h"
 #include "TanjiroJumpState.h"
 #include "TanjiroAtk_1_State.h"
+#include "Camera_Dynamic.h"
 using namespace Tanjiro;
 
 
@@ -249,8 +250,11 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 					}
 					else
 					{
+						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.3f);
+						RELEASE_INSTANCE(CGameInstance);
 						pTanjiro->Set_Combo(1);
-						pTanjiro->Set_ComboTime(1.f);
+						pTanjiro->Set_ComboTime(0.f);
 						m_pTarget->Set_Hp(-30);
 						if (!m_bHit)
 						{

@@ -172,6 +172,7 @@ private:
 	_uint							m_i1PIconLayerNum = 0;
 	_uint							m_i2PIconLayerNum = 0;
 	_uint							m_i1PMainLayerNum = 0;
+	_uint							m_iLogoButtonNum = 0;
 	_uint							m_i2PMainLayerNum = 0;
 	_uint							m_iUltBarLayerNum = 0;
 	_uint							m_iTimerLayerNum = 0;
@@ -180,11 +181,13 @@ private:
 	_uint							m_iCharSelMsgLayerNum = 0;
 	_uint							m_iSelNameShadowLayerNum = 0;
 	_uint							m_iComboNumLayerNum = 0;
+	_uint							m_iChangeBarLayerNum = 0;
+	_uint							m_iOniSepcialBarLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;
 	_uint                           m_i2p_2 = 0;
-	_uint							m_iLogoButtonNum = 0;
+	
 
 	_bool							m_bLevelResultOn = false;
 

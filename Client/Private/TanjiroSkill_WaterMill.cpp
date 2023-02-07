@@ -203,7 +203,8 @@ CTanjiroState * CSkill_WaterMillState::Tick(CTanjiro * pTanjiro, _float fTimeDel
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_WATER2_1, pTanjiro);
-
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_WATER2_GROUND, pTanjiro);
+		
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
 	}
@@ -259,7 +260,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 						m_pTarget->Set_Hp(-30);
 						m_pTarget->Take_Damage(0.3f,false);
 						pTanjiro->Set_Combo(1);
-						pTanjiro->Set_ComboTime(1.f);
+						pTanjiro->Set_ComboTime(0.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

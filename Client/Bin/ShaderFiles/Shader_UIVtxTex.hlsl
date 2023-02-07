@@ -155,6 +155,35 @@ PS_OUT PS_SkillBarMinus(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_OniSpecialBarMinus(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float4 DiffuseTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	float4 MaskTexture = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
+
+	if (g_fCurBar / 500.f < In.vTexUV.y)
+	{
+		Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	}
+	else
+	{
+		Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+		if (MaskTexture.r > 0.f)
+		{
+			Out.vColor.r = 0.725f;
+			Out.vColor.g = 0.f;
+			Out.vColor.b = 0.f;
+			Out.vColor.a = 1.f;
+		}
+		else
+			Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	}
+
+	return Out;
+}
+
+
 PS_OUT PS_UltBarMinus(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
@@ -369,7 +398,7 @@ PS_OUT PS_GamePlyCharIcon(PS_IN In)
 	return Out;
 }
 
-PS_OUT PS_Circle_Progressbar(PS_IN In)
+PS_OUT PS_Circle_Progress_Clock(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
 	float4 DiffuseTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
@@ -377,29 +406,30 @@ PS_OUT PS_Circle_Progressbar(PS_IN In)
 
 	float progress = g_fTime / duration;
 
-	float innerRadius = 0.1f;
-	float outerRadius = 0.2f;
+	float innerRadius = 0.12f;
+	float outerRadius = 0.18f;
 
-	float middleRadius = 0.5f * (innerRadius + outerRadius); 
-	float halfWidth = 0.5f * (outerRadius - innerRadius); 
+	float middleRadius = 0.5f * (innerRadius + outerRadius);
+	float halfWidth = 0.5f * (outerRadius - innerRadius);
 
 	float2 pos = In.vTexUV.xy - 0.5f * g_WinXY.xy;
-
+	//float2 pos = In.vTexUV.xy;
 	float radius = length(pos.xy);
 
-	float fr = halfWidth - abs(radius - middleRadius) + 1.f; 	
-	/*if(fr < 0.0) 
-		discard;*/
+	float fr = halfWidth - abs(radius - middleRadius) + 1.f;
+	/*if(fr < 0.0)
+	discard;*/
 	fr = saturate(fr);
 
-	float angle = degrees(atan2(pos.x, pos.y)) + 180.f; 
-	float fa = radians(angle - progress * 30.f) * radius + 1.f; 
+	float angle = degrees(atan2(pos.x, pos.y) + 0.f) + 180.f;
+	float fa = radians(angle - progress * 360.f) * radius + 1.f;
+
 	fa = saturate(fa);
-	if(fa != 1.f)
+	if (fa != 1.f)
 		discard;
 	vector color = vector(0.f, 0.f, 0.f, 1);
 	vector col = lerp(color, DiffuseTexture, fa);
-//	col.a *= fr;
+	//   col.a *= fr;
 
 	//col = col * col2;//DiffuseTexture;
 
@@ -407,6 +437,47 @@ PS_OUT PS_Circle_Progressbar(PS_IN In)
 
 	return Out;
 }
+
+PS_OUT PS_Circle_Progress_CClock(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+	float4 DiffuseTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	float duration = 500.f;
+
+	float progress = g_fTime / duration;
+
+	float innerRadius = 0.12f;
+	float outerRadius = 0.18f;
+
+	float middleRadius = 0.5f * (innerRadius + outerRadius);
+	float halfWidth = 0.5f * (outerRadius - innerRadius);
+
+	float2 pos = In.vTexUV.xy - 0.5f * g_WinXY.xy;
+	//float2 pos = In.vTexUV.xy;
+	float radius = length(pos.xy);
+
+	float fr = halfWidth - abs(radius - middleRadius) + 1.f;
+	/*if(fr < 0.0)
+	discard;*/
+	fr = saturate(fr);
+
+	float angle = degrees(atan2(-pos.x, pos.y) + 0.f) + 180.f;
+	float fa = radians(angle - progress * 360.f) * radius + 1.f;
+
+	fa = saturate(fa);
+	if (fa != 1.f)
+		discard;
+	vector color = vector(0.f, 0.f, 0.f, 1);
+	vector col = lerp(color, DiffuseTexture, fa);
+	//   col.a *= fr;
+
+	//col = col * col2;//DiffuseTexture;
+
+	Out.vColor = col;
+
+	return Out;
+}
+
 
 PS_OUT PS_Combo_Progressbar(PS_IN In)
 {
@@ -417,9 +488,9 @@ PS_OUT PS_Combo_Progressbar(PS_IN In)
 
 	if (MaskTexture.r == 0.f)
 		discard;
-	float progress = g_fTime / duration;
+	float progress = g_fTime;
 
-	float innerRadius = 0.1f;
+	float innerRadius = 0.19f;
 	float outerRadius = 0.2f;
 
 	float middleRadius = 0.5f * (innerRadius + outerRadius);
@@ -436,9 +507,10 @@ PS_OUT PS_Combo_Progressbar(PS_IN In)
 
 	fr = saturate(fr);
 
-	float angle = degrees(atan2(pos.x, pos.y)) + 180.f;
+	float angle = degrees(atan2(-pos.x, pos.y)) + 180.f;
 	float fa = radians(angle - progress * 360.f) * radius + 1.f;
 	fa = saturate(fa);
+
 	if (fa != 1.f)
 		discard;
 	vector color = vector(0.f, 0.f, 0.f, 1);
@@ -651,15 +723,15 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_GamePlyCharIcon();
 	}
 
-	pass CircleProgressBar //17
+	pass CircleProgress_CL //17
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_UI);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_Circle_Progressbar();
+		PixelShader = compile ps_5_0 PS_Circle_Progress_Clock();
 	}
 
 	pass PatternWind //18
@@ -715,5 +787,27 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_Combo_Progressbar();
+	}
+
+	pass CircleProgress_CCL //23
+	{
+		SetRasterizerState(RS_UI);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_Circle_Progress_CClock();
+	}
+
+	pass OniSpecialBar //24
+	{
+		SetRasterizerState(RS_UI);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_OniSpecialBarMinus();
 	}
 }

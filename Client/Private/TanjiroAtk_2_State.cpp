@@ -243,7 +243,7 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.3f, false);
 					pTanjiro->Set_Combo(1);
-					pTanjiro->Set_ComboTime(1.f);
+					pTanjiro->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -285,7 +285,7 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.f, false);
 					pTanjiro->Set_Combo(1);
-					pTanjiro->Set_ComboTime(1.f);
+					pTanjiro->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

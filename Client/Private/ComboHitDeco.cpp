@@ -52,12 +52,15 @@ HRESULT CComboHitDeco::Initialize(void * pArg)
 
 void CComboHitDeco::Tick(_float fTimeDelta)
 {
+	
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
 	if (!m_ThrowUIinfo.bPlyCheck)
 		m_fHitTime = pUI_Manager->Get_1P()->Get_PlayerInfo().fComboTime;
 	else if (m_ThrowUIinfo.bPlyCheck)
 		m_fHitTime = pUI_Manager->Get_2P()->Get_PlayerInfo().fComboTime;
+
+	
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
@@ -86,17 +89,17 @@ HRESULT CComboHitDeco::Render()
 
 	if (!m_ThrowUIinfo.bPlyCheck)
 		m_pComboNum = dynamic_cast<CComboNum*>(pUI_Manager->Get_ComboUI(0));
-	else if (!m_ThrowUIinfo.bPlyCheck)
+	else if (m_ThrowUIinfo.bPlyCheck)
 		m_pComboNum = dynamic_cast<CComboNum*>(pUI_Manager->Get_ComboUI(1));
 
 	if (m_pComboNum != nullptr)
 	{
 		if (m_pComboNum->Get_ComboNum() > 0)
 		{
-			m_pShaderCom->Begin(0);
-			m_pVIBufferCom->Render();
 			m_pShaderCom->Begin(22);
 			m_pVIBufferCom1->Render();
+			m_pShaderCom->Begin(17);
+			m_pVIBufferCom->Render();
 		}
 	}
 

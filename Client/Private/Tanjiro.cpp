@@ -71,8 +71,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 			CUI_Manager::Get_Instance()->Set_2P(this);
 		}
 		RELEASE_INSTANCE(CGameInstance);
-		CTanjiroState* pState = new CBattleStartState();
-		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
 	}
 	else
 	{
@@ -85,13 +84,11 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		else if (m_i1p == 2)
 			CUI_Manager::Get_Instance()->Set_2P_2(this);
 
-		CTanjiroState* pState = new CIdleState();
-		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
 	}
 
-
-	//m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-
+	CTanjiroState* pState = new CIdleState();
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
@@ -104,6 +101,14 @@ void CTanjiro::Tick(_float fTimeDelta)
 	if (!m_bChange)
 	{
 		__super::Tick(fTimeDelta);
+
+		if (m_bBattleStart)
+		{
+			CTanjiroState* pState = new CBattleStartState();
+			m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+			m_bBattleStart = false;
+		}
+
 		m_fDelta = fTimeDelta;
 		if (m_tInfo.fHitTime > 0.f)
 			m_tInfo.fHitTime -= fTimeDelta;
@@ -220,7 +225,7 @@ HRESULT CTanjiro::Render()
 				m_fChangeTime += m_fDelta;
 				if (m_fChangeTime > 0.5f)
 				{
-					m_tInfo.iFriendBar -= 100;
+					m_tInfo.iFriendBar -= 500;
 					m_tInfo.bSub = true;
 					CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
 					CUI_Manager::Get_Instance()->Set_1P_2(this);
@@ -245,7 +250,7 @@ HRESULT CTanjiro::Render()
 				m_fChangeTime += m_fDelta;
 				if (m_fChangeTime > 0.5f)
 				{
-					m_tInfo.iFriendBar -= 100;
+					m_tInfo.iFriendBar -= 500;
 					m_tInfo.bSub = true;
 					CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
 					CUI_Manager::Get_Instance()->Set_2P_2(this);
