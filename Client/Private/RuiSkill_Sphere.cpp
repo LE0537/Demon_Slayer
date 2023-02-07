@@ -13,19 +13,15 @@
 #include "RuiJumpState.h"
 #include "RuiDashState.h"
 #include "RuiAtk_1_State.h"
+#include "RuiSphere.h"
 using namespace Rui;
 
 
 CSkill_SphereState::CSkill_SphereState(STATE_TYPE eType)
 {
-	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
 	m_eStateType = eType;
-	if (m_eStateType != CRuiState::TYPE_START)
-	{
-		if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiSphere"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
-			return;
-	}
-	RELEASE_INSTANCE(CGameInstance);
+
 
 }
 
@@ -209,114 +205,34 @@ CRuiState * CSkill_SphereState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
 	pRui->Get_Transform()->LookAt(vLooAt);
-	if (m_eStateType == CRuiState::TYPE_LOOP)
+
+	if (m_eStateType == CRuiState::TYPE_START)
 	{
-		CCharacters* m_pTarget = pRui->Get_BattleTarget();
-
-		m_fMove += fTimeDelta;
-		
-		
-		if (m_fMove > 0.05f && m_iHit < 5)
-		{
-			_vector vCollPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
-			_vector vCollLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-
-			vCollPos.m128_f32[1] = 1.f; //추가
-			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			m_pCollBox->Get_Transform()->Set_PlayerLookAt(m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
-			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-
-			if (nullptr == pTargetCollider)
-				return nullptr;
-
-			if (pMyCollider->Collision(pTargetCollider))
-			{
-				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
-
-				if (m_pTarget->Get_PlayerInfo().bGuard)
-				{
-					m_pTarget->Get_GuardHit(0);
-				}
-				else
-				{
-					m_pTarget->Set_Hp(-10);
-					m_pTarget->Take_Damage(0.f, false);
-					pRui->Set_Combo(1);
-					pRui->Set_ComboTime(0.f);
-				}
-
-				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-
-				RELEASE_INSTANCE(CEffect_Manager);
-				m_fMove = 0.f;
-				++m_iHit;
-			}
-
-		}
-			
-		
-	}
-	if (m_eStateType == CRuiState::TYPE_END)
-	{
-		CCharacters* m_pTarget = pRui->Get_BattleTarget();
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 		m_fMove += fTimeDelta;
 
-		_vector vCollPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
-		_vector vCollLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
+		CRuiSphere::RUISPHEREINFO	tInfo;
+		tInfo.pPlayer = pRui;
+		tInfo.pTarget = m_pTarget;
 
-		vCollPos.m128_f32[1] = 1.f; //추가
-		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-		m_pCollBox->Get_Transform()->Set_PlayerLookAt(m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
-		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-		if (m_fMove > 0.3f && !m_bHit)
+		if (m_iHit < 1)
 		{
-			if (nullptr == pTargetCollider)
+			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+			tInfo.iIndex = 0;
+			if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiSphere"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
 				return nullptr;
-	
-			if (pMyCollider->Collision(pTargetCollider))
-			{
-				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
-	
-				if (m_pTarget->Get_PlayerInfo().bGuard)
-				{
-					m_pTarget->Get_GuardHit(0);
-				}
-				else
-				{
-					m_pTarget->Set_Hp(-30);
-					m_pTarget->Take_Damage(0.5f, true);
-					pRui->Set_Combo(1);
-					pRui->Set_ComboTime(0.f);
-				}
-	
-				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-	
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-	
-				RELEASE_INSTANCE(CEffect_Manager);
-	
-				m_bHit = true;
-			}
+
+
+			RELEASE_INSTANCE(CGameInstance);
+			m_fMove = 0.f;
+			++m_iHit;
 		}
+
+		RELEASE_INSTANCE(CGameInstance);
 	}
 	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.3f);
 
-	if (!m_bEffect && m_eStateType == TYPE_START)
-	{
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_FRIENDCOM_START, pRui);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_FRIENDCOM_MAIN, pRui);
-		RELEASE_INSTANCE(CEffect_Manager);
-		m_bEffect = true;
-	}
 	return nullptr;
 }
 
@@ -347,8 +263,7 @@ void CSkill_SphereState::Enter(CRui* pRui)
 
 void CSkill_SphereState::Exit(CRui* pRui)
 {
-	if(m_eStateType != CRuiState::TYPE_START)
-		m_pCollBox->Set_Dead();
+	
 }
 
 CRuiState * CSkill_SphereState::CommandCheck(CRui * pRui)
