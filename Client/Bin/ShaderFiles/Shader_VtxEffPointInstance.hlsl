@@ -176,13 +176,13 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 
 	Out.vColor = g_bUseColor * (min(vTexture.r, vTexture.a) * g_vColor) +
-		(1.f - g_bUseColor) * ((vTexture * g_bUseRGB) + (vTexture.a * (1.f - g_bUseRGB)));
+		(1.f - g_bUseColor) * vTexture;
 	Out.vGlowColor.rgb = (((1.f - g_bUseGlowColor) * Out.vColor.rgb) +
 		(g_bUseGlowColor * g_vGlowColor * min(vTexture.r, vTexture.a))) * g_bGlow;
 
-	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + saturate(g_bUseRGB * max(max(vTexture.x, vTexture.y), max(vTexture.y, vTexture.z)));
+	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + saturate(g_bUseRGB * max(max(vTexture.r, vTexture.g), vTexture.b));
 
-	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha)) + saturate((1 - g_bUseColor) * (fTexAlpha)));
+	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha)) + saturate((1 - g_bUseColor) * fTexAlpha));
 
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
