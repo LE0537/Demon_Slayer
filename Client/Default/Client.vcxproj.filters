@@ -964,6 +964,9 @@
     <Filter Include="05.CollBox\12.RuiMoveSkill">
       <UniqueIdentifier>{90ce68e6-e609-419e-be88-775fb1cdc8fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Change\OniSpSkillBar">
+      <UniqueIdentifier>{5a5728f2-87c1-4d9f-a824-bb75c79270e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1917,6 +1920,9 @@
     <ClInclude Include="..\public\RuiMoveSkill.h">
       <Filter>05.CollBox\12.RuiMoveSkill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\OniSpecialSkillBar.h">
+      <Filter>03.UI\02.Battle\BattleTop\Change\OniSpSkillBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2845,6 +2851,9 @@
     </ClCompile>
     <ClCompile Include="..\private\RuiMoveSkill.cpp">
       <Filter>05.CollBox\12.RuiMoveSkill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\OniSpecialSkillBar.cpp">
+      <Filter>03.UI\02.Battle\BattleTop\Change\OniSpSkillBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

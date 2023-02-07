@@ -1,24 +1,24 @@
 #include "stdafx.h"
-#include "ChangeBar.h"
+#include "OniSpecialSkillBar.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
 
-CChangeBar::CChangeBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+COniSpecialSkillBar::COniSpecialSkillBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CChangeBar::CChangeBar(const CChangeBar & rhs)
+COniSpecialSkillBar::COniSpecialSkillBar(const COniSpecialSkillBar & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CChangeBar::Initialize_Prototype()
+HRESULT COniSpecialSkillBar::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CChangeBar::Initialize(void * pArg)
+HRESULT COniSpecialSkillBar::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -32,121 +32,94 @@ HRESULT CChangeBar::Initialize(void * pArg)
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
-
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360 && !m_ThrowUIinfo.bPlyCheck)
+	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
 		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
-	else
-	{
-		if(m_ThrowUIinfo.iLayerNum == 0)
-			m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(166.f));
-		if (m_ThrowUIinfo.iLayerNum == 1)
-			m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(134.5f));
-	}
-
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-	if (!m_ThrowUIinfo.bPlyCheck)
-		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
-	else
+	if (!m_ThrowUIinfo.bReversal)
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
+	else
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight );
+
+	_vector vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+	m_pTransformCom->Set_State(CTransform::STATE_UP, vUp * -1.f);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
+
 	return S_OK;
 }
 
-void CChangeBar::Tick(_float fTimeDelta)
+void COniSpecialSkillBar::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-
 	if (!m_ThrowUIinfo.bPlyCheck)
 	{
-		m_fFriendBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iFriendBar;
-		m_fFriendMaxBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iFriendMaxBar;
+		m_fSpecialSkillBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iFriendBar;
+		m_fSpecialSkillMaxBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iFriendMaxBar;
 	}
 	else
 	{
-		m_fFriendBar = pUI_Manager->Get_2P()->Get_PlayerInfo().iFriendBar;
-		m_fFriendMaxBar = pUI_Manager->Get_2P()->Get_PlayerInfo().iFriendMaxBar;
+		m_fSpecialSkillBar = pUI_Manager->Get_2P()->Get_PlayerInfo().iFriendBar;
+		m_fSpecialSkillMaxBar = pUI_Manager->Get_2P()->Get_PlayerInfo().iFriendMaxBar;
 	}
-	 
 
 	if (m_ThrowUIinfo.iLayerNum == 0)
 	{
-		if (m_fFriendBar < 500.f)
+		if (m_fSpecialSkillBar < 500.f)
 		{
-			if (!m_bCurPerBarCheck)
-			{
-				_float fPerCurBar = (m_fFriendBar * 0.002f) * 100.f;
-				m_fTime = 500.f;
-				m_fTime -= 30.83 * (fPerCurBar * 0.01f);
-				m_bCurPerBarCheck = true;
-			}
-
-			m_fTime -= 0.06166;
-			if(!m_ThrowUIinfo.bPlyCheck)
-				pUI_Manager->Get_1P()->Set_FriendSkillBar(1.f);
-			else 
-				pUI_Manager->Get_2P()->Set_FriendSkillBar(1.f);
-
-			if (m_fTime <= 469.17f)
-			{
-				m_fTime = 469.17f;
-				m_bCurPerBarCheck = false;
-			}
+			m_fSpecialSkillBar += fTimeDelta * 40.f;
+			
+			if (!m_ThrowUIinfo.bPlyCheck)
+				pUI_Manager->Get_1P()->Set_FriendSkillBar(fTimeDelta * 40.f);
+			else
+				pUI_Manager->Get_2P()->Set_FriendSkillBar(fTimeDelta * 40.f);
 		}
-		else if (m_fFriendBar >= 500.f)
+		else if (m_fSpecialSkillBar >= 500.f)
 		{
-			m_fTime = 469.17f;
+			m_fSpecialSkillBar = 500.f;
 		}
+			
 	}
-	else if (m_ThrowUIinfo.iLayerNum == 1 )
+	else if (m_ThrowUIinfo.iLayerNum == 1)
 	{
-		if(m_fFriendBar >= 500.f)
+		if (m_fSpecialSkillBar >= 500)
 		{
-			if (!m_bCurPerBarCheck)
+			if (m_fSpecialSkillBar < 1000)
 			{
-				_float fPerCurBar = ((m_fFriendBar - 500.f) * 0.002f) * 100.f;
-				m_fTime -= 30.83 * (fPerCurBar * 0.01f);
-				m_bCurPerBarCheck = true;
-			}
-			if (m_fFriendBar <= 500.f)
-				m_fTime = 500.f;
-			if (m_fFriendBar < 1000)
-			{
-				m_fTime -= 0.06166f;
-
+				m_fSpecialSkillBar -= 500.f;
+				m_fSpecialSkillBar += fTimeDelta * 40.f;
 				if (!m_ThrowUIinfo.bPlyCheck)
-					pUI_Manager->Get_1P()->Set_FriendSkillBar(1.f);
+					pUI_Manager->Get_1P()->Set_FriendSkillBar(fTimeDelta * 40.f);
 				else
-					pUI_Manager->Get_2P()->Set_FriendSkillBar(1.f);
+					pUI_Manager->Get_2P()->Set_FriendSkillBar(fTimeDelta * 40.f);
+
+
 			}
-			else if (m_fFriendBar >= 1000.f)
-			{
-				m_fTime = 469.17f;
-				m_bCurPerBarCheck = false;
-			}
+			else if (m_fSpecialSkillBar >= 1000.f)
+				m_fSpecialSkillBar = 500.f;
 		}
-		else if (m_fFriendBar < 500.f)
-			m_fTime = 500.f;
+		else if (m_fSpecialSkillBar < 500)
+			m_fSpecialSkillBar = 0.f;
+
 	}
-	
+
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
-void CChangeBar::Late_Tick(_float fTimeDelta)
+void COniSpecialSkillBar::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CChangeBar::Render()
+HRESULT COniSpecialSkillBar::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -155,16 +128,14 @@ HRESULT CChangeBar::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	//if(!m_ThrowUIinfo.bPlyCheck)
-
-	m_pShaderCom->Begin(23);
+	m_pShaderCom->Begin(24);
 
 	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
-HRESULT CChangeBar::Ready_Components()
+HRESULT COniSpecialSkillBar::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -179,7 +150,11 @@ HRESULT CChangeBar::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeGaugeBar"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_OniSpecialBar"), (CComponent**)&m_pTextureCom)))
+		return E_FAIL;
+
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_OniSpecialBarMask"), (CComponent**)&m_pTextureCom1)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -189,13 +164,11 @@ HRESULT CChangeBar::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CChangeBar::SetUp_ShaderResources()
+HRESULT COniSpecialSkillBar::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fTime", &m_fTime, sizeof(_float))))
-		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
@@ -203,19 +176,26 @@ HRESULT CChangeBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurBar", &m_fSpecialSkillBar, sizeof(_float))))
+		return E_FAIL;
+
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pTextureCom1->Get_SRV(0))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
 
-CChangeBar * CChangeBar::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+COniSpecialSkillBar * COniSpecialSkillBar::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CChangeBar*	pInstance = new CChangeBar(pDevice, pContext);
+	COniSpecialSkillBar*	pInstance = new COniSpecialSkillBar(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CChangeBar"));
+		ERR_MSG(TEXT("Failed to Created : COniSpecialSkillBar"));
 		Safe_Release(pInstance);
 	}
 
@@ -223,26 +203,27 @@ CChangeBar * CChangeBar::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pC
 }
 
 
-CGameObject * CChangeBar::Clone(void * pArg)
+CGameObject * COniSpecialSkillBar::Clone(void * pArg)
 {
-	CChangeBar*	pInstance = new CChangeBar(*this);
+	COniSpecialSkillBar*	pInstance = new COniSpecialSkillBar(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CChangeBar"));
+		ERR_MSG(TEXT("Failed to Cloned : COniSpecialSkillBar"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CChangeBar::Free()
+void COniSpecialSkillBar::Free()
 {
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTextureCom1);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);
 }

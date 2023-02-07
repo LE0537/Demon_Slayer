@@ -89,7 +89,7 @@ HRESULT CComboHitDeco::Render()
 
 	if (!m_ThrowUIinfo.bPlyCheck)
 		m_pComboNum = dynamic_cast<CComboNum*>(pUI_Manager->Get_ComboUI(0));
-	else if (!m_ThrowUIinfo.bPlyCheck)
+	else if (m_ThrowUIinfo.bPlyCheck)
 		m_pComboNum = dynamic_cast<CComboNum*>(pUI_Manager->Get_ComboUI(1));
 
 	if (m_pComboNum != nullptr)
