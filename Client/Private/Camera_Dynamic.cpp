@@ -77,7 +77,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	}
 	m_fStartTime += fTimeDelta;
 #ifdef _DEBUG
-	if (!m_bLerp && m_fStartTime > 8.f)
+	if (!m_bLerp && m_fStartTime > 5.9f)
 	{
 		m_CameraDesc.fFovy = XMConvertToRadians(25.f);
 		m_bStart = true;
@@ -93,7 +93,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 		m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	}
 #else
-	if (!m_bLerp && m_fStartTime > 4.5f)
+	if (!m_bLerp && m_fStartTime > 1.4f)
 	{
 		m_CameraDesc.fFovy = XMConvertToRadians(25.f);
 		m_bStart = true;

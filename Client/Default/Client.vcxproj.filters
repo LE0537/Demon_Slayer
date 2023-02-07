@@ -961,6 +961,9 @@
     <Filter Include="03.UI\02.Battle\BattleTop\Change\ChangeBar">
       <UniqueIdentifier>{cb63ac55-e279-4cea-aa8d-87ca8ae3c944}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\12.RuiMoveSkill">
+      <UniqueIdentifier>{90ce68e6-e609-419e-be88-775fb1cdc8fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1911,6 +1914,9 @@
     <ClInclude Include="..\public\ChangeBar.h">
       <Filter>03.UI\02.Battle\BattleTop\Change\ChangeBar</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RuiMoveSkill.h">
+      <Filter>05.CollBox\12.RuiMoveSkill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2836,6 +2842,9 @@
     </ClCompile>
     <ClCompile Include="..\private\ChangeBar.cpp">
       <Filter>03.UI\02.Battle\BattleTop\Change\ChangeBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiMoveSkill.cpp">
+      <Filter>05.CollBox\12.RuiMoveSkill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
