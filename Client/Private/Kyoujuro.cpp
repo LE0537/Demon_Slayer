@@ -212,7 +212,7 @@ HRESULT CKyoujuro::Render()
 				m_fChangeTime += m_fDelta;
 				if (m_fChangeTime > 0.5f)
 				{
-					m_tInfo.iFriendBar -= 100;
+					m_tInfo.iFriendBar -= 500;
 					m_tInfo.bSub = true;
 					CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
 					CUI_Manager::Get_Instance()->Set_1P_2(this);
@@ -237,7 +237,7 @@ HRESULT CKyoujuro::Render()
 				m_fChangeTime += m_fDelta;
 				if (m_fChangeTime > 0.5f)
 				{
-					m_tInfo.iFriendBar -= 100;
+					m_tInfo.iFriendBar -= 500;
 					m_tInfo.bSub = true;
 					CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
 					CUI_Manager::Get_Instance()->Set_2P_2(this);

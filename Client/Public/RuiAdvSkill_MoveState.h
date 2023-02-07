@@ -1,5 +1,5 @@
 #include "RuiState.h"
-#include "RuiSphere.h"
+#include "RuiMoveSkill.h"
 
 // 움직이면서 u 백스텝 후 앞에 거미줄
 
@@ -22,7 +22,7 @@ public:
 private:
 	_float m_fBackStepTime = 0.f;
 private:
-	CRuiSphere*	m_pCollBox = nullptr;
+	CRuiMoveSkill*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;
 	_float m_fHitTime = 0.f;
 	_float m_fDelay = 0.f;

@@ -198,7 +198,15 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 		pKyojuro->Get_Transform()->Set_PlayerLookAt(vLooAt);
 		m_bLook = true;
 	}
+	_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 
+	if (!m_bTrue)
+	{
+		vCollPos.m128_f32[1] = 1.f; //추가
+		m_pCollBox2->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+		m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
+		m_bTrue = true;
+	}
 	m_fTime += fTimeDelta;
 
 	if (m_fTime < 0.5f)
@@ -207,7 +215,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 
 		if (!m_bHit && m_fTime > 0.3f)
 		{
-			_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+	
 			_vector vCollLook = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 			vCollPos += XMVector3Normalize(vCollLook) * 1.f; //추가
 			vCollPos.m128_f32[1] = 0.f; //추가
@@ -283,16 +291,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 	}
 	else if (m_fTime >= 0.5f && m_fTime < 1.5f)
 	{
-		_vector vCollPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
-		_vector vCollLook = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 
-		if (!m_bTrue)
-		{
-			vCollPos.m128_f32[1] = 1.f; //추가
-			m_pCollBox2->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
-			m_pCollBox2->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
-			m_bTrue = true;
-		}
 		if (m_fTime < 0.9f)
 		{
 			pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pKyojuro->Get_NavigationCom());

@@ -3,13 +3,15 @@
 #include "RuiIdleState.h"
 #include "GameInstance.h"
 #include "Effect_Manager.h"
+
 using namespace Rui;
 
 CAdvSkill_MoveState::CAdvSkill_MoveState()
 {
 	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+	
 
-	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiSphere"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiMoveSkill"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
 		return;
 
 	RELEASE_INSTANCE(CGameInstance);

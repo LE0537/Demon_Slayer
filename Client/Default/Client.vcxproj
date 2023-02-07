@@ -244,6 +244,7 @@
     <ClInclude Include="..\Public\RuiJumpMoveAttackState.h" />
     <ClInclude Include="..\Public\RuiJumpSkill_Common.h" />
     <ClInclude Include="..\Public\RuiJumpSkill_Move.h" />
+    <ClInclude Include="..\public\RuiMoveSkill.h" />
     <ClInclude Include="..\Public\RuiTargetRushState.h" />
     <ClInclude Include="..\Public\ShinobuBattleSTState.h" />
     <ClInclude Include="..\Public\ShinobuJumpAttackState.h" />
@@ -561,6 +562,7 @@
     <ClCompile Include="..\Private\RuiJumpMoveAttackState.cpp" />
     <ClCompile Include="..\Private\RuiJumpSkill_Common.cpp" />
     <ClCompile Include="..\Private\RuiJumpSkill_Move.cpp" />
+    <ClCompile Include="..\private\RuiMoveSkill.cpp" />
     <ClCompile Include="..\Private\RuiTargetRushState.cpp" />
     <ClCompile Include="..\Private\ShinobuBattleSTState.cpp" />
     <ClCompile Include="..\Private\ShinobuJumpAttackState.cpp" />

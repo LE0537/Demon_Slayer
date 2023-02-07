@@ -82,8 +82,11 @@ void CEffect::Tick(_float fTimeDelta)
 			m_bStart = false;
 		}
 		else { 
-			if (m_EffectInfo.iMoveType == EFFMOVE_PLAYER || m_EffectInfo.iMoveType == EFFMOVE_TARGET || m_EffectInfo.iMoveType == EFFMOVE_STOP) {
-				m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+			if (m_EffectInfo.iMoveType == EFFMOVE_PLAYER || m_EffectInfo.iMoveType == EFFMOVE_TARGET) {
+				if(!m_bDead){
+					m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+				}
 			}
 		}
 
