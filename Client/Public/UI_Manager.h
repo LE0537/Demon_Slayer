@@ -111,6 +111,8 @@ public:
 	_bool	Get_LevelResultOn() { return m_bLevelResultOn; }
 	void	Set_LevelResultOn(_bool bCheck) { m_bLevelResultOn = bCheck; }
 
+	_bool	Get_LevelMenuOn() { return m_bLevelMenu; }
+	void	Set_LevelMenuOn(_bool bCheck) { m_bLevelMenu = bCheck; }
 
 	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }
 	void Set_Result_Info(CUI::RESULTINFO ResultInfo) { m_ResultInfo = ResultInfo; }
@@ -190,6 +192,7 @@ private:
 	
 
 	_bool							m_bLevelResultOn = false;
+	_bool							m_bLevelMenu = false;
 
 public:
 	virtual void Free() override;

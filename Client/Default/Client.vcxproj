@@ -231,6 +231,7 @@
     <ClInclude Include="..\Public\KyoujuroJumpMoveAttackState.h" />
     <ClInclude Include="..\Public\KyoujuroTargetRushState.h" />
     <ClInclude Include="..\Public\Level_GameResult.h" />
+    <ClInclude Include="..\Public\Level_Menu.h" />
     <ClInclude Include="..\Public\NezukoBattleSTState.h" />
     <ClInclude Include="..\Public\NezukoJumpAttackState.h" />
     <ClInclude Include="..\Public\NezukoJumpMoveAttackState.h" />
@@ -551,6 +552,7 @@
     <ClCompile Include="..\Private\KyoujuroJumpMoveAttackState.cpp" />
     <ClCompile Include="..\Private\KyoujuroTargetRushState.cpp" />
     <ClCompile Include="..\Private\Level_GameResult.cpp" />
+    <ClCompile Include="..\Private\Level_Menu.cpp" />
     <ClCompile Include="..\Private\NezukoBattleSTState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpAttackState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpMoveAttackState.cpp" />

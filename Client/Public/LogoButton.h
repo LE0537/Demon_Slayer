@@ -13,9 +13,6 @@ private:
 	virtual ~CLogoButton() = default;
 
 public:
-	void Set_MenuOff() { m_bMenuOn = false; }
-
-public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -32,7 +29,6 @@ private:
 
 private:
 	_float4				m_vFontColor;
-	_bool				m_bMenuOn = false;
 	_float				m_fAlpha = 0.f;
 
 public:

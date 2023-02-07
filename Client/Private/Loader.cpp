@@ -157,6 +157,9 @@ unsigned int APIENTRY Thread_Main(void* pArg)
 	case LEVEL_GAMERESULT:
 		pLoader->Loading_ForGameResult();
 		break;
+	case LEVEL_MENU:
+		pLoader->Loading_ForGameResult();
+		break;
 	}
 	
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
@@ -1841,6 +1844,36 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 }
 
 HRESULT CLoader::Loading_ForGameResult()
+{
+	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
+	if (nullptr == pGameInstance)
+		return E_FAIL;
+
+	Safe_AddRef(pGameInstance);
+
+
+	/* 텍스쳐 로딩 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+
+
+
+	/* 객체 생성 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
+
+	/* UI 객체 */
+
+
+
+	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
+
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForMenu()
 {
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	if (nullptr == pGameInstance)
