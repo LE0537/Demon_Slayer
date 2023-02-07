@@ -169,7 +169,6 @@ public:
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
-	
 
 
 private:

@@ -160,7 +160,7 @@ CShinobuState * CJumpCommonSkillState::Late_Tick(CShinobu* pShinobu, _float fTim
 		m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //Ãß°¡
 
-		if (m_fHitTime > 0.10f && m_iHit < 1 && m_fDelay < 0.3f)
+		if (m_iHit < 1 && m_fDelay < 0.3f)
 		{
 			if (nullptr == pTargetCollider)
 				return nullptr;

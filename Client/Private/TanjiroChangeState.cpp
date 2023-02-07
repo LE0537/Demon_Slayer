@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
+#include "TanjiroSkill_Common.h"
+#include "TanjiroSkill_WaterMill.h"
 using namespace Tanjiro;
 
 
@@ -39,7 +41,20 @@ CTanjiroState * CChangeState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		case Client::CTanjiroState::TYPE_END:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 			pTanjiro->Set_ChangeInfo(false);
-			return new CIdleState();
+			switch (pTanjiro->Get_SubSkill())
+			{
+			case 0:
+				return new CIdleState();
+				break;
+			case 1:
+				return new CSkill_CommonState();
+				break;
+			case 2:
+				return new CSkill_WaterMillState(STATE_TYPE::TYPE_START);
+				break;
+			default:
+				break;
+			}
 			break;
 		}
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());

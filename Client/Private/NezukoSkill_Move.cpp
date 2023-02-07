@@ -41,7 +41,7 @@ CNezukoState * CSkill_MoveState::HandleInput(CNezuko* pNezuko)
 
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
-	if (fRatio >= 0.7f)
+	if (fRatio >= 0.7f && pNezuko->Get_SubSkill() == 0)
 	{
 		switch (pNezuko->Get_i1P())
 		{
@@ -194,6 +194,11 @@ CNezukoState * CSkill_MoveState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 			break;
 		case Client::CNezukoState::TYPE_END:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+			if (pNezuko->Get_SubSkill() != 0)
+			{
+				pNezuko->Set_Sub(true);
+				pNezuko->Set_SubSkill(0);
+			}
 			return new CIdleState();
 			break;
 		default:

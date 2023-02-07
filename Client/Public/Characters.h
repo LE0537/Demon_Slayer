@@ -88,7 +88,8 @@ public:
 	void	   Reset_Combo() { m_tInfo.iCombo = 0; }
 	void	   Set_ComboTime(_float _fTime) { m_tInfo.fComboTime = _fTime; }
 	void	   Set_BattleStart(_bool m_bStart) { m_bBattleStart = m_bStart; }
-
+	void	   Set_SubSkill(_int _iIndex) { m_iSubSkillIndex = _iIndex; }
+	_int       Get_SubSkill() { return m_iSubSkillIndex; }
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
 protected:
@@ -108,6 +109,8 @@ protected:
 	_int					m_iModelIndex = 0;
 	_int					m_iAnimIndex = 0;
 	_bool					m_bBattleStart = false;
+	//Sub
+	_int					m_iSubSkillIndex = 0;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

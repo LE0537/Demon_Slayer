@@ -40,7 +40,7 @@ CTanjiroState * CSkill_CommonState::HandleInput(CTanjiro * pTanjiro)
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
 
-	if (fRatio >= 0.7f)
+	if (fRatio >= 0.7f && pTanjiro->Get_SubSkill() == 0)
 	{
 		switch (pTanjiro->Get_i1P())
 		{
@@ -176,6 +176,11 @@ CTanjiroState * CSkill_CommonState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	{
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+		if (pTanjiro->Get_SubSkill() != 0)
+		{
+			pTanjiro->Set_Sub(true);
+			pTanjiro->Set_SubSkill(0);
+		}
 		return new CIdleState();
 	}
 

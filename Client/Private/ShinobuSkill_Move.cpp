@@ -40,7 +40,7 @@ CShinobuState * CSkill_MoveState::HandleInput(CShinobu* pShinobu)
 
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
-	if (fRatio >= 0.7f)
+	if (fRatio >= 0.7f && pShinobu->Get_SubSkill() == 0)
 	{
 		switch (pShinobu->Get_i1P())
 		{
@@ -194,6 +194,11 @@ CShinobuState * CSkill_MoveState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 		//	break;
 		case Client::CShinobuState::TYPE_END:
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			if (pShinobu->Get_SubSkill() != 0)
+			{
+				pShinobu->Set_Sub(true);
+				pShinobu->Set_SubSkill(0);
+			}
 			return new CIdleState();
 			break;
 		}
