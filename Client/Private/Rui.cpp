@@ -41,7 +41,9 @@ HRESULT CRui::Initialize(void * pArg)
 	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
-	m_i1p = tCharacterDesc.i1P2P;
+	//m_i1p = tCharacterDesc.i1P2P;
+	m_i1p = 10;
+	m_i1p = 1;
 	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
 	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
@@ -60,6 +62,13 @@ HRESULT CRui::Initialize(void * pArg)
 		}
 		else if (m_i1p == 2)
 		{
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+			CUI_Manager::Get_Instance()->Set_2P(this);
+		}
+		else if(m_i1p == 10)
+		{
+			//Boss ¿Ã¥œº» « ø‰«—∞≈
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 
 			CUI_Manager::Get_Instance()->Set_2P(this);
@@ -88,20 +97,28 @@ void CRui::Tick(_float fTimeDelta)
 {
 	if (!m_tInfo.bSub)
 	{
+		
 		if (m_bBattleStart)
 		{
 			CRuiState* pState = new CBattleStartState();
 			m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 			m_bBattleStart = false;
 		}
+		
 
-		m_fDelta = fTimeDelta;
-		if (m_tInfo.fHitTime > 0.f)
-			m_tInfo.fHitTime -= fTimeDelta;
-
-		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
-			HandleInput(fTimeDelta);
-
+		if (m_i1p == 10)
+		{
+			//Boss ∆Ω
+			Boss_Tick(fTimeDelta);
+		}
+		else
+		{
+			m_fDelta = fTimeDelta;
+			if (m_tInfo.fHitTime > 0.f)
+				m_tInfo.fHitTime -= fTimeDelta;
+			if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
+				HandleInput(fTimeDelta);
+		}
 		TickState(fTimeDelta);
 
 
@@ -254,6 +271,18 @@ HRESULT CRui::Ready_Components()
 
 
 	return S_OK;
+}
+
+void CRui::Boss_Tick(_float fTimeDelta)
+{
+}
+
+void CRui::Boss_LateTick(_float fTimeDelta)
+{
+}
+
+void CRui::Boss_Render()
+{
 }
 
 

@@ -146,7 +146,9 @@ private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
 
-
+	void	Boss_Tick(_float fTimeDelta);
+	void	Boss_LateTick(_float fTimeDelta);
+	void	Boss_Render();
 	void	Set_Info();
 
 public:
