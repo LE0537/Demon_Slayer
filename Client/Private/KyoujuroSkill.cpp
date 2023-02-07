@@ -39,7 +39,7 @@ void CKyoujuroSkill::Tick(_float fTimeDelta)
 
 	m_fTime += fTimeDelta;
 
-	if(m_fTime > 2.f)
+	if(m_fTime > 5.f)
 	{ 
 		m_pEffect->Set_Dead();
 		
@@ -48,7 +48,8 @@ void CKyoujuroSkill::Tick(_float fTimeDelta)
 
 void CKyoujuroSkill::Late_Tick(_float fTimeDelta)
 {
-	if (m_fTime > 2.1f)
+
+	if (m_fTime > 5.1f)
 	{
 		
 		Set_Dead();
@@ -92,7 +93,7 @@ HRESULT CKyoujuroSkill::Ready_Components()
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
 	/* For.Com_OBB*/
-	ColliderDesc.vScale = _float3(10.f, 10.f, 15.f);
+	ColliderDesc.vScale = _float3(5.f, 10.f, 5.f);
 	ColliderDesc.vPosition = _float3(0.f, 0.f, 6.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
 		return E_FAIL;

@@ -403,18 +403,40 @@ void CRoundUI::UI_Function(_float fTimeDelta)
 		m_fDelayTime += fTimeDelta;
 		if (m_fDelayTime >= 3.f)
 		{
+			m_fStartDelayTime += fTimeDelta;
+			if (m_fStartDelayTime >= 3.5f && m_bStartCheck)
+			{
+				if (!m_bZoomCheck)
+					ZoomIn(fTimeDelta);
+				else if (m_bZoomCheck)
+					ZoomOut(fTimeDelta);
+	}
+			else if (!m_bStartCheck)
+			{
+				if (!m_bZoomCheck)
+					ZoomIn(fTimeDelta);
+				else if (m_bZoomCheck)
+					ZoomOut(fTimeDelta);
+			}
+		}
+#else
+		m_fStartDelayTime += fTimeDelta;
+		if (m_fStartDelayTime >= 3.5f && m_bStartCheck)
+		{
 			if (!m_bZoomCheck)
 				ZoomIn(fTimeDelta);
 			else if (m_bZoomCheck)
 				ZoomOut(fTimeDelta);
 		}
-#else
-		if (!m_bZoomCheck)
-			ZoomIn(fTimeDelta);
-		else if (m_bZoomCheck)
-			ZoomOut(fTimeDelta);
+		else if(!m_bStartCheck)
+		{
+			if (!m_bZoomCheck)
+				ZoomIn(fTimeDelta);
+			else if (m_bZoomCheck)
+				ZoomOut(fTimeDelta);
+		}
 #endif
-		
+
 	}
 	
 }
