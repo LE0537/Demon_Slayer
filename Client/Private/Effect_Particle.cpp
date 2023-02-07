@@ -53,10 +53,18 @@ void CEffect_Particle::Late_Tick(_float fTimeDelta)
 	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime) {
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_ParticleInfo.vPosition.x, m_ParticleInfo.vPosition.y, m_ParticleInfo.vPosition.z, 1.f));
 
-		_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
-		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+		if (m_ParticleInfo.bRotationPix) {
+			_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_ParticleInfo.vPosition.x, m_ParticleInfo.vPosition.y, m_ParticleInfo.vPosition.z, 0.f) + mtrParents.r[3]);
 
-		Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
+			XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix());
+		}
+		else {
+			_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+			XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+
+			Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
+		}
 
 		if (nullptr != m_pRendererCom && !m_bDead) {
 			switch (m_ParticleInfo.iShader)

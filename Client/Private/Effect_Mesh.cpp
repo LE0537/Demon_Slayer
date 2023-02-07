@@ -506,14 +506,13 @@ void CEffect_Mesh::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pRendererCom);
-	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
-
+	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pRendererCom);
 	Safe_Release(m_pNoiseTextureCom);
+	Safe_Release(m_pDissolveTextureCom);
 	Safe_Release(m_pDiffuseTextureCom);
 	Safe_Release(m_pMaskTextureCom);
-	Safe_Release(m_pDissolveTextureCom); 
 
 }
