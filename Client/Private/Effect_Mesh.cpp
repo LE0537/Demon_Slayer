@@ -120,30 +120,30 @@ HRESULT CEffect_Mesh::Initialize_Prototype()
 	m_MeshName.push_back("Rui_Web3");
 	m_MeshName.push_back("Rui_Web4");
 
-	////	Akaza
-	//m_MeshName.push_back("Akaza_Angry1");
-	//m_MeshName.push_back("Akaza_Angry2_1");
-	//m_MeshName.push_back("Akaza_Angry2_2");
-	//m_MeshName.push_back("Akaza_Angry3");
-	//m_MeshName.push_back("Akaza_Compass1");
-	//m_MeshName.push_back("Akaza_Compass2");
-	//m_MeshName.push_back("Akaza_Compass3");
-	//m_MeshName.push_back("Akaza_Fist1_1");
-	//m_MeshName.push_back("Akaza_Fist1_2");
-	//m_MeshName.push_back("Akaza_Fist2");
-	//m_MeshName.push_back("Akaza_Fist3");
-	//m_MeshName.push_back("Akaza_Fist4_Dist");
-	//m_MeshName.push_back("Akaza_Fist6");
-	//m_MeshName.push_back("Akaza_Ring2");
-	//m_MeshName.push_back("Akaza_Ring3");
-	//m_MeshName.push_back("Akaza_Ring4");
-	//m_MeshName.push_back("Akaza_Stone1");
-	//m_MeshName.push_back("Akaza_Stone2");
-	//m_MeshName.push_back("Akaza_Stone3");
-	//m_MeshName.push_back("Akaza_Wind1");
-	//m_MeshName.push_back("Akaza_Wind2");
-	//m_MeshName.push_back("Akaza_Wind3");
-	//m_MeshName.push_back("Akaza_Wind4");
+	//	Akaza
+	m_MeshName.push_back("Akaza_Angry1");
+	m_MeshName.push_back("Akaza_Angry2_1");
+	m_MeshName.push_back("Akaza_Angry2_2");
+	m_MeshName.push_back("Akaza_Angry3");
+	m_MeshName.push_back("Akaza_Compass1");
+	m_MeshName.push_back("Akaza_Compass2");
+	m_MeshName.push_back("Akaza_Compass3");
+	m_MeshName.push_back("Akaza_Fist1_1");
+	m_MeshName.push_back("Akaza_Fist1_2");
+	m_MeshName.push_back("Akaza_Fist2");
+	m_MeshName.push_back("Akaza_Fist3");
+	m_MeshName.push_back("Akaza_Fist4_Dist");
+	m_MeshName.push_back("Akaza_Fist6");
+	m_MeshName.push_back("Akaza_Ring2");
+	m_MeshName.push_back("Akaza_Ring3");
+	m_MeshName.push_back("Akaza_Ring4");
+	m_MeshName.push_back("Akaza_Stone1");
+	m_MeshName.push_back("Akaza_Stone2");
+	m_MeshName.push_back("Akaza_Stone3");
+	m_MeshName.push_back("Akaza_Wind1");
+	m_MeshName.push_back("Akaza_Wind2");
+	m_MeshName.push_back("Akaza_Wind3");
+	m_MeshName.push_back("Akaza_Wind4");
 
 
 	return S_OK;
