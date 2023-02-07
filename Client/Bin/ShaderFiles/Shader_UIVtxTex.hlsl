@@ -155,6 +155,35 @@ PS_OUT PS_SkillBarMinus(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_OniSpecialBarMinus(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float4 DiffuseTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	float4 MaskTexture = g_MaskTexture.Sample(LinearSampler, In.vTexUV);
+
+	if (g_fCurBar / 500.f < In.vTexUV.y)
+	{
+		Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	}
+	else
+	{
+		Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+		if (MaskTexture.r > 0.f)
+		{
+			Out.vColor.r = 0.725f;
+			Out.vColor.g = 0.f;
+			Out.vColor.b = 0.f;
+			Out.vColor.a = 1.f;
+		}
+		else
+			Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	}
+
+	return Out;
+}
+
+
 PS_OUT PS_UltBarMinus(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
@@ -696,7 +725,7 @@ technique11 DefaultTechnique
 
 	pass CircleProgress_CL //17
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_UI);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 
@@ -762,12 +791,23 @@ technique11 DefaultTechnique
 
 	pass CircleProgress_CCL //23
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_UI);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_Circle_Progress_CClock();
+	}
+
+	pass OniSpecialBar //24
+	{
+		SetRasterizerState(RS_UI);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_OniSpecialBarMinus();
 	}
 }

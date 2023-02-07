@@ -53,9 +53,9 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		}
 		else if (pGameInstance->Key_Down(DIK_U))
 		{
-			//if (pRui->Get_PlayerInfo().iFriendBar >= 500)
+			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
-				// 친구 게이지 깎는 코드 넣어야함
+				pRui->Set_FriendSkillBar(-500.f);
 				return new CAdvSkill_MoveState();
 			}
 		}
@@ -217,9 +217,9 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		}
 		else if (pGameInstance->Key_Down(DIK_V))
 		{
-			//if (pRui->Get_PlayerInfo().iFriendBar >= 500)
+			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
-				// 친구 게이지 깎는 코드 넣어야함
+				pRui->Set_FriendSkillBar(-500.f);
 				return new CAdvSkill_MoveState();
 			}
 		}

@@ -164,6 +164,7 @@ void CUI_Manager::Add_P1_OniHpUI()
 	m_iUltBarLayerNum = 0;
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
+	m_iOniSepcialBarLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_PersonHpUI()
@@ -214,6 +215,7 @@ void CUI_Manager::Add_P2_OniHpUI()
 	m_iUltBarLayerNum = 0;
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
+	m_iOniSepcialBarLayerNum = 0;
 }
 
 void CUI_Manager::Add_Select_CharUI()
@@ -463,9 +465,11 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PersonChanBarEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
-	case 17: // OniChangeBarFrame 9
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+	case 17:
+		iter.iLayerNum = m_iOniSepcialBarLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniSpeciSkillBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iOniSepcialBarLayerNum;
 		break;
 	case 18:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniChanBarEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))

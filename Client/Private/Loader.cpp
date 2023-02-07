@@ -108,6 +108,7 @@
 #include "ComboHitDeco.h"
 #include "ComboHitTxt.h"
 #include "ComboNum.h"
+#include "OniSpecialSkillBar.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -198,6 +199,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 #pragma region BattleUI
 		//Battle
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_OniSpecialBar"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/OniBarFrame.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_OniSpecialBarMask"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Oni_Mask.png"), 1))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeGaugeBar"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/ProgressBar.png"), 1))))
 			return E_FAIL;
@@ -1510,6 +1517,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_OniSpeciSkillBar"),
+		COniSpecialSkillBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ComboBase"),
 		CComboBase::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

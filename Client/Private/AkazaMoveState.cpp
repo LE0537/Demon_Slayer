@@ -53,8 +53,9 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_U)) // ¿ì
 		{
-			//if(pAkaza->Get_PlayerInfo().iFriendBar >= 500)
+			if(pAkaza->Get_PlayerInfo().iFriendBar >= 500)
 			{
+				pAkaza->Set_FriendSkillBar(-500.f);
 				return new CAdvSkill_MoveState(STATE_TYPE::TYPE_START);
 			}
 		}
@@ -214,8 +215,9 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_V)) // ¿ì
 		{
-			//if(pAkaza->Get_PlayerInfo().iFriendBar >= 500)
+			if(pAkaza->Get_PlayerInfo().iFriendBar >= 500)
 			{
+				pAkaza->Set_FriendSkillBar(-500.f);
 				return new CAdvSkill_MoveState(STATE_TYPE::TYPE_START);
 			}
 		}

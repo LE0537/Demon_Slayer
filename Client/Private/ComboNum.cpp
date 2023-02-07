@@ -86,7 +86,6 @@ void CComboNum::Tick(_float fTimeDelta)
 	}
 	else
 	{
-		
 		_float fTime = pUI_Manager->Get_2P()->Get_PlayerInfo().fComboTime + fTimeDelta;
 
 		pUI_Manager->Get_2P()->Set_ComboTime(fTime);
@@ -102,7 +101,7 @@ void CComboNum::Tick(_float fTimeDelta)
 
 		if (fComboTime >= 2.f)
 		{
-			pUI_Manager->Get_2P()->Set_ComboTime(0);
+			pUI_Manager->Get_2P()->Set_ComboTime(0.f);
 			pUI_Manager->Get_2P()->Reset_Combo();
 			m_iComboNum = 0;
 			m_bRenderOnOff = true;
