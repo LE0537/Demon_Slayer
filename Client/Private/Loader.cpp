@@ -1267,6 +1267,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CEffect_Manager* pEffect_Manager = GET_INSTANCE(CEffect_Manager);
 
 		pEffect_Manager->Load_Effect(TEXT("HitEffect1"));
+		pEffect_Manager->Load_Effect(TEXT("HitEffect2"));
+		pEffect_Manager->Load_Effect(TEXT("HitEffect3"));
+		pEffect_Manager->Load_Effect(TEXT("HitEffect4"));
+		pEffect_Manager->Load_Effect(TEXT("HitEffect5"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1_GroundMask"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack2_1"));
