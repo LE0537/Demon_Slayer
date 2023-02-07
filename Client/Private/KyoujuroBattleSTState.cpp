@@ -52,7 +52,8 @@ void CBattleStartState::Enter(CKyoujuro* pKyoujuro)
 
 	pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_BATTLE_START);
 	pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_BATTLE_START);
-
+	pKyoujuro->Get_Model()->Set_Loop(pKyoujuro->Get_AnimIndex());
+	pKyoujuro->Get_Model()->Set_LinearTime(pKyoujuro->Get_AnimIndex(), 0.01f);
 }
 
 void CBattleStartState::Exit(CKyoujuro* pKyoujuro)

@@ -11,7 +11,7 @@
 
 #include "Level_GamePlay.h"
 
-
+#include "AiState.h"
 #include "RuiHitState.h"
 #include "RuiBattleSTState.h"
 
@@ -43,7 +43,7 @@ HRESULT CRui::Initialize(void * pArg)
 
 	//m_i1p = tCharacterDesc.i1P2P;
 	m_i1p = 10;
-	m_i1p = 1;
+	
 	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
 	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
@@ -108,7 +108,15 @@ void CRui::Tick(_float fTimeDelta)
 
 		if (m_i1p == 10)
 		{
-			//Boss ƽ
+			if (m_bStart == true)
+			{
+				CRuiState* pState = new CAiState();
+				m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+				m_bStart = false;
+				m_bAiState = true;
+			}
+
+			m_tInfo.iSkBar += 1000;
 			Boss_Tick(fTimeDelta);
 		}
 		else
@@ -275,10 +283,16 @@ HRESULT CRui::Ready_Components()
 
 void CRui::Boss_Tick(_float fTimeDelta)
 {
+	CAiState* pNewState = (CAiState*)m_pRuiState->HandleInput(this);
+
+	if (pNewState)
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pNewState);
 }
 
 void CRui::Boss_LateTick(_float fTimeDelta)
 {
+
+
 }
 
 void CRui::Boss_Render()
@@ -306,6 +320,14 @@ void CRui::Set_Info()
 	m_tInfo.iFriendBar = m_tInfo.iFriendMaxBar;
 	m_tInfo.bGuard = false;
 	m_tInfo.bChange = false;
+}
+
+_bool CRui::Get_RuiHit()
+{
+	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_HIT)
+		return true;
+	else
+		return false;
 }
 
 void CRui::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)

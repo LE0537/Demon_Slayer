@@ -52,7 +52,8 @@ void CBattleStartState::Enter(CNezuko* pNezuko)
 
 	pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_BATTLE_START);
 	pNezuko->Set_AnimIndex(CNezuko::ANIM_BATTLE_START);
-
+	pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+	pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.01f);
 }
 
 void CBattleStartState::Exit(CNezuko* pNezuko)

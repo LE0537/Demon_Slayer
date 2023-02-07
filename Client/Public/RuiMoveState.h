@@ -24,7 +24,7 @@ public:
 
 private:
 	void Move(CRui* pRui, _float fTimeDelta);
-
+	CRuiState* AIMove(CRui* pRui, OBJDIR eDir,_float fTimeDelta);
 
 private:
 	OBJDIR	m_eDirection = OBJDIR::DIR_END;
