@@ -73,8 +73,20 @@ void CEffect_Texture::Tick(_float fTimeDelta)
 
 void CEffect_Texture::Late_Tick(_float fTimeDelta)
 {
-	_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
-	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+	if (static_cast<CEffect*>(m_pParents)->Get_EffectMove() == CEffect::EFFMOVE_STOP) {
+		if (m_fTime <= m_TextureInfo.fStartTime) {
+			_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+			XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+			XMStoreFloat4x4(&m_ParentsMtr, mtrParents);
+		}
+		else {
+			XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(&m_ParentsMtr));
+		}
+	}
+	else {
+		_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+	}
 
 	Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
 
@@ -213,6 +225,7 @@ void CEffect_Texture::Set_TexInfo(TextureInfo TexInfo)
 	vRotation.z = XMConvertToRadians(vRotation.z);
 	m_pTransformCom->RotationAll(vRotation);
 
+	XMStoreFloat4x4(&m_ParentsMtr, m_pParents->Get_Transform()->Get_WorldMatrix());
 }
 
 HRESULT CEffect_Texture::SetUp_ShaderResources()

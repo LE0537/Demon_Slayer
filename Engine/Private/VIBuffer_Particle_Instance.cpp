@@ -170,8 +170,6 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float2 fScale, _flo
 			m_pParticleData[i].vSize.y = 0.f;
 		}
 
-		m_pParticleData[i].fSpeed += 0.01f * iSpeedType;
-
 		if (m_pParticleData[i].fSpeed < 0) {
 			m_pParticleData[i].fSpeed = 0.f;
 
@@ -190,7 +188,11 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float2 fScale, _flo
 
 			_vector vGravityDriction = XMVector3TransformNormal(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMMatrixInverse(nullptr, XMLoadFloat4x4(&ParentMtr)));
 
-			vPosition += vGravityDriction * fGravity * fTimeDelta;
+			m_pParticleData[i].fGravity -= fGravity;
+
+			vPosition += vGravityDriction * m_pParticleData[i].fGravity * fTimeDelta;
+
+			m_pParticleData[i].fSpeed += 0.01f * iSpeedType;
 		}
 
 		if (m_pParticleData[i].fLifeTime < m_fTime[i]) {
@@ -242,10 +244,6 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float2 fScale, _flo
 	{
 		m_fTime[i] += fTimeDelta;
 
-
-
-		m_pParticleData[i].fSpeed += 0.01f * iSpeedType;
-
 		if ((m_pParticleData[i].fLifeTime < m_fTime[i] || m_pParticleData[i].fSpeed < 0 || m_pParticleData[i].vSize.x < 0 || m_pParticleData[i].vSize.y < 0)) {
 			if (fRemaintingTime > fLifeTime[1]) {
 				Reset_One(i, vTexScale, ParentMtr, fLifeTime, fSpeed, iParticleType, iSizeX, iSizeY, fDirectionX, fDirectionY);
@@ -267,7 +265,11 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float2 fScale, _flo
 
 			_vector vGravityDriction = XMVector3TransformNormal(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMMatrixInverse(nullptr, XMLoadFloat4x4(&ParentMtr)));
 
-			vPosition += vGravityDriction * fGravity * fTimeDelta;
+			m_pParticleData[i].fGravity -= fGravity;
+
+			vPosition += vGravityDriction * m_pParticleData[i].fGravity * fTimeDelta;
+
+			m_pParticleData[i].fSpeed += 0.01f * iSpeedType;
 		}
 
 		XMStoreFloat4(&m_pParticleData[i].vPosition, vPosition);
@@ -345,6 +347,7 @@ void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _fl
 
 		m_pParticleData[i].fLifeTime = LifeTimeRand(Seed);
 		m_fTime[i] = 0.f;
+		m_pParticleData[i].fGravity = 0.f;
 
 		m_pParticleData[i].fSpeed = SpeedRand(Seed);
 

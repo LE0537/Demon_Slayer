@@ -97,7 +97,6 @@ public:
 
 private:
 	_float							m_fTime = 0.f;
-	_float							m_fGravity = 0.f;
 
 	_float4x4						m_CombinedWorldMatrix;
 
