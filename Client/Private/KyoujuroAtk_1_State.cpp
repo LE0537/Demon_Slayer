@@ -243,7 +243,7 @@ CKyoujuroState * CAtk_1_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg);
 					m_pTarget->Take_Damage(0.3f,false);
 					pKyoujuro->Set_Combo(1);
-					pKyoujuro->Set_ComboTime(1.f);
+					pKyoujuro->Set_ComboTime(0.f);
 				}
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 

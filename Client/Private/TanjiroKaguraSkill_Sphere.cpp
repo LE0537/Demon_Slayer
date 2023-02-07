@@ -117,6 +117,8 @@ CTanjiroState * CKaguraSkill_SphereState::Late_Tick(CTanjiro * pTanjiro, _float 
 			}
 			m_bLook = true;
 		}
+
+
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 		CCollider*	pMyCollider2 = pTanjiro->Get_SphereCollider();
 		m_fMove += fTimeDelta;
@@ -153,7 +155,7 @@ CTanjiroState * CKaguraSkill_SphereState::Late_Tick(CTanjiro * pTanjiro, _float 
 						m_pTarget->Set_Hp(-40);
 						m_pTarget->Take_Damage(0.3f, false);
 						pTanjiro->Set_Combo(1);
-						pTanjiro->Set_ComboTime(1.f);
+						pTanjiro->Set_ComboTime(0.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -196,7 +198,7 @@ CTanjiroState * CKaguraSkill_SphereState::Late_Tick(CTanjiro * pTanjiro, _float 
 						m_pTarget->Set_Hp(-40);
 						m_pTarget->Take_Damage(0.5f, false);
 						pTanjiro->Set_Combo(1);
-						pTanjiro->Set_ComboTime(1.f);
+						pTanjiro->Set_ComboTime(0.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -237,10 +239,11 @@ CTanjiroState * CKaguraSkill_SphereState::Late_Tick(CTanjiro * pTanjiro, _float 
 				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pTanjiro->Get_NavigationCom());
 		}
 
-	}
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
-	return nullptr;
+		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+
+		return nullptr;
+	}
 }
 
 void CKaguraSkill_SphereState::Enter(CTanjiro * pTanjiro)

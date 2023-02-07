@@ -26,8 +26,8 @@ HRESULT CComboHitBase::Initialize(void * pArg)
 
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
-	m_fSizeX = m_ThrowUIinfo.vScale.x * 1.2f;
-	m_fSizeY = m_ThrowUIinfo.vScale.y * 1.2f;
+	m_fSizeX = m_ThrowUIinfo.vScale.x;
+	m_fSizeY = m_ThrowUIinfo.vScale.y;
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
 

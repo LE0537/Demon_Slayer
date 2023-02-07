@@ -278,7 +278,7 @@ CAkazaState * CSkill_PunchState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 						m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg);
 						m_pTarget->Take_Damage(0.1f, false);
 						pAkaza->Set_Combo(1);
-						pAkaza->Set_ComboTime(1.f);
+						pAkaza->Set_ComboTime(0.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -329,7 +329,7 @@ CAkazaState * CSkill_PunchState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 						m_pTarget->Set_Hp(-30);
 						m_pTarget->Take_Damage(0.6f, false);
 						pAkaza->Set_Combo(1);
-						pAkaza->Set_ComboTime(1.f);
+						pAkaza->Set_ComboTime(0.f);
 					}
 
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

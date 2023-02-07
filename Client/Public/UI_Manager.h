@@ -180,6 +180,7 @@ private:
 	_uint							m_iCharSelMsgLayerNum = 0;
 	_uint							m_iSelNameShadowLayerNum = 0;
 	_uint							m_iComboNumLayerNum = 0;
+	_uint							m_iChangeBarLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;

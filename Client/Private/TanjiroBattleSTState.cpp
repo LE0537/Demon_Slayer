@@ -41,8 +41,8 @@ CTanjiroState * CBattleStartState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 CTanjiroState * CBattleStartState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
-
+	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
+	
 	return nullptr;
 }
 

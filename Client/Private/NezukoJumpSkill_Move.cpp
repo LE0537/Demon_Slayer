@@ -121,7 +121,7 @@ CNezukoState * CJumpSkill_MoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDel
 					m_pTarget->Set_Hp(-30);
 					m_pTarget->Take_Damage(0.2f, false);
 					pNezuko->Set_Combo(1);
-					pNezuko->Set_ComboTime(1.f);
+					pNezuko->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -163,7 +163,7 @@ CNezukoState * CJumpSkill_MoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDel
 					m_pTarget->Set_Hp(-30);
 					m_pTarget->Take_Damage(0.8f, true);
 					pNezuko->Set_Combo(1);
-					pNezuko->Set_ComboTime(1.f);
+					pNezuko->Set_ComboTime(0.f);
 				}
 
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

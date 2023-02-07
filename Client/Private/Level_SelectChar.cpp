@@ -23,12 +23,7 @@ HRESULT CLevel_SelectChar::Initialize()
 	pUIManager->Add_Select_CharUI();
 
 	RELEASE_INSTANCE(CUI_Manager);
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ProgressBar"), LEVEL_SELECTCHAR, TEXT("Layer_ProgressBar"))))
-		return E_FAIL;
-	
-	RELEASE_INSTANCE(CGameInstance);
 
 	
 
@@ -52,6 +47,7 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 			m_fDelayTime += fTimeDelta;
 
 			if (m_fDelayTime >= 2.f)
+
 			{
 				_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
 				_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();

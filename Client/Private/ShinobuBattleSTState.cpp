@@ -40,9 +40,9 @@ CShinobuState * CBattleStartState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 CShinobuState * CBattleStartState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
-	
-	pShinobu->Get_Model()->Play_Animation(fTimeDelta);
 
+		pShinobu->Get_Model()->Play_Animation2(fTimeDelta);
+	
 	return nullptr;
 }
 
