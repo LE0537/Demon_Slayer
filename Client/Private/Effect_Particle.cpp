@@ -31,21 +31,6 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 	m_fTime += fTimeDelta;
 
 	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime) {
-		_float fLive = m_ParticleInfo.fLifeTime[1] / 4;
-
-		if (m_ParticleInfo.bGravity) {
-			if (m_fGravity == 0.f)
-				m_fGravity = 2.f;
-
-			m_fGravity -= m_ParticleInfo.fGravitySpeed;
-
-			if (m_fGravity < -3.f && m_ParticleInfo.bRoof) {
-				m_fGravity = 0.f;
-			}
-		}
-		else
-			m_fGravity = 0.f;
-
 		_float2 fSize;
 
 		if (m_ParticleInfo.bSizePix)
@@ -54,18 +39,18 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 			fSize = _float2(0.00005f, 0.00005f);
 
 		if (m_ParticleInfo.bRoof) {
-			m_pVIBufferCom->Update(fTimeDelta, fSize, m_ParticleInfo.vSize, m_CombinedWorldMatrix, m_ParticleInfo.fRoofTime, m_ParticleInfo.fSpeedType, m_fGravity, m_ParticleInfo.fSpeed,
+			m_pVIBufferCom->Update(fTimeDelta, fSize, m_ParticleInfo.vSize, m_CombinedWorldMatrix, m_ParticleInfo.fRoofTime, m_ParticleInfo.fSpeedType, m_ParticleInfo.fGravitySpeed, m_ParticleInfo.fSpeed,
 				m_ParticleInfo.iParticleType, m_ParticleInfo.iConeSizeX, m_ParticleInfo.iConeSizeY, m_ParticleInfo.fDirectionX, m_ParticleInfo.fDirectionY, m_ParticleInfo.fLifeTime[1] - m_fTime);
 		}
 		else {
-			m_pVIBufferCom->Update(fTimeDelta, fSize, m_CombinedWorldMatrix, m_ParticleInfo.fLifeTime, m_ParticleInfo.fSpeedType, m_fGravity);
+			m_pVIBufferCom->Update(fTimeDelta, fSize, m_CombinedWorldMatrix, m_ParticleInfo.fLifeTime, m_ParticleInfo.fSpeedType, m_ParticleInfo.fGravitySpeed);
 		}
 	}
 }
 
 void CEffect_Particle::Late_Tick(_float fTimeDelta)
 {
-	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[0] + m_ParticleInfo.fStartTime) {
+	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime) {
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_ParticleInfo.vPosition.x, m_ParticleInfo.vPosition.y, m_ParticleInfo.vPosition.z, 1.f));
 
 		_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
@@ -175,7 +160,7 @@ HRESULT CEffect_Particle::SetUp_ShaderResources()
 	_float Time = 1.f;
 
 	if (m_ParticleInfo.iDisappear == CEffect::DISAPPEAR_ALPHA) {
-		Time = 1 - m_fTime / m_ParticleInfo.fLifeTime[0] + m_ParticleInfo.fStartTime;
+		Time = 1 - m_fTime / m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime;
 	}
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndALPHA", &Time, sizeof(_float))))
@@ -227,7 +212,6 @@ void CEffect_Particle::Set_ParticleInfo(PARTICLE_INFO ParticleInfo)
 	}
 
 	m_fTime = 0.f;
-	m_fGravity = 0.f;
 
 	_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
 	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);

@@ -36,7 +36,7 @@ HRESULT CVIBuffer_Particle_Instance::Initialize_Prototype(_uint iNumInstance)
 
 	pVertices->vPosition = _float3(0.0f, 0.f, 0.f);
 	pVertices->vPSize = _float2(1.f, 1.f);
-	
+
 	ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
 	m_SubResourceData.pSysMem = pVertices;
 
@@ -143,15 +143,15 @@ HRESULT CVIBuffer_Particle_Instance::Initialize(void * pArg)
 
 		((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed = rand() % 10 + 1;
 
-		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook, 
-			XMVector3TransformNormal(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook), RotationMatrix) 
-			);
+		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook,
+			XMVector3TransformNormal(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vLook), RotationMatrix)
+		);
 		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight,
-			XMVector3TransformNormal(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight), RotationMatrix) 
-			);
+			XMVector3TransformNormal(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vRight), RotationMatrix)
+		);
 		XMStoreFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp,
-			XMVector3TransformNormal(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp), RotationMatrix) 
-			);
+			XMVector3TransformNormal(XMLoadFloat4(&((VTXPARTICLE*)MappedSubResource.pData)[i].vUp), RotationMatrix)
+		);
 	}
 
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
@@ -425,7 +425,7 @@ void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _fl
 	{
 		((VTXPARTICLE*)MappedSubResource.pData)[i].fLifeTime = m_pParticleData[i].fLifeTime;
 		((VTXPARTICLE*)MappedSubResource.pData)[i].fStartTime = m_pParticleData[i].fStartTime;
-		((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed = m_pParticleData[i].fSpeed ;
+		((VTXPARTICLE*)MappedSubResource.pData)[i].fSpeed = m_pParticleData[i].fSpeed;
 		((VTXPARTICLE*)MappedSubResource.pData)[i].vLook = m_pParticleData[i].vLook;
 		((VTXPARTICLE*)MappedSubResource.pData)[i].vPosition = m_pParticleData[i].vPosition;
 		((VTXPARTICLE*)MappedSubResource.pData)[i].vRight = m_pParticleData[i].vRight;
@@ -436,7 +436,7 @@ void CVIBuffer_Particle_Instance::Reset(_float * fLifeTime, _float * fSpeed, _fl
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
 }
 
-void CVIBuffer_Particle_Instance::Reset_One(_uint iNum, _float2 * vTexScale, _float4x4 ParentMtr, _float * fLifeTime, _float * fSpeed, _uint iParticleType, _uint iSizeX, _uint iSizeY, 
+void CVIBuffer_Particle_Instance::Reset_One(_uint iNum, _float2 * vTexScale, _float4x4 ParentMtr, _float * fLifeTime, _float * fSpeed, _uint iParticleType, _uint iSizeX, _uint iSizeY,
 	_float fDirectionX, _float fDirectionY)
 {
 	random_device rd;
