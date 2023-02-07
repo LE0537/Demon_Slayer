@@ -186,7 +186,7 @@ CNezukoState * CHitState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 void CHitState::Exit(CNezuko* pNezuko)
 {
 	pNezuko->Get_Model()->Set_UsingFrame(CNezuko::ANIM_HIT, 0, 100);
-	pNezuko->Set_HitTime(0.2f);
+	pNezuko->Set_HitTime(0.5f);
 }
 
 

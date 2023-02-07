@@ -3,7 +3,8 @@
 #include "RuiIdleState.h"
 #include "GameInstance.h"
 #include "Effect_Manager.h"
-
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Rui;
 
 CAdvSkill_MoveState::CAdvSkill_MoveState()
@@ -75,6 +76,9 @@ CRuiState * CAdvSkill_MoveState::Late_Tick(CRui * pRui, _float fTimeDelta)
 					}
 					else
 					{
+						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.4f);
+						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(-80);
 						m_pTarget->Take_Damage(0.3f, true);
 						pRui->Set_Combo(1);

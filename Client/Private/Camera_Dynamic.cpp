@@ -38,7 +38,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_fStartTime = 0.f;
 	m_fFov = 14.f;
 	m_fLookAtY = 4.f;
-	m_fAngle = 30.f;
+	m_fAngle = 45.f;
 	return S_OK;
 }
 
@@ -51,6 +51,16 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	if (pGameInstance->Key_Down(DIK_NUMPAD0))
 		bCamAttach = !bCamAttach;
 
+	//if (pGameInstance->Key_Down(DIK_F9))
+	//{
+	//	m_ShakeInfo = CCamera_Dynamic::SHAKE::SHAKE_DOWN;
+	//	m_ShakeTime = 0.2f;
+	//}
+	//if (pGameInstance->Key_Down(DIK_F10))
+	//{
+	//	m_ShakeInfo = CCamera_Dynamic::SHAKE::SHAKE_HIT;
+	//	m_ShakeTime = 0.3f;
+	//}
 	if (false == bCamAttach)
 	{
 		if (pGameInstance->Key_Pressing(DIK_UP))
@@ -81,7 +91,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	{
 		m_CameraDesc.fFovy = XMConvertToRadians(25.f);
 		m_bStart = true;
-		_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(75.343f, 5.5f, 19.231f, 1.f), m_fLerpTime);
+		_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
 
 		if (m_fLerpTime > 1.f)
 		{
@@ -97,8 +107,8 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	{
 		m_CameraDesc.fFovy = XMConvertToRadians(25.f);
 		m_bStart = true;
-		
-		_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(75.343f, 5.5f, 19.231f, 1.f), m_fLerpTime);
+		//75.343f, 5.5f, 19.231f
+		_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
 		
 		if (m_fLerpTime > 1.f)
 		{
@@ -190,20 +200,18 @@ void CCamera_Dynamic::Set_CamPos()
 		m_fCamDist = 0.33f;
 	vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
 
-	_vector vRight = XMVector3Normalize(vPos - vTarget);
-
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	m_pTransform->Set_Rotation(_float3(0.f, m_fAngle, 0.f));
+	m_pTransform->Set_Rotation(_float3(0.f, m_fAngle, 0.f)); 
 
 	_vector vLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
 	_float fTime = 1.f;
 	vPos -= vLook * (fTime + m_fLookY) * (fDiameter * 0.5f) * m_fCamDist;
+	vPos.m128_f32[0] -= 3.f;
 	vPos.m128_f32[1] = 0.f;
 	vPos.m128_f32[1] += 5.5f;
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	
 }
-
+ 
 void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 {
 	ConvertToViewPort(fTimeDelta);
@@ -278,6 +286,8 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pPlayer->Set_CamAngle(m_fAngle);
 	m_pTarget->Set_CamAngle(m_fAngle);
+
+	Check_Shake(fTimeDelta);
 }
 
 void CCamera_Dynamic::Lerp_SubCam(_float fTimeDelta)
@@ -309,7 +319,6 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 	_vector vPlayerLook = vPos - vPlayerPos;
 	_vector vTargetLook = vPos - vTargetPos;
 
-	
 
 	_vector vAtPos = XMVectorLerp(vPlayerPos, vTargetPos, 0.5f);
 	vAtPos.m128_f32[1] = 3.f;
@@ -517,9 +526,31 @@ void CCamera_Dynamic::Set_BattleStart(_float fTimeDelta)
 	m_pTarget->Set_BattleStart(true);
 
 }
-
-void CCamera_Dynamic::Camera_Shake(_float fTimeDelta)
+void CCamera_Dynamic::Check_Shake(_float fTimeDelta)
 {
+	if (m_ShakeTime > 0.f)
+	{
+		switch (m_ShakeInfo)
+		{
+		case CCamera_Dynamic::SHAKE::SHAKE_DOWN:
+			Camera_ShakeDown(fTimeDelta);
+			break;
+		case CCamera_Dynamic::SHAKE::SHAKE_HIT:
+			Camera_ShakeHit(fTimeDelta);
+			break;
+		default:
+			break;
+		}
+
+		m_ShakeTime -= fTimeDelta;
+	}
+	
+}
+
+void CCamera_Dynamic::Camera_ShakeDown(_float fTimeDelta)
+{
+	m_fShakeAmount = 0.5f;
+	m_fShakeFrequency = 5.f;
 	_float fProgress = (fTimeDelta - 0.016667f) / m_fShakeFrequency;
 	_float fShake = m_fShakeAmount * (1.f - fProgress) * ((rand() % 200) - 100) * 0.01f;
 	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
@@ -527,7 +558,17 @@ void CCamera_Dynamic::Camera_Shake(_float fTimeDelta)
 
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 }
+void CCamera_Dynamic::Camera_ShakeHit(_float fTimeDelta)
+{
+	m_fShakeAmount = 0.15f;
+	m_fShakeFrequency = 20.f;
+	_float fProgress = (fTimeDelta - 0.016667f) / m_fShakeFrequency;
+	_float fShake = m_fShakeAmount * (1.f - fProgress) * ((rand() % 200) - 100) * 0.01f;
+	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
+	vPos += XMVectorSet(fShake, fShake, fShake, 0.f);
 
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+}
 
 CCamera_Dynamic * CCamera_Dynamic::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

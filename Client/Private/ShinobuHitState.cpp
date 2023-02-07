@@ -157,7 +157,7 @@ CShinobuState * CHitState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 }
 void CHitState::Exit(CShinobu* pShinobu)
 {
-	pShinobu->Set_HitTime(0.2f);
+	pShinobu->Set_HitTime(0.5f);
 	pShinobu->Get_Model()->Set_UsingFrame(CShinobu::ANIM_HIT, 0, 100);
 	pShinobu->Get_Model()->Clear_Frame(CShinobu::ANIM_HIT);
 }

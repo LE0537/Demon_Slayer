@@ -12,6 +12,7 @@
 #include "AkazaSkill_Shoot.h"
 #include "AkazaTargetRushState.h"
 #include "AkazaJumpState.h"
+#include "Camera_Dynamic.h"
 using namespace Akaza;
 
 
@@ -235,6 +236,9 @@ CAkazaState * CAtk_4_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 			}
 			else
 			{
+				CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.1f);
+				RELEASE_INSTANCE(CGameInstance);
 				m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg / 2);
 				m_pTarget->Take_Damage(0.1f,false);
 				pAkaza->Set_Combo(1);
