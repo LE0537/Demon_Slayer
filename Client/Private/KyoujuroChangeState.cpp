@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
+#include "KyoujuroSkill_Common.h"
+#include "KyoujuroSkill_DashSlash.h"
 using namespace Kyoujuro;
 
 
@@ -39,7 +41,20 @@ CKyoujuroState * CChangeState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		case Client::CKyoujuroState::TYPE_END:
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 			pKyoujuro->Set_ChangeInfo(false);
-			return new CIdleState();
+			switch (pKyoujuro->Get_SubSkill())
+			{
+			case 0:
+				return new CIdleState();
+				break;
+			case 1:
+				return new CSkill_CommonState();
+				break;
+			case 2:
+				return new CSkill_DashSlashState();
+				break;
+			default:
+				break;
+			}
 			break;
 		}
 		pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());

@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
+#include "NezukoSkill_Common.h"
+#include "NezukoSkill_Move.h"
 using namespace Nezuko;
 
 
@@ -40,7 +42,20 @@ CNezukoState * CChangeState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 		case Client::CNezukoState::TYPE_END:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
 			pNezuko->Set_ChangeInfo(false);
-			return new CIdleState();
+			switch (pNezuko->Get_SubSkill())
+			{
+			case 0:
+				return new CIdleState();
+				break;
+			case 1:
+				return new CSkill_CommonState(STATE_TYPE::TYPE_START);
+				break;
+			case 2:
+				return new CSkill_MoveState(STATE_TYPE::TYPE_START);
+				break;
+			default:
+				break;
+			}
 			break;
 		}
 		pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());

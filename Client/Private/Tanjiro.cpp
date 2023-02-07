@@ -225,7 +225,30 @@ HRESULT CTanjiro::Render()
 		switch (m_i1p)
 		{
 		case 1:
-			if (m_tInfo.iFriendBar >= 100 && pGameInstance->Key_Pressing(DIK_U))
+			if (m_tInfo.iFriendBar >= 500 && (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_D)))
+			{
+				if (pGameInstance->Key_Up(DIK_U))
+				{
+					m_tInfo.iFriendBar -= 500;
+					m_fChangeDelay = 1.f;
+					m_pSubChar->Set_Sub(false);
+					m_pSubChar->Set_ChangeInfo(true);
+					m_pSubChar->Set_Change(false, vPos);
+					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+					m_pSubChar->Set_SubSkill(2);
+				}
+			}
+			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_U))
+			{
+				m_tInfo.iFriendBar -= 500;
+				m_fChangeDelay = 1.f;
+				m_pSubChar->Set_Sub(false);
+				m_pSubChar->Set_ChangeInfo(true);
+				m_pSubChar->Set_Change(false, vPos);
+				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+				m_pSubChar->Set_SubSkill(1);
+			}
+			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_U))
 			{
 				m_fChangeTime += m_fDelta;
 				if (m_fChangeTime > 0.5f)
@@ -239,6 +262,7 @@ HRESULT CTanjiro::Render()
 					m_pSubChar->Change_Info(m_tInfo);
 					m_pSubChar->Set_ChangeInfo(true);
 					m_pSubChar->Set_Change(false, vPos);
+					m_pSubChar->Set_SubSkill(0);
 					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 					m_pBattleTarget->Set_BattleTarget(m_pSubChar);
 					m_fChangeTime = 0.f;
@@ -250,7 +274,30 @@ HRESULT CTanjiro::Render()
 			}
 			break;
 		case 2:
-			if (m_tInfo.iFriendBar >= 100 && pGameInstance->Key_Pressing(DIK_V))
+			if (m_tInfo.iFriendBar >= 500 && (pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN) || pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT)))
+			{
+				if (pGameInstance->Key_Up(DIK_V))
+				{
+					m_tInfo.iFriendBar -= 500;
+					m_fChangeDelay = 1.f;
+					m_pSubChar->Set_Sub(false);
+					m_pSubChar->Set_ChangeInfo(true);
+					m_pSubChar->Set_Change(false, vPos);
+					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+					m_pSubChar->Set_SubSkill(2);
+				}
+			}
+			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_V))
+			{
+				m_tInfo.iFriendBar -= 500;
+				m_fChangeDelay = 1.f;
+				m_pSubChar->Set_Sub(false);
+				m_pSubChar->Set_ChangeInfo(true);
+				m_pSubChar->Set_Change(false, vPos);
+				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+				m_pSubChar->Set_SubSkill(1);
+			}
+			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_V))
 			{
 				m_fChangeTime += m_fDelta;
 				if (m_fChangeTime > 0.5f)
@@ -264,6 +311,7 @@ HRESULT CTanjiro::Render()
 					m_pSubChar->Change_Info(m_tInfo);
 					m_pSubChar->Set_ChangeInfo(true);
 					m_pSubChar->Set_Change(false, vPos);
+					m_pSubChar->Set_SubSkill(0);
 					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 					m_pBattleTarget->Set_BattleTarget(m_pSubChar);
 					m_fChangeTime = 0.f;
@@ -419,6 +467,7 @@ HRESULT CTanjiro::Ready_Components()
 
 	return S_OK;
 }
+
 
 void CTanjiro::HandleInput(_float fTimeDelta)
 {
