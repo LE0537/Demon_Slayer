@@ -4,7 +4,7 @@
 #include "AkazaGuardState.h"
 #include "GameInstance.h"
 #include "Layer.h"
-
+#include "Effect_Manager.h"
 using namespace Akaza;
 
 
@@ -62,6 +62,15 @@ CAkazaState * CGuardHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CAkazaState::TYPE_START:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pAkaza);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		pAkaza->Get_Transform()->Go_Backward(fTimeDelta * 0.3f, pAkaza->Get_NavigationCom());
 		break;
 	case Client::CAkazaState::TYPE_LOOP:

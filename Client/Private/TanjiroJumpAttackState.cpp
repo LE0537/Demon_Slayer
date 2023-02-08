@@ -222,6 +222,11 @@ void CJumpAttackState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 		m_bNextAnim = true;
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pTanjiro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 	}
 	else
 	{

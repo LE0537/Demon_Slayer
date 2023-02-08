@@ -13,7 +13,7 @@
 #include "RuiSkill_Sphere.h"
 #include "RuiAdvSkill_MoveState.h"
 #include "AiState.h"
-
+#include "Effect_Manager.h"
 using namespace Rui;
 
 

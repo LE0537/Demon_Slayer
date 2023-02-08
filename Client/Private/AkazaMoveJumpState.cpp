@@ -7,6 +7,7 @@
 #include "GameInstance.h"
 #include "AkazaJumpMoveAttackState.h"
 #include "AkazaJumpSkill_Move.h"
+#include "Effect_Manager.h"
 using namespace Akaza;
 
 
@@ -231,7 +232,18 @@ CAkazaState * CMoveJumpState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 		Move(pAkaza, fTimeDelta);
 
 	pAkaza->Get_Model()->Play_Animation(fTimeDelta,true);
+	if (m_eStateType == TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pAkaza);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
 	return nullptr;
 }
 
@@ -376,6 +388,15 @@ CAkazaState*  CMoveJumpState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 		else
 		{
 			m_eStateType = STATE_TYPE::TYPE_CHANGE;
+		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pAkaza);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
 		}
 	} 
 

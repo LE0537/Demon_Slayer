@@ -32,6 +32,7 @@ private:
 	_float m_fMove = 0.f;
 	_bool  m_bHit = false;
 	_bool  m_bEffect = false;
+	_bool  m_bJumpEffect = false;
 };
 
 END

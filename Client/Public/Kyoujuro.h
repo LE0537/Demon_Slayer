@@ -145,7 +145,7 @@ private:
 	
 	CGameObject*			m_pWeapon = nullptr;
 	CGameObject*			m_pSheath = nullptr;
-
+	_float					m_fEffectTime = 0.f;
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);

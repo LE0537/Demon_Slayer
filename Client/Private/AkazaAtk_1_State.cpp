@@ -240,7 +240,7 @@ CAkazaState * CAtk_1_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg);
-					m_pTarget->Take_Damage(0.3f,false);
+					m_pTarget->Take_Damage(0.f,false);
 					pAkaza->Set_Combo(1);
 					pAkaza->Set_ComboTime(0.f);
 				}

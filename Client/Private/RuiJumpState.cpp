@@ -5,6 +5,7 @@
 #include "RuiJumpAttackState.h"
 #include "RuiJumpSkill_Common.h"
 #include "RuiJumpMoveAttackState.h"
+#include "Effect_Manager.h"
 using namespace Rui;
 
 CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime, _bool bAiMoveAttack)
@@ -94,8 +95,18 @@ CRuiState * CJumpState::Tick(CRui * pRui, _float fTimeDelta)
 
 CRuiState * CJumpState::Late_Tick(CRui * pRui, _float fTimeDelta)
 {
+	if (m_eStateType == TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pRui);
 
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
 	pRui->Get_Model()->Play_Animation(fTimeDelta);
 
 	m_fJumpTime += 0.05f;
@@ -162,6 +173,15 @@ CRuiState * CJumpState::Jump(CRui * pRui, _float fTimeDelta)
 		m_eStateType = CRuiState::TYPE_END;
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_JUMP_END);
 		pRui->Set_AnimIndex(CRui::ANIM_JUMP_END);
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pRui);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 	}
 
 	pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

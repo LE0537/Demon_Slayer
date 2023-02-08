@@ -13,6 +13,7 @@
 #include "NezukoSkill_FallCut.h"
 #include "NezukoSkill_Move.h"
 #include "NezukoChangeState.h"
+#include "Effect_Manager.h"
 using namespace Nezuko;
 
 

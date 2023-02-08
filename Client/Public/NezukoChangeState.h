@@ -27,6 +27,7 @@ private:
 	_float m_fOriginPosY;
 	_float m_fGravity;
 	_bool m_bNextAnim = false;
+	_bool m_bEffect = false;
 };
 END
 END

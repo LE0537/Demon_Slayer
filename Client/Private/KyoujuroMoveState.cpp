@@ -12,6 +12,7 @@
 #include "KyoujuroSkill_DashSlash.h"
 #include "KyoujuroSkill_DoubleUpper.h"
 #include "KyoujuroChangeState.h"
+#include "Effect_Manager.h"
 using namespace Kyoujuro;
 
 

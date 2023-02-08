@@ -7,6 +7,7 @@
 #include "GameInstance.h"
 #include "RuiJumpMoveAttackState.h"
 #include "RuiJumpSkill_Move.h"
+#include "Effect_Manager.h"
 using namespace Rui;
 
 
@@ -238,7 +239,18 @@ CRuiState * CMoveJumpState::Late_Tick(CRui* pRui, _float fTimeDelta)
 		Move(pRui, fTimeDelta);
 
 	pRui->Get_Model()->Play_Animation(fTimeDelta);
+	if (m_eStateType == TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pRui);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
 	return nullptr;
 }
 
@@ -385,6 +397,15 @@ CRuiState*  CMoveJumpState::Jump(CRui* pRui, _float fTimeDelta)
 		else
 		{
 			m_eStateType = STATE_TYPE::TYPE_CHANGE;
+		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pRui);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
 		}
 	} 
 

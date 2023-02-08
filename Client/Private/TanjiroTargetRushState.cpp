@@ -18,6 +18,7 @@
 #include "TanjiroKaguraAtk_1_State.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "Effect_Manager.h"
 using namespace Tanjiro;
 
 CTargetRushState::CTargetRushState(STATE_TYPE eType)
@@ -228,7 +229,16 @@ CTanjiroState * CTargetRushState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDel
 	else
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
+	// µ¹Áø ÀÌÆåÆ®
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1_GROUND, pTanjiro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }

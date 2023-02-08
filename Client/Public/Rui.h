@@ -167,7 +167,7 @@ private:
 	CGameObject*			m_pTrail = nullptr;
 
 
-
+	_float					m_fEffectTime = 0.f;
 
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;

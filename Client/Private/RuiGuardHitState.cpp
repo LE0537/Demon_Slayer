@@ -4,7 +4,7 @@
 #include "RuiGuardState.h"
 #include "GameInstance.h"
 #include "Layer.h"
-
+#include "Effect_Manager.h"
 using namespace Rui;
 
 
@@ -67,6 +67,15 @@ CRuiState * CGuardHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CRuiState::TYPE_START:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pRui);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		pRui->Get_Transform()->Go_Backward(fTimeDelta * 0.3f, pRui->Get_NavigationCom());
 		break;
 	case Client::CRuiState::TYPE_LOOP:

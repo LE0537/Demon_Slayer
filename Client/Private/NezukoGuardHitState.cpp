@@ -5,6 +5,7 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "NezukoGuardState.h"
+#include "Effect_Manager.h"
 using namespace Nezuko;
 
 
@@ -67,6 +68,15 @@ CNezukoState * CGuardHitState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CNezukoState::TYPE_START:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pNezuko);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		pNezuko->Get_Transform()->Go_Backward(fTimeDelta * 0.3f, pNezuko->Get_NavigationCom());
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
