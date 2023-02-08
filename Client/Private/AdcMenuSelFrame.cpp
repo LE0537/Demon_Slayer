@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "AdcMenuSelFrame.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CAdcMenuSelFrame::CAdcMenuSelFrame(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -32,7 +33,7 @@ HRESULT CAdcMenuSelFrame::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -44,6 +45,19 @@ HRESULT CAdcMenuSelFrame::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		m_AdvFrameInfo.strName = TEXT("히노카미 편");
+	
+	if (m_ThrowUIinfo.iLayerNum == 1)
+		m_AdvFrameInfo.strName = TEXT("무한열차 편");
+	
+	m_AdvFrameInfo.iFrameNum = m_ThrowUIinfo.iLayerNum;
+
+	pUI_Manager->Set_AdvFrame(this, m_ThrowUIinfo.iLayerNum);
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
