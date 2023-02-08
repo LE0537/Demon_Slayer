@@ -96,9 +96,29 @@ CKyoujuroState * CGuardAdvState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeDel
 
 		if (pMyCollider->Collision(pTargetCollider))
 		{
+			_int iDest = rand() % 5;
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			switch (iDest)
+			{
+			case 0:
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+				break;
+			case 1:
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+				break;
+			case 2:
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+				break;
+			case 3:
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+				break;
+			case 4:
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+				break;
+			default:
+				break;
+			}
 
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 			RELEASE_INSTANCE(CEffect_Manager);
 
