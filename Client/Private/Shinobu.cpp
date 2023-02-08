@@ -220,7 +220,7 @@ HRESULT CShinobu::Render()
 		_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vPos.m128_f32[1] += 15.f;
 		_vector vLastPos = vPos;
-		vPos -= XMVector3Normalize(vLook) * 5.f;
+		//	vPos -= XMVector3Normalize(vLook) * 5.f;
 		vPos -= XMVector3Normalize(vRight) * 5.f;
 		switch (m_i1p)
 		{

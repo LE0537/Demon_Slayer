@@ -358,7 +358,7 @@ CTanjiroState * CSkill_CommonState::CommandCheck(CTanjiro * pTanjiro)
 	//printf_s("Duration : %f \n", m_fDuration);
 	//printf_s("current : %f \n", m_fCurrentDuration);
 
-	if (fRatio >= 0.7f)
+	if (fRatio >= 0.7f && pTanjiro->Get_SubSkill() == 0)
 	{
 		switch (pTanjiro->Get_i1P())
 		{

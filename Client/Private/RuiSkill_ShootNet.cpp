@@ -235,7 +235,7 @@ CRuiState * CSkill_ShootNetState::Late_Tick(CRui* pRui, _float fTimeDelta)
 		RELEASE_INSTANCE(CGameInstance);
 	}
 	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
-	if (!m_bEffect)
+	if (!m_bEffect && m_eStateType == CRuiState::TYPE_START)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 

@@ -458,7 +458,7 @@ CKyoujuroState * CSkill_DashSlashState::CommandCheck(CKyoujuro * pKyoujuro)
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
 
-	if (fRatio >= 0.5f)
+	if (fRatio >= 0.5f && pKyoujuro->Get_SubSkill() == 0)
 	{
 		switch (pKyoujuro->Get_i1P())
 		{

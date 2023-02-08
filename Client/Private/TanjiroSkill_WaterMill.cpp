@@ -390,7 +390,7 @@ CTanjiroState * CSkill_WaterMillState::CommandCheck(CTanjiro * pTanjiro)
 
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
-	if (fRatio >= 0.3f)
+	if (fRatio >= 0.3f && pTanjiro->Get_SubSkill() == 0)
 	{
 		switch (pTanjiro->Get_i1P())
 		{

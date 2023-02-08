@@ -449,7 +449,7 @@ CNezukoState * CSkill_CommonState::CommandCheck(CNezuko * pNezuko)
 
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
-	if (fRatio >= 0.7f)
+	if (fRatio >= 0.7f && pNezuko->Get_SubSkill() == 0)
 	{
 		switch (pNezuko->Get_i1P())
 		{

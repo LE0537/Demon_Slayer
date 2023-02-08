@@ -405,7 +405,7 @@ CShinobuState * CSkill_CommonState::CommandCheck(CShinobu * pShinobu)
 
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
-	if (fRatio >= 0.85f)
+	if (fRatio >= 0.85f && pShinobu->Get_SubSkill() == 0)
 	{
 		switch (pShinobu->Get_i1P())
 		{
