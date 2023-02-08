@@ -30,7 +30,11 @@ HRESULT CLoadingFixedImg::Initialize(void * pArg)
 	m_fY = m_ThrowUIinfo.vPos.y;
 
 	if (m_ThrowUIinfo.iTextureNum == 0)
+	{
+		m_fSizeX *= 1.1f;
+		m_fSizeY *= 1.1f;
 		m_iImgNum = 0;
+	}
 	else if (m_ThrowUIinfo.iTextureNum == 8)
 		m_iImgNum = 1;
 	else if (m_ThrowUIinfo.iTextureNum == 10)

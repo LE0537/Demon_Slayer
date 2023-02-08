@@ -32,18 +32,24 @@ void CLevel_StoryMenu::Tick(_float fTimeDelta)
 
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
+
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-	
-	//if (pUI_Manager->Get_MenuCursor() != nullptr)
-	//{
-	//	if (pUI_Manager->Get_MenuCursor()->Get_SelectVS())
-	//	{
-	//		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTCHAR))))
-	//			return;
-	//	}
-	//}
 
+	_uint iStageNum = pUI_Manager->Get_AdvStageNum();
 
+	if (pUI_Manager->Get_AdvMenuSelCheck())
+	{
+		switch (iStageNum)
+		{
+		case 0:
+			break;
+		case 1:
+			break;
+		default:
+			break;
+		}
+		pUI_Manager->Set_AdvMenuSelCheck(false);
+	}
 	Safe_Release(pGameInstance);
 
 	RELEASE_INSTANCE(CUI_Manager);
