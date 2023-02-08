@@ -173,7 +173,26 @@ CAkazaState * CJumpMoveAttackState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 2.f);
 	else
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta);
+	
+	if (!m_bEffect && m_eStateType == TYPE_LOOP)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZATK_JUMPMOVE_NONFOLLOW, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZATK_JUMPMOVE_FOLLOW, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+	else if (!m_bEffect && m_eStateType == TYPE_END)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZATK_JUMPMOVE_END, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 
 	return nullptr;

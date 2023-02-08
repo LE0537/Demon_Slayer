@@ -260,6 +260,28 @@ CAkazaState * CSkill_ShootState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	RELEASE_INSTANCE(CGameInstance);
 
 	pAkaza->Get_Model()->Play_Animation(fTimeDelta);
+	if (!m_bEffect && m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_COM_START, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_COM_HAND_1, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_COM_HAND_2, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_COM_HAND_3, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+	else if (!m_bEffect && m_eStateType == TYPE_LOOP)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_COM_HAND_4, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_COM_HAND_5, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }
