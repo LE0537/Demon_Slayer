@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "AdcMenuNameBar.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CAdcMenuNameBar::CAdcMenuNameBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -32,7 +33,7 @@ HRESULT CAdcMenuNameBar::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -75,6 +76,18 @@ HRESULT CAdcMenuNameBar::Render()
 
 	m_pVIBufferCom->Render();
 
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_uint iStageNum = pUI_Manager->Get_AdvStageNum();
+
+	if (iStageNum == 0)
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("히노카미 카구라 편"), XMVectorSet(m_fX - 100.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+	else 
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("무한열차 아카자 편"), XMVectorSet(m_fX - 100.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 

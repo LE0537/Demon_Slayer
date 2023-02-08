@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "AdcMenuCursor.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
+#include "AdcMenuSelFrame.h"
 
 CAdcMenuCursor::CAdcMenuCursor(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -32,7 +34,7 @@ HRESULT CAdcMenuCursor::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -50,7 +52,39 @@ HRESULT CAdcMenuCursor::Initialize(void * pArg)
 
 void CAdcMenuCursor::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (pGameInstance->Key_Down(DIK_RIGHT))
+	{
+		if (m_iFrameNum == 1)
+			m_iFrameNum = 0;
+		else 
+			++m_iFrameNum;
+	}
+	else if (pGameInstance->Key_Down(DIK_LEFT))
+	{
+		if (m_iFrameNum == 0)
+			m_iFrameNum = 1;
+		else
+			--m_iFrameNum;
+	}
+
+	_float fX = pUI_Manager->Get_AdvFrame(m_iFrameNum)->Get_fX();
+	_float fY = pUI_Manager->Get_AdvFrame(m_iFrameNum)->Get_fY();
+
+	m_fX = fX;
+	m_fY = fY;
+
+	if (pGameInstance->Key_Down(DIK_E))
+		pUI_Manager->Set_AdvMenuSelCheck(true);
+
+	pUI_Manager->Set_AdvStageNum(m_iFrameNum);
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CAdcMenuCursor::Late_Tick(_float fTimeDelta)

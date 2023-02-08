@@ -32,7 +32,7 @@ HRESULT CAdcMenuSelImg::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
