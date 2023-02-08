@@ -1375,6 +1375,19 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk3"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk4"));
 
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk_Jump_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk_JumpMove_NonFollow"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk_JumpMove_Follow"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk_JumpMove_End"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Com_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Com_Hand_1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Com_Hand_2"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Com_Hand_3"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Com_Hand_4"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Com_Hand_5"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Coll_Skl_Com_Main"));
+
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
 	}
