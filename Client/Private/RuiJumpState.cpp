@@ -103,7 +103,7 @@ CRuiState * CJumpState::Late_Tick(CRui * pRui, _float fTimeDelta)
 	if (m_eStateType != TYPE_END)
 		Jump(pRui, fTimeDelta + m_fJumpTime);
 
-	if (m_fJumpPower >= 0.5f && pRui->Get_IsAIMode() && m_bMoveAtkJump == true)
+	if (m_fJumpTime >= 0.45f && pRui->Get_IsAIMode() && m_bMoveAtkJump == true)
 		return new CJumpMoveAttackState(TYPE_START);
 
 

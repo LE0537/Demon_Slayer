@@ -26,8 +26,8 @@ CRuiState * CGuardHitState::Tick(CRui* pRui, _float fTimeDelta)
 	pRui->Set_bGuard(true);
 	pRui->Get_Model()->Set_Loop(CRui::ANIM_GUARD_HIT_0);
 	pRui->Get_Model()->Set_Loop(CRui::ANIM_GUARD_HIT_1);
-	pRui->Get_Model()->Set_LinearTime(CRui::ANIM_GUARD_HIT_0, 0.2f);
-	pRui->Get_Model()->Set_LinearTime(CRui::ANIM_GUARD_HIT_1, 0.2f);
+	//pRui->Get_Model()->Set_LinearTime(CRui::ANIM_GUARD_HIT_0, 0.2f);
+	//pRui->Get_Model()->Set_LinearTime(CRui::ANIM_GUARD_HIT_1, 0.2f);
 
 	
 
@@ -39,11 +39,11 @@ CRuiState * CGuardHitState::Tick(CRui* pRui, _float fTimeDelta)
 		{
 		case Client::CRuiState::TYPE_START:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			return new CIdleState();
+			return new CGuardState(TYPE_LOOP);
 			break;
 		case Client::CRuiState::TYPE_LOOP:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			return new CIdleState();
+			return new CGuardState(TYPE_LOOP);
 			break;
 		default:
 			break;
@@ -93,10 +93,14 @@ void CGuardHitState::Enter(CRui* pRui)
 	case Client::CRuiState::TYPE_START:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_GUARD_HIT_0);
 		pRui->Set_AnimIndex(CRui::ANIM_GUARD_HIT_0);
+		pRui->Get_Model()->Set_Loop(CRui::ANIM_GUARD_HIT_0);
+		pRui->Get_Model()->Set_LinearTime(CRui::ANIM_GUARD_HIT_0, 0.01f);
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_GUARD_HIT_1);
 		pRui->Set_AnimIndex(CRui::ANIM_GUARD_HIT_1);
+		pRui->Get_Model()->Set_Loop(CRui::ANIM_GUARD_HIT_0);
+		pRui->Get_Model()->Set_LinearTime(CRui::ANIM_GUARD_HIT_0, 0.01f);
 		break;
 	}
 

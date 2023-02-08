@@ -11,7 +11,7 @@
 #include "AkazaHitState.h"
 #include "Level_GamePlay.h"
 #include "AkazaBattleSTState.h"
-
+#include "AkazaGuardHitState.h"
 using namespace Akaza;
 
 
@@ -348,6 +348,20 @@ void CAkaza::Take_Damage(_float _fPow, _bool _bJumpHit)
 
 void CAkaza::Get_GuardHit(_int eType)
 {
+	CAkazaState* pState;
+	if (eType == CAkazaState::STATE_TYPE::TYPE_START)
+	{
+		m_pModelCom->Reset_Anim(CAkaza::ANIMID::ANIM_GUARD_HIT_0);
+		pState = new CGuardHitState(CAkazaState::STATE_TYPE::TYPE_START);
+	}
+	else
+	{
+		m_pModelCom->Reset_Anim(CAkaza::ANIMID::ANIM_GUARD_HIT_1);
+		pState = new CGuardHitState(CAkazaState::STATE_TYPE::TYPE_LOOP);
+	}
+	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+
+
 }
 
 CAkaza * CAkaza::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
