@@ -794,7 +794,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 43))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 46))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -998,6 +998,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Character_Change_DOWN"));
 		pEffect_Manager->Load_Effect(TEXT("Character_Change_UP"));
 		pEffect_Manager->Load_Effect(TEXT("Guard1"));
+		pEffect_Manager->Load_Effect(TEXT("Guard2"));
+		pEffect_Manager->Load_Effect(TEXT("Guard3"));
 		pEffect_Manager->Load_Effect(TEXT("Jump_DOWN"));
 		pEffect_Manager->Load_Effect(TEXT("Jump_UP"));
 		pEffect_Manager->Load_Effect(TEXT("Run"));
