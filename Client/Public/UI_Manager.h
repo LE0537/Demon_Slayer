@@ -31,12 +31,14 @@ public:
 	void Add_BattleResult();
 	void Add_P1_Combo();
 	void Add_P2_Combo();
+	void Add_Adc_Menu();
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LogoUI(CUI::THROWUIINFO iter);
 	HRESULT Add_MenuUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LoadingUI(CUI::THROWUIINFO iter);
 	HRESULT Add_BattleResultUI(CUI::THROWUIINFO iter);
+	HRESULT Add_Adc_MenuUI(CUI::THROWUIINFO iter);
 	_bool P1_Oni_Check();
 	_bool P2_Oni_Check();
 
@@ -132,6 +134,7 @@ private:
 	list<CUI::LOADUIINFO>				BATTLERESULT_LOADDATALIST;
 	list<CUI::LOADUIINFO>				P1_COMBO_LOADDATALIST;
 	list<CUI::LOADUIINFO>				P2_COMBO_LOADDATALIST;
+	list<CUI::LOADUIINFO>				ADC_MENU_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
@@ -145,6 +148,7 @@ private:
 	list<CUI::THROWUIINFO>				BATTLERESULT_DATALIST;
 	list<CUI::THROWUIINFO>				P1_COMBO_DATALIST;
 	list<CUI::THROWUIINFO>				P2_COMBO_DATALIST;
+	list<CUI::THROWUIINFO>				ADC_MENU_DATALIST;
 
 	string							m_sFilePath;
 	CCharacters*					m_p1P;
@@ -185,6 +189,8 @@ private:
 	_uint							m_iComboNumLayerNum = 0;
 	_uint							m_iChangeBarLayerNum = 0;
 	_uint							m_iOniSepcialBarLayerNum = 0;
+	_uint							m_iAdcMenuSelImgLayerNum = 0;
+	_uint							m_iAdcMenuSelFrameImgLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;

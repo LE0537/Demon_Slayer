@@ -109,6 +109,16 @@
 #include "ComboHitTxt.h"
 #include "ComboNum.h"
 #include "OniSpecialSkillBar.h"
+#include "ButtonEff.h"
+#include "AdcMenuBg.h"
+#include "AdcMenuBgDeco.h"
+#include "AdcMenuCloud.h"
+#include "AdcMenuCursor.h"
+#include "AdcMenuDarkCloud.h"
+#include "AdcMenuNameBar.h"
+#include "AdcMenuSelFrame.h"
+#include "AdcMenuSelImg.h"
+#include "AdcMenuSelTxt.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -158,7 +168,10 @@ unsigned int APIENTRY Thread_Main(void* pArg)
 		pLoader->Loading_ForGameResult();
 		break;
 	case LEVEL_MENU:
-		pLoader->Loading_ForGameResult();
+		pLoader->Loading_ForMenu();
+		break;
+	case LEVEL_STORYMENU:
+		pLoader->Loading_ForStoryMenu();
 		break;
 	}
 	
@@ -444,6 +457,16 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 #pragma endregion LogoTitleUI
 
+#pragma region Adc_Menu
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Adc_MenuBG"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Adc_Menu/Lang_StoryBG_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Adc_MenuDeco"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Adc_Menu/Story_Bg_Deco_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Adc_MenuSelTxt"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Adc_Menu/Lang_Title_Stage.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Adc_MenuSelFrame"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Adc_Menu/Frame_Icon_Stage.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Adc_MenuSelImg"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Adc_Menu/Image_Icon_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Adc_MenuSelCursor"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Adc_Menu/Cursor_Stage.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Adc_MenuStageNameBar"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Adc_Menu/Name_Base_Stage.png"), 1)))) return E_FAIL;
+#pragma endregion Adc_Menu
+
 #pragma region MenuUI
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuFixedImg"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/MenuFixedImg_%d.png"), 4))))
@@ -474,6 +497,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma region UIEff
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_InkEff"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/UIEff/Xcmn_Ink_%d.png"), 2))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ButtonEff"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/UIEff/Xef_Base00.png"), 1))))
 			return E_FAIL;
 #pragma endregion UIEff
 
@@ -513,550 +539,211 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 	/* 모델 로딩 중. */
 	lstrcpy(m_szLoadingText, TEXT("                     모델 로딩 중."));
-
-
 #pragma region Static Objects
 	{
-		PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+		_matrix PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeWillow"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		////	Tree
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_BigTree1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/BigTree1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_BigTree2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/BigTree2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_BigTree3",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/BigTree3.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeFar1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/FarTree1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeWillow",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeWillow.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		////	Tree Instancing
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_BigTree1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/BigTree1.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_BigTree2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/BigTree2.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_BigTree3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/BigTree3.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeFar1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/FarTree1.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeWillow_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeWillow.fbx", PivotMatrix))))	return E_FAIL;
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeWillow_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeWillow"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken4"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken5"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken6"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken7"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken8"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken9"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken10"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigTree3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeWillow_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken4_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken5_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken6_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken7_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken8_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken9_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken10_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		////	TreeBroken
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken1", 
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken1.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken3",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken3.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken4",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken4.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken5",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken5.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken6",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken6.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken7",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken7.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken8",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken8.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken9",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken9.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken10",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken10.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken1.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken2.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken3.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken4_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken4.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken5_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken5.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken6_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken6.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken7_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken7.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken8_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken8.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken9_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken9.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeBroken10_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeBroken10.fbx", PivotMatrix))))	return E_FAIL;
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken4"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken5"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken6"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken7"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken8"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken9"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken10"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken4_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken5_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken6_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken7_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken8_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken9_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeBroken10_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock4"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock5"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock6"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock7"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock_Small"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		////	Tree Root
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeRoot1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeRoot1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeRoot2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeRoot2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeRoot3",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/TreeRoot3.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeRoot1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeRoot1.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeRoot2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeRoot2.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeRoot3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/TreeRoot3.fbx", PivotMatrix))))	return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock4_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock5_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock6_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock7_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock_Small_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeRoot3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff_Small"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		////	Rock
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Rock1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Rock2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock3",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Rock3.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock4",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Rock4.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock5",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Rock5.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock6",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Rock6.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock7",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Rock7.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_RockSmall",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/RockSmall1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Rock1.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Rock2.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Rock3.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock4_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Rock4.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock5_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Rock5.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock6_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Rock6.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rock7_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Rock7.fbx", PivotMatrix))))	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_RockSmall_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/RockSmall1.fbx", PivotMatrix))))	return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock4"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock5"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock6"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock7"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock_Small"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff_Small_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock4_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock5_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock6_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock7_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rock_Small_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass4"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass5"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass6"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		////	cliff
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Cliff1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/Cliff1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Cliff2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/Cliff2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Cliff3",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/Cliff3.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Cliff_Small",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/Cliff_Small.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		////	cliff Instancing
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Cliff1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/Cliff1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Cliff2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/Cliff2.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Cliff3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/Cliff3.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Cliff_Small_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/Cliff_Small.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff_Small"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass4_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass5_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass6_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Cliff_Small_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Lavender"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		////	grass
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/hisanoie/grass1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/hisanoie/grass2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass3",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/hisanoie/grass3.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass4",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/hisanoie/grass4.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass5",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/grass1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass6",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/grass2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		////	grass Instancing
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/hisanoie/grass1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/hisanoie/grass2.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/hisanoie/grass3.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass4_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/hisanoie/grass4.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass5_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/grass1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Grass6_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/grass2.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass4"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass5"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass6"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Lavender_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass4_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass5_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Grass6_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf4"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		////	Flower
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Lavender",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/lavender.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Flower1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Flower1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Flower2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Flower2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Flower3",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Flower3.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Lavender_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/lavender.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Flower1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Flower1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Flower2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Flower2.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Flower3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Flower3.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Lavender"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf4_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Lavender_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Flower3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far4"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far5"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far6"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		////	Leaf
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Leaf1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Leaf1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Leaf2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Leaf2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Leaf3",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Leaf3.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Leaf4",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Leaf4.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Leaf1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Leaf1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Leaf2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Leaf2.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Leaf3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Leaf3.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Leaf4_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Leaf4.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf4"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far4_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far5_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far6_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Leaf4_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Wall1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Wall2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		////	Hill Far
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/Hill_Far1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/Hill_Far2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far3",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Far1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far4",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Far2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far5",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/FarHill1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far6",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/FarHill2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		////	Hill Far Instancing
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/Hill_Far1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/Hill_Far2.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Far1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far4_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Far2.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far5_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/FarHill1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Hill_Far6_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/FarHill2.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far4"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far5"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far6"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Wall1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Wall2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far4_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far5_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hill_Far6_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		////	Wall
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Wall1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Wall1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Wall2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Wall2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Wall1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Wall1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Wall2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Wall2.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Wall1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Wall2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Wall1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Wall2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush4"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush5"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush6"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush7"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush8"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush9"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		////	Spider Web
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/SpiderWeb1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/SpiderWeb2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb3",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/SpiderWeb3.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		////	Spider Web Instancing
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/SpiderWeb1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/SpiderWeb2.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/SpiderWeb3.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush4_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush5_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush6_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush7_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush8_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush9_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("HomeSmall1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("HomeSmall2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		////	Bush
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Bush1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Bush2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush3",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Bush3.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush4",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Bush4.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush5",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Bush5.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush6",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Bush6.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush7",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Bush7.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush8",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Bush8.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush9",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/Bush9.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Bush1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Bush2.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Bush3.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush4_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Bush4.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush5_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Bush5.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush6_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Bush6.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush7_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Bush7.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush8_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Bush8.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Bush9_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/Bush9.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush4"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush5"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush6"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush7"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush8"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush9"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("HomeSmall1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("HomeSmall2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush4_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush5_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush6_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush7_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush8_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bush9_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		////	Home
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_HomeSmall1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/HomeSmall1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_HomeSmall2",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/HomeSmall2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_HomeSmall1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/HomeSmall1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_HomeSmall2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/HomeSmall2.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("HomeSmall1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("HomeSmall2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RiceField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("HomeSmall1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("HomeSmall2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RiceField_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		////	Rice Field
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_RiceField1",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/common/RiceField1.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_RiceField1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/common/RiceField1.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RiceField"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiGround"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("UrokodakiGround"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RiceField_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiGround_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("UrokodakiGround_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		////	Ground
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_RuiGround",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui/Ground.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_UrokodakiGround",
-		//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/urokodakinoiwa/Ground2.fbx", PivotMatrix))))
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_RuiGround_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui/Ground.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_UrokodakiGround_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/urokodakinoiwa/Ground2.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiGround"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("UrokodakiGround"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiGround2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Home1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rubble1"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rubble2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb4"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb5"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb6"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb7"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb8"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb9"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Tree_Jenitsu"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar2"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar3"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiGround_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("UrokodakiGround_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiGround2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Home1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rubble1_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rubble2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb4_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb5_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb6_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb7_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb8_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb9_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Tree_Jenitsu_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		////	Else
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_RuiGround2", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Ground.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Home1", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Home1.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rubble1", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Rubble1.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rubble2", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Rubble2.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb4", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb1.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb5", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb2.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb6", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb3.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb7", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb4.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb8", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb5.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb9", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb6.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Tree_Jenitsu", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Tree_Jenitsu.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeFar2", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/TreeFar2.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeFar3", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/rui_new/TreeFar3.fbx", PivotMatrix)))) 
-		//	return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_RuiGround2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Ground.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Home1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Home1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rubble1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Rubble1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Rubble2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Rubble2.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb4_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb1.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb5_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb2.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb6_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb3.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb7_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb4.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb8_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb5.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_SpiderWeb9_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/SpiderWeb6.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Tree_Jenitsu_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Tree_Jenitsu.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeFar2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/TreeFar2.fbx", PivotMatrix)))) return E_FAIL;
-		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_TreeFar3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/TreeFar3.fbx", PivotMatrix)))) return E_FAIL;
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiGround2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Home1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rubble1"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rubble2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb4"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb5"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb6"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb7"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb8"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb9"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Tree_Jenitsu"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar2"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar3"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM);
-
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiGround2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Home1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rubble1_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rubble2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb4_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb5_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb6_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb7_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb8_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("SpiderWeb9_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Tree_Jenitsu_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar2_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar3_Instancing"), LEVEL_GAMEPLAY, CData_Manager::DATA_NONANIM_INSTANCING);
-
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Moon", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Rect/Moon/Moon.fbx", PivotMatrix)))) 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Moon", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Rect/Moon/Moon.fbx", PivotMatrix))))
 			return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_MoonLight", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Rect/Moon/MoonLight.fbx", PivotMatrix))))
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_MoonLight", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Rect/Moon/MoonLight.fbx", PivotMatrix))))
 			return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, L"Prototype_Component_Model_Moon_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Ground.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Moon_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Ground.fbx", PivotMatrix))))
+			return E_FAIL;
 
 
 		//	MeshObj_Static
@@ -1069,10 +756,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MeshObj_Static_Instancing"),
 			CMeshObj_Static_Inst::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
-		
+
 		PivotMatrix = XMMatrixIdentity();
 	}
 #pragma endregion Static Objects
+
 
 #pragma region Map
 	{
@@ -1573,6 +1261,36 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI객체
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuBG"),
+		CAdcMenuBg::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuDeco"),
+		CAdcMenuBgDeco::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuCloud"),
+		CAdcMenuCloud::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuCursor"),
+		CAdcMenuCursor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuDarkCloud"),
+		CAdcMenuDarkCloud::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuSelWindow"),
+		CAdcMenuNameBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuFrame"),
+		CAdcMenuSelFrame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuSelImg"),
+		CAdcMenuSelImg::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuSelTxt"),
+		CAdcMenuSelTxt::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ButtonEff"),
+		CButtonEff::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_OniSpeciSkillBar"),
 		COniSpecialSkillBar::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1845,7 +1563,6 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	/* 객체 생성 중. */
 	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
 
-	/* UI 객체 */
 
 
 
@@ -1889,6 +1606,36 @@ HRESULT CLoader::Loading_ForGameResult()
 }
 
 HRESULT CLoader::Loading_ForMenu()
+{
+	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
+	if (nullptr == pGameInstance)
+		return E_FAIL;
+
+	Safe_AddRef(pGameInstance);
+
+
+	/* 텍스쳐 로딩 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+
+
+
+	/* 객체 생성 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
+
+	/* UI 객체 */
+
+
+
+	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
+
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForStoryMenu()
 {
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	if (nullptr == pGameInstance)

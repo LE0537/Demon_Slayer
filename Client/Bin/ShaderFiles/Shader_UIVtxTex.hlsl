@@ -183,7 +183,6 @@ PS_OUT PS_OniSpecialBarMinus(PS_IN In)
 	return Out;
 }
 
-
 PS_OUT PS_UltBarMinus(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
@@ -239,6 +238,7 @@ PS_OUT PS_WindowLeft(PS_IN In)
 
 	return Out;
 }
+
 PS_OUT PS_WindowRight(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
