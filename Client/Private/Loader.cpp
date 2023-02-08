@@ -1348,26 +1348,27 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendCom_Start"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendCom_Main"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Coll_FriendMove"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendMove"));
 
-		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_ShotBall_Main"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_1"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_2"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_3"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Com_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Com_Start_1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Com_Start_2"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Com_Start_3"));
 
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotNet_StartEff"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_ShotNet_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Move_StartEff"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Move_Main"));
 
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpBall_Start"));	
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Coll_JumpBall_Main"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpShotNet_StartEff"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_JumpShotNet_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Jump_Start"));	
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Jump_Main"));
 
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtkMove_PullMain"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtkMove_PlayerMain"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtkMove_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_JumpMove_StartEff"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_JumpMove_Main"));
 
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtk_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk_JumpMove_PullMain"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk_JumpMove_PlayerMain"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk_JumpMove_Main"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk_Jump_Main"));
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk1"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk2"));
