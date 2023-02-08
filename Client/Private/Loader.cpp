@@ -1118,6 +1118,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Dissolve", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Water", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Ground Mask", "../Bin/Resources/Effect/Texture/");
+		Load_Texture("Smoke", "../Bin/Resources/Effect/Texture/");
 
 		Load_Texture("Shock", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Slash", "../Bin/Resources/Effect/Mesh/MeshTexture/");
@@ -1127,7 +1128,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Fire", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Line", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Rui", "../Bin/Resources/Effect/Mesh/MeshTexture/");
-
 		Load_Texture("Else", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 
 	
@@ -1247,6 +1247,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_UpWeb6"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_UpWeb6.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_Web3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_Web3.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_Web4"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_Web4.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_DashSmoke_L"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Cmn/DashSmoke_L.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_DashSmoke_R"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Cmn/DashSmoke_R.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_SmokeMesh1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Cmn/Smoke1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_SmokeMesh2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Cmn/Smoke2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_SmokeMesh3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Cmn/Smoke3.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_SmokeMesh5"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Cmn/Smoke5.fbx", PivotMatrix)))) return E_FAIL;
 
 
 
@@ -1271,6 +1277,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("HitEffect3"));
 		pEffect_Manager->Load_Effect(TEXT("HitEffect4"));
 		pEffect_Manager->Load_Effect(TEXT("HitEffect5"));
+
+		pEffect_Manager->Load_Effect(TEXT("Character_Change_DOWN"));
+		pEffect_Manager->Load_Effect(TEXT("Character_Change_UP"));
+		pEffect_Manager->Load_Effect(TEXT("Guard1"));
+		pEffect_Manager->Load_Effect(TEXT("Jump_DOWN"));
+		pEffect_Manager->Load_Effect(TEXT("Jump_UP"));
+		pEffect_Manager->Load_Effect(TEXT("Run"));
+
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1_GroundMask"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack2_1"));
