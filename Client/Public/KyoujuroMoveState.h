@@ -28,6 +28,7 @@ private:
 
 private:
 	OBJDIR	m_eDirection = OBJDIR::DIR_END;
+
 };
 END
 END

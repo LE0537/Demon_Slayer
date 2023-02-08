@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "TanjiroMoveState.h"
-
+#include "Effect_Manager.h"
 using namespace Tanjiro;
 
 CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
@@ -648,6 +648,17 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 	default:
 		break;
 	}
+	// ´ë½¬ ÀÌÆåÆ®
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1_GROUND, pTanjiro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+
 	Check_Coll(pTanjiro, fTimeDelta);
 }
 

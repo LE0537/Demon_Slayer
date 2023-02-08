@@ -7,6 +7,7 @@
 #include "TanjiroJumpMoveAttackState.h"
 #include "TanjiroJumpSkillMoveState.h"
 #include "TanjiroKaguraJumpSkill_Move.h"
+#include "Effect_Manager.h"
 using namespace Tanjiro;
 
 CMoveJumpState::CMoveJumpState(OBJDIR eDir, STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -261,7 +262,18 @@ CTanjiroState * CMoveJumpState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 CTanjiroState * CMoveJumpState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	if (m_eStateType == TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 3.f);
+	}
 	else if (m_eStateType == TYPE_LOOP)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
 	else if (m_eStateType == TYPE_DEFAULT)
@@ -431,6 +443,15 @@ CTanjiroState*  CMoveJumpState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 			m_eStateType = CTanjiroState::TYPE_CHANGE;
 			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_MOVE_LOOP);
 			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_LOOP);
+		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
 		}
 	}
 

@@ -14,7 +14,7 @@
 #include "ImGuiManager.h"
 #include "Level_GamePlay.h"
 #include "KyoujuroBattleSTState.h"
-
+#include "Effect_Manager.h"
 using namespace Kyoujuro;
 
 #include "UI_Manager.h"
@@ -564,6 +564,17 @@ void CKyoujuro::LateTickState(_float fTimeDelta)
 
 	if (pNewState)
 		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pNewState);
+	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_MOVE)
+		m_fEffectTime += fTimeDelta;
+	if (m_fEffectTime > 0.3f)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_fEffectTime = 0.f;
+	}
 
 }
 CKyoujuro * CKyoujuro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

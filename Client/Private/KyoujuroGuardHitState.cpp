@@ -5,7 +5,7 @@
 #include "GameInstance.h"
 #include "KyoujuroWeapon.h"
 #include "Layer.h"
-
+#include "Effect_Manager.h"
 using namespace Kyoujuro;
 
 
@@ -68,6 +68,15 @@ CKyoujuroState * CGuardHitState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDe
 	switch (m_eStateType)
 	{
 	case Client::CKyoujuroState::TYPE_START:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pKyoujuro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		pKyoujuro->Get_Transform()->Go_Backward(fTimeDelta * 0.3f, pKyoujuro->Get_NavigationCom());
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:

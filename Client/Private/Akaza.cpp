@@ -12,6 +12,7 @@
 #include "Level_GamePlay.h"
 #include "AkazaBattleSTState.h"
 #include "AkazaGuardHitState.h"
+#include "Effect_Manager.h"
 using namespace Akaza;
 
 
@@ -234,6 +235,17 @@ void CAkaza::LateTickState(_float fTimeDelta)
 
 	if (pNewState)
 		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pNewState);
+	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_MOVE)
+		m_fEffectTime += fTimeDelta;
+	if (m_fEffectTime > 0.3f)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_fEffectTime = 0.f;
+	}
 }
 
 HRESULT CAkaza::SetUp_ShaderResources()

@@ -16,6 +16,7 @@
 #include "ImGuiManager.h"
 #include "Level_GamePlay.h"
 #include "TanjiroBattleSTState.h"
+#include "Effect_Manager.h"
 using namespace Tanjiro;
 
 
@@ -492,6 +493,18 @@ void CTanjiro::LateTickState(_float fTimeDelta)
 
 	if (pNewState)
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pNewState);
+
+	if(m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_MOVE)
+		m_fEffectTime += fTimeDelta;
+	if (m_fEffectTime > 0.3f)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_fEffectTime = 0.f;
+	}
 }
 HRESULT CTanjiro::Ready_Parts()
 {

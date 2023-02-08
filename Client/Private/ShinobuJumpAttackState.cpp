@@ -223,6 +223,16 @@ void CJumpAttackState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 
 		pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 		m_bNextAnim = true;
+
+		if (!m_bJumpEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pShinobu);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bJumpEffect = true;
+		}
 	}
 	else
 	{

@@ -8,6 +8,7 @@
 #include "KyoujuroJumpSkill_Common.h"
 #include "KyoujuroJumpSkill_Move.h"
 #include "KyoujuroJumpMoveAttackState.h"
+#include "Effect_Manager.h"
 using namespace Kyoujuro;
 
 
@@ -270,7 +271,18 @@ CKyoujuroState * CMoveJumpState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 CKyoujuroState * CMoveJumpState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
 	if (m_eStateType == TYPE_START)
+	{
 		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pKyoujuro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
 	else if (m_eStateType == TYPE_LOOP)
 		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else if (m_eStateType == TYPE_DEFAULT)
@@ -444,7 +456,15 @@ CKyoujuroState*  CMoveJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		{
 			m_eStateType = CKyoujuroState::TYPE_CHANGE;
 		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pKyoujuro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 	}
 
 	pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

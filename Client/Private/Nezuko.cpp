@@ -13,7 +13,7 @@
 #include "NezukoHitState.h"
 #include "NezukoBattleSTState.h"
 #include "NezukoGuardHitState.h"
-
+#include "Effect_Manager.h"
 using namespace Nezuko;
 
 CNezuko::CNezuko(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -348,6 +348,17 @@ void CNezuko::LateTickState(_float fTimeDelta)
 
 	if (pNewState)
 		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pNewState);
+	if (m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_MOVE)
+		m_fEffectTime += fTimeDelta;
+	if (m_fEffectTime > 0.3f)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_fEffectTime = 0.f;
+	}
 }
 
 HRESULT CNezuko::SetUp_ShaderResources()

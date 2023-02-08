@@ -6,7 +6,7 @@
 #include "ShinobuJumpState.h"
 #include "ShinobuJumpMoveAttackState.h"
 #include "ShinobuJumpSkill_Move.h"
-
+#include "Effect_Manager.h"
 
 using namespace Shinobu;
 
@@ -241,7 +241,18 @@ CShinobuState * CMoveJumpState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 		Move(pShinobu, fTimeDelta);
 
 	pShinobu->Get_Model()->Play_Animation(fTimeDelta);
+	if (m_eStateType == CShinobuState::TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pShinobu);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
 	return nullptr;
 }
 
@@ -389,6 +400,15 @@ CShinobuState*  CMoveJumpState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 		else
 		{
 			m_eStateType = STATE_TYPE::TYPE_CHANGE;
+		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pShinobu);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
 		}
 	}
 

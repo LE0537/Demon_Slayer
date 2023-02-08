@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 #include "AkazaJumpAttackState.h"
 #include "AkazaJumpSkill_Common.h"
-
+#include "Effect_Manager.h"
 using namespace Akaza;
 
 CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -93,8 +93,18 @@ CAkazaState * CJumpState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 CAkazaState * CJumpState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
+	if (m_eStateType == TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-	
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pAkaza);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
 	pAkaza->Get_Model()->Play_Animation(fTimeDelta,true);
 
 	m_fJumpTime += 0.05f;
@@ -158,6 +168,15 @@ CAkazaState * CJumpState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_JUMP_END);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_JUMP_END);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_JUMP_END, 0.01f);
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pAkaza);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 	}
 
 	pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

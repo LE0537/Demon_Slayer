@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 #include "KyoujuroJumpSkill_Common.h"
 #include "KyoujuroJumpAttackState.h"
-
+#include "Effect_Manager.h"
 using namespace Kyoujuro;
 
 CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -101,7 +101,18 @@ CKyoujuroState * CJumpState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
 
 	if (m_eStateType == TYPE_START)
+	{
 		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pKyoujuro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
 	else if (m_eStateType == TYPE_LOOP)
 		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else if (m_eStateType == TYPE_DEFAULT)
@@ -173,6 +184,15 @@ CKyoujuroState * CJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		m_eStateType = CKyoujuroState::TYPE_DEFAULT;
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIM_JUMP_END);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_JUMP_END);
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pKyoujuro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 	}
 
 	pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

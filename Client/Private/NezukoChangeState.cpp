@@ -65,9 +65,27 @@ CNezukoState * CChangeState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CNezukoState::TYPE_START:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_PCHANGE_UP, pNezuko);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		Increase_Height(pNezuko, fTimeDelta);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_PCHANGE_DOWN, pNezuko);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		Fall_Height(pNezuko, fTimeDelta);
 		break;
 	case Client::CNezukoState::TYPE_END:

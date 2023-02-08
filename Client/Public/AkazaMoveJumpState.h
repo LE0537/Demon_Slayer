@@ -31,6 +31,7 @@ private:
 	_float m_fGravity = 9.8f;
 	_float m_fCurrentPosY = 0.f;
 	_bool m_bMove = false;
+	_bool m_bEffect = false;
 };
 END
 END

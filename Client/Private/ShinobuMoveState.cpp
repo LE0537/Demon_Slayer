@@ -11,6 +11,7 @@
 #include "ShinobuChangeState.h"
 #include "ShinobuSkill_Move.h"
 #include "ShinobuSkill_Upper.h"
+#include "Effect_Manager.h"
 using namespace Shinobu;
 
 

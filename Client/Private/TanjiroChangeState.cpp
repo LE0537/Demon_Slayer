@@ -64,9 +64,27 @@ CTanjiroState * CChangeState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CTanjiroState::TYPE_START:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_PCHANGE_UP, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		Increase_Height(pTanjiro, fTimeDelta);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_PCHANGE_DOWN, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		Fall_Height(pTanjiro, fTimeDelta);
 		break;
 	case Client::CTanjiroState::TYPE_END:

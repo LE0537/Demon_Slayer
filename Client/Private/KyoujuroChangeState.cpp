@@ -64,9 +64,27 @@ CKyoujuroState * CChangeState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CKyoujuroState::TYPE_START:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_PCHANGE_UP, pKyoujuro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		Increase_Height(pKyoujuro, fTimeDelta);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_PCHANGE_DOWN, pKyoujuro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		Fall_Height(pKyoujuro, fTimeDelta);
 		break;
 	case Client::CKyoujuroState::TYPE_END:

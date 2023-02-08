@@ -7,7 +7,7 @@
 #include "GameInstance.h"
 #include "NezukoJumpMoveAttackState.h"
 #include "NezukoJumpSkill_Move.h"
-
+#include "Effect_Manager.h"
 using namespace Nezuko;
 
 
@@ -232,7 +232,18 @@ CNezukoState * CMoveJumpState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 		Move(pNezuko, fTimeDelta);
 
 	pNezuko->Get_Model()->Play_Animation(fTimeDelta,true);
+	if (m_eStateType == CNezukoState::TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pNezuko);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
 	return nullptr;
 }
 
@@ -378,6 +389,15 @@ CNezukoState*  CMoveJumpState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 		else
 		{
 			m_eStateType = STATE_TYPE::TYPE_CHANGE;
+		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pNezuko);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
 		}
 	} 
 

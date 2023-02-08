@@ -4,6 +4,7 @@
 #include "ShinobuGuardState.h"
 #include "GameInstance.h"
 #include "Layer.h"
+#include "Effect_Manager.h"
 using namespace Shinobu;
 
 
@@ -60,6 +61,15 @@ CShinobuState * CGuardHitState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CShinobuState::TYPE_START:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pShinobu);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		pShinobu->Get_Transform()->Go_Backward(fTimeDelta * 0.3f, pShinobu->Get_NavigationCom());
 		break;
 	case Client::CShinobuState::TYPE_LOOP:

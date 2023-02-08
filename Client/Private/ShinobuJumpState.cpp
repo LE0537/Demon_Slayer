@@ -6,6 +6,7 @@
 #include "ShinobuJumpAttackState.h"
 #include "ShinobuJumpSkill_Common.h"
 #include "ShinobuJumpMoveAttackState.h"
+#include "Effect_Manager.h"
 using namespace Shinobu;
 
 CJumpstate::CJumpstate(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -94,7 +95,18 @@ CShinobuState * CJumpstate::Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 CShinobuState * CJumpstate::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
+	if (m_eStateType == CShinobuState::TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pShinobu);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
 	pShinobu->Get_Model()->Play_Animation(fTimeDelta);
 
 	m_fJumpTime += 0.05f;
@@ -161,6 +173,15 @@ CShinobuState* CJumpstate::Jump(CShinobu* pShinobu, _float fTimeDelta)
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_JUMP_END);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_JUMP_END, 0.01f);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_END);
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pShinobu);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 	}
 
 

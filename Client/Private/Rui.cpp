@@ -15,7 +15,7 @@
 #include "RuiHitState.h"
 #include "RuiBattleSTState.h"
 #include "RuiGuardHitState.h"
-
+#include "Effect_Manager.h"
 using namespace Rui;
 
 
@@ -366,7 +366,17 @@ void CRui::LateTickState(_float fTimeDelta)
 
 	if (pNewState)
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pNewState);
+	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_MOVE)
+		m_fEffectTime += fTimeDelta;
+	if (m_fEffectTime > 0.3f)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_fEffectTime = 0.f;
+	}
 }
 
 void CRui::Take_Damage(_float _fPow, _bool _bJumpHit)

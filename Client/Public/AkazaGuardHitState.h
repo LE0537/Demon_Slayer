@@ -19,6 +19,7 @@ public:
 
 private:
 	_float m_fTime = 0.f;
+	_bool m_bEffect = false;
 };
 END
 END

@@ -12,6 +12,7 @@
 #include "AkazaSkill_Punch.h"
 #include "AkazaSkill_Destroy.h"
 #include "AkazaAdvSkill_Move.h"
+#include "Effect_Manager.h"
 using namespace Akaza;
 
 

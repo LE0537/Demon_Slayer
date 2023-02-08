@@ -14,6 +14,7 @@
 #include "TanjiroKaguraSkill_Sphere.h"
 #include "TanjiroChangeState.h"
 #include "TanjiroKaguraAtk_1_State.h"
+#include "Effect_Manager.h"
 using namespace Tanjiro;
 
 
