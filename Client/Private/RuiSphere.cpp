@@ -62,7 +62,7 @@ void CRuiSphere::Tick(_float fTimeDelta)
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
 
 	m_fDeadTime += fTimeDelta;
-	if (m_fDeadTime > 3.f)
+	if (m_fDeadTime > 5.f)
 		Set_Dead();
 }
 
