@@ -39,6 +39,8 @@ private:
 	map<const _tchar*, class CComponent*>*				m_pPrototypes = nullptr;
 	typedef map<const _tchar*, class CComponent*>		PROTOTYPES;
 
+	vector<_tchar*>										m_Name;
+
 private:
 	class CComponent* Find_Component(_uint iLevelIndex, const _tchar* pPrototypeTag);
 
