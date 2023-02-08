@@ -4,7 +4,7 @@
 #include "AkazaGuardState.h"
 #include "GameInstance.h"
 #include "Layer.h"
-
+#include "NezukoGuardState.h"
 using namespace Nezuko;
 
 
@@ -26,8 +26,8 @@ CNezukoState * CGuardHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 	pNezuko->Set_bGuard(true);
 	pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_GUARD_HIT_0);
 	pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_GUARD_HIT_1);
-	pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_GUARD_HIT_0, 0.2f);
-	pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_GUARD_HIT_1, 0.2f);
+	//pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_GUARD_HIT_0, 0.2f);
+	//pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_GUARD_HIT_1, 0.2f);
 
 	
 
@@ -39,11 +39,11 @@ CNezukoState * CGuardHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 		{
 		case Client::CNezukoState::TYPE_START:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-			return new CIdleState();
+			return new CGuardState(TYPE_LOOP);
 			break;
 		case Client::CNezukoState::TYPE_LOOP:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-			return new CIdleState();
+			return new CGuardState(TYPE_LOOP);
 			break;
 		default:
 			break;
@@ -93,10 +93,14 @@ void CGuardHitState::Enter(CNezuko* pNezuko)
 	case Client::CNezukoState::TYPE_START:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_GUARD_HIT_0);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_GUARD_HIT_0);
+		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_GUARD_HIT_0);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_GUARD_HIT_0, 0.01f);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_GUARD_HIT_1);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_GUARD_HIT_1);
+		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_GUARD_HIT_1);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_GUARD_HIT_1, 0.01f);
 		break;
 	}
 

@@ -102,10 +102,14 @@ CRuiState * CMoveJumpState::HandleInput(CRui* pRui)
 
 		break;
 	case 2:
+	
 		if (m_eStateType != CRuiState::TYPE_END)
 		{
 			if (pGameInstance->Key_Down(DIK_Z))
+			{
+				int a = 0;
 				return new CJumpMoveAttackState(TYPE_START);
+			}
 			else if (pGameInstance->Key_Down(DIK_X))
 			{
 				if (200 <= pRui->Get_PlayerInfo().iSkBar)

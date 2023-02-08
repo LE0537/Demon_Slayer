@@ -348,7 +348,7 @@ CRuiState * CAtk_1_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 void CAtk_1_State::Enter(CRui* pRui)
 {
 	m_eStateId = STATE_ID::STATE_ATK_1;
-
+	pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_ATTACK_1);
 	pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_ATTACK_1);
 	pRui->Set_AnimIndex(CRui::ANIM_ATTACK_1);
 
@@ -357,6 +357,7 @@ void CAtk_1_State::Enter(CRui* pRui)
 void CAtk_1_State::Exit(CRui* pRui)
 {
 	m_pCollBox->Set_Dead(); //Ãß°¡
+	pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_ATTACK_1);
 }
 
 CRuiState * CAtk_1_State::CommandCheck(CRui * pRui)
