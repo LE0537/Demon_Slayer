@@ -73,7 +73,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				else
 					return new CAtk_1_State();
 			}
-			else if (pGameInstance->Key_Pressing(DIK_O))
+			else if (pGameInstance->Key_Pressing(DIK_O) && pTanjiro->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_START);
 			else if (pGameInstance->Key_Pressing(DIK_L))
 				return new CTargetRushState(STATE_TYPE::TYPE_START);
@@ -164,7 +164,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				else
 					return new CAtk_1_State();
 			}
-			else if (pGameInstance->Key_Pressing(DIK_C))
+			else if (pGameInstance->Key_Pressing(DIK_C) && pTanjiro->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_START);
 			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 				return new CTargetRushState(STATE_TYPE::TYPE_START);
@@ -256,6 +256,12 @@ CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			vPlayerY.m128_f32[1] = 0;
 
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+	}
+	if (pTanjiro->Get_PlayerInfo().iGuard < pTanjiro->Get_PlayerInfo().iMaxGuard)
+	{
+		pTanjiro->Set_GuardHp(1);
+		if (pTanjiro->Get_PlayerInfo().iGuard > pTanjiro->Get_PlayerInfo().iMaxGuard)
+			pTanjiro->Set_ResetGuardHp();
 	}
 	return nullptr;
 }

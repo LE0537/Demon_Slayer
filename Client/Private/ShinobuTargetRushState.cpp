@@ -276,7 +276,7 @@ void CTargetRushState::Move(CShinobu* pShinobu, _float fTimeDelta)
 
 		pShinobu->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pShinobu->Get_BattleTarget()->Get_PlayerInfo().bGuard)
+		if (pShinobu->Get_BattleTarget()->Get_PlayerInfo().bGuard && pShinobu->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
 		{
 			pShinobu->Get_BattleTarget()->Get_GuardHit(0);
 		}

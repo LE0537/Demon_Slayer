@@ -114,6 +114,8 @@ void CShinobu::Tick(_float fTimeDelta)
 			m_tInfo.fHitTime -= fTimeDelta;
 		if (m_fChangeDelay > 0.f)
 			m_fChangeDelay -= fTimeDelta;
+		if (m_tInfo.fGuardTime > 0.f)
+			m_tInfo.fGuardTime -= fTimeDelta;
 		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
 			HandleInput(fTimeDelta);
 

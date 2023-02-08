@@ -77,7 +77,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				_float fPositionY = XMVectorGetY(vPosition);
 				return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 			}
-			else if (pGameInstance->Key_Pressing(DIK_O))
+			else if (pGameInstance->Key_Pressing(DIK_O) && pNezuko->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_START);
 			else if (pGameInstance->Key_Pressing(DIK_L))
 				return new CTargetRushState(STATE_TYPE::TYPE_START);
@@ -156,7 +156,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 			}
 
-			else if (pGameInstance->Key_Pressing(DIK_C))
+			else if (pGameInstance->Key_Pressing(DIK_C) && pNezuko->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_START);
 			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 				return new CTargetRushState(STATE_TYPE::TYPE_START);
@@ -215,7 +215,12 @@ CNezukoState * CIdleState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
 	}
-
+	if (pNezuko->Get_PlayerInfo().iGuard < pNezuko->Get_PlayerInfo().iMaxGuard)
+	{
+		pNezuko->Set_GuardHp(1);
+		if (pNezuko->Get_PlayerInfo().iGuard > pNezuko->Get_PlayerInfo().iMaxGuard)
+			pNezuko->Set_ResetGuardHp();
+	}
 	return nullptr;
 }
 

@@ -118,9 +118,15 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 					_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 					{
 						m_pTarget->Get_GuardHit(0);
+						m_pTarget->Set_GuardHp(-15);
+						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
+						{
+							m_pTarget->Set_ResetGuardHp();
+							m_pTarget->Set_GuardTime(1.f);
+						}
 					}
 					else
 					{
@@ -212,9 +218,15 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 					_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 					{
 						m_pTarget->Get_GuardHit(0);
+						m_pTarget->Set_GuardHp(-15);
+						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
+						{
+							m_pTarget->Set_ResetGuardHp();
+							m_pTarget->Set_GuardTime(1.f);
+						}
 					}
 					else
 					{
@@ -306,9 +318,15 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 					_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 					{
 						m_pTarget->Get_GuardHit(0);
+						m_pTarget->Set_GuardHp(-15);
+						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
+						{
+							m_pTarget->Set_ResetGuardHp();
+							m_pTarget->Set_GuardTime(1.f);
+						}
 					}
 					else
 					{

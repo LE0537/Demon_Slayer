@@ -87,9 +87,15 @@ CKyoujuroState * CJumpMoveAttackState::Late_Tick(CKyoujuro* pKyoujuro, _float fT
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
+					m_pTarget->Set_GuardHp(-30);
+					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
+					{
+						m_pTarget->Set_ResetGuardHp();
+						m_pTarget->Set_GuardTime(1.f);
+					}
 				}
 				else
 				{

@@ -31,7 +31,7 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 	case 1:
 		if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_O))
+		else if (pGameInstance->Key_Pressing(DIK_O) && pKyoujuro->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_I))
 		{
@@ -174,7 +174,7 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_C))
+		else if (pGameInstance->Key_Pressing(DIK_C) && pKyoujuro->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_X))
 		{
@@ -367,7 +367,12 @@ CKyoujuroState * CMoveState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	{
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
-
+	if (pKyoujuro->Get_PlayerInfo().iGuard < pKyoujuro->Get_PlayerInfo().iMaxGuard)
+	{
+		pKyoujuro->Set_GuardHp(1);
+		if (pKyoujuro->Get_PlayerInfo().iGuard > pKyoujuro->Get_PlayerInfo().iMaxGuard)
+			pKyoujuro->Set_ResetGuardHp();
+	}
 	return nullptr;
 }
 

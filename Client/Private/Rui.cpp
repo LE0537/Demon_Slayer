@@ -126,6 +126,8 @@ void CRui::Tick(_float fTimeDelta)
 			m_fDelta = fTimeDelta;
 			if (m_tInfo.fHitTime > 0.f)
 				m_tInfo.fHitTime -= fTimeDelta;
+			if (m_tInfo.fGuardTime > 0.f)
+				m_tInfo.fGuardTime -= fTimeDelta;
 			if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
 				HandleInput(fTimeDelta);
 		}

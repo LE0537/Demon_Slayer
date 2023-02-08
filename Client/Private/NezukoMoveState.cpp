@@ -32,7 +32,7 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 	case 1:
 		if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_O))
+		else if (pGameInstance->Key_Pressing(DIK_O) && pNezuko->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_I))
 		{
@@ -187,7 +187,7 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_C))
+		else if (pGameInstance->Key_Pressing(DIK_C) && pNezuko->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_X))
 		{
@@ -382,7 +382,12 @@ CNezukoState * CMoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	{
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
-
+	if (pNezuko->Get_PlayerInfo().iGuard < pNezuko->Get_PlayerInfo().iMaxGuard)
+	{
+		pNezuko->Set_GuardHp(1);
+		if (pNezuko->Get_PlayerInfo().iGuard > pNezuko->Get_PlayerInfo().iMaxGuard)
+			pNezuko->Set_ResetGuardHp();
+	}
 	return nullptr;
 }
 

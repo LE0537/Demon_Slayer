@@ -31,7 +31,7 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 	case 1:
 		if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_O))
+		else if (pGameInstance->Key_Pressing(DIK_O) && pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_I))
 		{
@@ -193,7 +193,7 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_C))
+		else if (pGameInstance->Key_Pressing(DIK_C) && pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_X))
 		{
@@ -391,7 +391,12 @@ CAkazaState * CMoveState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	{
 		return new CIdleState();
 	}
-
+	if (pAkaza->Get_PlayerInfo().iGuard < pAkaza->Get_PlayerInfo().iMaxGuard)
+	{
+		pAkaza->Set_GuardHp(1);
+		if (pAkaza->Get_PlayerInfo().iGuard > pAkaza->Get_PlayerInfo().iMaxGuard)
+			pAkaza->Set_ResetGuardHp();
+	}
 	return nullptr;
 }
 

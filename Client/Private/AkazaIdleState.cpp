@@ -73,7 +73,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			_float fPositionY = XMVectorGetY(vPosition);
 			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 		}
-		else if (pGameInstance->Key_Pressing(DIK_O))
+		else if (pGameInstance->Key_Pressing(DIK_O) && pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Pressing(DIK_L))
 			return new CTargetRushState(STATE_TYPE::TYPE_START);
@@ -159,7 +159,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 		}
 
-		else if (pGameInstance->Key_Pressing(DIK_C))
+		else if (pGameInstance->Key_Pressing(DIK_C) && pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 			return new CTargetRushState(STATE_TYPE::TYPE_START);
@@ -221,7 +221,12 @@ CAkazaState * CIdleState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
 	}
-
+	if (pAkaza->Get_PlayerInfo().iGuard < pAkaza->Get_PlayerInfo().iMaxGuard)
+	{
+		pAkaza->Set_GuardHp(1);
+		if (pAkaza->Get_PlayerInfo().iGuard > pAkaza->Get_PlayerInfo().iMaxGuard)
+			pAkaza->Set_ResetGuardHp();
+	}
 	return nullptr;
 }
 

@@ -32,7 +32,7 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 	case 1:
 		if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_O))
+		else if (pGameInstance->Key_Pressing(DIK_O) && pRui->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_I))
 		{
@@ -196,7 +196,7 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_C))
+		else if (pGameInstance->Key_Pressing(DIK_C) && pRui->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 
 		else if (pGameInstance->Key_Down(DIK_X))
@@ -412,7 +412,12 @@ CRuiState * CMoveState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	{
 		return new CIdleState();
 	}
-
+	if (pRui->Get_PlayerInfo().iGuard < pRui->Get_PlayerInfo().iMaxGuard)
+	{
+		pRui->Set_GuardHp(1);
+		if (pRui->Get_PlayerInfo().iGuard > pRui->Get_PlayerInfo().iMaxGuard)
+			pRui->Set_ResetGuardHp();
+	}
 	return nullptr;
 }
 

@@ -30,7 +30,7 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 	case 1:
 		if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_O))
+		else if (pGameInstance->Key_Pressing(DIK_O) && pShinobu->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_I))
 		{
@@ -183,7 +183,7 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_C))
+		else if (pGameInstance->Key_Pressing(DIK_C) && pShinobu->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Down(DIK_X))
 		{
@@ -382,7 +382,12 @@ CShinobuState * CMoveState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 	{
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
-
+	if (pShinobu->Get_PlayerInfo().iGuard < pShinobu->Get_PlayerInfo().iMaxGuard)
+	{
+		pShinobu->Set_GuardHp(1);
+		if (pShinobu->Get_PlayerInfo().iGuard > pShinobu->Get_PlayerInfo().iMaxGuard)
+			pShinobu->Set_ResetGuardHp();
+	}
 	return nullptr;
 }
 

@@ -65,9 +65,13 @@ CTanjiroState * CGuardHitState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta
 		if (!m_bEffect)
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pTanjiro);
-
+			_float fHP = (_float)pTanjiro->Get_PlayerInfo().iGuard / (_float)pTanjiro->Get_PlayerInfo().iMaxGuard;
+			if(fHP > 0.6f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pTanjiro);
+			else if (fHP > 0.3f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD2, pTanjiro);
+			else if (fHP <= 0.3f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3, pTanjiro);
 			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
 		}
