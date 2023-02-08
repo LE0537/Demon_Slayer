@@ -14,6 +14,7 @@
 #include "RuiAdvSkill_MoveState.h"
 #include "RuiJumpState.h"
 #include "Camera_Dynamic.h"
+#include "AiState.h"
 using namespace Rui;
 
 
@@ -162,6 +163,16 @@ CRuiState * CAtk_4_State::HandleInput(CRui* pRui)
 
 CRuiState * CAtk_4_State::Tick(CRui* pRui, _float fTimeDelta)
 {
+	if (pRui->Get_IsAIMode() == true)
+	{
+
+		if (pRui->Get_Model()->Get_End(CRui::ANIM_ATTACK_4))
+		{
+			pRui->Get_Model()->Set_End(CRui::ANIM_ATTACK_4);
+			return new CAiState();
+		}
+
+	}
 
 	pRui->Get_Model()->Set_Loop(CRui::ANIM_ATTACK_4);
 	pRui->Get_Model()->Set_LinearTime(CRui::ANIM_ATTACK_4, 0.01f);
@@ -192,7 +203,7 @@ CRuiState * CAtk_4_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 	CCharacters* m_pTarget = pRui->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	
+
 	pRui->Get_Transform()->Set_PlayerLookAt(vLooAt);
 
 	m_fMove += fTimeDelta;
@@ -218,7 +229,7 @@ CRuiState * CAtk_4_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 			{
 				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
-		
+
 				if (m_pTarget->Get_PlayerInfo().bGuard)
 				{
 					m_pTarget->Get_GuardHit(0);
@@ -229,14 +240,34 @@ CRuiState * CAtk_4_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(-pRui->Get_PlayerInfo().iDmg);
-					m_pTarget->Take_Damage(0.3f,false);
+					m_pTarget->Take_Damage(0.3f, false);
 					pRui->Set_Combo(1);
 					pRui->Set_ComboTime(0.f);
 				}
 
+				_int iDest = rand() % 5;
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				switch (iDest)
+				{
+				case 0:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+					break;
+				case 1:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+					break;
+				case 2:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+					break;
+				case 3:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+					break;
+				case 4:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+					break;
+				default:
+					break;
+				}
 
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 

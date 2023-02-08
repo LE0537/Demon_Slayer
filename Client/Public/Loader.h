@@ -37,6 +37,7 @@ public:
 	HRESULT Loading_ForSelectCharLevel();
 	HRESULT Loading_ForGamePlayLevel();
 	HRESULT Loading_ForGameResult();
+	HRESULT Loading_ForMenu();
 	
 private:
 	void Load_Texture(char* szFolderName, char* szFilePath);

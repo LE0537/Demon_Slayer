@@ -37,7 +37,7 @@ CRuiState * CJumpMoveAttackState::Tick(CRui* pRui, _float fTimeDelta)
 			return new CJumpMoveAttackState(TYPE_LOOP);
 			break;
 		case Client::CRuiState::TYPE_LOOP: // ¶³¾îÁö´Â ¸ð¼Ç
-			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());;
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 			break;
 		case Client::CRuiState::TYPE_END: // ÂøÁö ¸ð¼Ç
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
@@ -103,9 +103,29 @@ CRuiState * CJumpMoveAttackState::Late_Tick(CRui* pRui, _float fTimeDelta)
 					pRui->Set_ComboTime(0.f);
 				}
 
+				_int iDest = rand() % 5;
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				switch (iDest)
+				{
+				case 0:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+					break;
+				case 1:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+					break;
+				case 2:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+					break;
+				case 3:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+					break;
+				case 4:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+					break;
+				default:
+					break;
+				}
 
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 

@@ -46,9 +46,11 @@ void CLevel_GameResult::Tick(_float fTimeDelta)
 	Safe_AddRef(pGameInstance);
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
-
-	//if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTCHAR))))
-	//	return;
+	if (pGameInstance->Key_Down(DIK_T))
+	{
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_MENU))))
+			return;
+	}
 
 	Safe_Release(pGameInstance);
 

@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "UI_Manager.h"
+#include "LogoButton.h"
 
 
 CLevel_Logo::CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -48,16 +49,12 @@ void CLevel_Logo::Tick(_float fTimeDelta)
 		m_bCreateUI = true;
 	}
 	
-	if (pUIManager->Get_MenuCursor() != nullptr)
+	if (pUIManager->Get_LevelMenuOn())
 	{
-		if (pUIManager->Get_MenuCursor()->Get_SelectVS())
-		{
-			m_bCreateUI = false;
-			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTCHAR))))
-				return;
-		}
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_MENU))))
+			return;
+		pUIManager->Set_LevelMenuOn(false);
 	}
-	
 	Safe_Release(pGameInstance);
 
 	RELEASE_INSTANCE(CUI_Manager);

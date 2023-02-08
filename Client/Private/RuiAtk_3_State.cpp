@@ -14,6 +14,7 @@
 #include "RuiAdvSkill_CommonState.h"
 #include "RuiAdvSkill_MoveState.h"
 #include "RuiJumpState.h"
+#include "AiState.h"
 using namespace Rui;
 
 
@@ -176,7 +177,24 @@ CRuiState * CAtk_3_State::HandleInput(CRui* pRui)
 
 CRuiState * CAtk_3_State::Tick(CRui* pRui, _float fTimeDelta)
 {
+	if (pRui->Get_IsAIMode() == true)
+	{
+		_vector vTargetPosition = pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vMyPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
+		_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
+		if (pRui->Get_TargetState() == 7 || fDistance <= 15.f)
+			m_bAtkCombo = true;
+		else
+		{
+			if (pRui->Get_Model()->Get_End(CRui::ANIM_ATTACK_3))
+			{
+				pRui->Get_Model()->Set_End(CRui::ANIM_ATTACK_3);
+				return new CAiState();
+			}
+		}
+	}
 	pRui->Get_Model()->Set_Loop(CRui::ANIM_ATTACK_3);
 	pRui->Get_Model()->Set_LinearTime(CRui::ANIM_ATTACK_3, 0.01f);
 
@@ -246,9 +264,29 @@ CRuiState * CAtk_3_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 					pRui->Set_ComboTime(0.f);
 				}
 
+				_int iDest = rand() % 5;
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				switch (iDest)
+				{
+				case 0:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+					break;
+				case 1:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+					break;
+				case 2:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+					break;
+				case 3:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+					break;
+				case 4:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+					break;
+				default:
+					break;
+				}
 
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 
@@ -323,9 +361,29 @@ CRuiState * CAtk_3_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 					pRui->Set_ComboTime(0.f);
 				}
 
+				_int iDest = rand() % 5;
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				switch (iDest)
+				{
+				case 0:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+					break;
+				case 1:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+					break;
+				case 2:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+					break;
+				case 3:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+					break;
+				case 4:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+					break;
+				default:
+					break;
+				}
 
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 

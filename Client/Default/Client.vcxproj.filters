@@ -970,6 +970,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\AiState">
       <UniqueIdentifier>{40d491a7-201e-4970-a0ba-450943b6ff7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\05.LevelMenu">
+      <UniqueIdentifier>{16b6dc98-c24d-4053-8ac4-95f24c1e7691}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1872,9 +1875,6 @@
     <ClInclude Include="..\Public\RuiJumpSkill_Common.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillCommon</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\RuiJumpSkill_Move.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\AkazaJumpSkill_Common.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\JumpCommon</Filter>
     </ClInclude>
@@ -1928,6 +1928,12 @@
     </ClInclude>
     <ClInclude Include="..\Public\AiState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\AiState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Level_Menu.h">
+      <Filter>01.Levels\05.LevelMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiJumpSkill_Move.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2863,6 +2869,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\AiState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\AiState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_Menu.cpp">
+      <Filter>01.Levels\05.LevelMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -245,9 +245,29 @@ CAkazaState * CAtk_4_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				pAkaza->Set_ComboTime(0.f);
 			}
 
+			_int iDest = rand() % 5;
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			switch (iDest)
+			{
+			case 0:
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+				break;
+			case 1:
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+				break;
+			case 2:
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+				break;
+			case 3:
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+				break;
+			case 4:
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+				break;
+			default:
+				break;
+			}
 
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 
 			RELEASE_INSTANCE(CEffect_Manager);
 
@@ -286,6 +306,15 @@ CAkazaState * CAtk_4_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	RELEASE_INSTANCE(CGameInstance);
 
 	pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZATK_4, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }

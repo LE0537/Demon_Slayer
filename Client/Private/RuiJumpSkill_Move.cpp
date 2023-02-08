@@ -106,7 +106,7 @@ CRuiState * CJumpSkill_MoveState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_JUMPSHOTNET_START, pRui);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_JUMPSHOTNET_START, pRui);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;

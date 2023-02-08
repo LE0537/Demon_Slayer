@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "LogoButton.h"
 #include "GameInstance.h"
-
+#include "UI_Manager.h"
 
 CLogoButton::CLogoButton(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,13 +50,13 @@ HRESULT CLogoButton::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-
 	return S_OK;
 }
 
 void CLogoButton::Tick(_float fTimeDelta)
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	
 	m_fAlpha += fTimeDelta;
 
@@ -65,34 +65,31 @@ void CLogoButton::Tick(_float fTimeDelta)
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
-	if (!m_bMenuOn)
+	if (pGameInstance->Key_Down(DIK_UP))
 	{
-		if (pGameInstance->Key_Down(DIK_UP))
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_iImgNum = 1;
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			m_iImgNum = 0;
+	}
+	else if (pGameInstance->Key_Down(DIK_DOWN))
+	{
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_iImgNum = 0;
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			m_iImgNum = 1;
+	}
+
+	if (pGameInstance->Key_Down(DIK_E))
+	{
+		if (m_ThrowUIinfo.iLayerNum == 0 && m_iImgNum == 1)
 		{
-			if (m_ThrowUIinfo.iLayerNum == 0)
-				m_iImgNum = 1;
-			else if (m_ThrowUIinfo.iLayerNum == 1)
-				m_iImgNum = 0;
-		}
-		else if (pGameInstance->Key_Down(DIK_DOWN))
-		{
-			if (m_ThrowUIinfo.iLayerNum == 0)
-				m_iImgNum = 0;
-			else if (m_ThrowUIinfo.iLayerNum == 1)
-				m_iImgNum = 1;
+			Add_InkEff();
 		}
 
-		if (pGameInstance->Key_Down(DIK_E))
-		{
-			if (m_ThrowUIinfo.iLayerNum == 0 && m_iImgNum == 1)
-			{
-				Add_InkEff();
-				m_bMenuOn = true;
-			}
-
-		}
 	}
 	
+	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 }
 
@@ -149,7 +146,9 @@ HRESULT CLogoButton::Add_InkEff()
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InkEff"), LEVEL_LOGO, TEXT("Layer_LogoUI"))))
+	_uint iNum = 0;
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InkEff"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iNum)))
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);

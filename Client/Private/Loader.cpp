@@ -157,6 +157,9 @@ unsigned int APIENTRY Thread_Main(void* pArg)
 	case LEVEL_GAMERESULT:
 		pLoader->Loading_ForGameResult();
 		break;
+	case LEVEL_MENU:
+		pLoader->Loading_ForGameResult();
+		break;
 	}
 	
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
@@ -1129,6 +1132,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Line", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Rui", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Else", "../Bin/Resources/Effect/Mesh/MeshTexture/");
+		Load_Texture("Akaza", "../Bin/Resources/Effect/Mesh/MeshTexture/");
+		Load_Texture("Bullet", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 
 	
 #pragma endregion Eeffect Texture
@@ -1207,7 +1212,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Water8_1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Water/8/Water8_1.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Water8_3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Water/8/Water8_3.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Water8_4"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Water/8/Water8_4.fbx", PivotMatrix)))) return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ring_ShockWave"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Ring/Ring_ShockWave1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ring_ShockWave1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Ring/Ring_ShockWave1.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_TigerMainFire"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/TigerFire/TigerMainFire.fbx", PivotMatrix)))) return E_FAIL;
 		
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Water_6_Wind2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Water/6/Water_6_Wind2.fbx", PivotMatrix)))) return E_FAIL;
@@ -1254,6 +1259,30 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_SmokeMesh3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Cmn/Smoke3.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_SmokeMesh5"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Cmn/Smoke5.fbx", PivotMatrix)))) return E_FAIL;
 
+		//	Akaza
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Angry1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Angry1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Angry2_1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Angry2_1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Angry2_2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Angry2_2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Angry3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Angry3.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Compass1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Compass1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Compass2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Compass2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Compass3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Compass3.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Fist1_1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Fist1_1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Fist1_2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Fist1_2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Fist2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Fist2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Fist3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Fist3.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Fist4_Dist"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Fist4_Dist.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Fist6"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Fist6.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Ring2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Ring2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Ring3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Ring3.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Ring4"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Ring4.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Stone1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Stone1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Stone2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Stone2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Stone3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Stone3.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Wind1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Wind1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Wind2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Wind2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Wind3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Wind4.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Wind4"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Wind4.fbx", PivotMatrix)))) return E_FAIL;
 
 
 #pragma endregion Effect Model
@@ -1321,6 +1350,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_Jump5Tiger_After"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_Jump5Tiger_End"));
 
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_JumpAtk_Main"));		//	0208.00:55
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_JumpMoveAtk_NonFollow"));		//	0208.00:55
+
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk1"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk2_1"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk2_2"));
@@ -1330,26 +1362,32 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendCom_Start"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendCom_Main"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Coll_FriendMove"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_FriendMove"));
 
-		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_ShotBall_Main"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_1"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_2"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotBall_Start_3"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Com_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Com_Start_1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Com_Start_2"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Com_Start_3"));
 
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_ShotNet_StartEff"));	//	0205.18:20
-		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_ShotNet_Main"));	//	0205.18:20
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Move_StartEff"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Move_Main"));
 
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpBall_Start"));	//	0206.18:00
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Coll_JumpBall_Main"));	//	0206.18:00
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpShotNet_StartEff"));	//	0206.18:00
-		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_JumpShotNet_Main"));	//	0206.18:00
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Jump_Start"));	
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Jump_Main"));
 
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtkMove_PullMain"));	//	0206.18:00
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtkMove_PlayerMain"));	//	0206.18:00
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtkMove_Main"));	//	0206.18:00
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_JumpMove_StartEff"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_JumpMove_Main"));
 
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_JumpAtk_Main"));	//	0206.18:00
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk_JumpMove_PullMain"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk_JumpMove_PlayerMain"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk_JumpMove_Main"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Atk_Jump_Main"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk2"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk3"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk4"));
 
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
@@ -1821,6 +1859,36 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 }
 
 HRESULT CLoader::Loading_ForGameResult()
+{
+	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
+	if (nullptr == pGameInstance)
+		return E_FAIL;
+
+	Safe_AddRef(pGameInstance);
+
+
+	/* 텍스쳐 로딩 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+
+
+
+	/* 객체 생성 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
+
+	/* UI 객체 */
+
+
+
+	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
+
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForMenu()
 {
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	if (nullptr == pGameInstance)

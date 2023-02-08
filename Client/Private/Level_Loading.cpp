@@ -7,6 +7,7 @@
 #include "Level_SelectChar.h"
 #include "Level_GamePlay.h"     
 #include "Level_GameResult.h"
+#include "Level_Menu.h"
 #include "UI_Manager.h"
 
 CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -22,9 +23,11 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevel)
 	m_eNextLevel = eNextLevel;
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	pUIManager->Add_Loading();
-	RELEASE_INSTANCE(CUI_Manager);
+	if(eNextLevel != LEVEL_MENU)
+		pUIManager->Add_Loading();
 
+	RELEASE_INSTANCE(CUI_Manager);
+	
 	m_pLoader = CLoader::Create(m_pDevice, m_pContext, eNextLevel);
 	if (nullptr == m_pLoader)
 		return E_FAIL;
@@ -57,6 +60,9 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 			break;
 		case LEVEL_GAMERESULT:
 			pNewLevel = CLevel_GameResult::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_MENU:
+			pNewLevel = CLevel_Menu::Create(m_pDevice, m_pContext);
 			break;
 		}
 
