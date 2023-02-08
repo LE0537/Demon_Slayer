@@ -79,7 +79,7 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						m_pTarget->Set_ResetGuardHp();
-						m_pTarget->Set_GuardTime(1.f);
+						m_pTarget->Set_GuardTime(2.f);
 					}
 				}
 				else

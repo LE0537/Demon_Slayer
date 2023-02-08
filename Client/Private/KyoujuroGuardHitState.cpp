@@ -40,11 +40,23 @@ CKyoujuroState * CGuardHitState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		{
 		case Client::CKyoujuroState::TYPE_START:
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-			return new CGuardState(TYPE_LOOP);
+			if (pKyoujuro->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pKyoujuro->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		case Client::CKyoujuroState::TYPE_LOOP:
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-			return new CGuardState(TYPE_LOOP);
+			if (pKyoujuro->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pKyoujuro->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		default:
 			break;
@@ -71,9 +83,13 @@ CKyoujuroState * CGuardHitState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDe
 		if (!m_bEffect)
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pKyoujuro);
-
+			_float fHP = (_float)pKyoujuro->Get_PlayerInfo().iGuard / (_float)pKyoujuro->Get_PlayerInfo().iMaxGuard;
+			if (fHP > 0.6f && pKyoujuro->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pKyoujuro);
+			else if (fHP > 0.3f && pKyoujuro->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD2, pKyoujuro);
+			else if (fHP <= 0.3f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3, pKyoujuro);
 			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
 		}

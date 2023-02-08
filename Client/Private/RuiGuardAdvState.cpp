@@ -31,13 +31,13 @@ CRuiState * CGuardAdvState::HandleInput(CRui* pRui)
 		switch (pRui->Get_i1P())
 		{
 		case 1:
-			if (pGameInstance->Key_Pressing(DIK_O))
+			if (pGameInstance->Key_Pressing(DIK_O) && pRui->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_LOOP);
 			else
 				return new CGuardState(STATE_TYPE::TYPE_END);
 			break;
 		case 2:
-			if (pGameInstance->Key_Pressing(DIK_C))
+			if (pGameInstance->Key_Pressing(DIK_C) && pRui->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_LOOP);
 			else
 				return new CGuardState(STATE_TYPE::TYPE_END);

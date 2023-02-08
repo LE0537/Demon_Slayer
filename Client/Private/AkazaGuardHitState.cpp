@@ -39,11 +39,23 @@ CAkazaState * CGuardHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 		{
 		case Client::CAkazaState::TYPE_START:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			return new CGuardState(TYPE_LOOP);
+			if (pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pAkaza->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		case Client::CAkazaState::TYPE_LOOP:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			return new CGuardState(TYPE_LOOP);
+			if (pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pAkaza->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		default:
 			break;
@@ -65,9 +77,13 @@ CAkazaState * CGuardHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 		if (!m_bEffect)
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pAkaza);
-
+			_float fHP = (_float)pAkaza->Get_PlayerInfo().iGuard / (_float)pAkaza->Get_PlayerInfo().iMaxGuard;
+			if (fHP > 0.6f && pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pAkaza);
+			else if (fHP > 0.3f && pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD2, pAkaza);
+			else if (fHP <= 0.3f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3, pAkaza);
 			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
 		}

@@ -152,7 +152,7 @@ CAkazaState * CAdvSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelt
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						m_pTarget->Set_ResetGuardHp();
-						m_pTarget->Set_GuardTime(1.f);
+						m_pTarget->Set_GuardTime(2.f);
 					}
 				}
 				else
@@ -245,7 +245,7 @@ CAkazaState * CAdvSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelt
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						m_pTarget->Set_ResetGuardHp();
-						m_pTarget->Set_GuardTime(1.f);
+						m_pTarget->Set_GuardTime(2.f);
 					}
 				}
 				else

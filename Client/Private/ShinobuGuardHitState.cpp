@@ -39,11 +39,23 @@ CShinobuState * CGuardHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 		{
 		case Client::CShinobuState::TYPE_START:
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-			return new CIdleState();
+			if (pShinobu->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pShinobu->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		case Client::CShinobuState::TYPE_LOOP:
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-			return new CIdleState();
+			if (pShinobu->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pShinobu->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		default:
 			break;
@@ -64,9 +76,13 @@ CShinobuState * CGuardHitState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 		if (!m_bEffect)
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pShinobu);
-
+			_float fHP = (_float)pShinobu->Get_PlayerInfo().iGuard / (_float)pShinobu->Get_PlayerInfo().iMaxGuard;
+			if (fHP > 0.6f && pShinobu->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pShinobu);
+			else if (fHP > 0.3f && pShinobu->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD2, pShinobu);
+			else if (fHP <= 0.3f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3, pShinobu);
 			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
 		}

@@ -328,6 +328,8 @@ void CRui::Set_Info()
 	m_tInfo.iFriendBar = m_tInfo.iFriendMaxBar;
 	m_tInfo.bGuard = false;
 	m_tInfo.bChange = false;
+	m_tInfo.iMaxGuard = 500;
+	m_tInfo.iGuard = m_tInfo.iMaxGuard;
 }
 
 _bool CRui::Get_RuiHit()

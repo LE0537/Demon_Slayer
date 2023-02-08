@@ -224,7 +224,12 @@ HRESULT CTanjiro::Render()
 	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f)
 	{
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vPos.m128_f32[1] += 15.f;
+		_vector vLastPos = vPos;
+		vPos -= XMVector3Normalize(vLook) * 5.f;
+		vPos -= XMVector3Normalize(vRight) * 5.f;
 		switch (m_i1p)
 		{
 		case 1:
@@ -236,7 +241,21 @@ HRESULT CTanjiro::Render()
 					m_fChangeDelay = 1.f;
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Set_ChangeInfo(true);
-					m_pSubChar->Set_Change(false, vPos);
+					if(m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+						m_pSubChar->Set_Change(false, vPos);
+					else 
+					{
+						vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+						vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+						vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+						vPos += XMVector3Normalize(vLook) * 5.f;
+						vPos += XMVector3Normalize(vRight) * 5.f;
+						vPos.m128_f32[1] += 15.f;
+						if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+							m_pSubChar->Set_Change(false, vPos);
+						else
+							m_pSubChar->Set_Change(false, vLastPos);
+					}
 					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 					m_pSubChar->Set_SubSkill(2);
 				}
@@ -247,7 +266,21 @@ HRESULT CTanjiro::Render()
 				m_fChangeDelay = 1.f;
 				m_pSubChar->Set_Sub(false);
 				m_pSubChar->Set_ChangeInfo(true);
-				m_pSubChar->Set_Change(false, vPos);
+				if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+					m_pSubChar->Set_Change(false, vPos);
+				else
+				{
+					vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+					vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+					vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+					vPos += XMVector3Normalize(vLook) * 5.f;
+					vPos += XMVector3Normalize(vRight) * 5.f;
+					vPos.m128_f32[1] += 15.f;
+					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+						m_pSubChar->Set_Change(false, vPos);
+					else
+						m_pSubChar->Set_Change(false, vLastPos);
+				}
 				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 				m_pSubChar->Set_SubSkill(1);
 			}
@@ -264,7 +297,21 @@ HRESULT CTanjiro::Render()
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Change_Info(m_tInfo);
 					m_pSubChar->Set_ChangeInfo(true);
-					m_pSubChar->Set_Change(false, vPos);
+					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+						m_pSubChar->Set_Change(false, vPos);
+					else
+					{
+						vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+						vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+						vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+						vPos += XMVector3Normalize(vLook) * 5.f;
+						vPos += XMVector3Normalize(vRight) * 5.f;
+						vPos.m128_f32[1] += 15.f;
+						if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+							m_pSubChar->Set_Change(false, vPos);
+						else
+							m_pSubChar->Set_Change(false, vLastPos);
+					}
 					m_pSubChar->Set_SubSkill(0);
 					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 					m_pBattleTarget->Set_BattleTarget(m_pSubChar);
@@ -285,7 +332,21 @@ HRESULT CTanjiro::Render()
 					m_fChangeDelay = 1.f;
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Set_ChangeInfo(true);
-					m_pSubChar->Set_Change(false, vPos);
+					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+						m_pSubChar->Set_Change(false, vPos);
+					else
+					{
+						vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+						vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+						vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+						vPos += XMVector3Normalize(vLook) * 5.f;
+						vPos += XMVector3Normalize(vRight) * 5.f;
+						vPos.m128_f32[1] += 15.f;
+						if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+							m_pSubChar->Set_Change(false, vPos);
+						else
+							m_pSubChar->Set_Change(false, vLastPos);
+					}
 					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 					m_pSubChar->Set_SubSkill(2);
 				}
@@ -296,7 +357,21 @@ HRESULT CTanjiro::Render()
 				m_fChangeDelay = 1.f;
 				m_pSubChar->Set_Sub(false);
 				m_pSubChar->Set_ChangeInfo(true);
-				m_pSubChar->Set_Change(false, vPos);
+				if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+					m_pSubChar->Set_Change(false, vPos);
+				else
+				{
+					vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+					vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+					vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+					vPos += XMVector3Normalize(vLook) * 5.f;
+					vPos += XMVector3Normalize(vRight) * 5.f;
+					vPos.m128_f32[1] += 15.f;
+					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+						m_pSubChar->Set_Change(false, vPos);
+					else
+						m_pSubChar->Set_Change(false, vLastPos);
+				}
 				m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 				m_pSubChar->Set_SubSkill(1);
 			}
@@ -313,7 +388,21 @@ HRESULT CTanjiro::Render()
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Change_Info(m_tInfo);
 					m_pSubChar->Set_ChangeInfo(true);
-					m_pSubChar->Set_Change(false, vPos);
+					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+						m_pSubChar->Set_Change(false, vPos);
+					else
+					{
+						vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+						vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+						vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+						vPos += XMVector3Normalize(vLook) * 5.f;
+						vPos += XMVector3Normalize(vRight) * 5.f;
+						vPos.m128_f32[1] += 15.f;
+						if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+							m_pSubChar->Set_Change(false, vPos);
+						else
+							m_pSubChar->Set_Change(false, vLastPos);
+					}
 					m_pSubChar->Set_SubSkill(0);
 					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
 					m_pBattleTarget->Set_BattleTarget(m_pSubChar);
@@ -574,6 +663,8 @@ void CTanjiro::Set_Info()
 	m_tInfo.iFriendBar = m_tInfo.iFriendMaxBar;
 	m_tInfo.bGuard = false;
 	m_tInfo.bChange = false;
+	m_tInfo.iMaxGuard = 500;
+	m_tInfo.iGuard = m_tInfo.iMaxGuard;
 }
 CTanjiro * CTanjiro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {

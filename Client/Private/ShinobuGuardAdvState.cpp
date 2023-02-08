@@ -31,7 +31,7 @@ CShinobuState * CGuardAdvState::HandleInput(CShinobu* pShinobu)
 		{
 			pShinobu->Get_Model()->Set_End(CShinobu::ANIM_GUARD_ADV);
 
-			if (pGameInstance->Key_Pressing(DIK_O))
+			if (pGameInstance->Key_Pressing(DIK_O) && pShinobu->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_LOOP);
 			else
 				return new CGuardState(STATE_TYPE::TYPE_END);
@@ -42,7 +42,7 @@ CShinobuState * CGuardAdvState::HandleInput(CShinobu* pShinobu)
 		{
 			pShinobu->Get_Model()->Set_End(CShinobu::ANIM_GUARD_ADV);
 
-			if (pGameInstance->Key_Pressing(DIK_C))
+			if (pGameInstance->Key_Pressing(DIK_C) && pShinobu->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_LOOP);
 			else
 				return new CGuardState(STATE_TYPE::TYPE_END);

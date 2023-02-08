@@ -277,7 +277,7 @@ CAkazaState * CSkill_PunchState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 						{
 							m_pTarget->Set_ResetGuardHp();
-							m_pTarget->Set_GuardTime(1.f);
+							m_pTarget->Set_GuardTime(2.f);
 						}
 					}
 					else
@@ -357,7 +357,7 @@ CAkazaState * CSkill_PunchState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 						{
 							m_pTarget->Set_ResetGuardHp();
-							m_pTarget->Set_GuardTime(1.f);
+							m_pTarget->Set_GuardTime(2.f);
 						}
 					}
 					else
