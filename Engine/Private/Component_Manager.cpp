@@ -34,11 +34,6 @@ HRESULT CComponent_Manager::Add_Prototype(_uint iLevelIndex, const _tchar * pPro
 
 	lstrcpy(szTest, pPrototypeTag);
 
-	for (auto Name : m_pPrototypes[iLevelIndex]) {
-		if(0 == wcscmp(Name.first, szTest))
-			return S_OK;
-	}
-
 	m_pPrototypes[iLevelIndex].emplace(szTest, pPrototype);
 
 	return S_OK;
@@ -101,10 +96,8 @@ void CComponent_Manager::Free()
 	}
 	Safe_Delete_Array(m_pPrototypes);
 
-
 	for (auto Name : m_Name) {
 		Safe_Delete_Array(Name);
 	}
-
 	m_Name.clear();
 }

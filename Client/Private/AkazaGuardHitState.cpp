@@ -26,8 +26,8 @@ CAkazaState * CGuardHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	pAkaza->Set_bGuard(true);
 	pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_GUARD_HIT_0);
 	pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_GUARD_HIT_1);
-	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_GUARD_HIT_0, 0.2f);
-	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_GUARD_HIT_1, 0.2f);
+	//pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_GUARD_HIT_0, 0.2f);
+	//pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_GUARD_HIT_1, 0.2f);
 
 	
 
@@ -39,11 +39,11 @@ CAkazaState * CGuardHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 		{
 		case Client::CAkazaState::TYPE_START:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			return new CIdleState();
+			return new CGuardState(TYPE_LOOP);
 			break;
 		case Client::CAkazaState::TYPE_LOOP:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			return new CIdleState();
+			return new CGuardState(TYPE_LOOP);
 			break;
 		default:
 			break;
@@ -88,10 +88,14 @@ void CGuardHitState::Enter(CAkaza* pAkaza)
 	case Client::CAkazaState::TYPE_START:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_GUARD_HIT_0);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_GUARD_HIT_0);
+		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_GUARD_HIT_0);
+		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_GUARD_HIT_0, 0.01f);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_GUARD_HIT_1);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_GUARD_HIT_1);
+		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_GUARD_HIT_1);
+		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_GUARD_HIT_1, 0.01f);
 		break;
 	}
 

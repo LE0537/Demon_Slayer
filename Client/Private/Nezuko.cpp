@@ -12,6 +12,7 @@
 #include "NezukoToolState.h"
 #include "NezukoHitState.h"
 #include "NezukoBattleSTState.h"
+#include "NezukoGuardHitState.h"
 
 using namespace Nezuko;
 
@@ -444,6 +445,18 @@ void CNezuko::Take_Damage(_float _fPow, _bool _bJumpHit)
 
 void CNezuko::Get_GuardHit(_int eType)
 {
+	CNezukoState* pState;
+	if (eType == CNezukoState::STATE_TYPE::TYPE_START)
+	{
+		m_pModelCom->Reset_Anim(CNezuko::ANIMID::ANIM_GUARD_HIT_0);
+		pState = new CGuardHitState(CNezukoState::STATE_TYPE::TYPE_START);
+	}
+	else
+	{
+		m_pModelCom->Reset_Anim(CNezuko::ANIMID::ANIM_GUARD_HIT_1);
+		pState = new CGuardHitState(CNezukoState::STATE_TYPE::TYPE_LOOP);
+	}
+	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 }
 
 CNezuko * CNezuko::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

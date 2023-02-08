@@ -264,6 +264,7 @@ CRuiState * CAiState::Return_AIState(CRui * pRui)
 	switch (m_eState)
 	{
 	case Client::Rui::CAiState::AI_IDLE:
+		Enter(pRui);
 		return nullptr;
 		break;
 	case Client::Rui::CAiState::AI_BACKMOVE:
@@ -273,6 +274,7 @@ CRuiState * CAiState::Return_AIState(CRui * pRui)
 		return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 		break;
 	case Client::Rui::CAiState::AI_ATTACK:
+		pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_ATTACK_1);
 		return new CAtk_1_State();
 		break;
 	case Client::Rui::CAiState::AI_JUMPATK:
@@ -339,10 +341,10 @@ void CAiState::Update_NearAttack()
 		m_eState = AI_STATE::AI_GUARD;
 		break;
 	case 2:
-		m_eState = AI_STATE::AI_GUARD;
+		m_eState = AI_STATE::AI_IDLE;
 		break;
 	case 3:
-		m_eState = AI_STATE::AI_ATTACK;
+		m_eState = AI_STATE::AI_IDLE;
 		break;
 	case 4:
 		m_eState = AI_STATE::AI_ATTACK;
@@ -357,7 +359,7 @@ void CAiState::Update_NearAttack()
 		m_eState = AI_STATE::AI_SKILL;
 		break;
 	case 8:
-		m_eState = AI_STATE::AI_DASH;
+		m_eState = AI_STATE::AI_RUSH;
 		break;
 	case 9:
 		m_eState = AI_STATE::AI_DASH;

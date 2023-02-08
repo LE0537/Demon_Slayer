@@ -26,8 +26,8 @@ CTanjiroState * CGuardHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	pTanjiro->Set_bGuard(true);
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_GUARD_HIT_0);
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_GUARD_HIT_1);
-	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_GUARD_HIT_0, 0.2f);
-	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_GUARD_HIT_1, 0.2f);
+	//pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_GUARD_HIT_0, 0.2f);
+	//pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_GUARD_HIT_1, 0.2f);
 
 	
 
@@ -39,11 +39,11 @@ CTanjiroState * CGuardHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 		case Client::CTanjiroState::TYPE_START:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			return new CIdleState();
+			return new CGuardState(TYPE_LOOP);
 			break;
 		case Client::CTanjiroState::TYPE_LOOP:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			return new CIdleState();
+			return new CGuardState(TYPE_LOOP);
 			break;
 		default:
 			break;
@@ -87,10 +87,14 @@ void CGuardHitState::Enter(CTanjiro * pTanjiro)
 	case Client::CTanjiroState::TYPE_START:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_GUARD_HIT_0);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_GUARD_HIT_0);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_GUARD_HIT_0);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_GUARD_HIT_0, 0.01f);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_GUARD_HIT_1);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_GUARD_HIT_1);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_GUARD_HIT_1);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_GUARD_HIT_1, 0.01f);
 		break;
 	}
 

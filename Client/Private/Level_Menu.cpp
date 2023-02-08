@@ -45,6 +45,11 @@ void CLevel_Menu::Tick(_float fTimeDelta)
 			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTCHAR))))
 				return;
 		}
+		else if (pUI_Manager->Get_MenuCursor()->Get_SelectStoryMenu())
+		{
+			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_STORYMENU))))
+				return;
+		}
 	}
 
 

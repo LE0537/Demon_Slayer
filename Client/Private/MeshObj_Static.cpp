@@ -310,7 +310,7 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	}
 
 
-	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_GAMEPLAY, pPrototypeTag_Model, (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, pPrototypeTag_Model, (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 	return S_OK;

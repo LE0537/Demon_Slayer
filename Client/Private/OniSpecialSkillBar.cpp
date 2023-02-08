@@ -71,12 +71,12 @@ void COniSpecialSkillBar::Tick(_float fTimeDelta)
 	{
 		if (m_fSpecialSkillBar < 500.f)
 		{
-			m_fSpecialSkillBar += fTimeDelta * 40.f;
+			m_fSpecialSkillBar += fTimeDelta * 80.f;
 			
 			if (!m_ThrowUIinfo.bPlyCheck)
-				pUI_Manager->Get_1P()->Set_FriendSkillBar(fTimeDelta * 40.f);
+				pUI_Manager->Get_1P()->Set_FriendSkillBar(fTimeDelta * 80.f);
 			else
-				pUI_Manager->Get_2P()->Set_FriendSkillBar(fTimeDelta * 40.f);
+				pUI_Manager->Get_2P()->Set_FriendSkillBar(fTimeDelta * 80.f);
 		}
 		else if (m_fSpecialSkillBar >= 500.f)
 		{
@@ -91,11 +91,11 @@ void COniSpecialSkillBar::Tick(_float fTimeDelta)
 			if (m_fSpecialSkillBar < 1000)
 			{
 				m_fSpecialSkillBar -= 500.f;
-				m_fSpecialSkillBar += fTimeDelta * 40.f;
+				m_fSpecialSkillBar += fTimeDelta * 80.f;
 				if (!m_ThrowUIinfo.bPlyCheck)
-					pUI_Manager->Get_1P()->Set_FriendSkillBar(fTimeDelta * 40.f);
+					pUI_Manager->Get_1P()->Set_FriendSkillBar(fTimeDelta * 80.f);
 				else
-					pUI_Manager->Get_2P()->Set_FriendSkillBar(fTimeDelta * 40.f);
+					pUI_Manager->Get_2P()->Set_FriendSkillBar(fTimeDelta * 80.f);
 
 
 			}

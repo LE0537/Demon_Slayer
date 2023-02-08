@@ -27,8 +27,8 @@ CKyoujuroState * CGuardHitState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	pKyoujuro->Set_bGuard(true);
 	pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_GUARD_HIT_0);
 	pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_GUARD_HIT_1);
-	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_HIT_0, 0.2f);
-	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_HIT_1, 0.2f);
+	//pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_HIT_0, 0.2f);
+	//pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_HIT_1, 0.2f);
 
 	
 
@@ -40,11 +40,11 @@ CKyoujuroState * CGuardHitState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		{
 		case Client::CKyoujuroState::TYPE_START:
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-			return new CIdleState();
+			return new CGuardState(TYPE_LOOP);
 			break;
 		case Client::CKyoujuroState::TYPE_LOOP:
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-			return new CIdleState();
+			return new CGuardState(TYPE_LOOP);
 			break;
 		default:
 			break;
@@ -94,10 +94,14 @@ void CGuardHitState::Enter(CKyoujuro * pKyoujuro)
 	case Client::CKyoujuroState::TYPE_START:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_GUARD_HIT_0);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_GUARD_HIT_0);
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_GUARD_HIT_0);
+		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_HIT_0, 0.01f);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_GUARD_HIT_1);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_GUARD_HIT_1);
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_GUARD_HIT_1);
+		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_HIT_1, 0.01f);
 		break;
 	}
 

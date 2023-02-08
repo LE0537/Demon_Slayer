@@ -77,6 +77,8 @@ void CMenuCursor::Tick(_float fTimeDelta)
 	{
 		if (m_fX == 75.f && m_fY == 252.f)
 			m_bSelectVS = true;
+		else if(m_fX == 55.f && m_fY == 167.f)
+			m_bSelectStoryMenu = true;
 	}
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));

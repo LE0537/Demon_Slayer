@@ -14,6 +14,7 @@
 #include "AiState.h"
 #include "RuiHitState.h"
 #include "RuiBattleSTState.h"
+#include "RuiGuardHitState.h"
 
 using namespace Rui;
 
@@ -111,7 +112,7 @@ void CRui::Tick(_float fTimeDelta)
 		{
 			if (m_bStart == true)
 			{
-				CRuiState* pState = new CAiState();
+				CRuiState* pState = new CIdleState();
 				m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 				m_bStart = false;
 				m_bAiState = true;
@@ -287,7 +288,11 @@ void CRui::Boss_Tick(_float fTimeDelta)
 	CAiState* pNewState = (CAiState*)m_pRuiState->HandleInput(this);
 
 	if (pNewState)
+	{
+		m_AIStateList.push_back(pNewState);
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pNewState);
+	}
+	
 }
 
 void CRui::Boss_LateTick(_float fTimeDelta)
@@ -377,6 +382,18 @@ void CRui::Take_Damage(_float _fPow, _bool _bJumpHit)
 
 void CRui::Get_GuardHit(_int eType)
 {
+	CRuiState* pState;
+	if (eType == CRuiState::STATE_TYPE::TYPE_START)
+	{
+		m_pModelCom->Reset_Anim(CRui::ANIMID::ANIM_GUARD_HIT_0);
+		pState = new CGuardHitState(CRuiState::STATE_TYPE::TYPE_START);
+	}
+	else
+	{
+		m_pModelCom->Reset_Anim(CRui::ANIMID::ANIM_GUARD_HIT_1);
+		pState = new CGuardHitState(CRuiState::STATE_TYPE::TYPE_LOOP);
+	}
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 }
 
 HRESULT CRui::SetUp_ShaderResources()
@@ -441,4 +458,10 @@ void CRui::Free()
 	Safe_Release(m_pNavigationCom);
 
 	Safe_Delete(m_pRuiState);
+
+	//for (auto & iter : m_AIStateList)
+	//	Safe_Delete(iter);
+
+	//m_AIStateList.clear();
+	
 }

@@ -188,7 +188,7 @@ CTanjiroState * CAtk_2_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	//printf_s("AttackTime : %f \n", (_float)m_fComboDelay);
 
 
-	if (m_bAtkCombo == true && m_fTime >= 30.f)
+	if (m_bAtkCombo == true && m_fTime >= 20.f)
 		return new CAtk_3_State();
 
 

@@ -160,7 +160,7 @@ CRuiState * CGuardState::AIGuard(CRui * pRui, _float fTimeDelta)
 		case Client::CRuiState::TYPE_LOOP:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 
-			if(fContinueTime >= 2.f)
+			if(fContinueTime >= 1.f)
 				return new CGuardState(STATE_TYPE::TYPE_END);
 			break;
 		case Client::CRuiState::TYPE_END:
