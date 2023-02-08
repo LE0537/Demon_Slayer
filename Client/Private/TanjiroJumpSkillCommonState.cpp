@@ -69,6 +69,10 @@ CTanjiroState * CJumpSkillCommonState::Tick(CTanjiro * pTanjiro, _float fTimeDel
 	
 	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	{
+
+		pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_COMMON);
+
+
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 		if(m_bNextAnim == true)
 			return new CIdleState();

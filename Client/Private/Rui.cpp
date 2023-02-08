@@ -330,10 +330,7 @@ void CRui::Set_Info()
 
 _bool CRui::Get_RuiHit()
 {
-	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_HIT)
-		return true;
-	else
-		return false;
+	return m_bIsHit;
 }
 
 void CRui::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)

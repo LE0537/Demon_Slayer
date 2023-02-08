@@ -154,6 +154,9 @@ void CHitState::Enter(CRui* pRui)
 	}
 
 
+	pRui->Set_RuiHit(true);
+
+
 }
 CRuiState * CHitState::Jump(CRui* pRui, _float fTimeDelta)
 {
@@ -187,6 +190,7 @@ void CHitState::Exit(CRui* pRui)
 {
 	pRui->Get_Model()->Set_UsingFrame(CRui::ANIM_HIT, 0, 100);
 	pRui->Set_HitTime(0.5f);
+	//pRui->Set_RuiHit(false);
 }
 
 
