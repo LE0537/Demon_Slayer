@@ -59,6 +59,7 @@ public:
 	_uint  Get_ImgNum() { return m_iImgNum; }
 	//_bool Get_SelectCheck() { return m_bSelectCheck; }
 	_bool Get_SelectVS() { return m_bSelectVS; }
+	_bool Get_SelectStoryMenu() { return m_bSelectStoryMenu; }
 	THROWUIINFO Get_ThrowInfo() { return m_ThrowUIinfo; }
 	
 	SELUIINFO Get_SelectUIInfo() { return m_SelectInfo; }
@@ -76,6 +77,7 @@ protected:
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
 	_float4x4				m_ViewMatrix, m_ProjMatrix;
 	_bool					m_bSelectVS = false;
+	_bool					m_bSelectStoryMenu = false;
 	_uint					m_iImgNum = 0;
 	_uint					m_iSelCount = 0;
 	LOADUIINFO				m_LoadUIinfo;

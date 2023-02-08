@@ -108,7 +108,8 @@ void CUI_Manager::Load_Data(string sLoadName)
 			P1_COMBO_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "2P_Combo")
 			P2_COMBO_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
-		
+		else if (sLoadName == "Adc_Menu")
+			ADC_MENU_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -408,6 +409,31 @@ void CUI_Manager::Add_P2_Combo()
 	P2_COMBO_DATALIST.clear();
 
 	m_iComboNumLayerNum = 0;
+}
+
+void CUI_Manager::Add_Adc_Menu()
+{
+	for (auto iter : ADC_MENU_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.vPos.x = iter.vPos.x;
+		m_ThrowInfo.vPos.y = iter.vPos.y;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.bPlyCheck = true;
+		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+
+		ADC_MENU_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : ADC_MENU_DATALIST)
+		Add_Adc_MenuUI(iter);
+
+	ADC_MENU_DATALIST.clear();
+
+	m_iAdcMenuSelImgLayerNum = 0;
+	m_iAdcMenuSelFrameImgLayerNum = 0;
 }
 
 HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
@@ -801,49 +827,43 @@ HRESULT CUI_Manager::Add_LogoUI(CUI::THROWUIINFO iter)
 	switch (iter.iTextureNum)
 	{
 	case 0: 
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 1:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackEff"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 2:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackLight"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 3:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 4:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 5:
-	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
 		break;
-	}
 	case 6:
-	{
 		iter.iLayerNum = m_iLogoButtonNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoButton"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
 		++m_iLogoButtonNum;
+		if (m_iLogoButtonNum == 2)
+			m_iLogoButtonNum = 0;
 		break;
-	}
+	case 7:
+		iter.iLayerNum = m_iLogoButtonNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ButtonEff"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
+			return E_FAIL;
+		++m_iLogoButtonNum;
+		break;
 	default:
 		break;
 	}
@@ -1147,6 +1167,98 @@ HRESULT CUI_Manager::Add_BattleResultUI(CUI::THROWUIINFO iter)
 	case 14:
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultFrame"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	default:
+		break;
+	}
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_Adc_MenuUI(CUI::THROWUIINFO iter)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	switch (iter.iTextureNum)
+	{
+	case 0:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuBG"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 1:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuDeco"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 2:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuDeco"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 3:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuDarkCloud"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 4:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuDarkCloud"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 5:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuCloud"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 6:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuCloud"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 7:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuSelTxt"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 8:
+	{
+		iter.iLayerNum = m_iAdcMenuSelFrameImgLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuFrame"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iAdcMenuSelFrameImgLayerNum;
+		break;
+	}
+	case 9:
+	{
+		iter.iLayerNum = m_iAdcMenuSelImgLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuSelImg"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iAdcMenuSelImgLayerNum;
+		break;
+	}
+	case 10:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuCursor"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 11:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AdcMenuSelWindow"), LEVEL_STORYMENU, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	}

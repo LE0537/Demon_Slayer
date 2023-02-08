@@ -30,6 +30,7 @@ HRESULT CLevel_Logo::Initialize()
 	pUIManager->Load_Data("LogoTitle");
 	pUIManager->Load_Data("Menu");
 	pUIManager->Load_Data("Loading");
+	pUIManager->Load_Data("Adc_Menu");
 	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;

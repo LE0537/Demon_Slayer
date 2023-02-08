@@ -180,6 +180,15 @@
     <ClInclude Include="..\DebugTool\imstb_rectpack.h" />
     <ClInclude Include="..\DebugTool\imstb_textedit.h" />
     <ClInclude Include="..\DebugTool\imstb_truetype.h" />
+    <ClInclude Include="..\Public\AdcMenuBg.h" />
+    <ClInclude Include="..\Public\AdcMenuBgDeco.h" />
+    <ClInclude Include="..\Public\AdcMenuCloud.h" />
+    <ClInclude Include="..\Public\AdcMenuCursor.h" />
+    <ClInclude Include="..\Public\AdcMenuDarkCloud.h" />
+    <ClInclude Include="..\Public\AdcMenuNameBar.h" />
+    <ClInclude Include="..\Public\AdcMenuSelFrame.h" />
+    <ClInclude Include="..\Public\AdcMenuSelImg.h" />
+    <ClInclude Include="..\Public\AdcMenuSelTxt.h" />
     <ClInclude Include="..\Public\AiState.h" />
     <ClInclude Include="..\Public\Akaza.h" />
     <ClInclude Include="..\Public\AkazaAdvSkill_Common.h" />
@@ -212,6 +221,7 @@
     <ClInclude Include="..\Public\AkazaToolState.h" />
     <ClInclude Include="..\public\BaseAtk.h" />
     <ClInclude Include="..\Public\BtlFixedImg.h" />
+    <ClInclude Include="..\Public\ButtonEff.h" />
     <ClInclude Include="..\Public\CharSelMsg.h" />
     <ClInclude Include="..\public\CollBox.h" />
     <ClInclude Include="..\Public\1PIcon.h" />
@@ -232,6 +242,7 @@
     <ClInclude Include="..\Public\KyoujuroTargetRushState.h" />
     <ClInclude Include="..\Public\Level_GameResult.h" />
     <ClInclude Include="..\Public\Level_Menu.h" />
+    <ClInclude Include="..\Public\Level_StroyMenu.h" />
     <ClInclude Include="..\Public\NezukoBattleSTState.h" />
     <ClInclude Include="..\Public\NezukoJumpAttackState.h" />
     <ClInclude Include="..\Public\NezukoJumpMoveAttackState.h" />
@@ -502,6 +513,15 @@
     <ClCompile Include="..\DebugTool\imgui_impl_win32.cpp" />
     <ClCompile Include="..\DebugTool\imgui_tables.cpp" />
     <ClCompile Include="..\DebugTool\imgui_widgets.cpp" />
+    <ClCompile Include="..\Private\AdcMenuBg.cpp" />
+    <ClCompile Include="..\Private\AdcMenuBgDeco.cpp" />
+    <ClCompile Include="..\Private\AdcMenuCloud.cpp" />
+    <ClCompile Include="..\Private\AdcMenuCursor.cpp" />
+    <ClCompile Include="..\Private\AdcMenuDarkCloud.cpp" />
+    <ClCompile Include="..\Private\AdcMenuNameBar.cpp" />
+    <ClCompile Include="..\Private\AdcMenuSelFrame.cpp" />
+    <ClCompile Include="..\Private\AdcMenuSelImg.cpp" />
+    <ClCompile Include="..\Private\AdcMenuSelTxt.cpp" />
     <ClCompile Include="..\Private\AiState.cpp" />
     <ClCompile Include="..\Private\Akaza.cpp" />
     <ClCompile Include="..\Private\AkazaAdvSkill_Common.cpp" />
@@ -533,6 +553,7 @@
     <ClCompile Include="..\Private\AkazaToolState.cpp" />
     <ClCompile Include="..\private\BaseAtk.cpp" />
     <ClCompile Include="..\Private\BtlFixedImg.cpp" />
+    <ClCompile Include="..\Private\ButtonEff.cpp" />
     <ClCompile Include="..\Private\CharSelMsg.cpp" />
     <ClCompile Include="..\private\CollBox.cpp" />
     <ClCompile Include="..\Private\1PIcon.cpp" />
@@ -553,6 +574,7 @@
     <ClCompile Include="..\Private\KyoujuroTargetRushState.cpp" />
     <ClCompile Include="..\Private\Level_GameResult.cpp" />
     <ClCompile Include="..\Private\Level_Menu.cpp" />
+    <ClCompile Include="..\Private\Level_StoryMenu.cpp" />
     <ClCompile Include="..\Private\NezukoBattleSTState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpAttackState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpMoveAttackState.cpp" />
