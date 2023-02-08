@@ -48,6 +48,12 @@ public:
 		_uint iMapNum;
 	}RESULTINFO;
 
+	typedef struct tagAdvFrameInfo
+	{
+		wstring		strName;
+		_uint		iFrameNum;
+	}ADVFRAMEINFO;
+
 protected:
 	CUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CUI(const CUI& rhs);
@@ -65,6 +71,7 @@ public:
 	SELUIINFO Get_SelectUIInfo() { return m_SelectInfo; }
 	SELUIINFO Get_SelectUIInfoSecond() { return m_SelectInfo_2; }
 
+	ADVFRAMEINFO Get_AdvFrameInfo() { return m_AdvFrameInfo; }
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
@@ -84,6 +91,7 @@ protected:
 	THROWUIINFO				m_ThrowUIinfo;
 	SELUIINFO				m_SelectInfo;
 	SELUIINFO				m_SelectInfo_2;
+	ADVFRAMEINFO			m_AdvFrameInfo;
 	
 
 public:

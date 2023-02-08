@@ -88,6 +88,12 @@ public:
 	CUI*	Get_ComboUI(_uint iPlyNum) { return m_pComboNum[iPlyNum]; }
 	void	Set_ComboUI(CUI* pTargetUI,_uint iPlyNum) { m_pComboNum[iPlyNum] = pTargetUI; }
 
+	CUI*	Get_AdvFrame(_uint iFrameNum) { return m_pAdvMenuFrame[iFrameNum]; }
+	void	Set_AdvFrame(CUI* pTargetUI, _uint iFrameNum) { m_pAdvMenuFrame[iFrameNum] = pTargetUI; }
+
+	CUI*   Get_MenuCursor() { return m_pMenuCursor; }
+	void	Set_MenuCursor(CUI* MenuCursor) { m_pMenuCursor = MenuCursor; }
+
 	_uint   Get_Sel1P() { return m_i1p; }
 	void	Set_Sel1P(_uint _i1p) { m_i1p = _i1p; }
 
@@ -105,10 +111,13 @@ public:
 	//2일때 루이
 	//3일때 탄지로
 
-	CUI*   Get_MenuCursor() { return m_pMenuCursor; }
-	void	Set_MenuCursor(CUI* MenuCursor) { m_pMenuCursor = MenuCursor; }
+	_uint   Get_AdvStageNum() { return m_iAdvStageNum; }
+	void	Set_AdvStageNum(_uint _iNum) { m_iAdvStageNum = _iNum; }
 
 	void	Set_CharNameUIZero() { m_iCharNameLayerNum = 0; }
+
+	_bool	Get_AdvMenuSelCheck() { return m_bAdvMenuSelCheck; }
+	void	Set_AdvMenuSelCheck(_bool bCheck) { m_bAdvMenuSelCheck = bCheck; }
 
 	_bool	Get_LevelResultOn() { return m_bLevelResultOn; }
 	void	Set_LevelResultOn(_bool bCheck) { m_bLevelResultOn = bCheck; }
@@ -169,6 +178,7 @@ private:
 	CUI*							m_pRoundUI = nullptr;
 	CUI*							m_pTimerUI = nullptr;
 	CUI*							m_pComboNum[2];
+	CUI*							m_pAdvMenuFrame[2];
 
 	CUI::THROWUIINFO				m_ThrowInfo;
 	CUI::RESULTINFO					m_ResultInfo;
@@ -191,11 +201,13 @@ private:
 	_uint							m_iOniSepcialBarLayerNum = 0;
 	_uint							m_iAdcMenuSelImgLayerNum = 0;
 	_uint							m_iAdcMenuSelFrameImgLayerNum = 0;
+	_uint							m_iAdvStageNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;
 	_uint                           m_i2p_2 = 0;
 	
+	_bool							m_bAdvMenuSelCheck = false;
 
 	_bool							m_bLevelResultOn = false;
 	_bool							m_bLevelMenu = false;
