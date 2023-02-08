@@ -357,7 +357,8 @@ void CAtk_1_State::Enter(CRui* pRui)
 	pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_ATTACK_1);
 	pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_ATTACK_1);
 	pRui->Set_AnimIndex(CRui::ANIM_ATTACK_1);
-
+	pRui->Get_Model()->Set_Loop(CRui::ANIM_ATTACK_1, false);
+	pRui->Get_Model()->Set_LinearTime(CRui::ANIM_ATTACK_1, 0.01f);
 }
 
 void CAtk_1_State::Exit(CRui* pRui)

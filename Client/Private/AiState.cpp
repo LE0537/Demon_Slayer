@@ -72,21 +72,43 @@ CRuiState * CAiState::HandleInput(CRui * pRui)
 	case Client::Rui::CAiState::RANGE_NEAR:
 		Update_AI_Near(pRui);
 		break;
+	case Client::Rui::CAiState::RANGE_FAR:
+		Update_AI_Far(pRui);
+		break;
+	case Client::Rui::CAiState::RANGE_OUT:
+		Update_AI_Out(pRui);
+		break;
 	}
 
 
-	
-	
-	if (pRui->Get_RuiHit() != true)
-	{
+
+
+
+	if (pRui->Get_RuiHit() == true)
+		m_ePreState = AI_HIT;
+	else
 		m_ePreState = m_eState;
-		return Return_AIState(pRui);
+
+	if (m_ePreState == NEAR_AI_SKILL_1)
+		m_eState = AI_IDLE;
+	
+
+
+	if (m_ePreState == AI_HIT)
+	{
+		if (m_fDelay <= 0.3f)
+		{
+			return nullptr;
+		}
+		else
+		{
+			pRui->Set_RuiHit(false);
+			m_fDelay = 0.f;
+			return  Return_AIState(pRui);
+		}
 	}
 	else
-	{
-		m_ePreState = AI_HIT;
-		return nullptr;
-	}
+		return  Return_AIState(pRui);
 }
 
 CRuiState * CAiState::Tick(CRui * pRui, _float fTimeDelta)
@@ -95,8 +117,8 @@ CRuiState * CAiState::Tick(CRui * pRui, _float fTimeDelta)
 		m_fDelay += fTimeDelta;
 
 	//Update_TargetToAngle(pRui);
-	
 
+	m_fAIPatternDelay += fTimeDelta;
 
 	return nullptr;
 }
@@ -110,7 +132,7 @@ CRuiState * CAiState::Late_Tick(CRui * pRui, _float fTimeDelta)
 
 void CAiState::Enter(CRui * pRui)
 {
-	
+
 	pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_IDLE);
 	pRui->Set_AnimIndex(CRui::ANIM_IDLE);
 	pRui->Set_bGuard(false);
@@ -129,9 +151,9 @@ void CAiState::Exit(CRui * pRui)
 void CAiState::Update_TargetState(CRui* pRui)
 {
 	CCharacters* pTarget = pRui->Get_BattleTarget();
-	
+
 	m_iTargetState = pTarget->Get_TargetState();
-	
+
 	switch (m_iTargetState)
 	{
 	case 0:
@@ -140,7 +162,7 @@ void CAiState::Update_TargetState(CRui* pRui)
 	case 1:
 		m_eTargetState = TARGET_STATE::STATE_MOVE;
 		break;
-	case 2: 
+	case 2:
 		m_eTargetState = TARGET_STATE::STATE_JUMP;
 		break;
 	case 3: case 4: case 5: case 6:
@@ -155,7 +177,7 @@ void CAiState::Update_TargetState(CRui* pRui)
 	case 11:
 		m_eTargetState = TARGET_STATE::STATE_MOVE;
 		break;
-	case 12: case 13: case 14: case 15: case 16: case 17: 
+	case 12: case 13: case 14: case 15: case 16: case 17:
 		m_eTargetState = TARGET_STATE::STATE_SKILL;
 		break;
 	case 19:
@@ -171,8 +193,8 @@ void CAiState::Update_TargetState(CRui* pRui)
 
 	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
 
-	if (fDistance <= 30.f) {m_eRange = RANGE_IN;}
-	else {m_eRange = RANGE_OUT;}
+	if (fDistance <= 30.f) { m_eRange = RANGE_IN; }
+	else { m_eRange = RANGE_OUT; }
 
 
 	if (m_eRange == RANGE_IN)
@@ -197,7 +219,7 @@ void CAiState::Update_TargetToAngle(CRui * pRui)
 	_float fAngle = XMConvertToDegrees(XMVectorGetX(DotRuiTarget));
 
 	//pRui->Get_Transform()->Set_RotationY(fAngle);
-	
+
 	pRui->Get_Transform()->Set_PlayerLookAt(vTargetPosition);
 }
 
@@ -243,6 +265,118 @@ void CAiState::Update_AI_Near(CRui* pRui)
 
 void CAiState::Update_AI_Far(CRui* pRui)
 {
+	if (Far_CompareOriginPoint(pRui) == true)  // 루이가 원래 지점과 가까울 때
+	{
+		switch (m_eTargetState)
+		{
+		case Client::Rui::CAiState::STATE_IDLE:
+		case Client::Rui::CAiState::STATE_MOVE:
+		case Client::Rui::CAiState::STATE_JUMP:
+		case Client::Rui::CAiState::STATE_DASH:
+			Update_Far_InMove();
+			break;
+		case Client::Rui::CAiState::STATE_ATTACK:
+			Update_Far_InAttack();
+			break;
+		case Client::Rui::CAiState::STATE_SKILL:
+			Update_Far_InSkill();
+			break;
+		case Client::Rui::CAiState::STATE_GUARD:
+			Update_Far_InGuard();
+			break;
+		case Client::Rui::CAiState::STATE_HIT:
+			break;
+		case Client::Rui::CAiState::STATE_RUSH:
+			Update_Far_InRush();
+			break;
+		case Client::Rui::CAiState::STATE_END:
+			break;
+		default:
+			break;
+		}
+	}
+	else // 루이가 원래 지점과 멀리 떨어져 있을 경우
+	{
+		switch (m_eTargetState)
+		{
+		case Client::Rui::CAiState::STATE_IDLE:
+		case Client::Rui::CAiState::STATE_MOVE:
+		case Client::Rui::CAiState::STATE_JUMP:
+		case Client::Rui::CAiState::STATE_DASH:
+			Update_Far_OutMove();
+			break;
+		case Client::Rui::CAiState::STATE_ATTACK:
+			Update_Far_OutAttack();
+			break;
+		case Client::Rui::CAiState::STATE_SKILL:
+			Update_Far_OutSkill();
+			break;
+		case Client::Rui::CAiState::STATE_GUARD:
+			Update_Far_OutGuard();
+			break;
+		case Client::Rui::CAiState::STATE_HIT:
+			break;
+		case Client::Rui::CAiState::STATE_RUSH:
+			Update_Far_OutRush();
+			break;
+		case Client::Rui::CAiState::STATE_END:
+			break;
+		default:
+			break;
+		}
+	}
+
+
+}
+
+void CAiState::Update_AI_Out(CRui * pRui)
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 11);
+	int iRandom = RandomPattern(gen);
+
+	// 1 발사체
+	// 2 3방향
+	// 3 가드
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 2:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 3:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 4:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 5:
+		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 6:
+		m_eState = AI_IDLE;
+		break;
+	case 7:
+		m_eState = AI_IDLE;
+		break;
+	case 8:
+		m_eState = AI_RUSH;
+		break;
+	case 9:
+		m_eState = AI_FRONTMOVE;
+		break;
+	case 10:
+		m_eState = AI_DASH_F;
+		break;
+	case 11:
+		m_eState = AI_DASH_F;
+		break;
+	}
+
 
 }
 
@@ -257,9 +391,10 @@ CRuiState * CAiState::Return_AIState(CRui * pRui)
 
 	if (m_eState == AI_STATE::AI_DASH)
 		Dash_Setting(pRui);
-	else if (m_eState == AI_STATE::AI_SKILL)
+	else if (m_eState == AI_STATE::AI_SKILL && m_eRange == Rui::CAiState::RANGE_NEAR)
 		Near_Skill_Setting(pRui);
 
+	printf("state : %d \n", m_eState);
 
 	switch (m_eState)
 	{
@@ -301,7 +436,7 @@ CRuiState * CAiState::Return_AIState(CRui * pRui)
 		return new CDashState(OBJDIR::DIR_STRAIGHT, false, false);
 		break;
 	case Client::Rui::CAiState::AI_DASH_L:
-		if(iRandom ==0)
+		if (iRandom == 0)
 			return new CDashState(OBJDIR::DIR_LEFT, false, false);
 		else
 			return new CDashState(OBJDIR::DIR_LEFT_DASH, false, false);
@@ -380,7 +515,7 @@ void CAiState::Update_NearMove()
 	std::uniform_int_distribution<int> RandomPattern(1, 10);
 	int iRandom = RandomPattern(gen);
 
-	
+
 	switch (iRandom)
 	{
 	case 1:
@@ -578,6 +713,529 @@ void CAiState::Near_Skill_Setting(CRui * pRui)
 
 }
 
+_bool CAiState::Far_CompareOriginPoint(CRui * pRui)
+{
+	_vector vTargetPosition = m_vOriginPosition;
+	_vector vMyPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_float fDistance = XMVectorGetX(XMVector3Length(vTargetPosition - vMyPosition));
+
+	if (fDistance <= 20.f)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
+
+void CAiState::Update_Far_InAttack()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 11);
+	int iRandom = RandomPattern(gen);
+
+	// 1 발사체
+	// 2 3방향
+	// 3 가드
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 2:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 3:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 4:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 5:
+		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 6:
+		m_eState = AI_IDLE;
+		break;
+	case 7:
+		m_eState = AI_IDLE;
+		break;
+	case 8:
+		m_eState = AI_DASH_B;
+		break;
+	case 9:
+		m_eState = AI_DASH_L;
+		break;
+	case 10:
+		m_eState = AI_DASH_R;
+		break;
+	case 11:
+		m_eState = AI_DASH_F;
+		break;
+	}
+}
+
+void CAiState::Update_Far_InMove()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 11);
+	int iRandom = RandomPattern(gen);
+
+	// 1 발사체
+	// 2 3방향
+	// 3 가드
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 2:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 3:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 4:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 5:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 6:
+		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 7:
+		m_eState = AI_IDLE;
+		break;
+	case 8:
+		m_eState = AI_DASH_B;
+		break;
+	case 9:
+		m_eState = AI_DASH_L;
+		break;
+	case 10:
+		m_eState = AI_DASH_R;
+		break;
+	case 11:
+		m_eState = AI_DASH_F;
+		break;
+	}
+}
+
+void CAiState::Update_Far_InGuard()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 12);
+	int iRandom = RandomPattern(gen);
+
+	// 1 발사체
+	// 2 3방향
+	// 3 가드
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 2:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 3:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 4:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 5:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 6:
+		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 7:
+		m_eState = AI_IDLE;
+		break;
+	case 8:
+		m_eState = AI_RUSH;
+		break;
+	case 9:
+		m_eState = AI_DASH_L;
+		break;
+	case 10:
+		m_eState = AI_DASH_R;
+		break;
+	case 11:
+		m_eState = AI_DASH_B;
+		break;
+	case 12:
+		m_eState = AI_DASH_F;
+		break;
+	}
+}
+
+void CAiState::Update_Far_InRush()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
+
+	// 1 발사체
+	// 2 3방향
+	// 3 가드
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 2:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 3:
+		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 4:
+		m_eState = AI_GUARD;
+		break;
+	case 5:
+		m_eState = AI_DASH_R;
+		break;
+	case 6:
+		m_eState = AI_DASH_L;
+		break;
+	case 7:
+		m_eState = AI_RUSH;
+		break;
+	case 8:
+		m_eState = AI_DASH_B;
+		break;
+	case 9:
+		m_eState = AI_DASH_L;
+		break;
+	case 10:
+		m_eState = AI_DASH_R;
+		break;
+	}
+}
+
+void CAiState::Update_Far_InSkill()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 11);
+	int iRandom = RandomPattern(gen);
+
+	// 1 발사체
+	// 2 3방향
+	// 3 가드
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 2:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 3:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 4:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 5:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 6:
+		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 7:
+		m_eState = AI_IDLE;
+		break;
+	case 8:
+		m_eState = AI_DASH_B;
+		break;
+	case 9:
+		m_eState = AI_DASH_L;
+		break;
+	case 10:
+		m_eState = AI_DASH_R;
+		break;
+	case 11:
+		m_eState = AI_DASH_F;
+		break;
+	}
+}
+
+void CAiState::Update_Far_OutAttack()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 12);
+	int iRandom = RandomPattern(gen);
+
+	// 1 발사체
+	// 2 3방향
+	// 3 가드
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 2:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 3:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 4:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 5:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 6:
+		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 7:
+		m_eState = AI_IDLE;
+		break;
+	case 8:
+		m_eState = AI_DASH_F;
+		break;
+	case 9:
+		m_eState = AI_DASH_L;
+		break;
+	case 10:
+		m_eState = AI_DASH_R;
+		break;
+	case 11:
+		m_eState = AI_DASH_F;
+		break;
+	case 12:
+		m_eState = AI_FRONTMOVE;
+		break;
+	}
+}
+
+void CAiState::Update_Far_OutMove()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 12);
+	int iRandom = RandomPattern(gen);
+
+	// 1 발사체
+	// 2 3방향
+	// 3 가드
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 2:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 3:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 4:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 5:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 6:
+		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 7:
+		m_eState = AI_IDLE;
+		break;
+	case 8:
+		m_eState = AI_RUSH;
+		break;
+	case 9:
+		m_eState = AI_DASH_L;
+		break;
+	case 10:
+		m_eState = AI_DASH_R;
+		break;
+	case 11:
+		m_eState = AI_DASH_F;
+		break;
+	case 12:
+		m_eState = AI_FRONTMOVE;
+		break;
+	}
+}
+
+void CAiState::Update_Far_OutGuard()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 12);
+	int iRandom = RandomPattern(gen);
+
+	// 1 발사체
+	// 2 3방향
+	// 3 가드
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 2:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 3:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 4:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 5:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 6:
+		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 7:
+		m_eState = AI_IDLE;
+		break;
+	case 8:
+		m_eState = AI_RUSH;
+		break;
+	case 9:
+		m_eState = AI_DASH_L;
+		break;
+	case 10:
+		m_eState = AI_DASH_R;
+		break;
+	case 11:
+		m_eState = AI_DASH_F;
+		break;
+	case 12:
+		m_eState = AI_FRONTMOVE;
+		break;
+	}
+}
+
+void CAiState::Update_Far_OutRush()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 12);
+	int iRandom = RandomPattern(gen);
+
+	// 1 발사체
+	// 2 3방향
+	// 3 가드
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 2:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 3:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 4:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 5:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 6:
+		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 7:
+		m_eState = AI_IDLE;
+		break;
+	case 8:
+		m_eState = AI_RUSH;
+		break;
+	case 9:
+		m_eState = AI_DASH_L;
+		break;
+	case 10:
+		m_eState = AI_DASH_R;
+		break;
+	case 11:
+		m_eState = AI_DASH_F;
+		break;
+	case 12:
+		m_eState = AI_FRONTMOVE;
+		break;
+	}
+}
+
+void CAiState::Update_Far_OutSkill()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 12);
+	int iRandom = RandomPattern(gen);
+
+	// 1 발사체
+	// 2 3방향
+	// 3 가드
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 2:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 3:
+		m_eState = NEAR_AI_SKILL_1;
+		break;
+	case 4:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 5:
+		m_eState = NEAR_AI_SKILL_2;
+		break;
+	case 6:
+		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 7:
+		m_eState = AI_IDLE;
+		break;
+	case 8:
+		m_eState = AI_RUSH;
+		break;
+	case 9:
+		m_eState = AI_DASH_L;
+		break;
+	case 10:
+		m_eState = AI_DASH_R;
+		break;
+	case 11:
+		m_eState = AI_DASH_F;
+		break;
+	case 12:
+		m_eState = AI_FRONTMOVE;
+		break;
+	}
+}
+
+
 void CAiState::Dash_Setting(CRui* pRui)
 {
 	std::random_device RandomDevice;
@@ -635,14 +1293,14 @@ void CAiState::DashDir_Calcul(CRui * pRui)
 
 void CAiState::Compare_OriginPoint(CRui * pRui)
 {
-	
+
 	_vector vTargetPosition = m_vOriginPosition;
 	_vector vMyPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_float fDistance = XMVectorGetX(XMVector3Length(vTargetPosition - vMyPosition));
 
 	printf_s("dist : %f \n", fDistance);
 
-	if (fDistance >= 42.f)
+	if (fDistance >= 40.f)
 	{
 
 
@@ -664,16 +1322,18 @@ void CAiState::Compare_OriginPoint(CRui * pRui)
 		{
 			// 양수 오른쪽
 			m_queueDash.push(DASH_R);
+			m_queueDash.push(DASH_R);
 			//m_queueDash.push(DASH_R);
+			m_queueDash.push(DASH_F);
 			m_queueDash.push(DASH_F);
 			//m_queueDash.push(DASH_F);
 			pRui->Set_QueueCombo(m_queueDash);
 		}
 		else
 		{
-			//m_queueDash.push(DASH_L);
 			m_queueDash.push(DASH_L);
-			//m_queueDash.push(DASH_F);
+			m_queueDash.push(DASH_L);
+			m_queueDash.push(DASH_F);
 			m_queueDash.push(DASH_F);
 			pRui->Set_QueueCombo(m_queueDash);
 			// 음수 왼쪽	

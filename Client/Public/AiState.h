@@ -32,11 +32,12 @@ private:
 
 	void Update_AI_Near(CRui* pRui);
 	void Update_AI_Far(CRui* pRui);
-
+	void Update_AI_Out(CRui* pRui); 
 
 	CRuiState* Return_AIState(CRui* pRui);
 
 private:
+	// RANGE IN
 	// 루이 기준 near일때 플레이어 상태
 	void Update_NearAttack();
 	void Update_NearMove();
@@ -44,16 +45,33 @@ private:
 	void Update_NearRush();
 	void Update_NearSkill();
 
+	// 루이 기준 Far일때 플레이어 상태
+	_bool Far_CompareOriginPoint(CRui* pRui); // 생성 지점과 거리 비교
+	// In -> 지점과 가까운 경우
+	void Update_Far_InAttack();
+	void Update_Far_InMove();
+	void Update_Far_InGuard();
+	void Update_Far_InRush();
+	void Update_Far_InSkill();
+	// Out -> 지점과 먼 경우
+	void Update_Far_OutAttack();
+	void Update_Far_OutMove();
+	void Update_Far_OutGuard();
+	void Update_Far_OutRush();
+	void Update_Far_OutSkill();
 
 private:
 	void Near_Skill_Setting(CRui* pRui);
 
+
 private:
 	void Dash_Setting(CRui* pRui);
 	void DashDir_Calcul(CRui* pRui);
-
-private:
 	void Compare_OriginPoint(CRui* pRui);
+
+
+	
+	
 	
 private:
 	TARGET_STATE m_eTargetState = STATE_END;
@@ -66,6 +84,7 @@ private:
 	AI_DASHPOINT m_eDashDir;
 
 	_float		m_fDelay = 0.f;
+	_float		m_fAIPatternDelay = 0.f;
 
 	_uint m_iTargetState = 0;
 

@@ -139,6 +139,7 @@ public:
 	void   Set_QueueCombo(queue<_uint> eQueue) { m_queueDash = eQueue; }
 	queue<_uint> Get_QueueCombo() { return m_queueDash; }
 	_bool Get_RuiHit();
+	void Set_RuiHit(_bool bHit) { m_bIsHit = bHit; }
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:
@@ -177,7 +178,7 @@ private:
 	
 	_bool m_bStart = false;
 	_bool m_bAiState = false;
-
+	_bool m_bIsHit = false;
 	queue<_uint> m_queueDash;
 	
 	list <class CRuiState*> m_AIStateList;

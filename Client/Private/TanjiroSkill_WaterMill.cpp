@@ -365,6 +365,7 @@ void CSkill_WaterMillState::Enter(CTanjiro * pTanjiro)
 		break;
 	}
 
+
 }
 
 void CSkill_WaterMillState::Exit(CTanjiro * pTanjiro)
