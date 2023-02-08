@@ -265,7 +265,10 @@ void CDashState::Enter(CRui* pRui)
 	}
 
 	if (pRui->Get_IsAIMode() == true)
+	{
 		iIndex = pRui->Get_iTargetIndex();
+		pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	}
 
 	switch (m_eDir)
 	{
