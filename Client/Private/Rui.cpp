@@ -126,6 +126,8 @@ void CRui::Tick(_float fTimeDelta)
 			m_fDelta = fTimeDelta;
 			if (m_tInfo.fHitTime > 0.f)
 				m_tInfo.fHitTime -= fTimeDelta;
+			if (m_tInfo.fGuardTime > 0.f)
+				m_tInfo.fGuardTime -= fTimeDelta;
 			if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
 				HandleInput(fTimeDelta);
 		}
@@ -326,6 +328,8 @@ void CRui::Set_Info()
 	m_tInfo.iFriendBar = m_tInfo.iFriendMaxBar;
 	m_tInfo.bGuard = false;
 	m_tInfo.bChange = false;
+	m_tInfo.iMaxGuard = 500;
+	m_tInfo.iGuard = m_tInfo.iMaxGuard;
 }
 
 _bool CRui::Get_RuiHit()

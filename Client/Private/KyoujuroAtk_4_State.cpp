@@ -242,9 +242,15 @@ CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 			{
 				_vector vPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
-				if (m_pTarget->Get_PlayerInfo().bGuard)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(1);
+					m_pTarget->Set_GuardHp(-50);
+					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
+					{
+						m_pTarget->Set_ResetGuardHp();
+						m_pTarget->Set_GuardTime(2.f);
+					}
 				}
 				else
 				{

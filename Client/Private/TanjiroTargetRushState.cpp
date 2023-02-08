@@ -307,9 +307,10 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 
 		pTanjiro->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().bGuard)
+		if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().bGuard && pTanjiro->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
 		{
 			pTanjiro->Get_BattleTarget()->Get_GuardHit(0);
+		
 		}
 		else
 		{

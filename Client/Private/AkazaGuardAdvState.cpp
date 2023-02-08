@@ -31,13 +31,13 @@ CAkazaState * CGuardAdvState::HandleInput(CAkaza* pAkaza)
 		switch (pAkaza->Get_i1P())
 		{
 		case 1:
-			if (pGameInstance->Key_Pressing(DIK_O))
+			if (pGameInstance->Key_Pressing(DIK_O) && pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_LOOP);
 			else
 				return new CGuardState(STATE_TYPE::TYPE_END);
 			break;
 		case 2:
-			if (pGameInstance->Key_Pressing(DIK_C))
+			if (pGameInstance->Key_Pressing(DIK_C) && pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_LOOP);
 			else
 				return new CGuardState(STATE_TYPE::TYPE_END);

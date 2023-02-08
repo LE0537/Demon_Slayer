@@ -33,7 +33,7 @@ CTanjiroState * CGuardAdvState::HandleInput(CTanjiro * pTanjiro)
 		{
 			pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_GUARD_ADV);
 
-			if (pGameInstance->Key_Pressing(DIK_O))
+			if (pGameInstance->Key_Pressing(DIK_O) && pTanjiro->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_LOOP);
 			else
 				return new CGuardState(STATE_TYPE::TYPE_END);
@@ -44,7 +44,7 @@ CTanjiroState * CGuardAdvState::HandleInput(CTanjiro * pTanjiro)
 		{
 			pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_GUARD_ADV);
 
-			if (pGameInstance->Key_Pressing(DIK_C))
+			if (pGameInstance->Key_Pressing(DIK_C) && pTanjiro->Get_PlayerInfo().fGuardTime <= 0.f)
 				return new CGuardState(STATE_TYPE::TYPE_LOOP);
 			else
 				return new CGuardState(STATE_TYPE::TYPE_END);

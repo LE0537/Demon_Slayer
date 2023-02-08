@@ -231,9 +231,15 @@ CTanjiroState * CAtk_1_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
+					m_pTarget->Set_GuardHp(-40);
+					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
+					{
+						m_pTarget->Set_ResetGuardHp();
+						m_pTarget->Set_GuardTime(2.f);
+					}
 				}
 				else
 				{

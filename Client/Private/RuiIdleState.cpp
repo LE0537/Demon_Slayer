@@ -73,7 +73,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 		}
 		else if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_O))
+		else if (pGameInstance->Key_Pressing(DIK_O) && pRui->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Pressing(DIK_L))
 			return new CTargetRushState(STATE_TYPE::TYPE_START);
@@ -157,7 +157,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 		}
 		else if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
-		else if (pGameInstance->Key_Pressing(DIK_C))
+		else if (pGameInstance->Key_Pressing(DIK_C) && pRui->Get_PlayerInfo().fGuardTime <= 0.f)
 			return new CGuardState(STATE_TYPE::TYPE_START);
 		else if (pGameInstance->Key_Pressing(DIK_LSHIFT)) 
 			return new CTargetRushState(STATE_TYPE::TYPE_START);
@@ -223,7 +223,12 @@ CRuiState * CIdleState::Late_Tick(CRui * pRui, _float fTimeDelta)
 
 		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
 	}
-
+	if (pRui->Get_PlayerInfo().iGuard < pRui->Get_PlayerInfo().iMaxGuard)
+	{
+		pRui->Set_GuardHp(1);
+		if (pRui->Get_PlayerInfo().iGuard > pRui->Get_PlayerInfo().iMaxGuard)
+			pRui->Set_ResetGuardHp();
+	}
 	return nullptr;
 }
 

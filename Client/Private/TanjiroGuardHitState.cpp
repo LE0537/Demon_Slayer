@@ -40,11 +40,23 @@ CTanjiroState * CGuardHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 		case Client::CTanjiroState::TYPE_START:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			return new CGuardState(TYPE_LOOP);
+			if (pTanjiro->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pTanjiro->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		case Client::CTanjiroState::TYPE_LOOP:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			return new CGuardState(TYPE_LOOP);
+			if (pTanjiro->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pTanjiro->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		default:
 			break;
@@ -65,9 +77,13 @@ CTanjiroState * CGuardHitState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta
 		if (!m_bEffect)
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pTanjiro);
-
+			_float fHP = (_float)pTanjiro->Get_PlayerInfo().iGuard / (_float)pTanjiro->Get_PlayerInfo().iMaxGuard;
+			if (fHP > 0.6f && pTanjiro->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pTanjiro);
+			else if (fHP > 0.3f && pTanjiro->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD2, pTanjiro);
+			else if (fHP <= 0.3f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3, pTanjiro);
 			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
 		}

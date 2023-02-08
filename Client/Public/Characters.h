@@ -55,6 +55,9 @@ public:
 		_float		fHitTime;
 		_bool		bSub;
 		_bool		bChange;
+		_int		iMaxGuard;
+		_int		iGuard;
+		_float      fGuardTime;
 	}PLAYERINFO;
 
 public:
@@ -91,6 +94,9 @@ public:
 	_uint	   Get_TargetState() const { return m_iState; }
 	void	   Set_SubSkill(_int _iIndex) { m_iSubSkillIndex = _iIndex; }
 	_int       Get_SubSkill() { return m_iSubSkillIndex; }
+	void	   Set_GuardHp(_int _iGuard) { m_tInfo.iGuard += _iGuard; }
+	void	   Set_ResetGuardHp() { m_tInfo.iGuard = m_tInfo.iMaxGuard; }
+	void	   Set_GuardTime(_float _fGuard) { m_tInfo.fGuardTime = _fGuard; }
 
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;

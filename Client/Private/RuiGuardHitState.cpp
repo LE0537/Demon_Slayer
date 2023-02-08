@@ -39,11 +39,23 @@ CRuiState * CGuardHitState::Tick(CRui* pRui, _float fTimeDelta)
 		{
 		case Client::CRuiState::TYPE_START:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			return new CGuardState(TYPE_LOOP);
+			if (pRui->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pRui->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		case Client::CRuiState::TYPE_LOOP:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			return new CGuardState(TYPE_LOOP);
+			if (pRui->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pRui->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		default:
 			break;
@@ -70,9 +82,13 @@ CRuiState * CGuardHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 		if (!m_bEffect)
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pRui);
-
+			_float fHP = (_float)pRui->Get_PlayerInfo().iGuard / (_float)pRui->Get_PlayerInfo().iMaxGuard;
+			if (fHP > 0.6f && pRui->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pRui);
+			else if (fHP > 0.3f && pRui->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD2, pRui);
+			else if (fHP <= 0.3f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3, pRui);
 			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
 		}

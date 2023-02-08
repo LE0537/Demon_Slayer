@@ -21,7 +21,7 @@ CShinobuState * CGuardState::HandleInput(CShinobu* pShinobu)
 	switch (pShinobu->Get_i1P())
 	{
 	case 1:
-		if (pGameInstance->Key_Pressing(DIK_O) && m_eStateType != STATE_TYPE::TYPE_END)
+		if (pGameInstance->Key_Pressing(DIK_O) && m_eStateType != STATE_TYPE::TYPE_END && pShinobu->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pShinobu->Set_bGuard(true);
 			if (pGameInstance->Key_Down(DIK_W) || pGameInstance->Key_Down(DIK_S) || pGameInstance->Key_Down(DIK_A) || pGameInstance->Key_Down(DIK_D))
@@ -33,7 +33,7 @@ CShinobuState * CGuardState::HandleInput(CShinobu* pShinobu)
 			return new CGuardState(STATE_TYPE::TYPE_END);
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_C) && m_eStateType != STATE_TYPE::TYPE_END)
+		if (pGameInstance->Key_Pressing(DIK_C) && m_eStateType != STATE_TYPE::TYPE_END && pShinobu->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pShinobu->Set_bGuard(true);
 			if (pGameInstance->Key_Down(DIK_UP) || pGameInstance->Key_Down(DIK_DOWN) || pGameInstance->Key_Down(DIK_LEFT) || pGameInstance->Key_Down(DIK_RIGHT))

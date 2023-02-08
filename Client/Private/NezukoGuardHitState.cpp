@@ -40,11 +40,23 @@ CNezukoState * CGuardHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 		{
 		case Client::CNezukoState::TYPE_START:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-			return new CGuardState(TYPE_LOOP);
+			if (pNezuko->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pNezuko->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		case Client::CNezukoState::TYPE_LOOP:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-			return new CGuardState(TYPE_LOOP);
+			if (pNezuko->Get_PlayerInfo().fGuardTime <= 0.f)
+				return new CGuardState(TYPE_LOOP);
+			else
+			{
+				pNezuko->Set_bGuard(false);
+				return new CIdleState();
+			}
 			break;
 		default:
 			break;
@@ -71,9 +83,13 @@ CNezukoState * CGuardHitState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 		if (!m_bEffect)
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pNezuko);
-
+			_float fHP = (_float)pNezuko->Get_PlayerInfo().iGuard / (_float)pNezuko->Get_PlayerInfo().iMaxGuard;
+			if (fHP > 0.6f && pNezuko->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD1, pNezuko);
+			else if (fHP > 0.3f && pNezuko->Get_PlayerInfo().fGuardTime <= 0.f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD2, pNezuko);
+			else if (fHP <= 0.3f)
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3, pNezuko);
 			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
 		}
