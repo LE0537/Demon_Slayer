@@ -33,53 +33,61 @@ HRESULT CNezuko::Initialize_Prototype()
 
 HRESULT CNezuko::Initialize(void * pArg)
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
 	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
-
 	m_i1p = tCharacterDesc.i1P2P;
-	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
-	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
-	Set_Info();
-	m_tInfo.bSub = tCharacterDesc.bSub;
-	m_bChange = tCharacterDesc.bSub;
-	if (!m_tInfo.bSub)
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+	if (m_i1p != 10)
 	{
-		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
-		if (m_i1p == 1)
+		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
+		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
+
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		if (!m_tInfo.bSub)
 		{
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
+			if (m_i1p == 1)
+			{
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
-			CUI_Manager::Get_Instance()->Set_1P(this);
+				CUI_Manager::Get_Instance()->Set_1P(this);
+			}
+			else if (m_i1p == 2)
+			{
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+				CUI_Manager::Get_Instance()->Set_2P(this);
+			}
+			RELEASE_INSTANCE(CGameInstance);
+
 		}
-		else if (m_i1p == 2)
+		else
 		{
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-
-			CUI_Manager::Get_Instance()->Set_2P(this);
+			m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
+			m_pSubChar->Set_SubChar(this);
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
+			m_bChange = true;
+			if (m_i1p == 1)
+				CUI_Manager::Get_Instance()->Set_1P_2(this);
+			else if (m_i1p == 2)
+				CUI_Manager::Get_Instance()->Set_2P_2(this);
 		}
-		RELEASE_INSTANCE(CGameInstance);
-
 	}
-	else
+	else if (m_i1p == 10)
 	{
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
 		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
 		m_pSubChar->Set_SubChar(this);
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
 		m_bChange = true;
-		if (m_i1p == 1)
-			CUI_Manager::Get_Instance()->Set_1P_2(this);
-		else if (m_i1p == 2)
-			CUI_Manager::Get_Instance()->Set_2P_2(this);
-
-	
+		CUI_Manager::Get_Instance()->Set_1P_2(this);
 	}
-
-
+	Set_Info();
 	CNezukoState* pState = new CIdleState();
 	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 
@@ -508,8 +516,16 @@ HRESULT CNezuko::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
-		return E_FAIL;
+	if (m_i1p == 10)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
