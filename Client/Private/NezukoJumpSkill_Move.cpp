@@ -244,6 +244,8 @@ void CJumpSkill_MoveState::Enter(CNezuko* pNezuko)
 {
 	m_eStateId = STATE_ID::STATE_JUMP;
 
+	_uint iRand = rand() % 3;
+
 	switch (m_eStateType)
 	{
 	case Client::CNezukoState::TYPE_START:
@@ -266,6 +268,13 @@ void CJumpSkill_MoveState::Enter(CNezuko* pNezuko)
 
 		pNezuko->Set_NavigationHeight(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		m_fOriginPosY = pNezuko->Get_NavigationHeight().y;
+
+		if (iRand == 0)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_MoveSkill1.wav"), fEFFECT);
+		else if (iRand == 1)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_MoveSkill2.wav"), fEFFECT);
+		else if (iRand == 2)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_MoveSkill3.wav"), fEFFECT);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_SKILL_MOVE_1);

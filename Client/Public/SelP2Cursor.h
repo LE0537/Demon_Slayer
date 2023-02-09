@@ -30,6 +30,7 @@ public:
 	void Move_Cursor();
 	void Select_Order();
 	void Cursor_ImgSel();
+	void PlayVoiceSound();
 
 private:
 	HRESULT Ready_Components();

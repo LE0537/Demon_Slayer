@@ -439,6 +439,7 @@ void CSkill_DashSlashState::Enter(CKyoujuro * pKyojuro)
 
 	pKyojuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH);
 	pKyojuro->Set_AnimIndex(CKyoujuro::ANIM_SKILL_DASHSLASH);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_DashSlash.wav"), fEFFECT);
 
 }
 

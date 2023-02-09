@@ -359,6 +359,7 @@ void CAdvSkill_CommmonState::Enter(CAkaza* pAkaza)
 		m_vTargetPosition = XMVectorSetY(m_vTargetPosition, m_fHeight);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_ADVSKILL_COMMON_0, false);
 		//////////////////////////////////////////////////////
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_FriendCommon.wav"), fEFFECT);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_ADVSKILL_COMMON_1);

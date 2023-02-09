@@ -437,6 +437,7 @@ void CSkill_DestoryState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_SKILL_DESTROY_0);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SKILL_DESTROY_0, 0.01f);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SKILL_DESTROY_0);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Destroy.wav"), fEFFECT);
 		break;
 	case Client::CAkazaState::TYPE_END:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_SKILL_DESTROY_1);

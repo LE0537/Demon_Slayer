@@ -6,6 +6,7 @@
 #include "UI_Manager.h"
 #include "SelP1Cursor.h"
 #include "SelP2Cursor.h"
+#include "SoundMgr.h"
 
 CLevel_SelectChar::CLevel_SelectChar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -22,9 +23,8 @@ HRESULT CLevel_SelectChar::Initialize()
 
 	RELEASE_INSTANCE(CUI_Manager);
 
-
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("CharSel.wav"), fBGM);
 	
-
 	return S_OK;
 }
 
@@ -67,7 +67,7 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 
 				if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
 					return;
-
+				CSoundMgr::Get_Instance()->BGM_Stop();
 				m_fDelayTime = 0.f;
 			}
 		}

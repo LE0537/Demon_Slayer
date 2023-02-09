@@ -211,7 +211,7 @@ void CJumpSkill_CommonState::Enter(CKyoujuro * pKyojuro)
 	m_vVelocity.y = 10.f;
 	m_vVelocity.z = 0.f;
 
-
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_JumpCommon.wav"), fEFFECT);
 }
 
 void CJumpSkill_CommonState::Exit(CKyoujuro * pKyojuro)

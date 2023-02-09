@@ -14,7 +14,8 @@ namespace Client
 #include <string>
 #include <time.h>
 // Client_Defines.h
-
+#define fBGM	0.7f
+#define fEFFECT 1.0f
 extern HWND			g_hWnd;
 extern HINSTANCE	g_hInst;
 extern bool			g_bDebug;

@@ -98,9 +98,11 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		_vector vPos = {-9.524f,0.314f,0.513f,1.f};
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		m_pTransformCom->Set_Scale(XMVectorSet(0.3f, 0.3f, 0.3f, 0.f));
+		m_pTransformCom->Set_Rotation(_float3(0.f, 180.f, 0.f));
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
 		CUI_Manager::Get_Instance()->Set_1P(this);
+		m_bStoryKey = true;
 		RELEASE_INSTANCE(CGameInstance);
 		m_i1p = 1;
 	}

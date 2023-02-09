@@ -97,6 +97,8 @@ public:
 	void	   Set_GuardHp(_int _iGuard) { m_tInfo.iGuard += _iGuard; }
 	void	   Set_ResetGuardHp() { m_tInfo.iGuard = m_tInfo.iMaxGuard; }
 	void	   Set_GuardTime(_float _fGuard) { m_tInfo.fGuardTime = _fGuard; }
+	_bool	   Get_StoryKey() { return m_bStoryKey; }
+	void	   Set_StoryKey(_bool _bKey) { m_bStoryKey = _bKey; }
 
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
@@ -119,7 +121,7 @@ protected:
 	_bool					m_bBattleStart = false;
 
 	_uint					m_iState = 0;
-
+	_bool					m_bStoryKey = false;
 	//Sub
 	_int					m_iSubSkillIndex = 0;
 

@@ -11,6 +11,7 @@
 #include "Level_StroyMenu.h"
 #include "Level_AdvRui.h"
 #include "UI_Manager.h"
+#include "SoundMgr.h"
 
 CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -34,6 +35,8 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevel)
 	if (nullptr == m_pLoader)
 		return E_FAIL;
 
+	CSoundMgr::Get_Instance()->BGM_Stop();
+	CSoundMgr::Get_Instance()->Effect_Stop();
 	
 
 	return S_OK;

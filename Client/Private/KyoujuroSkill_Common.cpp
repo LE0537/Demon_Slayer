@@ -429,6 +429,7 @@ void CSkill_CommonState::Enter(CKyoujuro * pKyojuro)
 	pKyojuro->Set_AnimIndex(CKyoujuro::ANIM_SKILL_COMMON);
 	pKyojuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_SKILL_COMMON, 0.01f);
 
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_CommonSkill.wav"), fEFFECT);
 }
 
 void CSkill_CommonState::Exit(CKyoujuro * pKyojuro)
