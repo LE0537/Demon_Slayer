@@ -40,7 +40,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_fLookAtY = 4.f;
 	m_fAngle = 45.f;
 
-	//m_FovAngle = XMConvertToRadians(60.f);
+	m_FovAngle = XMConvertToRadians(60.f);
 	//m_bStory = true;
 	return S_OK;
 }
@@ -293,19 +293,77 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 }
 void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 	m_pPlayer->Set_BattleTarget(m_pTarget);
 	m_pTarget->Set_BattleTarget(m_pPlayer);
-	_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	_vector vLookAt = vPos;
-	_vector vLook = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	vPos -= vLook * 15.f;
-	vPos.m128_f32[1] += 6.f;
-	vLookAt.m128_f32[1] += 2.f;
-	m_pTransform->LookAt(vLookAt);
-	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	_long MouseMove = 0;
+
+	if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_WHEEL))
+	{
+		m_FovAngle += XMConvertToRadians(-MouseMove * fTimeDelta * 0.4f);
+		if ((XMConvertToRadians(80.f) < m_CameraDesc.fFovy))
+		{
+			m_CameraDesc.fFovy = XMConvertToRadians(80.f);
+			m_FovAngle = XMConvertToRadians(80.f);
+		}
+		else if ((XMConvertToRadians(35.f) > m_CameraDesc.fFovy))
+		{
+			m_CameraDesc.fFovy = XMConvertToRadians(35.f);
+			m_FovAngle = XMConvertToRadians(35.f);
+		}
+	}
+	m_CameraDesc.fFovy = m_FovAngle;
+
+	static _float fAngleX = 0.f;
+	static _float fAngleY = 0.f;
+
+	_long         MouseMoveX = 0;
+	_long         MouseMoveY = 0;
+
+	CTransform* pTransform = m_pPlayer->Get_Transform();
+
+
+	if (MouseMoveY = pGameInstance->Get_DIMMoveState(DIMM_Y))
+	{
+
+		fAngleX += MouseMoveY * fTimeDelta * 8.f;
+
+		if (40.f <= fAngleX)
+			fAngleX = 40.f;
+		else if (-40.f >= fAngleX)
+			fAngleX = -40.f;
+
+	}
+
+	if (MouseMoveX = pGameInstance->Get_DIMMoveState(DIMM_X))
+	{
+
+		fAngleY += MouseMoveX * fTimeDelta * 8.f;
+
+		if (360.f <= fAngleY)
+			fAngleY = 0.f;
+		else if (0.f >= fAngleY)
+			fAngleY = 360.f;
+
+	}
+
+	_matrix matRotX = XMMatrixRotationAxis(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(fAngleX));
+	_matrix matRotY = XMMatrixRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(fAngleY));
+
+	_vector vCamDir = XMVector3TransformNormal(XMVectorSet(0.f, 1.f, -1.f, 0.f), matRotX);
+	vCamDir = XMVector3TransformNormal(vCamDir, matRotY);
+	_vector vCamPos = vCamDir * 5.f;
+	_vector vDestPos = pTransform->Get_State(CTransform::STATE_TRANSLATION) + vCamPos;
+
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vDestPos);
+
+	_vector vLookPos = XMVectorSetY(pTransform->Get_State(CTransform::STATE_TRANSLATION), XMVectorGetY(pTransform->Get_State(CTransform::STATE_TRANSLATION)) + 0.8f);
+	vLookPos.m128_f32[1] += 1.f;
+	m_pTransform->LookAt(vLookPos);
+
 	RELEASE_INSTANCE(CGameInstance);
+
 }
 void CCamera_Dynamic::Lerp_SubCam(_float fTimeDelta)
 {

@@ -47,9 +47,10 @@ HRESULT CLevel_AdvRui::Initialize()
 void CLevel_AdvRui::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);	
-
-
-
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	if (pGameInstance->Key_Down(DIK_F1))
+		g_bDebug = !g_bDebug;
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CLevel_AdvRui::Late_Tick(_float fTimeDelta)
