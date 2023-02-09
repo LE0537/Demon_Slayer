@@ -284,7 +284,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	default:
 		break;
 	}
-	switch (i2p = 100)
+	switch (i2p)
 	{
 	case 0:
 		tCharacterDesc2p.bSub = false;

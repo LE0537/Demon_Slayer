@@ -453,6 +453,10 @@ void CJumpSkill_CommmonState::Exit(CNezuko* pNezuko)
 
 void CJumpSkill_CommmonState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 {
+	pNezuko->Set_NavigationHeight(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pNezuko->Get_NavigationHeight().y;
+	pNezuko->Get_Transform()->Set_Jump(true);
+
 	static _float fGravity = -100.f;
 	static _float fVelocity = 0.f;
 	static _float3 vPosition;
@@ -473,6 +477,7 @@ void CJumpSkill_CommmonState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 
 	if (vPosition.y <= m_fOriginPosY)
 	{
+		pNezuko->Get_Transform()->Set_Jump(false);
 		vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
 

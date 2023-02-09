@@ -378,6 +378,10 @@ void CJumpMoveSkillState::Exit(CShinobu* pShinobu)
 
 void CJumpMoveSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 {
+	pShinobu->Set_NavigationHeight(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pShinobu->Get_NavigationHeight().y;
+	pShinobu->Get_Transform()->Set_Jump(true);
+
 	static _float fGravity = 100.f;
 	static _float fVelocity = 0.f;
 
@@ -415,7 +419,7 @@ void CJumpMoveSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 	{
 		m_vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
-
+		pShinobu->Get_Transform()->Set_Jump(false);
 		_vector vecPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		vecPos = XMVectorSetX(vecPos, m_vPosition.x);
 		vecPos = XMVectorSetY(vecPos, m_vPosition.y);

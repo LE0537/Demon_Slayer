@@ -215,6 +215,10 @@ void CJumpAttackState::Exit(CAkaza* pAkaza)
 
 void CJumpAttackState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 {
+	pAkaza->Set_NavigationHeight(pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pAkaza->Get_NavigationHeight().y;
+	pAkaza->Get_Transform()->Set_Jump(true);
+
 	static _float fGravity = -100.f;
 	static _float fVelocity = 0.f; 
 	static _float3 vPosition;
@@ -231,6 +235,7 @@ void CJumpAttackState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 
 	if (vPosition.y <= m_fOriginPosY)
 	{ 
+		pAkaza->Get_Transform()->Set_Jump(false);
 		vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
 

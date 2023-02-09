@@ -538,6 +538,9 @@ CShinobuState * CSkill_UpperState::Increase_Height(CShinobu * pShinobu, _float f
 
 CShinobuState * CSkill_UpperState::Fall_Height(CShinobu * pShinobu, _float fTimeDelta)
 {
+	pShinobu->Set_NavigationHeight(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pShinobu->Get_NavigationHeight().y;
+	pShinobu->Get_Transform()->Set_Jump(true);
 	static _float fGravity = -80.f;
 	static _float fVelocity = 0.f;
 	static _float3 vPosition;
@@ -559,7 +562,7 @@ CShinobuState * CSkill_UpperState::Fall_Height(CShinobu * pShinobu, _float fTime
 	{
 		vPosition.y = m_fCurrentPosY;
 		fVelocity = m_fCurrentPosY;
-
+		pShinobu->Get_Transform()->Set_Jump(false);
 		_vector vecPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		
 		vecPos = XMVectorSetY(vecPos, vPosition.y);

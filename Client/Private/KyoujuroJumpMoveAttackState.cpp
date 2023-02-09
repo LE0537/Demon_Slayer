@@ -222,6 +222,10 @@ void CJumpMoveAttackState::Exit(CKyoujuro* pKyoujuro)
 
 void CJumpMoveAttackState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
+	pKyoujuro->Set_NavigationHeight(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pKyoujuro->Get_NavigationHeight().y;
+	pKyoujuro->Get_Transform()->Set_Jump(true);
+
 	static _float fGravity = 100.f;
 	static _float fVelocity = 0.f;
 	
@@ -259,7 +263,7 @@ void CJumpMoveAttackState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	{
 		m_vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
-
+		pKyoujuro->Get_Transform()->Set_Jump(false);
 		_vector vecPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		vecPos = XMVectorSetX(vecPos, m_vPosition.x);
 		vecPos = XMVectorSetY(vecPos, m_vPosition.y);

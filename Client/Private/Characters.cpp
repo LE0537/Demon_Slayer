@@ -53,6 +53,47 @@ void CCharacters::Set_NavigationHeight(_fvector vPosition)
 	m_pNavigationCom->Navigation_Height(vPosition);
 }
 
+void CCharacters::Set_PlayerOriginPosY(_float fTimeDelta)
+{
+	static _float fGravity = -100.f;
+	static _float fVelocity = 0.f;
+	static _float3 vPosition;
+
+	vPosition.x = XMVectorGetX(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+	vPosition.y = XMVectorGetY(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+	vPosition.z = XMVectorGetZ(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+	fVelocity += fGravity * fTimeDelta;
+
+	vPosition.y += fVelocity * fTimeDelta;
+
+	_vector vecPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+
+	vecPos = XMVectorSetX(vecPos, vPosition.x);
+	vecPos = XMVectorSetY(vecPos, vPosition.y);
+	vecPos = XMVectorSetZ(vecPos, vPosition.z);
+	m_pNavigationCom->Navigation_Height(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+	if (vPosition.y <= m_pNavigationCom->Get_NavigationHeight().y)// m_fCurrentPosY)
+	{
+		vPosition.y = m_pNavigationCom->Get_NavigationHeight().y;
+		fVelocity = m_pNavigationCom->Get_NavigationHeight().y;
+		
+		_vector vecPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+
+		vecPos = XMVectorSetY(vecPos, vPosition.y);
+		if (m_pNavigationCom->Cheak_Cell(vecPos))
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+
+		
+	}
+	else
+	{
+		if (m_pNavigationCom->Cheak_Cell(vecPos))
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+	}
+
+
+}
+
 //CCharacters * CCharacters::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 //{
 //	CCharacters*	pInstance = new CCharacters(pDevice, pContext);

@@ -102,11 +102,11 @@ void CTransform::Go_Straight(_float fTimeDelta, CNavigation* pNavigation)
 			{
 				pNavigation->Navigation_Height(vPosition);
 				fHeight = pNavigation->Get_NavigationHeight().y;
-				vecTemp = XMVectorSetY(vPosition, fHeight);
+				vecTemp = XMVectorSetY(vPrePosition, fHeight);
 				Set_State(CTransform::STATE_TRANSLATION, vecTemp);
 			}
 			else
-				Set_State(CTransform::STATE_TRANSLATION, vPosition);
+				Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
 		}
 	}
 }
@@ -156,11 +156,11 @@ void CTransform::Go_Backward(_float fTimeDelta, class CNavigation* pNavigation)
 			{
 				pNavigation->Navigation_Height(vPosition);
 				fHeight = pNavigation->Get_NavigationHeight().y;
-				vecTemp = XMVectorSetY(vPosition, fHeight);
+				vecTemp = XMVectorSetY(vPrePosition, fHeight);
 				Set_State(CTransform::STATE_TRANSLATION, vecTemp);
 			}
 			else
-				Set_State(CTransform::STATE_TRANSLATION, vPosition);
+				Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
 		}
 	}
 }
@@ -211,11 +211,11 @@ void CTransform::Go_Left(_float fTimeDelta, class CNavigation* pNavigation)
 			{
 				pNavigation->Navigation_Height(vPosition);
 				fHeight = pNavigation->Get_NavigationHeight().y;
-				vecTemp = XMVectorSetY(vPosition, fHeight);
+				vecTemp = XMVectorSetY(vPrePosition, fHeight);
 				Set_State(CTransform::STATE_TRANSLATION, vecTemp);
 			}
 			else
-				Set_State(CTransform::STATE_TRANSLATION, vPosition);
+				Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
 		}
 	}
 }
@@ -265,11 +265,11 @@ void CTransform::Go_Right(_float fTimeDelta, class CNavigation* pNavigation)
 			{
 				pNavigation->Navigation_Height(vPosition);
 				fHeight = pNavigation->Get_NavigationHeight().y;
-				vecTemp = XMVectorSetY(vPosition, fHeight);
+				vecTemp = XMVectorSetY(vPrePosition, fHeight);
 				Set_State(CTransform::STATE_TRANSLATION, vecTemp);
 			}
 			else
-				Set_State(CTransform::STATE_TRANSLATION, vPosition);
+				Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
 		}
 	}
 }

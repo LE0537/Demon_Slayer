@@ -191,13 +191,10 @@ CShinobuState * CIdleState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 	_vector vPlayerY = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-	if (vPlayerY.m128_f32[1] > 0.f)
+	pShinobu->Set_NavigationHeight(vPlayerY);
+	if (vPlayerY.m128_f32[1] > pShinobu->Get_NavigationHeight().y)
 	{
-		vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
-		if (vPlayerY.m128_f32[1] < 0)
-			vPlayerY.m128_f32[1] = 0;
-
-		pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+		pShinobu->Set_PlayerOriginPosY(fTimeDelta);
 	}
 	if (pShinobu->Get_PlayerInfo().iGuard < pShinobu->Get_PlayerInfo().iMaxGuard)
 	{

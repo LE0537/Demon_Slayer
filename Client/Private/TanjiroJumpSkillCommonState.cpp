@@ -281,6 +281,10 @@ void CJumpSkillCommonState::Exit(CTanjiro * pTanjiro)
 
 void CJumpSkillCommonState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	pTanjiro->Set_NavigationHeight(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pTanjiro->Get_NavigationHeight().y;
+	pTanjiro->Get_Transform()->Set_Jump(true);
+
 	static _float fGravity = -100.f;
 	static _float fVelocity = 0.f; 
 	static _float3 vPosition;
@@ -301,7 +305,7 @@ void CJumpSkillCommonState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 	{ 
 		vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
-
+		pTanjiro->Get_Transform()->Set_Jump(false);
 		_vector vecPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		vecPos = XMVectorSetY(vecPos, vPosition.y);
 

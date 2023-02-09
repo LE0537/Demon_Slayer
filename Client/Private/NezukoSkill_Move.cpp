@@ -595,7 +595,9 @@ CNezukoState * CSkill_MoveState::CommandCheck(CNezuko * pNezuko)
 
 void CSkill_MoveState::Fall_Height(CNezuko * pNezuko, _float fTimeDelta)
 {
-	
+	pNezuko->Set_NavigationHeight(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pNezuko->Get_NavigationHeight().y;
+	pNezuko->Get_Transform()->Set_Jump(true);
 	static _float fGravity = -400.f;
 	static _float fVelocity = 0.f;
 	static _float3 vPosition;
@@ -612,6 +614,7 @@ void CSkill_MoveState::Fall_Height(CNezuko * pNezuko, _float fTimeDelta)
 
 	if (vPosition.y <= m_fOriginPosY)
 	{
+		pNezuko->Get_Transform()->Set_Jump(false);
 		vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
 
@@ -633,6 +636,8 @@ void CSkill_MoveState::Fall_Height(CNezuko * pNezuko, _float fTimeDelta)
 
 void CSkill_MoveState::Increase_Height(CNezuko * pNezuko, _float fTimeDelta)
 {
+
+
 	static _float fJump_Velocity = 10.f;
 	static _float fGravity = 9.8f;
 

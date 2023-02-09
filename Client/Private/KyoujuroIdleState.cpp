@@ -175,13 +175,10 @@ CKyoujuroState * CIdleState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 
 	_vector vPlayerY = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-	if (vPlayerY.m128_f32[1] > 0.f)
+	pKyoujuro->Set_NavigationHeight(vPlayerY);
+	if (vPlayerY.m128_f32[1] > pKyoujuro->Get_NavigationHeight().y)
 	{
-		vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
-		if (vPlayerY.m128_f32[1] < 0)
-			vPlayerY.m128_f32[1] = 0;
-
-		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+		pKyoujuro->Set_PlayerOriginPosY(fTimeDelta);
 	}
 	if (pKyoujuro->Get_PlayerInfo().iGuard < pKyoujuro->Get_PlayerInfo().iMaxGuard)
 	{
@@ -198,6 +195,7 @@ void CIdleState::Enter(CKyoujuro * pKyoujuro)
 
 	pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_IDLE);
 	pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_IDLE);
+	//pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_IDLE, 0.01f);
 }
 
 void CIdleState::Exit(CKyoujuro * pKyoujuro)

@@ -41,7 +41,7 @@ CAkazaState * CBattleStartState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 CAkazaState * CBattleStartState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
 
-		pAkaza->Get_Model()->Play_Animation2(fTimeDelta);
+	pAkaza->Get_Model()->Play_Animation(fTimeDelta);
 	
 	return nullptr;
 }
@@ -53,7 +53,7 @@ void CBattleStartState::Enter(CAkaza* pAkaza)
 	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_BATTLE_START);
 	pAkaza->Set_AnimIndex(CAkaza::ANIM_BATTLE_START);
 	pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
-	pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
+	pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.2f);
 }
 
 void CBattleStartState::Exit(CAkaza* pAkaza)

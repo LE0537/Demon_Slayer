@@ -452,6 +452,10 @@ CAkazaState * CAdvSkill_CommmonState::Increase_Height(CAkaza * pAkaza, _float fT
 CAkazaState * CAdvSkill_CommmonState::Fall_Height(CAkaza * pAkaza, _float fTimeDelta)
 {
 
+	pAkaza->Set_NavigationHeight(pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pAkaza->Get_NavigationHeight().y;
+	pAkaza->Get_Transform()->Set_Jump(true);
+
 	static _float fGravity = -400.f;
 	static _float fVelocity = 0.f;
 	static _float3 vPosition;
@@ -468,6 +472,7 @@ CAkazaState * CAdvSkill_CommmonState::Fall_Height(CAkaza * pAkaza, _float fTimeD
 
 	if (vPosition.y <= m_fOriginPosY)
 	{
+		pAkaza->Get_Transform()->Set_Jump(false);
 		vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
 

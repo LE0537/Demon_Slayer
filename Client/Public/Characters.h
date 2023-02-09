@@ -33,6 +33,9 @@ public:
 	_float4		Get_NavigationHeight();
 	void		Set_NavigationHeight(_fvector vPosition);
 
+	void		Set_PlayerOriginPosY(_float fTimeDelta);
+
+
 public:
 	typedef struct tagInfo {
 		wstring		strName; //캐릭터 이름;

@@ -365,6 +365,10 @@ void CMoveJumpState::Move(CRui* pRui, _float fTimeDelta)
 
 CRuiState*  CMoveJumpState::Jump(CRui* pRui, _float fTimeDelta)
 {
+	pRui->Set_NavigationHeight(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pRui->Get_NavigationHeight().y;
+	pRui->Get_Transform()->Set_Jump(true);
+
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
@@ -386,7 +390,7 @@ CRuiState*  CMoveJumpState::Jump(CRui* pRui, _float fTimeDelta)
 		m_fJumpTime = 0.f;
 		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);		
 
-
+		pRui->Get_Transform()->Set_Jump(false);
 		if (m_bMove == false)
 		{
 			m_eStateType = TYPE_END;

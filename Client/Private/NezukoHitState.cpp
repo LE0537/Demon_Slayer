@@ -157,6 +157,10 @@ void CHitState::Enter(CNezuko* pNezuko)
 }
 CNezukoState * CHitState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 {
+	pNezuko->Set_NavigationHeight(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pNezuko->Get_NavigationHeight().y;
+	pNezuko->Get_Transform()->Set_Jump(true);
+
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 7.f;
@@ -172,6 +176,7 @@ CNezukoState * CHitState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 
 	if (y <= fEndHeight)
 	{
+		pNezuko->Get_Transform()->Set_Jump(false);
 		vPosition = XMVectorSetY(vPosition, fEndHeight);
 		m_fJumpTime = 0.f;
 		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

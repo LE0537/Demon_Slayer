@@ -157,6 +157,10 @@ void CHitState::Enter(CAkaza* pAkaza)
 }
 CAkazaState * CHitState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 {
+	pAkaza->Set_NavigationHeight(pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pAkaza->Get_NavigationHeight().y;
+	pAkaza->Get_Transform()->Set_Jump(true);
+
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 7.f;
@@ -172,6 +176,7 @@ CAkazaState * CHitState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 
 	if (y <= fEndHeight)
 	{
+		pAkaza->Get_Transform()->Set_Jump(false);
 		vPosition = XMVectorSetY(vPosition, fEndHeight);
 		m_fJumpTime = 0.f;
 		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

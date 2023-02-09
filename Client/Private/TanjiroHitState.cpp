@@ -96,6 +96,10 @@ void CHitState::Enter(CTanjiro * pTanjiro)
 }
 CTanjiroState * CHitState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	pTanjiro->Set_NavigationHeight(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pTanjiro->Get_NavigationHeight().y;
+	pTanjiro->Get_Transform()->Set_Jump(true);
+
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 12.5f;
@@ -111,6 +115,7 @@ CTanjiroState * CHitState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	if (y <= fEndHeight)
 	{
+		pTanjiro->Get_Transform()->Set_Jump(false);
 		vPosition = XMVectorSetY(vPosition, fEndHeight);
 		m_fJumpTime = 0.f;
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

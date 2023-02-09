@@ -426,7 +426,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 		m_fJumpTime += 0.05f;
 		Jump(pKyojuro, m_fJumpTime);
 	}
-	pKyojuro->Get_Model()->Play_Animation2(fTimeDelta);
+	pKyojuro->Get_Model()->Play_Animation(fTimeDelta);
 
 	if (!m_bEffect)
 	{
@@ -446,16 +446,23 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 void CSkill_DoubleUpperState::Enter(CKyoujuro * pKyojuro)
 {
 	m_eStateId = STATE_ID::STATE_SKILL_DOUBLEUPPER;
-
+	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER);
 	pKyojuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER);
 	pKyojuro->Set_AnimIndex(CKyoujuro::ANIM_SKILL_DOUBLEUPPER);
 
 	m_fCurrentPosY = XMVectorGetY(pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
+	pKyojuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER);
+	pKyojuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER, 0.2f);
+
 	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_DoubleUpper.wav"), fEFFECT);
 }
 CKyoujuroState* CSkill_DoubleUpperState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
+	pKyoujuro->Set_NavigationHeight(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pKyoujuro->Get_NavigationHeight().y;
+	pKyoujuro->Get_Transform()->Set_Jump(true);
+
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 12.5f;
@@ -471,6 +478,7 @@ CKyoujuroState* CSkill_DoubleUpperState::Jump(CKyoujuro* pKyoujuro, _float fTime
 
 	if (y <= fEndHeight)
 	{
+		pKyoujuro->Get_Transform()->Set_Jump(false);
 		vPosition = XMVectorSetY(vPosition, fEndHeight);
 		m_fJumpTime = 0.f;
 		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
@@ -485,7 +493,7 @@ CKyoujuroState* CSkill_DoubleUpperState::Jump(CKyoujuro* pKyoujuro, _float fTime
 }
 void CSkill_DoubleUpperState::Exit(CKyoujuro * pKyojuro)
 {
-	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER);
+	//pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER);
 	m_pCollBox->Set_Dead();
 }
 
