@@ -51,7 +51,10 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 		m_vecMatrix.push_back(VtxMatrix);
 	}
 
-	m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, 1.f / 60.f);
+	m_pModelCom->Update_Instancing(m_vecMatrix, 30000, 1.f / 60.f);
+
+	if (nullptr != m_pRendererCom)
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
 
 	return S_OK;
 }
@@ -59,8 +62,15 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	if (0 < m_iInit)
+	{
+		m_pModelCom->Update_Instancing(m_vecMatrix, 50000.f, fTimeDelta);
 
-	m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
+		--m_iInit;
+	}
+	else
+		m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
 }
 
 void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
@@ -70,7 +80,8 @@ void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
 	if (nullptr != m_pRendererCom)
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-		//	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+		//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+
 	}
 }
 
@@ -116,8 +127,8 @@ HRESULT CMeshObj_Static_Inst::Render_ShadowDepth()
 		return E_FAIL;
 
 
-	_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
-	_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
+	_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDirection);
+	_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDiffuse);
 	_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
 	_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 
@@ -135,9 +146,9 @@ HRESULT CMeshObj_Static_Inst::Render_ShadowDepth()
 	{
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
-/*
+
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 1)))
-			return E_FAIL;*/
+			return E_FAIL;
 
 	}
 

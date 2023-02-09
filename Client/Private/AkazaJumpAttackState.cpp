@@ -169,6 +169,15 @@ CAkazaState * CJumpAttackState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	else
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (!m_bEffect && m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZATK_JUMP_MAIN, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }
