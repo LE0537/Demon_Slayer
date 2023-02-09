@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "UI_Manager.h"
+#include "SoundMgr.h"
 
 
 CLevel_Menu::CLevel_Menu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -17,8 +18,7 @@ HRESULT CLevel_Menu::Initialize()
 		return E_FAIL;
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-	_uint iNum = 1;
-
+	_uint iNum = 1;		
 	pUI_Manager->Add_Menu();
 	Ready_Layer_InkEff();
 	pUI_Manager->Set_LevelResultOn(false);
@@ -27,6 +27,7 @@ HRESULT CLevel_Menu::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("ModeSel.wav"), fBGM);
 	return S_OK;
 }
 
@@ -44,11 +45,13 @@ void CLevel_Menu::Tick(_float fTimeDelta)
 		{
 			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTCHAR))))
 				return;
+			CSoundMgr::Get_Instance()->BGM_Stop();
 		}
 		else if (pUI_Manager->Get_MenuCursor()->Get_SelectStoryMenu())
 		{
 			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_STORYMENU))))
 				return;
+			CSoundMgr::Get_Instance()->BGM_Stop();
 		}
 	}
 

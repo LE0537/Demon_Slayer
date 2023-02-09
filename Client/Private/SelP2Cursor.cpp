@@ -2,6 +2,7 @@
 #include "SelP2Cursor.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "SoundMgr.h"
 
 CSelP2Cursor::CSelP2Cursor(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -77,6 +78,8 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 		{
 			if (m_SelectInfo.bOni)
 			{
+				PlayVoiceSound();
+
 				m_iSelCount = 2;
 				m_bFirstSelCheck = true;
 				m_bSecondSelCheck = true;
@@ -87,6 +90,8 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 				{
 					if (!m_SelectInfo_2.bOni && m_SelectInfo.strName != m_SelectInfo_2.strName)
 					{
+						PlayVoiceSound();
+
 						++m_iSelCount;
 						if (m_iSelCount == 1)
 							m_bFirstSelCheck = true;
@@ -96,6 +101,8 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 				}
 				else
 				{
+					PlayVoiceSound();
+
 					if (m_iFrameLayerNum < 5 && m_iFrameLayerNum >= 0)
 						++m_iFrameLayerNum;
 					else if (m_iFrameLayerNum == 5)
@@ -114,6 +121,8 @@ void CSelP2Cursor::Tick(_float fTimeDelta)
 	{
 		if (pGameInstance->Key_Down(DIK_PERIOD))
 		{
+			CSoundMgr::Get_Instance()->Effect_Stop();
+
 			if (m_SelectInfo.bOni)
 			{
 				m_iSelCount = 0;
@@ -247,6 +256,33 @@ void CSelP2Cursor::Cursor_ImgSel()
 	else
 		m_iImgNum = 1;
 	RELEASE_INSTANCE(CUI_Manager);
+}
+
+void CSelP2Cursor::PlayVoiceSound()
+{
+	switch (m_iFrameLayerNum)
+	{
+	case 0:
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("TanjiroSelect.wav"), fEFFECT);
+		break;
+	case 1:
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KyojuroSelect.wav"), fEFFECT);
+		break;
+	case 2:
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiSelect.wav"), fEFFECT);
+		break;
+	case 3:
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("AkazaSelect.wav"), fEFFECT);
+		break;
+	case 4:
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("NezukoSelect.wav"), fEFFECT);
+		break;
+	case 5:
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("ShinobuSelect.wav"), fEFFECT);
+		break;
+	default:
+		break;
+	}
 }
 
 HRESULT CSelP2Cursor::Ready_Components()

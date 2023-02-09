@@ -53,8 +53,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Load_StaticObjects("11_Rui")))
 		return E_FAIL;
 
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("hov.wav"), 0.45f);
-
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
 	return S_OK;
 }
 

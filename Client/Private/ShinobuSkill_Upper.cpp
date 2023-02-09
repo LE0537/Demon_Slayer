@@ -357,6 +357,7 @@ void CSkill_UpperState::Enter(CShinobu* pShinobu)
 		m_vVelocity.z = 0.f;
 		m_fGravity = 0.f;
 		pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Upper.wav"), fEFFECT);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_SKILL_UPPER_1);

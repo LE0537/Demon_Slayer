@@ -349,6 +349,7 @@ void CSkill_MoveState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SKILL_MOVE_0, 0.01f);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_SKILL_MOVE_0);
 		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex(), false);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_MoveSkill.wav"), fEFFECT);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_SKILL_MOVE_1);

@@ -422,6 +422,8 @@ void CSkill_MoveState::Enter(CNezuko* pNezuko)
 {
 	m_eStateId = STATE_ID::STATE_SKILL_MOVE;
 
+	_uint iRand = rand() % 3;
+
 	switch (m_eStateType)
 	{
 	case Client::CNezukoState::TYPE_START:
@@ -454,6 +456,13 @@ void CSkill_MoveState::Enter(CNezuko* pNezuko)
 
 			m_vTargetPosition = XMVectorSetY(m_vTargetPosition, m_fHeight);
 			m_bLook = true;
+
+			if (iRand == 0)
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_MoveSkill1.wav"), fEFFECT);
+			else if (iRand == 1)
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_MoveSkill2.wav"), fEFFECT);
+			else if (iRand == 2)
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_MoveSkill3.wav"), fEFFECT);
 		}
 		break;
 	case Client::CNezukoState::TYPE_LOOP:

@@ -2,7 +2,7 @@
 
 #include "Engine_Defines.h"
 #include "Kyoujuro.h"
-
+#include "SoundMgr.h"
 
 BEGIN(Client)
 class CKyoujuroState

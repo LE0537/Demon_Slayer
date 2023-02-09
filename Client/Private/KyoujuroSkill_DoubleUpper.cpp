@@ -452,6 +452,7 @@ void CSkill_DoubleUpperState::Enter(CKyoujuro * pKyojuro)
 
 	m_fCurrentPosY = XMVectorGetY(pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_DoubleUpper.wav"), fEFFECT);
 }
 CKyoujuroState* CSkill_DoubleUpperState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
