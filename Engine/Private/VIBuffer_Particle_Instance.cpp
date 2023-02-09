@@ -181,8 +181,8 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float2 fScale, _flo
 		_vector		vUp = XMLoadFloat4(&m_pParticleData[i].vUp);
 
 		if (m_pParticleData[i].fStartTime <= m_fTime[i]) {
-			m_pParticleData[i].vSize.x -= fScale.x;
-			m_pParticleData[i].vSize.y -= fScale.y;
+			m_pParticleData[i].vSize.x *= fScale.x;
+			m_pParticleData[i].vSize.y *= fScale.y;
 
 			vPosition += XMVector3Normalize(vUp) * m_pParticleData[i].fSpeed * fTimeDelta;
 
@@ -258,8 +258,8 @@ void CVIBuffer_Particle_Instance::Update(_float fTimeDelta, _float2 fScale, _flo
 		_vector		vUp = XMLoadFloat4(&m_pParticleData[i].vUp);
 
 		if (m_pParticleData[i].fStartTime <= m_fTime[i]) {
-			m_pParticleData[i].vSize.x -= fScale.x;
-			m_pParticleData[i].vSize.y -= fScale.y;
+			m_pParticleData[i].vSize.x *= fScale.x;
+			m_pParticleData[i].vSize.y *= fScale.y;
 
 			vPosition += XMVector3Normalize(vUp) * m_pParticleData[i].fSpeed * fTimeDelta;
 

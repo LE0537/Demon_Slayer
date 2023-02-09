@@ -96,6 +96,12 @@ namespace Engine
 
 	}VTXPARTICLE;
 
+	typedef struct ENGINE_DLL tagParticleInstance_Declaration
+	{
+		static const unsigned int iNumElements = 8;
+		static const D3D11_INPUT_ELEMENT_DESC Elements[iNumElements];
+	}PARTICLEINSTANCE_DECLARATION;
+
 	typedef struct ENGINE_DLL tagVertexRectInstance_Declaration
 	{
 		static const unsigned int iNumElements = 6;
