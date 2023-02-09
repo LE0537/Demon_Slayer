@@ -653,7 +653,8 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1_GROUND, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_MOVE, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_STOP, pTanjiro);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;

@@ -31,12 +31,13 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 	m_fTime += fTimeDelta;
 
 	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime) {
+
 		_float2 fSize;
 
 		if (m_ParticleInfo.bSizePix)
-			fSize = _float2(0.f, 0.f);
+			fSize = _float2(1.f, 1.f);
 		else
-			fSize = _float2(0.00005f, 0.00005f);
+			fSize = _float2(m_ParticleInfo.fSizeFalloffX, m_ParticleInfo.fSizeFalloffY);
 
 		if (m_ParticleInfo.bRoof) {
 			m_pVIBufferCom->Update(fTimeDelta, fSize, m_ParticleInfo.vSize, m_CombinedWorldMatrix, m_ParticleInfo.fRoofTime, m_ParticleInfo.fSpeedType, m_ParticleInfo.fGravitySpeed, m_ParticleInfo.fSpeed,

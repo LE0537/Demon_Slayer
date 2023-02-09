@@ -234,7 +234,8 @@ CTanjiroState * CTargetRushState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDel
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1_GROUND, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_START, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_MOVE, pTanjiro);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
