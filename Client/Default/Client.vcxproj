@@ -240,6 +240,7 @@
     <ClInclude Include="..\Public\KyoujuroJumpAttackState.h" />
     <ClInclude Include="..\Public\KyoujuroJumpMoveAttackState.h" />
     <ClInclude Include="..\Public\KyoujuroTargetRushState.h" />
+    <ClInclude Include="..\Public\Level_AdvRui.h" />
     <ClInclude Include="..\Public\Level_GameResult.h" />
     <ClInclude Include="..\Public\Level_Menu.h" />
     <ClInclude Include="..\Public\Level_StroyMenu.h" />
@@ -572,6 +573,7 @@
     <ClCompile Include="..\Private\KyoujuroJumpAttackState.cpp" />
     <ClCompile Include="..\Private\KyoujuroJumpMoveAttackState.cpp" />
     <ClCompile Include="..\Private\KyoujuroTargetRushState.cpp" />
+    <ClCompile Include="..\Private\Level_AdvRui.cpp" />
     <ClCompile Include="..\Private\Level_GameResult.cpp" />
     <ClCompile Include="..\Private\Level_Menu.cpp" />
     <ClCompile Include="..\Private\Level_StoryMenu.cpp" />
