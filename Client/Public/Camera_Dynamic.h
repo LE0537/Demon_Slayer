@@ -46,8 +46,8 @@ public:
 	void Set_Target(CCharacters* _pTarget) { m_pTarget = _pTarget; }
 	_bool	Get_1PCam() { return m_b1P; }
 	void Set_Shake(SHAKE eShake, _float _fTime) { m_ShakeInfo = eShake, m_ShakeTime = _fTime; }
-
-
+	void Set_CamType(_bool _bStory) { m_bStory = _bStory; }
+	void	Key_Input(_float fTimeDelta);
 private:
 	//Shake
 	void Check_Shake(_float fTimeDelta);
@@ -83,6 +83,9 @@ private:
 	_float m_fShakeFrequency = 0.f;
 	_float m_ShakeTime = 0.f;
 	SHAKE  m_ShakeInfo;
+	//CamType
+	_bool m_bStory = false;
+	_float		 m_FovAngle = 0.f;
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 

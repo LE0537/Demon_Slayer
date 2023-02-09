@@ -37,6 +37,10 @@ HRESULT CTanjiro::Initialize_Prototype()
 
 HRESULT CTanjiro::Initialize(void * pArg)
 {
+	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
+	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
+	m_i1p = tCharacterDesc.i1P2P;
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -45,49 +49,60 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts2()))
 		return E_FAIL;
 
-	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
-	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
+	if (m_i1p != 10)
+	{
+		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
+		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
-	m_i1p = tCharacterDesc.i1P2P;
-	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
-	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
-	Set_Info();
-	m_tInfo.bSub = tCharacterDesc.bSub;
-	m_bChange = tCharacterDesc.bSub;
-	if (!m_tInfo.bSub)
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		if (!m_tInfo.bSub)
+		{
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
+			if (m_i1p == 1)
+			{
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+
+				CUI_Manager::Get_Instance()->Set_1P(this);
+			}
+			else if (m_i1p == 2)
+			{
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+				CUI_Manager::Get_Instance()->Set_2P(this);
+			}
+			RELEASE_INSTANCE(CGameInstance);
+
+		}
+		else
+		{
+			m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
+			m_pSubChar->Set_SubChar(this);
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
+			m_bChange = true;
+			if (m_i1p == 1)
+				CUI_Manager::Get_Instance()->Set_1P_2(this);
+			else if (m_i1p == 2)
+				CUI_Manager::Get_Instance()->Set_2P_2(this);
+		}
+	}
+	else if (m_i1p == 10)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_CamType(true);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		_vector vPos = {-9.524f,0.314f,0.513f};
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
-		if (m_i1p == 1)
-		{
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
-
-			CUI_Manager::Get_Instance()->Set_1P(this);
-		}
-		else if (m_i1p == 2)
-		{
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-
-			CUI_Manager::Get_Instance()->Set_2P(this);
-		}
+		CUI_Manager::Get_Instance()->Set_1P(this);
 		RELEASE_INSTANCE(CGameInstance);
-
 	}
-	else
-	{
-		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
-		m_pSubChar->Set_SubChar(this);
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
-		m_bChange = true;
-		if (m_i1p == 1)
-			CUI_Manager::Get_Instance()->Set_1P_2(this);
-		else if (m_i1p == 2)
-			CUI_Manager::Get_Instance()->Set_2P_2(this);
-
-
-	}
-
+	Set_Info();
 	CTanjiroState* pState = new CIdleState();
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 
@@ -143,7 +158,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 	}
 
 	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
-		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE)
+ 		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
@@ -552,11 +567,16 @@ HRESULT CTanjiro::Ready_Components()
 	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
-
-	if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
-		return E_FAIL;
-
-
+	if (m_i1p == 10)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 
