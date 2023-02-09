@@ -90,6 +90,19 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
 		return E_FAIL;
 
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+
+	LightDesc.eType = LIGHTDESC::TYPE_BATTLESHADOW;
+	LightDesc.vDirection = _float4(-400.f, 500.f, -400.f, 1.f);		//	eye
+	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&_float4(-10.f, 150.f, -10.f, 1.f)) + XMVector3Normalize(vLook), 1.f));
+	//	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
+	//LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);		//	eye
+	LightDesc.vDiffuse = _float4(60.f, -20.f, 60.f, 1.f);			//	at
+	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
+
+	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;

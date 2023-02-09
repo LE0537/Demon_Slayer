@@ -80,8 +80,12 @@ HRESULT CRui::Initialize(void * pArg)
 	}
 	else if (m_i1p == 10)
 	{
-		_vector vPos = { -86.276f,9.252f,6.756f };
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		RELEASE_INSTANCE(CGameInstance);
+		_vector vPos = { -86.276f,9.252f,6.756f,1.f };
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		m_pTransformCom->Set_Scale(XMVectorSet(0.3f, 0.3f, 0.3f, 0.f));
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 
 		m_tInfo.bSub = tCharacterDesc.bSub;

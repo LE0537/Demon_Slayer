@@ -75,8 +75,9 @@ HRESULT CAkaza::Initialize(void * pArg)
 	}
 	else if (m_i1p == 10)
 	{
-		_vector vPos = { -35.788f,4.438f,-31.331f };
+		_vector vPos = { -35.788f,4.438f,-31.331f,1.f };
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		m_pTransformCom->Set_Scale(XMVectorSet(0.3f, 0.3f, 0.3f, 0.f));
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 
 		m_tInfo.bSub = tCharacterDesc.bSub;
