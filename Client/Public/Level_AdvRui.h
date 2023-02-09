@@ -20,11 +20,13 @@ public:
 public:
 	HRESULT Ready_Lights();
 	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
+
 	HRESULT Ready_Layer_Effect(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_Camera(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_Monster(const _tchar* pLayerTag);
-
-
+	HRESULT Ready_Layer_BackGround(const _tchar* pLayerTag);
+	HRESULT Load_StaticObjects(char* pFileName);
+	HRESULT Load_Map(const _tchar* pLayerTag, char* pFileName);
 private:
 	_bool			 m_bCreateUI = false;
 

@@ -2,7 +2,7 @@
 #include "..\Public\Camera_Dynamic.h"
 #include "GameInstance.h"
 #include "GameObj.h"
-
+#include "UI_Manager.h"
 CCamera_Dynamic::CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CCamera(pDevice, pContext)
 {
@@ -39,6 +39,9 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_fFov = 14.f;
 	m_fLookAtY = 4.f;
 	m_fAngle = 45.f;
+
+	//m_FovAngle = XMConvertToRadians(60.f);
+	//m_bStory = true;
 	return S_OK;
 }
 
@@ -51,26 +54,20 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	if (pGameInstance->Key_Down(DIK_NUMPAD0))
 		bCamAttach = !bCamAttach;
 
-	//if (pGameInstance->Key_Down(DIK_F9))
-	//{
-	//	m_ShakeInfo = CCamera_Dynamic::SHAKE::SHAKE_DOWN;
-	//	m_ShakeTime = 0.2f;
-	//}
-	//if (pGameInstance->Key_Down(DIK_F10))
-	//{
-	//	m_ShakeInfo = CCamera_Dynamic::SHAKE::SHAKE_HIT;
-	//	m_ShakeTime = 0.3f;
-	//}
 	if (false == bCamAttach)
 	{
+		_float fSpeed = 1.f;
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			fSpeed *= 10.f;
+
 		if (pGameInstance->Key_Pressing(DIK_UP))
-			m_pTransform->Go_Straight(fTimeDelta);
+			m_pTransform->Go_Straight(fTimeDelta * fSpeed);
 		if (pGameInstance->Key_Pressing(DIK_DOWN))
-			m_pTransform->Go_Backward(fTimeDelta);
+			m_pTransform->Go_Backward(fTimeDelta * fSpeed);
 		if (pGameInstance->Key_Pressing(DIK_LEFT))
-			m_pTransform->Go_Left(fTimeDelta);
+			m_pTransform->Go_Left(fTimeDelta * fSpeed);
 		if (pGameInstance->Key_Pressing(DIK_RIGHT))
-			m_pTransform->Go_Right(fTimeDelta);
+			m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 		if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
 		{
@@ -81,63 +78,66 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 
 			if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_Y))
 				m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), fTimeDelta * MouseMove * 0.1f);
-
-
 		}
 	}
-	m_fStartTime += fTimeDelta;
+	if(!m_bStory)
+	{
+		m_fStartTime += fTimeDelta;
 #ifdef _DEBUG
-	if (!m_bLerp && m_fStartTime > 5.9f)
-	{
-		m_CameraDesc.fFovy = XMConvertToRadians(25.f);
-		m_bStart = true;
-		_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
-
-		if (m_fLerpTime > 1.f)
+		if (!m_bLerp && m_fStartTime > 5.9f)
 		{
-			m_bLerp = true;
+			m_CameraDesc.fFovy = XMConvertToRadians(25.f);
+			m_bStart = true;
+			_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
+	
+			if (m_fLerpTime > 1.f)
+			{
+				m_bLerp = true;
+			}
+	
+			m_fLerpTime += fTimeDelta;
+			m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
+			m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		}
-
-		m_fLerpTime += fTimeDelta;
-		m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
-		m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	}
 #else
-	if (!m_bLerp && m_fStartTime > 1.4f)
-	{
-		m_CameraDesc.fFovy = XMConvertToRadians(25.f);
-		m_bStart = true;
-		//75.343f, 5.5f, 19.231f
-		_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
-		
-		if (m_fLerpTime > 1.f)
+		if (!m_bLerp && m_fStartTime > 1.4f)
 		{
-			m_bLerp = true;
+			m_CameraDesc.fFovy = XMConvertToRadians(25.f);
+			m_bStart = true;
+			//75.343f, 5.5f, 19.231f
+			_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
+			
+			if (m_fLerpTime > 1.f)
+			{
+				m_bLerp = true;
+			}
+	
+			m_fLerpTime += fTimeDelta;
+			m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
+			m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		}
-
-		m_fLerpTime += fTimeDelta;
-		m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
-		m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	}
 #endif
 
-	if (!m_bStart)
-		Set_StartPos(fTimeDelta);
-
-	if(true == bCamAttach && m_bLerp)
-		Set_CamPos();
-
-
-	if (m_pPlayer->Get_PlayerInfo().bSub)
-		m_pPlayer = m_pPlayer->Get_SubChar();
-	if (m_pTarget->Get_PlayerInfo().bSub)
-		m_pTarget = m_pTarget->Get_SubChar();
+		if (!m_bStart)
+			Set_StartPos(fTimeDelta);
+	
+		if (true == bCamAttach && m_bLerp)
+			Set_CamPos();
 
 
-	if(true == bCamAttach && m_bLerp)
-		Move_CamPos(fTimeDelta);
+		if (m_pPlayer->Get_PlayerInfo().bSub)
+			m_pPlayer = m_pPlayer->Get_SubChar();
+		if (m_pTarget->Get_PlayerInfo().bSub)
+			m_pTarget = m_pTarget->Get_SubChar();
 	
 
+		if (true == bCamAttach && m_bLerp)
+			Move_CamPos(fTimeDelta);
+	}
+	else if (m_bStory)
+	{
+		Key_Input(fTimeDelta);
+	}
 	RELEASE_INSTANCE(CGameInstance);
 
 
@@ -149,25 +149,27 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 {
 
 	__super::Late_Tick(fTimeDelta);
-
-	if (!m_bBattle)
+	if (!m_bStory)
 	{
-		Set_BattleTarget(fTimeDelta);
-		m_bBattle = true;
-	}
+		if (!m_bBattle)
+		{
+			Set_BattleTarget(fTimeDelta);
+			m_bBattle = true;
+		}
 #ifdef _DEBUG
-	if (!m_bStartBattle && m_fStartTime > 4.5f)
-	{
-		Set_BattleStart(fTimeDelta);
-		m_bStartBattle = true;
-	}
+		if (!m_bStartBattle && m_fStartTime > 4.5f)
+		{
+			Set_BattleStart(fTimeDelta);
+			m_bStartBattle = true;
+		}
 #else
-	if (!m_bStartBattle && m_fStartTime > 1.5f)
-	{
-		Set_BattleStart(fTimeDelta);
-		m_bStartBattle = true;
-	}
+		if (!m_bStartBattle && m_fStartTime > 1.5f)
+		{
+			Set_BattleStart(fTimeDelta);
+			m_bStartBattle = true;
+		}
 #endif
+	}
 }
 
 HRESULT CCamera_Dynamic::Render()
@@ -289,7 +291,21 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 
 	Check_Shake(fTimeDelta);
 }
+void CCamera_Dynamic::Key_Input(_float fTimeDelta)
+{
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+	_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vLookAt = vPos;
+	_vector vLook = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+
+	vPos -= vLook * 15.f;
+	vPos.m128_f32[1] += 6.f;
+	vLookAt.m128_f32[1] += 2.f;
+	m_pPlayer->Get_Transform()->LookAt(vLookAt);
+	m_pPlayer->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	RELEASE_INSTANCE(CGameInstance);
+}
 void CCamera_Dynamic::Lerp_SubCam(_float fTimeDelta)
 {
 	_float	fWeight = 1.f;

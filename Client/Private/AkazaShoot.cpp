@@ -33,7 +33,13 @@ HRESULT CAkazaShoot::Initialize(void * pArg)
 	vPos.m128_f32[1] += 1.5f;
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransformCom->LookAt(vLook);
-	
+
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_COLL_COM_MAIN, this);
+	RELEASE_INSTANCE(CEffect_Manager);
+
+
 	return S_OK;
 }
 
@@ -43,7 +49,7 @@ void CAkazaShoot::Tick(_float fTimeDelta)
 
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
 	m_fDeadTime += fTimeDelta;
-	if (m_fDeadTime > 4.f)
+	if (m_fDeadTime > 6.f)
 		Set_Dead();
 }
 
@@ -79,6 +85,7 @@ void CAkazaShoot::Late_Tick(_float fTimeDelta)
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bHit = true;
+		m_pEffect->Set_Dead();
 		Set_Dead();
 	}
 		

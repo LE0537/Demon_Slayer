@@ -129,8 +129,8 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
 	LightDesc.eType = LIGHTDESC::TYPE_FIELDSHADOW;
-	LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);
-	LightDesc.vDiffuse = _float4(60.f, -20.f, 60.f, 1.f);
+	LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);		//	eye
+	LightDesc.vDiffuse = _float4(60.f, -20.f, 60.f, 1.f);			//	at
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
 	_vector vLook = XMLoadFloat4(&LightDesc.vDiffuse) - XMLoadFloat4(&LightDesc.vDirection);
@@ -148,6 +148,22 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
 
 	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
+
+	
+
+	/* For.Directional*/
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+
+	LightDesc.eType = LIGHTDESC::TYPE_BATTLESHADOW;
+	LightDesc.vDirection = _float4(-400.f, 500.f, -400.f, 1.f);		//	eye
+	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&_float4(-10.f, 150.f, -10.f, 1.f)) + XMVector3Normalize(vLook), 1.f));
+	//	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
+	//LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);		//	eye
+	LightDesc.vDiffuse = _float4(60.f, -20.f, 60.f, 1.f);			//	at
+	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
+
+	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -415,7 +431,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CameraDesc.CameraDesc.fFovy = XMConvertToRadians(25.0f);
 	CameraDesc.CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	CameraDesc.CameraDesc.fNear = 0.2f;
-	CameraDesc.CameraDesc.fFar = 500.f;
+	CameraDesc.CameraDesc.fFar = 1500.f;
 
 	CameraDesc.CameraDesc.TransformDesc.fSpeedPerSec = 10.f;
 	CameraDesc.CameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);

@@ -176,6 +176,45 @@ HRESULT CTarget_Manager::Begin_ShadowMRT(ID3D11DeviceContext * pContext, const _
 	pContext->RSSetViewports(1, &ViewPortDesc);
 	return S_OK;
 }
+
+HRESULT CTarget_Manager::Begin_ShadowMRT_NonClear(ID3D11DeviceContext * pContext, const _tchar * pMRTTag)
+{
+	list<CRenderTarget*>*		pMRTList = Find_MRT(pMRTTag);
+	if (nullptr == pMRTList)
+		return E_FAIL;
+
+
+	// 끼워져 있는 8개의 랜더 타겟와 스텐실 하나를 보관한다.
+
+	pContext->OMGetRenderTargets(1, &m_pOldRTV, &m_pOldDSV);
+
+	_uint			iNumRTVs = 0;
+
+	ID3D11RenderTargetView*			RTVs[8] = { nullptr };
+
+	for (auto& pRenderTarget : *pMRTList)
+	{
+		RTVs[iNumRTVs++] = pRenderTarget->Get_RTV();
+	}
+
+
+	pContext->ClearDepthStencilView(m_pShadowDeptheStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	pContext->OMSetRenderTargets(iNumRTVs, RTVs, m_pShadowDeptheStencil);
+
+
+	D3D11_VIEWPORT			ViewPortDesc;
+	ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
+	ViewPortDesc.TopLeftX = 0;
+	ViewPortDesc.TopLeftY = 0;
+	ViewPortDesc.Width = 1280.f * 5.f;
+	ViewPortDesc.Height = 720.f * 5.f;
+	ViewPortDesc.MinDepth = 0.f;
+	ViewPortDesc.MaxDepth = 1.f;
+
+	pContext->RSSetViewports(1, &ViewPortDesc);
+	return S_OK;
+}
+
 HRESULT CTarget_Manager::End_MRT(ID3D11DeviceContext * pContext)
 {
 
