@@ -25,7 +25,7 @@ public:
 		CHierarchyNode*		pSocket = nullptr;
 		_float4x4			SocketPivotMatrix;
 		const _float4x4*	pParentWorldMatrix;
-
+		_bool				bStory;
 	}WEAPONDESC;
 private:
 	CTanjiroSheath(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -113,6 +113,8 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
+	
+
 	return S_OK;
 }
 
@@ -636,6 +638,10 @@ HRESULT CTanjiro::Ready_Parts()
 	WeaponDesc.pSocket = pSocket;
 	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
 	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	if (m_i1p == 10)
+		WeaponDesc.bStory = true;
+	else
+		WeaponDesc.bStory = false;
 	Safe_AddRef(pSocket);
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
@@ -659,6 +665,10 @@ HRESULT CTanjiro::Ready_Parts2()
 	WeaponDesc.pSocket = pSocket;
 	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
 	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	if (m_i1p == 10)
+		WeaponDesc.bStory = true;
+	else
+		WeaponDesc.bStory = false;
 	Safe_AddRef(pSocket);
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);

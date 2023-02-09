@@ -122,6 +122,7 @@ void CMenuModel::Tick(_float fTimeDelta)
 		m_iCurrentModelIndex = m_iModelIndex;
 
 	}
+	
 }
 
 void CMenuModel::Late_Tick(_float fTimeDelta)

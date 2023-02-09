@@ -77,8 +77,8 @@ void CRoundUI::Tick(_float fTimeDelta)
 		}
 		else if (m_b2PRoundEnd)
 		{
-			m_ResultInfo.iFirstTarget = pUI_Manager->Get_Sel1P();
-			m_ResultInfo.iSecondTarget = pUI_Manager->Get_Sel1P_2();
+			m_ResultInfo.iFirstTarget = pUI_Manager->Get_Sel2P();
+			m_ResultInfo.iSecondTarget = pUI_Manager->Get_Sel2P_2();
 			m_ResultInfo.bPlayerWin = true;
 		}
 		pUI_Manager->Set_Result_Info(m_ResultInfo);

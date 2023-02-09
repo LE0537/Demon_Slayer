@@ -49,6 +49,7 @@ public:
 	CGameObject* Get_Weapon(_int _iIndex) { return m_pWeapon[_iIndex]; }
 	CGameObject* Get_Sheath(_int _iIndex) { return m_pSheath[_iIndex]; }
 	void		 Set_Black(_bool _bBlack) { m_bBlack = _bBlack; }
+	CModel*      Get_ModelCom(_int _Index) { return m_pModelCom[_Index]; }
 private:
 	CModel*					m_pModelCom[6] = { nullptr };
 	CGameObject*			m_pWeapon[3] = { nullptr };
@@ -59,6 +60,7 @@ private:
 	_int					m_iCurrentModelIndex = 0;
 	_bool					m_bPos = false;
 	_bool					m_bBlack = false;
+
 public:
 	static CMenuModel* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
