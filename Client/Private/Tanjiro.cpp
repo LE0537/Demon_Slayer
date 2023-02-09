@@ -97,7 +97,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		m_bChange = tCharacterDesc.bSub;
 		_vector vPos = {-9.524f,0.314f,0.513f,1.f};
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		m_pTransformCom->Set_Scale(XMVectorSet(0.3f, 0.3f, 0.3f, 0.f));
+		m_pTransformCom->Set_Scale(XMVectorSet(0.25f, 0.25f, 0.25f, 0.f));
 		m_pTransformCom->Set_Rotation(_float3(0.f, 180.f, 0.f));
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;

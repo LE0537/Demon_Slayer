@@ -26,54 +26,68 @@ HRESULT CRuiDad::Initialize_Prototype()
 
 HRESULT CRuiDad::Initialize(void * pArg)
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
 	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
-	//m_i1p = tCharacterDesc.i1P2P;
-	m_i1p = 100;
+	m_i1p = tCharacterDesc.i1P2P;
+	
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
 
-	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
-	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
+	if (m_i1p != 10)
+	{
+		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
+		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
-	Set_Info();
-	m_tInfo.bSub = tCharacterDesc.bSub;
-	m_bChange = tCharacterDesc.bSub;
-	if (!m_tInfo.bSub)
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		if (!m_tInfo.bSub)
+		{
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
+			if (m_i1p == 1)
+			{
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+
+				CUI_Manager::Get_Instance()->Set_1P(this);
+			}
+			else if (m_i1p == 2)
+			{
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+				CUI_Manager::Get_Instance()->Set_2P(this);
+			}
+
+			RELEASE_INSTANCE(CGameInstance);
+
+		}
+		else
+		{
+			m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
+			m_pSubChar->Set_SubChar(this);
+
+
+		}
+	}
+	else if (m_i1p == 10)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
-		if (m_i1p == 1)
-		{
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
-
-			CUI_Manager::Get_Instance()->Set_1P(this);
-		}
-		else if (m_i1p == 2)
-		{
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-
-			CUI_Manager::Get_Instance()->Set_2P(this);
-		}
-	
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
+		_vector vPos = { -35.788f,4.438f,-31.331f,1.f };
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		m_pTransformCom->Set_Scale(XMVectorSet(0.25f, 0.25f, 0.25f, 0.f));
+		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		//CUI_Manager::Get_Instance()->Set_2P(this);
 	}
-	else
-	{
-		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
-		m_pSubChar->Set_SubChar(this);
-
-
-	}
-
 	CRuiDadState* pState = new CIdleState();
 	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
 
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
-
+	Set_Info();
 	return S_OK;
 }
 
@@ -86,6 +100,9 @@ void CRuiDad::Tick(_float fTimeDelta)
 void CRuiDad::Late_Tick(_float fTimeDelta)
 {
 	LateTickState(fTimeDelta);
+
+	m_pModelCom->Set_CurrentAnimIndex(38);
+	m_pModelCom->Play_Animation(fTimeDelta);
 
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
@@ -241,7 +258,7 @@ HRESULT CRuiDad::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
 		return E_FAIL;
 
 	return S_OK;

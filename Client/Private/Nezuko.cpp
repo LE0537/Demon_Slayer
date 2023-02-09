@@ -82,7 +82,7 @@ HRESULT CNezuko::Initialize(void * pArg)
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
-		m_pTransformCom->Set_Scale(XMVectorSet(0.3f, 0.3f, 0.3f, 0.f));
+		m_pTransformCom->Set_Scale(XMVectorSet(0.25f, 0.25f, 0.25f, 0.f));
 		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
 		m_pSubChar->Set_SubChar(this);
 		m_bChange = true;
