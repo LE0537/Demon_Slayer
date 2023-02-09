@@ -1012,6 +1012,12 @@
     <Filter Include="03.UI\06.StoryMenu\SelNameBar">
       <UniqueIdentifier>{3d877aa7-79e2-4d81-8a68-f1054ee54bfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster">
+      <UniqueIdentifier>{6c31b91f-a6ca-4cb0-b5b3-b6b31af24a72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad">
+      <UniqueIdentifier>{f0a9ebe0-5818-4aa0-8d4e-c6fdf9154e0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2007,6 +2013,9 @@
     <ClInclude Include="..\Public\RuiJumpSkill_Move.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RuiDad.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2977,6 +2986,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\AdcMenuSelTxt.cpp">
       <Filter>03.UI\06.StoryMenu\SelTxt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDad.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
