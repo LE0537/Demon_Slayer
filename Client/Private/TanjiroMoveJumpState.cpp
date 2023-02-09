@@ -412,10 +412,16 @@ void CMoveJumpState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 
 CTanjiroState*  CMoveJumpState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	pTanjiro->Set_NavigationHeight(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pTanjiro->Get_NavigationHeight().y;
+	pTanjiro->Get_Transform()->Set_Jump(true);
+
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
 	static _float fGravity = 40.f;
+
+
 
 
 	_vector      vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -425,12 +431,14 @@ CTanjiroState*  CMoveJumpState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 	_float y = XMVectorGetY(vPosition);
 
 
+
+
 	if (y <= fEndHeight)
 	{
 		vPosition = XMVectorSetY(vPosition, fEndHeight);
 		m_fJumpTime = 0.f;
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
-
+		pTanjiro->Get_Transform()->Set_Jump(false);
 
 		if (m_bMove == false)
 		{

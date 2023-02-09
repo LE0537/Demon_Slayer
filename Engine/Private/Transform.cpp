@@ -75,7 +75,19 @@ void CTransform::Go_Straight(_float fTimeDelta, CNavigation* pNavigation)
 
 	if (true == bMoveCheck)
 	{
-		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		_float fHeight = 0.f;
+		_vector vecTemp = Get_State(CTransform::STATE_TRANSLATION);
+
+		if (m_bJump == false)
+		{
+			pNavigation->Navigation_Height(vPosition);
+			fHeight = pNavigation->Get_NavigationHeight().y;
+			vecTemp = XMVectorSetY(vPosition, fHeight);
+			Set_State(CTransform::STATE_TRANSLATION, vecTemp);
+		}
+		else
+			Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		
 	}
 	else
 	{
@@ -83,7 +95,18 @@ void CTransform::Go_Straight(_float fTimeDelta, CNavigation* pNavigation)
 		vPrePosition += XMLoadFloat3(&vSliding) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
 		if (true == pNavigation->isMove(vPrePosition, vLook, &vSliding))
 		{
-			Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
+			_float fHeight = 0.f;
+			_vector vecTemp = Get_State(CTransform::STATE_TRANSLATION);
+
+			if (m_bJump == false)
+			{
+				pNavigation->Navigation_Height(vPosition);
+				fHeight = pNavigation->Get_NavigationHeight().y;
+				vecTemp = XMVectorSetY(vPosition, fHeight);
+				Set_State(CTransform::STATE_TRANSLATION, vecTemp);
+			}
+			else
+				Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		}
 	}
 }
@@ -108,14 +131,36 @@ void CTransform::Go_Backward(_float fTimeDelta, class CNavigation* pNavigation)
 
 	if (true == bMoveCheck)
 	{
-		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		_float fHeight = 0.f;
+		_vector vecTemp = Get_State(CTransform::STATE_TRANSLATION);
+
+		if (m_bJump == false)
+		{
+			pNavigation->Navigation_Height(vPosition);
+			fHeight = pNavigation->Get_NavigationHeight().y;
+			vecTemp = XMVectorSetY(vPosition, fHeight);
+			Set_State(CTransform::STATE_TRANSLATION, vecTemp);
+		}
+		else
+			Set_State(CTransform::STATE_TRANSLATION, vPosition);
 	}
 	else
 	{
 		vPrePosition += XMLoadFloat3(&vSliding) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
 		if (true == pNavigation->isMove(vPrePosition, vLook, &vSliding))
 		{
-			Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
+			_float fHeight = 0.f;
+			_vector vecTemp = Get_State(CTransform::STATE_TRANSLATION);
+
+			if (m_bJump == false)
+			{
+				pNavigation->Navigation_Height(vPosition);
+				fHeight = pNavigation->Get_NavigationHeight().y;
+				vecTemp = XMVectorSetY(vPosition, fHeight);
+				Set_State(CTransform::STATE_TRANSLATION, vecTemp);
+			}
+			else
+				Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		}
 	}
 }
@@ -141,14 +186,36 @@ void CTransform::Go_Left(_float fTimeDelta, class CNavigation* pNavigation)
 
 	if (true == bMoveCheck)
 	{
-		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		_float fHeight = 0.f;
+		_vector vecTemp = Get_State(CTransform::STATE_TRANSLATION);
+
+		if (m_bJump == false)
+		{
+			pNavigation->Navigation_Height(vPosition);
+			fHeight = pNavigation->Get_NavigationHeight().y;
+			vecTemp = XMVectorSetY(vPosition, fHeight);
+			Set_State(CTransform::STATE_TRANSLATION, vecTemp);
+		}
+		else
+			Set_State(CTransform::STATE_TRANSLATION, vPosition);
 	}
 	else
 	{
 		vPrePosition += XMLoadFloat3(&vSliding) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
 		if (true == pNavigation->isMove(vPrePosition, vRight, &vSliding))
 		{
-			Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
+			_float fHeight = 0.f;
+			_vector vecTemp = Get_State(CTransform::STATE_TRANSLATION);
+
+			if (m_bJump == false)
+			{
+				pNavigation->Navigation_Height(vPosition);
+				fHeight = pNavigation->Get_NavigationHeight().y;
+				vecTemp = XMVectorSetY(vPosition, fHeight);
+				Set_State(CTransform::STATE_TRANSLATION, vecTemp);
+			}
+			else
+				Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		}
 	}
 }
@@ -173,14 +240,36 @@ void CTransform::Go_Right(_float fTimeDelta, class CNavigation* pNavigation)
 
 	if (true == bMoveCheck)
 	{
-		Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		_float fHeight = 0.f;
+		_vector vecTemp = Get_State(CTransform::STATE_TRANSLATION);
+
+		if (m_bJump == false)
+		{
+			pNavigation->Navigation_Height(vPosition);
+			fHeight = pNavigation->Get_NavigationHeight().y;
+			vecTemp = XMVectorSetY(vPosition, fHeight);
+			Set_State(CTransform::STATE_TRANSLATION, vecTemp);
+		}
+		else
+			Set_State(CTransform::STATE_TRANSLATION, vPosition);
 	}
 	else
 	{
 		vPrePosition += XMLoadFloat3(&vSliding) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
 		if (true == pNavigation->isMove(vPrePosition, vRight, &vSliding))
 		{
-			Set_State(CTransform::STATE_TRANSLATION, vPrePosition);
+			_float fHeight = 0.f;
+			_vector vecTemp = Get_State(CTransform::STATE_TRANSLATION);
+
+			if (m_bJump == false)
+			{
+				pNavigation->Navigation_Height(vPosition);
+				fHeight = pNavigation->Get_NavigationHeight().y;
+				vecTemp = XMVectorSetY(vPosition, fHeight);
+				Set_State(CTransform::STATE_TRANSLATION, vecTemp);
+			}
+			else
+				Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		}
 	}
 }
