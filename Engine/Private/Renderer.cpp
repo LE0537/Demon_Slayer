@@ -34,6 +34,8 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fValue[VALUE_OUTLINE] = 5.f;
 	m_fValue[VALUE_INNERLINE] = 0.07f;
 
+	m_bRenderAO = true;
+
 	D3D11_VIEWPORT		ViewportDesc;
 	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
 
