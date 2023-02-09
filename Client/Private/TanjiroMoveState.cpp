@@ -469,6 +469,12 @@ void CMoveState::Enter(CTanjiro * pTanjiro)
 	case Client::CTanjiroState::TYPE_DEFAULT:
 		break;
 	}
+
+	if (pTanjiro->Get_StoryKey() && (m_eDirection == OBJDIR::DIR_LEFT || m_eDirection == OBJDIR::DIR_RIGHT))
+	{
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_IDLE);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_IDLE);
+	}
 }
 
 void CMoveState::Exit(CTanjiro * pTanjiro)
@@ -482,74 +488,100 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 	switch (m_eDirection)
 	{
 	case Client::DIR_STRAIGHT:
-		pTanjiro->Get_Transform()->Set_RotationY(0.f + fCamAngle);
+		if (!pTanjiro->Get_StoryKey())
+			pTanjiro->Get_Transform()->Set_RotationY(0.f + fCamAngle);
+		else
+			pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
 		break;
 	case Client::DIR_LEFT:
-		pTanjiro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
+		if (!pTanjiro->Get_StoryKey())
+			pTanjiro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
+		else
+			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f,1.f,0.f,0.f), XMConvertToRadians(-6.f));
 		break;
 	case Client::DIR_RIGHT:
-		pTanjiro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
+		if (!pTanjiro->Get_StoryKey())
+			pTanjiro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
+		else
+			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(6.f));
 		break;
 	case Client::DIR_BACK:
+		if (!pTanjiro->Get_StoryKey())
 		pTanjiro->Get_Transform()->Set_RotationY(180.f + fCamAngle);
 		break;
 	case Client::DIR_LF:
-		pTanjiro->Get_Transform()->Set_RotationY(305.f + fCamAngle);
+		if (!pTanjiro->Get_StoryKey())
+			pTanjiro->Get_Transform()->Set_RotationY(305.f + fCamAngle);
+		else
+		{
+			pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
+			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-6.f));
+		}
 		break;
 	case Client::DIR_RF:
-		pTanjiro->Get_Transform()->Set_RotationY(45.f + fCamAngle);
+		if (!pTanjiro->Get_StoryKey())
+			pTanjiro->Get_Transform()->Set_RotationY(45.f + fCamAngle);
+		else
+		{
+			pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
+			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(6.f));
+		}
 		break;
 	case Client::DIR_LB:
-		pTanjiro->Get_Transform()->Set_RotationY(225.f + fCamAngle);
+		if (!pTanjiro->Get_StoryKey())
+			pTanjiro->Get_Transform()->Set_RotationY(225.f + fCamAngle);
 		break;
 	case Client::DIR_RB:
-		pTanjiro->Get_Transform()->Set_RotationY(135.f + fCamAngle);
+		if (!pTanjiro->Get_StoryKey())
+			pTanjiro->Get_Transform()->Set_RotationY(135.f + fCamAngle);
 		break;
 	case Client::DIR_STOP:
 		break;
 	}
-
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-	if (m_eDirection != DIR_STOP)
-		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
-	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
-	CCollider*	pMyCollider = pTanjiro->Get_SphereCollider();
-	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
-
-	if (nullptr == pTargetCollider)
-		return;
-
-	if (pMyCollider->Collision(pTargetCollider))
+	if (!pTanjiro->Get_StoryKey())
 	{
-	
-		_float fSpeed = pTanjiro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-		_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		if (m_eDirection != DIR_STOP)
+			pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
+		CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
+		CCollider*	pMyCollider = pTanjiro->Get_SphereCollider();
+		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 
-		_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
-		_vector vMyLook = vTargetLook * -1.f;
+		if (nullptr == pTargetCollider)
+			return;
 
-		_vector vPow = XMVector3Dot(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+		if (pMyCollider->Collision(pTargetCollider))
+		{
 
-		_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+			_float fSpeed = pTanjiro->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
 
-		vPos += vMyLook * (fSpeed - fSpeed * fPow);
-		vTargetPos += vTargetLook * fSpeed * fPow;
-		vPos.m128_f32[1] = 0.f;
-		_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
-		if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos))
-			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
-			m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
-		else
-			pTanjiro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pTanjiro->Get_NavigationCom());
+			_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
+			_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+			_vector vMyLook = vTargetLook * -1.f;
+
+			_vector vPow = XMVector3Dot(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+			_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+			vPos += vMyLook * (fSpeed - fSpeed * fPow);
+			vTargetPos += vTargetLook * fSpeed * fPow;
+			vPos.m128_f32[1] = 0.f;
+			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+			if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos))
+				pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+				m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+			else
+				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pTanjiro->Get_NavigationCom());
+
+		}
+
+		RELEASE_INSTANCE(CGameInstance);
 	}
-
-	RELEASE_INSTANCE(CGameInstance);
 }
 
 
