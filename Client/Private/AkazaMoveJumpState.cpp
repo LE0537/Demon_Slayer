@@ -35,7 +35,11 @@ CAkazaState * CMoveJumpState::HandleInput(CAkaza* pAkaza)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_I)) // ¾Õ
 			{
-				return new CJumpSkill_MoveState(TYPE_START);
+				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CJumpSkill_MoveState(TYPE_START);
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
@@ -109,7 +113,12 @@ CAkazaState * CMoveJumpState::HandleInput(CAkaza* pAkaza)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_X)) // ¾Õ
 			{
-				return new CJumpSkill_MoveState(TYPE_START);
+				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
+				{
+					pAkaza->Set_SkillBar(-200);
+					return new CJumpSkill_MoveState(TYPE_START);
+				}
+				
 			}
 
 

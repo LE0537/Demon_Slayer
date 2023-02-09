@@ -173,6 +173,9 @@ unsigned int APIENTRY Thread_Main(void* pArg)
 	case LEVEL_STORYMENU:
 		pLoader->Loading_ForStoryMenu();
 		break;
+	case LEVEL_ADVRUI:
+		pLoader->Loading_ForAdvRui();
+		break;
 	}
 	
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
@@ -1660,8 +1663,32 @@ HRESULT CLoader::Loading_ForStoryMenu()
 	/* 객체 생성 중. */
 	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
 
-	/* UI 객체 */
 
+	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
+
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForAdvRui()
+{
+	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
+	if (nullptr == pGameInstance)
+		return E_FAIL;
+
+	Safe_AddRef(pGameInstance);
+
+
+	/* 텍스쳐 로딩 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+
+
+
+	/* 객체 생성 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
 
 
 	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
