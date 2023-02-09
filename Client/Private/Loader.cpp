@@ -747,7 +747,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Moon_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Ground.fbx", PivotMatrix))))
 			return E_FAIL;
-
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hut"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiMap"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Hut", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Hut/Hut.fbx", PivotMatrix))))
+		//	return E_FAIL;
+		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_RuiMap", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/RuiMap/RuiMap.fbx", PivotMatrix))))
+		//	return E_FAIL;
 
 		//	MeshObj_Static
 		/*For.Prototype_GameObject_MeshObj_Static */
@@ -1282,7 +1287,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"),
 		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/11_Map_Rui.nav")))))
 		return E_FAIL;
-
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"),
+		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/RuiStory.nav")))))
+		return E_FAIL;
 #pragma region UI°´Ã¼
 	//UI
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuBG"),
