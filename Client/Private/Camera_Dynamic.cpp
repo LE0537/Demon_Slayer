@@ -51,7 +51,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 
 	static _bool	bCamAttach = true;
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-	if (pGameInstance->Key_Down(DIK_NUMPAD0))
+	if (pGameInstance->Key_Down(DIK_F10))
 		bCamAttach = !bCamAttach;
 
 	if (false == bCamAttach)
@@ -134,7 +134,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 		if (true == bCamAttach && m_bLerp)
 			Move_CamPos(fTimeDelta);
 	}
-	else if (m_bStory)
+	else if (m_bStory && bCamAttach)
 	{
 		Key_Input(fTimeDelta);
 	}
@@ -294,7 +294,8 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
+	m_pPlayer->Set_BattleTarget(m_pTarget);
+	m_pTarget->Set_BattleTarget(m_pPlayer);
 	_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vLookAt = vPos;
 	_vector vLook = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_LOOK);
@@ -302,8 +303,8 @@ void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 	vPos -= vLook * 15.f;
 	vPos.m128_f32[1] += 6.f;
 	vLookAt.m128_f32[1] += 2.f;
-	m_pPlayer->Get_Transform()->LookAt(vLookAt);
-	m_pPlayer->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	m_pTransform->LookAt(vLookAt);
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	RELEASE_INSTANCE(CGameInstance);
 }
 void CCamera_Dynamic::Lerp_SubCam(_float fTimeDelta)

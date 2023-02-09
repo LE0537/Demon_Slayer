@@ -78,11 +78,20 @@ void CEffect::Tick(_float fTimeDelta)
 
 	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 		if (m_bStart) {
-			m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
+			if (m_EffectInfo.iMoveType != EFFMOVE_ZERO) {
+				m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
+			}
+			else {
+				_matrix mtrTargetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
+				mtrTargetWorld.r[3].m128_f32[1] = 0.f;
+				_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
+
+				m_pTransformCom->Set_WorldMatrix(mtrWorld * mtrTargetWorld);
+			}
 			m_bStart = false;
 		}
 		else { 
-			if (m_EffectInfo.iMoveType != EFFMOVE_NONE) {
+			if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO) {
 				if(!m_bDead){
 					_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					_vector vPos = XMLoadFloat3(&m_EffectInfo.vPosition);

@@ -56,8 +56,8 @@ public:
 		_float							fDistortionBias;
 		_float							fDirectionX;
 		_float							fDirectionY;
-		_float							fMove_Value_U;
-		_float							fMove_Value_V;
+		_float							fSizeFalloffX;
+		_float							fSizeFalloffY;
 		_float							fDisappearTimeRatio;
 		_float							fRoofTime[2];
 		_float							fRoofTerm;

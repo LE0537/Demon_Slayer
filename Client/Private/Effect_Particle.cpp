@@ -31,12 +31,13 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 	m_fTime += fTimeDelta;
 
 	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime) {
+
 		_float2 fSize;
 
 		if (m_ParticleInfo.bSizePix)
-			fSize = _float2(0.f, 0.f);
+			fSize = _float2(1.f, 1.f);
 		else
-			fSize = _float2(0.00005f, 0.00005f);
+			fSize = _float2(m_ParticleInfo.fSizeFalloffX, m_ParticleInfo.fSizeFalloffY);
 
 		if (m_ParticleInfo.bRoof) {
 			m_pVIBufferCom->Update(fTimeDelta, fSize, m_ParticleInfo.vSize, m_CombinedWorldMatrix, m_ParticleInfo.fRoofTime, m_ParticleInfo.fSpeedType, m_ParticleInfo.fGravitySpeed, m_ParticleInfo.fSpeed,
@@ -165,13 +166,10 @@ HRESULT CEffect_Particle::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_ParticleInfo.iTextureType))))
 		return E_FAIL;
 
-	_float Time = 1.f;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fTime", &m_fTime, sizeof(_float))))
+		return E_FAIL;
 
-	if (m_ParticleInfo.iDisappear == CEffect::DISAPPEAR_ALPHA) {
-		Time = 1 - m_fTime / m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime;
-	}
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndALPHA", &Time, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlphaRatio", &m_ParticleInfo.fDisappearTimeRatio, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_ParticleInfo.vColor, sizeof(_float4))))
@@ -188,7 +186,6 @@ HRESULT CEffect_Particle::SetUp_ShaderResources()
 	m_pShaderCom->Set_RawValue("g_bUseGlowColor", &m_ParticleInfo.bUseGlowColor, sizeof(_bool));
 
 	m_pShaderCom->Set_RawValue("g_vGlowColor", &m_ParticleInfo.vGlowColor, sizeof(_float3));
-	return S_OK;
 }
 
 void CEffect_Particle::Set_ParticleInfo(PARTICLE_INFO ParticleInfo)

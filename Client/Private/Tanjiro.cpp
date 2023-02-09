@@ -95,12 +95,14 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
-		_vector vPos = {-9.524f,0.314f,0.513f};
+		_vector vPos = {-9.524f,0.314f,0.513f,1.f};
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		m_pTransformCom->Set_Scale(XMVectorSet(0.3f, 0.3f, 0.3f, 0.f));
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
 		CUI_Manager::Get_Instance()->Set_1P(this);
 		RELEASE_INSTANCE(CGameInstance);
+		m_i1p = 1;
 	}
 	Set_Info();
 	CTanjiroState* pState = new CIdleState();
@@ -124,6 +126,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 			m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 			m_bBattleStart = false;
 		}
+	
 
 		m_fDelta = fTimeDelta;
 		if (m_tInfo.fHitTime > 0.f)

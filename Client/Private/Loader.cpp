@@ -1011,6 +1011,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Jump_DOWN"));
 		pEffect_Manager->Load_Effect(TEXT("Jump_UP"));
 		pEffect_Manager->Load_Effect(TEXT("Run"));
+		pEffect_Manager->Load_Effect(TEXT("Rush_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Rush_Move"));
+		pEffect_Manager->Load_Effect(TEXT("Rush_Hit"));
+
+		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_Move"));
+		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_Stop"));
 
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1_GroundMask"));
