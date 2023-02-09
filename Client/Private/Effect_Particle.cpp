@@ -166,13 +166,10 @@ HRESULT CEffect_Particle::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_ParticleInfo.iTextureType))))
 		return E_FAIL;
 
-	_float Time = 1.f;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fTime", &m_fTime, sizeof(_float))))
+		return E_FAIL;
 
-	if (m_ParticleInfo.iDisappear == CEffect::DISAPPEAR_ALPHA) {
-		Time = 1 - m_fTime / m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime;
-	}
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fEndALPHA", &Time, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlphaRatio", &m_ParticleInfo.fDisappearTimeRatio, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_ParticleInfo.vColor, sizeof(_float4))))
@@ -189,7 +186,6 @@ HRESULT CEffect_Particle::SetUp_ShaderResources()
 	m_pShaderCom->Set_RawValue("g_bUseGlowColor", &m_ParticleInfo.bUseGlowColor, sizeof(_bool));
 
 	m_pShaderCom->Set_RawValue("g_vGlowColor", &m_ParticleInfo.vGlowColor, sizeof(_float3));
-	return S_OK;
 }
 
 void CEffect_Particle::Set_ParticleInfo(PARTICLE_INFO ParticleInfo)
