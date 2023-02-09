@@ -160,6 +160,10 @@ void CHitState::Enter(CRui* pRui)
 }
 CRuiState * CHitState::Jump(CRui* pRui, _float fTimeDelta)
 {
+	pRui->Set_NavigationHeight(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pRui->Get_NavigationHeight().y;
+	pRui->Get_Transform()->Set_Jump(true);
+
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 8.f;
@@ -175,6 +179,7 @@ CRuiState * CHitState::Jump(CRui* pRui, _float fTimeDelta)
 
 	if (y <= fEndHeight)
 	{
+		pRui->Get_Transform()->Set_Jump(false);
 		vPosition = XMVectorSetY(vPosition, fEndHeight);
 		m_fJumpTime = 0.f;
 		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

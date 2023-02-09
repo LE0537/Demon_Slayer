@@ -224,6 +224,10 @@ void CJumpMoveAttackState::Exit(CRui* pRui)
 
 void CJumpMoveAttackState::Jump(CRui* pRui, _float fTimeDelta)
 {
+	pRui->Set_NavigationHeight(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pRui->Get_NavigationHeight().y;
+	pRui->Get_Transform()->Set_Jump(true);
+
 	static _float fGravity = 100.f;
 	static _float fVelocity = 0.f;
 	
@@ -259,6 +263,7 @@ void CJumpMoveAttackState::Jump(CRui* pRui, _float fTimeDelta)
 
 	if (m_vPosition.y <= m_fOriginPosY)
 	{
+		pRui->Get_Transform()->Set_Jump(false);
 		m_vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
 

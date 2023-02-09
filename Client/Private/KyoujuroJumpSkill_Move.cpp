@@ -271,6 +271,10 @@ CKyoujuroState * CJumpSkill_MoveState::Move(CKyoujuro * pKyoujuro, _float fTimeD
 
 CKyoujuroState* CJumpSkill_MoveState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
+	pKyoujuro->Set_NavigationHeight(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fPositionY = pKyoujuro->Get_NavigationHeight().y;
+	pKyoujuro->Get_Transform()->Set_Jump(true);
+
 	static _float fGravity = -34.81f;
 	static _float fVelocity = 0.f;
 	static _float3 vPosition;
@@ -287,6 +291,7 @@ CKyoujuroState* CJumpSkill_MoveState::Jump(CKyoujuro* pKyoujuro, _float fTimeDel
 
 	if (vPosition.y <= m_fPositionY)
 	{
+		pKyoujuro->Get_Transform()->Set_Jump(false);
 		vPosition.y = m_fPositionY;
 		fVelocity = m_fPositionY;
 

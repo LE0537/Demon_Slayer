@@ -24,6 +24,7 @@
 #include "Nezuko.h"
 #include "Shinobu.h"
 #include "MenuModel.h"
+#include "RuiDad.h"
 //parts
 #include "KyoujuroWeapon.h"
 #include "KyoujuroSheath.h"
@@ -1163,6 +1164,13 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CShinobu::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	// 아빠 거미
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiDad"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiDad"),
+		CRuiDad::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyoujuroWeapon"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroWeapon"),
 		CKyoujuroWeapon::Create(m_pDevice, m_pContext))))
@@ -1232,6 +1240,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Akaza(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Nezuko(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Shinobu(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MenuModel"),
 		CMenuModel::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

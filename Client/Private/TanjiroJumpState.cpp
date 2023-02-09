@@ -187,10 +187,15 @@ void CJumpstate::Exit(CTanjiro * pTanjiro)
 
 CTanjiroState* CJumpstate::Jump(CTanjiro* pTanjiro, _float fTimeDelta)
 {
+	pTanjiro->Set_NavigationHeight(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pTanjiro->Get_NavigationHeight().y;
+	pTanjiro->Get_Transform()->Set_Jump(true);
+
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
 	static _float fGravity = 40.f;
+
 
 
 	_vector      vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -208,6 +213,8 @@ CTanjiroState* CJumpstate::Jump(CTanjiro* pTanjiro, _float fTimeDelta)
 		m_eStateType = CTanjiroState::TYPE_DEFAULT;
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_END);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_END);
+		pTanjiro->Get_Transform()->Set_Jump(false);
+
 		if (!m_bEffect)
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

@@ -416,7 +416,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	pKyojuro->Get_Model()->Play_Animation2(fTimeDelta);
+	pKyojuro->Get_Model()->Play_Animation(fTimeDelta);
 
 	if (!m_bEffect)
 	{
@@ -436,16 +436,18 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 void CSkill_DashSlashState::Enter(CKyoujuro * pKyojuro)
 {
 	m_eStateId = STATE_ID::STATE_SKILL_DASHSLASH;
-
+	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH);
 	pKyojuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH);
 	pKyojuro->Set_AnimIndex(CKyoujuro::ANIM_SKILL_DASHSLASH);
+	pKyojuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH);
+	pKyojuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH, 0.2f);
 	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_DashSlash.wav"), fEFFECT);
 
 }
 
 void CSkill_DashSlashState::Exit(CKyoujuro * pKyojuro)
 {
-	pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH);
+	//pKyojuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH);
 	m_pCollBox->Set_Dead();
 }
 

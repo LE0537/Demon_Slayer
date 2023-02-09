@@ -102,7 +102,7 @@ public:
 	void LookAt(_fvector vAt);
 	void RotationAll(_float3 vAxis);
 
-
+	void Set_Jump(_bool bJump) { m_bJump = bJump; }
 public:
 	void Set_Rotation(_float3 fAngle);
 	void Set_RotationY(_float fAngleY);
@@ -113,7 +113,7 @@ private:
 	_float m_fCurrentRotationY = 0.f;
 	_float m_fCurrentRotationZ = 0.f;
 
-
+	_bool m_bJump = false;
 private:			
 	_float4x4				m_WorldMatrix;
 	TRANSFORMDESC			m_TransformDesc;

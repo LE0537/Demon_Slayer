@@ -380,6 +380,8 @@ void CMoveState::Enter(CKyoujuro * pKyoujuro)
 {
 	m_eStateId = STATE_ID::STATE_MOVE;
 	
+	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_MOVE_START, 0.01f);
+	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_MOVE_END, 0.01f);
 	switch (m_eStateType)
 	{
 	case Client::CKyoujuroState::TYPE_START:

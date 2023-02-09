@@ -1017,9 +1017,39 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad">
       <UniqueIdentifier>{f0a9ebe0-5818-4aa0-8d4e-c6fdf9154e0a}</UniqueIdentifier>
-    </Filter> 
+    </Filter>
     <Filter Include="01.Levels\07.Adv_Rui">
       <UniqueIdentifier>{6b3f981b-0cce-4501-ae7b-71cff81f0367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState">
+      <UniqueIdentifier>{92c676f5-f91b-4b6d-8842-c2dfb250b370}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState">
+      <UniqueIdentifier>{7b6a327c-597d-4292-b2c9-fde99d9ab243}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill">
+      <UniqueIdentifier>{930fa461-c4aa-472d-95be-aafa6e58b00f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Move">
+      <UniqueIdentifier>{0c452623-5b1b-411b-819f-7d64571940f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Dash">
+      <UniqueIdentifier>{2edaf1f7-3a3e-4b96-8a79-58dab48129bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Jump">
+      <UniqueIdentifier>{e2228bd8-9e7b-4717-8a4b-20a2e3cb052c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Attack">
+      <UniqueIdentifier>{e757d255-4cc9-4476-ba73-5746a68b7ea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Hit">
+      <UniqueIdentifier>{f91d5ce0-01f1-4598-9066-60037b62e0c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Guard">
+      <UniqueIdentifier>{ee5a5e00-1c4b-40ec-ad39-0faaade35bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Rush">
+      <UniqueIdentifier>{6e15c135-73ec-40b6-9adb-389e7c8eb56a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2022,6 +2052,36 @@
     <ClInclude Include="..\Public\Level_AdvRui.h">
       <Filter>01.Levels\07.Adv_Rui</Filter>
     </ClInclude>
+    <ClInclude Include="RuiDadState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadAtk_1_State.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Attack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadDashState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadGuardHitState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadGuardState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadHitState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadIdleState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadJumpState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Jump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadMoveState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadTargetRushState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Rush</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2998,6 +3058,33 @@
     </ClCompile>
     <ClCompile Include="..\Private\Level_AdvRui.cpp">
       <Filter>01.Levels\07.Adv_Rui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadAtk_1_State.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Attack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadDashState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadGuardHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadGuardState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadIdleState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadJumpState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Jump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadMoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadTargetRushState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Rush</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

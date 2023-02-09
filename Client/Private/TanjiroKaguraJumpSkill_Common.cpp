@@ -254,6 +254,9 @@ void CKaguraJumpSkill_CommonState::Exit(CTanjiro * pTanjiro)
 
 void CKaguraJumpSkill_CommonState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	pTanjiro->Set_NavigationHeight(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pTanjiro->Get_NavigationHeight().y;
+	pTanjiro->Get_Transform()->Set_Jump(true);
 
 	static _float fGravity = -100.f;
 	static _float fVelocity = 0.f;
@@ -273,6 +276,7 @@ void CKaguraJumpSkill_CommonState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	if (vPosition.y <= m_fOriginPosY)
 	{
+		pTanjiro->Get_Transform()->Set_Jump(false);
 		vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
 

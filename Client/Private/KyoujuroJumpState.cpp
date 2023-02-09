@@ -163,6 +163,10 @@ void CJumpState::Exit(CKyoujuro * pKyoujuro)
 
 CKyoujuroState * CJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
+	pKyoujuro->Set_NavigationHeight(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pKyoujuro->Get_NavigationHeight().y;
+	pKyoujuro->Get_Transform()->Set_Jump(true);
+
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
@@ -180,6 +184,7 @@ CKyoujuroState * CJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	{
 		vPosition = XMVectorSetY(vPosition, fEndHeight);
 		m_fJumpTime = 0.f;
+		pKyoujuro->Get_Transform()->Set_Jump(false);
 		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		m_eStateType = CKyoujuroState::TYPE_DEFAULT;
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIM_JUMP_END);

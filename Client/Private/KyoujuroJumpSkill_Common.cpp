@@ -221,6 +221,10 @@ void CJumpSkill_CommonState::Exit(CKyoujuro * pKyojuro)
 
 CKyoujuroState* CJumpSkill_CommonState::Jump(CKyoujuro* pKyojuro, _float fTimeDelta)
 {
+	pKyojuro->Set_NavigationHeight(pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fPositionY = pKyojuro->Get_NavigationHeight().y;
+	pKyojuro->Get_Transform()->Set_Jump(true);
+
 	static _float fJump_Velocity = 10.f;
 	static _float fGravity = -50.8f;
 
@@ -236,11 +240,12 @@ CKyoujuroState* CJumpSkill_CommonState::Jump(CKyoujuro* pKyojuro, _float fTimeDe
 
 	if (XMVectorGetY(vCurrentPos) < m_fPositionY)
 	{
+
 		_vector vPosition;
 		m_vPosition.y = m_fPositionY;
 		m_vVelocity.y = m_fPositionY;
 		m_bOnGround = true;
-
+		pKyojuro->Get_Transform()->Set_Jump(false);
 		vPosition =  XMVectorSet(m_vPosition.x, m_vPosition.y ,m_vPosition.z, 1.f);
 		pKyojuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 	}

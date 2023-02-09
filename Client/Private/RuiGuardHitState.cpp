@@ -69,8 +69,6 @@ CRuiState * CGuardHitState::Tick(CRui* pRui, _float fTimeDelta)
 
 
 
-
-	return nullptr;
 }
 
 CRuiState * CGuardHitState::Late_Tick(CRui* pRui, _float fTimeDelta)

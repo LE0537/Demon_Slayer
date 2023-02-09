@@ -214,13 +214,10 @@ CAkazaState * CIdleState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 	_vector vPlayerY = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-	if (vPlayerY.m128_f32[1] > 0.f)
+	pAkaza->Set_NavigationHeight(vPlayerY);
+	if (vPlayerY.m128_f32[1] > pAkaza->Get_NavigationHeight().y)
 	{
-		vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
-		if (vPlayerY.m128_f32[1] < 0)
-			vPlayerY.m128_f32[1] = 0;
-
-		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+		pAkaza->Set_PlayerOriginPosY(fTimeDelta);
 	}
 	if (pAkaza->Get_PlayerInfo().iGuard < pAkaza->Get_PlayerInfo().iMaxGuard)
 	{

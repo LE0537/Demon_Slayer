@@ -205,6 +205,10 @@ void CJumpAttackState::Exit(CShinobu* pShinobu)
 
 void CJumpAttackState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 {
+	pShinobu->Set_NavigationHeight(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pShinobu->Get_NavigationHeight().y;
+	pShinobu->Get_Transform()->Set_Jump(true);
+
 	static _float fGravity = -100.f;
 	static _float fVelocity = 0.f; 
 	static _float3 vPosition;
@@ -221,6 +225,8 @@ void CJumpAttackState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 
 	if (vPosition.y <= m_fOriginPosY)
 	{ 
+		pShinobu->Get_Transform()->Set_Jump(false);
+
 		vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
 

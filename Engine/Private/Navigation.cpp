@@ -72,11 +72,13 @@ _bool CNavigation::isMove(_fvector vPosition, _fvector vMoveDir, _Out_ _float3 *
 	/* 현재 존재하는 쎌안에서 움직였다. */
 	if (true == m_Cells[m_NaviDesc.iCurrentCellIndex]->isIn(vPosition, &iNeighborIndex))
 	{
-		if (m_bHeight == true)
-		{
-			Navigation_Height(vPosition);
-			m_bHeight = false;
-		}
+		/*	if (m_bHeight == true)
+			{
+				Navigation_Height(vPosition);
+				m_bHeight = false;
+			}*/
+
+		Navigation_Height(vPosition);
 
 		return true;
 	}

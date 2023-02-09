@@ -129,6 +129,10 @@ void CHitState::Enter(CShinobu* pShinobu)
 }
 CShinobuState * CHitState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 {
+	pShinobu->Set_NavigationHeight(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pShinobu->Get_NavigationHeight().y;
+	pShinobu->Get_Transform()->Set_Jump(true);
+
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 12.5f;
@@ -144,6 +148,7 @@ CShinobuState * CHitState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 
 	if (y <= fEndHeight)
 	{
+		pShinobu->Get_Transform()->Set_Jump(false);
 		vPosition = XMVectorSetY(vPosition, fEndHeight);
 		m_fJumpTime = 0.f;
 		pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
