@@ -118,15 +118,15 @@ HRESULT CLevel_AdvRui::Ready_Layer_Player(const _tchar * pLayerTag)
 	tCharacterDesc1p.bSub = false;
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_ADVRUI, TEXT("Layer_Tanjiro"), &tCharacterDesc1p)))
 		return E_FAIL;
-
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_ADVRUI, TEXT("Layer_Akaza"), &tCharacterDesc1p)))
+		return E_FAIL;
 	tCharacterDesc1p.bSub = true;
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Nezuko"), LEVEL_ADVRUI, TEXT("Layer_Nezuko"), &tCharacterDesc1p)))
 		return E_FAIL;
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_ADVRUI, TEXT("Layer_Rui"), &tCharacterDesc1p)))
-		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_ADVRUI, TEXT("Layer_Rui"), &tCharacterDesc1p)))
+	//	return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_ADVRUI, TEXT("Layer_Akaza"), &tCharacterDesc1p)))
-		return E_FAIL;
+	
 
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;

@@ -64,7 +64,7 @@ HRESULT CPlayerNumIcon::Initialize(void * pArg)
 			m_iImgNum = 1;
 
 		XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
-		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
+		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
 	}
 	
 	return S_OK;
@@ -75,7 +75,7 @@ void CPlayerNumIcon::Tick(_float fTimeDelta)
 	if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, -100.f, 1.f));
 	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMERESULT)
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, -175.f, 1.f));
 }
 
 void CPlayerNumIcon::Late_Tick(_float fTimeDelta)

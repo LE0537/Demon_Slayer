@@ -25,7 +25,7 @@ public:
 		CHierarchyNode*		pSocket = nullptr;
 		_float4x4			SocketPivotMatrix;
 		const _float4x4*	pParentWorldMatrix;
-
+		_bool				bStory;
 	}WEAPONDESC;
 private:
 	CTanjiroWeapon(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -56,10 +56,12 @@ private:
 	_bool					m_bRender = false;
 	_bool					m_bMenu = false;
 	_bool					m_bTrue = false;
+
 public:
 	void Set_Render(_bool _bRender) {
 		m_bRender = _bRender;
 	}
+
 	void Set_Menu(_bool _bMenu) { m_bMenu = _bMenu; }
 	CTransform* Get_Transform() { return m_pTransformCom; }
 private:
