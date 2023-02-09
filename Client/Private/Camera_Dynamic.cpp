@@ -63,14 +63,18 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	//}
 	if (false == bCamAttach)
 	{
+		_float fSpeed = 1.f;
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			fSpeed *= 10.f;
+
 		if (pGameInstance->Key_Pressing(DIK_UP))
-			m_pTransform->Go_Straight(fTimeDelta);
+			m_pTransform->Go_Straight(fTimeDelta * fSpeed);
 		if (pGameInstance->Key_Pressing(DIK_DOWN))
-			m_pTransform->Go_Backward(fTimeDelta);
+			m_pTransform->Go_Backward(fTimeDelta * fSpeed);
 		if (pGameInstance->Key_Pressing(DIK_LEFT))
-			m_pTransform->Go_Left(fTimeDelta);
+			m_pTransform->Go_Left(fTimeDelta * fSpeed);
 		if (pGameInstance->Key_Pressing(DIK_RIGHT))
-			m_pTransform->Go_Right(fTimeDelta);
+			m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 		if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
 		{

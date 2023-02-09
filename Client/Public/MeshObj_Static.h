@@ -37,12 +37,14 @@ public:
 	virtual void Tick(_float fTimeDelta);
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
+	virtual HRESULT Render_ShadowDepth();
 
 private:
 	CModel*		m_pModelCom = nullptr;
 
 private:
 	MESHOBJ_STATIC_DESC			m_tMyDesc;
+	_int		m_iInit = 2;
 
 	_float		m_fFrustumRadiusRatio = 1.f;
 

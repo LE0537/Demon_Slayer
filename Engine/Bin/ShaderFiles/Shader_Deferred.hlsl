@@ -3,6 +3,7 @@ matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 matrix			g_ViewMatrixInv, g_ProjMatrixInv;
 
 matrix		    g_matLightView;
+matrix		    g_matLightView_Static;
 matrix			g_matLightProj;
 
 vector			g_vCamPosition;
@@ -26,6 +27,7 @@ texture2D		g_DepthTexture;
 texture2D		g_ShadeTexture;
 texture2D		g_SpecularTexture;
 texture2D       g_ShadowDepthTexture;
+texture2D       g_ShadowDepthTexture_Once;
 texture2D		g_GlowTexture;
 texture2D		g_DistortionTexture;
 texture2D		g_AOTexture;
@@ -376,21 +378,33 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 	vWorldPos *= fViewZ;
 
 	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
-
 	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
 
-	vWorldPos = mul(vWorldPos, g_matLightView);
 
-	vector		vUVPos = mul(vWorldPos, g_matLightProj);
+
+	vector		vWorldPos_Every = mul(vWorldPos, g_matLightView);
+
+	vector		vUVPos = mul(vWorldPos_Every, g_matLightProj);
 	float2		vNewUV;
-
 	vNewUV.x = (vUVPos.x / vUVPos.w) * 0.5f + 0.5f;
 	vNewUV.y = (vUVPos.y / vUVPos.w) * -0.5f + 0.5f;
 
 	vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(DepthSampler, vNewUV);
 
-	if (vWorldPos.z - 0.1f > vShadowDepthInfo.x * g_fFar)
-		Out.vColor -= vector(0.2f, 0.2f, 0.2f, 0.f);
+	Out.vColor -= step(vShadowDepthInfo.x * g_fFar, vWorldPos_Every.z - 0.1f) * vector(0.2f, 0.2f, 0.2f, 0.f);
+
+
+
+
+	vector		vWorldPos_Once = mul(vWorldPos, g_matLightView_Static);
+
+	vUVPos = mul(vWorldPos_Once, g_matLightProj);
+	vNewUV.x = (vUVPos.x / vUVPos.w) * 0.5f + 0.5f;
+	vNewUV.y = (vUVPos.y / vUVPos.w) * -0.5f + 0.5f;
+
+	vector		vShadowDepthInfo_Once = g_ShadowDepthTexture_Once.Sample(DepthSampler, vNewUV);
+
+	Out.vColor -= step(vShadowDepthInfo_Once.x * g_fFar, vWorldPos_Once.z - 1.f) * vector(0.2f, 0.2f, 0.2f, 0.f);
 
 
 

@@ -40,7 +40,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	_uint		iNumViewports = 1;
 
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-	m_fFar = 500.f;//ViewportDesc.MaxDepth;
+	m_fFar = 1500.f;//ViewportDesc.MaxDepth;
 
 	/* 렌더타겟들을 추가한다. */
 
@@ -51,6 +51,11 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Ready_ShadowDepthStencilRenderTargetView(m_pDevice, iShadowMapCX, iShadowMapCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_ShadowDepth"), iShadowMapCX, iShadowMapCY,
+		DXGI_FORMAT_R32G32B32A32_FLOAT, &_float4(1.f, 1.f, 1.f, 1.f))))
+		return E_FAIL;
+
+	// For.Target_Static_LightDepth
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Static_LightDepth"), iShadowMapCX, iShadowMapCY,
 		DXGI_FORMAT_R32G32B32A32_FLOAT, &_float4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
@@ -134,6 +139,10 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	// For.MRT_ShadowDepth(Shadow)
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_LightDepth"), TEXT("Target_ShadowDepth"))))
+		return E_FAIL;
+
+	// For.MRT_Static_LightDepth(StaticObj_Shadow)
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Static_LightDepth"), TEXT("Target_Static_LightDepth"))))
 		return E_FAIL;
 
 	/* For.MRT_NonLight */
@@ -255,7 +264,15 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), ViewportDesc.Width - (0.5f * fVIBufferRadius), 2.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Static_LightDepth"), ViewportDesc.Width - (0.5f * fVIBufferRadius), 3.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+		return E_FAIL;
 
+
+	//	렌더타겟 초기화
+	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_Static_LightDepth"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -293,6 +310,8 @@ HRESULT CRenderer::Add_RenderGroup_Front(RENDERGROUP eRenderGroup, CGameObject *
 HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 {
 	if (FAILED(Render_Priority()))
+		return E_FAIL;
+	if (FAILED(Render_StaticShadowDepth()))
 		return E_FAIL;
 	if (FAILED(Render_ShadowDepth()))
 		return E_FAIL;
@@ -479,6 +498,31 @@ HRESULT CRenderer::Render_Priority()
 
 	return S_OK;
 }
+
+HRESULT CRenderer::Render_StaticShadowDepth()
+{
+	//	사이즈가 바뀌는 경우는 레벨이 바뀌고 오브젝트가 생성되어 Initialize에서 Static_ShadowDepth렌더그룹에 추가할 떄 입니다.
+	//	한 번 그리고 다시는 안그릴 것이기 때문에 타겟을 그대로 보존합니다.
+	_int iIndex = m_GameObjects[RENDER_STATIC_SHADOWDEPTH].size();
+	if (0 == iIndex)
+		return S_OK;
+
+	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_Static_LightDepth"))))
+		return E_FAIL;
+	for (auto& pGameObject : m_GameObjects[RENDER_STATIC_SHADOWDEPTH])
+	{
+		if (nullptr != pGameObject)
+			pGameObject->Render_ShadowDepth();
+		Safe_Release(pGameObject);
+	}
+	m_GameObjects[RENDER_STATIC_SHADOWDEPTH].clear();
+
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Render_ShadowDepth()
 {
 	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_LightDepth"))))
@@ -498,6 +542,7 @@ HRESULT CRenderer::Render_ShadowDepth()
 
 	return S_OK;
 }
+
 HRESULT CRenderer::Render_NonAlphaBlend()
 {
 	if (nullptr == m_pTarget_Manager)
@@ -625,6 +670,8 @@ HRESULT CRenderer::Render_Blend()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_ShadowDepth"), m_pShader, "g_ShadowDepthTexture")))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Static_LightDepth"), m_pShader, "g_ShadowDepthTexture_Once")))
+		return E_FAIL;
 
 	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
 		return E_FAIL;
@@ -649,28 +696,37 @@ HRESULT CRenderer::Render_Blend()
 
 		_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
 		_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
-
-		RELEASE_INSTANCE(CGameInstance);
-
 		_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
-
 		_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 
 		CPipeLine*			pPipeLine = GET_INSTANCE(CPipeLine);
 		if (FAILED(m_pShader->Set_RawValue("g_matLightView", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 			return E_FAIL;
-
 		if (FAILED(m_pShader->Set_RawValue("g_matLightProj", &pPipeLine->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
 			return E_FAIL;
-
 		if (FAILED(m_pShader->Set_RawValue("g_ProjMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
 			return E_FAIL;
-
 		if (FAILED(m_pShader->Set_RawValue("g_ViewMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
 			return E_FAIL;
 
+
+		//	StaticObjs
+		if (nullptr != pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW))
+		{
+			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDirection);
+			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDiffuse);
+			vLightUp = { 0.f, 1.f, 0.f ,0.f };
+			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+
+			if (FAILED(m_pShader->Set_RawValue("g_matLightView_Static", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
+				return E_FAIL;
+		}
+
+		RELEASE_INSTANCE(CGameInstance);
 		RELEASE_INSTANCE(CPipeLine);
 	}
+
+	RELEASE_INSTANCE(CLevel_Manager);
 
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
 		return E_FAIL;
@@ -681,7 +737,6 @@ HRESULT CRenderer::Render_Blend()
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
 
-	RELEASE_INSTANCE(CLevel_Manager);
 	return S_OK;
 }
 
@@ -1348,6 +1403,8 @@ HRESULT CRenderer::Render_Debug(_bool _bDebug)
 		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowXY"), m_pShader, m_pVIBuffer)))
 			return E_FAIL;
 		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowAll"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_Static_LightDepth"), m_pShader, m_pVIBuffer)))
 			return E_FAIL;
 	}
 	return S_OK;
