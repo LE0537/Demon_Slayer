@@ -256,6 +256,15 @@
     <ClInclude Include="..\Public\RuiBattleSTState.h" />
     <ClInclude Include="..\public\RuiBigBall.h" />
     <ClInclude Include="..\Public\RuiDad.h" />
+    <ClInclude Include="..\Public\RuiDadAtk_1_State.h" />
+    <ClInclude Include="..\Public\RuiDadDashState.h" />
+    <ClInclude Include="..\Public\RuiDadGuardHitState.h" />
+    <ClInclude Include="..\Public\RuiDadGuardState.h" />
+    <ClInclude Include="..\Public\RuiDadHitState.h" />
+    <ClInclude Include="..\Public\RuiDadIdleState.h" />
+    <ClInclude Include="..\Public\RuiDadJumpState.h" />
+    <ClInclude Include="..\Public\RuiDadMoveState.h" />
+    <ClInclude Include="..\Public\RuiDadTargetRushState.h" />
     <ClInclude Include="..\Public\RuiJumpAttackState.h" />
     <ClInclude Include="..\Public\RuiJumpMoveAttackState.h" />
     <ClInclude Include="..\Public\RuiJumpSkill_Common.h" />
@@ -499,6 +508,7 @@
     <ClInclude Include="..\Public\WindowRight.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="RuiDadState.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -590,6 +600,15 @@
     <ClCompile Include="..\Private\RuiBattleSTState.cpp" />
     <ClCompile Include="..\private\RuiBigBall.cpp" />
     <ClCompile Include="..\Private\RuiDad.cpp" />
+    <ClCompile Include="..\Private\RuiDadAtk_1_State.cpp" />
+    <ClCompile Include="..\Private\RuiDadDashState.cpp" />
+    <ClCompile Include="..\Private\RuiDadGuardHitState.cpp" />
+    <ClCompile Include="..\Private\RuiDadGuardState.cpp" />
+    <ClCompile Include="..\Private\RuiDadHitState.cpp" />
+    <ClCompile Include="..\Private\RuiDadIdleState.cpp" />
+    <ClCompile Include="..\Private\RuiDadJumpState.cpp" />
+    <ClCompile Include="..\Private\RuiDadMoveState.cpp" />
+    <ClCompile Include="..\Private\RuiDadTargetRushState.cpp" />
     <ClCompile Include="..\Private\RuiJumpAttackState.cpp" />
     <ClCompile Include="..\Private\RuiJumpMoveAttackState.cpp" />
     <ClCompile Include="..\Private\RuiJumpSkill_Common.cpp" />
