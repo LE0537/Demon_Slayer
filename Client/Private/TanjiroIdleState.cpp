@@ -247,22 +247,22 @@ CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	else
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
-	_vector vPlayerY = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	pTanjiro->Set_NavigationHeight(vPlayerY);
-	if (vPlayerY.m128_f32[1] > pTanjiro->Get_NavigationHeight().y)
-	{
-		vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
-		if (vPlayerY.m128_f32[1] < pTanjiro->Get_NavigationHeight().y)
-			vPlayerY.m128_f32[1] = pTanjiro->Get_NavigationHeight().y;
+	//_vector vPlayerY = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	//pTanjiro->Set_NavigationHeight(vPlayerY);
+	//if (vPlayerY.m128_f32[1] > pTanjiro->Get_NavigationHeight().y)
+	//{
+	//	vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
+	//	if (vPlayerY.m128_f32[1] < pTanjiro->Get_NavigationHeight().y)
+	//		vPlayerY.m128_f32[1] = pTanjiro->Get_NavigationHeight().y;
 
-		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
-	}
-	if (pTanjiro->Get_PlayerInfo().iGuard < pTanjiro->Get_PlayerInfo().iMaxGuard)
-	{
-		pTanjiro->Set_GuardHp(1);
-		if (pTanjiro->Get_PlayerInfo().iGuard > pTanjiro->Get_PlayerInfo().iMaxGuard)
-			pTanjiro->Set_ResetGuardHp();
-	}
+	//	pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+	//}
+	//if (pTanjiro->Get_PlayerInfo().iGuard < pTanjiro->Get_PlayerInfo().iMaxGuard)
+	//{
+	//	pTanjiro->Set_GuardHp(1);
+	//	if (pTanjiro->Get_PlayerInfo().iGuard > pTanjiro->Get_PlayerInfo().iMaxGuard)
+	//		pTanjiro->Set_ResetGuardHp();
+	//}
 	return nullptr;
 }
 
