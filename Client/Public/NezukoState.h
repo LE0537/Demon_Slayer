@@ -2,7 +2,7 @@
 
 #include "Engine_Defines.h"
 #include "Nezuko.h"
-
+#include "SoundMgr.h"
 
 BEGIN(Client)
 class CNezukoState

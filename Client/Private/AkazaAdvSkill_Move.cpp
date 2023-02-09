@@ -297,6 +297,7 @@ void CAdvSkill_MoveState::Enter(CAkaza* pAkaza)
 		m_fDistance = XMVectorGetX(XMVector3Length(vTargetPosition - vMyPosition));
 		m_vTargetPosition = XMVector3Normalize(vTargetPosition - vMyPosition);
 		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_FriendMove.wav"), fEFFECT);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_ADVSKILL_MOVE_1);

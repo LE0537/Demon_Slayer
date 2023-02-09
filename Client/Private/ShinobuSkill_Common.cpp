@@ -389,6 +389,8 @@ void CSkill_CommonState::Enter(CShinobu* pShinobu)
 	pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SKILL_COMMON_2, 0.01f);
 	pShinobu->Set_AnimIndex(CShinobu::ANIM_SKILL_COMMON_2);
 	pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Common.wav"), fEFFECT);
 }
 
 void CSkill_CommonState::Exit(CShinobu* pShinobu)

@@ -336,6 +336,8 @@ void CSkill_CommonState::Enter(CTanjiro * pTanjiro)
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_COMMON);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_COMMON);
 
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_CommonSkill.wav"), fEFFECT);
+
 }
 
 void CSkill_CommonState::Exit(CTanjiro * pTanjiro)

@@ -2,6 +2,7 @@
 
 #include "Engine_Defines.h"
 #include "Akaza.h"
+#include "SoundMgr.h"
 
 BEGIN(Client)
 

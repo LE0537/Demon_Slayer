@@ -131,6 +131,7 @@ void CJumpSkill_MoveState::Enter(CRui* pRui)
 		//vPosition += XMVectorSet(0.3f, 0.3f, 0.3f, 0.f);
 		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		pRui->Get_Transform()->LookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_ShootNet.wav"), fEFFECT);
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_JUMPSKILL_1);

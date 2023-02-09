@@ -378,6 +378,7 @@ void CSkill_FallCutState::Enter(CNezuko* pNezuko)
 			m_bLookPos = true;
 		}
 		m_fGravity = 15.81f;
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_FallCut.wav"), fEFFECT);
 		break;
 	case Client::CNezukoState::TYPE_END:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_SKILL_FALLCUT_2);

@@ -271,6 +271,7 @@ void CSkill_ShootState::Enter(CRui* pRui)
 		pRui->Get_Model()->Set_FrameNum(CRui::ANIM_SKILL_SHOOT_0, 100);
 		pRui->Get_Model()->Set_FrameTime(CRui::ANIM_SKILL_SHOOT_0, 1, 30, 1.2f);
 		pRui->Get_Model()->Set_UsingFrame(CRui::ANIM_SKILL_SHOOT_0, 1, 30);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Commonn.wav"), fEFFECT);
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_SKILL_SHOOT_1);

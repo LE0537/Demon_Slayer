@@ -232,6 +232,7 @@ void CJumpSkill_MoveState::Enter(CKyoujuro * pKyojuro)
 	m_vVelocity.z = 0.f;
 	m_vPosition.y = XMVectorGetY(pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_DashSlash.wav"), fEFFECT);
 }
 
 void CJumpSkill_MoveState::Exit(CKyoujuro * pKyojuro)
