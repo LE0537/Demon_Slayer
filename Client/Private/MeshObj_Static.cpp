@@ -64,29 +64,32 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 	}
 
 
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	//_float4 vEye = _float4(-10.f, 800.f, -10.f, 1.f);		//	eye
-	//_float4 vAt = _float4(60.f, -20.f, 60.f, 1.f);			//	at
-	//pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, vEye, vAt);
 
-	if (pGameInstance->Key_Down(DIK_F4))
-	{
-/*
-		CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
-		char cName[MAX_PATH];
-		ZeroMemory(cName, sizeof(char) * MAX_PATH);
-		if (2001 == m_tMyDesc.iModelIndex)
-		{
-			pData_Manager->TCtoC(TEXT("BigTree1"), cName);
-			ERR_MSG(L"Clear1");
-		}
+	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-		pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_NONANIM);
-		RELEASE_INSTANCE(CData_Manager);
-*/
-	}
 
-	RELEASE_INSTANCE(CGameInstance);
+	//if (pGameInstance->Key_Down(DIK_F4))
+	//{
+
+	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
+	//	char cName[MAX_PATH];
+	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
+	//	if (2085 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Hut"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2086 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("RuiMap"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_NONANIM);
+	//	RELEASE_INSTANCE(CData_Manager);
+
+	//}
+
+	//RELEASE_INSTANCE(CGameInstance);
 
 
 }
@@ -365,6 +368,8 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 
 	case 2083: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Moon"); m_fFrustumRadiusRatio = 2000.f; break;
 	case 2084: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_MoonLight"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2085: lstrcpy(pPrototypeTag_Model, L"Hut"); m_fFrustumRadiusRatio = 20.f; break;
+	case 2086:lstrcpy(pPrototypeTag_Model, L"RuiMap"); m_fFrustumRadiusRatio = 5000.f; break;
 	}
 
 

@@ -36,62 +36,65 @@ HRESULT CRui::Initialize_Prototype()
 
 HRESULT CRui::Initialize(void * pArg)
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
 	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
-	//m_i1p = tCharacterDesc.i1P2P;
-	m_i1p = 10;
+	m_i1p = tCharacterDesc.i1P2P;
+	if (FAILED(Ready_Components()))
+		return E_FAIL;
+
+	if (m_i1p != 10)
+	{
+		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
+		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
+
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		if (!m_tInfo.bSub)
+		{
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
+			if (m_i1p == 1)
+			{
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+
+				CUI_Manager::Get_Instance()->Set_1P(this);
+			}
+			else if (m_i1p == 2)
+			{
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+				CUI_Manager::Get_Instance()->Set_2P(this);
+			}
 	
-	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
-	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
+			RELEASE_INSTANCE(CGameInstance);
 
-	Set_Info();
-	m_tInfo.bSub = tCharacterDesc.bSub;
-	m_bChange = tCharacterDesc.bSub;
-	if (!m_tInfo.bSub)
+		}
+		else
+		{
+			m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
+			m_pSubChar->Set_SubChar(this);
+
+
+		}
+	}
+	else if (m_i1p == 10)
 	{
-		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
-		if (m_i1p == 1)
-		{
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+		_vector vPos = { -86.276f,9.252f,6.756f };
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 
-			CUI_Manager::Get_Instance()->Set_1P(this);
-		}
-		else if (m_i1p == 2)
-		{
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-
-			CUI_Manager::Get_Instance()->Set_2P(this);
-		}
-		else if(m_i1p == 10)
-		{
-			//Boss 이니셜 필요한거
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-
-			CUI_Manager::Get_Instance()->Set_2P(this);
-		}
-		RELEASE_INSTANCE(CGameInstance);
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+	//	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	}
-	else
-	{
-		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
-		m_pSubChar->Set_SubChar(this);
-
-
-	}
-
 	CRuiState* pState = new CIdleState();
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
-	_vector vec = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-
+	Set_Info();
 	return S_OK;
 }
 
@@ -278,8 +281,16 @@ HRESULT CRui::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
-		return E_FAIL;
+	if (m_i1p == 10)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
 
 
 	return S_OK;

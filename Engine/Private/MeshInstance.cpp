@@ -239,7 +239,7 @@ void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _fl
 	else
 		m_iNumPrimitive = (m_pBinAIMesh->iNumPrimitives) * m_iNumRendering;
 
-	m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_iNumPrimitive;
+	m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_pBinAIMesh->iNumPrimitives;
 
 	D3D11_MAPPED_SUBRESOURCE		MappedSubResource;
 	ZeroMemory(&MappedSubResource, sizeof MappedSubResource);
