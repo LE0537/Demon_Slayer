@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "AdcMenuBg.h"
 #include "GameInstance.h"
+#include "UI_Manager.h" 
 
 CAdcMenuBg::CAdcMenuBg(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,7 +51,13 @@ HRESULT CAdcMenuBg::Initialize(void * pArg)
 
 void CAdcMenuBg::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	
+	m_iImgNum = pUI_Manager->Get_AdvStageNum();
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CAdcMenuBg::Late_Tick(_float fTimeDelta)
@@ -115,7 +122,7 @@ HRESULT CAdcMenuBg::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;

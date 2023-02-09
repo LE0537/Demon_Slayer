@@ -240,6 +240,7 @@
     <ClInclude Include="..\Public\KyoujuroJumpAttackState.h" />
     <ClInclude Include="..\Public\KyoujuroJumpMoveAttackState.h" />
     <ClInclude Include="..\Public\KyoujuroTargetRushState.h" />
+    <ClInclude Include="..\Public\Level_AdvRui.h" />
     <ClInclude Include="..\Public\Level_GameResult.h" />
     <ClInclude Include="..\Public\Level_Menu.h" />
     <ClInclude Include="..\Public\Level_StroyMenu.h" />
@@ -254,6 +255,7 @@
     <ClInclude Include="..\public\RuiBall.h" />
     <ClInclude Include="..\Public\RuiBattleSTState.h" />
     <ClInclude Include="..\public\RuiBigBall.h" />
+    <ClInclude Include="..\Public\RuiDad.h" />
     <ClInclude Include="..\Public\RuiJumpAttackState.h" />
     <ClInclude Include="..\Public\RuiJumpMoveAttackState.h" />
     <ClInclude Include="..\Public\RuiJumpSkill_Common.h" />
@@ -572,6 +574,7 @@
     <ClCompile Include="..\Private\KyoujuroJumpAttackState.cpp" />
     <ClCompile Include="..\Private\KyoujuroJumpMoveAttackState.cpp" />
     <ClCompile Include="..\Private\KyoujuroTargetRushState.cpp" />
+    <ClCompile Include="..\Private\Level_AdvRui.cpp" />
     <ClCompile Include="..\Private\Level_GameResult.cpp" />
     <ClCompile Include="..\Private\Level_Menu.cpp" />
     <ClCompile Include="..\Private\Level_StoryMenu.cpp" />
@@ -586,6 +589,7 @@
     <ClCompile Include="..\private\RuiBall.cpp" />
     <ClCompile Include="..\Private\RuiBattleSTState.cpp" />
     <ClCompile Include="..\private\RuiBigBall.cpp" />
+    <ClCompile Include="..\Private\RuiDad.cpp" />
     <ClCompile Include="..\Private\RuiJumpAttackState.cpp" />
     <ClCompile Include="..\Private\RuiJumpMoveAttackState.cpp" />
     <ClCompile Include="..\Private\RuiJumpSkill_Common.cpp" />
