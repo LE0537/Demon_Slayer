@@ -37,11 +37,15 @@ void CLevel_StoryMenu::Tick(_float fTimeDelta)
 
 	_uint iStageNum = pUI_Manager->Get_AdvStageNum();
 
+	//0¹ø ·çÀÌ¸Ê
+	//1¹ø ¾ÆÄ«ÀÚ¸Ê
 	if (pUI_Manager->Get_AdvMenuSelCheck())
 	{
 		switch (iStageNum)
 		{
 		case 0:
+			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_ADVRUI))))
+				return;
 			break;
 		case 1:
 			break;

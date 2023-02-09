@@ -1017,6 +1017,9 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad">
       <UniqueIdentifier>{f0a9ebe0-5818-4aa0-8d4e-c6fdf9154e0a}</UniqueIdentifier>
+    </Filter> 
+    <Filter Include="01.Levels\07.Adv_Rui">
+      <UniqueIdentifier>{6b3f981b-0cce-4501-ae7b-71cff81f0367}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2016,6 +2019,9 @@
     <ClInclude Include="..\Public\RuiDad.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_AdvRui.h">
+      <Filter>01.Levels\07.Adv_Rui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2989,6 +2995,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiDad.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_AdvRui.cpp">
+      <Filter>01.Levels\07.Adv_Rui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
