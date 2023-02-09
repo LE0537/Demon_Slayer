@@ -9,6 +9,7 @@
 #include "Level_GameResult.h"
 #include "Level_Menu.h"
 #include "Level_StroyMenu.h"
+#include "Level_AdvRui.h"
 #include "UI_Manager.h"
 
 CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -67,6 +68,9 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 			break;
 		case LEVEL_STORYMENU:
 			pNewLevel = CLevel_StoryMenu::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_ADVRUI:
+			pNewLevel = CLevel_AdvRui::Create(m_pDevice, m_pContext);
 			break;
 		}
 

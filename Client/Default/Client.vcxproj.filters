@@ -1012,6 +1012,9 @@
     <Filter Include="03.UI\06.StoryMenu\SelNameBar">
       <UniqueIdentifier>{3d877aa7-79e2-4d81-8a68-f1054ee54bfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\07.Adv_Rui">
+      <UniqueIdentifier>{6b3f981b-0cce-4501-ae7b-71cff81f0367}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2007,6 +2010,9 @@
     <ClInclude Include="..\Public\RuiJumpSkill_Move.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_AdvRui.h">
+      <Filter>01.Levels\07.Adv_Rui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2977,6 +2983,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\AdcMenuSelTxt.cpp">
       <Filter>03.UI\06.StoryMenu\SelTxt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_AdvRui.cpp">
+      <Filter>01.Levels\07.Adv_Rui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
