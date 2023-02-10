@@ -21,6 +21,11 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
+
+private:
+	_float		   m_fDeadTime = 0.f;
+
+
 private:
 	HRESULT Ready_Components();
 

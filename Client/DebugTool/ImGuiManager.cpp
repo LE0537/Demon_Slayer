@@ -128,8 +128,8 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->AO_OnOff(bAO_OnOff);
 
-	static float fAOValue[CRenderer::VALUE_END] = { 0.2f, 0.2, 0.2f, 100.f, 800.f, 1.36f, 0.4f, 1.f, 20.f, 5.f, 0.07f };
-	static float vFogColor[3] = { 0.2, 0.2f, 0.2f };
+	static float fAOValue[CRenderer::VALUE_END] = { 0.15f, 0.15f, 0.4f, 40.f, 450.f, 1.36f, 0.4f, 1.f, 20.f, 300.f, 0.05f, 1.79f, 0.2f, 0.85f, 1.f };
+	static float vFogColor[3] = { 0.15f, 0.15f, 0.4f };
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
 	ImGui::DragFloat3("Fog Color", vFogColor, 0.001f, 0.000f, 1.f);
@@ -160,6 +160,18 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
 	ImGui::DragFloat("InnerLine", &fAOValue[CRenderer::VALUE_INNERLINE], 0.001f, 0.f);
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("Env Light", &fAOValue[CRenderer::VALUE_ENVLIGHT], 0.001f, -3.f, 10.f, "%.3f");
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("LightShaft", &fAOValue[CRenderer::VALUE_LIGHTSHAFT], 0.001f, -3.f, 10.f, "%.3f");
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("LightPower", &fAOValue[CRenderer::VALUE_LIGHTPOWER], 0.001f, -3.f, 10.f, "%.3f");
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("LightPower", &fAOValue[CRenderer::VALUE_SHADOWTESTLENGTH], 0.001f, -3.f, 3.f, "%.3f");
 
 	if (nullptr != m_pRendererCom)
 	{

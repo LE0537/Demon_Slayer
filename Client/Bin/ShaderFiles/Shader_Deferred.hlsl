@@ -48,6 +48,9 @@ float			g_fInnerLineValue;
 float			g_fFogDistance;
 float			g_fFogRange;
 float3			g_vFogColor;
+float			g_fEnvLightValue = 1.f;
+float			g_fLightPower = 1.f;
+float			g_fShadowTestLength = 1.f;
 
 float			g_fAddValue;
 
@@ -237,9 +240,10 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	}
 	else
 	{
-		Out.vShade = g_vLightDiffuse * (saturate(dot(normalize(g_vLightDir2) * -1.f, normalize(vNormal))) + (g_vLightAmbient * g_vMtrlAmbient));
+		Out.vShade = g_vLightDiffuse * g_fEnvLightValue * (saturate(dot(normalize(g_vLightDir2) * -1.f, normalize(vNormal))) + (g_vLightAmbient * g_vMtrlAmbient));
 	}
-	
+
+	Out.vShade *= g_fLightPower;
 	Out.vShade.a = 1.f;
 
 	vector			vWorldPos = (vector)0.f;
@@ -391,7 +395,6 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(DepthSampler, vNewUV);
 
-	Out.vColor -= step(vShadowDepthInfo.x * g_fFar, vWorldPos_Every.z - 0.1f) * vector(0.2f, 0.2f, 0.2f, 0.f);
 
 
 
@@ -404,7 +407,8 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	vector		vShadowDepthInfo_Once = g_ShadowDepthTexture_Once.Sample(DepthSampler, vNewUV);
 
-	Out.vColor -= step(vShadowDepthInfo_Once.x * g_fFar, vWorldPos_Once.z - 1.f) * vector(0.2f, 0.2f, 0.2f, 0.f);
+	Out.vColor -= max(step(vShadowDepthInfo_Once.x * g_fFar, vWorldPos_Once.z - g_fShadowTestLength) * vector(0.2f, 0.2f, 0.2f, 0.f),
+		step(vShadowDepthInfo.x * g_fFar, vWorldPos_Every.z - g_fShadowTestLength) * vector(0.2f, 0.2f, 0.2f, 0.f));
 
 
 
@@ -663,7 +667,7 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 	//	matrix		matLightVP = mul(g_matLightView, g_matLightProj);
 	
 	float		fNumSamples = 120.f;
-	int			iValue = 0;
+	int			iValue = fNumSamples;
 
 	vector		vLightDir = -g_vLightDir;
 
@@ -678,9 +682,10 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 		vNewUV.y = (vUVPos.y / vUVPos.w) * -0.5f + 0.5f;
 		vector		vShadowDepthInfo = g_ShadowDepthTexture.Sample(DepthSampler, vNewUV);
 
-		if (vWorldPos_InLight.z > vShadowDepthInfo.x * g_fFar)
-			iValue += 6;
-
+		if (vWorldPos_InLight.z > (vShadowDepthInfo.x * g_fFar) - 0.3f)
+		{
+			iValue -= 1;
+		}
 	}
 
 	float		fLightPower = 0.3f;

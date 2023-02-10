@@ -176,7 +176,7 @@ CKyoujuroState * CJumpMoveAttackState::Late_Tick(CKyoujuro* pKyoujuro, _float fT
 		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 
 
-	if (!m_bEffect && m_eStateType == TYPE_START)
+	if (!m_bEffect && m_eStateType == TYPE_LOOP)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
