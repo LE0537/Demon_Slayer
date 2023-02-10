@@ -168,6 +168,16 @@ void CHitState::Enter(CRui* pRui)
 
 	pRui->Set_RuiHit(true);
 
+	_uint iRand = rand() % 4;
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Hit_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Hit_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Hit_3.wav"), fEFFECT);
+	else if (iRand == 3)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Hit_4.wav"), fEFFECT);
 
 }
 CRuiState * CHitState::Jump(CRui* pRui, _float fTimeDelta)

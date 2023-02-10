@@ -9,6 +9,8 @@
 #include "MeshObj_Static.h"
 #include "MeshObj_Static_Inst.h"
 #include "Terrain.h"
+#include "SoundMgr.h"
+
 CLevel_GameResult::CLevel_GameResult(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -22,6 +24,8 @@ HRESULT CLevel_GameResult::Initialize()
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	pUIManager->Add_BattleResult();
 	RELEASE_INSTANCE(CUI_Manager);
+
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("CharSel.wav"), fBGM);
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
