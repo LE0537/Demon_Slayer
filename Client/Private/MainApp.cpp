@@ -72,6 +72,8 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	CSoundMgr::Get_Instance()->Initialize();
+	
+	srand((_uint)time(NULL));
 
 	return S_OK;
 }

@@ -144,6 +144,17 @@ void CHitState::Enter(CShinobu* pShinobu)
 		//pAkaza->Get_Model()->Set_FrameTime(pAkaza->Get_AnimIndex(), 0, 20, 1.f);
 		pShinobu->Get_Model()->Set_UsingFrame(CShinobu::ANIM_HIT, 30, 100);
 	}
+
+	_uint iRand = rand() % 4;
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Hit_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Hit_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Hit_3.wav"), fEFFECT);
+	else if (iRand == 3)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Hit_4.wav"), fEFFECT);
 }
 CShinobuState * CHitState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 {

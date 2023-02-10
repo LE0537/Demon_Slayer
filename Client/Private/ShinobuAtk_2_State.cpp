@@ -333,6 +333,14 @@ void CAtk_2_State::Enter(CShinobu* pShinobu)
 	pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_ATTACK_2);
 	pShinobu->Set_AnimIndex(CShinobu::ANIM_ATTACK_2);
 
+	_uint iRand = rand() % 3;
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Attack2_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Attack2_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Attack2_3.wav"), fEFFECT);
 }
 
 void CAtk_2_State::Exit(CShinobu* pShinobu)
