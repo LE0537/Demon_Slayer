@@ -10,6 +10,7 @@
 #include "AkazaSkill_Destroy.h"
 #include "AkazaAdvSkill_Common.h"
 #include "AkazaTargetRushState.h"
+#include "Effect_Manager.h"
 using namespace Akaza;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -65,6 +66,29 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 		else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
 		{
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+		}
+		else if (pGameInstance->Key_Down(DIK_Q) && pAkaza->Get_PlayerInfo().iUnicCount > 0 && pAkaza->Get_PlayerInfo().iPowerIndex < 2)
+		{
+			pAkaza->Set_UnicCount(-1);
+			if (pAkaza->Get_PlayerInfo().iPowerIndex == 0)
+			{
+				pAkaza->Set_PowerIndex(1);
+				pAkaza->Set_PowerUp(1.5f);
+				pAkaza->Set_PowerUpTime(6.f);
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pAkaza);
+				RELEASE_INSTANCE(CEffect_Manager);
+			}
+			else if (pAkaza->Get_PlayerInfo().iPowerIndex == 1)
+			{
+				pAkaza->Set_PowerIndex(2);
+				pAkaza->Set_PowerUpTime(6.f);
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pAkaza);
+				RELEASE_INSTANCE(CEffect_Manager);
+			}
 		}
 		else if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
@@ -150,6 +174,29 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 		{
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
+		else if (pGameInstance->Key_Down(DIK_RCONTROL) && pAkaza->Get_PlayerInfo().iUnicCount > 0 && pAkaza->Get_PlayerInfo().iPowerIndex < 2)
+		{
+			pAkaza->Set_UnicCount(-1);
+			if (pAkaza->Get_PlayerInfo().iPowerIndex == 0)
+			{
+				pAkaza->Set_PowerIndex(1);
+				pAkaza->Set_PowerUp(1.5f);
+				pAkaza->Set_PowerUpTime(6.f);
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pAkaza);
+				RELEASE_INSTANCE(CEffect_Manager);
+			}
+			else if (pAkaza->Get_PlayerInfo().iPowerIndex == 1)
+			{
+				pAkaza->Set_PowerIndex(2);
+				pAkaza->Set_PowerUpTime(6.f);
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pAkaza);
+				RELEASE_INSTANCE(CEffect_Manager);
+			}
+		}
 		else if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
 
@@ -225,6 +272,59 @@ CAkazaState * CIdleState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 		if (pAkaza->Get_PlayerInfo().iGuard > pAkaza->Get_PlayerInfo().iMaxGuard)
 			pAkaza->Set_ResetGuardHp();
 	}
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	if (!pAkaza->Get_PlayerInfo().bChange)
+	{
+		m_fSkillBarTime += fTimeDelta;
+		switch (pAkaza->Get_i1P())
+		{
+		case 1:
+			if (pAkaza->Get_PlayerInfo().iUnicCount < 3 && pAkaza->Get_PlayerInfo().iUnicBar < pAkaza->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_H))
+			{
+				pAkaza->Set_UnicBar(10);
+				if (pAkaza->Get_PlayerInfo().iUnicBar >= pAkaza->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pAkaza->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pAkaza->Reset_UnicBar();
+						pAkaza->Set_UnicCount(1);
+					}
+					else
+						pAkaza->Set_UnicBar(pAkaza->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pAkaza);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		case 2:
+			if (pAkaza->Get_PlayerInfo().iUnicCount < 3 && pAkaza->Get_PlayerInfo().iUnicBar < pAkaza->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_B))
+			{
+				pAkaza->Set_UnicBar(10);
+				if (pAkaza->Get_PlayerInfo().iUnicBar >= pAkaza->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pAkaza->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pAkaza->Reset_UnicBar();
+						pAkaza->Set_UnicCount(1);
+					}
+					else
+						pAkaza->Set_UnicBar(pAkaza->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pAkaza);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		}
+	}
+	RELEASE_INSTANCE(CEffect_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 	return nullptr;
 }
 
@@ -234,7 +334,7 @@ void CIdleState::Enter(CAkaza* pAkaza)
 
 	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_IDLE);
 	pAkaza->Set_AnimIndex(CAkaza::ANIM_IDLE);
-
+	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_IDLE, 0.05f);
 }
 
 void CIdleState::Exit(CAkaza* pAkaza)

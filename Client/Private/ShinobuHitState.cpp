@@ -18,6 +18,24 @@ CShinobuState * CHitState::HandleInput(CShinobu* pShinobu)
 
 CShinobuState * CHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
+	if (!m_bReset)
+	{
+		if (pShinobu->Get_PlayerInfo().iUnicCount < 3 && pShinobu->Get_PlayerInfo().iUnicBar < pShinobu->Get_PlayerInfo().iUnicMaxBar)
+		{
+			pShinobu->Set_UnicBar(67);
+			if (pShinobu->Get_PlayerInfo().iUnicBar >= pShinobu->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pShinobu->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pShinobu->Reset_UnicBar();
+					pShinobu->Set_UnicCount(1);
+				}
+				else
+					pShinobu->Set_UnicBar(pShinobu->Get_PlayerInfo().iUnicMaxBar);
+			}
+		}
+		m_bReset = true;
+	}
 	m_fJumpTime += 0.035f;
 	if (m_bJumpHit && !m_bJump)
 	{

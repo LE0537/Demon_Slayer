@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "NezukoIdleState.h"
 #include "Nezuko.h"
-
+#include "Effect_Manager.h"
 #include "GameInstance.h"
 #include "NezukoAtk_1_State.h"
 #include "NezukoMoveState.h"
@@ -68,6 +68,29 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 			else if (pGameInstance->Key_Pressing(DIK_D)) // ¿ì
 			{
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+			}
+			else if (pGameInstance->Key_Down(DIK_Q) && pNezuko->Get_PlayerInfo().iUnicCount > 0 && pNezuko->Get_PlayerInfo().iPowerIndex < 2)
+			{
+				pNezuko->Set_UnicCount(-1);
+				if (pNezuko->Get_PlayerInfo().iPowerIndex == 0)
+				{
+					pNezuko->Set_PowerIndex(1);
+					pNezuko->Set_PowerUp(1.5f);
+					pNezuko->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pNezuko);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
+				else if (pNezuko->Get_PlayerInfo().iPowerIndex == 1)
+				{
+					pNezuko->Set_PowerIndex(2);
+					pNezuko->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pNezuko);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
 			}
 			else if (pGameInstance->Key_Down(DIK_J))
 				return new CAtk_1_State();
@@ -146,6 +169,29 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 			{
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 			}
+			else if (pGameInstance->Key_Down(DIK_RCONTROL) && pNezuko->Get_PlayerInfo().iUnicCount > 0 && pNezuko->Get_PlayerInfo().iPowerIndex < 2)
+			{
+				pNezuko->Set_UnicCount(-1);
+				if (pNezuko->Get_PlayerInfo().iPowerIndex == 0)
+				{
+					pNezuko->Set_PowerIndex(1);
+					pNezuko->Set_PowerUp(1.5f);
+					pNezuko->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pNezuko);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
+				else if (pNezuko->Get_PlayerInfo().iPowerIndex == 1)
+				{
+					pNezuko->Set_PowerIndex(2);
+					pNezuko->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pNezuko);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
+			}
 			else if (pGameInstance->Key_Down(DIK_Z))
 				return new CAtk_1_State();
 
@@ -218,6 +264,59 @@ CNezukoState * CIdleState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 		if (pNezuko->Get_PlayerInfo().iGuard > pNezuko->Get_PlayerInfo().iMaxGuard)
 			pNezuko->Set_ResetGuardHp();
 	}
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	if (!pNezuko->Get_PlayerInfo().bChange)
+	{
+		m_fSkillBarTime += fTimeDelta;
+		switch (pNezuko->Get_i1P())
+		{
+		case 1:
+			if (pNezuko->Get_PlayerInfo().iUnicCount < 3 && pNezuko->Get_PlayerInfo().iUnicBar < pNezuko->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_H))
+			{
+				pNezuko->Set_UnicBar(10);
+				if (pNezuko->Get_PlayerInfo().iUnicBar >= pNezuko->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pNezuko->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pNezuko->Reset_UnicBar();
+						pNezuko->Set_UnicCount(1);
+					}
+					else
+						pNezuko->Set_UnicBar(pNezuko->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pNezuko);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		case 2:
+			if (pNezuko->Get_PlayerInfo().iUnicCount < 3 && pNezuko->Get_PlayerInfo().iUnicBar < pNezuko->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_B))
+			{
+				pNezuko->Set_UnicBar(10);
+				if (pNezuko->Get_PlayerInfo().iUnicBar >= pNezuko->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pNezuko->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pNezuko->Reset_UnicBar();
+						pNezuko->Set_UnicCount(1);
+					}
+					else
+						pNezuko->Set_UnicBar(pNezuko->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pNezuko);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		}
+	}
+	RELEASE_INSTANCE(CEffect_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 	return nullptr;
 }
 

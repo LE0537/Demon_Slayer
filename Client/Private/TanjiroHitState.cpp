@@ -20,6 +20,20 @@ CTanjiroState * CHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	if (!m_bReset)
 	{
+		if (pTanjiro->Get_PlayerInfo().iUnicCount < 3 && pTanjiro->Get_PlayerInfo().iUnicBar < pTanjiro->Get_PlayerInfo().iUnicMaxBar)
+		{
+			pTanjiro->Set_UnicBar(67);
+			if (pTanjiro->Get_PlayerInfo().iUnicBar >= pTanjiro->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pTanjiro->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pTanjiro->Reset_UnicBar();
+					pTanjiro->Set_UnicCount(1);
+				}
+				else
+					pTanjiro->Set_UnicBar(pTanjiro->Get_PlayerInfo().iUnicMaxBar);
+			}
+		}
 		pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_HIT);
 		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_HIT);
 		m_bReset = true;

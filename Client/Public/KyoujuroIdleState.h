@@ -19,6 +19,7 @@ public:
 
 private:
 	STATE_ID m_ePreState = STATE_END;
+	_float   m_fSkillBarTime = 0.f;
 };
 END
 END

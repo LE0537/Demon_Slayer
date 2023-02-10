@@ -22,12 +22,24 @@ CRuiState * CHitState::HandleInput(CRui* pRui)
 
 CRuiState * CHitState::Tick(CRui* pRui, _float fTimeDelta)
 {
-	//if (!m_bReset)
-	//{
-	//	pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_HIT);
-	//	pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_HIT);
-	//	m_bReset = true;
-	//}
+	if (!m_bReset)
+	{
+		if (pRui->Get_PlayerInfo().iUnicCount < 3 && pRui->Get_PlayerInfo().iUnicBar < pRui->Get_PlayerInfo().iUnicMaxBar)
+		{
+			pRui->Set_UnicBar(67);
+			if (pRui->Get_PlayerInfo().iUnicBar >= pRui->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pRui->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pRui->Reset_UnicBar();
+					pRui->Set_UnicCount(1);
+				}
+				else
+					pRui->Set_UnicBar(pRui->Get_PlayerInfo().iUnicMaxBar);
+			}
+		}
+		m_bReset = true;
+	}
 
 	fHitTime += fTimeDelta * 60.f;
 
