@@ -20,6 +20,20 @@ CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
 	if (!m_bReset)
 	{
+		if (pKyoujuro->Get_PlayerInfo().iUnicCount < 3 && pKyoujuro->Get_PlayerInfo().iUnicBar < pKyoujuro->Get_PlayerInfo().iUnicMaxBar)
+		{
+			pKyoujuro->Set_UnicBar(67);
+			if (pKyoujuro->Get_PlayerInfo().iUnicBar >= pKyoujuro->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pKyoujuro->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pKyoujuro->Reset_UnicBar();
+					pKyoujuro->Set_UnicCount(1);
+				}
+				else
+					pKyoujuro->Set_UnicBar(pKyoujuro->Get_PlayerInfo().iUnicMaxBar);
+			}
+		}
 		pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro::ANIM_HIT);
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_HIT);
 		m_bReset = true;
