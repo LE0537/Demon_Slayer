@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "GameObj.h"
 #include "UI_Manager.h"
+#include "Effect_Manager.h"
 CCamera_Dynamic::CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CCamera(pDevice, pContext)
 {
@@ -83,6 +84,8 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	if(!m_bStory)
 	{
 		m_fStartTime += fTimeDelta;
+
+	
 #ifdef _DEBUG
 		if (!m_bLerp && m_fStartTime > 5.9f)
 		{
@@ -147,10 +150,19 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 
 void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 {
-
 	__super::Late_Tick(fTimeDelta);
+
 	if (!m_bStory)
 	{
+		if (!m_bEffect && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime() > 25.f)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_GAMESTART, m_pPlayer);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		if (!m_bBattle)
 		{
 			Set_BattleTarget(fTimeDelta);

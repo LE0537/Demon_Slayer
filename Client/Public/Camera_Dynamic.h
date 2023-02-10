@@ -71,6 +71,7 @@ private:
 	_float					m_fFovTime = 0.f;
 	_float					m_fLookAtY = 0.f;
 	_bool					m_bStartBattle = false;
+	_bool					m_bEffect = false;
 	//Start
 	_bool  m_bStart = false;
 	_bool  m_bLerp = false;
