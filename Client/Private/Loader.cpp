@@ -1020,9 +1020,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Power_Up"));
 		pEffect_Manager->Load_Effect(TEXT("Power_Up_Player"));
 		pEffect_Manager->Load_Effect(TEXT("Perfect_Power_UP_Player"));
+		pEffect_Manager->Load_Effect(TEXT("Game_Start"));
 
 		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_Move"));
 		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_Stop"));
+		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_MoveFB"));
+		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_StopFB"));
 
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1_GroundMask"));
@@ -1036,6 +1039,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Water2"));
 		pEffect_Manager->Load_Effect(TEXT("Water2_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Water6"));
+		pEffect_Manager->Load_Effect(TEXT("Water6_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Water8"));
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_NormAtk_1_Cl"));

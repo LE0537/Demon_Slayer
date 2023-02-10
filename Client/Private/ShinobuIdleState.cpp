@@ -12,6 +12,7 @@
 #include "ShinobuChangeState.h"
 #include "ShinobuSkill_Upper.h"
 #include "ShinobuTargetRushState.h"
+#include "Effect_Manager.h"
 using namespace Shinobu;
 
 
@@ -60,6 +61,29 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				_vector vPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
 				return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+			}
+			else if (pGameInstance->Key_Down(DIK_Q) && pShinobu->Get_PlayerInfo().iUnicCount > 0 && pShinobu->Get_PlayerInfo().iPowerIndex < 2)
+			{
+				pShinobu->Set_UnicCount(-1);
+				if (pShinobu->Get_PlayerInfo().iPowerIndex == 0)
+				{
+					pShinobu->Set_PowerIndex(1);
+					pShinobu->Set_PowerUp(1.5f);
+					pShinobu->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pShinobu);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
+				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
+				{
+					pShinobu->Set_PowerIndex(2);
+					pShinobu->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pShinobu);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
 			}
 			else if (pGameInstance->Key_Down(DIK_J))
 			{
@@ -124,6 +148,29 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				_vector vPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
 				return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+			}
+			else if (pGameInstance->Key_Down(DIK_RCONTROL) && pShinobu->Get_PlayerInfo().iUnicCount > 0 && pShinobu->Get_PlayerInfo().iPowerIndex < 2)
+			{
+				pShinobu->Set_UnicCount(-1);
+				if (pShinobu->Get_PlayerInfo().iPowerIndex == 0)
+				{
+					pShinobu->Set_PowerIndex(1);
+					pShinobu->Set_PowerUp(1.5f);
+					pShinobu->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pShinobu);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
+				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
+				{
+					pShinobu->Set_PowerIndex(2);
+					pShinobu->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pShinobu);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
 			}
 			else if (pGameInstance->Key_Down(DIK_Z))
 			{
@@ -202,6 +249,59 @@ CShinobuState * CIdleState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 		if (pShinobu->Get_PlayerInfo().iGuard > pShinobu->Get_PlayerInfo().iMaxGuard)
 			pShinobu->Set_ResetGuardHp();
 	}
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	if (!pShinobu->Get_PlayerInfo().bChange)
+	{
+		m_fSkillBarTime += fTimeDelta;
+		switch (pShinobu->Get_i1P())
+		{
+		case 1:
+			if (pShinobu->Get_PlayerInfo().iUnicCount < 3 && pShinobu->Get_PlayerInfo().iUnicBar < pShinobu->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_H))
+			{
+				pShinobu->Set_UnicBar(10);
+				if (pShinobu->Get_PlayerInfo().iUnicBar >= pShinobu->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pShinobu->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pShinobu->Reset_UnicBar();
+						pShinobu->Set_UnicCount(1);
+					}
+					else
+						pShinobu->Set_UnicBar(pShinobu->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pShinobu);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		case 2:
+			if (pShinobu->Get_PlayerInfo().iUnicCount < 3 && pShinobu->Get_PlayerInfo().iUnicBar < pShinobu->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_B))
+			{
+				pShinobu->Set_UnicBar(10);
+				if (pShinobu->Get_PlayerInfo().iUnicBar >= pShinobu->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pShinobu->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pShinobu->Reset_UnicBar();
+						pShinobu->Set_UnicCount(1);
+					}
+					else
+						pShinobu->Set_UnicBar(pShinobu->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pShinobu);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		}
+	}
+	RELEASE_INSTANCE(CEffect_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 	return nullptr;
 }
 

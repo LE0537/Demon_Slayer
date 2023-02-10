@@ -41,7 +41,7 @@ CTanjiroState * CBattleStartState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 CTanjiroState * CBattleStartState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	
-	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 	
 	return nullptr;
 }
@@ -53,7 +53,7 @@ void CBattleStartState::Enter(CTanjiro * pTanjiro)
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_BATTLE_START);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_BATTLE_START);
 	pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
-	pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(),0.01f);
+	pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.2f);
 
 }
 

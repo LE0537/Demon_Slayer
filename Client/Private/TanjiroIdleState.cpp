@@ -3,7 +3,7 @@
 #include "TanjiroMoveState.h"
 #include "TanjiroJumpstate.h"
 #include "GameInstance.h"
-
+#include "Effect_Manager.h"
 #include "TanjiroAtk_1_State.h"
 #include "TanjiroKaguraAtk_1_State.h"
 #include "TanjiroGuardState.h"
@@ -63,6 +63,29 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
 				return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+			}
+			else if (pGameInstance->Key_Down(DIK_Q) && pTanjiro->Get_PlayerInfo().iUnicCount > 0 && pTanjiro->Get_PlayerInfo().iPowerIndex < 2)
+			{
+				pTanjiro->Set_UnicCount(-1);
+				if (pTanjiro->Get_PlayerInfo().iPowerIndex == 0)
+				{
+					pTanjiro->Set_PowerIndex(1);
+					pTanjiro->Set_PowerUp(1.5f);
+					pTanjiro->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pTanjiro);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
+				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
+				{
+					pTanjiro->Set_PowerIndex(2);
+					pTanjiro->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pTanjiro);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
 			}
 			else if (pGameInstance->Key_Down(DIK_J))
 			{
@@ -156,6 +179,29 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
 				return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+			}
+			else if (pGameInstance->Key_Down(DIK_RCONTROL) && pTanjiro->Get_PlayerInfo().iUnicCount > 0 && pTanjiro->Get_PlayerInfo().iPowerIndex < 2)
+			{
+				pTanjiro->Set_UnicCount(-1);
+				if (pTanjiro->Get_PlayerInfo().iPowerIndex == 0)
+				{
+					pTanjiro->Set_PowerIndex(1);
+					pTanjiro->Set_PowerUp(1.5f);
+					pTanjiro->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pTanjiro);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
+				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
+				{
+					pTanjiro->Set_PowerIndex(2);
+					pTanjiro->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pTanjiro);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
 			}
 			else if (pGameInstance->Key_Down(DIK_Z))
 			{
@@ -266,6 +312,59 @@ CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (pTanjiro->Get_PlayerInfo().iGuard > pTanjiro->Get_PlayerInfo().iMaxGuard)
 			pTanjiro->Set_ResetGuardHp();
 	}
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	if (!pTanjiro->Get_PlayerInfo().bChange)
+	{
+		m_fSkillBarTime += fTimeDelta;
+		switch (pTanjiro->Get_i1P())
+		{
+		case 1:
+			if (pTanjiro->Get_PlayerInfo().iUnicCount < 3 && pTanjiro->Get_PlayerInfo().iUnicBar < pTanjiro->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_H))
+			{
+				pTanjiro->Set_UnicBar(10);
+				if (pTanjiro->Get_PlayerInfo().iUnicBar >= pTanjiro->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pTanjiro->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pTanjiro->Reset_UnicBar();
+						pTanjiro->Set_UnicCount(1);
+					}
+					else
+						pTanjiro->Set_UnicBar(pTanjiro->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pTanjiro);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		case 2:
+			if (pTanjiro->Get_PlayerInfo().iUnicCount < 3 && pTanjiro->Get_PlayerInfo().iUnicBar < pTanjiro->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_B))
+			{
+				pTanjiro->Set_UnicBar(10);
+				if (pTanjiro->Get_PlayerInfo().iUnicBar >= pTanjiro->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pTanjiro->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pTanjiro->Reset_UnicBar();
+						pTanjiro->Set_UnicCount(1);
+					}
+					else
+						pTanjiro->Set_UnicBar(pTanjiro->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pTanjiro);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		}
+	}
+	RELEASE_INSTANCE(CEffect_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 	return nullptr;
 }
 
