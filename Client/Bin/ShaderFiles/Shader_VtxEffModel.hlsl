@@ -479,6 +479,95 @@ PS_OUT PS_Map(PS_IN In)
 	return Out;
 }
 
+PS_POSTPROCESSING_OUT PS_DISTORTION_FLOWMAP(PS_FLOWMAP_IN In)
+{
+	PS_POSTPROCESSING_OUT		Out = (PS_POSTPROCESSING_OUT)0;
+	//	x 만큼 가로축으로 왜곡합니다.
+	//	필요한 데이터 = r
+
+	//	NoiseTexture의 UV = In.vTexCoord1
+	float2 noise1 = g_NoiseTexture.Sample(LinearSampler, In.vTexCoord1);
+	float2 noise2 = g_NoiseTexture.Sample(LinearSampler, In.vTexCoord1 * 2.f);
+	noise1 = (noise1 - 0.5f) * 2.0f;
+	noise2 = (noise2 - 0.5f) * 2.0f;
+
+	float2 distortion1 = float2(g_fDistortionU, g_fDistortionV);
+	noise1.xy = noise1.xy * distortion1.xy;
+	noise2.xy = noise2.xy * distortion1.xy;
+
+	float2	finalNoise = noise1.x + noise2.y;		//	Noise[0]는 X를, Noise[1]는 Y를 왜곡합니다.
+	float	fAliveTimeRatio = saturate(saturate((1.f - g_fEndALPHA)) - 0.01f);
+	float	perturb = (fAliveTimeRatio * g_fDistortionScale) + g_fDistortionBias;
+
+	float2		vNewUV = In.vTexUV;
+	vNewUV.x = saturate(vNewUV.x);
+	vNewUV.y = saturate(vNewUV.y);
+
+	float2	noiseCoords = (finalNoise.xy * perturb) + vNewUV;
+	noiseCoords.x += g_fMoveUV_U;
+	noiseCoords.y += g_fMoveUV_V;
+	//	텍스쳐 왜곡 끝
+
+
+
+	float4 DiffuseTex = g_DiffuseTexture.Sample(LinearSampler, noiseCoords);
+	float4 NoiseTex = g_NoiseTexture.Sample(LinearSampler, noiseCoords);
+	float fValueX = min(DiffuseTex.r, DiffuseTex.a) * g_fEndALPHA;
+	float fValueY = fValueX * NoiseTex.r;		//	방향은 NoiseTexture를 따라가되, 왜곡 정도는 DiffuseTexture를 따라갑니다.
+
+
+	Out.vValue = fValueX * g_fPostProcesesingValue;
+	Out.vValue.y = fValueY * g_fPostProcesesingValue;
+
+	if (Out.vValue.x <= 0.03f)
+		discard;
+
+	return Out;
+}
+
+PS_POSTPROCESSING_OUT PS_GRAYSCALE_FLOWMAP(PS_FLOWMAP_IN In)
+{
+	PS_POSTPROCESSING_OUT		Out = (PS_POSTPROCESSING_OUT)0;
+	//	rgb에서 r을 기준으로 g, b를 x 만큼 선형보간 해서 변조합니다. (1 == 회색, 0 == 원래 색)
+	//	필요한 데이터 = r
+
+
+	//	NoiseTexture의 UV = In.vTexCoord1
+	float2 noise1 = g_NoiseTexture.Sample(LinearSampler, In.vTexCoord1);
+	float2 noise2 = g_NoiseTexture.Sample(LinearSampler, In.vTexCoord1 * 2.f);
+	noise1 = (noise1 - 0.5f) * 2.0f;
+	noise2 = (noise2 - 0.5f) * 2.0f;
+
+	float2 distortion1 = float2(g_fDistortionU, g_fDistortionV);
+	noise1.xy = noise1.xy * distortion1.xy;
+	noise2.xy = noise2.xy * distortion1.xy;
+
+	float2	finalNoise = noise1.x + noise2.y;		//	Noise[0]는 X를, Noise[1]는 Y를 왜곡합니다.
+	float	fAliveTimeRatio = saturate(saturate((1.f - g_fEndALPHA)) - 0.01f);
+	float	perturb = (fAliveTimeRatio * g_fDistortionScale) + g_fDistortionBias;
+
+	float2		vNewUV = In.vTexUV;
+	vNewUV.x = saturate(vNewUV.x);
+	vNewUV.y = saturate(vNewUV.y);
+
+	float2	noiseCoords = (finalNoise.xy * perturb) + vNewUV;
+	noiseCoords.x += g_fMoveUV_U;
+	noiseCoords.y += g_fMoveUV_V;
+	//	텍스쳐 왜곡 끝
+
+
+	float4 DiffuseTex = g_DiffuseTexture.Sample(LinearSampler, noiseCoords);
+
+	float fValue = ((g_bUseRGB * DiffuseTex.r) + ((1.f - g_bUseRGB) * DiffuseTex.a));
+	Out.vValue = fValue * g_fPostProcesesingValue;
+
+	if (Out.vValue.r <= 0.03f)
+		discard;
+
+	return Out;
+}
+
+
 technique11 DefaultTechnique
 {
 	pass Default //0
@@ -611,5 +700,27 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_Map();
+	}
+
+	pass FlowMap_Distortion 	//	12
+	{
+		SetRasterizerState(RS_Effect);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_FLOWMAP();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_DISTORTION_FLOWMAP();
+	}
+
+	pass FlowMap_GrayScale	//	13
+	{
+		SetRasterizerState(RS_Effect);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_FLOWMAP();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_GRAYSCALE_FLOWMAP();
 	}
 }

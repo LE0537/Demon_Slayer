@@ -270,12 +270,28 @@ HRESULT CEffect_Mesh::Render()
 			return E_FAIL;
 
 		if (m_MeshInfo.iShader == CEffect::SHADER_DISTORTION) {
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 6)))
-				return E_FAIL;
+			if (true == m_MeshInfo.bUseFlowMap)
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 12)))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 6)))
+					return E_FAIL;
+			}
 		}
 		if (m_MeshInfo.iShader == CEffect::SHADER_GRAYSCALE) {
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 7)))
-				return E_FAIL;
+			if (true == m_MeshInfo.bUseFlowMap)
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 13)))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 7)))
+					return E_FAIL;
+			}
 		}
 
 

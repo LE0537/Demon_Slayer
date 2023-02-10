@@ -22,17 +22,24 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
 
-	m_fValue[VALUE_FOGCOLOR_R] = 0.5f;
-	m_fValue[VALUE_FOGCOLOR_G] = 0.5f;
-	m_fValue[VALUE_FOGCOLOR_B] = 0.5f;
-	m_fValue[VALUE_FOGDISTANCE] = 100.f;
-	m_fValue[VALUE_FOGRANGE] = 800.f;
+	m_fValue[VALUE_FOGCOLOR_R] = 0.15f;
+	m_fValue[VALUE_FOGCOLOR_G] = 0.15f;
+	m_fValue[VALUE_FOGCOLOR_B] = 0.4f;
+	m_fValue[VALUE_FOGDISTANCE] = 40.f;
+	m_fValue[VALUE_FOGRANGE] = 450.f;
+
 	m_fValue[VALUE_AO] = 1.36f;
 	m_fValue[VALUE_AORADIUS] = 0.4f;
 	m_fValue[VALUE_GLOWBLURCOUNT] = 1.f;
 	m_fValue[VALUE_DISTORTION] = 20.f;
-	m_fValue[VALUE_OUTLINE] = 5.f;
-	m_fValue[VALUE_INNERLINE] = 0.07f;
+	m_fValue[VALUE_OUTLINE] = 300.f;
+	m_fValue[VALUE_INNERLINE] = 0.05f;
+	m_fValue[VALUE_ENVLIGHT] = 0.9f;
+	m_fValue[VALUE_LIGHTSHAFT] = 0.5f;
+	m_fValue[VALUE_LIGHTPOWER] = 1.f;
+	m_fValue[VALUE_SHADOWTESTLENGTH] = 0.5f;
+
+	m_bRenderAO = true;
 
 	D3D11_VIEWPORT		ViewportDesc;
 	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
@@ -119,7 +126,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_UINormal"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_FLOAT, &_float4(1.f, 1.f, 1.f, 1.f)))) return E_FAIL;
 	/* For.Target_UIDepth */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_UIDepth"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
-	
+
 
 	/* For.MRT_Deferred */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Diffuse"))))
@@ -160,7 +167,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	/* For.MRT_GlowAll */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GlowAll"), TEXT("Target_GlowAll")))) return E_FAIL;
 	/* For.MRT_GlowX */
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GlowX"), TEXT("Target_GlowX")))) return E_FAIL; 
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GlowX"), TEXT("Target_GlowX")))) return E_FAIL;
 	/* For.MRT_GlowXY */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_GlowXY"), TEXT("Target_GlowXY")))) return E_FAIL;
 
@@ -249,7 +256,7 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_BlurXY"), 1.5f * fVIBufferRadius, 5.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	
+
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_GrayScale"), 2.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Distortion"), 2.5f * fVIBufferRadius, 1.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
@@ -403,7 +410,7 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 		return E_FAIL;
 	if (FAILED(Render_UIPOKE()))
 		return E_FAIL;
-	
+
 	if (FAILED(Render_UIMaster()))		//	PostProcessing2
 		return E_FAIL;					//	구조상 불가능해서 임의로 줌.
 
@@ -588,10 +595,8 @@ HRESULT CRenderer::Render_Lights()
 
 	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
 		return E_FAIL;
-
 	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
-
 	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
@@ -606,6 +611,16 @@ HRESULT CRenderer::Render_Lights()
 
 	RELEASE_INSTANCE(CPipeLine);
 
+	//	캐릭터에 영향이 가지 않는 빛의 세기
+	if (FAILED(m_pShader->Set_RawValue("g_fEnvLightValue", &m_fValue[VALUE_ENVLIGHT], sizeof(_float))))
+		return E_FAIL;
+	//	얘는 감
+	if (FAILED(m_pShader->Set_RawValue("g_fLightPower", &m_fValue[VALUE_LIGHTPOWER], sizeof(_float))))
+		return E_FAIL;
+
+	//	그림자가 검수되는 길이
+	if (FAILED(m_pShader->Set_RawValue("g_fShadowTestLength", &m_fValue[VALUE_SHADOWTESTLENGTH], sizeof(_float))))
+		return E_FAIL;
 	if (FAILED(m_pLight_Manager->Render_Lights(m_pShader, m_pVIBuffer)))
 		return E_FAIL;
 
@@ -690,16 +705,21 @@ HRESULT CRenderer::Render_Blend()
 		return E_FAIL;
 
 	CLevel_Manager*		pLevelMgr = GET_INSTANCE(CLevel_Manager);
-	if (pLevelMgr->Get_CurrentLevel() == 3)
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CPipeLine*			pPipeLine = GET_INSTANCE(CPipeLine);
+
+	_vector		vLightEye, vLightAt, vLightUp;
+	_matrix		matLightView;
+
+	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
+	if (nullptr != pLightDesc)
 	{
-		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+		vLightEye = XMLoadFloat4(&pLightDesc->vDirection);
+		vLightAt = XMLoadFloat4(&pLightDesc->vDiffuse);
+		vLightUp = { 0.f, 1.f, 0.f ,0.f };
+		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 
-		_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
-		_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
-		_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
-		_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
-
-		CPipeLine*			pPipeLine = GET_INSTANCE(CPipeLine);
 		if (FAILED(m_pShader->Set_RawValue("g_matLightView", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 			return E_FAIL;
 		if (FAILED(m_pShader->Set_RawValue("g_matLightProj", &pPipeLine->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
@@ -710,21 +730,22 @@ HRESULT CRenderer::Render_Blend()
 			return E_FAIL;
 
 
-		//	StaticObjs
-		if (nullptr != pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW))
-		{
-			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDirection);
-			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDiffuse);
-			vLightUp = { 0.f, 1.f, 0.f ,0.f };
-			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
-
-			if (FAILED(m_pShader->Set_RawValue("g_matLightView_Static", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
-				return E_FAIL;
-		}
-
-		RELEASE_INSTANCE(CGameInstance);
-		RELEASE_INSTANCE(CPipeLine);
 	}
+
+	//	StaticObjs
+	if (nullptr != pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW))
+	{
+		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDirection);
+		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDiffuse);
+		vLightUp = { 0.f, 1.f, 0.f ,0.f };
+		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+
+		if (FAILED(m_pShader->Set_RawValue("g_matLightView_Static", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
+			return E_FAIL;
+	}
+	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CPipeLine);
+
 
 	RELEASE_INSTANCE(CLevel_Manager);
 
@@ -918,16 +939,16 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
+	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW);
 	if (nullptr == pLightDesc)
 	{
 		RELEASE_INSTANCE(CGameInstance);
 		return S_OK;
 	}
 
-	_vector	vLightDir = XMLoadFloat4(&pLightDesc->vDirection);
+	_vector	vLightDir = XMLoadFloat4(&pLightDesc->vDiffuse);
 
-	 
+
 
 	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
 		return E_FAIL;
@@ -938,7 +959,7 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 
 	CPipeLine*			pPipeLine = GET_INSTANCE(CPipeLine);
 
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_ShadowDepth"), m_pShader, "g_ShadowDepthTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Static_LightDepth"), m_pShader, "g_ShadowDepthTexture")))
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_vLightDir", &vLightDir, sizeof(_float4))))
 		return E_FAIL;
@@ -947,8 +968,8 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
 		return E_FAIL;
 
-	_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
-	_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
+	_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDirection);
+	_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDiffuse);
 	_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
 	_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 	if (FAILED(m_pShader->Set_RawValue("g_vLightPos", &vLightEye, sizeof(_float4))))
@@ -970,7 +991,7 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_LightShaft"), m_pGlowDSV)))
 		return E_FAIL;
 
-	//m_pShader->Begin(14);		//	LightShaft
+	m_pShader->Begin(14);		//	LightShaft
 	m_pVIBuffer->Render();
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
@@ -984,15 +1005,15 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_LightShaft"), m_pShader, "g_AddTexture")))
 		return E_FAIL;
-	_float fAddValue = -1.f;
-	if (FAILED(m_pShader->Set_RawValue("g_fAddValue", &fAddValue, sizeof(_float))))
+		
+	if (FAILED(m_pShader->Set_RawValue("g_fAddValue", &m_fValue[VALUE_LIGHTSHAFT], sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
 
-	m_pShader->Begin(0);
-	//m_pShader->Begin(13);
+	//m_pShader->Begin(0);
+	m_pShader->Begin(13);
 	m_pVIBuffer->Render();
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
@@ -1339,10 +1360,10 @@ HRESULT CRenderer::Render_UIMaster()
 
 	m_pShader->Begin(0);
 	m_pVIBuffer->Render();
-/*
-	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-		return E_FAIL;
-*/
+	/*
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+	*/
 
 	return S_OK;
 }
@@ -1364,7 +1385,7 @@ HRESULT CRenderer::Render_Debug(_bool _bDebug)
 	{
 		if (nullptr != pComponent)
 		{
-			if(_bDebug)
+			if (_bDebug)
 				pComponent->Render();
 		}
 		Safe_Release(pComponent);

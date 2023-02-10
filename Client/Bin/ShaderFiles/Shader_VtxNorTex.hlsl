@@ -4,6 +4,7 @@ matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
 /* For.Material */
 texture2D		g_DiffuseTexture[4];
+texture2D		g_NormalTexture[4];
 
 texture2D		g_BrushTexture;
 float4			g_vBrushPos = float4(5.f, 0.f, 5.f, 1.f);
@@ -190,8 +191,22 @@ PS_OUT PS_FILTER(PS_IN In)
 
 	Out.vDiffuse = vDiffuse;
 
-	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vDepth = vector(In.vWorldPos.z / In.vWorldPos.w, In.vWorldPos.w / 1000.f, 0.f, 0.f);
+
+	//	Normal
+	vector		vSourNormal =  g_NormalTexture[0].Sample(LinearSampler, In.vTexUV * 30.f);
+	vector		vDestNormal1 = g_NormalTexture[1].Sample(LinearSampler, In.vTexUV * 30.f);
+	vector		vDestNormal2 = g_NormalTexture[2].Sample(LinearSampler, In.vTexUV * 30.f);
+	vector		vDestNormal3 = g_NormalTexture[3].Sample(LinearSampler, In.vTexUV * 30.f);
+	vSourNormal = vSourNormal * (1.f - max(max(vFilter.r, vFilter.g), vFilter.b));
+	vector		vNormal = vSourNormal + vDestNormal1 * vFilter.r +
+		vDestNormal2 * vFilter.g + vDestNormal3 * vFilter.b;
+
+	vNormal = vNormal * 2.f - 1.f;
+	vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
+
+	Out.vNormal = vNormal;
+
+	Out.vDepth = vector(In.vWorldPos.z / In.vWorldPos.w, In.vWorldPos.w / 1500.f, 0.f, 0.f);
 
 	if (Out.vDiffuse.a < 0.5f)
 		discard;
