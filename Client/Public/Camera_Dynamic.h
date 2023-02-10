@@ -62,6 +62,7 @@ private:
 	_float					m_f2pX, m_f2pY = 0.f;
 	_float					m_fAngle = 0.f;
 	_bool					m_bBattle = false;
+	_bool					m_bBattleSound = false;
 	_float					m_fCamDist = 0.f;
 	_float					m_fLookY = 0.f;
 	CCharacters*			m_p1P = nullptr;
