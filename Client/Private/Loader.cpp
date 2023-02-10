@@ -1009,6 +1009,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Guard1"));
 		pEffect_Manager->Load_Effect(TEXT("Guard2"));
 		pEffect_Manager->Load_Effect(TEXT("Guard3"));
+		pEffect_Manager->Load_Effect(TEXT("Guard3_Broken"));
 		pEffect_Manager->Load_Effect(TEXT("Jump_DOWN"));
 		pEffect_Manager->Load_Effect(TEXT("Jump_UP"));
 		pEffect_Manager->Load_Effect(TEXT("Run"));
