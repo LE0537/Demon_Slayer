@@ -359,6 +359,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_WATER6_1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_WATER6_1_GROUND, pTanjiro);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;

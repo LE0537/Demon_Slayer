@@ -294,7 +294,7 @@ CRuiState * CIdleState::Late_Tick(CRui * pRui, _float fTimeDelta)
 					else
 						pRui->Set_UnicBar(pRui->Get_PlayerInfo().iUnicMaxBar);
 				}
-				if (m_fSkillBarTime > 0.15f)
+				if (m_fSkillBarTime > 0.3f)
 				{
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pRui);
 					m_fSkillBarTime = 0.f;
@@ -315,7 +315,7 @@ CRuiState * CIdleState::Late_Tick(CRui * pRui, _float fTimeDelta)
 					else
 						pRui->Set_UnicBar(pRui->Get_PlayerInfo().iUnicMaxBar);
 				}
-				if (m_fSkillBarTime > 0.15f)
+				if (m_fSkillBarTime > 0.3f)
 				{
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pRui);
 					m_fSkillBarTime = 0.f;

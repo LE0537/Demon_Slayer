@@ -270,7 +270,7 @@ CShinobuState * CIdleState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 					else
 						pShinobu->Set_UnicBar(pShinobu->Get_PlayerInfo().iUnicMaxBar);
 				}
-				if (m_fSkillBarTime > 0.15f)
+				if (m_fSkillBarTime > 0.3f)
 				{
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pShinobu);
 					m_fSkillBarTime = 0.f;
@@ -291,7 +291,7 @@ CShinobuState * CIdleState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 					else
 						pShinobu->Set_UnicBar(pShinobu->Get_PlayerInfo().iUnicMaxBar);
 				}
-				if (m_fSkillBarTime > 0.15f)
+				if (m_fSkillBarTime > 0.3f)
 				{
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pShinobu);
 					m_fSkillBarTime = 0.f;

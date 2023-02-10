@@ -430,6 +430,7 @@ void CDashState::Exit(CTanjiro * pTanjiro)
 
 void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 	m_fTime += fTimeDelta;
 	switch (m_eDir)
 	{
@@ -649,17 +650,21 @@ void CDashState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		break;
 	}
 	// ´ë½¬ ÀÌÆåÆ®
-	if (!m_bEffect)
+	if (!m_bEffect && m_eDir != DIR_STRAIGHT && m_eDir != DIR_BACK)
 	{
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_MOVE, pTanjiro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_STOP, pTanjiro);
 
-		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
 	}
+	else if (!m_bEffect)
+	{
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_MOVEFB, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_STOPFB, pTanjiro);
 
+		m_bEffect = true;
+	}
+	RELEASE_INSTANCE(CEffect_Manager);
 	Check_Coll(pTanjiro, fTimeDelta);
 }
 
