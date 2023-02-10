@@ -618,13 +618,12 @@ PS_OUT PS_GRAYSCALE(PS_IN In)
 	vector	vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vColor = vColor;
 	float		fGrayScaleWeight = g_GrayScaleTexture.Sample(LinearSampler, In.vTexUV).r;
-	if (0.f == fGrayScaleWeight)
+	if (0.1f >= fGrayScaleWeight)
 		return Out;
 
 
-	
-	Out.vColor.rgb = vColor.rgb + ((vColor.r - vColor) * fGrayScaleWeight);
-	Out.vColor.a = vColor.a;
+	Out.vColor.rgb = lerp(vColor.rgb, 1.f - (vColor.rgb + ((vColor.r - vColor) * fGrayScaleWeight)), fGrayScaleWeight);
+	Out.vColor.a = vColor;
 
 	return Out;
 }
