@@ -337,8 +337,17 @@ void CAtk_3_State::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_ID::STATE_ATK_3;
 
+	_uint iRand = rand() % 3;
+
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_ATTACK_3);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_ATTACK_3);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Attack3_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Attack3_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Attack3_3.wav"), fEFFECT);
 
 }
 

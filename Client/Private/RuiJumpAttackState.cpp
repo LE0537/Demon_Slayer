@@ -184,12 +184,20 @@ void CJumpAttackState::Enter(CRui* pRui)
 {
 	m_eStateId = STATE_JUMP_ATTACK;
 
+	_uint iRand = rand() % 3;
+
 	switch (m_eStateType)
 	{
 	case Client::CRuiState::TYPE_START:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_JUMPATTACK);
 		pRui->Set_AnimIndex(CRui::ANIM_JUMPATTACK);
 		pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		if (iRand == 0)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Attack1_1.wav"), fEFFECT);
+		else if (iRand == 1)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Attack1_2.wav"), fEFFECT);
+		else if (iRand == 2)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Attack1_3.wav"), fEFFECT);
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_JUMP_LOOP_END);

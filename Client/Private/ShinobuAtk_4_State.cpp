@@ -382,6 +382,14 @@ void CAtk_4_State::Enter(CShinobu* pShinobu)
 
 	pShinobu->Get_Model()->Set_FrameNum(pShinobu->Get_AnimIndex(), 100);
 	
+	_uint iRand = rand() % 3;
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Attack4_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Attack4_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Attack4_3.wav"), fEFFECT);
 }
 
 void CAtk_4_State::Exit(CShinobu* pShinobu)

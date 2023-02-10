@@ -91,6 +91,15 @@ void CHitState::Enter(CKyoujuro* pKyoujuro)
 
 	pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_HIT);
 	pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_HIT);
+
+	_uint iRand = rand() % 3;
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_Hit_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_Hit_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_Hit_3.wav"), fEFFECT);
 }
 CKyoujuroState * CHitState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {

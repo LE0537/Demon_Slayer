@@ -334,6 +334,16 @@ void CAtk_1_State::Enter(CAkaza* pAkaza)
 	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_ATTACK_1);
 	pAkaza->Set_AnimIndex(CAkaza::ANIM_ATTACK_1);
 
+	_uint iRand = rand() % 4;
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Attack1_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Attack1_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Attack1_3.wav"), fEFFECT);
+	else if (iRand == 3)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Attack1_4.wav"), fEFFECT);
 }
 
 void CAtk_1_State::Exit(CAkaza* pAkaza)

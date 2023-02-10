@@ -153,7 +153,16 @@ void CHitState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_UsingFrame(CAkaza::ANIM_HIT, 25, 100);
 	}
 
+	_uint iRand = rand() % 4;
 
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Hit_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Hit_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Hit_3.wav"), fEFFECT);
+	else if (iRand == 3)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Hit_4.wav"), fEFFECT);
 }
 CAkazaState * CHitState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 {
