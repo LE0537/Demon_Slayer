@@ -249,9 +249,12 @@ CNezukoState * CSkill_FallCutState::Late_Tick(CNezuko* pNezuko, _float fTimeDelt
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-150);
+					m_pTarget->Set_GuardHp(-150 * pNezuko->Get_PlayerInfo().fPowerUp);
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
+						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
+						RELEASE_INSTANCE(CEffect_Manager);
 						m_pTarget->Set_ResetGuardHp();
 						m_pTarget->Set_GuardTime(2.f);
 					}
@@ -261,7 +264,7 @@ CNezukoState * CSkill_FallCutState::Late_Tick(CNezuko* pNezuko, _float fTimeDelt
 					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 					RELEASE_INSTANCE(CGameInstance);
-					m_pTarget->Set_Hp(-80);
+					m_pTarget->Set_Hp(-80 * pNezuko->Get_PlayerInfo().fPowerUp);
 					m_pTarget->Take_Damage(0.8f, true);
 					pNezuko->Set_Combo(1);
 					pNezuko->Set_ComboTime(0.f);

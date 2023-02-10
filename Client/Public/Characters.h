@@ -46,11 +46,12 @@ public:
 		_int		iSkBar;    //스킬게이지
 		_int		iUnicMaxBar; //맥스필살기게이지
 		_int		iUnicBar;    //필살기게이지
+		_int		iUnicCount; //필살게이지 갯수
 		_int		iDmg;      //평타 데미지
 		_int		iCombo;
 		_float		fComboTime;
-		_bool		bPowerUp;
-		_float		fPowerUpTime;
+		_float		fPowerUp;    //개방 추뎀
+		_float		fPowerUpTime;  //개방시간
 		_float		iFriendMaxBar; //맥스친구게이지
 		_float		iFriendBar;    //친구게이지
 		_bool		bGuard;

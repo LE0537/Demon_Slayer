@@ -823,9 +823,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillCommon">
       <UniqueIdentifier>{2418ecc5-47f2-4158-a0de-c50cd3dec918}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove">
-      <UniqueIdentifier>{c2e2964f-1b16-4472-bba9-b725916669a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\JumpCommon">
       <UniqueIdentifier>{0f83eaf6-d022-47de-9244-921b69223af4}</UniqueIdentifier>
     </Filter>
@@ -1050,6 +1047,9 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Rush">
       <UniqueIdentifier>{6e15c135-73ec-40b6-9adb-389e7c8eb56a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove">
+      <UniqueIdentifier>{c2e2964f-1b16-4472-bba9-b725916669a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

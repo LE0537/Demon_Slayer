@@ -66,12 +66,6 @@ CKyoujuroState * CGuardHitState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 
 	return nullptr;
 
-
-
-
-
-
-	return nullptr;
 }
 
 CKyoujuroState * CGuardHitState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
