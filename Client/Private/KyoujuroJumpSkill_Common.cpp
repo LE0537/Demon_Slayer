@@ -75,9 +75,12 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-30);
+					m_pTarget->Set_GuardHp(-30 * pKyojuro->Get_PlayerInfo().fPowerUp);
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
+						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, pKyojuro);
+						RELEASE_INSTANCE(CEffect_Manager);
 						m_pTarget->Set_ResetGuardHp();
 						m_pTarget->Set_GuardTime(2.f);
 					}
@@ -89,7 +92,7 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 						RELEASE_INSTANCE(CGameInstance);
-						m_pTarget->Set_Hp(-20);
+						m_pTarget->Set_Hp(-20 * pKyojuro->Get_PlayerInfo().fPowerUp);
 						m_pTarget->Take_Damage(0.7f, true);
 						pKyojuro->Set_Combo(1);
 						pKyojuro->Set_ComboTime(0.f);
@@ -99,7 +102,7 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.4f);
 						RELEASE_INSTANCE(CGameInstance);
-						m_pTarget->Set_Hp(-10);
+						m_pTarget->Set_Hp(-10 * pKyojuro->Get_PlayerInfo().fPowerUp);
 						m_pTarget->Take_Damage(0.2f, false);
 						pKyojuro->Set_Combo(1);
 						pKyojuro->Set_ComboTime(0.f);

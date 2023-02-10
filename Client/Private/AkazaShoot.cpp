@@ -30,7 +30,7 @@ HRESULT CAkazaShoot::Initialize(void * pArg)
 	vLook.m128_f32[1] += 1.5f;
 
 	_vector vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vPos.m128_f32[1] += 1.5f;
+	vPos.m128_f32[1] += 2.5f;
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransformCom->LookAt(vLook);
 
@@ -67,13 +67,22 @@ void CAkazaShoot::Late_Tick(_float fTimeDelta)
 		//vPos.m128_f32[1] = 0.f;
 		m_ShootInfo.pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard)
+		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard && m_ShootInfo.pTarget->Get_PlayerInfo().iGuard > 0)
 		{
 			m_ShootInfo.pTarget->Get_GuardHit(0);
+			m_ShootInfo.pTarget->Set_GuardHp(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp);
+			if (m_ShootInfo.pTarget->Get_PlayerInfo().iGuard <= 0)
+			{
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_ShootInfo.pTarget);
+				RELEASE_INSTANCE(CEffect_Manager);
+				m_ShootInfo.pTarget->Set_ResetGuardHp();
+				m_ShootInfo.pTarget->Set_GuardTime(2.f);
+			}
 		}
 		else
 		{
-			m_ShootInfo.pTarget->Set_Hp(-15);
+			m_ShootInfo.pTarget->Set_Hp(-15 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp);
 			m_ShootInfo.pTarget->Take_Damage(0.1f, false);
 			m_ShootInfo.pTarget->Get_BattleTarget()->Set_Combo(1);
 			m_ShootInfo.pTarget->Get_BattleTarget()->Set_ComboTime(0.f);

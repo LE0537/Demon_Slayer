@@ -12,6 +12,7 @@
 #include "KyoujuroAtk_1_State.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "Effect_Manager.h"
 using namespace Kyoujuro;
 
 CTargetRushState::CTargetRushState(STATE_TYPE eType)
@@ -199,7 +200,24 @@ CKyoujuroState * CTargetRushState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeD
 	else
 		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	switch (m_eStateType)
+	{
+	case CKyoujuroState::TYPE_START:
+		if (!m_bEffect)
+		{
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_START, pKyoujuro);
+			m_bEffect = true;
+		}
+		break;
+	case CKyoujuroState::TYPE_LOOP:
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_MOVE, pKyoujuro);
+		break;
+	default:
+		break;
+	}
 
+	RELEASE_INSTANCE(CEffect_Manager);
 
 	return nullptr;
 }
@@ -274,6 +292,9 @@ void CTargetRushState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		}
 		else
 		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_HIT, pKyoujuro);
+			RELEASE_INSTANCE(CEffect_Manager);
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 			RELEASE_INSTANCE(CGameInstance);
