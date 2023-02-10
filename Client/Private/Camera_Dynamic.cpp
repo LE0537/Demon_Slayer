@@ -105,10 +105,10 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		}
 #else
-		if (!m_bLerp && m_fStartTime > 1.4f)
+		if (!m_bLerp && m_fStartTime > 1.5f)
 		{
 			m_CameraDesc.fFovy = XMConvertToRadians(25.f);
-			m_bStart = true;
+			//m_bStart = true;
 			//75.343f, 5.5f, 19.231f
 			_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
 			
@@ -122,7 +122,8 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		}
 #endif
-
+		if (m_fStartTime > 1.f)
+			m_bStart = true;
 		if (!m_bStart)
 			Set_StartPos(fTimeDelta);
 	
@@ -156,7 +157,7 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 
 	if (!m_bStory)
 	{
-		if (!m_bEffect && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime() > 25.f)
+		if (m_fStartTime > 0.2f && !m_bEffect && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime() > 25.f)
 		{
 			
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -166,7 +167,7 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
 		}
-		if (!m_bBattleSound && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime() > 22.f)
+		if (m_fStartTime > 0.2f && !m_bBattleSound && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime() > 22.f)
 		{
 			CSoundMgr::Get_Instance()->PlayEffect(TEXT("BattleStart.wav"), fEFFECT);
 			m_bBattleSound = true;
@@ -183,7 +184,7 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 			m_bStartBattle = true;
 		}
 #else
-		if (!m_bStartBattle && m_fStartTime > 1.5f)
+		if (!m_bStartBattle && m_fStartTime > 0.1f)
 		{
 			Set_BattleStart(fTimeDelta);
 			m_bStartBattle = true;
@@ -591,14 +592,14 @@ void CCamera_Dynamic::Set_StartPos(_float fTimeDelta)
 		m_fLookAtY += 0.3f;
 	}
 #else
-	if (m_fFovTime < 2.5f && m_fFovTime > 2.f)
+	if (m_fFovTime < 1.f && m_fFovTime > 0.5f)
 	{
-		m_fFov -= 0.6f;
-		m_fLookAtY -= 0.075f;
+		m_fFov -= 0.12f;
+		m_fLookAtY -= 0.02f;
 	}
-	else if (m_fFovTime < 3.8f && m_fFovTime > 3.f)
+	else if (m_fFovTime < 9.3f && m_fFovTime > 1.f)
 	{
-		m_fFov += 0.6f;
+		m_fFov += 0.15f;
 	//	m_fLookAtY += 0.3f;
 	}
 #endif
