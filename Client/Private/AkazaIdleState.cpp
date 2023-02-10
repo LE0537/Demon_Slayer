@@ -234,7 +234,7 @@ void CIdleState::Enter(CAkaza* pAkaza)
 
 	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_IDLE);
 	pAkaza->Set_AnimIndex(CAkaza::ANIM_IDLE);
-
+	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_IDLE, 0.05f);
 }
 
 void CIdleState::Exit(CAkaza* pAkaza)

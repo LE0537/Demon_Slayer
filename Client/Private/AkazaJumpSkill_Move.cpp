@@ -45,10 +45,15 @@ CAkazaState * CJumpSkill_MoveState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 			break;
 		case Client::CAkazaState::TYPE_END:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			return new CIdleState();
+			
 			break;
 		}
 	}
+
+
+	
+	if(m_bNextAnim == true)
+		return new CIdleState();
 
 	switch (m_eStateType)
 	{
@@ -208,7 +213,7 @@ void CJumpSkill_MoveState::Enter(CAkaza* pAkaza)
 		//pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pAkaza->Get_Transform()->LookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_SKILL_JUMPMOVE_0);
-		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
+		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.2f);
 		Initialize_MoveValue(pAkaza);
 		Initialize_value(pAkaza);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Punch.wav"), fEFFECT);
@@ -253,7 +258,7 @@ void CJumpSkill_MoveState::Jump(CAkaza * pAkaza, _float fTimeDelta)
 	static _float fVelocity = 0.f;
 	static _float3 vPosition;
 
-
+	pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
 	vPosition.x = XMVectorGetX(pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 	vPosition.y = XMVectorGetY(pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
@@ -272,7 +277,7 @@ void CJumpSkill_MoveState::Jump(CAkaza * pAkaza, _float fTimeDelta)
 		pAkaza->Get_Transform()->Set_Jump(false);
 		vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
-
+		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		_vector vecPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		vecPos = XMVectorSetY(vecPos, vPosition.y);
 
