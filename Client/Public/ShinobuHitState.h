@@ -30,6 +30,8 @@ private:
 	_float m_fJumpTime = 0.f;
 	_float m_fCurrentPosY = 0.f;
 	_bool  m_bTrun = false;
+
+	_bool m_bTest = false;
 };
 END
 END
