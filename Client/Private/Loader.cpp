@@ -1039,6 +1039,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Water2"));
 		pEffect_Manager->Load_Effect(TEXT("Water2_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Water6"));
+		pEffect_Manager->Load_Effect(TEXT("Water6_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Water8"));
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_NormAtk_1_Cl"));
