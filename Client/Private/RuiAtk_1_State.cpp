@@ -362,6 +362,15 @@ void CAtk_1_State::Enter(CRui* pRui)
 	pRui->Set_AnimIndex(CRui::ANIM_ATTACK_1);
 	pRui->Get_Model()->Set_Loop(CRui::ANIM_ATTACK_1, false);
 	pRui->Get_Model()->Set_LinearTime(CRui::ANIM_ATTACK_1, 0.01f);
+
+	_uint iRand = rand() % 3;
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Attack1_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Attack1_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Attack1_3.wav"), fEFFECT);
 }
 
 void CAtk_1_State::Exit(CRui* pRui)

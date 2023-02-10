@@ -165,7 +165,14 @@ void CHitState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_UsingFrame(CNezuko::ANIM_HIT, 25, 100);
 	}
 
+	_uint iRand = rand() % 3;
 
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Hit_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Hit_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Hit_3.wav"), fEFFECT);
 }
 CNezukoState * CHitState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 {
