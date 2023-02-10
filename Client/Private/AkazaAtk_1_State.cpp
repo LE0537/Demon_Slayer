@@ -347,6 +347,11 @@ void CAtk_1_State::Enter(CAkaza* pAkaza)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Attack1_3.wav"), fEFFECT);
 	else if (iRand == 3)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Attack1_4.wav"), fEFFECT);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
 
 void CAtk_1_State::Exit(CAkaza* pAkaza)

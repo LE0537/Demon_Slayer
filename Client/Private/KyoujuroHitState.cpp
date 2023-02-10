@@ -114,6 +114,11 @@ void CHitState::Enter(CKyoujuro* pKyoujuro)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_Hit_2.wav"), fEFFECT);
 	else if (iRand == 2)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_Hit_3.wav"), fEFFECT);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
 CKyoujuroState * CHitState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
