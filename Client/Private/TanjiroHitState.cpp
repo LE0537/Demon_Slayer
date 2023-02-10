@@ -80,9 +80,24 @@ CTanjiroState * CHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 			pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_HIT);
 			//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_HIT);
+
+			pTanjiro->Get_Model()->Set_CurrentAnimIndex(58);
+			pTanjiro->Get_Model()->Set_Loop(58);
+			pTanjiro->Get_Model()->Set_LinearTime(58, 0.01f);
+			pTanjiro->Set_bGuard(true);
+		}
+
+		if (pTanjiro->Get_Model()->Get_End(58))
+		{
+			pTanjiro->Get_Model()->Reset_Anim(58);
+			pTanjiro->Get_Model()->Set_End(58);
+			pTanjiro->Set_bGuard(false);
 			return new CIdleState();
 		}
 	}
+
+
+
 	return nullptr;
 }
 
@@ -116,8 +131,8 @@ CTanjiroState * CHitState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
-	static _float fVelocity = 12.5f;
-	static _float fGravity = 15.f;
+	static _float fVelocity = 20.f;
+	static _float fGravity = 40.f;
 
 
 	_vector      vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

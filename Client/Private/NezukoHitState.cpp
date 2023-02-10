@@ -101,7 +101,7 @@ CNezukoState * CHitState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	}
 	else
 	{
-		if (pNezuko->Get_Model()->Get_CurrentFrame() <= 60)
+		if (pNezuko->Get_Model()->Get_CurrentFrame() <= 60 && pNezuko->Get_AnimIndex() == CNezuko::ANIM_HIT)
 		{
 			if (!m_bTrun)
 			{
@@ -124,9 +124,21 @@ CNezukoState * CHitState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 		pNezuko->Get_Model()->Play_Animation(fTimeDelta, false);
 
 
-		if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
+		if (pNezuko->Get_Model()->Get_End(80) && m_bJump == true)
 		{
-			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+			pNezuko->Get_Model()->Set_End(80);
+			pNezuko->Get_Model()->Set_CurrentAnimIndex(82);
+			pNezuko->Get_Model()->Set_Loop(82);
+			pNezuko->Set_AnimIndex(CNezuko::ANIM_IDLE);
+			pNezuko->Get_Model()->Set_LinearTime(82, 0.01f);
+			pNezuko->Set_bGuard(true);
+		}
+
+		if (pNezuko->Get_Model()->Get_End(82))
+		{
+			pNezuko->Get_Model()->Reset_Anim(82);
+			pNezuko->Get_Model()->Set_End(82);
+			pNezuko->Set_bGuard(false);
 			return new CIdleState();
 		}
 
@@ -175,8 +187,8 @@ CNezukoState * CHitState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
-	static _float fVelocity = 7.f;
-	static _float fGravity = 14.f;
+	static _float fVelocity = 20.f;
+	static _float fGravity = 40.f;
 
 
 	_vector      vPosition = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -203,7 +215,7 @@ CNezukoState * CHitState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 void CHitState::Exit(CNezuko* pNezuko)
 {
 	pNezuko->Get_Model()->Set_UsingFrame(CNezuko::ANIM_HIT, 0, 100);
-	pNezuko->Set_HitTime(0.5f);
+	pNezuko->Set_HitTime(0.2f);
 }
 
 
