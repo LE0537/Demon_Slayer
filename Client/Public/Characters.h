@@ -52,6 +52,7 @@ public:
 		_float		fComboTime;
 		_float		fPowerUp;    //개방 추뎀
 		_float		fPowerUpTime;  //개방시간
+		_int		iPowerIndex;
 		_float		iFriendMaxBar; //맥스친구게이지
 		_float		iFriendBar;    //친구게이지
 		_bool		bGuard;
@@ -103,7 +104,12 @@ public:
 	void	   Set_GuardTime(_float _fGuard) { m_tInfo.fGuardTime = _fGuard; }
 	_bool	   Get_StoryKey() { return m_bStoryKey; }
 	void	   Set_StoryKey(_bool _bKey) { m_bStoryKey = _bKey; }
-
+	void	   Set_UnicBar(_int _iUnic) { m_tInfo.iUnicBar += _iUnic; }
+	void	   Reset_UnicBar(){ m_tInfo.iUnicBar = 0; }
+	void	   Set_UnicCount(_int _iUnic) { m_tInfo.iUnicCount += _iUnic; }
+	void	   Set_PowerUp(_float _fPower){ m_tInfo.fPowerUp = _fPower; }
+	void	   Set_PowerUpTime(_float _fPower) { m_tInfo.fPowerUpTime = _fPower; }
+	void	   Set_PowerIndex(_int _iIndex) { m_tInfo.iPowerIndex = _iIndex; }
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
 protected:
