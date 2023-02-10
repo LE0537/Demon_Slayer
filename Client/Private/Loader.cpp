@@ -1016,6 +1016,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Rush_Start"));
 		pEffect_Manager->Load_Effect(TEXT("Rush_Move"));
 		pEffect_Manager->Load_Effect(TEXT("Rush_Hit"));
+		pEffect_Manager->Load_Effect(TEXT("Power_Charging"));
+		pEffect_Manager->Load_Effect(TEXT("Power_Up"));
+		pEffect_Manager->Load_Effect(TEXT("Power_Up_Player"));
+		pEffect_Manager->Load_Effect(TEXT("Perfect_Power_UP_Player"));
 
 		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_Move"));
 		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_Stop"));
