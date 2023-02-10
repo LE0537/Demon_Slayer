@@ -234,7 +234,7 @@ HRESULT CTanjiro::Render()
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	m_pNavigationCom->Render();
+	//m_pNavigationCom->Render();
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 
