@@ -26,7 +26,7 @@ private:
 	_float m_fOriginPosY;
 	_bool m_bNextAnim = false;
 	_bool m_bRange = false;
-
+	_bool  m_bEffect = false;
 	_float m_fComboDelay = 0.f;
 };
 

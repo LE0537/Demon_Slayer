@@ -30,7 +30,7 @@ HRESULT CAkazaShoot::Initialize(void * pArg)
 	vLook.m128_f32[1] += 1.5f;
 
 	_vector vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vPos.m128_f32[1] += 1.5f;
+	vPos.m128_f32[1] += 2.5f;
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransformCom->LookAt(vLook);
 

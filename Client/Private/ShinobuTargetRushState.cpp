@@ -3,7 +3,7 @@
 #include "GameInstance.h"
 #include "ShinobuIdleState.h"
 #include "ShinobuMoveState.h"
-
+#include "Effect_Manager.h"
 #include "ShinobuSkill_Common.h"
 #include "ShinobuSkill_Move.h"
 #include "ShinobuSkill_Upper.h"
@@ -206,7 +206,24 @@ CShinobuState * CTargetRushState::Late_Tick(CShinobu* pShinobu, _float fTimeDelt
 	else
 		pShinobu->Get_Model()->Play_Animation(fTimeDelta);
 
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	switch (m_eStateType)
+	{
+	case CShinobuState::TYPE_START:
+		if (!m_bEffect)
+		{
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_START, pShinobu);
+			m_bEffect = true;
+		}
+		break;
+	case CShinobuState::TYPE_LOOP:
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_MOVE, pShinobu);
+		break;
+	default:
+		break;
+	}
 
+	RELEASE_INSTANCE(CEffect_Manager);
 
 	return nullptr;
 }
@@ -282,6 +299,9 @@ void CTargetRushState::Move(CShinobu* pShinobu, _float fTimeDelta)
 		}
 		else
 		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_HIT, pShinobu);
+			RELEASE_INSTANCE(CEffect_Manager);
 			pShinobu->Get_BattleTarget()->Take_Damage(0.3f, false);
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);

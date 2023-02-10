@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "AkazaMoveState.h"
-
+#include "Effect_Manager.h"
 using namespace Akaza;
 
 CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
@@ -653,6 +653,17 @@ void CDashState::Move(CAkaza* pAkaza, _float fTimeDelta)
 		break;
 	default:
 		break;
+	}
+	// ´ë½¬ ÀÌÆåÆ®
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_MOVE, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_STOP, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
 	}
 	Check_Coll(pAkaza, fTimeDelta);
 }

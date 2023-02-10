@@ -6,7 +6,7 @@
 #include "RuiMoveState.h"
 
 #include "AiState.h"
-
+#include "Effect_Manager.h"
 using namespace Rui;
 
 CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
@@ -669,6 +669,17 @@ void CDashState::Move(CRui* pRui, _float fTimeDelta)
 		break;
 	default:
 		break;
+	}
+	// ´ë½¬ ÀÌÆåÆ®
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_MOVE, pRui);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_STOP, pRui);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
 	}
 	Check_Coll(pRui, fTimeDelta);
 }

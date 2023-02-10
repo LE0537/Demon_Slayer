@@ -30,6 +30,7 @@ private:
 	_float m_fTime = 0.f;
 	_int   iIndex = 0;
 	_bool  m_bTrue = false;
+	_bool  m_bEffect = false;
 };
 END
 END
