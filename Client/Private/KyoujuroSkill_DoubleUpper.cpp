@@ -43,9 +43,6 @@ CKyoujuroState * CSkill_DoubleUpperState::HandleInput(CKyoujuro * pKyojuro)
 		switch (pKyojuro->Get_i1P())
 		{
 		case 1:
-			if (pGameInstance->Key_Down(DIK_J))
-				return new CAtk_1_State();
-
 			if (pGameInstance->Key_Pressing(DIK_W)) // 앞
 			{
 				if (pGameInstance->Key_Pressing(DIK_A)) // 좌
@@ -101,8 +98,7 @@ CKyoujuroState * CSkill_DoubleUpperState::HandleInput(CKyoujuro * pKyojuro)
 			}
 			break;
 		case 2:
-			if (pGameInstance->Key_Down(DIK_Z))
-				return new CAtk_1_State();
+		
 
 			if (pGameInstance->Key_Pressing(DIK_UP)) // 앞
 			{
@@ -518,6 +514,9 @@ CKyoujuroState * CSkill_DoubleUpperState::CommandCheck(CKyoujuro * pKyoujuro)
 		switch (pKyoujuro->Get_i1P())
 		{
 		case 1:
+			if (pGameInstance->Key_Down(DIK_J))
+				return new CAtk_1_State();
+
 			if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
 			{
 				if (pKyoujuro->Get_PlayerInfo().iSkBar >= 200)
@@ -549,6 +548,9 @@ CKyoujuroState * CSkill_DoubleUpperState::CommandCheck(CKyoujuro * pKyoujuro)
 			}
 			break;
 		case 2:
+			if (pGameInstance->Key_Down(DIK_Z))
+				return new CAtk_1_State();
+
 			if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
 			{
 				if (pKyoujuro->Get_PlayerInfo().iSkBar >= 200)

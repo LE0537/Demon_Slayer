@@ -181,9 +181,7 @@ CTanjiroState * CSkill_WindMillState::Tick(CTanjiro * pTanjiro, _float fTimeDelt
 		{
 		case Client::CTanjiroState::TYPE_START:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-
-			if (m_bNextAnim == true)
-				return new CSkill_WindMillState(TYPE_LOOP);
+			return new CSkill_WindMillState(TYPE_LOOP);
 			break;
 		case Client::CTanjiroState::TYPE_END:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
@@ -419,6 +417,10 @@ void CSkill_WindMillState::Exit(CTanjiro * pTanjiro)
 
 void CSkill_WindMillState::Increase_Height(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	pTanjiro->Set_NavigationHeight(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pTanjiro->Get_NavigationHeight().y;
+	pTanjiro->Get_Transform()->Set_Jump(true);
+
 	static _float fJump_Velocity = 10.f;
 	static _float fGravity = 5.f;
 	static _float fDelay = 0.f;
