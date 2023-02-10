@@ -190,6 +190,7 @@ private:
 	_uint							m_iLogoButtonNum = 0;
 	_uint							m_i2PMainLayerNum = 0;
 	_uint							m_iUltBarLayerNum = 0;
+	_uint							m_iUltNumLayerNum = 0;
 	_uint							m_iTimerLayerNum = 0;
 	_uint							m_iSelStampLayerNum = 0;
 	_uint							m_iRoundIconLayerNum = 0;

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UltStockNum.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CUltStockNum::CUltStockNum(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,7 +51,16 @@ HRESULT CUltStockNum::Initialize(void * pArg)
 
 void CUltStockNum::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (!m_ThrowUIinfo.bPlyCheck)
+		m_iFrame = pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount;
+	else if (m_ThrowUIinfo.bPlyCheck)
+		m_iFrame = pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicCount;
+	
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CUltStockNum::Late_Tick(_float fTimeDelta)

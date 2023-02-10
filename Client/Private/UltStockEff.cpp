@@ -91,7 +91,7 @@ HRESULT CUltStockEff::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	//m_pVIBufferCom->Render();
 
 	return S_OK;
 }
