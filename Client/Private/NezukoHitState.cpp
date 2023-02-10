@@ -173,6 +173,11 @@ void CHitState::Enter(CNezuko* pNezuko)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Hit_2.wav"), fEFFECT);
 	else if (iRand == 2)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Hit_3.wav"), fEFFECT);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
 CNezukoState * CHitState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 {
