@@ -230,7 +230,7 @@ HRESULT CShinobu::Render()
 				if (pGameInstance->Key_Up(DIK_U))
 				{
 					m_tInfo.iFriendBar -= 500;
-					m_fChangeDelay = 1.f;
+					m_fChangeDelay = 3.f;
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Set_ChangeInfo(true);
 					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -255,7 +255,7 @@ HRESULT CShinobu::Render()
 			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_U))
 			{
 				m_tInfo.iFriendBar -= 500;
-				m_fChangeDelay = 1.f;
+				m_fChangeDelay = 3.f;
 				m_pSubChar->Set_Sub(false);
 				m_pSubChar->Set_ChangeInfo(true);
 				if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -321,7 +321,7 @@ HRESULT CShinobu::Render()
 				if (pGameInstance->Key_Up(DIK_V))
 				{
 					m_tInfo.iFriendBar -= 500;
-					m_fChangeDelay = 1.f;
+					m_fChangeDelay = 3.f;
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Set_ChangeInfo(true);
 					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -346,7 +346,7 @@ HRESULT CShinobu::Render()
 			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_V))
 			{
 				m_tInfo.iFriendBar -= 500;
-				m_fChangeDelay = 1.f;
+				m_fChangeDelay = 3.f;
 				m_pSubChar->Set_Sub(false);
 				m_pSubChar->Set_ChangeInfo(true);
 				if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))

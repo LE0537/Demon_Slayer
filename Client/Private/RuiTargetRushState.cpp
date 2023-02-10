@@ -14,6 +14,7 @@
 #include "RuiAtk_1_State.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "Effect_Manager.h"
 using namespace Rui;
 
 CTargetRushState::CTargetRushState(STATE_TYPE eType)
@@ -211,7 +212,24 @@ CRuiState * CTargetRushState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	else
 		pRui->Get_Model()->Play_Animation(fTimeDelta);
 
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	switch (m_eStateType)
+	{
+	case CRuiState::TYPE_START:
+		if (!m_bEffect)
+		{
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_START, pRui);
+			m_bEffect = true;
+		}
+		break;
+	case CRuiState::TYPE_LOOP:
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_MOVE, pRui);
+		break;
+	default:
+		break;
+	}
 
+	RELEASE_INSTANCE(CEffect_Manager);
 
 	return nullptr;
 }
@@ -286,6 +304,9 @@ void CTargetRushState::Move(CRui* pRui, _float fTimeDelta)
 		}
 		else
 		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_HIT, pRui);
+			RELEASE_INSTANCE(CEffect_Manager);
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 			RELEASE_INSTANCE(CGameInstance);

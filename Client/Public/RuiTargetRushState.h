@@ -27,7 +27,7 @@ private:
 	_bool m_bNextAnim = false;
 	_bool m_bRange = false;
 
-
+	_bool  m_bEffect = false;
 };
 
 END

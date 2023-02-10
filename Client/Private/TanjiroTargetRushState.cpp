@@ -228,19 +228,24 @@ CTanjiroState * CTargetRushState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDel
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
-
-	// µ¹Áø ÀÌÆåÆ®
-	if (!m_bEffect)
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	switch (m_eStateType)
 	{
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_START, pTanjiro);
+	case CTanjiroState::TYPE_START:
+		if (!m_bEffect)
+		{
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_START, pTanjiro);
+			m_bEffect = true;
+		}
+		break;
+	case CTanjiroState::TYPE_LOOP:
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_MOVE, pTanjiro);
-
-		RELEASE_INSTANCE(CEffect_Manager);
-		m_bEffect = true;
+		break;
+	default:
+		break;
 	}
 
+	RELEASE_INSTANCE(CEffect_Manager);
 	return nullptr;
 }
 
@@ -315,6 +320,9 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		}
 		else
 		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_HIT, pTanjiro);
+			RELEASE_INSTANCE(CEffect_Manager);
 			pTanjiro->Get_BattleTarget()->Take_Damage(0.3f, false);
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);

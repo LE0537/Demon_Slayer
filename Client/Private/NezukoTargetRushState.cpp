@@ -3,7 +3,7 @@
 #include "GameInstance.h"
 #include "NezukoIdleState.h"
 #include "NezukoMoveState.h"
-
+#include "Effect_Manager.h"
 #include "NezukoDashState.h"
 #include "NezukoSkill_Common.h"
 #include "NezukoSkill_FallCut.h"
@@ -205,7 +205,24 @@ CNezukoState * CTargetRushState::Late_Tick(CNezuko * pNezuko, _float fTimeDelta)
 	else
 		pNezuko->Get_Model()->Play_Animation(fTimeDelta);
 
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	switch (m_eStateType)
+	{
+	case CNezukoState::TYPE_START:
+		if (!m_bEffect)
+		{
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_START, pNezuko);
+			m_bEffect = true;
+		}
+		break;
+	case CNezukoState::TYPE_LOOP:
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_MOVE, pNezuko);
+		break;
+	default:
+		break;
+	}
 
+	RELEASE_INSTANCE(CEffect_Manager);
 
 	return nullptr;
 }
@@ -280,6 +297,9 @@ void CTargetRushState::Move(CNezuko * pNezuko, _float fTimeDelta)
 		}
 		else
 		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_HIT, pNezuko);
+			RELEASE_INSTANCE(CEffect_Manager);
 			pNezuko->Get_BattleTarget()->Take_Damage(0.3f, false);
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
