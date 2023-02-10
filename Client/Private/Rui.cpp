@@ -135,6 +135,17 @@ void CRui::Tick(_float fTimeDelta)
 				m_tInfo.fHitTime -= fTimeDelta;
 			if (m_tInfo.fGuardTime > 0.f)
 				m_tInfo.fGuardTime -= fTimeDelta;
+			if (m_tInfo.fPowerUpTime > 0.f)
+			{
+				m_tInfo.fPowerUpTime -= fTimeDelta;
+				if (m_tInfo.fPowerUpTime <= 0.f)
+				{
+					m_tInfo.fPowerUp = 1.f;
+					m_tInfo.iPowerIndex = 0;
+				}
+			}
+			if (m_tInfo.iPowerIndex == 2)
+				m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
 			if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
 				HandleInput(fTimeDelta);
 		}
@@ -340,6 +351,7 @@ void CRui::Set_Info()
 	m_tInfo.fComboTime = 0.f;
 	m_tInfo.fPowerUp = 1.f;
 	m_tInfo.fPowerUpTime = 0.f;
+	m_tInfo.iPowerIndex = 0;
 	m_tInfo.iFriendMaxBar = 1000;
 	m_tInfo.iFriendBar = m_tInfo.iFriendMaxBar;
 	m_tInfo.bGuard = false;

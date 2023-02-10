@@ -20,7 +20,7 @@ public:
 
 private:
 	STATE_ID ePreState = CTanjiroState::STATE_END;
-
+	_float   m_fSkillBarTime = 0.f;
 };
 END
 END

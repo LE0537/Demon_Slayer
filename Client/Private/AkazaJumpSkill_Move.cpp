@@ -79,7 +79,8 @@ CAkazaState * CJumpSkill_MoveState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	m_fDelay += fTimeDelta;
 
 	m_fTime += fTimeDelta;
-	m_fHitTime += fTimeDelta;
+	if(m_fDelay > 0.4f)
+		m_fHitTime += fTimeDelta;
 
 
 	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
