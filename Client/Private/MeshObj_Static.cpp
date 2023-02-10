@@ -47,25 +47,66 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	if(nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
-
 	return S_OK;
 }
 
 void CMeshObj_Static::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	//m_iInit = 1;
 	if (0 < m_iInit)
 	{
-		if(2068 != m_tMyDesc.iModelIndex)
+		if(m_tMyDesc.iModelIndex != 2068 &&
+			m_tMyDesc.iModelIndex != 2086 &&
+			m_tMyDesc.iModelIndex != 2004 &&
+			m_tMyDesc.iModelIndex != 2081 &&
+			m_tMyDesc.iModelIndex != 2082 &&
+			m_tMyDesc.iModelIndex != 2083 &&
+			m_tMyDesc.iModelIndex != 2084 &&
+			m_tMyDesc.iModelIndex != 2045 &&
+			m_tMyDesc.iModelIndex != 2046 &&
+			m_tMyDesc.iModelIndex != 2047 &&
+			m_tMyDesc.iModelIndex != 2048 &&
+			m_tMyDesc.iModelIndex != 2049 && 
+			m_tMyDesc.iModelIndex != 2050)
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
+
 		--m_iInit;
 	}
 
 
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	//	¸Ê¸¶´Ù ±¤¿ø À§Ä¡ Á¶Á¤
+	//_float4 vEye = _float4(-10.f, 150.f, -10.f, 1.f);			//	eye
+	//_float4 vAt = _float4(60.f, -20.f, 60.f, 1.f);			//	at
+	//_vector vLook = XMLoadFloat4(&vAt) - XMLoadFloat4(&vEye);
+	////XMStoreFloat4(&vAt, XMVectorSetW(XMLoadFloat4(&vEye) + XMVector3Normalize(vLook), 1.f));
+	//pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW, vEye, vAt);
+
+	//vEye = _float4(-220.f, 600.f, -200.f, 1.f);
+	//XMStoreFloat4(&vAt, XMVectorSetW(XMLoadFloat4(&vEye) + XMVector3Normalize(vLook), 1.f));
+	//pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, vEye, vAt);
+
+
+	//	¸Ê¸¶´Ù Shader°ª Á¶Á¤
+/*	
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.15f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.15f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.4f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 40.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 450.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 300.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.79f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.2f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.85f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
+*/
 
 
 	//if (pGameInstance->Key_Down(DIK_F4))
@@ -89,7 +130,7 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 
 	//}
 
-	//RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CGameInstance);
 
 
 }

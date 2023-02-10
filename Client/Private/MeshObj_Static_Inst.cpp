@@ -53,20 +53,31 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 
 	m_pModelCom->Update_Instancing(m_vecMatrix, 30000, 1.f / 60.f);
 
-	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
-
 	return S_OK;
 }
 
 void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	//m_iInit = 1;
 	if (0 < m_iInit)
 	{
 		m_pModelCom->Update_Instancing(m_vecMatrix, 50000.f, fTimeDelta);
 
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
+		if (m_tMyDesc.iModelIndex != 2068 &&
+			m_tMyDesc.iModelIndex != 2086 &&
+			m_tMyDesc.iModelIndex != 2004 &&
+			m_tMyDesc.iModelIndex != 2081 &&
+			m_tMyDesc.iModelIndex != 2082 &&
+			m_tMyDesc.iModelIndex != 2083 &&
+			m_tMyDesc.iModelIndex != 2084 &&
+			m_tMyDesc.iModelIndex != 2045 &&
+			m_tMyDesc.iModelIndex != 2046 &&
+			m_tMyDesc.iModelIndex != 2047 &&
+			m_tMyDesc.iModelIndex != 2048 &&
+			m_tMyDesc.iModelIndex != 2049 &&
+			m_tMyDesc.iModelIndex != 2050)
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
 		--m_iInit;
 	}
 	else
@@ -80,7 +91,6 @@ void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
 	if (nullptr != m_pRendererCom)
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-		//m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 
 	}
 }

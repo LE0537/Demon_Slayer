@@ -110,6 +110,12 @@ HRESULT CMainApp::Render()
 		m_iNumRender = 0;
 	}
 
+	if (m_pGameInstance->Key_Down(DIK_F1))
+		g_bDebug = !g_bDebug;
+
+	if (m_pGameInstance->Key_Down(DIK_F2))
+		g_bCollBox = !g_bCollBox;
+
 	return S_OK;
 }
 

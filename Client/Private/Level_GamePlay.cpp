@@ -53,6 +53,36 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Load_StaticObjects("11_Rui")))
 		return E_FAIL;
 
+
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
+	m_pRendererCom = (CRenderer*)pOut;
+
+	if (nullptr == m_pRendererCom)
+	{
+		RELEASE_INSTANCE(CGameInstance);
+		return E_FAIL;
+	}
+
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.15f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.15f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.4f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 40.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 450.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 300.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.79f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.2f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.85f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
+
+	RELEASE_INSTANCE(CGameInstance);
+
+
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("hov.wav"), 0.45f);
 
 	return S_OK;
@@ -86,12 +116,6 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 		m_bCreateUI = true;
 	}
 
-	if (pGameInstance->Key_Down(DIK_F1))
-		g_bDebug = !g_bDebug;
-
-	if (pGameInstance->Key_Down(DIK_F2))
-		g_bCollBox = !g_bCollBox;
-
 	if (pGameInstance->Key_Down(DIK_0)) {
 		/*CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
@@ -122,8 +146,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	LIGHTDESC			LightDesc;
-
-
+	
 
 	/* For.Point */
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
@@ -149,18 +172,13 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 
 	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
 		return E_FAIL;
-
 	
-
 	/* For.Directional*/
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
 	LightDesc.eType = LIGHTDESC::TYPE_BATTLESHADOW;
-	LightDesc.vDirection = _float4(-400.f, 500.f, -400.f, 1.f);		//	eye
-	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&_float4(-10.f, 150.f, -10.f, 1.f)) + XMVector3Normalize(vLook), 1.f));
-	//	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
-	//LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);		//	eye
-	LightDesc.vDiffuse = _float4(60.f, -20.f, 60.f, 1.f);			//	at
+	LightDesc.vDirection = _float4(-220.f, 600.f, -200.f, 1.f);			//	eye
+	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&LightDesc.vDirection) + XMVector3Normalize(vLook), 1.f));
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
 	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
@@ -673,5 +691,5 @@ void CLevel_GamePlay::Free()
 {
 	__super::Free();
 	
-
+	Safe_Release(m_pRendererCom);
 }
