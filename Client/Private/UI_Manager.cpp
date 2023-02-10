@@ -574,8 +574,10 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		break;
 	case 31:
+		iter.iLayerNum = m_iUltNumLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockNum"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iUltNumLayerNum;
 		break;
 	case 32:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
