@@ -10,6 +10,7 @@
 #include "KyoujuroSkill_DoubleUpper.h"
 #include "KyoujuroChangeState.h"
 #include "KyoujuroTargetRushState.h"
+#include "Effect_Manager.h"
 using namespace Kyoujuro;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -56,6 +57,29 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
 				return new CJumpState(STATE_TYPE::TYPE_LOOP, fPositionY, 0.f);
+			}
+			else if (pGameInstance->Key_Down(DIK_Q) && pKyoujuro->Get_PlayerInfo().iUnicCount > 0 && pKyoujuro->Get_PlayerInfo().iPowerIndex < 2)
+			{
+				pKyoujuro->Set_UnicCount(-1);
+				if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 0)
+				{
+					pKyoujuro->Set_PowerIndex(1);
+					pKyoujuro->Set_PowerUp(1.5f);
+					pKyoujuro->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pKyoujuro);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
+				else if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 1)
+				{
+					pKyoujuro->Set_PowerIndex(2);
+					pKyoujuro->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pKyoujuro);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
 			}
 			else if (pGameInstance->Key_Down(DIK_J))
 				return new CAtk_1_State();
@@ -114,6 +138,29 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				_vector vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				_float fPositionY = XMVectorGetY(vPosition);
 				return new CJumpState(STATE_TYPE::TYPE_LOOP, fPositionY, 0.f);
+			}
+			else if (pGameInstance->Key_Down(DIK_RCONTROL) && pKyoujuro->Get_PlayerInfo().iUnicCount > 0 && pKyoujuro->Get_PlayerInfo().iPowerIndex < 2)
+			{
+				pKyoujuro->Set_UnicCount(-1);
+				if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 0)
+				{
+					pKyoujuro->Set_PowerIndex(1);
+					pKyoujuro->Set_PowerUp(1.5f);
+					pKyoujuro->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pKyoujuro);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
+				else if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 1)
+				{
+					pKyoujuro->Set_PowerIndex(2);
+					pKyoujuro->Set_PowerUpTime(6.f);
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pKyoujuro);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
 			}
 			else if (pGameInstance->Key_Down(DIK_Z))
 				return new CAtk_1_State();
@@ -186,6 +233,59 @@ CKyoujuroState * CIdleState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		if (pKyoujuro->Get_PlayerInfo().iGuard > pKyoujuro->Get_PlayerInfo().iMaxGuard)
 			pKyoujuro->Set_ResetGuardHp();
 	}
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	if (!pKyoujuro->Get_PlayerInfo().bChange)
+	{
+		m_fSkillBarTime += fTimeDelta;
+		switch (pKyoujuro->Get_i1P())
+		{
+		case 1:
+			if (pKyoujuro->Get_PlayerInfo().iUnicCount < 3 && pKyoujuro->Get_PlayerInfo().iUnicBar < pKyoujuro->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_H))
+			{
+				pKyoujuro->Set_UnicBar(10);
+				if (pKyoujuro->Get_PlayerInfo().iUnicBar >= pKyoujuro->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pKyoujuro->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pKyoujuro->Reset_UnicBar();
+						pKyoujuro->Set_UnicCount(1);
+					}
+					else
+						pKyoujuro->Set_UnicBar(pKyoujuro->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pKyoujuro);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		case 2:
+			if (pKyoujuro->Get_PlayerInfo().iUnicCount < 3 && pKyoujuro->Get_PlayerInfo().iUnicBar < pKyoujuro->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_B))
+			{
+				pKyoujuro->Set_UnicBar(10);
+				if (pKyoujuro->Get_PlayerInfo().iUnicBar >= pKyoujuro->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pKyoujuro->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pKyoujuro->Reset_UnicBar();
+						pKyoujuro->Set_UnicCount(1);
+					}
+					else
+						pKyoujuro->Set_UnicBar(pKyoujuro->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pKyoujuro);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		}
+	}
+	RELEASE_INSTANCE(CEffect_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 	return nullptr;
 }
 

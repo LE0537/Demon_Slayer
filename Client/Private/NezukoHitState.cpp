@@ -22,12 +22,24 @@ CNezukoState * CHitState::HandleInput(CNezuko* pNezuko)
 
 CNezukoState * CHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
-	//if (!m_bReset)
-	//{
-	//	pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_HIT);
-	//	pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_HIT);
-	//	m_bReset = true;
-	//}
+	if (!m_bReset)
+	{
+		if (pNezuko->Get_PlayerInfo().iUnicCount < 3 && pNezuko->Get_PlayerInfo().iUnicBar < pNezuko->Get_PlayerInfo().iUnicMaxBar)
+		{
+			pNezuko->Set_UnicBar(67);
+			if (pNezuko->Get_PlayerInfo().iUnicBar >= pNezuko->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pNezuko->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pNezuko->Reset_UnicBar();
+					pNezuko->Set_UnicCount(1);
+				}
+				else
+					pNezuko->Set_UnicBar(pNezuko->Get_PlayerInfo().iUnicMaxBar);
+			}
+		}
+		m_bReset = true;
+	}
 
 	fHitTime += fTimeDelta * 60.f;
 

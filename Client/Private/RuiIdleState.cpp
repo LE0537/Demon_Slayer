@@ -10,6 +10,7 @@
 #include "RuiAdvSkill_CommonState.h"
 #include "RuiTargetRushState.h"
 #include "AiState.h"
+#include "Effect_Manager.h"
 using namespace Rui;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -70,6 +71,29 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_float fPositionY = XMVectorGetY(vPosition);
 			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+		}
+		else if (pGameInstance->Key_Down(DIK_Q) && pRui->Get_PlayerInfo().iUnicCount > 0 && pRui->Get_PlayerInfo().iPowerIndex < 2)
+		{
+			pRui->Set_UnicCount(-1);
+			if (pRui->Get_PlayerInfo().iPowerIndex == 0)
+			{
+				pRui->Set_PowerIndex(1);
+				pRui->Set_PowerUp(1.5f);
+				pRui->Set_PowerUpTime(6.f);
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pRui);
+				RELEASE_INSTANCE(CEffect_Manager);
+			}
+			else if (pRui->Get_PlayerInfo().iPowerIndex == 1)
+			{
+				pRui->Set_PowerIndex(2);
+				pRui->Set_PowerUpTime(6.f);
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pRui);
+				RELEASE_INSTANCE(CEffect_Manager);
+			}
 		}
 		else if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
@@ -155,6 +179,29 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			_float fPositionY = XMVectorGetY(vPosition);
 			return new CJumpState(STATE_TYPE::TYPE_START, fPositionY, 0.f);
 		}
+		else if (pGameInstance->Key_Down(DIK_RCONTROL) && pRui->Get_PlayerInfo().iUnicCount > 0 && pRui->Get_PlayerInfo().iPowerIndex < 2)
+		{
+			pRui->Set_UnicCount(-1);
+			if (pRui->Get_PlayerInfo().iPowerIndex == 0)
+			{
+				pRui->Set_PowerIndex(1);
+				pRui->Set_PowerUp(1.5f);
+				pRui->Set_PowerUpTime(6.f);
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pRui);
+				RELEASE_INSTANCE(CEffect_Manager);
+			}
+			else if (pRui->Get_PlayerInfo().iPowerIndex == 1)
+			{
+				pRui->Set_PowerIndex(2);
+				pRui->Set_PowerUpTime(6.f);
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pRui);
+				RELEASE_INSTANCE(CEffect_Manager);
+			}
+		}
 		else if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_C) && pRui->Get_PlayerInfo().fGuardTime <= 0.f)
@@ -226,6 +273,59 @@ CRuiState * CIdleState::Late_Tick(CRui * pRui, _float fTimeDelta)
 		if (pRui->Get_PlayerInfo().iGuard > pRui->Get_PlayerInfo().iMaxGuard)
 			pRui->Set_ResetGuardHp();
 	}
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	if (!pRui->Get_PlayerInfo().bChange)
+	{
+		m_fSkillBarTime += fTimeDelta;
+		switch (pRui->Get_i1P())
+		{
+		case 1:
+			if (pRui->Get_PlayerInfo().iUnicCount < 3 && pRui->Get_PlayerInfo().iUnicBar < pRui->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_H))
+			{
+				pRui->Set_UnicBar(10);
+				if (pRui->Get_PlayerInfo().iUnicBar >= pRui->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pRui->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pRui->Reset_UnicBar();
+						pRui->Set_UnicCount(1);
+					}
+					else
+						pRui->Set_UnicBar(pRui->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pRui);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		case 2:
+			if (pRui->Get_PlayerInfo().iUnicCount < 3 && pRui->Get_PlayerInfo().iUnicBar < pRui->Get_PlayerInfo().iUnicMaxBar && pGameInstance->Key_Pressing(DIK_B))
+			{
+				pRui->Set_UnicBar(10);
+				if (pRui->Get_PlayerInfo().iUnicBar >= pRui->Get_PlayerInfo().iUnicMaxBar)
+				{
+					if (pRui->Get_PlayerInfo().iUnicCount < 3)
+					{
+						pRui->Reset_UnicBar();
+						pRui->Set_UnicCount(1);
+					}
+					else
+						pRui->Set_UnicBar(pRui->Get_PlayerInfo().iUnicMaxBar);
+				}
+				if (m_fSkillBarTime > 0.15f)
+				{
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pRui);
+					m_fSkillBarTime = 0.f;
+				}
+			}
+			break;
+		}
+	}
+	RELEASE_INSTANCE(CEffect_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 	return nullptr;
 }
 

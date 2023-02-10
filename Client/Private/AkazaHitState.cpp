@@ -22,12 +22,24 @@ CAkazaState * CHitState::HandleInput(CAkaza* pAkaza)
 
 CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
-	//if (!m_bReset)
-	//{
-	//	pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_HIT);
-	//	pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_HIT);
-	//	m_bReset = true;
-	//}
+	if (!m_bReset)
+	{
+		if (pAkaza->Get_PlayerInfo().iUnicCount < 3 && pAkaza->Get_PlayerInfo().iUnicBar < pAkaza->Get_PlayerInfo().iUnicMaxBar)
+		{
+			pAkaza->Set_UnicBar(67);
+			if (pAkaza->Get_PlayerInfo().iUnicBar >= pAkaza->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pAkaza->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pAkaza->Reset_UnicBar();
+					pAkaza->Set_UnicCount(1);
+				}
+				else
+					pAkaza->Set_UnicBar(pAkaza->Get_PlayerInfo().iUnicMaxBar);
+			}
+		}
+		m_bReset = true;
+	}
 
 	fHitTime += fTimeDelta * 60.f;
 
