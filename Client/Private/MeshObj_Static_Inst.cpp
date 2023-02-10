@@ -35,6 +35,7 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	if (nullptr == pArg)
 		return E_FAIL;
 
+	m_bRenderShadow = true;
 	memcpy(&m_tMyDesc, pArg, sizeof m_tMyDesc);
 
 	if (FAILED(Ready_Components()))
@@ -64,19 +65,7 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 	{
 		m_pModelCom->Update_Instancing(m_vecMatrix, 50000.f, fTimeDelta);
 
-		if (m_tMyDesc.iModelIndex != 2068 &&
-			m_tMyDesc.iModelIndex != 2086 &&
-			m_tMyDesc.iModelIndex != 2004 &&
-			m_tMyDesc.iModelIndex != 2081 &&
-			m_tMyDesc.iModelIndex != 2082 &&
-			m_tMyDesc.iModelIndex != 2083 &&
-			m_tMyDesc.iModelIndex != 2084 &&
-			m_tMyDesc.iModelIndex != 2045 &&
-			m_tMyDesc.iModelIndex != 2046 &&
-			m_tMyDesc.iModelIndex != 2047 &&
-			m_tMyDesc.iModelIndex != 2048 &&
-			m_tMyDesc.iModelIndex != 2049 &&
-			m_tMyDesc.iModelIndex != 2050)
+		if (true == m_bRenderShadow)
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
 		--m_iInit;
 	}
@@ -241,7 +230,7 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2001: lstrcpy(pPrototypeTag_Model, L"BigTree1_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
 	case 2002: lstrcpy(pPrototypeTag_Model, L"BigTree2_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
 	case 2003: lstrcpy(pPrototypeTag_Model, L"BigTree3_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2004: lstrcpy(pPrototypeTag_Model, L"TreeFar1_Instancing"); m_fFrustumRadiusRatio = 7.f;  break;
+	case 2004: lstrcpy(pPrototypeTag_Model, L"TreeFar1_Instancing"); m_fFrustumRadiusRatio = 7.f;  m_bRenderShadow = false; break;
 	case 2005: lstrcpy(pPrototypeTag_Model, L"TreeWillow_Instancing"); m_fFrustumRadiusRatio = 20.f; break;
 
 	case 2006: lstrcpy(pPrototypeTag_Model, L"TreeBroken1_Instancing"); m_fFrustumRadiusRatio = 6.f; break;
@@ -273,70 +262,70 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2029: lstrcpy(pPrototypeTag_Model, L"Cliff3_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
 	case 2030: lstrcpy(pPrototypeTag_Model, L"Cliff_Small_Instancing"); m_fFrustumRadiusRatio = 4.f; break;
 
-	case 2031: lstrcpy(pPrototypeTag_Model, L"Grass1_Instancing"); break;
-	case 2032: lstrcpy(pPrototypeTag_Model, L"Grass2_Instancing"); break;
-	case 2033: lstrcpy(pPrototypeTag_Model, L"Grass3_Instancing"); break;
-	case 2034: lstrcpy(pPrototypeTag_Model, L"Grass4_Instancing"); break;
-	case 2035: lstrcpy(pPrototypeTag_Model, L"Grass5_Instancing"); break;
-	case 2036: lstrcpy(pPrototypeTag_Model, L"Grass6_Instancing"); break;
+	case 2031: lstrcpy(pPrototypeTag_Model, L"Grass1_Instancing"); m_bRenderShadow = false; break;
+	case 2032: lstrcpy(pPrototypeTag_Model, L"Grass2_Instancing"); m_bRenderShadow = false; break;
+	case 2033: lstrcpy(pPrototypeTag_Model, L"Grass3_Instancing"); m_bRenderShadow = false; break;
+	case 2034: lstrcpy(pPrototypeTag_Model, L"Grass4_Instancing"); m_bRenderShadow = false; break;
+	case 2035: lstrcpy(pPrototypeTag_Model, L"Grass5_Instancing"); m_bRenderShadow = false; break;
+	case 2036: lstrcpy(pPrototypeTag_Model, L"Grass6_Instancing"); m_bRenderShadow = false; break;
 
-	case 2037: lstrcpy(pPrototypeTag_Model, L"Lavender_Instancing"); break;
-	case 2038: lstrcpy(pPrototypeTag_Model, L"Flower1_Instancing"); break;
-	case 2039: lstrcpy(pPrototypeTag_Model, L"Flower2_Instancing"); break;
-	case 2040: lstrcpy(pPrototypeTag_Model, L"Flower3_Instancing"); break;
+	case 2037: lstrcpy(pPrototypeTag_Model, L"Lavender_Instancing"); m_bRenderShadow = false; break;
+	case 2038: lstrcpy(pPrototypeTag_Model, L"Flower1_Instancing"); m_bRenderShadow = false; break;
+	case 2039: lstrcpy(pPrototypeTag_Model, L"Flower2_Instancing"); m_bRenderShadow = false; break;
+	case 2040: lstrcpy(pPrototypeTag_Model, L"Flower3_Instancing"); m_bRenderShadow = false; break;
 
-	case 2041: lstrcpy(pPrototypeTag_Model, L"Leaf1_Instancing"); break;
-	case 2042: lstrcpy(pPrototypeTag_Model, L"Leaf2_Instancing"); break;
-	case 2043: lstrcpy(pPrototypeTag_Model, L"Leaf3_Instancing"); break;
-	case 2044: lstrcpy(pPrototypeTag_Model, L"Leaf4_Instancing"); break;
+	case 2041: lstrcpy(pPrototypeTag_Model, L"Leaf1_Instancing"); m_bRenderShadow = false; break;
+	case 2042: lstrcpy(pPrototypeTag_Model, L"Leaf2_Instancing"); m_bRenderShadow = false; break;
+	case 2043: lstrcpy(pPrototypeTag_Model, L"Leaf3_Instancing"); m_bRenderShadow = false; break;
+	case 2044: lstrcpy(pPrototypeTag_Model, L"Leaf4_Instancing"); m_bRenderShadow = false; break;
 
-	case 2045: lstrcpy(pPrototypeTag_Model, L"Hill_Far1_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2046: lstrcpy(pPrototypeTag_Model, L"Hill_Far2_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2047: lstrcpy(pPrototypeTag_Model, L"Hill_Far3_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2048: lstrcpy(pPrototypeTag_Model, L"Hill_Far4_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2049: lstrcpy(pPrototypeTag_Model, L"Hill_Far5_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
-	case 2050: lstrcpy(pPrototypeTag_Model, L"Hill_Far6_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2045: lstrcpy(pPrototypeTag_Model, L"Hill_Far1_Instancing"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
+	case 2046: lstrcpy(pPrototypeTag_Model, L"Hill_Far2_Instancing"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
+	case 2047: lstrcpy(pPrototypeTag_Model, L"Hill_Far3_Instancing"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
+	case 2048: lstrcpy(pPrototypeTag_Model, L"Hill_Far4_Instancing"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
+	case 2049: lstrcpy(pPrototypeTag_Model, L"Hill_Far5_Instancing"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
+	case 2050: lstrcpy(pPrototypeTag_Model, L"Hill_Far6_Instancing"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
 
 	case 2051: lstrcpy(pPrototypeTag_Model, L"Wall1_Instancing"); m_fFrustumRadiusRatio = 30.f; break;
 	case 2052: lstrcpy(pPrototypeTag_Model, L"Wall2_Instancing"); m_fFrustumRadiusRatio = 30.f; break;
 
-	case 2053: lstrcpy(pPrototypeTag_Model, L"SpiderWeb1_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2054: lstrcpy(pPrototypeTag_Model, L"SpiderWeb2_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2055: lstrcpy(pPrototypeTag_Model, L"SpiderWeb3_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2053: lstrcpy(pPrototypeTag_Model, L"SpiderWeb1_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
+	case 2054: lstrcpy(pPrototypeTag_Model, L"SpiderWeb2_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
+	case 2055: lstrcpy(pPrototypeTag_Model, L"SpiderWeb3_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
 
-	case 2056: lstrcpy(pPrototypeTag_Model, L"Bush1_Instancing"); break;
-	case 2057: lstrcpy(pPrototypeTag_Model, L"Bush2_Instancing"); break;
-	case 2058: lstrcpy(pPrototypeTag_Model, L"Bush3_Instancing"); break;
-	case 2059: lstrcpy(pPrototypeTag_Model, L"Bush4_Instancing"); break;
-	case 2060: lstrcpy(pPrototypeTag_Model, L"Bush5_Instancing"); break;
-	case 2061: lstrcpy(pPrototypeTag_Model, L"Bush6_Instancing"); break;
-	case 2062: lstrcpy(pPrototypeTag_Model, L"Bush7_Instancing"); break;
-	case 2063: lstrcpy(pPrototypeTag_Model, L"Bush8_Instancing"); break;
-	case 2064: lstrcpy(pPrototypeTag_Model, L"Bush9_Instancing"); break;
+	case 2056: lstrcpy(pPrototypeTag_Model, L"Bush1_Instancing"); m_bRenderShadow = false; break;
+	case 2057: lstrcpy(pPrototypeTag_Model, L"Bush2_Instancing"); m_bRenderShadow = false; break;
+	case 2058: lstrcpy(pPrototypeTag_Model, L"Bush3_Instancing"); m_bRenderShadow = false; break;
+	case 2059: lstrcpy(pPrototypeTag_Model, L"Bush4_Instancing"); m_bRenderShadow = false; break;
+	case 2060: lstrcpy(pPrototypeTag_Model, L"Bush5_Instancing"); m_bRenderShadow = false; break;
+	case 2061: lstrcpy(pPrototypeTag_Model, L"Bush6_Instancing"); m_bRenderShadow = false; break;
+	case 2062: lstrcpy(pPrototypeTag_Model, L"Bush7_Instancing"); m_bRenderShadow = false; break;
+	case 2063: lstrcpy(pPrototypeTag_Model, L"Bush8_Instancing"); m_bRenderShadow = false; break;
+	case 2064: lstrcpy(pPrototypeTag_Model, L"Bush9_Instancing"); m_bRenderShadow = false; break;
 
 	case 2065: lstrcpy(pPrototypeTag_Model, L"HomeSmall1_Instancing"); break;
 	case 2066: lstrcpy(pPrototypeTag_Model, L"HomeSmall2_Instancing"); break;
 
 	case 2067: lstrcpy(pPrototypeTag_Model, L"RiceField1_Instancing"); m_fFrustumRadiusRatio = 120.f; break;
 
-	case 2068: lstrcpy(pPrototypeTag_Model, L"RuiGround_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2068: lstrcpy(pPrototypeTag_Model, L"RuiGround_Instancing"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
 	case 2069: lstrcpy(pPrototypeTag_Model, L"UrokodakiGround_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
 
 	case 2070: lstrcpy(pPrototypeTag_Model, L"RuiGround2_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
 	case 2071: lstrcpy(pPrototypeTag_Model, L"Home1_Instancing"); break;
-	case 2072: lstrcpy(pPrototypeTag_Model, L"Rubble1_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2073: lstrcpy(pPrototypeTag_Model, L"Rubble2_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2074: lstrcpy(pPrototypeTag_Model, L"SpiderWeb4_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2075: lstrcpy(pPrototypeTag_Model, L"SpiderWeb5_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2076: lstrcpy(pPrototypeTag_Model, L"SpiderWeb6_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2077: lstrcpy(pPrototypeTag_Model, L"SpiderWeb7_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2078: lstrcpy(pPrototypeTag_Model, L"SpiderWeb8_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2079: lstrcpy(pPrototypeTag_Model, L"SpiderWeb9_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2072: lstrcpy(pPrototypeTag_Model, L"Rubble1_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2073: lstrcpy(pPrototypeTag_Model, L"Rubble2_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2074: lstrcpy(pPrototypeTag_Model, L"SpiderWeb4_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2075: lstrcpy(pPrototypeTag_Model, L"SpiderWeb5_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2076: lstrcpy(pPrototypeTag_Model, L"SpiderWeb6_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2077: lstrcpy(pPrototypeTag_Model, L"SpiderWeb7_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2078: lstrcpy(pPrototypeTag_Model, L"SpiderWeb8_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2079: lstrcpy(pPrototypeTag_Model, L"SpiderWeb9_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
 	case 2080: lstrcpy(pPrototypeTag_Model, L"Tree_Jenitsu_Instancing"); m_fFrustumRadiusRatio = 70.f; break;
-	case 2081: lstrcpy(pPrototypeTag_Model, L"TreeFar2_Instancing"); m_fFrustumRadiusRatio = 5.f; break;
-	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3_Instancing"); m_fFrustumRadiusRatio = 5.f; break;
+	case 2081: lstrcpy(pPrototypeTag_Model, L"TreeFar2_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
+	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
 
-	case 2083: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Moon_Instancing"); m_fFrustumRadiusRatio = 2000.f; break;
+	case 2083: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Moon_Instancing"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
 
 	}
 
