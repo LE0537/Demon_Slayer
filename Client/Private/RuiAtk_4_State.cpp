@@ -342,6 +342,11 @@ void CAtk_4_State::Enter(CRui* pRui)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Attack4_1.wav"), fEFFECT);
 	else if (iRand == 1)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Attack4_2.wav"), fEFFECT);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff2.wav"), fEFFECT);
 }
 
 void CAtk_4_State::Exit(CRui* pRui)

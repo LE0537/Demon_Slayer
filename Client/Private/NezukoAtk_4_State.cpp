@@ -437,6 +437,11 @@ void CAtk_4_State::Enter(CNezuko* pNezuko)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Attack4_2.wav"), fEFFECT);
 	else if (iRand == 2)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Attack4_3.wav"), fEFFECT);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
 
 void CAtk_4_State::Exit(CNezuko* pNezuko)
