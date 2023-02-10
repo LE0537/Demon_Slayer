@@ -409,6 +409,10 @@ void CSkill_FallCutState::Exit(CNezuko* pNezuko)
 
 CNezukoState * CSkill_FallCutState::Increase_Height(CNezuko * pNezuko, _float fTimeDelta)
 {
+	pNezuko->Set_NavigationHeight(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pNezuko->Get_NavigationHeight().y;
+	pNezuko->Get_Transform()->Set_Jump(true);
+
 	static _float fJump_Velocity = 10.f;
 	static _float fGravity = 100.f;
 

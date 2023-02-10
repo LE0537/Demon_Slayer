@@ -172,9 +172,15 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 
 	if (m_bOnGround == true)
 	{
-		m_pCollBox->Set_Dead();
-		pKyojuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_SKILL_JUMPCOMMON, true);
-		return new CIdleState();
+
+		fTest += fTimeDelta;
+
+		if (fTest >= 0.3f)
+		{
+			m_pCollBox->Set_Dead();
+			pKyojuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_SKILL_JUMPCOMMON, true);
+			return new CIdleState();
+		}
 	}
 
 
