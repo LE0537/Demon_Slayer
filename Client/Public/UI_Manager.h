@@ -99,7 +99,6 @@ public:
 
 	_uint   Get_Sel1P_2() { return m_i1p_2; }
 	void	Set_Sel1P_2(_uint _i1p_2) { m_i1p_2 = _i1p_2; }
-	
 
 	_uint   Get_Sel2P() { return m_i2p; }
 	void	Set_Sel2P(_uint _i2p) { m_i2p = _i2p; }
@@ -191,6 +190,7 @@ private:
 	_uint							m_iLogoButtonNum = 0;
 	_uint							m_i2PMainLayerNum = 0;
 	_uint							m_iUltBarLayerNum = 0;
+	_uint							m_iUltNumLayerNum = 0;
 	_uint							m_iTimerLayerNum = 0;
 	_uint							m_iSelStampLayerNum = 0;
 	_uint							m_iRoundIconLayerNum = 0;

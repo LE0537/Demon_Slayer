@@ -472,30 +472,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma endregion Adc_Menu
 
 #pragma region MenuUI
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuFixedImg"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/MenuFixedImg_%d.png"), 4))))
-			return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuDarkCloud"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Cloud_Dark_%d.png"), 2))))
-			return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuFrontCloud"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Cloud_%d.png"), 2))))
-			return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuCursor"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Cursor.png"), 1))))
-			return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuBackDeco"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Mode_Back_Deco00_%d.png"), 2))))
-			return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ModeTitle_Adv"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Lang_ModeTitle_Adv_%d.png"), 2))))
-			return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ModeTitle_Vs"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Lang_ModeTitle_Vs_%d.png"), 2))))
-			return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuChar"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/MenuChar_%d.png"), 2))))
-			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuFixedImg"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/MenuFixedImg_%d.png"), 4)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuDarkCloud"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Cloud_Dark_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuFrontCloud"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Cloud_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuCursor"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Cursor.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuBackDeco"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Mode_Back_Deco00_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ModeTitle_Adv"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Lang_ModeTitle_Adv_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ModeTitle_Vs"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/Lang_ModeTitle_Vs_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MenuChar"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Menu/MenuChar_%d.png"), 2)))) return E_FAIL;
 #pragma endregion MenuUI
 
 #pragma region UIEff
@@ -1020,9 +1004,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Power_Up"));
 		pEffect_Manager->Load_Effect(TEXT("Power_Up_Player"));
 		pEffect_Manager->Load_Effect(TEXT("Perfect_Power_UP_Player"));
+		pEffect_Manager->Load_Effect(TEXT("Game_Start"));
 
 		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_Move"));
 		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_Stop"));
+		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_MoveFB"));
+		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_StopFB"));
 
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro_Attack1_GroundMask"));
@@ -1036,6 +1023,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Water2"));
 		pEffect_Manager->Load_Effect(TEXT("Water2_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Water6"));
+		pEffect_Manager->Load_Effect(TEXT("Water6_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Water8"));
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_NormAtk_1_Cl"));

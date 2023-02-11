@@ -128,16 +128,16 @@ CTanjiroState * CJumpstate::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
 		}
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 3.f);
+	//	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 3.f);
 	}
-	else if (m_eStateType == TYPE_LOOP)
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
-	else if (m_eStateType == TYPE_DEFAULT)
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
-	else
+	//else if (m_eStateType == TYPE_LOOP)
+	//	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
+	//else if (m_eStateType == TYPE_DEFAULT)
+	//	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
+	//else
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
-	m_fJumpTime += 0.05f;
+	m_fJumpTime += 0.04f;
 
 	if (m_eStateType != TYPE_DEFAULT)
 		Jump(pTanjiro, fTimeDelta + m_fJumpTime);
@@ -156,20 +156,24 @@ void CJumpstate::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_START);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_START, 0.01f);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_START);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_START);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_LOOP_START);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_LOOP_START, 0.01f);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_LOOP_START);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_LOOP_START);
 		break;
 	case Client::CTanjiroState::TYPE_END:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_LOOP_END);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_LOOP_END, 0.01f);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_LOOP_END);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_END, true);
 		break;
 	case Client::CTanjiroState::TYPE_DEFAULT:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_END);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_END);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_END);
 		break;
 	}
 
@@ -194,7 +198,7 @@ CTanjiroState* CJumpstate::Jump(CTanjiro* pTanjiro, _float fTimeDelta)
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
-	static _float fGravity = 40.f;
+	static _float fGravity = 30.f;
 
 
 
@@ -213,6 +217,8 @@ CTanjiroState* CJumpstate::Jump(CTanjiro* pTanjiro, _float fTimeDelta)
 		m_eStateType = CTanjiroState::TYPE_DEFAULT;
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_END);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_END);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_END, 0.01f);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_END);
 		pTanjiro->Get_Transform()->Set_Jump(false);
 
 		if (!m_bEffect)

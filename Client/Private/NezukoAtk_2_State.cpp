@@ -325,6 +325,19 @@ void CAtk_2_State::Enter(CNezuko* pNezuko)
 	pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_ATTACK_2);
 	pNezuko->Set_AnimIndex(CNezuko::ANIM_ATTACK_2);
 
+	_uint iRand = rand() % 3;
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Attack1_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Attack1_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Attack1_3.wav"), fEFFECT);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
 
 void CAtk_2_State::Exit(CNezuko* pNezuko)

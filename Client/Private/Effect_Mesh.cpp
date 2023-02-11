@@ -16,136 +16,6 @@ CEffect_Mesh::CEffect_Mesh(const CEffect_Mesh & rhs)
 
 HRESULT CEffect_Mesh::Initialize_Prototype()
 {
-	/*m_MeshName.push_back("EffectSlash1");
-	m_MeshName.push_back("EffectSlash2");
-	m_MeshName.push_back("EffectSlash3");
-	m_MeshName.push_back("EffectSlash4");
-	m_MeshName.push_back("EffectSlash5");
-	m_MeshName.push_back("EffectSlash6");
-	m_MeshName.push_back("EffectSlash7");
-	m_MeshName.push_back("EffectSlash8");
-	m_MeshName.push_back("Water_6_Ground");
-	m_MeshName.push_back("Water_6_Main");
-	m_MeshName.push_back("Water_6_Wind");
-	m_MeshName.push_back("Water_2_Side");
-	m_MeshName.push_back("Water_2_Ring");
-	m_MeshName.push_back("BrokenGround1");
-	m_MeshName.push_back("BrokenGround2");
-	m_MeshName.push_back("UpSwing");
-	m_MeshName.push_back("Rengoku_Nobori");
-	m_MeshName.push_back("Rengoku_OgiAtk1");
-	m_MeshName.push_back("Rengoku_OgiAtk2");
-	m_MeshName.push_back("Rengoku_Swing");
-	m_MeshName.push_back("Rengoku_Tiger");
-	m_MeshName.push_back("Ring1");
-	m_MeshName.push_back("Ring4");
-	m_MeshName.push_back("Ring5");
-	m_MeshName.push_back("Ring6");
-	m_MeshName.push_back("Ring14");
-	m_MeshName.push_back("Ring15");
-	m_MeshName.push_back("Ring16");
-	m_MeshName.push_back("Ring17_1");
-	m_MeshName.push_back("Ring17_2");
-	m_MeshName.push_back("Ring18");
-	m_MeshName.push_back("Ring19");
-	m_MeshName.push_back("Ring20");
-	m_MeshName.push_back("Smoke1");
-	m_MeshName.push_back("Smoke2");
-	m_MeshName.push_back("Smoke3");
-	m_MeshName.push_back("Twist1");
-	m_MeshName.push_back("Twist2");
-	m_MeshName.push_back("Wind");
-	m_MeshName.push_back("Wind1");
-	m_MeshName.push_back("Wind2_L");
-	m_MeshName.push_back("Wind3_L");
-	m_MeshName.push_back("Slash9");
-	m_MeshName.push_back("Slash10");
-	m_MeshName.push_back("Wind4");
-	m_MeshName.push_back("Wind5");
-	m_MeshName.push_back("Wind6");
-	m_MeshName.push_back("Wind7");
-	m_MeshName.push_back("Ring21");
-	m_MeshName.push_back("Ring22");
-	m_MeshName.push_back("Ring23");
-	m_MeshName.push_back("Ring24");
-	m_MeshName.push_back("SwordTrail1");
-	m_MeshName.push_back("SwordTrail2");
-	m_MeshName.push_back("Sphere1");
-	m_MeshName.push_back("Sphere2");
-	m_MeshName.push_back("Slash11");
-	m_MeshName.push_back("Slash12");
-	m_MeshName.push_back("Slash13");
-	m_MeshName.push_back("Slash14");
-	m_MeshName.push_back("Slash15");
-	m_MeshName.push_back("Slash16");
-	m_MeshName.push_back("Water8_0");
-	m_MeshName.push_back("Water8_1");
-	m_MeshName.push_back("Water8_3");
-	m_MeshName.push_back("Water8_4");
-	m_MeshName.push_back("Ring_ShockWave");
-	m_MeshName.push_back("Rengoku_TigerFire");
-	m_MeshName.push_back("Water_6_Wind2");
-
-	m_MeshName.push_back("Ring_RuiSkl3_1");
-	m_MeshName.push_back("Ring_RuiSkl3_2");
-	m_MeshName.push_back("Rui_BigWeb3");
-	m_MeshName.push_back("Rui_Dome1");
-	m_MeshName.push_back("Rui_Dome2");
-	m_MeshName.push_back("Rui_Dome3");
-	m_MeshName.push_back("Rui_Dome4");
-	m_MeshName.push_back("Rui_DomeEnd1");
-	m_MeshName.push_back("Rui_DomeEnd4_1");
-	m_MeshName.push_back("Rui_DomeEnd4_2");
-	m_MeshName.push_back("Fragment1");
-	m_MeshName.push_back("Fragment2");
-	m_MeshName.push_back("Fragment3");
-	m_MeshName.push_back("Fragment4");
-	m_MeshName.push_back("Fragment5");
-	m_MeshName.push_back("Fragment6");
-	m_MeshName.push_back("Rui_Line3");
-	m_MeshName.push_back("Rui_Line4");
-	m_MeshName.push_back("Rui_Line5");
-	m_MeshName.push_back("Rui_Line6");
-	m_MeshName.push_back("Rui_Line7");
-	m_MeshName.push_back("Rui_Line8");
-	m_MeshName.push_back("Rui_Line10");
-	m_MeshName.push_back("Rui_Plane1");
-	m_MeshName.push_back("Rui_Ring1");
-	m_MeshName.push_back("Rui_Ring2");
-	m_MeshName.push_back("Rui_Skl3Line3");
-	m_MeshName.push_back("Rui_Skl3Line4");
-	m_MeshName.push_back("Rui_Smoke3");
-	m_MeshName.push_back("Rui_UpWeb5");
-	m_MeshName.push_back("Rui_UpWeb6");
-	m_MeshName.push_back("Rui_Web3");
-	m_MeshName.push_back("Rui_Web4");*/
-
-	////	Akaza
-	//m_MeshName.push_back("Akaza_Angry1");
-	//m_MeshName.push_back("Akaza_Angry2_1");
-	//m_MeshName.push_back("Akaza_Angry2_2");
-	//m_MeshName.push_back("Akaza_Angry3");
-	//m_MeshName.push_back("Akaza_Compass1");
-	//m_MeshName.push_back("Akaza_Compass2");
-	//m_MeshName.push_back("Akaza_Compass3");
-	//m_MeshName.push_back("Akaza_Fist1_1");
-	//m_MeshName.push_back("Akaza_Fist1_2");
-	//m_MeshName.push_back("Akaza_Fist2");
-	//m_MeshName.push_back("Akaza_Fist3");
-	//m_MeshName.push_back("Akaza_Fist4_Dist");
-	//m_MeshName.push_back("Akaza_Fist6");
-	//m_MeshName.push_back("Akaza_Ring2");
-	//m_MeshName.push_back("Akaza_Ring3");
-	//m_MeshName.push_back("Akaza_Ring4");
-	//m_MeshName.push_back("Akaza_Stone1");
-	//m_MeshName.push_back("Akaza_Stone2");
-	//m_MeshName.push_back("Akaza_Stone3");
-	//m_MeshName.push_back("Akaza_Wind1");
-	//m_MeshName.push_back("Akaza_Wind2");
-	//m_MeshName.push_back("Akaza_Wind3");
-	//m_MeshName.push_back("Akaza_Wind4");
-
-
 	return S_OK;
 }
 
@@ -218,12 +88,23 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 
 void CEffect_Mesh::Late_Tick(_float fTimeDelta)
 {
-	if (m_fTime > m_MeshInfo.fStartTime && m_fTime < m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime) {
-		
+	if (static_cast<CEffect*>(m_pParents)->Get_EffectMove() == CEffect::EFFMOVE_STOP) {
+		if (m_fTime <= m_MeshInfo.fStartTime) {
+			_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+			XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+			XMStoreFloat4x4(&m_ParentsMtr, mtrParents);
+		}
+		else {
+			XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(&m_ParentsMtr));
+		}
+	}
+	else {
 		_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
 		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+	}
 
-		Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
+	if (m_fTime > m_MeshInfo.fStartTime && m_fTime < m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime) {
+		
 
 		if (nullptr != m_pRendererCom) {
 			switch (m_MeshInfo.iShader)
@@ -270,12 +151,28 @@ HRESULT CEffect_Mesh::Render()
 			return E_FAIL;
 
 		if (m_MeshInfo.iShader == CEffect::SHADER_DISTORTION) {
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 6)))
-				return E_FAIL;
+			if (true == m_MeshInfo.bUseFlowMap)
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 12)))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 6)))
+					return E_FAIL;
+			}
 		}
 		if (m_MeshInfo.iShader == CEffect::SHADER_GRAYSCALE) {
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 7)))
-				return E_FAIL;
+			if (true == m_MeshInfo.bUseFlowMap)
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 13)))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 7)))
+					return E_FAIL;
+			}
 		}
 
 
@@ -356,6 +253,8 @@ void CEffect_Mesh::Set_MeshInfo(MESH_INFO MeshInfo)
 			return;
 	}
 
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_MeshInfo.vPosition.x, m_MeshInfo.vPosition.y, m_MeshInfo.vPosition.z, 1.f));
+
 	_float3		vRotation = m_MeshInfo.vRotation;
 	vRotation.x = XMConvertToRadians(vRotation.x);
 	vRotation.y = XMConvertToRadians(vRotation.y);
@@ -364,7 +263,7 @@ void CEffect_Mesh::Set_MeshInfo(MESH_INFO MeshInfo)
 
 	m_fTurnSpeed = m_MeshInfo.fTurn;
 
-	
+	XMStoreFloat4x4(&m_ParentsMtr, m_pParents->Get_Transform()->Get_WorldMatrix());
 }
 
 HRESULT CEffect_Mesh::SetUp_ShaderResources()

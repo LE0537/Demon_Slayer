@@ -41,6 +41,36 @@ HRESULT CLevel_AdvRui::Initialize()
 	if (FAILED(Load_StaticObjects("RuiStory")))
 		return E_FAIL;
 
+
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
+	m_pRendererCom = (CRenderer*)pOut;
+
+	if (nullptr == m_pRendererCom)
+	{
+		RELEASE_INSTANCE(CGameInstance);
+		return E_FAIL;
+	}
+
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.15f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.15f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.4f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 40.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 450.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 300.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.6f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.85f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 0.0001f);
+
+	RELEASE_INSTANCE(CGameInstance);
+
+
 	return S_OK;
 }
 
@@ -66,18 +96,21 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 
 	LIGHTDESC			LightDesc;
 
+
 	/* For.Point */
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
 	LightDesc.eType = LIGHTDESC::TYPE_FIELDSHADOW;
-	LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);
-	LightDesc.vDiffuse = _float4(60.f, -20.f, 60.f, 1.f);
+	LightDesc.vDirection = _float4(-50.f, 150.f, -100.f, 1.f);
+	LightDesc.vDiffuse = _float4(-45.f, 0.f, 0.f, 1.f);
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
-
-	_vector vLook = XMLoadFloat4(&LightDesc.vDiffuse) - XMLoadFloat4(&LightDesc.vDirection);
 
 	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
 		return E_FAIL;
+
+	_vector vLook = XMLoadFloat4(&LightDesc.vDiffuse) - XMLoadFloat4(&LightDesc.vDirection);
+
+
 
 	/* For.Directional*/
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
@@ -91,14 +124,14 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
 		return E_FAIL;
 
-	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
+
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 	LightDesc.eType = LIGHTDESC::TYPE_BATTLESHADOW;
-	LightDesc.vDirection = _float4(-400.f, 500.f, -400.f, 1.f);		//	eye
-	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&_float4(-10.f, 150.f, -10.f, 1.f)) + XMVector3Normalize(vLook), 1.f));
+	LightDesc.vDirection = _float4(-50.f, 150.f, -100.f, 1.f);		//	eye
+	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&LightDesc.vDirection) + XMVector3Normalize(vLook), 1.f));
 	//	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
-	//LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);		//	eye
-	LightDesc.vDiffuse = _float4(60.f, -20.f, 60.f, 1.f);			//	at
+	//	LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);		//	eye
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
 	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
@@ -150,7 +183,7 @@ HRESULT CLevel_AdvRui::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CameraDesc.CameraDesc.fFovy = XMConvertToRadians(25.0f);
 	CameraDesc.CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	CameraDesc.CameraDesc.fNear = 0.2f;
-	CameraDesc.CameraDesc.fFar = 500.f;
+	CameraDesc.CameraDesc.fFar = 1500.f;
 
 	CameraDesc.CameraDesc.TransformDesc.fSpeedPerSec = 10.f;
 	CameraDesc.CameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
@@ -377,5 +410,5 @@ void CLevel_AdvRui::Free()
 {
 	__super::Free();
 
-
+	Safe_Release(m_pRendererCom);
 }

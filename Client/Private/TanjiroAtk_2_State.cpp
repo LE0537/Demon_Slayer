@@ -380,9 +380,22 @@ void CAtk_2_State::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_ID::STATE_ATK_2;
 
+	_uint iRand = rand() % 3;
+
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_ATTACK_2);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_ATTACK_2);
 
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Attack2_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Attack2_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Attack2_3.wav"), fEFFECT);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff2.wav"), fEFFECT);
 }
 
 void CAtk_2_State::Exit(CTanjiro * pTanjiro)

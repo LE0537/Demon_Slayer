@@ -80,9 +80,24 @@ CTanjiroState * CHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 			pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_HIT);
 			//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_HIT);
+
+			pTanjiro->Get_Model()->Set_CurrentAnimIndex(58);
+			pTanjiro->Get_Model()->Set_Loop(58);
+			pTanjiro->Get_Model()->Set_LinearTime(58, 0.01f);
+			pTanjiro->Set_bGuard(true);
+		}
+
+		if (pTanjiro->Get_Model()->Get_End(58))
+		{
+			pTanjiro->Get_Model()->Reset_Anim(58);
+			pTanjiro->Get_Model()->Set_End(58);
+			pTanjiro->Set_bGuard(false);
 			return new CIdleState();
 		}
 	}
+
+
+
 	return nullptr;
 }
 
@@ -107,6 +122,22 @@ void CHitState::Enter(CTanjiro * pTanjiro)
 
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_HIT);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_HIT);
+
+	_uint iRand = rand() % 4;
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_2.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_3.wav"), fEFFECT);
+	else if (iRand == 3)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_4.wav"), fEFFECT);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
 CTanjiroState * CHitState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 {
@@ -116,8 +147,8 @@ CTanjiroState * CHitState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
-	static _float fVelocity = 12.5f;
-	static _float fGravity = 15.f;
+	static _float fVelocity = 20.f;
+	static _float fGravity = 40.f;
 
 
 	_vector      vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

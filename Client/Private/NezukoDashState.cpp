@@ -654,17 +654,23 @@ void CDashState::Move(CNezuko* pNezuko, _float fTimeDelta)
 	default:
 		break;
 	}
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 	// ´ë½¬ ÀÌÆåÆ®
-	if (!m_bEffect)
+	if (!m_bEffect && m_eDir != DIR_STRAIGHT && m_eDir != DIR_BACK)
 	{
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_MOVE, pNezuko);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_STOP, pNezuko);
 
-		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
 	}
+	else if (!m_bEffect)
+	{
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_MOVEFB, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_DASH_TAN_STOPFB, pNezuko);
+
+		m_bEffect = true;
+	}
+	RELEASE_INSTANCE(CEffect_Manager);
 	Check_Coll(pNezuko, fTimeDelta);
 }
 

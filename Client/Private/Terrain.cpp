@@ -115,6 +115,10 @@ HRESULT CTerrain::Ready_Components(void* pArg)
 	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_TerrainDiffuse"), (CComponent**)&m_pTerrain_TextureCom[TYPE_DIFFUSE])))
 		return E_FAIL;
 
+	/* For.Com_NormalTexture */
+	if (FAILED(__super::Add_Components(TEXT("Com_NormalTexture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_TerrainNormal"), (CComponent**)&m_pTerrain_TextureCom[TYPE_NORMAL])))
+		return E_FAIL;
+
 	///* For.Com_VTXColor_Texture */
 	//if (FAILED(__super::Add_Components(TEXT("Com_VTXColor_Texture"), LEVEL_STATIC, TEXT("Prototype_Texture_VTXColor"), (CComponent**)&m_pVTXColor_TextureCom)))
 	//	return E_FAIL;
@@ -200,9 +204,19 @@ HRESULT CTerrain::SetUp_ShaderResources()
 			m_pTerrain_TextureCom[TYPE_DIFFUSE]->Get_SRV(m_iTerrainSRVNum[2]),
 			m_pTerrain_TextureCom[TYPE_DIFFUSE]->Get_SRV(m_iTerrainSRVNum[3]),
 		};
-
 		if (FAILED(m_pShaderCom->Set_ShaderResourceViewArray("g_DiffuseTexture", pSRVs, 4)))
 			return E_FAIL;
+
+		ID3D11ShaderResourceView*		pNormalSRVs[] = {
+			m_pTerrain_TextureCom[TYPE_NORMAL]->Get_SRV(m_iTerrainSRVNum[0]),
+			m_pTerrain_TextureCom[TYPE_NORMAL]->Get_SRV(m_iTerrainSRVNum[1]),
+			m_pTerrain_TextureCom[TYPE_NORMAL]->Get_SRV(m_iTerrainSRVNum[2]),
+			m_pTerrain_TextureCom[TYPE_NORMAL]->Get_SRV(m_iTerrainSRVNum[3]),
+		};
+		if (FAILED(m_pShaderCom->Set_ShaderResourceViewArray("g_NormalTexture", pNormalSRVs, 4)))
+			return E_FAIL;
+
+
 		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_FilterTexture", m_pFilterTexture)))
 			return E_FAIL;
 	}

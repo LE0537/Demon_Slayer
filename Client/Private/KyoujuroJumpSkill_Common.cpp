@@ -172,9 +172,15 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 
 	if (m_bOnGround == true)
 	{
-		m_pCollBox->Set_Dead();
-		pKyojuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_SKILL_JUMPCOMMON, true);
-		return new CIdleState();
+
+		fTest += fTimeDelta;
+
+		if (fTest >= 0.3f)
+		{
+			m_pCollBox->Set_Dead();
+			pKyojuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_SKILL_JUMPCOMMON, true);
+			return new CIdleState();
+		}
 	}
 
 
@@ -186,7 +192,6 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_5TIGER_CHARGE, pKyojuro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_5TIGER_MAIN, pKyojuro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_5TIGER_AFTER, pKyojuro);
-		//pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_5TIGER_END, pKyojuro);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
@@ -219,7 +224,7 @@ void CJumpSkill_CommonState::Enter(CKyoujuro * pKyojuro)
 
 void CJumpSkill_CommonState::Exit(CKyoujuro * pKyojuro)
 {
-	m_pCollBox->Set_Dead();
+	//m_pCollBox->Set_Dead();
 }
 
 CKyoujuroState* CJumpSkill_CommonState::Jump(CKyoujuro* pKyojuro, _float fTimeDelta)

@@ -65,13 +65,15 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Add_Fonts(m_pDevice, m_pContext, TEXT("Font_Nexon"), TEXT("../Bin/Resources/Fonts/130.spritefont"))))
 		return E_FAIL;
 
-	if (FAILED(Open_DebugCMD()))
-		return E_FAIL;
+	//if (FAILED(Open_DebugCMD()))
+	//	return E_FAIL;
 
 	if (FAILED(m_pImGuiManager->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
 
 	CSoundMgr::Get_Instance()->Initialize();
+	
+	srand((_uint)time(NULL));
 
 	return S_OK;
 }
@@ -109,6 +111,12 @@ HRESULT CMainApp::Render()
 		m_fTimeAcc = 0.f;
 		m_iNumRender = 0;
 	}
+
+	if (m_pGameInstance->Key_Down(DIK_F1))
+		g_bDebug = !g_bDebug;
+
+	if (m_pGameInstance->Key_Down(DIK_F2))
+		g_bCollBox = !g_bCollBox;
 
 	return S_OK;
 }

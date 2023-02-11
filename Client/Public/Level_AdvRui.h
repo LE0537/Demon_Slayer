@@ -30,6 +30,8 @@ public:
 private:
 	_bool			 m_bCreateUI = false;
 
+	CRenderer*		m_pRendererCom = nullptr;
+
 private:
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
 
