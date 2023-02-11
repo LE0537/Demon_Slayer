@@ -72,6 +72,12 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 			}
 		}
 	}
+
+	if (pGameInstance->Key_Down(DIK_Q))
+	{
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_MENU))))
+			return;
+	}
 	
 	Safe_Release(pGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);

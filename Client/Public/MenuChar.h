@@ -13,6 +13,10 @@ private:
 	virtual ~CMenuChar() = default;
 
 public:
+	void Set_StartCheck(_bool bCheck) { m_bStartCheck = bCheck; }
+	void Set_PosSetCheck(_bool bCheck) { m_bPosSetCheck = bCheck; }
+
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -23,6 +27,10 @@ private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
+private:
+	_bool							m_bStartCheck = false;
+	_bool							m_bPosSetCheck = false;
+	_float							m_fFadeTime = 0.f;
 
 public:
 	static CMenuChar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
