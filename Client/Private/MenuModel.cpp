@@ -70,7 +70,6 @@ HRESULT CMenuModel::Initialize(void * pArg)
 	m_iAnimIndex = 1;
 	m_pModelCom[m_iModelIndex]->Set_CurrentAnimIndex(m_iAnimIndex);
 
-
 	m_fSizeX = 500.f;
 	m_fSizeY = 500.f;
 	_float fX = 350.f;
@@ -131,8 +130,9 @@ void CMenuModel::Late_Tick(_float fTimeDelta)
 	{
 		if (m_iCurrentModelIndex != m_iModelIndex)
 		{
-			m_pModelCom[m_iModelIndex]->Reset_Anim(1);
+		//	m_pModelCom[m_iModelIndex]->Reset_Anim(1);
 			m_pModelCom[m_iModelIndex]->Set_Loop(1);
+			m_pModelCom[m_iModelIndex]->Set_LinearTime(1.f, 0.01f);
 			m_iCurrentModelIndex = m_iModelIndex;
 			m_pModelCom[m_iModelIndex]->Set_CurrentAnimIndex(1);
 		}
