@@ -201,6 +201,17 @@ PS_OUT PS_UltBarMinus(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_HalfAlpha(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+
+//	Out.vColor.a = Out.vColor.a - 0.8f;
+	Out.vColor.a = 0.f;
+	return Out;
+}
+
 PS_OUT PS_LogoEff(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
@@ -850,4 +861,15 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_OniSpecialBarMinus();
 	}
+
+	pass HalfAlpha //25
+	{
+		SetRasterizerState(RS_UI);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_HalfAlpha();
+	}	
 }
