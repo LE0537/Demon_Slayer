@@ -2,6 +2,7 @@
 #include "MenuCursor.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "MenuChar.h"
 
 CMenuCursor::CMenuCursor(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -58,6 +59,8 @@ void CMenuCursor::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_UP))
 	{
+		m_pMenuChar->Set_PosSetCheck(false);
+		m_pMenuChar->Set_StartCheck(true);
 		if (m_fX != 55.f && m_fY != 167.f)
 		{
 			m_fX = 55.f;
@@ -66,6 +69,8 @@ void CMenuCursor::Tick(_float fTimeDelta)
 	}
 	else if (pGameInstance->Key_Down(DIK_DOWN))
 	{
+		m_pMenuChar->Set_PosSetCheck(false);
+		m_pMenuChar->Set_StartCheck(true);
 		if (m_fX != 75.f && m_fY != 252.f)
 		{
 			m_fX = 75.f;

@@ -54,8 +54,15 @@ void CLevel_StoryMenu::Tick(_float fTimeDelta)
 		}
 		pUI_Manager->Set_AdvMenuSelCheck(false);
 	}
-	Safe_Release(pGameInstance);
 
+
+	if (pGameInstance->Key_Down(DIK_Q))
+	{
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_MENU))))
+			return;
+	}
+
+	Safe_Release(pGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 }
 

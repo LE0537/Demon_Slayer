@@ -14,6 +14,7 @@ float4			g_vColor;
 bool			g_bInkEffDownCheck;
 float			g_fMaxBar;
 float			g_fCurBar;
+int				g_iLevelNum;
 int				g_iFrame;
 int				g_iNumTexU;
 int				g_iNumTexV;
@@ -266,10 +267,28 @@ PS_OUT PS_PatternWind(PS_IN In)
 
 	float2 vNewUV = In.vTexUV;
 
-	vNewUV.x -= g_fUvMoveTime;
-	vNewUV.y -= g_fUvMoveTime;
+	if (g_iLevelNum == 4)
+	{
+		vNewUV.x -= g_fUvMoveTime;
+		vNewUV.y -= g_fUvMoveTime;
 
-	Out.vColor = g_DiffuseTexture.Sample(PointSampler, vNewUV);
+		Out.vColor = g_DiffuseTexture.Sample(PointSampler, vNewUV);
+	}
+	else
+	{
+		vNewUV.y -= g_fUvMoveTime;
+
+		float4 DiffuseTexture = g_DiffuseTexture.Sample(PointSampler, vNewUV);
+
+		Out.vColor = DiffuseTexture;
+		Out.vColor.r = 0.f;
+		Out.vColor.g = 0.f;
+		Out.vColor.b = 0.f;
+		Out.vColor.a = 0.3f;
+		if (DiffuseTexture.a <= 0)
+			discard;
+	}
+
 
 	return Out;
 }
@@ -280,13 +299,34 @@ PS_OUT PS_PatternOne(PS_IN In)
 
 	float2 vNewUV = In.vTexUV;
 
-	vNewUV.x *= 15.f;
-	vNewUV.y *= 15.f;
+	if (g_iLevelNum == 4)
+	{
+		vNewUV.x *= 15.f;
+		vNewUV.y *= 15.f;
 
-	vNewUV.x += g_fUvMoveTime;
-	vNewUV.y += g_fUvMoveTime;
+		vNewUV.x += g_fUvMoveTime;
+		vNewUV.y += g_fUvMoveTime;
+		Out.vColor = g_DiffuseTexture.Sample(PointSampler, vNewUV);
+	}
+	else
+	{
+		vNewUV.x *= 10.f;
+		vNewUV.y *= 10.f;
 
-	Out.vColor = g_DiffuseTexture.Sample(PointSampler, vNewUV);
+		vNewUV.x += g_fUvMoveTime;
+		vNewUV.y += g_fUvMoveTime;
+
+		float4 DiffuseTexture = g_DiffuseTexture.Sample(PointSampler, vNewUV);
+
+		Out.vColor = DiffuseTexture;
+		Out.vColor.r = 0.f;
+		Out.vColor.g = 0.f;
+		Out.vColor.b = 0.f;
+		Out.vColor.a = DiffuseTexture.a - 0.6f;
+
+		if (DiffuseTexture.a <= 0)
+			discard;
+	}
 
 	return Out;
 }
