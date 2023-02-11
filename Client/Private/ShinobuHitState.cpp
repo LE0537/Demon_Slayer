@@ -155,6 +155,11 @@ void CHitState::Enter(CShinobu* pShinobu)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Hit_3.wav"), fEFFECT);
 	else if (iRand == 3)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Hit_4.wav"), fEFFECT);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
 CShinobuState * CHitState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 {

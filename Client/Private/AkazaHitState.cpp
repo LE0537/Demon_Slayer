@@ -101,7 +101,7 @@ CAkazaState * CHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	}
 	else
 	{
-		if (pAkaza->Get_Model()->Get_CurrentFrame() <= 60)
+		if (pAkaza->Get_Model()->Get_CurrentFrame() <= 60  && pAkaza->Get_AnimIndex() == CAkaza::ANIM_HIT)
 		{
 			if (!m_bTrun)
 			{
@@ -121,12 +121,25 @@ CAkazaState * CHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 			}
 		}
 
-		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
+		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.3f, false);
 
 
-		if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+		if (pAkaza->Get_Model()->Get_End(65))
 		{
-			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+			pAkaza->Get_Model()->Set_End(65);
+				pAkaza->Get_Model()->Set_CurrentAnimIndex(37);
+				pAkaza->Get_Model()->Set_Loop(37);
+				pAkaza->Get_Model()->Set_LinearTime(37, 0.01f);
+				pAkaza->Set_AnimIndex(CAkaza::ANIM_IDLE);
+				pAkaza->Set_bGuard(true);
+			//return new CIdleState();
+		}
+
+		if (pAkaza->Get_Model()->Get_End(37))
+		{
+			pAkaza->Get_Model()->Reset_Anim(37);
+			pAkaza->Get_Model()->Set_End(37);
+			pAkaza->Set_bGuard(false);
 			return new CIdleState();
 		}
 
@@ -145,12 +158,12 @@ CAkazaState * CHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 void CHitState::Enter(CAkaza* pAkaza)
 {
 	m_eStateId = STATE_ID::STATE_HIT;
-
+	pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_HIT);
 	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_HIT);
 	pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT);
-	pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_HIT);
-	//pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
-	//pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.0f);
+
+	//pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_HIT);
+	//pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_HIT, 0.01f);
 
 	if (m_bJumpHit == false)
 	{
@@ -175,6 +188,11 @@ void CHitState::Enter(CAkaza* pAkaza)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Hit_3.wav"), fEFFECT);
 	else if (iRand == 3)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Hit_4.wav"), fEFFECT);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
 CAkazaState * CHitState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 {
@@ -184,8 +202,8 @@ CAkazaState * CHitState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
-	static _float fVelocity = 7.f;
-	static _float fGravity = 14.f;
+	static _float fVelocity = 20.f;
+	static _float fGravity = 40.f;
 
 
 	_vector      vPosition = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -213,6 +231,7 @@ void CHitState::Exit(CAkaza* pAkaza)
 {
 	pAkaza->Get_Model()->Set_UsingFrame(CAkaza::ANIM_HIT, 0, 100);
 	pAkaza->Set_HitTime(0.5f);
+	pAkaza->Get_Model()->Clear_Frame(CAkaza::ANIM_HIT);
 }
 
 

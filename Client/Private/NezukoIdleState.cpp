@@ -285,7 +285,7 @@ CNezukoState * CIdleState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 					else
 						pNezuko->Set_UnicBar(pNezuko->Get_PlayerInfo().iUnicMaxBar);
 				}
-				if (m_fSkillBarTime > 0.15f)
+				if (m_fSkillBarTime > 0.3f)
 				{
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pNezuko);
 					m_fSkillBarTime = 0.f;
@@ -306,7 +306,7 @@ CNezukoState * CIdleState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 					else
 						pNezuko->Set_UnicBar(pNezuko->Get_PlayerInfo().iUnicMaxBar);
 				}
-				if (m_fSkillBarTime > 0.15f)
+				if (m_fSkillBarTime > 0.3f)
 				{
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pNezuko);
 					m_fSkillBarTime = 0.f;

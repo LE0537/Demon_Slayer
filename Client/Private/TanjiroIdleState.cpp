@@ -286,12 +286,12 @@ CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 
-	if (ePreState == CTanjiroState::STATE_JUMP)
-	{
-		pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
-	}
-	else
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	//if (ePreState == CTanjiroState::STATE_JUMP)
+	//{
+	//	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
+	//}
+	//else
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
 	_vector vPlayerY = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	pTanjiro->Set_NavigationHeight(vPlayerY);
@@ -333,7 +333,7 @@ CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 					else
 						pTanjiro->Set_UnicBar(pTanjiro->Get_PlayerInfo().iUnicMaxBar);
 				}
-				if (m_fSkillBarTime > 0.15f)
+				if (m_fSkillBarTime > 0.3f)
 				{
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pTanjiro);
 					m_fSkillBarTime = 0.f;
@@ -354,7 +354,7 @@ CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 					else
 						pTanjiro->Set_UnicBar(pTanjiro->Get_PlayerInfo().iUnicMaxBar);
 				}
-				if (m_fSkillBarTime > 0.15f)
+				if (m_fSkillBarTime > 0.3f)
 				{
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pTanjiro);
 					m_fSkillBarTime = 0.f;

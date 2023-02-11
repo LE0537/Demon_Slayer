@@ -212,6 +212,11 @@ void CAtk_3_State::Enter(CShinobu* pShinobu)
 	else if (iRand == 2)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Attack3_3.wav"), fEFFECT);
 
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff2.wav"), fEFFECT);
+
 }
 
 void CAtk_3_State::Exit(CShinobu* pShinobu)

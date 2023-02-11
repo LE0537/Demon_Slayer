@@ -80,7 +80,17 @@ CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		if(pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_HIT))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_HIT);
-			//pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro::ANIM_HIT);
+			pKyoujuro->Get_Model()->Set_CurrentAnimIndex(46);
+			pKyoujuro->Get_Model()->Set_Loop(46);
+			pKyoujuro->Get_Model()->Set_LinearTime(46, 0.01f);
+			pKyoujuro->Set_bGuard(true);
+		}
+
+		if (pKyoujuro->Get_Model()->Get_End(46))
+		{
+			pKyoujuro->Get_Model()->Reset_Anim(46);
+			pKyoujuro->Get_Model()->Set_End(46);
+			pKyoujuro->Set_bGuard(false);
 			return new CIdleState();
 		}
 	}
@@ -114,6 +124,11 @@ void CHitState::Enter(CKyoujuro* pKyoujuro)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_Hit_2.wav"), fEFFECT);
 	else if (iRand == 2)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_Hit_3.wav"), fEFFECT);
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
 CKyoujuroState * CHitState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
@@ -123,8 +138,8 @@ CKyoujuroState * CHitState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
-	static _float fVelocity = 12.5f;
-	static _float fGravity = 15.f;
+	static _float fVelocity = 20.f;
+	static _float fGravity = 40.f;
 
 
 	_vector      vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

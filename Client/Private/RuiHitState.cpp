@@ -6,7 +6,7 @@
 using namespace Rui;
 
 CHitState::CHitState(_float _fPow, _bool _bJump)
-	:m_fPow(_fPow), m_bJumpHit(_bJump) 
+	:m_fPow(_fPow), m_bJumpHit(_bJump)
 {
 }
 
@@ -101,7 +101,7 @@ CRuiState * CHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	}
 	else
 	{
-		if (pRui->Get_Model()->Get_CurrentFrame() <= 60)
+		if (pRui->Get_Model()->Get_CurrentFrame() <= 60 && pRui->Get_AnimIndex() == CRui::ANIM_HIT)
 		{
 			if (!m_bTrun)
 			{
@@ -121,14 +121,27 @@ CRuiState * CHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 			}
 		}
 
-		pRui->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
-
-
 		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 		{
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			pRui->Get_Model()->Set_CurrentAnimIndex(49);
+			pRui->Set_AnimIndex(CRui::ANIM_IDLE);
+			pRui->Get_Model()->Set_Loop(49);
+			pRui->Get_Model()->Set_LinearTime(49, 0.01f);
+			pRui->Set_bGuard(true);
+		}
+
+		if (pRui->Get_Model()->Get_End(49))
+		{
+			pRui->Get_Model()->Reset_Anim(49);
+			pRui->Get_Model()->Set_End(49);
+			pRui->Set_bGuard(true);
 			return new CIdleState();
 		}
+
+
+
+		pRui->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
 
 	}
 
@@ -139,7 +152,7 @@ CRuiState * CHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 	return nullptr;
 }
-	
+
 
 
 void CHitState::Enter(CRui* pRui)
@@ -179,6 +192,11 @@ void CHitState::Enter(CRui* pRui)
 	else if (iRand == 3)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Hit_4.wav"), fEFFECT);
 
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
+
 }
 CRuiState * CHitState::Jump(CRui* pRui, _float fTimeDelta)
 {
@@ -188,8 +206,8 @@ CRuiState * CHitState::Jump(CRui* pRui, _float fTimeDelta)
 
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
-	static _float fVelocity = 8.f;
-	static _float fGravity = 14.f;
+	static _float fVelocity = 20.f;
+	static _float fGravity = 40.f;
 
 
 	_vector      vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -209,7 +227,7 @@ CRuiState * CHitState::Jump(CRui* pRui, _float fTimeDelta)
 	}
 
 	pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
-	
+
 
 	return nullptr;
 }

@@ -429,7 +429,7 @@ CTanjiroState * CMoveState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 CTanjiroState * CMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	Move(pTanjiro, fTimeDelta);
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 0.85f);
 	if (pTanjiro->Get_PlayerInfo().bChange)
 	{
 		return new CIdleState();

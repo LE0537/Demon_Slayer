@@ -254,7 +254,7 @@ CKyoujuroState * CIdleState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 					else
 						pKyoujuro->Set_UnicBar(pKyoujuro->Get_PlayerInfo().iUnicMaxBar);
 				}
-				if (m_fSkillBarTime > 0.15f)
+				if (m_fSkillBarTime > 0.3f)
 				{
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pKyoujuro);
 					m_fSkillBarTime = 0.f;
@@ -275,7 +275,7 @@ CKyoujuroState * CIdleState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 					else
 						pKyoujuro->Set_UnicBar(pKyoujuro->Get_PlayerInfo().iUnicMaxBar);
 				}
-				if (m_fSkillBarTime > 0.15f)
+				if (m_fSkillBarTime > 0.3f)
 				{
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_CHARGING, pKyoujuro);
 					m_fSkillBarTime = 0.f;

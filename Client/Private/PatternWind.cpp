@@ -19,10 +19,10 @@ HRESULT CPatternWind::Initialize_Prototype()
 
 HRESULT CPatternWind::Initialize(void * pArg)
 {
-	if (FAILED(Ready_Components()))
-		return E_FAIL;
-
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
+
+	if (FAILED(Ready_Components()))
+		return E_FAIL;	
 
 	m_fSizeX = m_ThrowUIinfo.vScale.x;
 	m_fSizeY = m_ThrowUIinfo.vScale.y;
@@ -40,9 +40,16 @@ HRESULT CPatternWind::Initialize(void * pArg)
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
-	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
-	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
-
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
+		XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
+		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
+	}
+	else
+	{
+		XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
+		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
+	}
 	return S_OK;
 }
 
@@ -52,8 +59,10 @@ void CPatternWind::Tick(_float fTimeDelta)
 		m_fUvMoveTime += fTimeDelta * 0.03f;
 	else
 		m_fUvMoveTime = 0.f;
-
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 50.f, 1.f));
+	if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 50.f, 1.f));
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_MENU)
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
 void CPatternWind::Late_Tick(_float fTimeDelta)
@@ -92,10 +101,19 @@ HRESULT CPatternWind::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_UIVtxTex"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSel_BgWind"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
-
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR || m_ThrowUIinfo.iLevelIndex == LEVEL_MENU)
+	{
+		/* For.Com_Texture */
+		if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSel_BgWind"), (CComponent**)&m_pTextureCom)))
+			return E_FAIL;
+	}
+	else
+	{
+		/* For.Com_Texture */
+		if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_PatternWind"), (CComponent**)&m_pTextureCom)))
+			return E_FAIL;
+	}
+	
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"), (CComponent**)&m_pVIBufferCom)))
 		return E_FAIL;
@@ -113,6 +131,9 @@ HRESULT CPatternWind::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iLevelNum", &(_uint)m_ThrowUIinfo.iLevelIndex, sizeof(_uint))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fUvMoveTime", &m_fUvMoveTime, sizeof(_float))))

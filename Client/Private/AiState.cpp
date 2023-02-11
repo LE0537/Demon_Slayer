@@ -1300,7 +1300,7 @@ void CAiState::Compare_OriginPoint(CRui * pRui)
 
 	printf_s("dist : %f \n", fDistance);
 
-	if (fDistance >= 40.f)
+	if (fDistance >= 50.f)
 	{
 
 

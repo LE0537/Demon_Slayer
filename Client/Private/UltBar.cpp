@@ -121,10 +121,13 @@ HRESULT CUltBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+
 	if (m_ThrowUIinfo.iLayerNum == 1)
 	{
-		m_fUltMaxBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicMaxBar;
-		m_fUltCurBar = (_float)m_ThrowUIinfo.pTarget->Get_PlayerInfo().iUnicBar;
+		m_fUltMaxBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicMaxBar;
+		m_fUltCurBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicBar;
 	}
 	else 
 	{
@@ -139,6 +142,8 @@ HRESULT CUltBar::SetUp_ShaderResources()
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }

@@ -53,6 +53,7 @@ private:
 	void Check_Shake(_float fTimeDelta);
 	void Camera_ShakeDown(_float fTimeDelta);
 	void Camera_ShakeHit(_float fTimeDelta);
+	void Check_Model();
 private:
 	CCharacters*				m_pPlayer = nullptr;
 	CCharacters*				m_pTarget = nullptr;
@@ -62,6 +63,7 @@ private:
 	_float					m_f2pX, m_f2pY = 0.f;
 	_float					m_fAngle = 0.f;
 	_bool					m_bBattle = false;
+	_bool					m_bBattleSound = false;
 	_float					m_fCamDist = 0.f;
 	_float					m_fLookY = 0.f;
 	CCharacters*			m_p1P = nullptr;
@@ -71,13 +73,14 @@ private:
 	_float					m_fFovTime = 0.f;
 	_float					m_fLookAtY = 0.f;
 	_bool					m_bStartBattle = false;
+	_bool					m_bEffect = false;
 	//Start
 	_bool  m_bStart = false;
 	_bool  m_bLerp = false;
 	_float m_fStartTime = 0.f;
 	_float m_fLerpTime = 0.f;
 	_float4 m_vCamPos, m_vLerpLook;
-	
+	_int   m_iAnimIndex = 0;
 	//shake 
 	_float m_fShakeAmount = 0.f;
 	_float m_fShakeFrequency = 0.f;
