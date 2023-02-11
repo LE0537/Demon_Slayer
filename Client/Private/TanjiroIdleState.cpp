@@ -286,12 +286,12 @@ CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 
-	if (ePreState == CTanjiroState::STATE_JUMP)
-	{
-		pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
-	}
-	else
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	//if (ePreState == CTanjiroState::STATE_JUMP)
+	//{
+	//	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
+	//}
+	//else
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
 	_vector vPlayerY = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	pTanjiro->Set_NavigationHeight(vPlayerY);
