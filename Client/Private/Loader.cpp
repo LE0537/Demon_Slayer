@@ -965,6 +965,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Wind3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Wind4.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Wind4"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Wind4.fbx", PivotMatrix)))) return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Angry3_1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Angry3_1.fbx", PivotMatrix)))) return E_FAIL;
+
 
 #pragma endregion Effect Model
 
@@ -1099,6 +1101,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Com_Hand_4"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Com_Hand_5"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Coll_Skl_Com_Main"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Move_StartFollowPlc"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Move_RunSmoke"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Move_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Move_Final"));
 
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
