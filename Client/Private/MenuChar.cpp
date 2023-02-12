@@ -2,6 +2,7 @@
 #include "MenuChar.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "MenuCursor.h"
 
 CMenuChar::CMenuChar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -44,7 +45,7 @@ HRESULT CMenuChar::Initialize(void * pArg)
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
-
+	m_bStartCheck = true;
 
 	return S_OK;
 }
@@ -53,15 +54,36 @@ void CMenuChar::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
-
 	_float fMenuCursorX = pUIManager->Get_MenuCursor()->Get_fX();
 	_float fMenuCursorY = pUIManager->Get_MenuCursor()->Get_fY();
+
+	dynamic_cast<CMenuCursor*>(pUIManager->Get_MenuCursor())->Set_MenuChar(this);
 
 	if (fMenuCursorX == 55.f && fMenuCursorY == 167.f)
 		m_iImgNum = 0;
 	else if (fMenuCursorX == 75.f && fMenuCursorY == 252.f)
 		m_iImgNum = 1;
+
+	if (m_bStartCheck)
+	{
+		if (!m_bPosSetCheck)
+		{
+			m_fFadeTime = 0.f;
+			m_fX = m_ThrowUIinfo.vPos.x - 30.f;
+			m_fY = m_ThrowUIinfo.vPos.y - 120.f;
+			m_bPosSetCheck = true;
+		}
+
+		m_fX += 1.f;
+		m_fY += 4.f;
+		m_fFadeTime += fTimeDelta;
+		if (m_fX == m_ThrowUIinfo.vPos.x && m_fY == m_ThrowUIinfo.vPos.y)
+		{
+			m_bStartCheck = false;
+			m_fFadeTime = 1.f;
+		}
+	}
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CUI_Manager);
 }
@@ -81,10 +103,7 @@ HRESULT CMenuChar::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(12);
 
 	m_pVIBufferCom->Render();
 
@@ -126,6 +145,9 @@ HRESULT CMenuChar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))

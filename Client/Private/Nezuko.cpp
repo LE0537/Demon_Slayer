@@ -184,9 +184,9 @@ HRESULT CNezuko::Render()
 			return E_FAIL;
 
 	}
-	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f)
+	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y)
 	{
-		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 		_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vPos.m128_f32[1] += 15.f;

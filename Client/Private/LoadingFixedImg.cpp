@@ -40,7 +40,10 @@ HRESULT CLoadingFixedImg::Initialize(void * pArg)
 	else if (m_ThrowUIinfo.iTextureNum == 10)
 		m_iImgNum = 3;
 	else if (m_ThrowUIinfo.iTextureNum == 11)
+	{
+		m_fSizeX *= 0.52f;
 		m_iImgNum = 2;
+	}
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 

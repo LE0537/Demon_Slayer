@@ -53,6 +53,7 @@ private:
 	void Check_Shake(_float fTimeDelta);
 	void Camera_ShakeDown(_float fTimeDelta);
 	void Camera_ShakeHit(_float fTimeDelta);
+	void Check_Model();
 private:
 	CCharacters*				m_pPlayer = nullptr;
 	CCharacters*				m_pTarget = nullptr;
@@ -79,7 +80,7 @@ private:
 	_float m_fStartTime = 0.f;
 	_float m_fLerpTime = 0.f;
 	_float4 m_vCamPos, m_vLerpLook;
-	
+	_int   m_iAnimIndex = 0;
 	//shake 
 	_float m_fShakeAmount = 0.f;
 	_float m_fShakeFrequency = 0.f;

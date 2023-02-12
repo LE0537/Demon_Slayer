@@ -44,6 +44,10 @@ HRESULT CLoadingCloud::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
+	if (m_ThrowUIinfo.iTextureNum == 1)
+		m_iImgNum = 0;
+	else if (m_ThrowUIinfo.iTextureNum == 2)
+		m_iImgNum = 1;
 
 	return S_OK;
 }
@@ -115,7 +119,7 @@ HRESULT CLoadingCloud::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;

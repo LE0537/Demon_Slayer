@@ -288,7 +288,7 @@ void CUI_Manager::Add_Menu()
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
-		m_ThrowInfo.iLevelIndex = LEVEL_LOGO;
+		m_ThrowInfo.iLevelIndex = LEVEL_MENU;
 
 		MENU_DATALIST.push_back(m_ThrowInfo);
 	}
@@ -422,7 +422,7 @@ void CUI_Manager::Add_Adc_Menu()
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
 		m_ThrowInfo.bPlyCheck = true;
-		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+		m_ThrowInfo.iLevelIndex = LEVEL_STORYMENU;
 
 		ADC_MENU_DATALIST.push_back(m_ThrowInfo);
 	}

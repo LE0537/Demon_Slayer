@@ -121,9 +121,10 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
 			m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		}
-#endif
 		if (m_fStartTime > 1.f)
 			m_bStart = true;
+#endif
+	
 		if (!m_bStart)
 			Set_StartPos(fTimeDelta);
 	
@@ -155,11 +156,16 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 {
 	__super::Late_Tick(fTimeDelta);
 
+
+#ifdef _DEBUG
 	if (!m_bStory)
 	{
-		if (m_fStartTime > 0.2f && !m_bEffect && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime() > 25.f)
+		if (!m_bEffect)
 		{
-			
+			Check_Model();
+		}
+		if (m_fStartTime > 4.6f && !m_bEffect && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 25.f)
+		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 			pEffectManger->Create_Effect(CEffect_Manager::EFF_GAMESTART, m_pPlayer);
@@ -167,7 +173,7 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
 		}
-		if (m_fStartTime > 0.2f && !m_bBattleSound && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime() > 22.f)
+		if (m_fStartTime > 4.6f && !m_bBattleSound && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 22.f)
 		{
 			CSoundMgr::Get_Instance()->PlayEffect(TEXT("BattleStart.wav"), fEFFECT);
 			m_bBattleSound = true;
@@ -177,20 +183,47 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 			Set_BattleTarget(fTimeDelta);
 			m_bBattle = true;
 		}
-#ifdef _DEBUG
 		if (!m_bStartBattle && m_fStartTime > 4.5f)
 		{
 			Set_BattleStart(fTimeDelta);
 			m_bStartBattle = true;
 		}
-#else
-		if (!m_bStartBattle && m_fStartTime > 0.1f)
-		{
-			Set_BattleStart(fTimeDelta);
-			m_bStartBattle = true;
-		}
-#endif
 	}
+#else
+		if (!m_bStory)
+		{
+			if (!m_bEffect)
+			{
+				Check_Model();
+			}
+			if (m_fStartTime > 0.2f && !m_bEffect && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 25.f)
+			{
+
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_GAMESTART, m_pPlayer);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+				m_bEffect = true;
+			}
+			if (m_fStartTime > 0.2f && !m_bBattleSound && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 22.f)
+			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("BattleStart.wav"), fEFFECT);
+				m_bBattleSound = true;
+			}
+			if (!m_bBattle)
+			{
+				Set_BattleTarget(fTimeDelta);
+				m_bBattle = true;
+			}
+			if (!m_bStartBattle && m_fStartTime > 0.1f)
+			{
+				Set_BattleStart(fTimeDelta);
+				m_bStartBattle = true;
+			}
+	}
+#endif
+	
 }
 
 HRESULT CCamera_Dynamic::Render()
@@ -664,6 +697,22 @@ void CCamera_Dynamic::Camera_ShakeHit(_float fTimeDelta)
 	vPos += XMVectorSet(fShake, fShake, fShake, 0.f);
 
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+}
+
+void CCamera_Dynamic::Check_Model()
+{
+	if (m_pPlayer->Get_PlayerInfo().strName == TEXT("탄지로"))
+		m_iAnimIndex = 99;
+	else if (m_pPlayer->Get_PlayerInfo().strName == TEXT("쿄주로"))
+		m_iAnimIndex = 82;
+	else if (m_pPlayer->Get_PlayerInfo().strName == TEXT("루이"))
+		m_iAnimIndex = 83;
+	else if (m_pPlayer->Get_PlayerInfo().strName == TEXT("아카자"))
+		m_iAnimIndex = 64;
+	else if (m_pPlayer->Get_PlayerInfo().strName == TEXT("네즈코"))
+		m_iAnimIndex = 10;
+	else if (m_pPlayer->Get_PlayerInfo().strName == TEXT("시노부"))
+		m_iAnimIndex = 89;
 }
 
 CCamera_Dynamic * CCamera_Dynamic::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
