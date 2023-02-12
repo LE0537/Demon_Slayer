@@ -1112,6 +1112,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_JumpMove_StartFollow"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_JumpMove_Main"));
 
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_SpecialGround"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Destroy_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Destroy_SuccessFinal"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Destroy_FailedFinal"));
+
+
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
 	}

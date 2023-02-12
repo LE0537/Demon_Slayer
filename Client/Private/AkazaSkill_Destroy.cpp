@@ -430,6 +430,34 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 		break;
 	}
 
+	if (!m_bEffect && m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_SPECIALGROUND, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_MAIN, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+	else if (!m_bEffect && m_eStateType == TYPE_END)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		if (true == m_bHit)
+		{
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_SUCCESSS_FINAL, pAkaza);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_FAILEDFINAL, pAkaza);
+		}
+		else
+		{
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_FAILEDFINAL, pAkaza);
+		}
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+
+
 	return nullptr;
 }
 
