@@ -372,6 +372,7 @@ void CIdleState::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
+	//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_IDLE);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_IDLE);
 	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_IDLE, 0.05f);
