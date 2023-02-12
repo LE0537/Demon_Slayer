@@ -135,9 +135,9 @@ CTanjiroState * CJumpstate::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	//else if (m_eStateType == TYPE_DEFAULT)
 	//	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
 	//else
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
-	m_fJumpTime += 0.04f;
+	m_fJumpTime += 0.035f;
 
 	if (m_eStateType != TYPE_DEFAULT)
 		Jump(pTanjiro, fTimeDelta + m_fJumpTime);
