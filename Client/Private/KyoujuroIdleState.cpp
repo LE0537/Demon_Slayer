@@ -295,7 +295,7 @@ void CIdleState::Enter(CKyoujuro * pKyoujuro)
 
 	pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_IDLE);
 	pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_IDLE);
-	//pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_IDLE, 0.01f);
+	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_IDLE, 0.05f);
 }
 
 void CIdleState::Exit(CKyoujuro * pKyoujuro)
