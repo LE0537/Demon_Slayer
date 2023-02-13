@@ -43,7 +43,7 @@ HRESULT CRui::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 	//m_i1p = 10;
-	//if (m_i1p != 10)
+	if (m_i1p != 10)
 	{
 		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
 		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
@@ -84,21 +84,21 @@ HRESULT CRui::Initialize(void * pArg)
 
 		}
 	}
-	//else if (m_i1p == 10)
-	//{
-	//	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	//	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-	//	RELEASE_INSTANCE(CGameInstance);
-	//	_vector vPos = { -86.276f,9.252f,6.756f,1.f };
-	//	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	//	m_pTransformCom->Set_Scale(XMVectorSet(0.3f, 0.3f, 0.3f, 0.f));
-	//	m_pNavigationCom->Find_CurrentCellIndex(vPos);
+	else if (m_i1p == 10)
+	{
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		RELEASE_INSTANCE(CGameInstance);
+		_vector vPos = { -860.374f,92.52f,-68.017f,1.f };
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	
+		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 
-	//	m_tInfo.bSub = tCharacterDesc.bSub;
-	//	m_bChange = tCharacterDesc.bSub;
-	////	CUI_Manager::Get_Instance()->Set_2P(this);
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+	//	CUI_Manager::Get_Instance()->Set_2P(this);
 
-	//}
+	}
 	CRuiState* pState = new CIdleState();
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 
