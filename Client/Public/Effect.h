@@ -4,6 +4,7 @@
 #include "Effect_Mesh.h"
 #include "Effect_Particle.h"
 #include "Effect_Texture.h"
+#include "Effect_Particle_New.h"
 #include "Characters.h"
 
 BEGIN(Client)
@@ -39,7 +40,7 @@ private:
 
 public:
 	HRESULT Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
-		, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo);
+		, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo, vector<CEffect_Particle_New::PARTICLE_INFO> NewParticleInfo);
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
 	virtual void Late_Tick(_float fTimeDelta);
@@ -54,29 +55,31 @@ private:
 private:
 	//char										m_szEffectName[MAX_PATH];
 
-	_int										m_iTexNum = -1; //보류
+	_int											m_iTexNum = -1; //보류
 
-	_float										m_fEffectTime = 0.f;
+	_float											m_fEffectTime = 0.f;
 
-	_float4										m_vDestination;
+	_float4											m_vDestination;
 
-	EFFECT_INFO									m_EffectInfo;
+	EFFECT_INFO										m_EffectInfo;
 
-	_bool										m_bStart;
+	_bool											m_bStart;
 
-	CGameObj*									m_pTarget;
+	CGameObj*										m_pTarget;
 
-	vector<class CEffect_Texture*>				m_Textures;
-	vector<class CEffect_Mesh*>					m_Meshes;
-	vector<class CEffect_Particle*>				m_Particle;
+	vector<class CEffect_Texture*>					m_Textures;
+	vector<class CEffect_Mesh*>						m_Meshes;
+	vector<class CEffect_Particle*>					m_Particle;
+	vector<class CEffect_Particle_New*>				m_NewParticle;
 
-	vector<CEffect_Texture::TEXTURE_INFO>		m_TextureInfo;
-	vector<CEffect_Mesh::MESH_INFO>				m_MeshInfo;
-	vector<CEffect_Particle::PARTICLE_INFO>		m_ParticleInfo;
+	vector<CEffect_Texture::TEXTURE_INFO>			m_TextureInfo;
+	vector<CEffect_Mesh::MESH_INFO>					m_MeshInfo;
+	vector<CEffect_Particle::PARTICLE_INFO>			m_ParticleInfo;
+	vector<CEffect_Particle_New::PARTICLE_INFO>		m_NewParticleInfo;
 
 public:
 	static CEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
-		, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo);
+		, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo, vector<CEffect_Particle_New::PARTICLE_INFO> NewParticleInfo);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };

@@ -235,6 +235,7 @@
     <ClInclude Include="..\Public\ComboHitDeco.h" />
     <ClInclude Include="..\Public\ComboHitTxt.h" />
     <ClInclude Include="..\Public\ComboNum.h" />
+    <ClInclude Include="..\Public\Effect_Particle_New.h" />
     <ClInclude Include="..\public\KaguraSkill.h" />
     <ClInclude Include="..\Public\KyoujuroBattleSTState.h" />
     <ClInclude Include="..\Public\KyoujuroJumpAttackState.h" />
@@ -584,6 +585,7 @@
     <ClCompile Include="..\Private\ComboHitDeco.cpp" />
     <ClCompile Include="..\Private\ComboHitTxt.cpp" />
     <ClCompile Include="..\Private\ComboNum.cpp" />
+    <ClCompile Include="..\Private\Effect_Particle_New.cpp" />
     <ClCompile Include="..\private\KaguraSkill.cpp" />
     <ClCompile Include="..\Private\KyoujuroBattleSTState.cpp" />
     <ClCompile Include="..\Private\KyoujuroJumpAttackState.cpp" />
@@ -880,6 +882,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModelInstance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance_New.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxRectInstance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxTex.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxUIModel.hlsl" />

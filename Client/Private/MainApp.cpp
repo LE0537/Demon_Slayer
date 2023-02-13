@@ -168,6 +168,9 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Particle_Instance_200"),
 		CVIBuffer_Particle_Instance::Create(m_pDevice, m_pContext, 200))))
 		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_NewParticle_Instance"),
+		CVIBuffer_NewParticle_Instance::Create(m_pDevice, m_pContext, 2000))))
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Hexagon"),
 		CVIBuffer_Hexagon::Create(m_pDevice, m_pContext))))
@@ -231,6 +234,9 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Shader_VtxEffTex"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/Shaderfiles/Shader_VtxEffTex.hlsl"), VTXTEX_DECLARATION::Elements, VTXTEX_DECLARATION::iNumElements))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNewParticleInstance"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/Shaderfiles/Shader_VtxPointInstance_New.hlsl"), NEWPARTICLEINSTANCE_DECLARATION::Elements, NEWPARTICLEINSTANCE_DECLARATION::iNumElements))))
 		return E_FAIL;
 
 	//·Îµù°´Ã¼

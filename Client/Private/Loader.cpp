@@ -131,6 +131,7 @@
 #include "Effect_Texture.h"
 #include "Effect_Mesh.h"
 #include "Effect_Particle.h"
+#include "Effect_Particle_New.h"
 //CollBox
 #include "BaseAtk.h"
 #include "WaterMill.h"
@@ -994,6 +995,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectParticle"),
 			CEffect_Particle::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectParticleNew"),
+			CEffect_Particle_New::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 		
 		CEffect_Manager* pEffect_Manager = GET_INSTANCE(CEffect_Manager);

@@ -21,7 +21,7 @@ CEffect::CEffect(const CEffect & rhs)
 }
 
 HRESULT CEffect::Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
-	, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo)
+	, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo, vector<CEffect_Particle_New::PARTICLE_INFO> NewParticleInfo)
 {
 	m_EffectInfo = EffectInfo;
 
@@ -188,6 +188,15 @@ HRESULT CEffect::Ready_Parts()
 		m_Particle.push_back((CEffect_Particle*)pParticle);
 	}
 
+	// New파티클 생성
+	for (auto ParticleInfo : m_NewParticleInfo) {
+		CGameObject*		pParticle = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectParticleNew"));
+
+		static_cast<CEffect_Particle_New*>(pParticle)->Set_Parents(this);
+		static_cast<CEffect_Particle_New*>(pParticle)->Set_ParticleInfo(ParticleInfo);
+
+		m_NewParticle.push_back((CEffect_Particle_New*)pParticle);
+	}
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -195,11 +204,11 @@ HRESULT CEffect::Ready_Parts()
 }
 
 CEffect * CEffect::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
-	, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo)
+	, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo, vector<CEffect_Particle_New::PARTICLE_INFO> NewParticleInfo)
 {
 	CEffect*	pInstance = new CEffect(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_Prototype(EffectInfo, TextureInfo, MeshInfo, ParticleInfo)))
+	if (FAILED(pInstance->Initialize_Prototype(EffectInfo, TextureInfo, MeshInfo, ParticleInfo, NewParticleInfo)))
 	{
 		ERR_MSG(TEXT("Failed to Created : CEffect"));
 		Safe_Release(pInstance);

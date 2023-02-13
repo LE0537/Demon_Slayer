@@ -17,6 +17,8 @@
 #include "VIBuffer_Rect_Instance.h"
 #include "VIBuffer_Point_Instance.h"
 #include "VIBuffer_Particle_Instance.h"
+#include "VIBuffer_New_Particle_Instance.h"
+
 
 BEGIN(Engine)
 

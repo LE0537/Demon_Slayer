@@ -1075,6 +1075,9 @@
     <Filter Include="03.UI\02.Battle\BattleBottom\Eff\NumEff">
       <UniqueIdentifier>{1986abf9-9037-465d-b2eb-00fe5573faf2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Effect\04.EffectParticleNew">
+      <UniqueIdentifier>{de3d8c97-eb5f-48da-9898-7c018f7ccb1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2121,6 +2124,9 @@
     <ClInclude Include="..\Public\UltNumEff.h">
       <Filter>03.UI\02.Battle\BattleBottom\Eff\NumEff</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_Particle_New.h">
+      <Filter>04.Effect\04.EffectParticleNew</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3140,6 +3146,9 @@
     <ClCompile Include="..\Private\UltNumEff.cpp">
       <Filter>03.UI\02.Battle\BattleBottom\Eff\NumEff</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Effect_Particle_New.cpp">
+      <Filter>04.Effect\04.EffectParticleNew</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -3192,6 +3201,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxAnimModel.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance_New.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>
