@@ -69,8 +69,7 @@ HRESULT CMenuModel::Initialize(void * pArg)
 	m_iModelIndex = 0;
 	m_iAnimIndex = 1;
 	m_pModelCom[m_iModelIndex]->Set_CurrentAnimIndex(m_iAnimIndex);
-	m_pModelCom[m_iModelIndex]->Set_Loop(m_iAnimIndex);
-	m_pModelCom[m_iModelIndex]->Set_LinearTime(m_iAnimIndex, 0.01f);
+
 	m_fSizeX = 500.f;
 	m_fSizeY = 500.f;
 	_float fX = 350.f;

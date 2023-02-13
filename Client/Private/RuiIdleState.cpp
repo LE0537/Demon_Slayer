@@ -11,6 +11,8 @@
 #include "RuiTargetRushState.h"
 #include "AiState.h"
 #include "Effect_Manager.h"
+
+
 using namespace Rui;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -77,6 +79,9 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			pRui->Set_UnicCount(-1);
 			if (pRui->Get_PlayerInfo().iPowerIndex == 0)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UltUseCount(1, 0);
+				RELEASE_INSTANCE(CUI_Manager);
 				pRui->Set_PowerIndex(1);
 				pRui->Set_PowerUp(1.5f);
 				pRui->Set_PowerUpTime(6.f);
@@ -87,6 +92,9 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			}
 			else if (pRui->Get_PlayerInfo().iPowerIndex == 1)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UltUseCount(1, 0);
+				RELEASE_INSTANCE(CUI_Manager);
 				pRui->Set_PowerIndex(2);
 				pRui->Set_PowerUpTime(6.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -107,6 +115,9 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			{
 				if (200 <= pRui->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pRui->Set_SkillBar(-200);
 					return new CSkill_SphereState(STATE_TYPE::TYPE_START);
 				}
@@ -115,6 +126,9 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			{
 				if (200 <= pRui->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pRui->Set_SkillBar(-200);
 					return new CSkill_ShootState(STATE_TYPE::TYPE_START);
 				}
@@ -124,6 +138,9 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 		{
 			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_FriendUseCount(1, 0);
+				RELEASE_INSTANCE(CUI_Manager);
 				pRui->Get_Model()->Reset_Anim(CRui::ANIM_ADVSKILL_COMMON);
 				pRui->Set_FriendSkillBar(-500.f);
 				return new CAdvSkill_CommonState();
@@ -184,6 +201,9 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			pRui->Set_UnicCount(-1);
 			if (pRui->Get_PlayerInfo().iPowerIndex == 0)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UltUseCount(1, 1);
+				RELEASE_INSTANCE(CUI_Manager);
 				pRui->Set_PowerIndex(1);
 				pRui->Set_PowerUp(1.5f);
 				pRui->Set_PowerUpTime(6.f);
@@ -194,6 +214,9 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			}
 			else if (pRui->Get_PlayerInfo().iPowerIndex == 1)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UltUseCount(1, 1);
+				RELEASE_INSTANCE(CUI_Manager);
 				pRui->Set_PowerIndex(2);
 				pRui->Set_PowerUpTime(6.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -214,6 +237,9 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			{
 				if (200 <= pRui->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pRui->Set_SkillBar(-200);
 					return new CSkill_SphereState(STATE_TYPE::TYPE_START);
 				}
@@ -222,6 +248,9 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			{
 				if (200 <= pRui->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pRui->Set_SkillBar(-200);
 					return new CSkill_ShootState(STATE_TYPE::TYPE_START);
 				}
@@ -231,6 +260,9 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 		{
 			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_FriendUseCount(1, 1);
+				RELEASE_INSTANCE(CUI_Manager);
 				pRui->Get_Model()->Reset_Anim(CRui::ANIM_ADVSKILL_COMMON);
 				pRui->Set_FriendSkillBar(-500.f);
 				return new CAdvSkill_CommonState();

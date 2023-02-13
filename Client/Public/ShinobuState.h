@@ -3,7 +3,7 @@
 #include "Engine_Defines.h"
 #include "Shinobu.h"
 #include "SoundMgr.h"
-
+#include "UI_Manager.h"
 
 BEGIN(Client)
 class CShinobuState

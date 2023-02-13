@@ -40,6 +40,9 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 			{
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_SkillBar(-200);
 					return new CSkill_FallCutState(STATE_TYPE::TYPE_START);
 				}
@@ -48,6 +51,9 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 			{
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_SkillBar(+200);
 					pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_SKILL_MOVE_0);
 					return new CSkill_MoveState(STATE_TYPE::TYPE_START);
@@ -182,7 +188,7 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CMoveState(OBJDIR::DIR_STOP, TYPE_LOOP);
+			return new CIdleState();
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -195,6 +201,9 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 			{
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_SkillBar(-200);
 					return new CSkill_FallCutState(STATE_TYPE::TYPE_START);
 				}
@@ -203,6 +212,9 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 			{
 				if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_SkillBar(-200);
 					pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_SKILL_MOVE_0);
 					return new CSkill_MoveState(STATE_TYPE::TYPE_START);
@@ -333,7 +345,7 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CMoveState(OBJDIR::DIR_STOP, TYPE_LOOP);
+			return new CIdleState();
 
 		break;
 	}
@@ -351,8 +363,7 @@ CNezukoState * CMoveState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 		switch (m_eStateType)
 		{
 		case Client::CNezukoState::TYPE_START:
-			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-			return new CMoveState(m_eDirection, TYPE_START);
+			m_eStateType = CNezukoState::TYPE_LOOP;
 			break;
 		case Client::CNezukoState::TYPE_LOOP:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
@@ -374,14 +385,7 @@ CNezukoState * CMoveState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 CNezukoState * CMoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
 	Move(pNezuko, fTimeDelta);
-	
-
-	if(m_eStateType == TYPE_LOOP)
-		pNezuko->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
-	else
-		pNezuko->Get_Model()->Play_Animation(fTimeDelta* 0.85f);
-
-
+	pNezuko->Get_Model()->Play_Animation(fTimeDelta);
 	if (pNezuko->Get_PlayerInfo().bChange)
 	{
 		return new CIdleState();
@@ -402,20 +406,16 @@ CNezukoState * CMoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 void CMoveState::Enter(CNezuko* pNezuko)
 {
 	m_eStateId = STATE_ID::STATE_MOVE;
-	//pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIMID::ANIM_MOVE_END);
+	pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIMID::ANIM_MOVE_END);
 	switch (m_eStateType)
 	{
 	case Client::CNezukoState::TYPE_START:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_MOVE_START);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_MOVE_START);
-		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIMID::ANIM_MOVE_START, true);
-		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_MOVE_START, 0.01f);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_MOVE_END);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_MOVE_END);
-		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIMID::ANIM_MOVE_END);
-		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_MOVE_END, 0.01f);
 		break;
 	case Client::CNezukoState::TYPE_DEFAULT:
 		break;

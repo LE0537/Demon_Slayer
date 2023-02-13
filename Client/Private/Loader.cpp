@@ -120,6 +120,14 @@
 #include "AdcMenuSelFrame.h"
 #include "AdcMenuSelImg.h"
 #include "AdcMenuSelTxt.h"
+#include "UltFire.h"
+#include "UltGaugeFrame.h"
+#include "UltOpenBar.h"
+#include "UltNumEff.h"
+#include "UltStockFadeEff.h"
+#include "ResultScoreBar.h"
+#include "ResultScoreBase.h"
+#include "ResultTotalBase.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -219,6 +227,15 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 #pragma region BattleUI
 		//Battle
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeFrame"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Gauge_Frame_%d.png"), 4))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_OpeningUltBar"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Gauge_Base.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeFire"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Eff_Awk%d.png"), 4))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_OniSpecialBar"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/OniBarFrame.png"), 1))))
 			return E_FAIL;
@@ -248,6 +265,15 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TxtWin"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Txt_Win.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ResultScoreBase"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Result_BarBase.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ResultScoreBar"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Result_BarSelect.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ResultTotalBase"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Result_Base2.png"), 1))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TxtWinEff"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Result_Win_White.png"), 1))))
@@ -304,7 +330,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Stock_Frame_%d.png"), 6))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltStockEff"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Stock_Eff_%d.png"), 7))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Stock_Eff_%d.png"), 6))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeDeco"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Utl_Gauge_Deco_%d.png"), 2))))
@@ -965,8 +991,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Wind3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Wind4.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Wind4"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Wind4.fbx", PivotMatrix)))) return E_FAIL;
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Angry3_1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Angry3_1.fbx", PivotMatrix)))) return E_FAIL;
-
 
 #pragma endregion Effect Model
 
@@ -1101,22 +1125,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Com_Hand_4"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Com_Hand_5"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Coll_Skl_Com_Main"));
-
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Move_StartFollowPlc"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Move_RunSmoke"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Move_Main"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Move_Final"));
-
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_JumpCom_StartEff"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_JumpMove_StartEff"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_JumpMove_StartFollow"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_JumpMove_Main"));
-
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_SpecialGround"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Destroy_Main"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Destroy_SuccessFinal"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Destroy_FailedFinal"));
-
 
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
@@ -1313,6 +1321,30 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultScoreBar"),
+		CResultScoreBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultScoreBase"),
+		CResultScoreBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultTotalBase"),
+		CResultTotalBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltNumEff"),
+		CUltNumEff::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltStockFadeEff"),
+		CUltStockFadeEff::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltGaugeFire"),
+		CUltFire::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltGaugeFrame"),
+		CUltGaugeFrame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_OpeningUltBar"),
+		CUltOpenBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuBG"),
 		CAdcMenuBg::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

@@ -39,6 +39,9 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 
 				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					//pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_SKILL_WINDMILL);
 					pShinobu->Set_SkillBar(-200);
 					return new CSkill_UpperState(STATE_TYPE::TYPE_START);
@@ -50,6 +53,9 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 
 				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pShinobu->Set_SkillBar(-200);
 					return new CSkill_MoveState(STATE_TYPE::TYPE_START);
 				}
@@ -178,7 +184,7 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
 		}
 		else
-			return new CMoveState(OBJDIR::DIR_STOP, TYPE_END);
+			return new CIdleState();
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -192,6 +198,9 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 
 				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					//pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM);
 					pShinobu->Set_SkillBar(-200);
 					return new CSkill_UpperState(STATE_TYPE::TYPE_START);
@@ -203,6 +212,9 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 
 				if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pShinobu->Set_SkillBar(-200);
 					return new CSkill_MoveState(STATE_TYPE::TYPE_START);
 				}
@@ -330,7 +342,7 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
 		}
 		else
-			return new CMoveState(OBJDIR::DIR_STOP, TYPE_END);
+			return new CIdleState();
 		break;
 	default:
 		break;
@@ -350,8 +362,7 @@ CShinobuState * CMoveState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 		switch (m_eStateType)
 		{
 		case Client::CShinobuState::TYPE_START:
-			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-			return new CMoveState(m_eDirection, TYPE_START);
+			m_eStateType = CShinobuState::TYPE_LOOP;
 			break;
 			//case Client::CTanjiroState::TYPE_LOOP:
 			//	m_eStateType = CTanjiroState::TYPE_LOOP;
@@ -374,7 +385,7 @@ CShinobuState * CMoveState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 CShinobuState * CMoveState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
 	Move(pShinobu, fTimeDelta);
-	pShinobu->Get_Model()->Play_Animation(fTimeDelta * 0.85f);
+	pShinobu->Get_Model()->Play_Animation(fTimeDelta);
 	if (pShinobu->Get_PlayerInfo().bChange)
 	{
 		return new CIdleState();
@@ -401,20 +412,15 @@ void CMoveState::Enter(CShinobu* pShinobu)
 	case Client::CShinobuState::TYPE_START:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_MOVE_START);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_MOVE_START);
-		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex(), true);
-		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_MOVE_START, 0.01f);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_MOVE_LOOP);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_MOVE_LOOP);
-		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex(), true);
-		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_MOVE_LOOP, 0.01f);
 		break;
 	case Client::CShinobuState::TYPE_END:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_MOVE_END);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_MOVE_END);
 		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
-		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_MOVE_END, 0.01f);
 		break;
 	case Client::CShinobuState::TYPE_DEFAULT:
 		break;

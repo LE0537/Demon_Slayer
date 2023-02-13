@@ -3,6 +3,7 @@
 #include "Engine_Defines.h"
 #include "Kyoujuro.h"
 #include "SoundMgr.h"
+#include "UI_Manager.h"
 
 BEGIN(Client)
 class CKyoujuroState

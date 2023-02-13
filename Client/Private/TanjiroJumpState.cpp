@@ -7,6 +7,7 @@
 #include "TanjiroJumpSkillCommonState.h"
 #include "TanjiroKaguraJumpSkill_Common.h"
 #include "Effect_Manager.h"
+#include "UI_Manager.h"
 using namespace Tanjiro;
 
 CJumpstate::CJumpstate(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -29,11 +30,17 @@ CTanjiroState * CJumpstate::HandleInput(CTanjiro * pTanjiro)
 			{
 				if (pTanjiro->Get_KaguraMode() == true)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_SkillBar(-200);
 					return new CKaguraJumpSkill_CommonState();
 				}
 				else
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_SkillBar(-200);
 					return new CJumpSkillCommonState(TYPE_START);
 				}
@@ -52,11 +59,17 @@ CTanjiroState * CJumpstate::HandleInput(CTanjiro * pTanjiro)
 			{
 				if (pTanjiro->Get_KaguraMode() == true)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_SkillBar(-200);
 					return new CKaguraJumpSkill_CommonState();
 				}
 				else
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_SkillBar(-200);
 					return new CJumpSkillCommonState(TYPE_START);
 				}
@@ -135,9 +148,9 @@ CTanjiroState * CJumpstate::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	//else if (m_eStateType == TYPE_DEFAULT)
 	//	pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
 	//else
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
-	m_fJumpTime += 0.035f;
+	m_fJumpTime += 0.04f;
 
 	if (m_eStateType != TYPE_DEFAULT)
 		Jump(pTanjiro, fTimeDelta + m_fJumpTime);

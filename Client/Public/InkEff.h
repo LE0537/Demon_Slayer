@@ -28,7 +28,7 @@ private:
 	_uint				m_iFrame = 0;
 	_uint				m_iNumTextureU = 0;
 	_uint				m_iNumTextureV = 0;
-	_float				m_fSpriteTime = 0.f;				
+	_float				m_fSpriteTime = 0.f;	
 
 public:
 	static CInkEff* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

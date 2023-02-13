@@ -82,7 +82,7 @@ HRESULT CNezuko::Initialize(void * pArg)
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
-	//	m_pTransformCom->Set_Scale(XMVectorSet(0.25f, 0.25f, 0.25f, 0.f));
+		m_pTransformCom->Set_Scale(XMVectorSet(0.25f, 0.25f, 0.25f, 0.f));
 		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
 		m_pSubChar->Set_SubChar(this);
 		m_bChange = true;
@@ -200,6 +200,9 @@ HRESULT CNezuko::Render()
 			{
 				if (pGameInstance->Key_Up(DIK_U))
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_FriendUseCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
 					m_fChangeDelay = 3.f;
 					m_pSubChar->Set_Sub(false);
@@ -225,6 +228,9 @@ HRESULT CNezuko::Render()
 			}
 			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_U))
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_FriendUseCount(1, 0);
+				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
 				m_fChangeDelay = 3.f;
 				m_pSubChar->Set_Sub(false);
@@ -291,6 +297,9 @@ HRESULT CNezuko::Render()
 			{
 				if (pGameInstance->Key_Up(DIK_V))
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_FriendUseCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
 					m_fChangeDelay = 3.f;
 					m_pSubChar->Set_Sub(false);
@@ -316,6 +325,9 @@ HRESULT CNezuko::Render()
 			}
 			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_V))
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_FriendUseCount(1, 1);
+				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
 				m_fChangeDelay = 3.f;
 				m_pSubChar->Set_Sub(false);
