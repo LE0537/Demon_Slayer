@@ -1117,6 +1117,13 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Destroy_SuccessFinal"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Destroy_FailedFinal"));
 
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Dash"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Com_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Com_StartFollow"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Com_Ing_Follow"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Com_Main"));
+
+
 
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
