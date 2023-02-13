@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "UltStockFrame.h"
 #include "GameInstance.h"
-#include "UI_Manager.h"
+
 CUltStockFrame::CUltStockFrame(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
@@ -50,68 +50,7 @@ HRESULT CUltStockFrame::Initialize(void * pArg)
 
 void CUltStockFrame::Tick(_float fTimeDelta)
 {
-	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-
-	if (!m_ThrowUIinfo.bPlyCheck)
-	{
-		m_iPowerIndex = pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex;
-		
-		switch (m_iPowerIndex)
-		{
-		case 0:
-			if(!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 0;
-			else
-				m_iImgNum = 1;
-			break;
-		case 1:
-			if (!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 2;
-			else
-				m_iImgNum = 4;
-			break;
-		case 2:
-			if (!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 3;
-			else
-				m_iImgNum = 5;
-			break;
-		default:
-			break;
-		}
-	}
-	else if (m_ThrowUIinfo.bPlyCheck)
-	{
-		m_iPowerIndex = pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex;
-
-		switch (m_iPowerIndex)
-		{
-		case 0:
-			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 0;
-			else
-				m_iImgNum = 1;
-			break;
-		case 1:
-			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 2;
-			else
-				m_iImgNum = 4;
-			break;
-		case 2:
-			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 3;
-			else
-				m_iImgNum = 5;
-			break;
-		default:
-			break;
-		}
-	}
-
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
-
-	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CUltStockFrame::Late_Tick(_float fTimeDelta)
@@ -176,7 +115,7 @@ HRESULT CUltStockFrame::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
 
 	return S_OK;

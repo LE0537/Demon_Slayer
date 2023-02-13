@@ -331,6 +331,21 @@
     <Filter Include="03.UI\03.SelectChar\Cursor\P1">
       <UniqueIdentifier>{0adf80e9-0ae2-4393-bf25-19bf891c3148}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\03.SelectChar\Icon">
+      <UniqueIdentifier>{df8aa9ad-704c-48ae-bbc3-5ce295edaac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.SelectChar\Icon\PlayerNumIcon">
+      <UniqueIdentifier>{6bd37a3f-66ea-4b02-aac8-16ed831df2ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.SelectChar\Icon\OniIcon">
+      <UniqueIdentifier>{2e3c6548-2848-4043-9cd6-cb72b3545bd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.SelectChar\Icon\1PIcon">
+      <UniqueIdentifier>{97b64fde-0376-41ef-be44-bb0bc7e615ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.SelectChar\Icon\2PIcon">
+      <UniqueIdentifier>{6daea4c0-09ce-4e9e-b306-140e9d89767e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="03.UI\03.SelectChar\Main">
       <UniqueIdentifier>{08e8b062-44c9-43c0-8538-68f6b49e331c}</UniqueIdentifier>
     </Filter>
@@ -1036,21 +1051,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove">
       <UniqueIdentifier>{c2e2964f-1b16-4472-bba9-b725916669a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\03.SelectChar\Main\Icon">
-      <UniqueIdentifier>{df8aa9ad-704c-48ae-bbc3-5ce295edaac7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\03.SelectChar\Main\Icon\PlayerNumIcon">
-      <UniqueIdentifier>{6bd37a3f-66ea-4b02-aac8-16ed831df2ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\03.SelectChar\Main\Icon\OniIcon">
-      <UniqueIdentifier>{2e3c6548-2848-4043-9cd6-cb72b3545bd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\03.SelectChar\Main\Icon\1PIcon">
-      <UniqueIdentifier>{97b64fde-0376-41ef-be44-bb0bc7e615ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\03.SelectChar\Main\Icon\2PIcon">
-      <UniqueIdentifier>{6daea4c0-09ce-4e9e-b306-140e9d89767e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -1318,7 +1318,7 @@
       <Filter>03.UI\03.SelectChar\Select_Bg\Cloud</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\PlayerNumIcon.h">
-      <Filter>03.UI\03.SelectChar\Main\Icon\PlayerNumIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Icon\PlayerNumIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SelectBG.h">
       <Filter>03.UI\03.SelectChar\Select_Bg\BaseBg</Filter>
@@ -1348,13 +1348,13 @@
       <Filter>03.UI\03.SelectChar\Cursor\P2</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\OniIcon.h">
-      <Filter>03.UI\03.SelectChar\Main\Icon\OniIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Icon\OniIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\1PIcon.h">
-      <Filter>03.UI\03.SelectChar\Main\Icon\1PIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Icon\1PIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\2PIcon.h">
-      <Filter>03.UI\03.SelectChar\Main\Icon\2PIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Icon\2PIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SelOniLight.h">
       <Filter>03.UI\03.SelectChar\Main\Light</Filter>
@@ -2331,7 +2331,7 @@
       <Filter>03.UI\03.SelectChar\Select_Bg\Cloud</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\PlayerNumIcon.cpp">
-      <Filter>03.UI\03.SelectChar\Main\Icon\PlayerNumIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Icon\PlayerNumIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SelectBG.cpp">
       <Filter>03.UI\03.SelectChar\Select_Bg\BaseBg</Filter>
@@ -2361,13 +2361,13 @@
       <Filter>03.UI\03.SelectChar\Cursor\P2</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\OniIcon.cpp">
-      <Filter>03.UI\03.SelectChar\Main\Icon\OniIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Icon\OniIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\1PIcon.cpp">
-      <Filter>03.UI\03.SelectChar\Main\Icon\1PIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Icon\1PIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\2PIcon.cpp">
-      <Filter>03.UI\03.SelectChar\Main\Icon\2PIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Icon\2PIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SelOniLight.cpp">
       <Filter>03.UI\03.SelectChar\Main\Light</Filter>

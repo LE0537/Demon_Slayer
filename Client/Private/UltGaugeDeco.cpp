@@ -73,7 +73,10 @@ HRESULT CUltGaugeDeco::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(25);
+	if (!m_ThrowUIinfo.bReversal)
+		m_pShaderCom->Begin();
+	else
+		m_pShaderCom->Begin(1);
 
 	m_pVIBufferCom->Render();
 
