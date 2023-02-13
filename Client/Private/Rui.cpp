@@ -42,7 +42,7 @@ HRESULT CRui::Initialize(void * pArg)
 	m_i1p = tCharacterDesc.i1P2P;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	m_i1p = 10;
+	//m_i1p = 10;
 	//if (m_i1p != 10)
 	{
 		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));

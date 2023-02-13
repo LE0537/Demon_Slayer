@@ -135,6 +135,26 @@ CAkazaState * CJumpSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDel
 	else
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.3f);
 
+	if (!m_bEffect && m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_COM_START, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+	else if (!m_bEffect && m_eStateType == TYPE_LOOP)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_JUMPCOM_STARTEFF, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+
+
 	return nullptr;
 }
 
@@ -158,7 +178,7 @@ void CJumpSkill_CommmonState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_SKILL_JUMPCOMMON_1, false);
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
 		break;
-	case Client::CAkazaState::TYPE_END:
+	case Client::CAkazaState::TYPE_END:		//	¹ß»ç ³¡
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_SKILL_JUMPCOMMON_2);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SKILL_JUMPCOMMON_2);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_SKILL_JUMPCOMMON_2);
@@ -173,8 +193,8 @@ void CJumpSkill_CommmonState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
 		Initialize_value(pAkaza);
 		break;
-
-	case Client::CAkazaState::TYPE_CHANGE:
+		
+	case Client::CAkazaState::TYPE_CHANGE:	//	ÂøÁö
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_JUMP_END);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_JUMP_END);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_JUMP_END);

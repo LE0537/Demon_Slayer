@@ -169,7 +169,7 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CIdleState();
+			return new CMoveState(DIR_STOP, TYPE_END);
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -315,7 +315,7 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CIdleState();
+			return new CMoveState(DIR_STOP, TYPE_END);
 		break;
 	default:
 		break;
@@ -335,13 +335,15 @@ CKyoujuroState * CMoveState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		switch (m_eStateType)
 		{
 		case Client::CKyoujuroState::TYPE_START:
-			m_eStateType = CKyoujuroState::TYPE_LOOP;
+			return new CMoveState(m_eDirection, TYPE_START);
 			break;
 		case Client::CKyoujuroState::TYPE_LOOP:
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-			return new CIdleState();
+		
 			break;
-		case Client::CKyoujuroState::TYPE_DEFAULT:
+		case Client::CKyoujuroState::TYPE_END:
+			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+			return new CIdleState();
 			break;
 		default:
 			break;
@@ -356,7 +358,10 @@ CKyoujuroState * CMoveState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 
 CKyoujuroState * CMoveState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
-	Move(pKyoujuro, fTimeDelta);
+
+	if (m_eStateType != TYPE_END)
+		Move(pKyoujuro, fTimeDelta);
+
 	pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 
 	if (pKyoujuro->Get_PlayerInfo().bChange)
@@ -387,10 +392,17 @@ void CMoveState::Enter(CKyoujuro * pKyoujuro)
 	case Client::CKyoujuroState::TYPE_START:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_MOVE_START);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_MOVE_START);
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_MOVE_START, true);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_MOVE_END);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_MOVE_END);
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_MOVE_END);
+		break;
+	case Client::CKyoujuroState::TYPE_END:
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_MOVE_STOP);
+		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_MOVE_STOP);
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_MOVE_STOP, false);
 		break;
 	case Client::CKyoujuroState::TYPE_DEFAULT:
 		break;

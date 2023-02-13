@@ -232,7 +232,7 @@ CAkazaState * CMoveJumpState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 CAkazaState * CMoveJumpState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
-	m_fJumpTime += 0.05f;
+	m_fJumpTime += 0.035f;
 
 	if(m_eStateType != STATE_TYPE::TYPE_END)
 		Jump(pAkaza, fTimeDelta + m_fJumpTime);
@@ -240,7 +240,12 @@ CAkazaState * CMoveJumpState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	if(m_bMove == true)
 		Move(pAkaza, fTimeDelta);
 
-	pAkaza->Get_Model()->Play_Animation(fTimeDelta,true);
+	if (m_eStateType == TYPE_END)
+		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
+	else
+		pAkaza->Get_Model()->Play_Animation(fTimeDelta* 0.85f);
+
+
 	if (m_eStateType == TYPE_START)
 	{
 		if (!m_bEffect)
@@ -373,7 +378,7 @@ CAkazaState*  CMoveJumpState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
-	static _float fGravity = 40.f;
+	static _float fGravity = 30.f;
 
 
 	_vector      vPosition = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
