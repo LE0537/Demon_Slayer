@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "UltStockEff.h"
 #include "GameInstance.h"
-#include "UI_Manager.h"
 
 CUltStockEff::CUltStockEff(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -37,7 +36,17 @@ HRESULT CUltStockEff::Initialize(void * pArg)
 	else if (m_ThrowUIinfo.iTextureNum == 26)
 		m_iImgNum = 2;
 	else if (m_ThrowUIinfo.iTextureNum == 27)
-		m_iImgNum = 3;
+	{
+		if (!m_ThrowUIinfo.pTarget->Get_PlayerInfo().bOni)
+			m_iImgNum = 3;
+		else if (m_ThrowUIinfo.pTarget->Get_PlayerInfo().bOni)
+			m_iImgNum = 4;
+	}
+	else if (m_ThrowUIinfo.iTextureNum == 28)
+		m_iImgNum = 5;
+	else if (m_ThrowUIinfo.iTextureNum == 32)
+		m_iImgNum = 6;
+
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
@@ -59,81 +68,6 @@ HRESULT CUltStockEff::Initialize(void * pArg)
 
 void CUltStockEff::Tick(_float fTimeDelta)
 {
-	if (m_iImgNum != 3)
-	{
-		if (m_fFadeTime >= 0.5f)
-			m_bFadeCheck = true;
-		else if (m_fFadeTime <= 0.f)
-		{
-			m_bFadeCheck = false;
-			m_bZoomCheck = true;
-			m_bSqureEffCheck = true;
-		}
-
-		if (m_bZoomCheck)
-		{
-			m_fSizeX = m_ThrowUIinfo.vScale.x;
-			m_fSizeY = m_ThrowUIinfo.vScale.y;
-			m_bZoomCheck = false;
-		}
-
-		if (!m_bFadeCheck)
-		{
-			if (m_iImgNum != 0)
-			{
-				m_fSizeX += m_ThrowUIinfo.vScale.x * 0.008f;
-				m_fSizeY += m_ThrowUIinfo.vScale.y * 0.008f;
-			}
-
-			m_fFadeTime += fTimeDelta * 0.5f;
-		}
-		else
-			m_fFadeTime -= fTimeDelta;
-
-		if (m_bSqureEffCheck && m_iImgNum == 0)
-		{
-			m_fSizeX += m_ThrowUIinfo.vScale.x * 0.012f;
-			m_fSizeY += m_ThrowUIinfo.vScale.y * 0.012f;
-		}
-	}
-	else
-	{
-		CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-
-		if (m_bRenderCheck)
-		{
-			if (m_fFadeTime >= 0.5f)
-				m_bFadeCheck = true;
-			else if (m_fFadeTime <= 0.f)
-			{
-				m_fSizeX = m_ThrowUIinfo.vScale.x;
-				m_fSizeY = m_ThrowUIinfo.vScale.y;
-				m_bFadeCheck = false;
-				m_bRenderCheck = false;
-			}
-
-			if (!m_bFadeCheck)
-				m_fFadeTime += fTimeDelta * 0.5f;
-			else
-				m_fFadeTime -= fTimeDelta;
-
-			m_fSizeX += m_ThrowUIinfo.vScale.x * 0.02f;
-			m_fSizeY += m_ThrowUIinfo.vScale.y * 0.02f;
-		}
-
-		if (!m_ThrowUIinfo.bPlyCheck)
-		{
-			if (m_iUnicCount < pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount)
-				m_bRenderCheck = true;
-			m_iUnicCount = pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount;
-		}
-		RELEASE_INSTANCE(CUI_Manager);
-	}
-	
-
-
-	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
-
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -152,25 +86,12 @@ HRESULT CUltStockEff::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if(!m_ThrowUIinfo.pTarget->Get_PlayerInfo().bOni)
-		m_pShaderCom->Begin(26);
-	else 
-		m_pShaderCom->Begin(27);
-
-	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-
-	if (!m_ThrowUIinfo.bPlyCheck)
-	{
-		if(pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex == 0 && pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount > 0)
-			m_pVIBufferCom->Render();
-	}
+	if (!m_ThrowUIinfo.bReversal)
+		m_pShaderCom->Begin();
 	else
-	{
-		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex == 0 && pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicCount > 0)
-			m_pVIBufferCom->Render();
-	}
-	
-	RELEASE_INSTANCE(CUI_Manager);
+		m_pShaderCom->Begin(1);
+
+	//m_pVIBufferCom->Render();
 
 	return S_OK;
 }
@@ -210,9 +131,6 @@ HRESULT CUltStockEff::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))

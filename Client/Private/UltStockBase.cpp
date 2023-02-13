@@ -56,17 +56,12 @@ void CUltStockBase::Tick(_float fTimeDelta)
 	{
 		if (pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount > 0)
 			m_iImgNum = 1;
-		else
-			m_iImgNum = 0;
 	}
 	else
 	{
 		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicCount > 0)
 			m_iImgNum = 1;
-		else
-			m_iImgNum = 0;
 	}
-
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 

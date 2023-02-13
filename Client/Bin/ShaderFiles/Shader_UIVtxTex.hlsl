@@ -156,48 +156,6 @@ PS_OUT PS_SkillBarMinus(PS_IN In)
 	return Out;
 }
 
-PS_OUT PS_PowerUpBar(PS_IN In)
-{
-	PS_OUT      Out = (PS_OUT)0;
-
-	if (g_fCurBar / g_fMaxBar < In.vTexUV.x)
-	{
-		Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
-	}
-	else
-	{
-		if (g_iLevelNum == 1)
-		{
-			Out.vColor.r = 1.f;
-			Out.vColor.g = 0.48f;
-			Out.vColor.b = 0.32;
-			Out.vColor.a = 1.f;
-		}
-		else
-		{
-			if (!g_bInkEffDownCheck)
-			{
-				Out.vColor.r = 0.87f;
-				Out.vColor.g = 0.9843f;
-				Out.vColor.b = 1.f;
-				Out.vColor.a = 1.f;
-			}
-			else
-			{
-				Out.vColor.r = 0.8431f;
-				Out.vColor.g = 0.5373f;
-				Out.vColor.b = 1.f;
-				Out.vColor.a = 1.f;
-			}
-		}
-	}
-		
-
-
-
-	return Out;
-}
-
 PS_OUT PS_OniSpecialBarMinus(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
@@ -251,32 +209,6 @@ PS_OUT PS_HalfAlpha(PS_IN In)
 
 //	Out.vColor.a = Out.vColor.a - 0.8f;
 	Out.vColor.a = 0.f;
-	return Out;
-}
-
-PS_OUT PS_PersonStockEffFade(PS_IN In)
-{
-	PS_OUT      Out = (PS_OUT)0;
-
-	float4 vFade = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
-
-	Out.vColor.a = vFade.a * g_fAlpha;
-	Out.vColor.rg = 0.9f;
-	Out.vColor.b = 0.4f;
-
-	return Out;
-}
-
-PS_OUT PS_OniStockEffFade(PS_IN In)
-{
-	PS_OUT      Out = (PS_OUT)0;
-
-	float4 vFade = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
-
-	Out.vColor.a = vFade.a * g_fAlpha;
-	Out.vColor.r = 0.9f;
-	Out.vColor.gb = 0.4f;
-
 	return Out;
 }
 
@@ -597,6 +529,7 @@ PS_OUT PS_Circle_Progress_CClock(PS_IN In)
 	return Out;
 }
 
+
 PS_OUT PS_Combo_Progressbar(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
@@ -648,6 +581,8 @@ PS_OUT PS_Combo_Progressbar(PS_IN In)
 
 	return Out;
 }
+
+
 
 technique11 DefaultTechnique
 {
@@ -808,7 +743,7 @@ technique11 DefaultTechnique
 
 	pass Sprite //14
 	{
-		SetRasterizerState(RS_UI);
+		SetRasterizerState(RS_Default);
 		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 
@@ -937,38 +872,4 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_HalfAlpha();
 	}	
-
-	pass PStockEff //26
-	{
-		SetRasterizerState(RS_UI);
-		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
-		SetDepthStencilState(DSS_Default, 0);
-
-		VertexShader = compile vs_5_0 VS_MAIN();
-		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_PersonStockEffFade();
-	}
-
-	pass OStockEff //27
-	{
-		SetRasterizerState(RS_UI);
-		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
-		SetDepthStencilState(DSS_Default, 0);
-
-		VertexShader = compile vs_5_0 VS_MAIN();
-		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_OniStockEffFade();
-	}
-
-	pass PowerUpBar //28
-	{
-		SetRasterizerState(RS_UI);
-		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
-		SetDepthStencilState(DSS_Default, 0);
-
-		VertexShader = compile vs_5_0 VS_MAIN();
-		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_PowerUpBar();
-	}
-	
 }
