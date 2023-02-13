@@ -16,7 +16,8 @@ CEffect::CEffect(const CEffect & rhs)
 	m_Meshes(rhs.m_Meshes),
 	m_Particle(rhs.m_Particle),
 	m_TextureInfo(rhs.m_TextureInfo),
-	m_MeshInfo(rhs.m_MeshInfo)
+	m_MeshInfo(rhs.m_MeshInfo),
+	m_NewParticleInfo(rhs.m_NewParticleInfo)
 {
 }
 
@@ -35,6 +36,10 @@ HRESULT CEffect::Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Tex
 
 	for (auto pParticleInfo : ParticleInfo) {
 		m_ParticleInfo.push_back(pParticleInfo);
+	}
+
+	for (auto pParticleInfo : NewParticleInfo) {
+		m_NewParticleInfo.push_back(pParticleInfo);
 	}
 	return S_OK;
 }
@@ -110,6 +115,9 @@ void CEffect::Tick(_float fTimeDelta)
 		for (auto& pParticle : m_Particle)
 			pParticle->Tick(fTimeDelta);
 
+		for (auto& pParticle : m_NewParticle)
+			pParticle->Tick(fTimeDelta);
+
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime + m_EffectInfo.fEffectLifeTime) {
 			Set_Dead();
 
@@ -120,6 +128,9 @@ void CEffect::Tick(_float fTimeDelta)
 				pMesh->Set_Dead();
 
 			for (auto& pParticle : m_Particle)
+				pParticle->Set_Dead();
+
+			for (auto& pParticle : m_NewParticle)
 				pParticle->Set_Dead();
 		}
 	}
@@ -135,6 +146,9 @@ void CEffect::Late_Tick(_float fTimeDelta)
 			pMesh->Late_Tick(fTimeDelta);
 
 		for (auto& pParticle : m_Particle)
+			pParticle->Late_Tick(fTimeDelta);
+
+		for (auto& pParticle : m_NewParticle)
 			pParticle->Late_Tick(fTimeDelta);
 	}
 }
@@ -241,6 +255,9 @@ void CEffect::Free()
 		Safe_Release(pMesh);
 
 	for (auto& pParticle : m_Particle)
+		Safe_Release(pParticle);
+
+	for (auto& pParticle : m_NewParticle)
 		Safe_Release(pParticle);
 
 	Safe_Release(m_pTransformCom);

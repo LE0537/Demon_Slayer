@@ -93,7 +93,7 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 	for (_int j = 0; j < iNewParticleSize; ++j) {
 		CEffect_Particle_New::PARTICLE_INFO NewParticleInfo;
 
-		ReadFile(hFile, &NewParticleInfo, sizeof(CEffect_Particle::PARTICLE_INFO), &dwByte, nullptr);
+		ReadFile(hFile, &NewParticleInfo, sizeof(CEffect_Particle_New::PARTICLE_INFO), &dwByte, nullptr);
 
 		NewParticleInfoes.push_back(NewParticleInfo);
 	}
