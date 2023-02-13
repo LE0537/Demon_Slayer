@@ -120,6 +120,11 @@
 #include "AdcMenuSelFrame.h"
 #include "AdcMenuSelImg.h"
 #include "AdcMenuSelTxt.h"
+#include "UltFire.h"
+#include "UltGaugeFrame.h"
+#include "UltOpenBar.h"
+#include "UltNumEff.h"
+#include "UltStockFadeEff.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -219,6 +224,15 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 #pragma region BattleUI
 		//Battle
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeFrame"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Gauge_Frame_%d.png"), 4))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_OpeningUltBar"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Gauge_Base.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeFire"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Eff_Awk%d.png"), 4))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_OniSpecialBar"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/OniBarFrame.png"), 1))))
 			return E_FAIL;
@@ -304,7 +318,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Stock_Frame_%d.png"), 6))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltStockEff"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Stock_Eff_%d.png"), 7))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Stock_Eff_%d.png"), 6))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeDeco"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Utl_Gauge_Deco_%d.png"), 2))))
@@ -1295,6 +1309,21 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltNumEff"),
+		CUltNumEff::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltStockFadeEff"),
+		CUltStockFadeEff::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltGaugeFire"),
+		CUltFire::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltGaugeFrame"),
+		CUltGaugeFrame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_OpeningUltBar"),
+		CUltOpenBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AdcMenuBG"),
 		CAdcMenuBg::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

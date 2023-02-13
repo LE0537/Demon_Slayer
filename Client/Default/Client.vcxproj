@@ -495,6 +495,11 @@
     <ClInclude Include="..\Public\TxtWinUI.h" />
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Manager.h" />
+    <ClInclude Include="..\Public\UltFire.h" />
+    <ClInclude Include="..\Public\UltGaugeFrame.h" />
+    <ClInclude Include="..\Public\UltNumEff.h" />
+    <ClInclude Include="..\Public\UltOpenBar.h" />
+    <ClInclude Include="..\Public\UltStockFadeEff.h" />
     <ClInclude Include="..\public\WaterMill.h" />
     <ClInclude Include="..\public\WindMill.h" />
     <ClInclude Include="..\Public\UltBar.h" />
@@ -833,6 +838,11 @@
     <ClCompile Include="..\Private\TxtWinUI.cpp" />
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Manager.cpp" />
+    <ClCompile Include="..\Private\UltFire.cpp" />
+    <ClCompile Include="..\Private\UltGaugeFrame.cpp" />
+    <ClCompile Include="..\Private\UltNumEff.cpp" />
+    <ClCompile Include="..\Private\UltOpenBar.cpp" />
+    <ClCompile Include="..\Private\UltStockFadeEff.cpp" />
     <ClCompile Include="..\private\WaterMill.cpp" />
     <ClCompile Include="..\private\WindMill.cpp" />
     <ClCompile Include="..\Private\UltBar.cpp" />

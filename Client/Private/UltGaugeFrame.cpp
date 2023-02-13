@@ -1,39 +1,39 @@
 #include "stdafx.h"
-#include "UltStockBase.h"
+#include "UltGaugeFrame.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
 
-CUltStockBase::CUltStockBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CUltGaugeFrame::CUltGaugeFrame(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CUltStockBase::CUltStockBase(const CUltStockBase & rhs)
+CUltGaugeFrame::CUltGaugeFrame(const CUltGaugeFrame & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CUltStockBase::Initialize_Prototype()
+HRESULT CUltGaugeFrame::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CUltStockBase::Initialize(void * pArg)
+HRESULT CUltGaugeFrame::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
-	m_fSizeX = m_ThrowUIinfo.vScale.x * 0.95f;
-	m_fSizeY = m_ThrowUIinfo.vScale.y * 0.95f;
+	m_fSizeX = m_ThrowUIinfo.vScale.x;
+	m_fSizeY = m_ThrowUIinfo.vScale.y;
 	m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, 357.f));
+		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -49,37 +49,67 @@ HRESULT CUltStockBase::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CUltStockBase::Tick(_float fTimeDelta)
+void CUltGaugeFrame::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
 	if (!m_ThrowUIinfo.bPlyCheck)
 	{
-		if (pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount > 0)
-			m_iImgNum = 1;
-		else
-			m_iImgNum = 0;
-	}
-	else
-	{
-		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicCount > 0)
-			m_iImgNum = 1;
-		else
-			m_iImgNum = 0;
-	}
+		m_iPowerIndex = pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex;
 
+		switch (m_iPowerIndex)
+		{
+		case 1:
+			if (!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
+				m_iImgNum = 0;
+			else
+				m_iImgNum = 2;
+			break;
+		case 2:
+			if (!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
+				m_iImgNum = 1;
+			else
+				m_iImgNum = 3;
+			break;
+		default:
+			break;
+		}
+	}
+	else if (m_ThrowUIinfo.bPlyCheck)
+	{
+		m_iPowerIndex = pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex;
+
+		switch (m_iPowerIndex)
+		{
+		case 1:
+			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
+				m_iImgNum = 0;
+			else
+				m_iImgNum = 2;
+			break;
+		case 2:
+			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
+				m_iImgNum = 1;
+			else
+				m_iImgNum = 3;
+			break;
+		default:
+			break;
+		}
+	}
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
-void CUltStockBase::Late_Tick(_float fTimeDelta)
+void CUltGaugeFrame::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CUltStockBase::Render()
+HRESULT CUltGaugeFrame::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -93,12 +123,25 @@ HRESULT CUltStockBase::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (!m_ThrowUIinfo.bPlyCheck)
+	{
+		if (pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex > 0)
+			m_pVIBufferCom->Render();
+	}
+	else
+	{
+		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex > 0)
+			m_pVIBufferCom->Render();
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
 
-HRESULT CUltStockBase::Ready_Components()
+HRESULT CUltGaugeFrame::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -113,7 +156,7 @@ HRESULT CUltStockBase::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltStockBase"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeFrame"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -123,7 +166,7 @@ HRESULT CUltStockBase::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CUltStockBase::SetUp_ShaderResources()
+HRESULT CUltGaugeFrame::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -141,13 +184,13 @@ HRESULT CUltStockBase::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CUltStockBase * CUltStockBase::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CUltGaugeFrame * CUltGaugeFrame::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CUltStockBase*	pInstance = new CUltStockBase(pDevice, pContext);
+	CUltGaugeFrame*	pInstance = new CUltGaugeFrame(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CUltStockBase"));
+		ERR_MSG(TEXT("Failed to Created : CUltGaugeFrame"));
 		Safe_Release(pInstance);
 	}
 
@@ -155,20 +198,20 @@ CUltStockBase * CUltStockBase::Create(ID3D11Device * pDevice, ID3D11DeviceContex
 }
 
 
-CGameObject * CUltStockBase::Clone(void * pArg)
+CGameObject * CUltGaugeFrame::Clone(void * pArg)
 {
-	CUltStockBase*	pInstance = new CUltStockBase(*this);
+	CUltGaugeFrame*	pInstance = new CUltGaugeFrame(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CUltStockBase"));
+		ERR_MSG(TEXT("Failed to Cloned : CUltGaugeFrame"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CUltStockBase::Free()
+void CUltGaugeFrame::Free()
 {
 	__super::Free();
 

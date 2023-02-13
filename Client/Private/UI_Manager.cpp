@@ -562,7 +562,7 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		break;
 	case 28:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockFadeEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 29:
@@ -580,7 +580,7 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 		++m_iUltNumLayerNum;
 		break;
 	case 32:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltNumEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 33:
@@ -648,6 +648,18 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeGagueBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iChangeBarLayerNum;
+		break;
+	case 47:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeFire"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 48:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeFrame"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 49:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OpeningUltBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
 		break;
 	default:
 		break;
