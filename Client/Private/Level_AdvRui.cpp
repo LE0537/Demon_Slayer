@@ -70,6 +70,7 @@ HRESULT CLevel_AdvRui::Initialize()
 
 	RELEASE_INSTANCE(CGameInstance);
 
+	g_iLevel = 2;
 
 	return S_OK;
 }
@@ -77,10 +78,7 @@ HRESULT CLevel_AdvRui::Initialize()
 void CLevel_AdvRui::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);	
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-	if (pGameInstance->Key_Down(DIK_F1))
-		g_bDebug = !g_bDebug;
-	RELEASE_INSTANCE(CGameInstance);
+
 }
 
 void CLevel_AdvRui::Late_Tick(_float fTimeDelta)
@@ -96,11 +94,10 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 
 	LIGHTDESC			LightDesc;
 
-
 	/* For.Point */
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
-	LightDesc.eType = LIGHTDESC::TYPE_FIELDSHADOW;
+	LightDesc.eType = LIGHTDESC::TYPE_RUISHADOW;
 	LightDesc.vDirection = _float4(-50.f, 150.f, -100.f, 1.f);
 	LightDesc.vDiffuse = _float4(-45.f, 0.f, 0.f, 1.f);
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
@@ -109,8 +106,6 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 		return E_FAIL;
 
 	_vector vLook = XMLoadFloat4(&LightDesc.vDiffuse) - XMLoadFloat4(&LightDesc.vDirection);
-
-
 
 	/* For.Directional*/
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
@@ -126,17 +121,17 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 
 
 
-	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
-	LightDesc.eType = LIGHTDESC::TYPE_BATTLESHADOW;
-	LightDesc.vDirection = _float4(-50.f, 150.f, -100.f, 1.f);		//	eye
-	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&LightDesc.vDirection) + XMVector3Normalize(vLook), 1.f));
-	//	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
-	//	LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);		//	eye
-	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
+	//ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+	//LightDesc.eType = LIGHTDESC::TYPE_BATTLESHADOW;
+	//LightDesc.vDirection = _float4(-50.f, 150.f, -100.f, 1.f);		//	eye
+	//XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&LightDesc.vDirection) + XMVector3Normalize(vLook), 1.f));
+	////	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
+	////	LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);		//	eye
+	//LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
-	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
-		return E_FAIL;
-
+	//if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
+	//	return E_FAIL;
+ 
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;

@@ -147,7 +147,7 @@ private:
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
-
+	void Set_Shadow();
 	void	Set_Info();
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);

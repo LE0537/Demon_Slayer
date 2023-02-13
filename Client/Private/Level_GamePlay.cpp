@@ -83,6 +83,7 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	RELEASE_INSTANCE(CGameInstance);
 
+	g_iLevel = 1;
 
 	return S_OK;
 }
@@ -113,14 +114,6 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 		CUI_Manager::Get_Instance()->Add_P2_Combo();
 
 		m_bCreateUI = true;
-	}
-
-	if (pGameInstance->Key_Down(DIK_0)) {
-		/*CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1, m_pTarget);
-
-		RELEASE_INSTANCE(CEffect_Manager)*/;
 	}
 
 	if (pUIManager->Get_LevelResultOn())

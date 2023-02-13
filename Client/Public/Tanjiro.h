@@ -169,7 +169,7 @@ public:
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
-
+	void Set_Shadow();
 
 private:
 	void HandleInput(_float fTimeDelta);
