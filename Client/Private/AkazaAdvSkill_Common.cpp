@@ -331,6 +331,34 @@ CAkazaState * CAdvSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelt
 	else
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
 
+	if (!m_bEffect && m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DASH, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+	else if (!m_bEffect && m_eStateType == TYPE_LOOP)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_INGFOLLOW, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_INGNONFOLLOW, pAkaza);
+		
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+	else if (!m_bEffect && m_eStateType == TYPE_END)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_MAIN, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+
 	return nullptr;
 }
 
@@ -423,10 +451,32 @@ CAkazaState * CAdvSkill_CommmonState::Increase_Height(CAkaza * pAkaza, _float fT
 
 	if (m_fDelay < 0.5f && m_bRange == true)
 	{
+		if (false == m_bEffect_Increase)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTFOLLOW, pAkaza);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTNONFOLLOW, pAkaza);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+
+			m_bEffect_Increase = true;
+		}
+
 		m_vPosition.y += XMVectorGetY(m_vTargetPosition) *	 m_vVelocity.y * fTimeDelta;
 	}
 	else if(m_fDelay < 0.5f && m_bRange == false)
 	{
+		if (false == m_bEffect_Increase)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTFOLLOW, pAkaza);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTNONFOLLOW, pAkaza);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+
+			m_bEffect_Increase = true;
+		}
+
 		m_vPosition.x += XMVectorGetX(m_vTargetPosition) *   m_vVelocity.x * 15.f *fTimeDelta;
 		m_vPosition.z += XMVectorGetZ(m_vTargetPosition) *   m_vVelocity.z  *15.f*  fTimeDelta;
 	}
