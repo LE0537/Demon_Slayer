@@ -1,23 +1,24 @@
 #include "stdafx.h"
-#include "UltStockFrame.h"
+#include "UltOpenBar.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
-CUltStockFrame::CUltStockFrame(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+
+CUltOpenBar::CUltOpenBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CUltStockFrame::CUltStockFrame(const CUltStockFrame & rhs)
+CUltOpenBar::CUltOpenBar(const CUltOpenBar & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CUltStockFrame::Initialize_Prototype()
+HRESULT CUltOpenBar::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CUltStockFrame::Initialize(void * pArg)
+HRESULT CUltOpenBar::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -36,10 +37,10 @@ HRESULT CUltStockFrame::Initialize(void * pArg)
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
-	else
+	if (!m_ThrowUIinfo.bPlyCheck)
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
+	else
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
@@ -48,79 +49,18 @@ HRESULT CUltStockFrame::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CUltStockFrame::Tick(_float fTimeDelta)
+void CUltOpenBar::Tick(_float fTimeDelta)
 {
-	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-
-	if (!m_ThrowUIinfo.bPlyCheck)
-	{
-		m_iPowerIndex = pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex;
-		
-		switch (m_iPowerIndex)
-		{
-		case 0:
-			if(!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 0;
-			else
-				m_iImgNum = 1;
-			break;
-		case 1:
-			if (!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 2;
-			else
-				m_iImgNum = 4;
-			break;
-		case 2:
-			if (!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 3;
-			else
-				m_iImgNum = 5;
-			break;
-		default:
-			break;
-		}
-	}
-	else if (m_ThrowUIinfo.bPlyCheck)
-	{
-		m_iPowerIndex = pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex;
-
-		switch (m_iPowerIndex)
-		{
-		case 0:
-			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 0;
-			else
-				m_iImgNum = 1;
-			break;
-		case 1:
-			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 2;
-			else
-				m_iImgNum = 4;
-			break;
-		case 2:
-			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 3;
-			else
-				m_iImgNum = 5;
-			break;
-		default:
-			break;
-		}
-	}
-
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
-
-	RELEASE_INSTANCE(CUI_Manager);
 }
 
-void CUltStockFrame::Late_Tick(_float fTimeDelta)
+void CUltOpenBar::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CUltStockFrame::Render()
+HRESULT CUltOpenBar::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -129,17 +69,27 @@ HRESULT CUltStockFrame::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(28);
+	
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	m_pVIBufferCom->Render();
+	if (!m_ThrowUIinfo.bPlyCheck)
+	{
+		if(pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex > 0)
+			m_pVIBufferCom->Render();
+	}
+	else
+	{
+		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex > 0)
+			m_pVIBufferCom->Render();
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
 
-HRESULT CUltStockFrame::Ready_Components()
+HRESULT CUltOpenBar::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -154,7 +104,7 @@ HRESULT CUltStockFrame::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltStockFrame"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_OpeningUltBar"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -164,7 +114,7 @@ HRESULT CUltStockFrame::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CUltStockFrame::SetUp_ShaderResources()
+HRESULT CUltOpenBar::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -176,19 +126,52 @@ HRESULT CUltStockFrame::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (!m_ThrowUIinfo.bPlyCheck)
+	{
+		m_fMaxTime = 6.f;
+		m_fCurTime = pUI_Manager->Get_1P()->Get_PlayerInfo().fPowerUpTime;
+		m_iPowerCount = pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex;
+		m_bOniCheck = pUI_Manager->Get_1P()->Get_PlayerInfo().bOni;
+	}
+	else
+	{
+		m_fMaxTime = 6.f;
+		m_fCurTime = pUI_Manager->Get_2P()->Get_PlayerInfo().fPowerUpTime;
+		m_iPowerCount = pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex;
+		m_bOniCheck = pUI_Manager->Get_2P()->Get_PlayerInfo().bOni;
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
+	
+	if (FAILED(m_pShaderCom->Set_RawValue("g_bInkEffDownCheck", &m_bOniCheck, sizeof(_bool))))
 		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iLevelNum", &m_iPowerCount, sizeof(_int))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxBar", &m_fMaxTime, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurBar", &m_fCurTime, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+		return E_FAIL;
+
+	
 
 	return S_OK;
 }
 
-CUltStockFrame * CUltStockFrame::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CUltOpenBar * CUltOpenBar::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CUltStockFrame*	pInstance = new CUltStockFrame(pDevice, pContext);
+	CUltOpenBar*	pInstance = new CUltOpenBar(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CUltStockFrame"));
+		ERR_MSG(TEXT("Failed to Created : CUltOpenBar"));
 		Safe_Release(pInstance);
 	}
 
@@ -196,20 +179,20 @@ CUltStockFrame * CUltStockFrame::Create(ID3D11Device * pDevice, ID3D11DeviceCont
 }
 
 
-CGameObject * CUltStockFrame::Clone(void * pArg)
+CGameObject * CUltOpenBar::Clone(void * pArg)
 {
-	CUltStockFrame*	pInstance = new CUltStockFrame(*this);
+	CUltOpenBar*	pInstance = new CUltOpenBar(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CUltStockFrame"));
+		ERR_MSG(TEXT("Failed to Cloned : CUltOpenBar"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CUltStockFrame::Free()
+void CUltOpenBar::Free()
 {
 	__super::Free();
 

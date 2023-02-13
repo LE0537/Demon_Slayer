@@ -1,23 +1,24 @@
 #include "stdafx.h"
-#include "UltStockFrame.h"
+#include "UltNumEff.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
-CUltStockFrame::CUltStockFrame(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+
+CUltNumEff::CUltNumEff(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CUltStockFrame::CUltStockFrame(const CUltStockFrame & rhs)
+CUltNumEff::CUltNumEff(const CUltNumEff & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CUltStockFrame::Initialize_Prototype()
+HRESULT CUltNumEff::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CUltStockFrame::Initialize(void * pArg)
+HRESULT CUltNumEff::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -44,83 +45,37 @@ HRESULT CUltStockFrame::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
+	m_iImgNum = 5;
 
 	return S_OK;
 }
 
-void CUltStockFrame::Tick(_float fTimeDelta)
+void CUltNumEff::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (!m_ThrowUIinfo.bPlyCheck)
-	{
-		m_iPowerIndex = pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex;
-		
-		switch (m_iPowerIndex)
-		{
-		case 0:
-			if(!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 0;
-			else
-				m_iImgNum = 1;
-			break;
-		case 1:
-			if (!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 2;
-			else
-				m_iImgNum = 4;
-			break;
-		case 2:
-			if (!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 3;
-			else
-				m_iImgNum = 5;
-			break;
-		default:
-			break;
-		}
-	}
-	else if (m_ThrowUIinfo.bPlyCheck)
-	{
-		m_iPowerIndex = pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex;
-
-		switch (m_iPowerIndex)
-		{
-		case 0:
-			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 0;
-			else
-				m_iImgNum = 1;
-			break;
-		case 1:
-			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 2;
-			else
-				m_iImgNum = 4;
-			break;
-		case 2:
-			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 3;
-			else
-				m_iImgNum = 5;
-			break;
-		default:
-			break;
-		}
-	}
+	if (m_fFadeTime >= 0.5f)
+		m_bFadeCheck = true;
+	else if (m_fFadeTime <= 0.f)
+		m_bFadeCheck = false;
+	
+	if (!m_bFadeCheck)
+		m_fFadeTime += fTimeDelta * 0.5f;
+	else
+		m_fFadeTime -= fTimeDelta;
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
-void CUltStockFrame::Late_Tick(_float fTimeDelta)
+void CUltNumEff::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CUltStockFrame::Render()
+HRESULT CUltNumEff::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -129,17 +84,30 @@ HRESULT CUltStockFrame::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
+	if (!m_ThrowUIinfo.pTarget->Get_PlayerInfo().bOni)
+		m_pShaderCom->Begin(26);
 	else
-		m_pShaderCom->Begin(1);
+		m_pShaderCom->Begin(27);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (!m_ThrowUIinfo.bPlyCheck)
+	{
+		if (pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount > 0)
+			m_pVIBufferCom->Render();
+	}
+	else
+	{
+		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicCount > 0)
+			m_pVIBufferCom->Render();
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
 
-HRESULT CUltStockFrame::Ready_Components()
+HRESULT CUltNumEff::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -154,7 +122,7 @@ HRESULT CUltStockFrame::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltStockFrame"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltStockEff"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -164,7 +132,7 @@ HRESULT CUltStockFrame::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CUltStockFrame::SetUp_ShaderResources()
+HRESULT CUltNumEff::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -176,19 +144,22 @@ HRESULT CUltStockFrame::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
+		return E_FAIL;
+	
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CUltStockFrame * CUltStockFrame::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CUltNumEff * CUltNumEff::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CUltStockFrame*	pInstance = new CUltStockFrame(pDevice, pContext);
+	CUltNumEff*	pInstance = new CUltNumEff(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CUltStockFrame"));
+		ERR_MSG(TEXT("Failed to Created : CUltNumEff"));
 		Safe_Release(pInstance);
 	}
 
@@ -196,20 +167,20 @@ CUltStockFrame * CUltStockFrame::Create(ID3D11Device * pDevice, ID3D11DeviceCont
 }
 
 
-CGameObject * CUltStockFrame::Clone(void * pArg)
+CGameObject * CUltNumEff::Clone(void * pArg)
 {
-	CUltStockFrame*	pInstance = new CUltStockFrame(*this);
+	CUltNumEff*	pInstance = new CUltNumEff(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CUltStockFrame"));
+		ERR_MSG(TEXT("Failed to Cloned : CUltNumEff"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CUltStockFrame::Free()
+void CUltNumEff::Free()
 {
 	__super::Free();
 

@@ -126,8 +126,16 @@ HRESULT CUltBar::SetUp_ShaderResources()
 
 	if (m_ThrowUIinfo.iLayerNum == 1)
 	{
-		m_fUltMaxBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicMaxBar;
-		m_fUltCurBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicBar;
+		if (!m_ThrowUIinfo.bPlyCheck)
+		{
+			m_fUltMaxBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicMaxBar;
+			m_fUltCurBar = pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicBar;
+		}
+		else
+		{
+			m_fUltMaxBar = pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicMaxBar;
+			m_fUltCurBar = pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicBar;
+		}
 	}
 	else 
 	{

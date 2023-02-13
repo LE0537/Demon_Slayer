@@ -1,23 +1,24 @@
 #include "stdafx.h"
-#include "UltStockFrame.h"
+#include "UltFire.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
-CUltStockFrame::CUltStockFrame(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+
+CUltFire::CUltFire(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CUltStockFrame::CUltStockFrame(const CUltStockFrame & rhs)
+CUltFire::CUltFire(const CUltFire & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CUltStockFrame::Initialize_Prototype()
+HRESULT CUltFire::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CUltStockFrame::Initialize(void * pArg)
+HRESULT CUltFire::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -48,33 +49,34 @@ HRESULT CUltStockFrame::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CUltStockFrame::Tick(_float fTimeDelta)
+void CUltFire::Tick(_float fTimeDelta)
 {
+	m_fSpriteTime += fTimeDelta;
+
+	if (m_fSpriteTime >= 0.1f)
+	{
+		++m_iFrame;
+		m_fSpriteTime = 0.f;
+	}
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
 	if (!m_ThrowUIinfo.bPlyCheck)
 	{
 		m_iPowerIndex = pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex;
-		
+
 		switch (m_iPowerIndex)
 		{
-		case 0:
-			if(!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 0;
-			else
-				m_iImgNum = 1;
-			break;
 		case 1:
 			if (!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 2;
+				m_iImgNum = 0;
 			else
-				m_iImgNum = 4;
+				m_iImgNum = 2;
 			break;
 		case 2:
 			if (!pUI_Manager->Get_1P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 3;
+				m_iImgNum = 1;
 			else
-				m_iImgNum = 5;
+				m_iImgNum = 3;
 			break;
 		default:
 			break;
@@ -86,23 +88,17 @@ void CUltStockFrame::Tick(_float fTimeDelta)
 
 		switch (m_iPowerIndex)
 		{
-		case 0:
+		case 1:
 			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
 				m_iImgNum = 0;
 			else
-				m_iImgNum = 1;
-			break;
-		case 1:
-			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
 				m_iImgNum = 2;
-			else
-				m_iImgNum = 4;
 			break;
 		case 2:
 			if (!pUI_Manager->Get_2P()->Get_PlayerInfo().bOni)
-				m_iImgNum = 3;
+				m_iImgNum = 1;
 			else
-				m_iImgNum = 5;
+				m_iImgNum = 3;
 			break;
 		default:
 			break;
@@ -114,13 +110,13 @@ void CUltStockFrame::Tick(_float fTimeDelta)
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
-void CUltStockFrame::Late_Tick(_float fTimeDelta)
+void CUltFire::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CUltStockFrame::Render()
+HRESULT CUltFire::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -129,17 +125,27 @@ HRESULT CUltStockFrame::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(14);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (!m_ThrowUIinfo.bPlyCheck)
+	{
+		if (pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex > 0)
+			m_pVIBufferCom->Render();
+	}
+	else
+	{
+		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex > 0)
+			m_pVIBufferCom->Render();
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
 
-HRESULT CUltStockFrame::Ready_Components()
+HRESULT CUltFire::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -154,7 +160,7 @@ HRESULT CUltStockFrame::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltStockFrame"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeFire"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -164,7 +170,7 @@ HRESULT CUltStockFrame::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CUltStockFrame::SetUp_ShaderResources()
+HRESULT CUltFire::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -176,19 +182,29 @@ HRESULT CUltStockFrame::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
+	m_iNumTextureU = 3;
+	m_iNumTextureV = 2;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iFrame", &m_iFrame, sizeof(_uint))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumTexU", &m_iNumTextureU, sizeof(_uint))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumTexV", &m_iNumTextureV, sizeof(_uint))))
+		return E_FAIL;
+
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CUltStockFrame * CUltStockFrame::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CUltFire * CUltFire::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CUltStockFrame*	pInstance = new CUltStockFrame(pDevice, pContext);
+	CUltFire*	pInstance = new CUltFire(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CUltStockFrame"));
+		ERR_MSG(TEXT("Failed to Created : CUltFire"));
 		Safe_Release(pInstance);
 	}
 
@@ -196,20 +212,20 @@ CUltStockFrame * CUltStockFrame::Create(ID3D11Device * pDevice, ID3D11DeviceCont
 }
 
 
-CGameObject * CUltStockFrame::Clone(void * pArg)
+CGameObject * CUltFire::Clone(void * pArg)
 {
-	CUltStockFrame*	pInstance = new CUltStockFrame(*this);
+	CUltFire*	pInstance = new CUltFire(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CUltStockFrame"));
+		ERR_MSG(TEXT("Failed to Cloned : CUltFire"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CUltStockFrame::Free()
+void CUltFire::Free()
 {
 	__super::Free();
 

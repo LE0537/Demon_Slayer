@@ -331,21 +331,6 @@
     <Filter Include="03.UI\03.SelectChar\Cursor\P1">
       <UniqueIdentifier>{0adf80e9-0ae2-4393-bf25-19bf891c3148}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\03.SelectChar\Icon">
-      <UniqueIdentifier>{df8aa9ad-704c-48ae-bbc3-5ce295edaac7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\03.SelectChar\Icon\PlayerNumIcon">
-      <UniqueIdentifier>{6bd37a3f-66ea-4b02-aac8-16ed831df2ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\03.SelectChar\Icon\OniIcon">
-      <UniqueIdentifier>{2e3c6548-2848-4043-9cd6-cb72b3545bd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\03.SelectChar\Icon\1PIcon">
-      <UniqueIdentifier>{97b64fde-0376-41ef-be44-bb0bc7e615ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\03.SelectChar\Icon\2PIcon">
-      <UniqueIdentifier>{6daea4c0-09ce-4e9e-b306-140e9d89767e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\03.SelectChar\Main">
       <UniqueIdentifier>{08e8b062-44c9-43c0-8538-68f6b49e331c}</UniqueIdentifier>
     </Filter>
@@ -895,9 +880,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\AiState">
       <UniqueIdentifier>{40d491a7-201e-4970-a0ba-450943b6ff7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\UIEff\ink">
-      <UniqueIdentifier>{67437ef1-7449-44a2-8bf7-582f7ce65b69}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\UIEff\Button">
       <UniqueIdentifier>{af496bd0-2a9f-4759-a7f2-3f97efe03bbe}</UniqueIdentifier>
     </Filter>
@@ -1050,6 +1032,48 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove">
       <UniqueIdentifier>{c2e2964f-1b16-4472-bba9-b725916669a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.SelectChar\Main\Icon">
+      <UniqueIdentifier>{df8aa9ad-704c-48ae-bbc3-5ce295edaac7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.SelectChar\Main\Icon\PlayerNumIcon">
+      <UniqueIdentifier>{6bd37a3f-66ea-4b02-aac8-16ed831df2ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.SelectChar\Main\Icon\OniIcon">
+      <UniqueIdentifier>{2e3c6548-2848-4043-9cd6-cb72b3545bd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.SelectChar\Main\Icon\1PIcon">
+      <UniqueIdentifier>{97b64fde-0376-41ef-be44-bb0bc7e615ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\03.SelectChar\Main\Icon\2PIcon">
+      <UniqueIdentifier>{6daea4c0-09ce-4e9e-b306-140e9d89767e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Bar\Opening">
+      <UniqueIdentifier>{7bdba2a9-890a-42dc-968a-8b4bf6afc1e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Fire">
+      <UniqueIdentifier>{539382ef-64a2-41ab-be4e-714649f4fdfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Frame\Stock">
+      <UniqueIdentifier>{3923d83d-07e8-41bb-a6d7-657d6427821e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Frame\Gauge">
+      <UniqueIdentifier>{34e49d2e-3a66-4979-b17a-94cc1ca68795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Bar\Close">
+      <UniqueIdentifier>{cb6b52d7-4c93-495c-99aa-efb9c41c3950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\UIEff\Ink">
+      <UniqueIdentifier>{67437ef1-7449-44a2-8bf7-582f7ce65b69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Eff\Common">
+      <UniqueIdentifier>{f8f3d54f-7244-49a6-a242-bf0d4ee71a01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Eff\Fade">
+      <UniqueIdentifier>{ea26071a-6e81-4a49-9e20-ec19a7cb3be7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Eff\NumEff">
+      <UniqueIdentifier>{1986abf9-9037-465d-b2eb-00fe5573faf2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1318,7 +1342,7 @@
       <Filter>03.UI\03.SelectChar\Select_Bg\Cloud</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\PlayerNumIcon.h">
-      <Filter>03.UI\03.SelectChar\Icon\PlayerNumIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Main\Icon\PlayerNumIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SelectBG.h">
       <Filter>03.UI\03.SelectChar\Select_Bg\BaseBg</Filter>
@@ -1348,13 +1372,13 @@
       <Filter>03.UI\03.SelectChar\Cursor\P2</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\OniIcon.h">
-      <Filter>03.UI\03.SelectChar\Icon\OniIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Main\Icon\OniIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\1PIcon.h">
-      <Filter>03.UI\03.SelectChar\Icon\1PIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Main\Icon\1PIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\2PIcon.h">
-      <Filter>03.UI\03.SelectChar\Icon\2PIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Main\Icon\2PIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\SelOniLight.h">
       <Filter>03.UI\03.SelectChar\Main\Light</Filter>
@@ -1527,20 +1551,11 @@
     <ClInclude Include="..\Public\PlyChanBarEff.h">
       <Filter>03.UI\02.Battle\BattleTop\Change\BarEff</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\UltStockEff.h">
-      <Filter>03.UI\02.Battle\BattleBottom\Eff</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UltStockFrame.h">
-      <Filter>03.UI\02.Battle\BattleBottom\Frame</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\UltStockBase.h">
       <Filter>03.UI\02.Battle\BattleBottom\Base</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltGaugeDeco.h">
       <Filter>03.UI\02.Battle\BattleBottom\Deco</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\UltBar.h">
-      <Filter>03.UI\02.Battle\BattleBottom\Bar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\UltStockNum.h">
       <Filter>03.UI\02.Battle\BattleBottom\StockNum</Filter>
@@ -2008,7 +2023,7 @@
       <Filter>01.Levels\05.Menu</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\InkEff.h">
-      <Filter>03.UI\UIEff\ink</Filter>
+      <Filter>03.UI\UIEff\Ink</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\ButtonEff.h">
       <Filter>03.UI\UIEff\Button</Filter>
@@ -2081,6 +2096,30 @@
     </ClInclude>
     <ClInclude Include="..\Public\RuiDadTargetRushState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Rush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltStockFrame.h">
+      <Filter>03.UI\02.Battle\BattleBottom\Frame\Stock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltBar.h">
+      <Filter>03.UI\02.Battle\BattleBottom\Bar\Close</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltOpenBar.h">
+      <Filter>03.UI\02.Battle\BattleBottom\Bar\Opening</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltGaugeFrame.h">
+      <Filter>03.UI\02.Battle\BattleBottom\Frame\Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltFire.h">
+      <Filter>03.UI\02.Battle\BattleBottom\Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltStockEff.h">
+      <Filter>03.UI\02.Battle\BattleBottom\Eff\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltStockFadeEff.h">
+      <Filter>03.UI\02.Battle\BattleBottom\Eff\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\UltNumEff.h">
+      <Filter>03.UI\02.Battle\BattleBottom\Eff\NumEff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2331,7 +2370,7 @@
       <Filter>03.UI\03.SelectChar\Select_Bg\Cloud</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\PlayerNumIcon.cpp">
-      <Filter>03.UI\03.SelectChar\Icon\PlayerNumIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Main\Icon\PlayerNumIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SelectBG.cpp">
       <Filter>03.UI\03.SelectChar\Select_Bg\BaseBg</Filter>
@@ -2361,13 +2400,13 @@
       <Filter>03.UI\03.SelectChar\Cursor\P2</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\OniIcon.cpp">
-      <Filter>03.UI\03.SelectChar\Icon\OniIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Main\Icon\OniIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\1PIcon.cpp">
-      <Filter>03.UI\03.SelectChar\Icon\1PIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Main\Icon\1PIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\2PIcon.cpp">
-      <Filter>03.UI\03.SelectChar\Icon\2PIcon</Filter>
+      <Filter>03.UI\03.SelectChar\Main\Icon\2PIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\SelOniLight.cpp">
       <Filter>03.UI\03.SelectChar\Main\Light</Filter>
@@ -2537,12 +2576,6 @@
     <ClCompile Include="..\Private\KeyUI.cpp">
       <Filter>03.UI\97.KeyUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\UltStockEff.cpp">
-      <Filter>03.UI\02.Battle\BattleBottom\Eff</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UltStockFrame.cpp">
-      <Filter>03.UI\02.Battle\BattleBottom\Frame</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\UltStockBase.cpp">
       <Filter>03.UI\02.Battle\BattleBottom\Base</Filter>
     </ClCompile>
@@ -2551,9 +2584,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\UltGaugeDeco.cpp">
       <Filter>03.UI\02.Battle\BattleBottom\Deco</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\UltBar.cpp">
-      <Filter>03.UI\02.Battle\BattleBottom\Bar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AkazaAtk_2_State.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Attack2</Filter>
@@ -3018,7 +3048,7 @@
       <Filter>01.Levels\05.Menu</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\InkEff.cpp">
-      <Filter>03.UI\UIEff\ink</Filter>
+      <Filter>03.UI\UIEff\Ink</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\ButtonEff.cpp">
       <Filter>03.UI\UIEff\Button</Filter>
@@ -3085,6 +3115,30 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiDadTargetRushState.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Rush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltStockFrame.cpp">
+      <Filter>03.UI\02.Battle\BattleBottom\Frame\Stock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltBar.cpp">
+      <Filter>03.UI\02.Battle\BattleBottom\Bar\Close</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltFire.cpp">
+      <Filter>03.UI\02.Battle\BattleBottom\Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltGaugeFrame.cpp">
+      <Filter>03.UI\02.Battle\BattleBottom\Frame\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltOpenBar.cpp">
+      <Filter>03.UI\02.Battle\BattleBottom\Bar\Opening</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltStockEff.cpp">
+      <Filter>03.UI\02.Battle\BattleBottom\Eff\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltStockFadeEff.cpp">
+      <Filter>03.UI\02.Battle\BattleBottom\Eff\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\UltNumEff.cpp">
+      <Filter>03.UI\02.Battle\BattleBottom\Eff\NumEff</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
