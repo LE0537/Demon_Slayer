@@ -31,6 +31,9 @@ CShinobuState * CJumpstate::HandleInput(CShinobu* pShinobu)
 		{
 			if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UseSkillCount(1, 0);
+				RELEASE_INSTANCE(CUI_Manager);
 				pShinobu->Set_SkillBar(-200);
 				return new CJumpCommonSkillState(STATE_TYPE::TYPE_START);
 			}
@@ -45,6 +48,9 @@ CShinobuState * CJumpstate::HandleInput(CShinobu* pShinobu)
 		{
 			if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UseSkillCount(1, 1);
+				RELEASE_INSTANCE(CUI_Manager);
 				pShinobu->Set_SkillBar(-200);
 				return new CJumpCommonSkillState(STATE_TYPE::TYPE_START);
 			}
@@ -109,7 +115,7 @@ CShinobuState * CJumpstate::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 	}
 	pShinobu->Get_Model()->Play_Animation(fTimeDelta);
 
-	m_fJumpTime += 0.035f;
+	m_fJumpTime += 0.05f;
 
 	if (m_eStateType != TYPE_END)
 		Jump(pShinobu, fTimeDelta + m_fJumpTime);
@@ -158,7 +164,7 @@ CShinobuState* CJumpstate::Jump(CShinobu* pShinobu, _float fTimeDelta)
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
-	static _float fGravity = 30.f;
+	static _float fGravity = 40.f;
 
 
 	_vector      vPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

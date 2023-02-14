@@ -236,7 +236,7 @@ PS_OUT PS_UltBarMinus(PS_IN In)
 	{
 		Out.vColor = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
 		Out.vColor.rg = 1.f;
-		Out.vColor.b = 0.f;
+		Out.vColor.b = 0.3f;
 		Out.vColor.a = 1.f;
  	}
 

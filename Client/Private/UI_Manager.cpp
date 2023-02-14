@@ -22,6 +22,12 @@ HRESULT CUI_Manager::Init(ID3D11Device * pDevice, ID3D11DeviceContext * pContext
 	Safe_AddRef(m_pDevice);
 	Safe_AddRef(m_pContext);
 
+	for (_uint i = 0; i < 2; ++i)
+	{
+		ZeroMemory(&m_RankInfo[i], sizeof(RANKINFO));
+	}
+	
+
 	return S_OK;
 }
 
@@ -341,6 +347,7 @@ void CUI_Manager::Add_BattleUI()
 	BATTLEUI_DATALIST.clear();
 
 	m_iTimerLayerNum = 0;
+	m_iRoundIconLayerNum = 0;
 }
 
 void CUI_Manager::Add_BattleResult()
@@ -362,6 +369,10 @@ void CUI_Manager::Add_BattleResult()
 		Add_BattleResultUI(iter);
 
 	BATTLERESULT_DATALIST.clear();
+
+	m_iResultCloudLayerNum = 0;
+	m_iResultCloudSecondLayerNum = 0;
+	m_iScoreBarLayerNum = 0;
 }
 
 void CUI_Manager::Add_P1_Combo()
@@ -1120,20 +1131,24 @@ HRESULT CUI_Manager::Add_BattleResultUI(CUI::THROWUIINFO iter)
 	}
 	case 4:
 	{
+		iter.iLayerNum = m_iResultCloudLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iResultCloudLayerNum;
 		break;
 	}
 	case 5:
 	{
+		iter.iLayerNum = m_iResultCloudSecondLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
+		++m_iResultCloudSecondLayerNum;
 	}
 	case 6:
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &iter)))
-			return E_FAIL;
+			return E_FAIL;	
 		break;
 	}
 	case 7:
@@ -1182,6 +1197,29 @@ HRESULT CUI_Manager::Add_BattleResultUI(CUI::THROWUIINFO iter)
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultFrame"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		break;
+	}
+	case 15:
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultScoreBase"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	}
+	case 16:
+	{
+		iter.iLayerNum = m_iScoreBarLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultScoreBar"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iScoreBarLayerNum;
+		break;
+	}
+	case 17:
+	{
+		for (_uint i = 0; i < 3; ++i)
+		{
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultTotalBase"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &iter)))
+				return E_FAIL;
+		}
 		break;
 	}
 	default:

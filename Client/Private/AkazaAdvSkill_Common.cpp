@@ -120,7 +120,7 @@ CAkazaState * CAdvSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelt
 	CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
-	pAkaza->Get_Transform()->LookAt(vLooAt);
+	pAkaza->Get_Transform()->Set_PlayerLookAt(vLooAt);
 	_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 	_vector vCollLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 	vCollPos += XMVector3Normalize(vCollLook) * 2.f; //추가
@@ -331,6 +331,33 @@ CAkazaState * CAdvSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelt
 	else
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
 
+	if (!m_bEffect && m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DASH, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+	else if (!m_bEffect && m_eStateType == TYPE_LOOP)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_INGFOLLOW, pAkaza);
+		
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+	else if (!m_bEffect && m_eStateType == TYPE_END)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_MAIN, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+
 	return nullptr;
 }
 
@@ -423,10 +450,32 @@ CAkazaState * CAdvSkill_CommmonState::Increase_Height(CAkaza * pAkaza, _float fT
 
 	if (m_fDelay < 0.5f && m_bRange == true)
 	{
+		if (false == m_bEffect_Increase)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTFOLLOW, pAkaza);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_START, pAkaza);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+
+			m_bEffect_Increase = true;
+		}
+
 		m_vPosition.y += XMVectorGetY(m_vTargetPosition) *	 m_vVelocity.y * fTimeDelta;
 	}
 	else if(m_fDelay < 0.5f && m_bRange == false)
 	{
+		if (false == m_bEffect_Increase)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTFOLLOW, pAkaza);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_START, pAkaza);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+
+			m_bEffect_Increase = true;
+		}
+
 		m_vPosition.x += XMVectorGetX(m_vTargetPosition) *   m_vVelocity.x * 15.f *fTimeDelta;
 		m_vPosition.z += XMVectorGetZ(m_vTargetPosition) *   m_vVelocity.z  *15.f*  fTimeDelta;
 	}

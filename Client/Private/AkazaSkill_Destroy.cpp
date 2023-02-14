@@ -180,7 +180,7 @@ CAkazaState * CSkill_DestoryState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 		_float fDist = XMVectorGetX(XMVector3Length(vLook2));
 
-		if (fDist < 18.f)
+		if (fDist < 18.f && !m_bNotHit)
 		{
 			if (pAkaza->Get_Model()->Get_CurrentTime() > 30.f)
 			{
@@ -195,6 +195,15 @@ CAkazaState * CSkill_DestoryState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 				return new CSkill_DestoryState(CAkazaState::TYPE_END);
 			}
 		}
+		else  if (pAkaza->Get_Model()->Get_CurrentTime() > 30.f &&
+			!m_bNotHit)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_FAILEDFINAL, pAkaza);
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bNotHit = true;
+		}
+
 	}
 
 	if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
@@ -442,19 +451,13 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	}
 	else if (!m_bEffect && m_eStateType == TYPE_END)
 	{
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 		if (true == m_bHit)
 		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_SUCCESSS_FINAL, pAkaza);
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_FAILEDFINAL, pAkaza);
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
 		}
-		else
-		{
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_FAILEDFINAL, pAkaza);
-		}
-
-		RELEASE_INSTANCE(CEffect_Manager);
-		m_bEffect = true;
 	}
 
 
@@ -511,16 +514,25 @@ CAkazaState * CSkill_DestoryState::CommandCheck(CAkaza * pAkaza)
 				{
 					if (pGameInstance->Key_Pressing(DIK_O))
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 0);
+						RELEASE_INSTANCE(CUI_Manager);
 						pAkaza->Set_SkillBar(-200);
 						return new CSkill_DestoryState(TYPE_START);
 					}
 					else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 0);
+						RELEASE_INSTANCE(CUI_Manager);
 						pAkaza->Set_SkillBar(-200);
 						return new CSkill_PunchState(TYPE_START); // move skill
 					}
 					else
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 0);
+						RELEASE_INSTANCE(CUI_Manager);
 						pAkaza->Set_SkillBar(-200);
 						return new CSkill_ShootState(TYPE_START);
 					}
@@ -562,16 +574,25 @@ CAkazaState * CSkill_DestoryState::CommandCheck(CAkaza * pAkaza)
 				{
 					if (pGameInstance->Key_Pressing(DIK_C))
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 1);
+						RELEASE_INSTANCE(CUI_Manager);
 						pAkaza->Set_SkillBar(-200);
 						return new CSkill_DestoryState(TYPE_START);
 					}
 					else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 1);
+						RELEASE_INSTANCE(CUI_Manager);
 						pAkaza->Set_SkillBar(-200);
 						return new CSkill_PunchState(TYPE_START); // move skill
 					}
 					else
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 1);
+						RELEASE_INSTANCE(CUI_Manager);
 						pAkaza->Set_SkillBar(-200);
 						return new CSkill_ShootState(TYPE_START);
 					}

@@ -34,7 +34,7 @@ private:
 	_bool				m_bTimerOnoff = false;
 	_uint				m_iFirstNum = 9;
 	_uint				m_iSecondNum = 9;
-
+	_bool				m_bRecord = false;
 
 public:
 	static CNumTimer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -12,6 +12,7 @@
 #include "NezukoChangeState.h"
 #include "NezukoDashState.h"
 #include "NezukoTargetRushState.h"
+#include "UI_Manager.h"
 using namespace Nezuko;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -74,6 +75,9 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				pNezuko->Set_UnicCount(-1);
 				if (pNezuko->Get_PlayerInfo().iPowerIndex == 0)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_PowerIndex(1);
 					pNezuko->Set_PowerUp(1.5f);
 					pNezuko->Set_PowerUpTime(6.f);
@@ -84,6 +88,9 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				}
 				else if (pNezuko->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_PowerIndex(2);
 					pNezuko->Set_PowerUpTime(6.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -111,6 +118,9 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				{
 					if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 0);
+						RELEASE_INSTANCE(CUI_Manager);
 						pNezuko->Set_SkillBar(-200);
 						return new CSkill_FallCutState(STATE_TYPE::TYPE_START);
 					}
@@ -119,6 +129,9 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				{
 					if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 0);
+						RELEASE_INSTANCE(CUI_Manager);
 						pNezuko->Set_SkillBar(-200);
 						return new CSkill_CommonState(STATE_TYPE::TYPE_START);
 					}
@@ -174,6 +187,9 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				pNezuko->Set_UnicCount(-1);
 				if (pNezuko->Get_PlayerInfo().iPowerIndex == 0)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_PowerIndex(1);
 					pNezuko->Set_PowerUp(1.5f);
 					pNezuko->Set_PowerUpTime(6.f);
@@ -184,6 +200,9 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				}
 				else if (pNezuko->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_PowerIndex(2);
 					pNezuko->Set_PowerUpTime(6.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -212,6 +231,9 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				{
 					if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 1);
+						RELEASE_INSTANCE(CUI_Manager);
 						pNezuko->Set_SkillBar(-200);
 						return new CSkill_FallCutState(STATE_TYPE::TYPE_START);
 					}
@@ -220,6 +242,9 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				{
 					if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 1);
+						RELEASE_INSTANCE(CUI_Manager);
 						pNezuko->Set_SkillBar(-200);
 						return new CSkill_CommonState(STATE_TYPE::TYPE_START);
 					}

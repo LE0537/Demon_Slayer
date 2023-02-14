@@ -73,7 +73,7 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 		}
 	}
 
-	if (pGameInstance->Key_Down(DIK_Q))
+	if (pGameInstance->Key_Down(DIK_Q) && !pSel_P1Cursor->Get_FirstSelCheck())
 	{
 		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_MENU))))
 			return;

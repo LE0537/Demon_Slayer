@@ -125,6 +125,9 @@
 #include "UltOpenBar.h"
 #include "UltNumEff.h"
 #include "UltStockFadeEff.h"
+#include "ResultScoreBar.h"
+#include "ResultScoreBase.h"
+#include "ResultTotalBase.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -263,6 +266,15 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TxtWin"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Txt_Win.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ResultScoreBase"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Result_BarBase.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ResultScoreBar"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Result_BarSelect.png"), 1))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ResultTotalBase"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Result_Base2.png"), 1))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_TxtWinEff"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/BattleResult/Result_Win_White.png"), 1))))
@@ -802,7 +814,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 46))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 48))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -1120,6 +1132,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Com_Hand_5"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Coll_Skl_Com_Main"));
 
+
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Move_StartFollowPlc"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Move_RunSmoke"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Move_Main"));
@@ -1134,6 +1147,16 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Destroy_Main"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Destroy_SuccessFinal"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Destroy_FailedFinal"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Dash"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Com_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Com_StartFollow"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Com_Ing_Follow"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Com_Main"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Move_Start_Fol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Move_Start_NonFol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Move_Main"));
 
 
 		RELEASE_INSTANCE(CEffect_Manager);
@@ -1331,6 +1354,15 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultScoreBar"),
+		CResultScoreBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultScoreBase"),
+		CResultScoreBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultTotalBase"),
+		CResultTotalBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_UltNumEff"),
 		CUltNumEff::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

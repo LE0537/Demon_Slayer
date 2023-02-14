@@ -91,6 +91,9 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 				{
 					if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 0);
+						RELEASE_INSTANCE(CUI_Manager);
 						pKyoujuro->Set_SkillBar(-200);
 						return new CJumpSkill_CommonState(m_fCurrentPosY);
 					}
@@ -112,6 +115,9 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 			{
 				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pKyoujuro->Set_SkillBar(-200);
 					return new CJumpSkill_MoveState(m_fCurrentPosY);
 				}
@@ -187,6 +193,9 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 			{
 				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pKyoujuro->Set_SkillBar(-200);
 					return new CJumpSkill_CommonState(m_fCurrentPosY);
 				}
@@ -201,6 +210,9 @@ CKyoujuroState * CMoveJumpState::HandleInput(CKyoujuro * pKyoujuro)
 			{
 				if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pKyoujuro->Set_SkillBar(-200);
 					return new CJumpSkill_MoveState(m_fCurrentPosY);
 				}
@@ -290,7 +302,7 @@ CKyoujuroState * CMoveJumpState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDe
 	else
 		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 
-	m_fJumpTime += 0.035f;
+	m_fJumpTime += 0.05f;
 
 
 	if (m_eStateType != TYPE_DEFAULT)
@@ -429,7 +441,7 @@ CKyoujuroState*  CMoveJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
-	static _float fGravity = 30.f;
+	static _float fGravity = 40.f;
 
 
 	_vector      vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

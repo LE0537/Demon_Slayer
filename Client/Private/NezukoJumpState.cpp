@@ -29,6 +29,9 @@ CNezukoState * CJumpState::HandleInput(CNezuko* pNezuko)
 		{
 			if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UseSkillCount(1, 0);
+				RELEASE_INSTANCE(CUI_Manager);
 				pNezuko->Set_SkillBar(-200);
 				return new CJumpSkill_CommmonState(STATE_TYPE::TYPE_START);
 			}
@@ -43,6 +46,9 @@ CNezukoState * CJumpState::HandleInput(CNezuko* pNezuko)
 		{
 			if (200 <= pNezuko->Get_PlayerInfo().iSkBar)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UseSkillCount(1, 1);
+				RELEASE_INSTANCE(CUI_Manager);
 				pNezuko->Set_SkillBar(-200);
 				return new CJumpSkill_CommmonState(STATE_TYPE::TYPE_START);
 			}
@@ -107,7 +113,7 @@ CNezukoState * CJumpState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	}
 	pNezuko->Get_Model()->Play_Animation(fTimeDelta);
 
-	m_fJumpTime += 0.035f;
+	m_fJumpTime += 0.05f;
 
 	if (m_eStateType != TYPE_END)
 		Jump(pNezuko, fTimeDelta + m_fJumpTime);
@@ -154,7 +160,7 @@ CNezukoState * CJumpState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
-	static _float fGravity = 30.f;
+	static _float fGravity = 40.f;
 
 
 	_vector      vPosition = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

@@ -9,7 +9,7 @@
 #include "Effect_Manager.h"
 #include "GameObj.h"
 #include "TanjiroDashState.h"
-
+#include "UI_Manager.h"
 #include "TanjiroJumpState.h"
 #include "TanjiroSkill_Common.h"
 #include "TanjiroSkill_WaterMill.h"
@@ -380,16 +380,25 @@ CTanjiroState * CAtk_1_State::CommandCheck(CTanjiro* pTanjiro)
 			{
 				if (pGameInstance->Key_Pressing(DIK_O))
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_SkillBar(-200);
 					return new CSkill_WindMillState(TYPE_START);
 				}
 				else if (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_D))
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_SkillBar(-200);
 					return new CSkill_WaterMillState(TYPE_START); // move skill
 				}
 				else
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_SkillBar(-200);
 					return new CSkill_CommonState();
 				}
@@ -411,19 +420,25 @@ CTanjiroState * CAtk_1_State::CommandCheck(CTanjiro* pTanjiro)
 			{
 				if (pGameInstance->Key_Pressing(DIK_C))
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_SkillBar(-200);
 					return new CSkill_WindMillState(TYPE_START);
 				}
 				else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
 				{
-
-
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_SkillBar(-200);
 					return new CSkill_WaterMillState(TYPE_START); // move skill
-
 				}
 				else
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_SkillBar(-200);
 					return new CSkill_CommonState();
 				}
