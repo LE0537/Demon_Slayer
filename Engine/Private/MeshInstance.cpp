@@ -157,7 +157,10 @@ HRESULT CMeshInstance::Initialize(void * pArg)
 
 	m_iInstanceStride = sizeof(VTXMATRIX);
 	m_iNumVertices = m_iNumInstance;
-	m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_pBinAIMesh->iNumPrimitives;
+	if (false == m_bBinMesh)
+		m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_pAIMesh->mNumFaces;
+	else
+		m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_pBinAIMesh->iNumPrimitives;
 
 	m_BufferDesc.ByteWidth = m_iInstanceStride * m_iNumInstance;
 	m_BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -219,7 +222,7 @@ void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _fl
 {
 	vector<VTXMATRIX>	vecRenderMatrix;
 
-	CFrustum*	pFrustum= GET_INSTANCE(CFrustum);
+	CFrustum*	pFrustum = GET_INSTANCE(CFrustum);
 	for (auto & iter : vecMatrix)
 	{
 		_float	fLength = fRadiusRatio * max(max(XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vRight))), XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vUp)))), XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vLook))));
@@ -227,7 +230,7 @@ void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _fl
 		if (true == pFrustum->IsinFrustum(XMLoadFloat4(&iter.vPosition), fLength))
 			vecRenderMatrix.push_back(iter);
 	}
-	
+
 	m_iNumRendering = vecRenderMatrix.size();
 
 	_int			iNumFaces = 0;
@@ -235,11 +238,15 @@ void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _fl
 		iNumFaces = m_pAIMesh->mNumFaces;
 
 	if (false == m_bBinMesh)
+	{
 		m_iNumPrimitive = iNumFaces * m_iNumRendering;
+		m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_pAIMesh->mNumFaces;
+	}
 	else
+	{
 		m_iNumPrimitive = (m_pBinAIMesh->iNumPrimitives) * m_iNumRendering;
-
-	m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_pBinAIMesh->iNumPrimitives;
+		m_iNumIndicesPerInstance = m_iNumIndicesPerPrimitive * m_pBinAIMesh->iNumPrimitives;
+	}
 
 	D3D11_MAPPED_SUBRESOURCE		MappedSubResource;
 	ZeroMemory(&MappedSubResource, sizeof MappedSubResource);

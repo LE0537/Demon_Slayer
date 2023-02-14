@@ -81,7 +81,7 @@ void CMeshObj_Smell::Late_Tick(_float fTimeDelta)
 
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	_matrix		matWorld = m_pTransformCom->Get_WorldMatrix();
-	
+
 	if (nullptr != m_pRendererCom)
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
@@ -105,10 +105,10 @@ HRESULT CMeshObj_Smell::Render()
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
-	{		
+	{
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_GlowTexture", i, aiTextureType_SHININESS)))
 			return E_FAIL;		//	Glow용 ( Max에서 glossiness 에 넣으면 됨.)
-		
+
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
@@ -146,6 +146,19 @@ HRESULT CMeshObj_Smell::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_NoiseTexture"), LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Noise_Smell"), (CComponent**)&m_pNoiseTextureCom)))
 		return E_FAIL;
 
+
+	/* For.Com_Model*/
+	_tchar	pPrototypeTag_Model[MAX_PATH] = L"";
+	switch (m_tMyDesc.iModelIndex)
+	{
+	case 2087: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Smell1");
+	case 2088: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Smell2");
+	case 2089: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Smell3");
+
+	}
+
+	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, pPrototypeTag_Model, (CComponent**)&m_pModelCom)))
+		return E_FAIL;
 
 	return S_OK;
 }

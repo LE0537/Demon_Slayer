@@ -93,9 +93,13 @@ VS_FLOWMAP_OUT VS_FLOWMAP(VS_IN In)
 	matWV = mul(g_WorldMatrix, g_ViewMatrix);
 	matWVP = mul(matWV, g_ProjMatrix);
 
+	float4x4	TransformMatrix = float4x4(In.vRight, In.vUp, In.vLook, In.vTranslation);
+
+	vector		vPosition = mul(vector(In.vPosition, 1.f), TransformMatrix);
+
 	vector vNormal = normalize(mul(vector(In.vNormal, 0.f), g_WorldMatrix));
 
-	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
+	Out.vPosition = mul(vPosition, matWVP);
 	Out.vNormal = vNormal;
 	Out.vProjPos = Out.vPosition;
 

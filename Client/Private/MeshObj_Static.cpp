@@ -332,9 +332,9 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2025: lstrcpy(pPrototypeTag_Model, L"Rock7"); m_fFrustumRadiusRatio = 50.f; break;
 	case 2026: lstrcpy(pPrototypeTag_Model, L"RockSmall"); m_fFrustumRadiusRatio = 10.f; break;
 
-	case 2027: lstrcpy(pPrototypeTag_Model, L"Cliff1"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2028: lstrcpy(pPrototypeTag_Model, L"Cliff2"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2029: lstrcpy(pPrototypeTag_Model, L"Cliff3"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2027: lstrcpy(pPrototypeTag_Model, L"Cliff1"); m_fFrustumRadiusRatio = 12.f; break;
+	case 2028: lstrcpy(pPrototypeTag_Model, L"Cliff2"); m_fFrustumRadiusRatio = 12.f; break;
+	case 2029: lstrcpy(pPrototypeTag_Model, L"Cliff3"); m_fFrustumRadiusRatio = 12.f; break;
 	case 2030: lstrcpy(pPrototypeTag_Model, L"Cliff_Small"); m_fFrustumRadiusRatio = 4.f; break;
 
 	case 2031: lstrcpy(pPrototypeTag_Model, L"Grass1");m_bRenderShadow = false; break;

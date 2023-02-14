@@ -28,6 +28,8 @@ public:
 	HRESULT Load_StaticObjects(char* pFileName);
 	HRESULT Load_Map(const _tchar* pLayerTag, char* pFileName);
 	HRESULT Load_Weed(char* pFileName);
+	HRESULT Load_Smell_1(char* pFileName);
+
 private:
 	_bool			 m_bCreateUI = false;
 

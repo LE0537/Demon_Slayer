@@ -35,6 +35,7 @@ HRESULT CMeshObj_Smell_Inst::Initialize(void * pArg)
 	{
 		VTXMATRIX	VtxMatrix;
 		memcpy(&VtxMatrix, &m_tMyDesc.pWorld[i], sizeof VtxMatrix);
+		VtxMatrix.vPosition.y += 1.5f;
 
 		m_vecMatrix.push_back(VtxMatrix);
 	}
@@ -49,7 +50,9 @@ void CMeshObj_Smell_Inst::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	m_pTransformCom->Turn(XMVectorSet(1.f, 0.f, 0.f, 0.f), fTimeDelta * 1.f / 83.f);
+	m_fAliveTime += fTimeDelta;
+
+	//m_pTransformCom->Turn(XMVectorSet(1.f, 0.f, 0.f, 0.f), fTimeDelta * 1.f / 83.f);
 	m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
 }
 
@@ -114,8 +117,24 @@ HRESULT CMeshObj_Smell_Inst::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_NoiseTexture*/
-	if (FAILED(__super::Add_Components(TEXT("Com_NoiseTexture"), LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Noise_Smell"), (CComponent**)&m_pNoiseTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_NoiseTexture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_Noise_Smell"), (CComponent**)&m_pNoiseTextureCom)))
 		return E_FAIL;
+
+	/* For.Com_Model*/
+	_tchar	pPrototypeTag_Model[MAX_PATH] = L"";
+	CModel::MESHINSTANCINGDESC tMeshInstancingDesc;
+	tMeshInstancingDesc.iNumMeshInstancing = m_tMyDesc.iNumInstancing;
+	switch (m_tMyDesc.iModelIndex)
+	{
+	case 2087: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Smell1_Instancing");
+	case 2088: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Smell2_Instancing");
+	case 2089: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Smell3_Instancing");
+
+	}
+
+	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, pPrototypeTag_Model, (CComponent**)&m_pModelCom, &tMeshInstancingDesc)))
+		return E_FAIL;
+
 
 	return S_OK;
 }
