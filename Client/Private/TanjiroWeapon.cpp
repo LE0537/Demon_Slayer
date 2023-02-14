@@ -29,10 +29,9 @@ HRESULT CTanjiroWeapon::Initialize(void * pArg)
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	if(!m_WeaponDesc.bStory)
-		m_pTransformCom->Set_Scale(XMVectorSet(0.033f, 0.033f, 0.033f, 0.f));
-	else 
-		m_pTransformCom->Set_Scale(XMVectorSet(0.00833f, 0.00833f, 0.00833f, 0.f));
+
+	m_pTransformCom->Set_Scale(XMVectorSet(0.033f, 0.033f, 0.033f, 0.f));
+
 	m_pTransformCom->Turn2(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(90.0f));
 
 
