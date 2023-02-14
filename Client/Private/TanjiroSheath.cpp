@@ -30,10 +30,9 @@ HRESULT CTanjiroSheath::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if (!m_WeaponDesc.bStory)
-		m_pTransformCom->Set_Scale(XMVectorSet(0.03f, 0.027f, 0.03f, 0.f));
-	else
-		m_pTransformCom->Set_Scale(XMVectorSet(0.00833f, 0.0075f, 0.00833f, 0.f));
+
+	m_pTransformCom->Set_Scale(XMVectorSet(0.03f, 0.027f, 0.03f, 0.f));
+
 
 	m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(30.0f));
 	m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(90.0f));
