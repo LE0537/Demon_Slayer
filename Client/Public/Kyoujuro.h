@@ -29,6 +29,7 @@ public:
 		// MOVE
 		ANIM_MOVE_START = 63,
 		ANIM_MOVE_END = 64,
+		
 
 		// JUMP
 		ANIM_JUMP_START = 53,
