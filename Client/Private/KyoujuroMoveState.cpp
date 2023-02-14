@@ -403,9 +403,9 @@ void CMoveState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_MOVE_END);
 		break;
 	case Client::CKyoujuroState::TYPE_END:
-		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_MOVE_STOP);
-		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_MOVE_STOP);
-		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_MOVE_STOP, false);
+		//pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_MOVE_STOP);
+		//pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_MOVE_STOP);
+		//pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_MOVE_STOP, false);
 		break;
 	case Client::CKyoujuroState::TYPE_DEFAULT:
 		break;
