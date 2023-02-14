@@ -3,6 +3,7 @@
 #include "Engine_Defines.h"
 #include "Akaza.h"
 #include "SoundMgr.h"
+#include "UI_Manager.h"
 
 BEGIN(Client)
 

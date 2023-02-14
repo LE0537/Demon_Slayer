@@ -22,6 +22,7 @@ HRESULT CLevel_GameResult::Initialize()
 		return E_FAIL;
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	pUIManager->Set_RankScore();
 	pUIManager->Add_BattleResult();
 	RELEASE_INSTANCE(CUI_Manager);
 
@@ -86,6 +87,8 @@ void CLevel_GameResult::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_T))
 	{
+		pUIManager->RankInfo_ZeroMemory(0);
+		pUIManager->RankInfo_ZeroMemory(1);
 		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_MENU))))
 			return;
 	}
@@ -319,9 +322,9 @@ HRESULT CLevel_GameResult::Ready_Layer_Player(const _tchar * pLayerTag)
 	m_iSub = iSecondChar;
 	if (iSecondChar != 99)
 	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &m_pModel)))
 			return E_FAIL;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModelSub)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &m_pModelSub)))
 			return E_FAIL;
 		dynamic_cast<CMenuModel*>(m_pModel)->Get_ModelCom(m_iMain)->Set_CurrentAnimIndex(0);
 		dynamic_cast<CMenuModel*>(m_pModelSub)->Get_ModelCom(m_iSub)->Set_CurrentAnimIndex(0);
@@ -330,7 +333,7 @@ HRESULT CLevel_GameResult::Ready_Layer_Player(const _tchar * pLayerTag)
 	}
 	else if (iSecondChar == 99)
 	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &m_pModel)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MenuModel"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &m_pModel)))
 			return E_FAIL;
 		dynamic_cast<CMenuModel*>(m_pModel)->Get_ModelCom(m_iMain)->Set_CurrentAnimIndex(0);
 		m_pModel->Set_1P(1);

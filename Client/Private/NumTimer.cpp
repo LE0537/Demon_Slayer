@@ -73,9 +73,19 @@ void CNumTimer::Tick(_float fTimeDelta)
 
 		if (m_iFirstNum <= 0)
 			m_iFirstNum = 0;
+
+		m_bRecord = true;
 	}
 	else
 	{
+		if (m_bRecord)
+		{
+			if(!m_ThrowUIinfo.bPlyCheck)
+				pUI_Manager->Set_RemnantTime((_uint)m_fTimer, 0);
+			else if(m_ThrowUIinfo.bPlyCheck)
+				pUI_Manager->Set_RemnantTime((_uint)m_fTimer, 1);
+			m_bRecord = false;
+		}
 		m_fTimer = 99.f;
 
 		if (m_ThrowUIinfo.iLayerNum == 0)
@@ -84,6 +94,10 @@ void CNumTimer::Tick(_float fTimeDelta)
 			m_iSecondNum = (_uint)m_fTimer % 10;
 	}
 
+	
+
+	
+	
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 

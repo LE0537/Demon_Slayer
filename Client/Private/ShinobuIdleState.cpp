@@ -13,6 +13,7 @@
 #include "ShinobuSkill_Upper.h"
 #include "ShinobuTargetRushState.h"
 #include "Effect_Manager.h"
+#include "UI_Manager.h"
 using namespace Shinobu;
 
 
@@ -67,6 +68,9 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				pShinobu->Set_UnicCount(-1);
 				if (pShinobu->Get_PlayerInfo().iPowerIndex == 0)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pShinobu->Set_PowerIndex(1);
 					pShinobu->Set_PowerUp(1.5f);
 					pShinobu->Set_PowerUpTime(6.f);
@@ -77,6 +81,9 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				}
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pShinobu->Set_PowerIndex(2);
 					pShinobu->Set_PowerUpTime(6.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -100,6 +107,9 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 0);
+						RELEASE_INSTANCE(CUI_Manager);
 						pShinobu->Set_SkillBar(-200);
 						return new CSkill_UpperState(STATE_TYPE::TYPE_START);
 					}
@@ -110,6 +120,9 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 0);
+						RELEASE_INSTANCE(CUI_Manager);
 						pShinobu->Set_SkillBar(-200);
 						return new CSkill_CommonState();
 					}
@@ -154,6 +167,9 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				pShinobu->Set_UnicCount(-1);
 				if (pShinobu->Get_PlayerInfo().iPowerIndex == 0)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pShinobu->Set_PowerIndex(1);
 					pShinobu->Set_PowerUp(1.5f);
 					pShinobu->Set_PowerUpTime(6.f);
@@ -164,6 +180,9 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				}
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pShinobu->Set_PowerIndex(2);
 					pShinobu->Set_PowerUpTime(6.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -187,6 +206,9 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 1);
+						RELEASE_INSTANCE(CUI_Manager);
 						pShinobu->Set_SkillBar(-200);
 						return new CSkill_UpperState(STATE_TYPE::TYPE_START);
 					}
@@ -197,6 +219,9 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
+						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+						pUI_Manager->Set_UseSkillCount(1, 1);
+						RELEASE_INSTANCE(CUI_Manager);
 						pShinobu->Set_SkillBar(-200);
 						return new CSkill_CommonState();
 					}

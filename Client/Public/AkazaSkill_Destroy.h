@@ -31,8 +31,6 @@ private:
 	_bool  m_bHit = false;
 	_float4 m_vLook;
 	_bool   m_bLook = false;
-
-	_bool	m_bEffect = false;
 };
 END
 END

@@ -13,6 +13,10 @@ private:
 	virtual ~CRankIcon() = default;
 
 public:
+	_bool Get_ZoomEnd() { return m_bZoomEnd; }
+	void Set_ZoomStart(_bool bCheck) { m_bZoomStart = bCheck; }
+
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -22,6 +26,12 @@ public:
 private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
+
+private:
+	_bool					m_bZoomEnd = false;
+	_bool					m_bZoomStart = false;
+	_uint					m_iRankScore = 0;
+	_bool					m_bMinusCheck = false;
 
 
 public:

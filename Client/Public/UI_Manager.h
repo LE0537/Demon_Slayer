@@ -15,6 +15,18 @@ public:
 	virtual ~CUI_Manager() = default;
 
 public:
+	typedef struct tagRankInfo
+	{
+		_uint iMaximumCombo;
+		_uint iRemnantTime;
+		_uint iUltUseCount;
+		_uint iFriendUseCount;
+		_uint iUseSkillCount;
+		_uint iRankScore;
+		_uint iRank;
+	}RANKINFO;
+
+public:
 	HRESULT Init(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	
 public:
@@ -41,6 +53,46 @@ public:
 	HRESULT Add_Adc_MenuUI(CUI::THROWUIINFO iter);
 	_bool P1_Oni_Check();
 	_bool P2_Oni_Check();
+
+
+	RANKINFO Get_RankInfo(_uint iPlyNum) { return m_RankInfo[iPlyNum]; }
+	void Set_RankInfo(RANKINFO tInfo, _uint iPlyNum) { m_RankInfo[iPlyNum] = tInfo; }
+	_uint Get_MaximumCombo(_uint iPlyNum) { return m_RankInfo[iPlyNum].iMaximumCombo; }
+	void Set_MaximumCombo(_uint _iCombo, _uint iPlyNum) { m_RankInfo[iPlyNum].iMaximumCombo = _iCombo; }
+	_uint Get_RemnantTime(_uint iPlyNum) { return m_RankInfo[iPlyNum].iRemnantTime; }
+	void Set_RemnantTime(_uint _iTime, _uint iPlyNum) { m_RankInfo[iPlyNum].iRemnantTime += _iTime; }
+	_uint Get_UltUseCount(_uint iPlyNum) { return m_RankInfo[iPlyNum].iUltUseCount; }
+	void Set_UltUseCount(_uint _iCount, _uint iPlyNum) { m_RankInfo[iPlyNum].iUltUseCount += _iCount; }
+	_uint Get_FriendUseCount(_uint iPlyNum) { return m_RankInfo[iPlyNum].iFriendUseCount; }
+	void Set_FriendUseCount(_uint _iFriendCount, _uint iPlyNum) { m_RankInfo[iPlyNum].iFriendUseCount += _iFriendCount; }
+	_uint Get_UseSkillCount(_uint iPlyNum) { return m_RankInfo[iPlyNum].iUseSkillCount; }
+	void Set_UseSkillCount(_uint _iSkillCount, _uint iPlyNum) { m_RankInfo[iPlyNum].iUseSkillCount += _iSkillCount; }
+	_uint Get_Rank(_uint iPlyNum) { return m_RankInfo[iPlyNum].iRank; }
+	void Set_Rank(_uint _iRank, _uint iPlyNum) { m_RankInfo[iPlyNum].iRank = _iRank; }
+	void RankInfo_ZeroMemory(_uint iPlyNum) { ZeroMemory(&m_RankInfo[iPlyNum], sizeof(RANKINFO)); }
+	void Set_RankScore() {
+		if (!m_ResultInfo.bPlayerWin)
+		{
+			m_RankInfo[0].iRankScore =
+				m_RankInfo[0].iFriendUseCount * 100 +
+				m_RankInfo[0].iRemnantTime * 10 +
+				m_RankInfo[0].iUltUseCount * 100 +
+				m_RankInfo[0].iUseSkillCount * 50 +
+				m_RankInfo[0].iMaximumCombo * 100;
+		}
+		else
+		{
+			m_RankInfo[1].iRankScore =
+				m_RankInfo[1].iFriendUseCount * 100 +
+				m_RankInfo[1].iRemnantTime * 10 +
+				m_RankInfo[1].iUltUseCount * 100 +
+				m_RankInfo[1].iUseSkillCount * 50 +
+				m_RankInfo[1].iMaximumCombo * 100;
+		}}
+	/*void Set_Rank(_uint _iWinPlyNum) {
+		if()
+		m_RankInfo[_iWinPlyNum].iRank;
+	}*/
 
 	CCharacters* Get_1P() { return m_p1P; }
 	CCharacters* Get_1P_2() { return m_p1P_2; }
@@ -91,9 +143,12 @@ public:
 	CUI*	Get_AdvFrame(_uint iFrameNum) { return m_pAdvMenuFrame[iFrameNum]; }
 	void	Set_AdvFrame(CUI* pTargetUI, _uint iFrameNum) { m_pAdvMenuFrame[iFrameNum] = pTargetUI; }
 
-	CUI*   Get_MenuCursor() { return m_pMenuCursor; }
+	CUI*	Get_MenuCursor() { return m_pMenuCursor; }
 	void	Set_MenuCursor(CUI* MenuCursor) { m_pMenuCursor = MenuCursor; }
 
+	CUI*	Get_RankIcon() { return m_pRankIcon; }
+	void	Set_RankIcon(CUI* pTarget) { m_pRankIcon = pTarget; }
+	
 	_uint   Get_Sel1P() { return m_i1p; }
 	void	Set_Sel1P(_uint _i1p) { m_i1p = _i1p; }
 
@@ -178,9 +233,11 @@ private:
 	CUI*							m_pTimerUI = nullptr;
 	CUI*							m_pComboNum[2];
 	CUI*							m_pAdvMenuFrame[2];
+	CUI*							m_pRankIcon = nullptr;
 
 	CUI::THROWUIINFO				m_ThrowInfo;
 	CUI::RESULTINFO					m_ResultInfo;
+	RANKINFO						m_RankInfo[2];
 	_uint							m_iCharIconLayerNum = 0;
 	_uint							m_iCharNameLayerNum = 0;
 	_uint							m_iCharFrameLayerNum = 0;
@@ -201,6 +258,9 @@ private:
 	_uint							m_iOniSepcialBarLayerNum = 0;
 	_uint							m_iAdcMenuSelImgLayerNum = 0;
 	_uint							m_iAdcMenuSelFrameImgLayerNum = 0;
+	_uint							m_iResultCloudLayerNum = 0;
+	_uint							m_iResultCloudSecondLayerNum = 0;
+	_uint							m_iScoreBarLayerNum = 0;
 	_uint							m_iAdvStageNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;

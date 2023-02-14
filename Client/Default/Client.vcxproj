@@ -253,6 +253,9 @@
     <ClInclude Include="..\Public\NezukoTargetRushState.h" />
     <ClInclude Include="..\public\ChangeBar.h" />
     <ClInclude Include="..\Public\OniSpecialSkillBar.h" />
+    <ClInclude Include="..\Public\ResultScoreBar.h" />
+    <ClInclude Include="..\Public\ResultScoreBase.h" />
+    <ClInclude Include="..\Public\ResultTotalBase.h" />
     <ClInclude Include="..\public\RuiBall.h" />
     <ClInclude Include="..\Public\RuiBattleSTState.h" />
     <ClInclude Include="..\public\RuiBigBall.h" />
@@ -603,6 +606,9 @@
     <ClCompile Include="..\Private\NezukoTargetRushState.cpp" />
     <ClCompile Include="..\private\ChangeBar.cpp" />
     <ClCompile Include="..\Private\OniSpecialSkillBar.cpp" />
+    <ClCompile Include="..\Private\ResultScoreBar.cpp" />
+    <ClCompile Include="..\Private\ResultScoreBase.cpp" />
+    <ClCompile Include="..\Private\ResultTotalBase.cpp" />
     <ClCompile Include="..\private\RuiBall.cpp" />
     <ClCompile Include="..\Private\RuiBattleSTState.cpp" />
     <ClCompile Include="..\private\RuiBigBall.cpp" />

@@ -74,9 +74,9 @@ HRESULT CRuiDad::Initialize(void * pArg)
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
-		_vector vPos = { -860.374f,92.52f,-68.017f,1.f };
+		_vector vPos = { -35.788f,4.438f,-31.331f,1.f };
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	//	m_pTransformCom->Set_Scale(XMVectorSet(0.25f, 0.25f, 0.25f, 0.f));
+		m_pTransformCom->Set_Scale(XMVectorSet(0.25f, 0.25f, 0.25f, 0.f));
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 
 		m_tInfo.bSub = tCharacterDesc.bSub;

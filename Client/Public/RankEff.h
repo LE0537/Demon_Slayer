@@ -23,7 +23,10 @@ private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
-
+private:
+	_uint					m_iRankScore = 0;
+	_float					m_fFadeTime = 1.f;
+	_bool					m_bStartCheck = false;
 public:
 	static CRankEff* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
