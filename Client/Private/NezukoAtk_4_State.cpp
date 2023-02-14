@@ -245,6 +245,7 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pNezuko->Get_PlayerInfo().iDmg * pNezuko->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Atk2(true);
 					m_pTarget->Take_Damage(0.3f, false);
 					pNezuko->Set_Combo(1);
 					pNezuko->Set_ComboTime(0.f);
@@ -351,6 +352,7 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(-pNezuko->Get_PlayerInfo().iDmg * pNezuko->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Atk2(false);
 					m_pTarget->Take_Damage(0.5f, false);
 					pNezuko->Set_Combo(1);
 					pNezuko->Set_ComboTime(0.f);

@@ -282,10 +282,23 @@ CRuiState * CIdleState::Tick(CRui * pRui, _float fTimeDelta)
 		pRui->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
 	}
 
+	if (m_ePreState == STATE_MOVE)
+	{
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CIdleState(STATE_IDLE);
+		}
+	}
+
+
 	if (pRui->Get_IsAIMode() == true)
 		return new CAiState();
 	else
 		return nullptr;
+
+
+
 }
 
 CRuiState * CIdleState::Late_Tick(CRui * pRui, _float fTimeDelta)
@@ -365,8 +378,26 @@ void CIdleState::Enter(CRui * pRui)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
-	pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_IDLE);
-	pRui->Set_AnimIndex(CRui::ANIM_IDLE);
+
+	if (m_ePreState == STATE_MOVE)
+	{
+		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_MOVE_END);
+		pRui->Set_AnimIndex(CRui::ANIM_MOVE_END);
+		pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex());
+		pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_MOVE_END, 0.01f);
+	}
+	else
+	{
+		if (m_ePreState == STATE_HIT)
+			m_ePreState = STATE_IDLE;
+
+		pRui->Set_GodMode(false);
+		//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
+		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_IDLE);
+		pRui->Set_AnimIndex(CRui::ANIM_IDLE);
+		pRui->Get_Model()->Set_LinearTime(CRui::ANIM_IDLE, 0.05f);
+		pRui->Get_Model()->Set_FrameNum(pRui->Get_AnimIndex(), 100);
+	}
 }
 
 void CIdleState::Exit(CRui * pRui)

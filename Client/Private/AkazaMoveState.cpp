@@ -39,9 +39,6 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 			{
 				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UseSkillCount(1, 0);
-					RELEASE_INSTANCE(CUI_Manager);
 					pAkaza->Set_SkillBar(-200);
 					return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
 				}
@@ -50,9 +47,6 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 			{
 				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UseSkillCount(1, 0);
-					RELEASE_INSTANCE(CUI_Manager);
 					pAkaza->Set_SkillBar(-200);
 					return new CSkill_PunchState(STATE_TYPE::TYPE_START);
 				}
@@ -194,7 +188,7 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CIdleState();
+			return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -207,9 +201,6 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 			{
 				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UseSkillCount(1, 1);
-					RELEASE_INSTANCE(CUI_Manager);
 					pAkaza->Set_SkillBar(-200);
 					return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
 				}
@@ -218,9 +209,6 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 			{
 				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UseSkillCount(1, 1);
-					RELEASE_INSTANCE(CUI_Manager);
 					pAkaza->Set_SkillBar(-200);
 					return new CSkill_PunchState(STATE_TYPE::TYPE_START);
 				}
@@ -357,7 +345,7 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CIdleState();
+			return new CIdleState(STATE_MOVE);
 
 		break;
 	}
@@ -375,7 +363,8 @@ CAkazaState * CMoveState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 		switch (m_eStateType)
 		{
 		case Client::CAkazaState::TYPE_START:
-			m_eStateType = CAkazaState::TYPE_LOOP;
+			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+			return new CMoveState(m_eDirection, TYPE_START);
 			break;
 		case Client::CAkazaState::TYPE_LOOP:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
@@ -421,10 +410,14 @@ void CMoveState::Enter(CAkaza* pAkaza)
 	case Client::CAkazaState::TYPE_START:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_MOVE_START);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_MOVE_START);
+		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_MOVE_START, true);
+		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIMID::ANIM_MOVE_START, 0.01f);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_MOVE_END);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_MOVE_END);
+		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_MOVE_END);
+		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIMID::ANIM_MOVE_END, 0.01f);
 		break;
 	case Client::CAkazaState::TYPE_DEFAULT:
 		break;

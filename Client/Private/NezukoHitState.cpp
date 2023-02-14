@@ -2,20 +2,17 @@
 #include "NezukoHitState.h"
 #include "NezukoIdleState.h"
 #include "GameInstance.h"
+#include "NezukoUpperHitState.h"
 
 using namespace Nezuko;
 
 CHitState::CHitState(_float _fPow, _bool _bJump)
-	:m_fPow(_fPow), m_bJumpHit(_bJump) 
+	:m_fPow(_fPow), m_bJumpHit(_bJump)
 {
 }
 
 CNezukoState * CHitState::HandleInput(CNezuko* pNezuko)
 {
-
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	if (pGameInstance->Key_Down(DIK_F3))
-		return new CHitState(0.f);
 
 	return nullptr;
 }
@@ -26,7 +23,7 @@ CNezukoState * CHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 	{
 		if (pNezuko->Get_PlayerInfo().iUnicCount < 3 && pNezuko->Get_PlayerInfo().iUnicBar < pNezuko->Get_PlayerInfo().iUnicMaxBar)
 		{
-			pNezuko->Set_UnicBar(67);
+			pNezuko->Set_UnicBar(33);
 			if (pNezuko->Get_PlayerInfo().iUnicBar >= pNezuko->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pNezuko->Get_PlayerInfo().iUnicCount < 3)
@@ -38,31 +35,82 @@ CNezukoState * CHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 					pNezuko->Set_UnicBar(pNezuko->Get_PlayerInfo().iUnicMaxBar);
 			}
 		}
+		pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_HIT);
+		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_HIT);
 		m_bReset = true;
 	}
 
+
 	fHitTime += fTimeDelta * 60.f;
 
-	//if (!m_bJumpHit)
-	//{
-	//	if (fHitTime <= 20.f)
-	//		pNezuko->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
+	if (!m_bJumpHit)
+	{
+		if (fHitTime <= 20.f)
+			pNezuko->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pNezuko->Get_NavigationCom());
 
-	//	if (fHitTime >= 38.f)
+	}
+
+
+	//	_vector vPlayerY = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	//
+	//	vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
+	//	if (vPlayerY.m128_f32[1] < 0)
+	//		vPlayerY.m128_f32[1] = 0;
+
+	//	pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+	//	if (fHitTime >= 35.f)
 	//		return new CIdleState();
 	//}
 	//else if (m_bJumpHit)
 	//{
 	//	if (fHitTime <= 35.f)
-	//		pNezuko->Get_Transform()->Go_Backward(fTimeDelta * m_fPow);
-
+	//	{
+	//		if (!m_bTrun)
+	//		{
+	//			_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	//			_vector vLook = pNezuko->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+	//			vPos += XMVector3Normalize(vLook) * 15.f * fTimeDelta * m_fPow;
+	//			if (pNezuko->Get_NavigationCom()->Cheak_Cell(vPos))
+	//				pNezuko->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pNezuko->Get_NavigationCom());
+	//			else
+	//			{
+	//				m_bTrun = true;
+	//			}
+	//		}
+	//		if (m_bTrun)
+	//		{
+	//			pNezuko->Get_Transform()->Go_Straight(fTimeDelta * m_fPow, pNezuko->Get_NavigationCom());
+	//		}
+	//	}
 	//	if (pNezuko->Get_Model()->Get_End(CNezuko::ANIM_HIT))
 	//	{
 	//		pNezuko->Get_Model()->Set_End(CNezuko::ANIM_HIT);
-	//		pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_HIT);
+	//		//pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_HIT);
+
+	//		pNezuko->Get_Model()->Set_CurrentAnimIndex(58);
+	//		pNezuko->Get_Model()->Set_Loop(58);
+	//		pNezuko->Get_Model()->Set_LinearTime(58, 0.01f);
+	//		pNezuko->Set_bGuard(true);
+	//	}
+
+	//	if (pNezuko->Get_Model()->Get_End(58))
+	//	{
+	//		pNezuko->Get_Model()->Reset_Anim(58);
+	//		pNezuko->Get_Model()->Set_End(58);
+	//		pNezuko->Set_bGuard(false);
 	//		return new CIdleState();
 	//	}
 	//}
+
+
+	if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
+	{
+		pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+		return new CIdleState(STATE_HIT);
+	}
+
+
+
 
 
 	return nullptr;
@@ -70,80 +118,16 @@ CNezukoState * CHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 CNezukoState * CHitState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
+	//m_fJumpTime += 0.035f;
+	//if (m_bJumpHit && !m_bJump)
+	//{
+	//	Jump(pNezuko, m_fJumpTime);
+	//}
 
-	m_fJumpTime += 0.035f;
-	if (m_bJumpHit && !m_bJump)
-	{
-		Jump(pNezuko, m_fJumpTime);
-	}
-
-	_vector vPosition = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-
-	if (m_bJumpHit == false)
-	{
-		if (pNezuko->Get_Model()->Get_CurrentFrame() <= 20)
-		{
-			pNezuko->Get_Model()->Play_Animation(fTimeDelta * 1.5f, false);
-			pNezuko->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pNezuko->Get_NavigationCom());
-
-			_vector vPlayerY = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-			vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
-			if (vPlayerY.m128_f32[1] < 0)
-				vPlayerY.m128_f32[1] = 0;
-
-			pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
-
-			if (pNezuko->Get_Model()->Get_CurrentFrame() == 19)
-				return new CIdleState();
-		}
-	}
+	if (pNezuko->Get_AnimIndex() == CNezuko::ANIMID::ANIM_HIT_DMG2_G)
+		pNezuko->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else
-	{
-		if (pNezuko->Get_Model()->Get_CurrentFrame() <= 60 && pNezuko->Get_AnimIndex() == CNezuko::ANIM_HIT)
-		{
-			if (!m_bTrun)
-			{
-				_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				_vector vLook = pNezuko->Get_Transform()->Get_State(CTransform::STATE_LOOK);
-				vPos += XMVector3Normalize(vLook) * 15.f * fTimeDelta * m_fPow;
-				if (pNezuko->Get_NavigationCom()->Cheak_Cell(vPos))
-					pNezuko->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pNezuko->Get_NavigationCom());
-				else
-				{
-					m_bTrun = true;
-				}
-			}
-			if (m_bTrun)
-			{
-				pNezuko->Get_Transform()->Go_Straight(fTimeDelta * m_fPow, pNezuko->Get_NavigationCom());
-			}
-		}
-
-		pNezuko->Get_Model()->Play_Animation(fTimeDelta, false);
-
-
-		if (pNezuko->Get_Model()->Get_End(80) && m_bJump == true)
-		{
-			pNezuko->Get_Model()->Set_End(80);
-			pNezuko->Get_Model()->Set_CurrentAnimIndex(82);
-			pNezuko->Get_Model()->Set_Loop(82);
-			pNezuko->Set_AnimIndex(CNezuko::ANIM_IDLE);
-			pNezuko->Get_Model()->Set_LinearTime(82, 0.01f);
-			pNezuko->Set_bGuard(true);
-		}
-
-		if (pNezuko->Get_Model()->Get_End(82))
-		{
-			pNezuko->Get_Model()->Reset_Anim(82);
-			pNezuko->Get_Model()->Set_End(82);
-			pNezuko->Set_bGuard(false);
-			return new CIdleState();
-		}
-
-	}
-
+		pNezuko->Get_Model()->Play_Animation(fTimeDelta);
 
 
 
@@ -151,46 +135,46 @@ CNezukoState * CHitState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 	return nullptr;
 }
-	
-
 
 void CHitState::Enter(CNezuko* pNezuko)
 {
 	m_eStateId = STATE_ID::STATE_HIT;
 
-	pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT);
-	pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT);
-	pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_HIT);
-	//pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
-	//pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.0f);
 
-	if (m_bJumpHit == false)
+	if (pNezuko->Get_NavigationHeight().y < XMVectorGetY(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
 	{
-		pNezuko->Get_Model()->Set_FrameNum(pNezuko->Get_AnimIndex(), 100);
-		//pNezuko->Get_Model()->Set_FrameTime(pNezuko->Get_AnimIndex(), 0, 20, 1.f);
-		pNezuko->Get_Model()->Set_UsingFrame(CNezuko::ANIM_HIT, 8, 20);
+		m_bHitPlayerJump = true;
+		Set_JumpHitState(pNezuko);
 	}
 	else
 	{
-		pNezuko->Get_Model()->Set_FrameNum(pNezuko->Get_AnimIndex(), 100);
-		//pNezuko->Get_Model()->Set_FrameTime(pNezuko->Get_AnimIndex(), 0, 20, 1.f);
-		pNezuko->Get_Model()->Set_UsingFrame(CNezuko::ANIM_HIT, 25, 100);
+		m_bHitPlayerJump = false;
+		Set_HitState(pNezuko);
 	}
 
-	_uint iRand = rand() % 3;
+
+
+
+	_uint iRand = rand() % 4;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Hit_1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_1.wav"), fEFFECT);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Hit_2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_2.wav"), fEFFECT);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_Hit_3.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_3.wav"), fEFFECT);
+	else if (iRand == 3)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_4.wav"), fEFFECT);
 
 	if (iRand == 0)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
 	else if (iRand == 1)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
+
+
+
+
 CNezukoState * CHitState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 {
 	pNezuko->Set_NavigationHeight(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
@@ -208,7 +192,7 @@ CNezukoState * CHitState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 	fSpeed = fStartHeight + fVelocity * fTimeDelta - (0.5f * fGravity * fTimeDelta * fTimeDelta);
 	vPosition = XMVectorSetY(vPosition, fSpeed);
 	_float y = XMVectorGetY(vPosition);
-
+	//m_fCurrentPosY = y;
 
 	if (y <= fEndHeight)
 	{
@@ -224,10 +208,177 @@ CNezukoState * CHitState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 
 	return nullptr;
 }
+void CHitState::Set_HitState(CNezuko* pNezuko)
+{
+	_int iHit = pNezuko->Get_BattleTarget()->Get_TargetState();
+
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 3);
+	int iRandom = RandomPattern(gen);
+
+	if (iHit >= 12)
+	{
+
+		switch (iRandom)
+		{
+		case 1:
+			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_F);
+			pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_F);
+			pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+			pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+			break;
+		case 2:
+			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_L);
+			pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_L);
+			pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+			pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+			break;
+		case 3:
+			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_R);
+			pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_R);
+			pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+			pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+			break;
+		}
+	}
+
+	else
+	{
+
+		switch (iHit)
+		{
+		case 3: // atk 1
+			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_F);
+			pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_F);
+			pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+			pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+			break;
+		case 4: // atk 2
+			if (pNezuko->Get_Atk2() == false)
+			{
+				pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_L);
+				pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_L);
+				pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+				pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+				pNezuko->Set_Atk2(true);
+			}
+			else if (pNezuko->Get_Atk2() == true)
+			{
+				pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_R);
+				pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_R);
+				pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+				pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+				pNezuko->Set_Atk2(false);
+			}
+			break;
+		case 5: // atk 3
+			if (pNezuko->Get_Atk2() == true)
+			{
+				pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_F);
+				pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_F);
+				pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+				pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+				pNezuko->Set_Atk2(false);
+				break;
+			}
+			else
+			{
+				pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG2_G);
+				pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG2_G);
+				pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+				pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+				pNezuko->Set_Atk2(false);
+			}
+			break;
+		case 6: // atk 4
+			if (pNezuko->Get_Atk2() == true)
+			{
+				std::random_device RandomDevice;
+				std::mt19937 gen(RandomDevice());
+				std::uniform_int_distribution<int> RandomPattern(1, 3);
+				int iRandom = RandomPattern(gen);
+				switch (iRandom)
+				{
+				case 1:
+					pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_F);
+					pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_F);
+					pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+					pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+					break;
+				case 2:
+					pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_L);
+					pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_L);
+					pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+					pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+					break;
+				case 3:
+					pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_R);
+					pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_R);
+					pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+					pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+					break;
+				}
+			}
+			else
+			{
+				pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG2_F);
+				pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG2_F);
+				pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+				pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+			}
+			break;
+		default:
+			break;
+		}
+
+	}
+
+
+}
+void CHitState::Set_JumpHitState(CNezuko* pNezuko)
+{
+
+	_int iHit = pNezuko->Get_BattleTarget()->Get_TargetState();
+
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 4);
+	int iRandom = RandomPattern(gen);
+
+
+	switch (iRandom)
+	{
+	case 1:
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_AF);
+		pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_AF);
+		pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+		break;
+	case 2:
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_AL);
+		pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_AL);
+		pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+		break;
+	case 3:
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_AR);
+		pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_AR);
+		pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+		break;
+	case 4:
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_AU);
+		pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_AU);
+		pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+		break;
+	}
+}
 void CHitState::Exit(CNezuko* pNezuko)
 {
-	pNezuko->Get_Model()->Set_UsingFrame(CNezuko::ANIM_HIT, 0, 100);
-	pNezuko->Set_HitTime(0.2f);
+	pNezuko->Set_HitTime(0.3f);
+	//pNezuko->Get_Model()->Reset_Anim(pNezuko->Get_AnimIndex());
 }
 
 

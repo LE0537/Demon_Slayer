@@ -243,13 +243,28 @@ CAkazaState * CAtk_4_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 					m_pTarget->Set_GuardTime(2.f);
 				}
 			}
-			else
+			else if (pAkaza->Get_BattleTarget()->Get_GodMode() == false)
 			{
 				CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 				dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.1f);
 				RELEASE_INSTANCE(CGameInstance);
 				m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg / 2 * pAkaza->Get_PlayerInfo().fPowerUp);
-				m_pTarget->Take_Damage(0.1f,false);
+
+
+				if (m_iHit >= 4)
+				{
+					if (m_bIsCreate == false)
+					{
+						m_pTarget->Set_Atk2(false);
+						m_pTarget->Take_Damage(0.1f, false);
+						m_bIsCreate = true;
+					}
+				}
+				else
+				{
+					m_pTarget->Set_Atk2(true);
+					m_pTarget->Take_Damage(0.1f, false);
+				}
 				pAkaza->Set_Combo(1);
 				pAkaza->Set_ComboTime(0.f);
 			}

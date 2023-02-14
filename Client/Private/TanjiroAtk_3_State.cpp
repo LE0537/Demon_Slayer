@@ -249,7 +249,7 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pTanjiro->Get_NavigationCom());
 		}
 	}
-	else if (m_fMove < 0.65f)
+	else if (m_fMove < 0.7f)
 	{
 		if (!m_bHit)
 		{
@@ -282,41 +282,47 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 						m_pTarget->Set_GuardTime(2.f);
 					}
 				}
-				else
+				else if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
 					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 2 * pTanjiro->Get_PlayerInfo().fPowerUp);
-					m_pTarget->Take_Damage(0.6f, false);
+					if (m_bIsCreate == false)
+					{
+						m_pTarget->Take_Damage(0.6f, false);
+						m_bIsCreate = true;
+					}
 					pTanjiro->Set_Combo(1);
 					pTanjiro->Set_ComboTime(0.f);
 				}
-
-				_int iDest = rand() % 5;
-				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-				switch (iDest)
+				if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-				case 0:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-					break;
-				case 1:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
-					break;
-				case 2:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
-					break;
-				case 3:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
-					break;
-				case 4:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
-					break;
-				default:
-					break;
+					_int iDest = rand() % 5;
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					switch (iDest)
+					{
+					case 0:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+						break;
+					case 1:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+						break;
+					case 2:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+						break;
+					case 3:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+						break;
+					case 4:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+						break;
+					default:
+						break;
+					}
+
+
+					RELEASE_INSTANCE(CEffect_Manager);
+
+					m_bHit = true;
 				}
-
-
-				RELEASE_INSTANCE(CEffect_Manager);
-
-				m_bHit = true;
 			}
 		}
 	}

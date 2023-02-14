@@ -42,7 +42,7 @@ CRuiState * CAdvSkill_CommonState::Late_Tick(CRui * pRui, _float fTimeDelta)
 		tInfo.pPlayer = pRui;
 		tInfo.pTarget = m_pTarget;
 
-		if (m_iHit < 1)
+		if (m_iHit < 1 && pRui->Get_BattleTarget()->Get_GodMode() == false)
 		{
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 			tInfo.iIndex = 1;

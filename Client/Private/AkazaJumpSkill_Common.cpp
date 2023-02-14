@@ -140,7 +140,7 @@ CAkazaState * CJumpSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDel
 
 void CJumpSkill_CommmonState::Enter(CAkaza* pAkaza)
 {
-	m_eStateId = STATE_JUMP;
+	m_eStateId = STATE_JUMP_ATTACK;
 
 	switch (m_eStateType)
 	{

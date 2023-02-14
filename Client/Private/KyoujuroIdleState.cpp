@@ -11,7 +11,6 @@
 #include "KyoujuroChangeState.h"
 #include "KyoujuroTargetRushState.h"
 #include "Effect_Manager.h"
-
 using namespace Kyoujuro;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -64,9 +63,6 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				pKyoujuro->Set_UnicCount(-1);
 				if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 0)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UltUseCount(1, 0);
-					RELEASE_INSTANCE(CUI_Manager);
 					pKyoujuro->Set_PowerIndex(1);
 					pKyoujuro->Set_PowerUp(1.5f);
 					pKyoujuro->Set_PowerUpTime(6.f);
@@ -77,9 +73,6 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				}
 				else if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UltUseCount(1, 0);
-					RELEASE_INSTANCE(CUI_Manager);
 					pKyoujuro->Set_PowerIndex(2);
 					pKyoujuro->Set_PowerUpTime(6.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -100,9 +93,6 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				{
 					if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
 					{
-						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-						pUI_Manager->Set_UseSkillCount(1, 0);
-						RELEASE_INSTANCE(CUI_Manager);
 						pKyoujuro->Set_SkillBar(-200);
 						return new CSkill_DoubleUpperState();
 					}
@@ -111,9 +101,6 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				{
 					if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
 					{
-						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-						pUI_Manager->Set_UseSkillCount(1, 0);
-						RELEASE_INSTANCE(CUI_Manager);
 						pKyoujuro->Set_SkillBar(-200);
 						return new CSkill_CommonState();
 					}
@@ -157,9 +144,6 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				pKyoujuro->Set_UnicCount(-1);
 				if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 0)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UltUseCount(1, 1);
-					RELEASE_INSTANCE(CUI_Manager);
 					pKyoujuro->Set_PowerIndex(1);
 					pKyoujuro->Set_PowerUp(1.5f);
 					pKyoujuro->Set_PowerUpTime(6.f);
@@ -170,9 +154,6 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				}
 				else if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UltUseCount(1, 1);
-					RELEASE_INSTANCE(CUI_Manager);
 					pKyoujuro->Set_PowerIndex(2);
 					pKyoujuro->Set_PowerUpTime(6.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -193,9 +174,6 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				{
 					if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
 					{
-						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-						pUI_Manager->Set_UseSkillCount(1, 1);
-						RELEASE_INSTANCE(CUI_Manager);
 						pKyoujuro->Set_SkillBar(-200);
 						return new CSkill_DoubleUpperState();
 					}
@@ -204,9 +182,6 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				{
 					if (200 <= pKyoujuro->Get_PlayerInfo().iSkBar)
 					{
-						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-						pUI_Manager->Set_UseSkillCount(1, 1);
-						RELEASE_INSTANCE(CUI_Manager);
 						pKyoujuro->Set_SkillBar(-200);
 						return new CSkill_CommonState();
 					}
@@ -230,7 +205,15 @@ CKyoujuroState * CIdleState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	{
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
-	
+
+	if (m_ePreState == STATE_MOVE)
+	{
+		if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
+		{
+			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+			return new CIdleState(STATE_IDLE);
+		}
+	}
 
 	return nullptr;
 }
@@ -318,9 +301,25 @@ void CIdleState::Enter(CKyoujuro * pKyoujuro)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
-	pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_IDLE);
-	pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_IDLE);
-	//pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_IDLE, 0.01f);
+	if (m_ePreState == STATE_MOVE)
+	{
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_MOVE_END);
+		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_MOVE_END);
+		pKyoujuro->Get_Model()->Set_Loop(pKyoujuro->Get_AnimIndex());
+		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_MOVE_END, 0.01f);
+	}
+	else
+	{
+		if (m_ePreState == STATE_HIT)
+			m_ePreState = STATE_IDLE;
+
+		pKyoujuro->Set_GodMode(false);
+		//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_IDLE);
+		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_IDLE);
+		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_IDLE, 0.05f);
+		pKyoujuro->Get_Model()->Set_FrameNum(pKyoujuro->Get_AnimIndex(), 100);
+	}
 }
 
 void CIdleState::Exit(CKyoujuro * pKyoujuro)

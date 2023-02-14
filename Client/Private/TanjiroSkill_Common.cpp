@@ -224,7 +224,7 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //Ãß°¡
 
-			if (m_fHitTime > 0.07f && iHit < 5)
+			if (m_fHitTime > 0.07f && iHit < 5 && pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 			{
 				if (nullptr == pTargetCollider)
 					return nullptr;
@@ -241,7 +241,7 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 						{
 							CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-							  pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
 							RELEASE_INSTANCE(CEffect_Manager);
 							m_pTarget->Set_ResetGuardHp();
 							m_pTarget->Set_GuardTime(2.f);
@@ -253,7 +253,12 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.4f);
 						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(-15 * pTanjiro->Get_PlayerInfo().fPowerUp);
-						m_pTarget->Take_Damage(0.1f, false);
+
+						if(iHit < 3)
+							m_pTarget->Take_Damage(0.1f, false);
+						else
+							pTanjiro->Get_BattleTarget()->Player_TakeDown(0.1f, false);
+
 						pTanjiro->Set_Combo(1);
 						pTanjiro->Set_ComboTime(0.f);
 					}

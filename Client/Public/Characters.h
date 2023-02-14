@@ -19,6 +19,10 @@ BEGIN(Client)
 
 class CCharacters : public CGameObj
 {
+public:
+	enum HIT_TYPE {HIT_UPPER, HIT_UPPER_2 , HIT_BOUND, HIT_KNOCKBACK, HIT_END };
+
+
 protected:
 	CCharacters(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCharacters(const CCharacters& rhs);
@@ -112,6 +116,15 @@ public:
 	void	   Set_PowerIndex(_int _iIndex) { m_tInfo.iPowerIndex = _iIndex; }
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
 	virtual	void  Get_GuardHit(_int eType) = 0;
+	virtual void  Player_TakeDown(_float _fPow, _bool _bJump = 0) PURE;
+	virtual void  Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower) PURE;
+
+	void	   Set_Atk2(_bool bAtk2) { m_bAtk2 = bAtk2; }
+	_bool	   Get_Atk2() { return m_bAtk2; }
+
+	void	   Set_GodMode(_bool bGodMode) { m_bGodMode = bGodMode; }
+	_bool	   Get_GodMode() const { return m_bGodMode; }
+
 protected:
 	PLAYERINFO		m_tInfo;
 	CCharacters*	m_pBattleTarget = nullptr;
@@ -135,6 +148,8 @@ protected:
 	//Sub
 	_int					m_iSubSkillIndex = 0;
 
+	_bool					m_bAtk2 = false;
+	_bool					m_bGodMode = false;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

@@ -7,7 +7,7 @@ BEGIN(Rui)
 class CHitState : public CRuiState
 {
 public:
-	CHitState(_float _fPow,_bool _bJump = 0);
+	CHitState(_float _fPow, _bool _bJump = 0);
 
 	virtual CRuiState* HandleInput(CRui* pRui) override;
 	virtual CRuiState* Tick(CRui* pRui, _float fTimeDelta) override;
@@ -18,7 +18,8 @@ public:
 	virtual void Exit(CRui* pRui) override;
 private:
 	CRuiState* Jump(CRui* pRui, _float fTimeDelta);
-
+	void Set_HitState(CRui* pRui);
+	void Set_JumpHitState(CRui* pRui);
 private:
 	_float fHitTime = 0.f;
 	_float m_fPow = 0.f;
@@ -29,6 +30,10 @@ private:
 	_float m_fJumpTime = 0.f;
 	_float m_fCurrentPosY = 0.f;
 	_bool  m_bTrun = false;
+
+
+private:
+	_bool m_bHitPlayerJump = false;
 
 };
 END
