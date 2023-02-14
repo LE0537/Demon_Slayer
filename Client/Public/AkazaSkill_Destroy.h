@@ -34,6 +34,7 @@ private:
 
 	_bool	m_bEffect = false;
 	_bool	m_bNotHit = false;
+
 };
 END
 END

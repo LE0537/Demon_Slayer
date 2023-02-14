@@ -26,7 +26,7 @@ public:
 public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
 	HRESULT Add_RenderGroup_Front(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
-	HRESULT Render_GameObjects(_bool _bDebug);
+	HRESULT Render_GameObjects(_bool _bDebug, _int _iLevel);
 
 public:
 	HRESULT Add_Debug(class CComponent* pDebugCom);
@@ -89,7 +89,7 @@ private:
 	HRESULT Render_NonAlphaBlend();
 	HRESULT Render_Lights();
 	HRESULT Render_AO();
-	HRESULT Render_Blend();
+	HRESULT Render_Blend(_int _iLevel);
 	HRESULT Render_OutLine();
 	HRESULT Render_NonLight();
 	HRESULT Render_AlphaBlend();

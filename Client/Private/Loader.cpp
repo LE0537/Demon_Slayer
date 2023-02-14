@@ -149,6 +149,13 @@
 #include "RuiBall.h"
 #include "RuiBigBall.h"
 #include "RuiMoveSkill.h"
+//Ani
+#include "Butterfly.h"
+#include "Deer.h"
+#include "Deer2.h"
+#include "Bird.h"
+#include "BigBird.h"
+#include "Hoke.h"
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -1238,6 +1245,54 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 
 	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+	// 애니멀 객체
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Butterfly"),
+	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Butterfly/Butterfly.fbx", PivotMatrix))))
+	//return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Butterfly"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Butterfly"),
+		CButterfly::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Deer"),
+	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Deer1/Deer1.fbx", PivotMatrix))))
+	//return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Deer"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Deer"),
+		CDeer::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Deer2"),
+	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Deer2/Deer2.fbx", PivotMatrix))))
+	//return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Deer2"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Deer2"),
+		CDeer2::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Bird"),
+	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Bird/Bird.fbx", PivotMatrix))))
+	//return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Bird"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Bird"),
+		CBird::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_BigBird"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/BigBird/BigBird.fbx", PivotMatrix))))
+		return E_FAIL;*/
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BigBird"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BigBird"),
+		CBigBird::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hoke"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Hoke/Hoke.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hoke"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Hoke"),
+		CHoke::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	/* 케릭터 객체 */
 

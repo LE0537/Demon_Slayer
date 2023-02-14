@@ -3,7 +3,7 @@
 #include "Client_Defines.h"
 #include "Level.h"
 #include "Camera_Dynamic.h"
-
+#include "Level_GamePlay.h"
 BEGIN(Client)
 
 class CLevel_AdvRui final : public CLevel
@@ -27,6 +27,7 @@ public:
 	HRESULT Ready_Layer_BackGround(const _tchar* pLayerTag);
 	HRESULT Load_StaticObjects(char* pFileName);
 	HRESULT Load_Map(const _tchar* pLayerTag, char* pFileName);
+	HRESULT Load_Weed(char* pFileName);
 private:
 	_bool			 m_bCreateUI = false;
 
@@ -34,7 +35,7 @@ private:
 
 private:
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
-
+	CLevel_GamePlay::CHARACTERDESC	      tCharacterDesc;
 public:
 	static CLevel_AdvRui* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;

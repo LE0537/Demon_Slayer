@@ -74,9 +74,11 @@ HRESULT CRuiDad::Initialize(void * pArg)
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
-		_vector vPos = { -35.788f,4.438f,-31.331f,1.f };
+
+	//	_vector vPos = { -860.374f,92.52f,-68.017f,1.f }; 보스자리
+		_vector vPos = { -335.479f,42.501f,-328.243f,1.f }; 
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		m_pTransformCom->Set_Scale(XMVectorSet(0.25f, 0.25f, 0.25f, 0.f));
+
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 
 		m_tInfo.bSub = tCharacterDesc.bSub;
@@ -157,12 +159,22 @@ HRESULT CRuiDad::Render_ShadowDepth()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
 		return E_FAIL;
 
-
-	_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
-	_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
-	_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
-	_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
-
+	_vector vLightEye, vLightAt, vLightUp;
+	_matrix matLightView;
+	if (g_iLevel == 1)
+	{
+		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
+		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
+		vLightUp = { 0.f, 1.f, 0.f ,0.f };
+		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+	}
+	else if (g_iLevel == 2)
+	{
+		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
+		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);
+		vLightUp = { 0.f, 1.f, 0.f ,0.f };
+		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+	}
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 		return E_FAIL;
 

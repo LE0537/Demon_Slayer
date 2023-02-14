@@ -222,7 +222,10 @@
     <ClInclude Include="..\Public\AkazaToolState.h" />
     <ClInclude Include="..\Public\AkazaUpperHitState.h" />
     <ClInclude Include="..\public\BaseAtk.h" />
+    <ClInclude Include="..\public\BigBird.h" />
+    <ClInclude Include="..\public\Bird.h" />
     <ClInclude Include="..\Public\BtlFixedImg.h" />
+    <ClInclude Include="..\public\Butterfly.h" />
     <ClInclude Include="..\Public\ButtonEff.h" />
     <ClInclude Include="..\Public\CharSelMsg.h" />
     <ClInclude Include="..\public\CollBox.h" />
@@ -238,6 +241,10 @@
     <ClInclude Include="..\Public\ComboHitTxt.h" />
     <ClInclude Include="..\Public\ComboNum.h" />
     <ClInclude Include="..\Public\Effect_Particle_New.h" />
+    <ClInclude Include="..\public\Deer.h" />
+    <ClInclude Include="..\public\Deer2.h" />
+    <ClInclude Include="..\public\Goto.h" />
+    <ClInclude Include="..\public\Hoke.h" />
     <ClInclude Include="..\public\KaguraSkill.h" />
     <ClInclude Include="..\Public\KyoujuroBattleSTState.h" />
     <ClInclude Include="..\Public\KyoujuroJumpAttackState.h" />
@@ -249,6 +256,7 @@
     <ClInclude Include="..\Public\Level_GameResult.h" />
     <ClInclude Include="..\Public\Level_Menu.h" />
     <ClInclude Include="..\Public\Level_StroyMenu.h" />
+    <ClInclude Include="..\public\Murata.h" />
     <ClInclude Include="..\Public\NezukoBattleSTState.h" />
     <ClInclude Include="..\Public\NezukoJumpAttackState.h" />
     <ClInclude Include="..\Public\NezukoJumpMoveAttackState.h" />
@@ -262,6 +270,7 @@
     <ClInclude Include="..\Public\ResultScoreBar.h" />
     <ClInclude Include="..\Public\ResultScoreBase.h" />
     <ClInclude Include="..\Public\ResultTotalBase.h" />
+    <ClInclude Include="..\public\Ozaki.h" />
     <ClInclude Include="..\public\RuiBall.h" />
     <ClInclude Include="..\Public\RuiBattleSTState.h" />
     <ClInclude Include="..\public\RuiBigBall.h" />
@@ -587,7 +596,10 @@
     <ClCompile Include="..\Private\AkazaToolState.cpp" />
     <ClCompile Include="..\Private\AkazaUpperHitState.cpp" />
     <ClCompile Include="..\private\BaseAtk.cpp" />
+    <ClCompile Include="..\private\BigBird.cpp" />
+    <ClCompile Include="..\private\Bird.cpp" />
     <ClCompile Include="..\Private\BtlFixedImg.cpp" />
+    <ClCompile Include="..\private\Butterfly.cpp" />
     <ClCompile Include="..\Private\ButtonEff.cpp" />
     <ClCompile Include="..\Private\CharSelMsg.cpp" />
     <ClCompile Include="..\private\CollBox.cpp" />
@@ -603,6 +615,10 @@
     <ClCompile Include="..\Private\ComboHitTxt.cpp" />
     <ClCompile Include="..\Private\ComboNum.cpp" />
     <ClCompile Include="..\Private\Effect_Particle_New.cpp" />
+    <ClCompile Include="..\private\Deer.cpp" />
+    <ClCompile Include="..\private\Deer2.cpp" />
+    <ClCompile Include="..\private\Goto.cpp" />
+    <ClCompile Include="..\private\Hoke.cpp" />
     <ClCompile Include="..\private\KaguraSkill.cpp" />
     <ClCompile Include="..\Private\KyoujuroBattleSTState.cpp" />
     <ClCompile Include="..\Private\KyoujuroJumpAttackState.cpp" />
@@ -614,6 +630,7 @@
     <ClCompile Include="..\Private\Level_GameResult.cpp" />
     <ClCompile Include="..\Private\Level_Menu.cpp" />
     <ClCompile Include="..\Private\Level_StoryMenu.cpp" />
+    <ClCompile Include="..\private\Murata.cpp" />
     <ClCompile Include="..\Private\NezukoBattleSTState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpAttackState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpMoveAttackState.cpp" />
@@ -627,6 +644,7 @@
     <ClCompile Include="..\Private\ResultScoreBar.cpp" />
     <ClCompile Include="..\Private\ResultScoreBase.cpp" />
     <ClCompile Include="..\Private\ResultTotalBase.cpp" />
+    <ClCompile Include="..\private\Ozaki.cpp" />
     <ClCompile Include="..\private\RuiBall.cpp" />
     <ClCompile Include="..\Private\RuiBattleSTState.cpp" />
     <ClCompile Include="..\private\RuiBigBall.cpp" />
