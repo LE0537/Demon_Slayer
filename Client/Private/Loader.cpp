@@ -992,6 +992,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Wind3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Wind4.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Wind4"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Wind4.fbx", PivotMatrix)))) return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Akaza_Angry3_1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Akaza/Akaza_Angry3_1.fbx", PivotMatrix)))) return E_FAIL;
+
 
 #pragma endregion Effect Model
 
