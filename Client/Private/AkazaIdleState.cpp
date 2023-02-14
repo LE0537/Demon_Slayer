@@ -11,6 +11,7 @@
 #include "AkazaAdvSkill_Common.h"
 #include "AkazaTargetRushState.h"
 #include "Effect_Manager.h"
+#include "UI_Manager.h"
 using namespace Akaza;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -72,6 +73,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			pAkaza->Set_UnicCount(-1);
 			if (pAkaza->Get_PlayerInfo().iPowerIndex == 0)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UltUseCount(1, 0);
+				RELEASE_INSTANCE(CUI_Manager);
 				pAkaza->Set_PowerIndex(1);
 				pAkaza->Set_PowerUp(1.5f);
 				pAkaza->Set_PowerUpTime(6.f);
@@ -82,6 +86,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			}
 			else if (pAkaza->Get_PlayerInfo().iPowerIndex == 1)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UltUseCount(1, 0);
+				RELEASE_INSTANCE(CUI_Manager);
 				pAkaza->Set_PowerIndex(2);
 				pAkaza->Set_PowerUpTime(6.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -108,6 +115,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			{
 				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pAkaza->Set_SkillBar(-200);
 					return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
 				}
@@ -116,6 +126,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			{
 				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pAkaza->Set_SkillBar(-200);
 					return new CSkill_ShootState(STATE_TYPE::TYPE_START);
 				}
@@ -125,6 +138,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 		{
 			if (500 <= pAkaza->Get_PlayerInfo().iFriendBar)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_FriendUseCount(1, 0);
+				RELEASE_INSTANCE(CUI_Manager);
 				pAkaza->Set_FriendSkillBar(-500.f);
 				return new CAdvSkill_CommmonState(STATE_TYPE::TYPE_START);
 			}
@@ -179,6 +195,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			pAkaza->Set_UnicCount(-1);
 			if (pAkaza->Get_PlayerInfo().iPowerIndex == 0)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UltUseCount(1, 1);
+				RELEASE_INSTANCE(CUI_Manager);
 				pAkaza->Set_PowerIndex(1);
 				pAkaza->Set_PowerUp(1.5f);
 				pAkaza->Set_PowerUpTime(6.f);
@@ -189,6 +208,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			}
 			else if (pAkaza->Get_PlayerInfo().iPowerIndex == 1)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_UltUseCount(1, 1);
+				RELEASE_INSTANCE(CUI_Manager);
 				pAkaza->Set_PowerIndex(2);
 				pAkaza->Set_PowerUpTime(6.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -217,6 +239,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			{
 				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pAkaza->Set_SkillBar(-200);
 					return new CSkill_DestoryState(STATE_TYPE::TYPE_START);
 				}
@@ -225,6 +250,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			{
 				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pAkaza->Set_SkillBar(-200);
 					return new CSkill_ShootState(STATE_TYPE::TYPE_START);
 				}
@@ -234,6 +262,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 		{
 			if (500 <= pAkaza->Get_PlayerInfo().iFriendBar)
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_FriendUseCount(1, 1);
+				RELEASE_INSTANCE(CUI_Manager);
 				pAkaza->Set_FriendSkillBar(-500.f);
 				return new CAdvSkill_CommmonState(STATE_TYPE::TYPE_START);
 			}

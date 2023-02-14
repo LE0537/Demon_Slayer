@@ -229,6 +229,9 @@ HRESULT CKyoujuro::Render()
 			{
 				if (pGameInstance->Key_Up(DIK_U))
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_FriendUseCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
 					m_fChangeDelay = 3.f;
 					m_pSubChar->Set_Sub(false);
@@ -254,6 +257,9 @@ HRESULT CKyoujuro::Render()
 			}
 			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_U))
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_FriendUseCount(1, 0);
+				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
 				m_fChangeDelay = 3.f;
 				m_pSubChar->Set_Sub(false);
@@ -320,6 +326,9 @@ HRESULT CKyoujuro::Render()
 			{
 				if (pGameInstance->Key_Up(DIK_V))
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_FriendUseCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
 					m_fChangeDelay = 3.f;
 					m_pSubChar->Set_Sub(false);
@@ -345,6 +354,9 @@ HRESULT CKyoujuro::Render()
 			}
 			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_V))
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_FriendUseCount(1, 1);
+				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
 				m_fChangeDelay = 3.f;
 				m_pSubChar->Set_Sub(false);

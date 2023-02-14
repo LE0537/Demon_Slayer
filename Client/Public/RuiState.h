@@ -3,6 +3,7 @@
 #include "Engine_Defines.h"
 #include "Rui.h"
 #include "SoundMgr.h"
+#include "UI_Manager.h"
 
 BEGIN(Client)
 

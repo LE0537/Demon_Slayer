@@ -69,6 +69,9 @@ void CComboNum::Tick(_float fTimeDelta)
 
 		m_iComboNum = pUI_Manager->Get_1P()->Get_PlayerInfo().iCombo;
 
+		if(pUI_Manager->Get_MaximumCombo(0) < m_iComboNum)
+			pUI_Manager->Set_MaximumCombo(m_iComboNum, 0);
+
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_iFirstNum = (_uint)m_iComboNum / 10;
 		else if (m_ThrowUIinfo.iLayerNum == 1)
@@ -93,6 +96,9 @@ void CComboNum::Tick(_float fTimeDelta)
 		_float fComboTime = pUI_Manager->Get_2P()->Get_PlayerInfo().fComboTime;
 
 		m_iComboNum = pUI_Manager->Get_2P()->Get_PlayerInfo().iCombo;
+
+		if (pUI_Manager->Get_MaximumCombo(1) < m_iComboNum)
+			pUI_Manager->Set_MaximumCombo(m_iComboNum, 1);
 
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_iFirstNum = (_uint)m_iComboNum / 10;

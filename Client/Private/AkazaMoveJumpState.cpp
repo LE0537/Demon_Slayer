@@ -37,6 +37,9 @@ CAkazaState * CMoveJumpState::HandleInput(CAkaza* pAkaza)
 			{
 				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pAkaza->Set_SkillBar(-200);
 					return new CJumpSkill_MoveState(TYPE_START);
 				}
@@ -115,6 +118,9 @@ CAkazaState * CMoveJumpState::HandleInput(CAkaza* pAkaza)
 			{
 				if (200 <= pAkaza->Get_PlayerInfo().iSkBar)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UseSkillCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pAkaza->Set_SkillBar(-200);
 					return new CJumpSkill_MoveState(TYPE_START);
 				}
@@ -232,7 +238,7 @@ CAkazaState * CMoveJumpState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 CAkazaState * CMoveJumpState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
-	m_fJumpTime += 0.035f;
+	m_fJumpTime += 0.05f;
 
 	if(m_eStateType != STATE_TYPE::TYPE_END)
 		Jump(pAkaza, fTimeDelta + m_fJumpTime);
@@ -240,12 +246,7 @@ CAkazaState * CMoveJumpState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	if(m_bMove == true)
 		Move(pAkaza, fTimeDelta);
 
-	if (m_eStateType == TYPE_END)
-		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
-	else
-		pAkaza->Get_Model()->Play_Animation(fTimeDelta* 0.85f);
-
-
+	pAkaza->Get_Model()->Play_Animation(fTimeDelta,true);
 	if (m_eStateType == TYPE_START)
 	{
 		if (!m_bEffect)
@@ -378,7 +379,7 @@ CAkazaState*  CMoveJumpState::Jump(CAkaza* pAkaza, _float fTimeDelta)
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
-	static _float fGravity = 30.f;
+	static _float fGravity = 40.f;
 
 
 	_vector      vPosition = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

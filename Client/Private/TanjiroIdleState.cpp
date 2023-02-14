@@ -4,6 +4,7 @@
 #include "TanjiroJumpstate.h"
 #include "GameInstance.h"
 #include "Effect_Manager.h"
+#include "UI_Manager.h"
 #include "TanjiroAtk_1_State.h"
 #include "TanjiroKaguraAtk_1_State.h"
 #include "TanjiroGuardState.h"
@@ -69,6 +70,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				pTanjiro->Set_UnicCount(-1);
 				if (pTanjiro->Get_PlayerInfo().iPowerIndex == 0)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_PowerIndex(1);
 					pTanjiro->Set_PowerUp(1.5f);
 					pTanjiro->Set_PowerUpTime(6.f);
@@ -79,6 +83,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				}
 				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_PowerIndex(2);
 					pTanjiro->Set_PowerUpTime(6.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -108,6 +115,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					{
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
+							CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+							pUI_Manager->Set_UseSkillCount(1, 0);
+							RELEASE_INSTANCE(CUI_Manager);
 							pTanjiro->Set_SkillBar(-200);
 							return new CKaguraSkill_SphereState();
 						}
@@ -117,6 +127,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 						//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
+							CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+							pUI_Manager->Set_UseSkillCount(1, 0);
+							RELEASE_INSTANCE(CUI_Manager);
 							pTanjiro->Set_SkillBar(-200);
 							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_0);
 							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_1);
@@ -133,6 +146,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 						pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_KAGURA_COMMON);
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
+							CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+							pUI_Manager->Set_UseSkillCount(1, 0);
+							RELEASE_INSTANCE(CUI_Manager);
 							pTanjiro->Set_SkillBar(-200);
 							return new CKaguraSkill_CommonState();
 						}
@@ -141,6 +157,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					{
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
+							CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+							pUI_Manager->Set_UseSkillCount(1, 0);
+							RELEASE_INSTANCE(CUI_Manager);
 							pTanjiro->Set_SkillBar(-200);
 							return new CSkill_CommonState();
 						}
@@ -185,6 +204,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				pTanjiro->Set_UnicCount(-1);
 				if (pTanjiro->Get_PlayerInfo().iPowerIndex == 0)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_PowerIndex(1);
 					pTanjiro->Set_PowerUp(1.5f);
 					pTanjiro->Set_PowerUpTime(6.f);
@@ -195,6 +217,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				}
 				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_UltUseCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					pTanjiro->Set_PowerIndex(2);
 					pTanjiro->Set_PowerUpTime(6.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -222,6 +247,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					{
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
+							CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+							pUI_Manager->Set_UseSkillCount(1, 1);
+							RELEASE_INSTANCE(CUI_Manager);
 							pTanjiro->Set_SkillBar(-200);
 							return new CKaguraSkill_SphereState();
 						}
@@ -231,6 +259,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 						//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL);
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
+							CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+							pUI_Manager->Set_UseSkillCount(1, 1);
+							RELEASE_INSTANCE(CUI_Manager);
 							pTanjiro->Set_SkillBar(-200);
 							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_0);
 							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_WINDMILL_1);
@@ -245,6 +276,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					{
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
+							CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+							pUI_Manager->Set_UseSkillCount(1, 1);
+							RELEASE_INSTANCE(CUI_Manager);
 							pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_KAGURA_COMMON);
 							pTanjiro->Set_SkillBar(-200);
 							return new CKaguraSkill_CommonState();
@@ -254,6 +288,9 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					{
 						if (200 <= pTanjiro->Get_PlayerInfo().iSkBar)
 						{
+							CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+							pUI_Manager->Set_UseSkillCount(1, 1);
+							RELEASE_INSTANCE(CUI_Manager);
 							pTanjiro->Set_SkillBar(-200);
 							return new CSkill_CommonState();
 						}
@@ -372,7 +409,6 @@ void CIdleState::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
-	//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_IDLE);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_IDLE);
 	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_IDLE, 0.05f);

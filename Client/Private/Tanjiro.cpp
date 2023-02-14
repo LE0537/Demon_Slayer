@@ -95,9 +95,9 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
-		_vector vPos = {-100.f,3.204f,8.337f,1.f};
+		_vector vPos = {-9.524f,0.314f,0.513f,1.f};
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	//	m_pTransformCom->Set_Scale(XMVectorSet(0.25f, 0.25f, 0.25f, 0.f));
+		m_pTransformCom->Set_Scale(XMVectorSet(0.25f, 0.25f, 0.25f, 0.f));
 		m_pTransformCom->Set_Rotation(_float3(0.f, 180.f, 0.f));
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
@@ -273,6 +273,9 @@ HRESULT CTanjiro::Render()
 			{
 				if (pGameInstance->Key_Up(DIK_U))
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_FriendUseCount(1, 0);
+					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
 					m_fChangeDelay = 3.f;
 					m_pSubChar->Set_Sub(false);
@@ -298,6 +301,9 @@ HRESULT CTanjiro::Render()
 			}
 			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_U))
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_FriendUseCount(1, 0);
+				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
 				m_fChangeDelay = 3.f;
 				m_pSubChar->Set_Sub(false);
@@ -364,6 +370,9 @@ HRESULT CTanjiro::Render()
 			{
 				if (pGameInstance->Key_Up(DIK_V))
 				{
+					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+					pUI_Manager->Set_FriendUseCount(1, 1);
+					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
 					m_fChangeDelay = 3.f;
 					m_pSubChar->Set_Sub(false);
@@ -389,6 +398,9 @@ HRESULT CTanjiro::Render()
 			}
 			else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_V))
 			{
+				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+				pUI_Manager->Set_FriendUseCount(1, 1);
+				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
 				m_fChangeDelay = 3.f;
 				m_pSubChar->Set_Sub(false);
@@ -651,7 +663,7 @@ HRESULT CTanjiro::Ready_Parts()
 	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
 	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
 	if (m_i1p == 10)
-		WeaponDesc.bStory = false;
+		WeaponDesc.bStory = true;
 	else
 		WeaponDesc.bStory = false;
 	Safe_AddRef(pSocket);
@@ -678,7 +690,7 @@ HRESULT CTanjiro::Ready_Parts2()
 	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
 	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
 	if (m_i1p == 10)
-		WeaponDesc.bStory = false;
+		WeaponDesc.bStory = true;
 	else
 		WeaponDesc.bStory = false;
 	Safe_AddRef(pSocket);

@@ -55,12 +55,89 @@ HRESULT CResultCloud::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
 
-
+	if (m_ThrowUIinfo.iTextureNum == 4)
+	{
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_iMoveCount = 25;
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			m_iMoveCount = 50;
+		else if (m_ThrowUIinfo.iLayerNum == 2)
+			m_iMoveCount = 75;
+		else if (m_ThrowUIinfo.iLayerNum == 3)
+			m_iMoveCount = 0;
+	}
+	else if (m_ThrowUIinfo.iTextureNum == 5)
+	{
+		if(m_ThrowUIinfo.iLayerNum == 0)
+			m_iMoveCount = 0;
+		else if(m_ThrowUIinfo.iTextureNum == 1)
+			m_iMoveCount = 25;
+	}
 	return S_OK;
 }
 
 void CResultCloud::Tick(_float fTimeDelta)
 {
+	//m_fMoveTime += fTimeDelta;
+
+	if (m_ThrowUIinfo.iTextureNum == 4)
+	{
+		if (m_ThrowUIinfo.iLayerNum == 1 || m_ThrowUIinfo.iLayerNum == 3)
+		{
+			if (m_iMoveCount >= 100)
+				m_bMoveCheck = true;
+			else if (m_iMoveCount <= 0)
+				m_bMoveCheck = false;
+
+			if (!m_bMoveCheck)
+			{
+				m_iMoveCount += 1;
+				m_fX += 0.3f;
+			}
+			else
+			{
+				m_iMoveCount -= 1;
+				m_fX -= 0.3f;
+			}
+		}
+		else if (m_ThrowUIinfo.iLayerNum == 0 || m_ThrowUIinfo.iLayerNum == 2)
+		{
+			if (m_iMoveCount >= 100)
+				m_bMoveCheck = true;
+			else if (m_iMoveCount <= 0)
+				m_bMoveCheck = false;
+
+			if (!m_bMoveCheck)
+			{
+				m_iMoveCount += 1;
+				m_fY -= 0.3f;
+			}
+			else
+			{
+				m_iMoveCount -= 1;
+				m_fY += 0.3f;
+			}
+		}
+	}
+	else if (m_ThrowUIinfo.iTextureNum == 5)
+	{
+		if (m_iMoveCount >= 100)
+			m_bMoveCheck = true;
+		else if (m_iMoveCount <= 0)
+			m_bMoveCheck = false;
+
+		if (!m_bMoveCheck)
+		{
+			m_iMoveCount += 1;
+			m_fX += 0.3f;
+		}
+		else
+		{
+			m_iMoveCount -= 1;
+			m_fX -= 0.3f;
+		}
+		
+	}
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -50.f, 1.f));
 }
 

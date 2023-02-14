@@ -27,7 +27,10 @@ HRESULT CUltOpenBar::Initialize(void * pArg)
 
 	m_fSizeX = m_ThrowUIinfo.vScale.x;
 	m_fSizeY = m_ThrowUIinfo.vScale.y;
-	m_fX = m_ThrowUIinfo.vPos.x;
+	if (!m_ThrowUIinfo.bPlyCheck)
+		m_fX = m_ThrowUIinfo.vPos.x - 2.f;
+	else
+		m_fX = m_ThrowUIinfo.vPos.x;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
