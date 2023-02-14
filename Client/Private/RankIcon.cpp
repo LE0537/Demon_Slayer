@@ -67,23 +67,27 @@ HRESULT CRankIcon::Initialize(void * pArg)
 
 void CRankIcon::Tick(_float fTimeDelta)
 {
-	if (m_fSizeX >= m_ThrowUIinfo.vScale.x * 0.5f && m_fSizeY >= m_ThrowUIinfo.vScale.y * 0.5f && !m_bMinusCheck)
+	if (m_bZoomStart)
 	{
-		m_fSizeX -= 20.f;
-		m_fSizeY -= 20.f;
-	}
-	else
-	{
-		m_bMinusCheck = true;
-		if (m_fSizeX <= m_ThrowUIinfo.vScale.x && m_fSizeY <= m_ThrowUIinfo.vScale.y)
+		if (m_fSizeX >= m_ThrowUIinfo.vScale.x * 0.5f && m_fSizeY >= m_ThrowUIinfo.vScale.y * 0.5f && !m_bMinusCheck)
 		{
-			m_fSizeX += 20.f;
-			m_fSizeY += 20.f;
+			m_fSizeX -= 20.f;
+			m_fSizeY -= 20.f;
 		}
 		else
-			m_bZoomEnd = true;
-		
+		{
+			m_bMinusCheck = true;
+			if (m_fSizeX <= m_ThrowUIinfo.vScale.x && m_fSizeY <= m_ThrowUIinfo.vScale.y)
+			{
+				m_fSizeX += 20.f;
+				m_fSizeY += 20.f;
+			}
+			else
+				m_bZoomEnd = true;
+
+		}
 	}
+	
 	
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -50.f, 1.f));
@@ -109,7 +113,8 @@ HRESULT CRankIcon::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	if(m_bZoomStart)
+		m_pVIBufferCom->Render();
 
 	return S_OK;
 }

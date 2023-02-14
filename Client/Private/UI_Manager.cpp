@@ -1215,8 +1215,11 @@ HRESULT CUI_Manager::Add_BattleResultUI(CUI::THROWUIINFO iter)
 	}
 	case 17:
 	{
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultTotalBase"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &iter)))
-			return E_FAIL;
+		for (_uint i = 0; i < 3; ++i)
+		{
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultTotalBase"), LEVEL_GAMERESULT, TEXT("Layer_UI"), &iter)))
+				return E_FAIL;
+		}
 		break;
 	}
 	default:

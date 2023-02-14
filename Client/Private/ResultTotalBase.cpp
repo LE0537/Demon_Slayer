@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ResultTotalBase.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
+#include "RankIcon.h"
 
 CResultTotalBase::CResultTotalBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,6 +52,10 @@ HRESULT CResultTotalBase::Initialize(void * pArg)
 
 void CResultTotalBase::Tick(_float fTimeDelta)
 {
+	m_fScoreTime += fTimeDelta;
+	if (m_fScoreTime >= 3.5f)
+		m_bScoreSelCheck = true;
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -74,6 +80,29 @@ HRESULT CResultTotalBase::Render()
 		m_pShaderCom->Begin(1);
 
 	m_pVIBufferCom->Render();
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	_uint iRand = rand() % 9999;
+
+	
+	if (!m_bScoreSelCheck)
+		wsprintf(m_szScore, TEXT("Total Score : %d"), iRand);
+	else
+	{
+		dynamic_cast<CRankIcon*>(pUI_Manager->Get_RankIcon())->Set_ZoomStart(true);
+		if (!m_ThrowUIinfo.bPlyCheck)
+			wsprintf(m_szScore, TEXT("Total Score : %d"), pUI_Manager->Get_RankInfo(0).iRankScore);
+		else
+			wsprintf(m_szScore, TEXT("Total Score : %d"), pUI_Manager->Get_RankInfo(1).iRankScore);
+	}
+	
+
+	pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szScore, XMVectorSet(m_fX - 100.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }

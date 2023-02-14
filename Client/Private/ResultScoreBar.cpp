@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ResultScoreBar.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
+#include "RankIcon.h"
 
 CResultScoreBar::CResultScoreBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,6 +52,17 @@ HRESULT CResultScoreBar::Initialize(void * pArg)
 
 void CResultScoreBar::Tick(_float fTimeDelta)
 {
+	m_fScoreTime += fTimeDelta;
+	if (m_ThrowUIinfo.iLayerNum == 0 && m_fScoreTime >= 2.f)
+		m_bScoreSelCheck = true;
+	if (m_ThrowUIinfo.iLayerNum == 1 && m_fScoreTime >= 2.3f)
+		m_bScoreSelCheck = true;
+	if (m_ThrowUIinfo.iLayerNum == 2 && m_fScoreTime >= 2.6f)
+		m_bScoreSelCheck = true;
+	if (m_ThrowUIinfo.iLayerNum == 3 && m_fScoreTime >= 2.9f)
+		m_bScoreSelCheck = true;
+	if (m_ThrowUIinfo.iLayerNum == 4 && m_fScoreTime >= 3.2f)
+		m_bScoreSelCheck = true;
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -74,6 +87,77 @@ HRESULT CResultScoreBar::Render()
 		m_pShaderCom->Begin(1);
 
 	m_pVIBufferCom->Render();
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	_uint iRand = rand() % 9999;
+
+	if (m_ThrowUIinfo.iLayerNum == 0)
+	{
+		if(!m_bScoreSelCheck)
+			wsprintf(m_szScore, TEXT("최대 콤보     : %d"), iRand);
+		else
+		{
+			if(!m_ThrowUIinfo.bPlyCheck)
+				wsprintf(m_szScore, TEXT("최대 콤보     : %d"), pUI_Manager->Get_MaximumCombo(0));
+			else
+				wsprintf(m_szScore, TEXT("최대 콤보     : %d"), pUI_Manager->Get_MaximumCombo(1));
+		}
+	}
+	if (m_ThrowUIinfo.iLayerNum == 1)
+	{
+		if (!m_bScoreSelCheck)
+			wsprintf(m_szScore, TEXT("남은 시간     : %d"), iRand);
+		else
+		{
+			if (!m_ThrowUIinfo.bPlyCheck)
+				wsprintf(m_szScore, TEXT("남은 시간     : %d"), pUI_Manager->Get_RemnantTime(0));
+			else
+				wsprintf(m_szScore, TEXT("남은 시간     : %d"), pUI_Manager->Get_RemnantTime(1));
+		}
+	}
+	if (m_ThrowUIinfo.iLayerNum == 2)
+	{
+		if (!m_bScoreSelCheck)
+			wsprintf(m_szScore, TEXT("스킬사용횟수: %d"), iRand);
+		else
+		{
+			if (!m_ThrowUIinfo.bPlyCheck)
+				wsprintf(m_szScore, TEXT("스킬사용횟수: %d"), pUI_Manager->Get_UseSkillCount(0));
+			else
+				wsprintf(m_szScore, TEXT("스킬사용횟수: %d"), pUI_Manager->Get_UseSkillCount(1));
+		}
+	}
+	if (m_ThrowUIinfo.iLayerNum == 3)
+	{
+		if (!m_bScoreSelCheck)
+			wsprintf(m_szScore, TEXT("개방사용횟수: %d"), iRand);
+		else
+		{
+			if (!m_ThrowUIinfo.bPlyCheck)
+				wsprintf(m_szScore, TEXT("개방사용횟수: %d"), pUI_Manager->Get_UltUseCount(0));
+			else
+				wsprintf(m_szScore, TEXT("개방사용횟수: %d"), pUI_Manager->Get_UltUseCount(1));
+		}
+	}
+	if (m_ThrowUIinfo.iLayerNum == 4)
+	{
+		if (!m_bScoreSelCheck)
+			wsprintf(m_szScore, TEXT("친구스킬횟수: %d"), iRand);
+		else
+		{
+			if (!m_ThrowUIinfo.bPlyCheck)
+				wsprintf(m_szScore, TEXT("친구스킬횟수: %d"), pUI_Manager->Get_FriendUseCount(0));
+			else
+				wsprintf(m_szScore, TEXT("친구스킬횟수: %d"), pUI_Manager->Get_FriendUseCount(1));
+		}
+	}
+
+	pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szScore, XMVectorSet(m_fX - 100.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }

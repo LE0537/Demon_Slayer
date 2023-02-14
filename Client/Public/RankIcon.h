@@ -14,6 +14,7 @@ private:
 
 public:
 	_bool Get_ZoomEnd() { return m_bZoomEnd; }
+	void Set_ZoomStart(_bool bCheck) { m_bZoomStart = bCheck; }
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -28,6 +29,7 @@ private:
 
 private:
 	_bool					m_bZoomEnd = false;
+	_bool					m_bZoomStart = false;
 	_uint					m_iRankScore = 0;
 	_bool					m_bMinusCheck = false;
 
