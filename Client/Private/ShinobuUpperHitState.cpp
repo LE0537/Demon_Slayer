@@ -79,7 +79,7 @@ void CUpperHitState::Enter(CShinobu* pShinobu)
 {
 	m_eStateId = STATE_ID::STATE_JUMP;
 
-
+	m_vVelocity = { 10.f,10.f,10.f };
 
 	switch (m_eStateType)
 	{

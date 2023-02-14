@@ -78,7 +78,7 @@ void CUpperHitState::Enter(CAkaza* pAkaza)
 {
 	m_eStateId = STATE_ID::STATE_JUMP;
 
-
+	m_vVelocity = { 10.f,10.f,10.f };
 
 	switch (m_eStateType)
 	{
@@ -172,6 +172,8 @@ void CUpperHitState::Increase_Height(CAkaza* pAkaza, _float fTimeDelta)
 	//m_vPosition.z += m_vVelocity.z * XMVectorGetZ(vLookAt) *  fTimeDelta;
 
 	//_vector vCurrentPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+
 
 	_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
 
