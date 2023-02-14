@@ -1090,6 +1090,12 @@
     <Filter Include="04.Effect\04.EffectParticleNew">
       <UniqueIdentifier>{de3d8c97-eb5f-48da-9898-7c018f7ccb1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\02.Map\03.MeshObj_Smell">
+      <UniqueIdentifier>{85c95e2e-13d8-40b5-97aa-2bfa26c1ba64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.Map\04.MeshObj_Smell_Inst">
+      <UniqueIdentifier>{6c531939-e597-4915-b7db-ec724814dd58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2148,6 +2154,12 @@
     <ClInclude Include="..\Public\Effect_Particle_New.h">
       <Filter>04.Effect\04.EffectParticleNew</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MeshObj_Smell.h">
+      <Filter>02.GameObjects\02.Map\03.MeshObj_Smell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MeshObj_Smell_Inst.h">
+      <Filter>02.GameObjects\02.Map\04.MeshObj_Smell_Inst</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3178,6 +3190,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Effect_Particle_New.cpp">
       <Filter>04.Effect\04.EffectParticleNew</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MeshObj_Smell.cpp">
+      <Filter>02.GameObjects\02.Map\03.MeshObj_Smell</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MeshObj_Smell_Inst.cpp">
+      <Filter>02.GameObjects\02.Map\04.MeshObj_Smell_Inst</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

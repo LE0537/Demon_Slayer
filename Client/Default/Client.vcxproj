@@ -245,6 +245,8 @@
     <ClInclude Include="..\Public\Level_GameResult.h" />
     <ClInclude Include="..\Public\Level_Menu.h" />
     <ClInclude Include="..\Public\Level_StroyMenu.h" />
+    <ClInclude Include="..\Public\MeshObj_Smell.h" />
+    <ClInclude Include="..\Public\MeshObj_Smell_Inst.h" />
     <ClInclude Include="..\Public\NezukoBattleSTState.h" />
     <ClInclude Include="..\Public\NezukoJumpAttackState.h" />
     <ClInclude Include="..\Public\NezukoJumpMoveAttackState.h" />
@@ -598,6 +600,8 @@
     <ClCompile Include="..\Private\Level_GameResult.cpp" />
     <ClCompile Include="..\Private\Level_Menu.cpp" />
     <ClCompile Include="..\Private\Level_StoryMenu.cpp" />
+    <ClCompile Include="..\Private\MeshObj_Smell.cpp" />
+    <ClCompile Include="..\Private\MeshObj_Smell_Inst.cpp" />
     <ClCompile Include="..\Private\NezukoBattleSTState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpAttackState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpMoveAttackState.cpp" />

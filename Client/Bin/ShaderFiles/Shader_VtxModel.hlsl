@@ -5,8 +5,24 @@ matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 texture2D		g_DiffuseTexture;
 texture2D		g_NormalTexture;
 
+texture2D		g_NoiseTexture;
+texture2D		g_MaskTexture;
+
 float			g_fGlowPower;
 texture2D		g_GlowTexture;
+
+float			g_fDistortionU;
+float			g_fDistortionV;
+float			g_fDistortionScale;
+float			g_fDistortionBias;
+
+float			g_fMoveUV_U;
+float			g_fMoveUV_V;
+
+float			g_iMulUV_U;
+float			g_iMulUV_V;
+
+float			g_fCurrentTime;
 
 struct VS_IN
 {
@@ -53,6 +69,41 @@ VS_OUT VS_MAIN(VS_IN In)
 	
 	return Out;
 }
+
+struct VS_FLOWMAP_OUT
+{
+	float4		vPosition : SV_POSITION;
+	float4		vNormal : NORMAL;
+	float2		vTexUV : TEXCOORD0;
+	float4		vProjPos : TEXCOORD1;
+
+	float2		vTexCoord1 : TEXCOORD2;		//	플로우맵 정보를 저장합니다.
+};
+
+VS_FLOWMAP_OUT VS_FLOWMAP(VS_IN In)
+{
+	VS_FLOWMAP_OUT		Out = (VS_FLOWMAP_OUT)0;
+
+	matrix		matWV, matWVP;
+
+	matWV = mul(g_WorldMatrix, g_ViewMatrix);
+	matWVP = mul(matWV, g_ProjMatrix);
+
+	vector vNormal = normalize(mul(vector(In.vNormal, 0.f), g_WorldMatrix));
+
+	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
+	Out.vNormal = vNormal;
+	Out.vProjPos = Out.vPosition;
+
+	Out.vTexUV = In.vTexUV;
+	Out.vTexCoord1.x = In.vTexUV.x + (frac(g_fCurrentTime) + 0.1f);
+	Out.vTexCoord1.y = In.vTexUV.y + (0.1f);
+
+
+	return Out;
+}
+
+
 
 
 struct PS_IN
@@ -149,6 +200,65 @@ PS_ALPHAOUT PS_ALPHABLEND(PS_IN In)
 }
 
 
+struct PS_FLOWMAP_IN
+{
+	float4		vPosition : SV_POSITION;
+	float4		vNormal : NORMAL;
+	float2		vTexUV : TEXCOORD0;
+	float4		vProjPos : TEXCOORD1;
+
+	float2		vTexCoord1 : TEXCOORD2;
+};
+
+struct PS_EFF_OUT
+{
+	float4		vDiffuse : SV_TARGET0;
+	float4		vGlow : SV_TARGET1;
+	float4		vDrawEffect : SV_TARGET2;	//	Player, AnimMode 혹은 Effect 를 따로 그려둠.
+};
+
+PS_OUT PS_FLOWMAP(PS_FLOWMAP_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	//	NoiseTexture의 UV = In.vTexCoord1
+	float2 noise1 = g_NoiseTexture.Sample(LinearSampler, In.vTexCoord1);
+	float2 noise2 = g_NoiseTexture.Sample(LinearSampler, In.vTexCoord1 * 2.f);
+	noise1 = (noise1 - 0.5f) * 2.0f;
+	noise2 = (noise2 - 0.5f) * 2.0f;
+
+	float2 distortion1 = float2(g_fDistortionU, g_fDistortionV);
+	noise1.xy = noise1.xy * distortion1.xy;
+	noise2.xy = noise2.xy * distortion1.xy;
+
+	float2	finalNoise = noise1.x + noise2.y;		//	Noise[0]는 X를, Noise[1]는 Y를 왜곡합니다.	
+	float	perturb = (g_fDistortionScale)+g_fDistortionBias;
+
+	float2		vNewUV = In.vTexUV;
+
+	float2	noiseCoords = (finalNoise.xy * perturb) + vNewUV;
+	noiseCoords.x += g_fMoveUV_U;
+	noiseCoords.y += g_fMoveUV_V;
+	//	텍스쳐 왜곡 끝
+
+
+	float2	vTexUVMul = float2(g_iMulUV_U, g_iMulUV_V);
+
+	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, noiseCoords);
+	Out.vDiffuse = vTexture;
+
+	vector		vMaskTexture = g_MaskTexture.Sample(LinearSampler, noiseCoords);
+
+	if (Out.vDiffuse.a < 0.3f)
+		discard;
+
+	return Out;
+}
+
+
+
+
+
 
 technique11 DefaultTechnique
 {
@@ -194,5 +304,16 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_ALPHABLEND();
+	}
+
+	pass Flowmap		//	4
+	{
+		SetRasterizerState(RS_Effect);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_FLOWMAP();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_FLOWMAP();
 	}
 }

@@ -13,6 +13,8 @@
 #include "BattleField.h"
 #include "MeshObj_Static.h"
 #include "MeshObj_Static_Inst.h"
+#include "MeshObj_Smell.h"
+#include "MeshObj_Smell_Inst.h"
 
 //Player 
 #include "Player.h"
@@ -777,6 +779,34 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CMeshObj_Static_Inst::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
+
+
+		//	Smell
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Smell1", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Smell/Smell1.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Smell2", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Smell/Smell2.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Smell3", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Smell/Smell3.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Smell1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/Smell/Smell1.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Smell2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/Smell/Smell2.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Smell3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/Smell/Smell3.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		/*For.Prototype_GameObject_MeshObj_Smell */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MeshObj_Smell"),
+			CMeshObj_Smell::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+		//	MeshObj_Static_Insatncing
+		/*For.Prototype_GameObject_MeshObj_Smell_Instancing */
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MeshObj_Smell_Instancing"),
+			CMeshObj_Smell_Inst::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+
+
 		PivotMatrix = XMMatrixIdentity();
 	}
 #pragma endregion Static Objects
@@ -801,6 +831,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/Map/Textures/Normal_%d.png", 12))))
 			return E_FAIL;
 
+		/*For.Prototype_Component_Texture_Noise_Smell */
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Noise_Smell"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Meshes/NonAnim/static/Smell/T_d_e_Cmn_AuraSmoke_01_Smell_%d.png"), 2))))
+			return E_FAIL;
 
 		//	MeshObj_Static
 		/*For.Prototype_GameObject_NewTerrain */
