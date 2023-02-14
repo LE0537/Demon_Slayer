@@ -223,6 +223,14 @@ void CButterfly::Get_GuardHit(_int eType)
 {
 }
 
+void CButterfly::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+}
+
+void CButterfly::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+}
+
 CButterfly * CButterfly::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CButterfly*	pInstance = new CButterfly(pDevice, pContext);

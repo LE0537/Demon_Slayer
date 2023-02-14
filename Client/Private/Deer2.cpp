@@ -238,6 +238,14 @@ void CDeer2::Get_GuardHit(_int eType)
 {
 }
 
+void CDeer2::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+}
+
+void CDeer2::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+}
+
 CDeer2 * CDeer2::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CDeer2*	pInstance = new CDeer2(pDevice, pContext);

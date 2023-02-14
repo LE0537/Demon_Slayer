@@ -240,6 +240,14 @@ void CDeer::Get_GuardHit(_int eType)
 {
 }
 
+void CDeer::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+}
+
+void CDeer::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+}
+
 CDeer * CDeer::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CDeer*	pInstance = new CDeer(pDevice, pContext);

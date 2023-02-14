@@ -233,6 +233,14 @@ void CBigBird::Get_GuardHit(_int eType)
 {
 }
 
+void CBigBird::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+}
+
+void CBigBird::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+}
+
 CBigBird * CBigBird::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CBigBird*	pInstance = new CBigBird(pDevice, pContext);

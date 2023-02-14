@@ -240,6 +240,14 @@ void CMurata::Get_GuardHit(_int eType)
 {
 }
 
+void CMurata::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+}
+
+void CMurata::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+}
+
 CMurata * CMurata::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CMurata*	pInstance = new CMurata(pDevice, pContext);

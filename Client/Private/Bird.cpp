@@ -233,6 +233,14 @@ void CBird::Get_GuardHit(_int eType)
 {
 }
 
+void CBird::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+}
+
+void CBird::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+}
+
 CBird * CBird::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CBird*	pInstance = new CBird(pDevice, pContext);
