@@ -2282,9 +2282,6 @@
     <ClCompile Include="..\Private\Data_Manager.cpp">
       <Filter>96.Data_Manager</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Camera_Dynamic.cpp">
-      <Filter>02.GameObjects</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Rui.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui</Filter>
     </ClCompile>
@@ -3337,6 +3334,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Deer2.cpp">
       <Filter>02.GameObjects\99.GameObj\02.Ani\5.Deer2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Dynamic.cpp">
+      <Filter>02.GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

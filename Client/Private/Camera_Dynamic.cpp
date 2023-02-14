@@ -409,13 +409,13 @@ void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 
 	_vector vCamDir = XMVector3TransformNormal(XMVectorSet(0.f, 1.f, -1.f, 0.f), matRotX);
 	vCamDir = XMVector3TransformNormal(vCamDir, matRotY);
-	_vector vCamPos = vCamDir * 3.f;
+	_vector vCamPos = vCamDir * 5.f;
 	_vector vDestPos = pTransform->Get_State(CTransform::STATE_TRANSLATION) + vCamPos;
 
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vDestPos);
 
 	_vector vLookPos = XMVectorSetY(pTransform->Get_State(CTransform::STATE_TRANSLATION), XMVectorGetY(pTransform->Get_State(CTransform::STATE_TRANSLATION)) + 0.8f);
-	vLookPos.m128_f32[1] += 1.f;
+	vLookPos.m128_f32[1] += 2.f;
 	m_pTransform->LookAt(vLookPos);
 
 	RELEASE_INSTANCE(CGameInstance);

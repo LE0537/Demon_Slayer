@@ -601,6 +601,7 @@
     <ClCompile Include="..\Private\BtlFixedImg.cpp" />
     <ClCompile Include="..\private\Butterfly.cpp" />
     <ClCompile Include="..\Private\ButtonEff.cpp" />
+    <ClCompile Include="..\Private\Camera_Dynamic.cpp" />
     <ClCompile Include="..\Private\CharSelMsg.cpp" />
     <ClCompile Include="..\private\CollBox.cpp" />
     <ClCompile Include="..\Private\1PIcon.cpp" />
@@ -824,7 +825,6 @@
     <ClCompile Include="..\Private\TanjiroAtk_1_State.cpp" />
     <ClCompile Include="..\private\BackGround.cpp" />
     <ClCompile Include="..\private\BattleField.cpp" />
-    <ClCompile Include="..\Private\Camera_Dynamic.cpp" />
     <ClCompile Include="..\private\Characters.cpp" />
     <ClCompile Include="..\Private\ChangeBaseDeco.cpp" />
     <ClCompile Include="..\Private\ChangeIcon.cpp" />
