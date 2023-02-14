@@ -120,7 +120,7 @@ CAkazaState * CAdvSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelt
 	CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
-	pAkaza->Get_Transform()->LookAt(vLooAt);
+	pAkaza->Get_Transform()->Set_PlayerLookAt(vLooAt);
 	_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 	_vector vCollLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 	vCollPos += XMVector3Normalize(vCollLook) * 2.f; //추가
@@ -344,7 +344,6 @@ CAkazaState * CAdvSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelt
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_INGFOLLOW, pAkaza);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_INGNONFOLLOW, pAkaza);
 		
 
 		RELEASE_INSTANCE(CEffect_Manager);
@@ -455,7 +454,7 @@ CAkazaState * CAdvSkill_CommmonState::Increase_Height(CAkaza * pAkaza, _float fT
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTFOLLOW, pAkaza);
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTNONFOLLOW, pAkaza);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_START, pAkaza);
 
 			RELEASE_INSTANCE(CEffect_Manager);
 
@@ -470,7 +469,7 @@ CAkazaState * CAdvSkill_CommmonState::Increase_Height(CAkaza * pAkaza, _float fT
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTFOLLOW, pAkaza);
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTNONFOLLOW, pAkaza);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_START, pAkaza);
 
 			RELEASE_INSTANCE(CEffect_Manager);
 

@@ -1141,6 +1141,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Com_Ing_Follow"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Com_Main"));
 
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Skl_Friend_Move_Main"));
+
 
 
 		RELEASE_INSTANCE(CEffect_Manager);
