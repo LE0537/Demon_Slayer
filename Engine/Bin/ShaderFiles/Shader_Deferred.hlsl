@@ -34,6 +34,8 @@ texture2D		g_AOTexture;
 texture2D		g_BlurTexture;
 texture2D		g_GrayScaleTexture;
 texture2D		g_AddTexture;
+texture2D		g_PlayerTexture;
+texture2D		g_EffectTexture;
 
 float			g_fWinSizeX = 1280.f;
 float			g_fWinSizeY = 720.f;
@@ -698,6 +700,28 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MAPGRAYSCALE(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector	vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+	vector	vPlayer = g_PlayerTexture.Sample(LinearSampler, In.vTexUV);
+	vector	vEffect = g_EffectTexture.Sample(LinearSampler, In.vTexUV);
+
+	bool	bDrew = all(vPlayer.a + vEffect.a);	//	false == Player나 Effect가 그려지지 않은 픽셀.
+	Out.vColor = bDrew * vColor +
+		(1.f - bDrew) * (vColor.r * 0.3f + vColor.g * 0.59f + vColor.b * 0.11f);
+
+
+
+	return Out;
+}
+
+
+
+
+
 RasterizerState RS_Default
 {
 	FillMode = solid;
@@ -897,6 +921,17 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_LIGHTSHAFT();
+	}
+
+	pass MapGrayScale		//	15
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAPGRAYSCALE();
 	}
 
 }

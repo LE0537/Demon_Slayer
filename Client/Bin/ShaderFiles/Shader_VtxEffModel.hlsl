@@ -136,7 +136,6 @@ struct PS_OUT
 	float4		vDiffuse : SV_TARGET0;
 	float4		vNormal : SV_TARGET1;
 	float4		vDepth : SV_TARGET2;
-
 };
 struct PS_OUT_SHADOW
 {
@@ -227,6 +226,8 @@ struct PS_EFFECT_OUT
 {
 	float4		vColor : SV_TARGET0;
 	float4		vGlowColor : SV_TARGET1;
+
+	float4		vDrawEffect : SV_TARGET2;	//	Player, AnimMode 혹은 Effect 를 따로 그려둠.
 };
 
 PS_EFFECT_OUT PS_EFF_MAIN(PS_EFFECT_IN In)
@@ -243,6 +244,7 @@ PS_EFFECT_OUT PS_EFF_MAIN(PS_EFFECT_IN In)
 	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
 		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
 
+	Out.vDrawEffect = Out.vColor;
 	if (Out.vColor.a < 0.03f)
 		discard;
 
@@ -277,6 +279,7 @@ PS_EFFECT_OUT PS_EFF_COLORBLEND(PS_EFFECT_IN In)
 
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
+	Out.vDrawEffect = Out.vColor;
 	if (Out.vColor.a < 0.03f)
 		discard;
 
@@ -308,6 +311,7 @@ PS_EFFECT_OUT PS_EFF_COLORTEST(PS_EFFECT_IN In)
 	Out.vColor.a = Out.vColor.a * saturate((1 - g_bUseMask) + vMaskTexture.r);
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
+	Out.vDrawEffect = Out.vColor;
 	if (Out.vColor.a <= 0.1f)
 		discard;
 
@@ -390,6 +394,7 @@ PS_EFFECT_OUT PS_ALPHAGLOW(PS_EFFECT_IN In)
 	Out.vColor.a = Out.vColor.a * saturate((1 - g_bUseMask) + vMaskTexture.r);
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
+	Out.vDrawEffect = Out.vColor;
 	if (Out.vColor.a <= 0.03f)
 		discard;
 
@@ -459,6 +464,7 @@ PS_EFFECT_OUT PS_FLOWMAP(PS_FLOWMAP_IN In)
 	Out.vColor.a = Out.vColor.a * saturate((1 - g_bUseMask) + vMaskTexture.r);
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
+	Out.vDrawEffect = Out.vColor;
 	if (Out.vColor.a < 0.1f)
 		discard;
 

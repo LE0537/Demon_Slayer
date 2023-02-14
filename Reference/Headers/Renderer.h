@@ -9,11 +9,11 @@ class ENGINE_DLL CRenderer final : public CComponent
 {
 public:
 	enum RENDERGROUP {RENDER_PRIORITY, RENDER_STATIC_SHADOWDEPTH, RENDER_SHADOWDEPTH, RENDER_NONALPHABLEND, RENDER_NONLIGHT, RENDER_ALPHABLEND,
-		RENDER_GRAYSCALE, RENDER_BLUR, RENDER_DISTORTION, RENDER_UI,RENDER_UIPOKE, RENDER_EFFECT, RENDER_END };
+		RENDER_GRAYSCALE, RENDER_BLUR, RENDER_DISTORTION, RENDER_UI, RENDER_UIPOKE, RENDER_EFFECT, RENDER_END };
 	enum VALUETYPE { VALUE_FOGCOLOR_R, VALUE_FOGCOLOR_G, VALUE_FOGCOLOR_B, VALUE_FOGDISTANCE, VALUE_FOGRANGE, VALUE_AO, VALUE_AORADIUS, VALUE_GLOWBLURCOUNT, VALUE_DISTORTION, VALUE_OUTLINE, VALUE_INNERLINE, 
 		VALUE_ENVLIGHT, VALUE_LIGHTSHAFT, VALUE_LIGHTPOWER, VALUE_SHADOWTESTLENGTH, VALUE_END };
 private:
-	enum RENDER_ORDER { ORDER_GLOW, ORDER_GRAYSCALE, ORDER_BLUR, ORDER_LIGHTSHAFT, ORDER_DISTORTION, ORDER_END };
+	enum RENDER_ORDER { ORDER_GLOW, ORDER_MAPGRAYSCALE, ORDER_GRAYSCALE, ORDER_BLUR, ORDER_LIGHTSHAFT, ORDER_DISTORTION, ORDER_END };
 
 private:
 	CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);	
@@ -73,7 +73,8 @@ private:/* For.Glow*/
 
 private:/* For.PostProcessing Value */
 	_bool		m_bRenderAO = false;
-	_float		m_fValue[VALUE_END] = { 1.f,  };
+	_bool		m_bMapGrayScale = false;
+	_float		m_fValue[VALUE_END] = { 1.f,  };	
 
 
 
@@ -101,7 +102,8 @@ private:
 	HRESULT Render_LightShaft(const _tchar* pTexName, const _tchar* pMRTName);
 	HRESULT Render_Glow(const _tchar* pTexName, const _tchar* pMRTName);
 	HRESULT Render_Blur(const _tchar* pTexName, const _tchar* pMRTName);
-	HRESULT Render_GrayScale(const _tchar* pTexName, const _tchar* pMRTName);
+	HRESULT Render_MapGrayScale(const _tchar* pTexName, const _tchar* pMRTName);
+	HRESULT Render_GrayScale(const _tchar* pTexName, const _tchar* pMRTName);	
 	HRESULT Render_Distortion(const _tchar* pTexName, const _tchar* pMRTName);
 	HRESULT Render_Master(const _tchar* pTexName);
 	HRESULT Render_UI();

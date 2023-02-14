@@ -124,6 +124,7 @@ struct PS_OUT
 {
 	float4		vColor : SV_TARGET0;
 	float4		vGlowColor : SV_TARGET1;
+	float4		vDrawEffect : SV_TARGET2;	//	Player, AnimMode 혹은 Effect 를 따로 그려둠.
 };
 
 PS_OUT PS_MAIN(PS_IN In)
@@ -167,6 +168,7 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
+	Out.vDrawEffect = Out.vColor;
 	if (Out.vColor.a < 0.1f)
 		discard;
 
@@ -197,6 +199,7 @@ PS_OUT PS_COLORTEST(PS_IN In)
 	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
+	Out.vDrawEffect = Out.vColor;
 	if (Out.vColor.a <= 0.1f)
 		discard;
 
@@ -271,6 +274,7 @@ PS_OUT PS_ALPHAGLOW(PS_IN In)
 	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
+	Out.vDrawEffect = Out.vColor;
 	if (Out.vColor.a <= 0.1f)
 		discard;
 
@@ -330,6 +334,7 @@ PS_OUT PS_FLOWMAP(PS_FLOWMAP_IN In)
 	//Out.vColor.a = (g_bDissolve * saturate(vTexture.a - g_fAlphaRatio)) + ((1 - g_bDissolve) * saturate(vTexture.a - saturate(vDissolveTex.r * g_bDisappearStart + g_fAlphaRatio)));
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
 
+	Out.vDrawEffect = Out.vColor;
 	if (Out.vColor.a < 0.1f)
 		discard;
 

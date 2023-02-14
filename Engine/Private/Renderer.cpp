@@ -40,6 +40,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fValue[VALUE_SHADOWTESTLENGTH] = 0.5f;
 
 	m_bRenderAO = true;
+	m_bMapGrayScale = false;
 
 	D3D11_VIEWPORT		ViewportDesc;
 	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
@@ -101,7 +102,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlurX"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 	/* For.Target_BlurXY */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlurXY"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
-
+	
 	/* For.Target_GrayScale */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_GrayScale"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 	/* For.Target_Distortion */
@@ -127,6 +128,11 @@ HRESULT CRenderer::Initialize_Prototype()
 	/* For.Target_UIDepth */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_UIDepth"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 
+	/* For.Target_Player */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Player"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
+	/* For.Target_Effect */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Effect"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
+
 
 	/* For.MRT_Deferred */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Diffuse"))))
@@ -136,6 +142,8 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Depth"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Glow"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Player"))))
 		return E_FAIL;
 
 	/* For.MRT_LightAcc */
@@ -157,11 +165,15 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_NonLight"), TEXT("Target_Glow"))))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_NonLight"), TEXT("Target_Effect"))))
+		return E_FAIL;
 
 	/* For.MRT_AlphaDeferred */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Master"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_AlphaGlow"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Effect"))))
 		return E_FAIL;
 
 	/* For.MRT_GlowAll */
@@ -266,6 +278,10 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_LightShaft"), 2.5f * fVIBufferRadius, 3.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
 
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Player"), 2.5f * fVIBufferRadius, 4.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Effect"), 2.5f * fVIBufferRadius, 5.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Master"), ViewportDesc.Width - (0.5f * 2.f * fVIBufferRadius), 0.5f * 2.f * fVIBufferRadius, 2.f * fVIBufferRadius, 2.f * fVIBufferRadius)))
 		return E_FAIL;
@@ -335,6 +351,12 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 	if (FAILED(Render_Blend()))
 		return E_FAIL;
 
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	if (true == pGameInstance->Key_Down(DIK_F3))
+	{
+		m_bMapGrayScale = !m_bMapGrayScale;
+	}
+	RELEASE_INSTANCE(CGameInstance);
 
 
 	if (FAILED(Render_OutLine()))
@@ -381,6 +403,9 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 		case ORDER_GLOW:
 			if (FAILED(Render_Glow(pRTName, pMRTName))) return E_FAIL;
 			break;
+		case ORDER_MAPGRAYSCALE:
+			if (FAILED(Render_MapGrayScale(pRTName, pMRTName))) return E_FAIL;
+			break;
 		case ORDER_GRAYSCALE:
 			if (FAILED(Render_GrayScale(pRTName, pMRTName))) return E_FAIL;
 			break;
@@ -411,8 +436,8 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 	if (FAILED(Render_UIPOKE()))
 		return E_FAIL;
 
-	if (FAILED(Render_UIMaster()))		//	PostProcessing2
-		return E_FAIL;					//	구조상 불가능해서 임의로 줌.
+	if (FAILED(Render_UIMaster()))
+		return E_FAIL;
 
 
 
@@ -1159,6 +1184,40 @@ HRESULT CRenderer::Render_Blur(const _tchar* pTexName, const _tchar* pMRTName)
 	return S_OK;
 }
 
+HRESULT CRenderer::Render_MapGrayScale(const _tchar * pTexName, const _tchar * pMRTName)
+{
+	if (false == m_bMapGrayScale)
+	{
+		if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
+			return E_FAIL;
+		m_pShader->Begin(0);
+		m_pVIBuffer->Render();
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+
+		return S_OK;
+	}
+
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Player"), m_pShader, "g_PlayerTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Effect"), m_pShader, "g_EffectTexture")))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
+		return E_FAIL;
+	m_pShader->Begin(15);
+	m_pVIBuffer->Render();
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CRenderer::Render_GrayScale(const _tchar * pTexName, const _tchar * pMRTName)
 {
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_GrayScale"))))
@@ -1426,6 +1485,11 @@ HRESULT CRenderer::Render_Debug(_bool _bDebug)
 		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_GlowAll"), m_pShader, m_pVIBuffer)))
 			return E_FAIL;
 		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_Static_LightDepth"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+
+		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_Player"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_Effect"), m_pShader, m_pVIBuffer)))
 			return E_FAIL;
 	}
 	return S_OK;

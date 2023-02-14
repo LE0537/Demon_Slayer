@@ -72,6 +72,7 @@ struct PS_OUT
 	float4		vNormal : SV_TARGET1;
 	float4		vDepth : SV_TARGET2;
 
+	float4		vDrawPlayer : SV_TARGET4;	//	Player, AnimMode 혹은 Effect 를 따로 그려둠.
 };
 struct PS_OUT_SHADOW
 {
@@ -89,6 +90,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1500.f, 0.f, 0.1f);
+	Out.vDrawPlayer = Out.vDiffuse;
 
 	if (Out.vDiffuse.a <= 0.3f)
 		discard;
@@ -114,6 +116,7 @@ PS_OUT PS_MASK(PS_IN In)
 	Out.vDiffuse = g_DiffuseTexture.Sample(CLAMPSampler, In.vTexUV);
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1500.f, 0.f, 0.1f);
+	Out.vDrawPlayer = Out.vDiffuse;
 
 	if (vMask.r == 0.f)
 		Out.vDiffuse.rgb = 1.f;
