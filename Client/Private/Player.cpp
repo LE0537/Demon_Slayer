@@ -264,6 +264,14 @@ void CPlayer::Get_GuardHit(_int eType)
 {
 }
 
+void CPlayer::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+}
+
+void CPlayer::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+}
+
 HRESULT CPlayer::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)

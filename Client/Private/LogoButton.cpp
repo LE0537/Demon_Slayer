@@ -115,9 +115,9 @@ HRESULT CLogoButton::Render()
 	Font_Color();
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	if(m_ThrowUIinfo.iLayerNum == 0)
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("게임 시작"), XMVectorSet(m_fX - 70.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(m_vFontColor.x, m_vFontColor.y, m_vFontColor.z, m_fAlpha), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("게임 시작"), XMVectorSet(m_fX - 90.f, m_fY - 23.f, 0.f, 1.f), XMVectorSet(m_vFontColor.x, m_vFontColor.y, m_vFontColor.z, m_fAlpha), XMVectorSet(1.f, 1.f, 0.f, 1.f));
 	else if(m_ThrowUIinfo.iLayerNum == 1)
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("게임 종료"), XMVectorSet(m_fX - 70.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(m_vFontColor.x, m_vFontColor.y, m_vFontColor.z, m_fAlpha), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("게임 종료"), XMVectorSet(m_fX - 90.f, m_fY - 23.f, 0.f, 1.f), XMVectorSet(m_vFontColor.x, m_vFontColor.y, m_vFontColor.z, m_fAlpha), XMVectorSet(1.f, 1.f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);
 

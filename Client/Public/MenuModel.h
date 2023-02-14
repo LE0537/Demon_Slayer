@@ -45,6 +45,8 @@ private:
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);
+	virtual void  Player_TakeDown(_float _fPow, _bool _bJump = 0);
+	virtual void  Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower);
 public:
 	CGameObject* Get_Weapon(_int _iIndex) { return m_pWeapon[_iIndex]; }
 	CGameObject* Get_Sheath(_int _iIndex) { return m_pSheath[_iIndex]; }

@@ -81,7 +81,7 @@ CRuiState * CJumpSkill_MoveState::Late_Tick(CRui* pRui, _float fTimeDelta)
 		tInfo.pPlayer = pRui;
 		tInfo.pTarget = m_pTarget;
 
-		if (m_iHit < 1)
+		if (m_iHit < 1 && pRui->Get_BattleTarget()->Get_GodMode() == false)
 		{
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 			tInfo.iIndex = 3;
@@ -116,7 +116,7 @@ CRuiState * CJumpSkill_MoveState::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 void CJumpSkill_MoveState::Enter(CRui* pRui)
 {
-	m_eStateId = STATE_ID::STATE_JUMP;
+	m_eStateId = STATE_ID::STATE_JUMP_ATTACK;
 
 
 	_vector vPosition = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

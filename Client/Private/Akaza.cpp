@@ -13,6 +13,8 @@
 #include "AkazaBattleSTState.h"
 #include "AkazaGuardHitState.h"
 #include "Effect_Manager.h"
+#include "AkazaTakeDownState.h"
+#include "AkazaUpperHitState.h"
 using namespace Akaza;
 
 
@@ -137,10 +139,17 @@ void CAkaza::Tick(_float fTimeDelta)
 
 
 
-	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP || m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_CHANGE)
+	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP || m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_CHANGE || m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP_ATTACK)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
+
+	if (m_pTransformCom->Get_Jump() == true)
+		m_tInfo.bJump = true;
+	if (m_pAkazaState != nullptr)
+	{
+		m_iState = m_pAkazaState->Get_AkazaState();
+	}
 
 }
 
@@ -413,6 +422,19 @@ void CAkaza::Get_GuardHit(_int eType)
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 
 
+}
+
+void CAkaza::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+	CAkazaState* pState = new CTakeDownState(_fPow, _bJump);
+	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+}
+
+
+void CAkaza::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+	CAkazaState* pState = new CUpperHitState(eHitType, CAkazaState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 }
 
 CAkaza * CAkaza::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

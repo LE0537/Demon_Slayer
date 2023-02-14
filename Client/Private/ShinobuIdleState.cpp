@@ -13,7 +13,7 @@
 #include "ShinobuSkill_Upper.h"
 #include "ShinobuTargetRushState.h"
 #include "Effect_Manager.h"
-#include "UI_Manager.h"
+
 using namespace Shinobu;
 
 
@@ -68,9 +68,6 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				pShinobu->Set_UnicCount(-1);
 				if (pShinobu->Get_PlayerInfo().iPowerIndex == 0)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UltUseCount(1, 0);
-					RELEASE_INSTANCE(CUI_Manager);
 					pShinobu->Set_PowerIndex(1);
 					pShinobu->Set_PowerUp(1.5f);
 					pShinobu->Set_PowerUpTime(6.f);
@@ -81,9 +78,6 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				}
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UltUseCount(1, 0);
-					RELEASE_INSTANCE(CUI_Manager);
 					pShinobu->Set_PowerIndex(2);
 					pShinobu->Set_PowerUpTime(6.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -107,9 +101,6 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
-						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-						pUI_Manager->Set_UseSkillCount(1, 0);
-						RELEASE_INSTANCE(CUI_Manager);
 						pShinobu->Set_SkillBar(-200);
 						return new CSkill_UpperState(STATE_TYPE::TYPE_START);
 					}
@@ -120,9 +111,6 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
-						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-						pUI_Manager->Set_UseSkillCount(1, 0);
-						RELEASE_INSTANCE(CUI_Manager);
 						pShinobu->Set_SkillBar(-200);
 						return new CSkill_CommonState();
 					}
@@ -167,9 +155,6 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				pShinobu->Set_UnicCount(-1);
 				if (pShinobu->Get_PlayerInfo().iPowerIndex == 0)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UltUseCount(1, 1);
-					RELEASE_INSTANCE(CUI_Manager);
 					pShinobu->Set_PowerIndex(1);
 					pShinobu->Set_PowerUp(1.5f);
 					pShinobu->Set_PowerUpTime(6.f);
@@ -180,9 +165,6 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				}
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UltUseCount(1, 1);
-					RELEASE_INSTANCE(CUI_Manager);
 					pShinobu->Set_PowerIndex(2);
 					pShinobu->Set_PowerUpTime(6.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -206,9 +188,6 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
-						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-						pUI_Manager->Set_UseSkillCount(1, 1);
-						RELEASE_INSTANCE(CUI_Manager);
 						pShinobu->Set_SkillBar(-200);
 						return new CSkill_UpperState(STATE_TYPE::TYPE_START);
 					}
@@ -219,9 +198,6 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 
 					if (200 <= pShinobu->Get_PlayerInfo().iSkBar)
 					{
-						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-						pUI_Manager->Set_UseSkillCount(1, 1);
-						RELEASE_INSTANCE(CUI_Manager);
 						pShinobu->Set_SkillBar(-200);
 						return new CSkill_CommonState();
 					}
@@ -247,7 +223,14 @@ CShinobuState * CIdleState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
 
-
+	if (ePreState == STATE_MOVE)
+	{
+		if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
+		{
+			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			return new CIdleState(STATE_IDLE);
+		}
+	}
 	return nullptr;
 }
 
@@ -334,11 +317,27 @@ void CIdleState::Enter(CShinobu* pShinobu)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
-	pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_IDLE);
-	pShinobu->Set_AnimIndex(CShinobu::ANIM_IDLE);
-	pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_IDLE, 0.05f);
-	pShinobu->Get_Model()->Set_FrameNum(pShinobu->Get_AnimIndex(), 100);
 
+
+	if (m_ePreState == STATE_MOVE)
+	{
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_MOVE_END);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_MOVE_END);
+		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_MOVE_END, 0.01f);
+	}
+	else
+	{
+		if (m_ePreState == STATE_HIT)
+			m_ePreState = STATE_IDLE;
+
+		pShinobu->Set_GodMode(false);
+		//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_IDLE);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_IDLE);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_IDLE, 0.05f);
+		pShinobu->Get_Model()->Set_FrameNum(pShinobu->Get_AnimIndex(), 100);
+	}
 }
 
 void CIdleState::Exit(CShinobu* pShinobu)

@@ -500,6 +500,14 @@ void CMenuModel::Get_GuardHit(_int eType)
 {
 }
 
+void CMenuModel::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+}
+
+void CMenuModel::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+}
+
 HRESULT CMenuModel::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)

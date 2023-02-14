@@ -96,25 +96,25 @@ HRESULT CResultScoreBar::Render()
 	if (m_ThrowUIinfo.iLayerNum == 0)
 	{
 		if(!m_bScoreSelCheck)
-			wsprintf(m_szScore, TEXT("최대 콤보     : %d"), iRand);
+			wsprintf(m_szScore, TEXT("최대 콤보       : %d"), iRand);
 		else
 		{
 			if(!m_ThrowUIinfo.bPlyCheck)
-				wsprintf(m_szScore, TEXT("최대 콤보     : %d"), pUI_Manager->Get_MaximumCombo(0));
+				wsprintf(m_szScore, TEXT("최대 콤보       : %d"), pUI_Manager->Get_MaximumCombo(0));
 			else
-				wsprintf(m_szScore, TEXT("최대 콤보     : %d"), pUI_Manager->Get_MaximumCombo(1));
+				wsprintf(m_szScore, TEXT("최대 콤보       : %d"), pUI_Manager->Get_MaximumCombo(1));
 		}
 	}
 	if (m_ThrowUIinfo.iLayerNum == 1)
 	{
 		if (!m_bScoreSelCheck)
-			wsprintf(m_szScore, TEXT("남은 시간     : %d"), iRand);
+			wsprintf(m_szScore, TEXT("남은 시간       : %d"), iRand);
 		else
 		{
 			if (!m_ThrowUIinfo.bPlyCheck)
-				wsprintf(m_szScore, TEXT("남은 시간     : %d"), pUI_Manager->Get_RemnantTime(0));
+				wsprintf(m_szScore, TEXT("남은 시간       : %d"), pUI_Manager->Get_RemnantTime(0));
 			else
-				wsprintf(m_szScore, TEXT("남은 시간     : %d"), pUI_Manager->Get_RemnantTime(1));
+				wsprintf(m_szScore, TEXT("남은 시간       : %d"), pUI_Manager->Get_RemnantTime(1));
 		}
 	}
 	if (m_ThrowUIinfo.iLayerNum == 2)
@@ -154,7 +154,7 @@ HRESULT CResultScoreBar::Render()
 		}
 	}
 
-	pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szScore, XMVectorSet(m_fX - 100.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+	pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szScore, XMVectorSet(m_fX - 120.f, m_fY - 20.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);

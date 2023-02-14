@@ -14,7 +14,6 @@
 #include "RuiAdvSkill_MoveState.h"
 #include "AiState.h"
 #include "Effect_Manager.h"
-#include "UI_Manager.h"
 using namespace Rui;
 
 
@@ -41,9 +40,6 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (200 <= pRui->Get_PlayerInfo().iSkBar)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UseSkillCount(1, 0);
-					RELEASE_INSTANCE(CUI_Manager);
 					pRui->Set_SkillBar(-200);
 					return new CSkill_SphereState(STATE_TYPE::TYPE_START);
 				}
@@ -52,9 +48,6 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (200 <= pRui->Get_PlayerInfo().iSkBar)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UseSkillCount(1, 0);
-					RELEASE_INSTANCE(CUI_Manager);
 					pRui->Set_SkillBar(-200);
 					return new CSkill_ShootNetState(STATE_TYPE::TYPE_START);
 				}
@@ -64,9 +57,7 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		{
 			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
-				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-				pUI_Manager->Set_FriendUseCount(1, 0);
-				RELEASE_INSTANCE(CUI_Manager);
+				// 친구 게이지 깎는 코드 넣어야함
 				pRui->Set_FriendSkillBar(-500);
 				return new CAdvSkill_MoveState();
 			}
@@ -200,7 +191,7 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CIdleState();
+			return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -214,9 +205,6 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (200 <= pRui->Get_PlayerInfo().iSkBar)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UseSkillCount(1, 1);
-					RELEASE_INSTANCE(CUI_Manager);
 					pRui->Set_SkillBar(-200);
 					return new CSkill_SphereState(STATE_TYPE::TYPE_START);
 				}
@@ -225,9 +213,6 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			{
 				if (200 <= pRui->Get_PlayerInfo().iSkBar)
 				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_UseSkillCount(1, 1);
-					RELEASE_INSTANCE(CUI_Manager);
 					pRui->Set_SkillBar(-200);
 					return new CSkill_ShootNetState(STATE_TYPE::TYPE_START);
 				}
@@ -237,9 +222,6 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		{
 			if (pRui->Get_PlayerInfo().iFriendBar >= 500)
 			{
-				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-				pUI_Manager->Set_FriendUseCount(1, 1);
-				RELEASE_INSTANCE(CUI_Manager);
 				pRui->Set_FriendSkillBar(-500);
 				return new CAdvSkill_MoveState();
 			}
@@ -368,7 +350,7 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		}
 		
 		else
-			return new CIdleState();
+			return new CIdleState(STATE_MOVE);
 
 		break;
 	}
@@ -389,7 +371,7 @@ CRuiState * CMoveState::Tick(CRui* pRui, _float fTimeDelta)
 			switch (m_eStateType)
 			{
 			case Client::CRuiState::TYPE_START:
-				m_eStateType = CRuiState::TYPE_LOOP;
+				return new CMoveState(m_eDirection, TYPE_START);
 				break;
 			case Client::CRuiState::TYPE_LOOP:
 				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
@@ -410,7 +392,8 @@ CRuiState * CMoveState::Tick(CRui* pRui, _float fTimeDelta)
 			switch (m_eStateType)
 			{
 			case Client::CRuiState::TYPE_START:
-				m_eStateType = CRuiState::TYPE_LOOP;
+				return new CMoveState(m_eDirection, TYPE_START);
+
 			}
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 		}
@@ -424,7 +407,12 @@ CRuiState * CMoveState::Tick(CRui* pRui, _float fTimeDelta)
 CRuiState * CMoveState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
 	Move(pRui, fTimeDelta);
-	pRui->Get_Model()->Play_Animation(fTimeDelta);
+
+	if (m_eStateType == TYPE_LOOP)
+		pRui->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
+	else
+		pRui->Get_Model()->Play_Animation(fTimeDelta* 0.85f);
+
 
 	if (pRui->Get_PlayerInfo().bSub)
 	{
@@ -448,10 +436,14 @@ void CMoveState::Enter(CRui* pRui)
 	case Client::CRuiState::TYPE_START:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_MOVE_START);
 		pRui->Set_AnimIndex(CRui::ANIM_MOVE_START);
+		pRui->Get_Model()->Set_Loop(CRui::ANIMID::ANIM_MOVE_START, true);
+		pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_MOVE_START, 0.01f);
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_MOVE_END);
 		pRui->Set_AnimIndex(CRui::ANIM_MOVE_END);
+		pRui->Get_Model()->Set_Loop(CRui::ANIMID::ANIM_MOVE_END);
+		pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_MOVE_END, 0.01f);
 		break;
 	case Client::CRuiState::TYPE_DEFAULT:
 		break;

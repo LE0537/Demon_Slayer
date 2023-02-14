@@ -206,7 +206,7 @@ void CRoundUI::ZoomIn(_float fTimeDelta)
 		}
 		else
 		{
-			m_fSizeX = m_ThrowUIinfo.vScale.x * 0.7f;
+			m_fSizeX = m_ThrowUIinfo.vScale.x * 0.8f;
 			m_fSizeY = m_ThrowUIinfo.vScale.y * 0.7f;
 		}
 
@@ -260,14 +260,14 @@ void CRoundUI::ZoomOut(_float fTimeDelta)
 
 void CRoundUI::Fade_In(_float fTimeDelta)
 {
-	m_fFadeTime += fTimeDelta * 1.8f;
+	m_fFadeTime += fTimeDelta * 4.f;
 	if (m_fFadeTime >= 1.f)
 		m_fFadeTime = 1.f;
 }
 
 void CRoundUI::Fade_Out(_float fTimeDelta)
 {
-	m_fFadeTime -= fTimeDelta * 1.8f;
+	m_fFadeTime -= fTimeDelta * 4.f;
 	if (m_fFadeTime <= 0.f)
 		m_fFadeTime = 0.f;
 }

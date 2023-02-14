@@ -296,6 +296,14 @@ void CRuiDad::Get_GuardHit(_int eType)
 {
 }
 
+void CRuiDad::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+}
+
+void CRuiDad::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+}
+
 CRuiDad * CRuiDad::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CRuiDad*	pInstance = new CRuiDad(pDevice, pContext);
