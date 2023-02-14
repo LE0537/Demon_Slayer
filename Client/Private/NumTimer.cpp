@@ -80,10 +80,14 @@ void CNumTimer::Tick(_float fTimeDelta)
 	{
 		if (m_bRecord)
 		{
-			if(!m_ThrowUIinfo.bPlyCheck)
-				pUI_Manager->Set_RemnantTime((_uint)m_fTimer, 0);
-			else if(m_ThrowUIinfo.bPlyCheck)
-				pUI_Manager->Set_RemnantTime((_uint)m_fTimer, 1);
+			if (m_ThrowUIinfo.iLayerNum == 1)
+			{
+				if (!m_ThrowUIinfo.bPlyCheck)
+					pUI_Manager->Set_RemnantTime((_uint)m_fTimer, 0);
+				else if (m_ThrowUIinfo.bPlyCheck)
+					pUI_Manager->Set_RemnantTime((_uint)m_fTimer, 1);
+			}
+			
 			m_bRecord = false;
 		}
 		m_fTimer = 99.f;

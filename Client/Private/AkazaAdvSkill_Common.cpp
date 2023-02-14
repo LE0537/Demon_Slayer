@@ -344,7 +344,6 @@ CAkazaState * CAdvSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelt
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_INGFOLLOW, pAkaza);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_INGNONFOLLOW, pAkaza);
 		
 
 		RELEASE_INSTANCE(CEffect_Manager);
@@ -455,7 +454,7 @@ CAkazaState * CAdvSkill_CommmonState::Increase_Height(CAkaza * pAkaza, _float fT
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTFOLLOW, pAkaza);
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTNONFOLLOW, pAkaza);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_START, pAkaza);
 
 			RELEASE_INSTANCE(CEffect_Manager);
 
@@ -470,7 +469,7 @@ CAkazaState * CAdvSkill_CommmonState::Increase_Height(CAkaza * pAkaza, _float fT
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTFOLLOW, pAkaza);
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_STARTNONFOLLOW, pAkaza);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_START, pAkaza);
 
 			RELEASE_INSTANCE(CEffect_Manager);
 

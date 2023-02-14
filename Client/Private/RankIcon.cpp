@@ -44,9 +44,13 @@ HRESULT CRankIcon::Initialize(void * pArg)
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
+
 	CUI_Manager*  pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	m_iRankScore = pUI_Manager->Get_RankInfo(1).iRankScore;
+	if(!m_ThrowUIinfo.bPlyCheck)
+		m_iRankScore = pUI_Manager->Get_RankInfo(0).iRankScore;
+	else
+		m_iRankScore = pUI_Manager->Get_RankInfo(1).iRankScore;
 
 	if (m_iRankScore >= 0 && m_iRankScore < 2000)
 		m_iImgNum = 0;
@@ -67,6 +71,8 @@ HRESULT CRankIcon::Initialize(void * pArg)
 
 void CRankIcon::Tick(_float fTimeDelta)
 {
+	
+
 	if (m_bZoomStart)
 	{
 		if (m_fSizeX >= m_ThrowUIinfo.vScale.x * 0.5f && m_fSizeY >= m_ThrowUIinfo.vScale.y * 0.5f && !m_bMinusCheck)
