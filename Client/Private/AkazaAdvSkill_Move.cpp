@@ -285,6 +285,16 @@ CAkazaState * CAdvSkill_MoveState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta);
 
 
+	if (!m_bEffect && m_eStateType == TYPE_LOOP)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_MOVE_STARTFOL, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_MOVE_STARTNONFOL, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 	if (!m_bEffect && m_eStateType == TYPE_END)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
