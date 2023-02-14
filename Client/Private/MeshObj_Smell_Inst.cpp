@@ -35,7 +35,7 @@ HRESULT CMeshObj_Smell_Inst::Initialize(void * pArg)
 	{
 		VTXMATRIX	VtxMatrix;
 		memcpy(&VtxMatrix, &m_tMyDesc.pWorld[i], sizeof VtxMatrix);
-		VtxMatrix.vPosition.y += 1.5f;
+		VtxMatrix.vPosition.y += 2.f;
 
 		m_vecMatrix.push_back(VtxMatrix);
 	}

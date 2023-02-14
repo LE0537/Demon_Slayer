@@ -352,7 +352,7 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug, _int _iLevel)
 		return E_FAIL;
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	if (true == pGameInstance->Key_Down(DIK_F3))
+	if (true == pGameInstance->Key_Down(DIK_Y))
 	{
 		m_bMapGrayScale = !m_bMapGrayScale;
 	}
