@@ -103,6 +103,7 @@ public:
 	void RotationAll(_float3 vAxis);
 
 	void Set_Jump(_bool bJump) { m_bJump = bJump; }
+	_bool Get_Jump() const { return m_bJump; }
 public:
 	void Set_Rotation(_float3 fAngle);
 	void Set_RotationY(_float fAngleY);

@@ -84,6 +84,8 @@ protected:
 
 	_float m_fDuration = 0.f;
 	_float m_fCurrentDuration = 0.f;
+
+	_bool m_bIsCreate = false;
 };
 
 END

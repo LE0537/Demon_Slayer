@@ -205,7 +205,15 @@ CKyoujuroState * CIdleState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	{
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
-	
+
+	if (m_ePreState == STATE_MOVE)
+	{
+		if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
+		{
+			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+			return new CIdleState(STATE_IDLE);
+		}
+	}
 
 	return nullptr;
 }
@@ -293,9 +301,25 @@ void CIdleState::Enter(CKyoujuro * pKyoujuro)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
-	pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_IDLE);
-	pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_IDLE);
-	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_IDLE, 0.05f);
+	if (m_ePreState == STATE_MOVE)
+	{
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_MOVE_END);
+		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_MOVE_END);
+		pKyoujuro->Get_Model()->Set_Loop(pKyoujuro->Get_AnimIndex());
+		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_MOVE_END, 0.01f);
+	}
+	else
+	{
+		if (m_ePreState == STATE_HIT)
+			m_ePreState = STATE_IDLE;
+
+		pKyoujuro->Set_GodMode(false);
+		//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_IDLE);
+		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_IDLE);
+		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_IDLE, 0.05f);
+		pKyoujuro->Get_Model()->Set_FrameNum(pKyoujuro->Get_AnimIndex(), 100);
+	}
 }
 
 void CIdleState::Exit(CKyoujuro * pKyoujuro)

@@ -191,7 +191,7 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CMoveState(OBJDIR::DIR_STOP, TYPE_LOOP);
+			return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -350,7 +350,7 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		}
 		
 		else
-			return new CMoveState(OBJDIR::DIR_STOP, TYPE_LOOP);
+			return new CIdleState(STATE_MOVE);
 
 		break;
 	}

@@ -196,7 +196,7 @@ CRuiState * CSkill_ShootState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	tInfo.pPlayer = pRui;
 	tInfo.pTarget = m_pTarget;
 
-	if (m_fMove > 0.17f && m_iHit < 1)
+	if (m_fMove > 0.17f && m_iHit < 1 && pRui->Get_BattleTarget()->Get_GodMode() == false)
 	{
 		CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 

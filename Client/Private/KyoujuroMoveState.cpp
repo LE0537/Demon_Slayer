@@ -169,7 +169,7 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CMoveState(DIR_STOP, TYPE_END);
+			return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -315,7 +315,7 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CMoveState(DIR_STOP, TYPE_END);
+			return new CIdleState(STATE_MOVE);
 		break;
 	default:
 		break;
@@ -350,6 +350,9 @@ CKyoujuroState * CMoveState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 		}
 		pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 	}
+
+
+
 
 	return nullptr;
 

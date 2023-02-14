@@ -279,6 +279,15 @@ CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
 
+	if (ePreState == STATE_HIT || ePreState == STATE_MOVE)
+	{
+		if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
+		{
+			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+			return new CIdleState(STATE_IDLE);
+		}
+	}
+
 
 	return nullptr;
 }
@@ -291,7 +300,11 @@ CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	//	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
 	//}
 	//else
+
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+
+
+
 
 	_vector vPlayerY = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	pTanjiro->Set_NavigationHeight(vPlayerY);
@@ -371,12 +384,34 @@ CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 void CIdleState::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
+	
+	//if (ePreState == STATE_HIT)
+	//{
+	//	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_HIT_DMG_RETURN);
+	//	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_HIT_DMG_RETURN);
+	//	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_HIT_DMG_RETURN);
+	//	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_HIT_DMG_RETURN, 0.01f);
+	//}
+	//else
+	if (ePreState == STATE_MOVE)
+	{
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_END);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_END);
+		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_MOVE_END, 0.01f);
+	}
+	else
+	{
+		if (ePreState == STATE_HIT)
+			ePreState = STATE_IDLE;
 
-	//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
-	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_IDLE);
-	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_IDLE);
-	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_IDLE, 0.05f);
-	pTanjiro->Get_Model()->Set_FrameNum(pTanjiro->Get_AnimIndex(), 100);
+		pTanjiro->Set_GodMode(false);
+		//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_IDLE);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_IDLE);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_IDLE, 0.05f);
+		pTanjiro->Get_Model()->Set_FrameNum(pTanjiro->Get_AnimIndex(), 100);
+	}
 
 }
 

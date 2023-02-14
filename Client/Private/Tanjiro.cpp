@@ -17,6 +17,8 @@
 #include "Level_GamePlay.h"
 #include "TanjiroBattleSTState.h"
 #include "Effect_Manager.h"
+#include "TanjiroTakeDownState.h"
+#include "TanjiroUpperHitState.h"
 using namespace Tanjiro;
 
 
@@ -176,10 +178,14 @@ void CTanjiro::Tick(_float fTimeDelta)
 	}
 
 	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
- 		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE)
+ 		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE || 
+		m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP_ATTACK)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
+
+	if(m_pTransformCom->Get_Jump() == true)
+		m_tInfo.bJump = true;
 
 
 	if (m_pTanjiroState != nullptr)
@@ -528,11 +534,26 @@ void CTanjiro::Get_GuardHit(_int eType)
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
 
+void CTanjiro::Player_TakeDown(_float _fPow, _bool _bJumpHit)
+{
+	CTanjiroState* pState = new CTakeDownState(_fPow, _bJumpHit);
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+}
+
+void CTanjiro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+	CTanjiroState* pState = new CUpperHitState(eHitType, CTanjiroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
+}
+
 void CTanjiro::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
 {
 	CTanjiroState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CTanjiroState::STATE_TYPE>(iTypeIndex), bIsContinue);
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
+
+
 
 
 HRESULT CTanjiro::SetUp_ShaderResources()

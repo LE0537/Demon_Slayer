@@ -18,8 +18,8 @@ public:
 	virtual void Exit(CShinobu* pShinobu) override;
 private:
 	CShinobuState* Jump(CShinobu* pShinobu, _float fTimeDelta);
-
-
+	void Set_HitState(CShinobu* pShinobu);
+	void Set_JumpHitState(CShinobu* pShinobu);
 private:
 	_float fHitTime = 0.f;
 	_float m_fPow = 0.f;
@@ -31,7 +31,10 @@ private:
 	_float m_fCurrentPosY = 0.f;
 	_bool  m_bTrun = false;
 
-	_bool m_bTest = false;
+
+private:
+	_bool m_bHitPlayerJump = false;
+
 };
 END
 END

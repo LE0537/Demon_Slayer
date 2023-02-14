@@ -126,40 +126,50 @@ CKyoujuroState * CJumpSkill_MoveState::Late_Tick(CKyoujuro * pKyojuro, _float fT
 						m_pTarget->Set_GuardTime(2.f);
 					}
 				}
-				else
-				{
+				else if(pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
+				{ 
 					m_pTarget->Set_Hp(-pKyojuro->Get_PlayerInfo().iDmg * pKyojuro->Get_PlayerInfo().fPowerUp);
-					m_pTarget->Take_Damage(0.3f, false);
+
+					if(m_iHit ==3)
+						m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 15.f, 20.f, 0.3f);
+					else
+						m_pTarget->Take_Damage(0.3f, false);
+
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);
 				}
-				_int iDest = rand() % 5;
-				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-				switch (iDest)
+
+				if (pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-				case 0:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-					break;
-				case 1:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
-					break;
-				case 2:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
-					break;
-				case 3:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
-					break;
-				case 4:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
-					break;
-				default:
-					break;
+
+					_int iDest = rand() % 5;
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					switch (iDest)
+					{
+					case 0:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+						break;
+					case 1:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+						break;
+					case 2:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+						break;
+					case 3:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+						break;
+					case 4:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+						break;
+					default:
+						break;
+					}
+
+
+					RELEASE_INSTANCE(CEffect_Manager);
+
+					++m_iHit;
 				}
-
-
-				RELEASE_INSTANCE(CEffect_Manager);
-
-				++m_iHit;
 			}
 
 		}

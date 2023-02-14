@@ -13,6 +13,7 @@
 #include "ShinobuSkill_Upper.h"
 #include "ShinobuTargetRushState.h"
 #include "Effect_Manager.h"
+
 using namespace Shinobu;
 
 
@@ -222,7 +223,14 @@ CShinobuState * CIdleState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
 
-
+	if (ePreState == STATE_MOVE)
+	{
+		if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
+		{
+			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			return new CIdleState(STATE_IDLE);
+		}
+	}
 	return nullptr;
 }
 
@@ -309,11 +317,27 @@ void CIdleState::Enter(CShinobu* pShinobu)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
-	pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_IDLE);
-	pShinobu->Set_AnimIndex(CShinobu::ANIM_IDLE);
-	pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_IDLE, 0.05f);
-	pShinobu->Get_Model()->Set_FrameNum(pShinobu->Get_AnimIndex(), 100);
 
+
+	if (m_ePreState == STATE_MOVE)
+	{
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_MOVE_END);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_MOVE_END);
+		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_MOVE_END, 0.01f);
+	}
+	else
+	{
+		if (m_ePreState == STATE_HIT)
+			m_ePreState = STATE_IDLE;
+
+		pShinobu->Set_GodMode(false);
+		//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_IDLE);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_IDLE);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_IDLE, 0.05f);
+		pShinobu->Get_Model()->Set_FrameNum(pShinobu->Get_AnimIndex(), 100);
+	}
 }
 
 void CIdleState::Exit(CShinobu* pShinobu)

@@ -106,6 +106,30 @@ public:
 
 		ANIM_BATTLE_START = 82,
 
+		ANIM_HIT_DMG_F = 83,
+		ANIM_HIT_DMG_L = 84,
+		ANIM_HIT_DMG_R = 85,
+		ANIM_HIT_DMG_U = 86,
+		ANIM_HIT_DMG_AF = 87,
+		ANIM_HIT_DMG_AL = 88,
+		ANIM_HIT_DMG_AR = 89,
+		ANIM_HIT_DMG_AU = 90,
+		ANIM_HIT_DMG2_F = 91,
+		ANIM_HIT_DMG2_G = 92,
+		ANIM_HIT_DMG_DOWN_0 = 93,
+		ANIM_HIT_DMG_DOWN_1 = 94,
+		ANIM_HIT_DMG_DOWN_2 = 95,
+		ANIM_HIT_DMG_DOWN_COL = 96,
+		ANIM_HIT_DMG_UPPER_0 = 97,
+		ANIM_HIT_DMG_UPPER_1 = 98,
+		ANIM_HIT_DMG_UPPER_2 = 99,
+		ANIM_HIT_DMG_DEATH = 100,
+
+
+		ANIM_HIT_DMG_RETURN_0 = 58,
+		ANIM_HIT_DMG_RETURN_1 = 56,
+
+
 		ANIM_END = 100
 	};
 
@@ -139,6 +163,8 @@ private:
 public:
 	virtual void  Take_Damage(_float _fPow,_bool _bJumpHit = 0);
 	virtual void  Get_GuardHit(_int eType);
+	virtual void  Player_TakeDown(_float _fPow, _bool _bJump = 0);
+	virtual void  Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower);
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:

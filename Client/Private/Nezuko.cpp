@@ -14,6 +14,8 @@
 #include "NezukoBattleSTState.h"
 #include "NezukoGuardHitState.h"
 #include "Effect_Manager.h"
+#include "NezukoTakeDownState.h"
+#include "NezukoUpperHitState.h"
 using namespace Nezuko;
 
 CNezuko::CNezuko(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -144,6 +146,13 @@ void CNezuko::Tick(_float fTimeDelta)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
+	if (m_pTransformCom->Get_Jump() == true)
+		m_tInfo.bJump = true;
+
+	if (m_pNezukoState != nullptr)
+	{
+		m_iState = m_pNezukoState->Get_NezukoState();
+	}
 }
 
 void CNezuko::Late_Tick(_float fTimeDelta)
@@ -590,6 +599,18 @@ void CNezuko::Get_GuardHit(_int eType)
 		m_pModelCom->Reset_Anim(CNezuko::ANIMID::ANIM_GUARD_HIT_1);
 		pState = new CGuardHitState(CNezukoState::STATE_TYPE::TYPE_LOOP);
 	}
+	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+}
+
+void CNezuko::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+	CNezukoState* pState = new CTakeDownState(_fPow, _bJump);
+	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+}
+
+void CNezuko::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+	CNezukoState* pState = new CUpperHitState(eHitType, CNezukoState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
 	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 }
 

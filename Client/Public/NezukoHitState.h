@@ -7,7 +7,7 @@ BEGIN(Nezuko)
 class CHitState : public CNezukoState
 {
 public:
-	CHitState(_float _fPow,_bool _bJump = 0);
+	CHitState(_float _fPow, _bool _bJump = 0);
 
 	virtual CNezukoState* HandleInput(CNezuko* pNezuko) override;
 	virtual CNezukoState* Tick(CNezuko* pNezuko, _float fTimeDelta) override;
@@ -18,7 +18,8 @@ public:
 	virtual void Exit(CNezuko* pNezuko) override;
 private:
 	CNezukoState* Jump(CNezuko* pNezuko, _float fTimeDelta);
-
+	void Set_HitState(CNezuko* pNezuko);
+	void Set_JumpHitState(CNezuko* pNezuko);
 private:
 	_float fHitTime = 0.f;
 	_float m_fPow = 0.f;
@@ -29,6 +30,11 @@ private:
 	_float m_fJumpTime = 0.f;
 	_float m_fCurrentPosY = 0.f;
 	_bool  m_bTrun = false;
+
+
+private:
+	_bool m_bHitPlayerJump = false;
+
 };
 END
 END

@@ -246,41 +246,44 @@ CNezukoState * CAtk_1_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 						m_pTarget->Set_GuardTime(2.f);
 					}
 				}
-				else
+				else if(pNezuko->Get_BattleTarget()->Get_GodMode() == false)
 				{
 					m_pTarget->Set_Hp(-pNezuko->Get_PlayerInfo().iDmg * pNezuko->Get_PlayerInfo().fPowerUp);
 					m_pTarget->Take_Damage(0.f, false);
 					pNezuko->Set_Combo(1);
 					pNezuko->Set_ComboTime(0.f);
 				}
-
-				_int iDest = rand() % 5;
-				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-				switch (iDest)
+				if (pNezuko->Get_BattleTarget()->Get_GodMode() == false)
 				{
-				case 0:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-					break;
-				case 1:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
-					break;
-				case 2:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
-					break;
-				case 3:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
-					break;
-				case 4:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
-					break;
-				default:
-					break;
+
+					_int iDest = rand() % 5;
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					switch (iDest)
+					{
+					case 0:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+						break;
+					case 1:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+						break;
+					case 2:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+						break;
+					case 3:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+						break;
+					case 4:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+						break;
+					default:
+						break;
+					}
+
+
+					RELEASE_INSTANCE(CEffect_Manager);
+
+					m_bHit = true;
 				}
-
-
-				RELEASE_INSTANCE(CEffect_Manager);
-
-				m_bHit = true;
 			}
 
 		}

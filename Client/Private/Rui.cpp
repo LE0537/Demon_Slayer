@@ -16,6 +16,8 @@
 #include "RuiBattleSTState.h"
 #include "RuiGuardHitState.h"
 #include "Effect_Manager.h"
+#include "RuiTakeDownState.h"
+#include "RuiUpperHitState.h"
 using namespace Rui;
 
 
@@ -166,11 +168,17 @@ void CRui::Tick(_float fTimeDelta)
 		m_pSphereCom->Update(matColl);
 
 
-	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP || m_pRuiState->Get_RuiState() == CRuiState::STATE_CHANGE)
+	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP || m_pRuiState->Get_RuiState() == CRuiState::STATE_CHANGE || m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP_ATTACK)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
 
+	}
+	if (m_pTransformCom->Get_Jump() == true)
+		m_tInfo.bJump = true;
+	if (m_pRuiState != nullptr)
+	{
+		m_iState = m_pRuiState->Get_RuiState();
 	}
 
 }
@@ -438,6 +446,18 @@ void CRui::Get_GuardHit(_int eType)
 		m_pModelCom->Reset_Anim(CRui::ANIMID::ANIM_GUARD_HIT_1);
 		pState = new CGuardHitState(CRuiState::STATE_TYPE::TYPE_LOOP);
 	}
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+}
+
+void CRui::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+	CRuiState* pState = new CTakeDownState(_fPow, _bJump);
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+}
+
+void CRui::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+	CRuiState* pState = new CUpperHitState(eHitType, CRuiState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 }
 

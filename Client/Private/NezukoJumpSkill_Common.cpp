@@ -234,7 +234,7 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 							m_pTarget->Set_GuardTime(2.f);
 						}
 					}
-					else
+					else if (pNezuko->Get_BattleTarget()->Get_GodMode() == false)
 					{
 						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
@@ -244,34 +244,36 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 						pNezuko->Set_Combo(1);
 						pNezuko->Set_ComboTime(0.f);
 					}
-
-					_int iDest = rand() % 5;
-					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-					switch (iDest)
+					if (pNezuko->Get_BattleTarget()->Get_GodMode() == false)
 					{
-					case 0:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-						break;
-					case 1:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
-						break;
-					case 2:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
-						break;
-					case 3:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
-						break;
-					case 4:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
-						break;
-					default:
-						break;
+						_int iDest = rand() % 5;
+						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+						switch (iDest)
+						{
+						case 0:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+							break;
+						case 1:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+							break;
+						case 2:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+							break;
+						case 3:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+							break;
+						case 4:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+							break;
+						default:
+							break;
+						}
+
+
+						RELEASE_INSTANCE(CEffect_Manager);
+
+						m_fHitTime = 0.f;
 					}
-
-
-					RELEASE_INSTANCE(CEffect_Manager);
-
-					m_fHitTime = 0.f;
 				}
 			}
 
@@ -337,44 +339,46 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 							m_pTarget->Set_GuardTime(2.f);
 						}
 					}
-					else
+					else if (pNezuko->Get_BattleTarget()->Get_GodMode() == false)
 					{
 						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(-10 * pNezuko->Get_PlayerInfo().fPowerUp);
-						m_pTarget->Take_Damage(0.f, false);
+						m_pTarget->Player_TakeDown(0.4f, false);
 						pNezuko->Set_Combo(1);
 						pNezuko->Set_ComboTime(0.f);
 					}
-
-					_int iDest = rand() % 5;
-					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-					switch (iDest)
+					if (pNezuko->Get_BattleTarget()->Get_GodMode() == false)
 					{
-					case 0:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-						break;
-					case 1:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
-						break;
-					case 2:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
-						break;
-					case 3:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
-						break;
-					case 4:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
-						break;
-					default:
-						break;
+						_int iDest = rand() % 5;
+						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+						switch (iDest)
+						{
+						case 0:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+							break;
+						case 1:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+							break;
+						case 2:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+							break;
+						case 3:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+							break;
+						case 4:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+							break;
+						default:
+							break;
+						}
+
+
+						RELEASE_INSTANCE(CEffect_Manager);
+
+						m_fHitTime = 0.f;
 					}
-
-
-					RELEASE_INSTANCE(CEffect_Manager);
-
-					m_fHitTime = 0.f;
 				}
 			}
 
@@ -413,7 +417,7 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 
 void CJumpSkill_CommmonState::Enter(CNezuko* pNezuko)
 {
-	m_eStateId = STATE_JUMP;
+	m_eStateId = STATE_JUMP_ATTACK;
 
 	_uint iRand = rand() % 3;
 

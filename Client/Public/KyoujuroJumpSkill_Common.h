@@ -40,6 +40,8 @@ private:
 	_bool	m_bEffect = false;
 
 	_float fTest = 0.f;
+
+	_bool m_bCreate = false;
 };
 END
 END

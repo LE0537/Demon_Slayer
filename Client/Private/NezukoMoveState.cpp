@@ -182,7 +182,7 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CMoveState(OBJDIR::DIR_STOP, TYPE_LOOP);
+			return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -333,7 +333,7 @@ CNezukoState * CMoveState::HandleInput(CNezuko* pNezuko)
 				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
 		}
 		else
-			return new CMoveState(OBJDIR::DIR_STOP, TYPE_LOOP);
+			return new CIdleState(STATE_MOVE);
 
 		break;
 	}

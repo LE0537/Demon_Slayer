@@ -2082,6 +2082,42 @@
     <ClInclude Include="..\Public\RuiDadTargetRushState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Rush</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3085,6 +3121,42 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiDadTargetRushState.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Rush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

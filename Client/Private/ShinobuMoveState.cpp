@@ -178,7 +178,7 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
 		}
 		else
-			return new CMoveState(OBJDIR::DIR_STOP, TYPE_END);
+			return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -330,7 +330,7 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
 		}
 		else
-			return new CMoveState(OBJDIR::DIR_STOP, TYPE_END);
+			return new CIdleState(STATE_MOVE);
 		break;
 	default:
 		break;

@@ -249,13 +249,13 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 						{
 							CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-							  pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
 							RELEASE_INSTANCE(CEffect_Manager);
 							m_pTarget->Set_ResetGuardHp();
 							m_pTarget->Set_GuardTime(2.f);
 						}
 					}
-					else
+					else if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 					{
 						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.3f);
@@ -263,41 +263,44 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 						pTanjiro->Set_Combo(1);
 						pTanjiro->Set_ComboTime(0.f);
 						m_pTarget->Set_Hp(-30 * pTanjiro->Get_PlayerInfo().fPowerUp);
+
 						if (!m_bHit)
 						{
-							m_pTarget->Take_Damage(0.6f, true);
+							m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER_2, 15.f, 20.f, 8.f);
 							m_bHit = true;
 						}
 					}
-
-					_int iDest = rand() % 5;
-					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-					switch (iDest)
+					if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 					{
-					case 0:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-						break;
-					case 1:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
-						break;
-					case 2:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
-						break;
-					case 3:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
-						break;
-					case 4:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
-						break;
-					default:
-						break;
+						_int iDest = rand() % 5;
+						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+						switch (iDest)
+						{
+						case 0:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+							break;
+						case 1:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+							break;
+						case 2:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+							break;
+						case 3:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+							break;
+						case 4:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+							break;
+						default:
+							break;
+						}
+
+
+						RELEASE_INSTANCE(CEffect_Manager);
+
+						pTanjiro->Set_WindMillHit();
+						m_fHitTime = 0.f;
 					}
-
-
-					RELEASE_INSTANCE(CEffect_Manager);
-
-					pTanjiro->Set_WindMillHit();
-					m_fHitTime = 0.f;
 				}
 			}
 			if (pMyCollider2->Collision(pTargetCollider))
@@ -455,6 +458,9 @@ void CSkill_WindMillState::Increase_Height(CTanjiro * pTanjiro, _float fTimeDelt
 
 void CSkill_WindMillState::Fall_Height(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	pTanjiro->Set_NavigationHeight(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pTanjiro->Get_NavigationHeight().y;
+
 	static _float fGravity = -200.f;
 	static _float fVelocity = 0.f;
 	static _float3 vPosition;
@@ -469,16 +475,16 @@ void CSkill_WindMillState::Fall_Height(CTanjiro * pTanjiro, _float fTimeDelta)
 	_vector vecPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vecPos = XMVectorSetY(vecPos, vPosition.y);
 
-	if (vPosition.y <= 0.f)
+	if (vPosition.y <= m_fCurrentPosY)
 	{
-		vPosition.y = 0.f;
-		fVelocity = 0.f;
+		vPosition.y = m_fCurrentPosY;
+		fVelocity = m_fCurrentPosY;
 
 		_vector vecPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		vecPos = XMVectorSetY(vecPos, vPosition.y);
 		
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
-
+		pTanjiro->Get_Transform()->Set_Jump(false);
 		m_bNextAnim = true;
 	}
 	else

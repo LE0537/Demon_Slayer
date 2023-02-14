@@ -251,7 +251,14 @@ CAkazaState * CIdleState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 		pAkaza->Set_Change(true, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
 	}
 
-
+	if (m_ePreState == STATE_MOVE)
+	{
+		if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+		{
+			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+			return new CIdleState(STATE_IDLE);
+		}
+	}
 	return nullptr;
 }
 
@@ -332,9 +339,26 @@ void CIdleState::Enter(CAkaza* pAkaza)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
-	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_IDLE);
-	pAkaza->Set_AnimIndex(CAkaza::ANIM_IDLE);
-	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_IDLE, 0.05f);
+	if (m_ePreState == STATE_MOVE)
+	{
+		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_MOVE_END);
+		pAkaza->Set_AnimIndex(CAkaza::ANIM_MOVE_END);
+		pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
+		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIMID::ANIM_MOVE_END, 0.01f);
+	}
+	else
+	{
+		if (m_ePreState == STATE_HIT)
+			m_ePreState = STATE_IDLE;
+
+		pAkaza->Set_GodMode(false);
+		//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
+		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_IDLE);
+		pAkaza->Set_AnimIndex(CAkaza::ANIM_IDLE);
+		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_IDLE, 0.05f);
+		pAkaza->Get_Model()->Set_FrameNum(pAkaza->Get_AnimIndex(), 100);
+	}
+
 }
 
 void CIdleState::Exit(CAkaza* pAkaza)
