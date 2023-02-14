@@ -144,6 +144,8 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	else if (m_bStory && bCamAttach)
 	{
 		Key_Input(fTimeDelta);
+
+		Check_StoryCam();
 	}
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -407,13 +409,13 @@ void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 
 	_vector vCamDir = XMVector3TransformNormal(XMVectorSet(0.f, 1.f, -1.f, 0.f), matRotX);
 	vCamDir = XMVector3TransformNormal(vCamDir, matRotY);
-	_vector vCamPos = vCamDir * 3.f;
+	_vector vCamPos = vCamDir * 5.f;
 	_vector vDestPos = pTransform->Get_State(CTransform::STATE_TRANSLATION) + vCamPos;
 
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vDestPos);
 
 	_vector vLookPos = XMVectorSetY(pTransform->Get_State(CTransform::STATE_TRANSLATION), XMVectorGetY(pTransform->Get_State(CTransform::STATE_TRANSLATION)) + 0.8f);
-	vLookPos.m128_f32[1] += 1.f;
+	vLookPos.m128_f32[1] += 2.f;
 	m_pTransform->LookAt(vLookPos);
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -624,6 +626,7 @@ void CCamera_Dynamic::Set_StartPos(_float fTimeDelta)
 		m_fFov += 0.6f;
 		m_fLookAtY += 0.3f;
 	}
+
 #else
 	if (m_fFovTime < 1.f && m_fFovTime > 0.5f)
 	{
@@ -713,6 +716,17 @@ void CCamera_Dynamic::Check_Model()
 		m_iAnimIndex = 10;
 	else if (m_pPlayer->Get_PlayerInfo().strName == TEXT("½Ã³ëºÎ"))
 		m_iAnimIndex = 89;
+}
+
+void CCamera_Dynamic::Check_StoryCam()
+{
+	_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - vPos));
+
+	if (fDist < 40.f)
+		m_bStoryBattle = true;
 }
 
 CCamera_Dynamic * CCamera_Dynamic::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

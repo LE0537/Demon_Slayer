@@ -227,7 +227,7 @@ CAkazaState * CSkill_ShootState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CAkazaState::TYPE_START:
-		if (m_fMove > 0.23f && m_iHit < 3)
+		if (m_fMove > 0.23f && m_iHit < 3 && pAkaza->Get_BattleTarget()->Get_GodMode() == false)
 		{
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
@@ -240,7 +240,7 @@ CAkazaState * CSkill_ShootState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 		}
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
-		if (m_fDelay > 0.15f && m_iHit < 2)
+		if (m_fDelay > 0.15f && m_iHit < 2 && pAkaza->Get_BattleTarget()->Get_GodMode() == false)
 		{
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 

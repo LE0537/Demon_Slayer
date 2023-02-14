@@ -241,7 +241,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 						m_pTarget->Set_GuardTime(2.f);
 					}
 				}
-				else
+				else if (pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
 				{
 					m_pTarget->Set_Hp(-25 * pKyojuro->Get_PlayerInfo().fPowerUp);
 					m_pTarget->Take_Damage(0.2f, false);
@@ -249,34 +249,37 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 					pKyojuro->Set_ComboTime(0.f);
 				}
 				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
-
-				_int iDest = rand() % 5;
-				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-				switch (iDest)
+				if (pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-				case 0:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-					break;
-				case 1:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
-					break;
-				case 2:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
-					break;
-				case 3:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
-					break;
-				case 4:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
-					break;
-				default:
-					break;
+
+					_int iDest = rand() % 5;
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					switch (iDest)
+					{
+					case 0:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+						break;
+					case 1:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+						break;
+					case 2:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+						break;
+					case 3:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+						break;
+					case 4:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+						break;
+					default:
+						break;
+					}
+
+
+					RELEASE_INSTANCE(CEffect_Manager);
+
+					m_bHit = true;
 				}
-
-
-				RELEASE_INSTANCE(CEffect_Manager);
-
-				m_bHit = true;
 			}
 		}
 
@@ -349,44 +352,47 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 						m_pTarget->Set_ResetGuardHp();
 						m_pTarget->Set_GuardTime(2.f);
 					}
-				}
-				else
+				} 
+				else if (pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
 				{
 					m_pTarget->Set_Hp(-25 * pKyojuro->Get_PlayerInfo().fPowerUp);
-					m_pTarget->Take_Damage(0.25f, false);
+					m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 10.f, 15.f, 3.f);
+					//m_pTarget->Take_Damage(0.25f, false);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);
 				}
 
 				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
-
-				_int iDest = rand() % 5;
-				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-				switch (iDest)
+				if (pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-				case 0:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-					break;
-				case 1:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
-					break;
-				case 2:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
-					break;
-				case 3:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
-					break;
-				case 4:
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
-					break;
-				default:
-					break;
+					_int iDest = rand() % 5;
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					switch (iDest)
+					{
+					case 0:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+						break;
+					case 1:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+						break;
+					case 2:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+						break;
+					case 3:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+						break;
+					case 4:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+						break;
+					default:
+						break;
+					}
+
+
+					RELEASE_INSTANCE(CEffect_Manager);
+					m_fHitTime = 0.f;
+					++m_iHit;
 				}
-
-
-				RELEASE_INSTANCE(CEffect_Manager);
-				m_fHitTime = 0.f;
-				++m_iHit;
 			}
 		}
 		CCollider*	pMyCollider = pKyojuro->Get_SphereCollider();

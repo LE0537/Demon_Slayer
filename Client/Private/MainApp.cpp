@@ -23,7 +23,7 @@
 
 bool			g_bDebug = false;
 bool			g_bCollBox = false;
-
+int		    	g_iLevel = 0;
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())
 	, m_pImGuiManager(CImGuiManager::Get_Instance())
@@ -62,11 +62,13 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Fonts(m_pDevice, m_pContext, TEXT("Font_Nexon"), TEXT("../Bin/Resources/Fonts/130.spritefont"))))
+	if (FAILED(m_pGameInstance->Add_Fonts(m_pDevice, m_pContext, TEXT("Font_Nexon"), TEXT("../Bin/Resources/Fonts/DemonSlayer.spritefont"))))
 		return E_FAIL;
 
-	//if (FAILED(Open_DebugCMD()))
-	//	return E_FAIL;
+#ifdef _DEBUG
+	if (FAILED(Open_DebugCMD()))
+		return E_FAIL;
+#endif // DEBUG
 
 	if (FAILED(m_pImGuiManager->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
@@ -95,7 +97,7 @@ HRESULT CMainApp::Render()
 	m_pGameInstance->Clear_BackBuffer_View(_float4(0.f, 0.f, 0.f, 1.f));
 	m_pGameInstance->Clear_DepthStencil_View();
 
-	m_pRenderer->Render_GameObjects(g_bDebug);
+	m_pRenderer->Render_GameObjects(g_bDebug, g_iLevel);
 
 	m_pImGuiManager->Render();
 	m_pGameInstance->Present();

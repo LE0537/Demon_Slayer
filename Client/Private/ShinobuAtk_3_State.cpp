@@ -119,6 +119,7 @@ CShinobuState * CAtk_3_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 				else
 				{
 					m_pTarget->Set_Hp(-pShinobu->Get_PlayerInfo().iDmg * pShinobu->Get_PlayerInfo().fPowerUp);
+				
 					m_pTarget->Take_Damage(0.3f, false);
 					pShinobu->Set_Combo(1);
 					pShinobu->Set_ComboTime(0.f);

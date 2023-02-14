@@ -18,8 +18,8 @@ public:
 	virtual void Exit(CTanjiro* pTanjiro) override;
 private:
 	CTanjiroState* Jump(CTanjiro* pTanjiro, _float fTimeDelta);
-
-
+	void Set_HitState(CTanjiro* pTanjiro);
+	void Set_JumpHitState(CTanjiro* pTanjiro);
 private:
 	_float fHitTime = 0.f;
 	_float m_fPow = 0.f;
@@ -30,6 +30,10 @@ private:
 	_float m_fJumpTime = 0.f;
 	_float m_fCurrentPosY = 0.f;
 	_bool  m_bTrun = false;
+
+
+private:
+	_bool m_bHitPlayerJump = false;
 
 };
 END

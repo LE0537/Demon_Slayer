@@ -330,7 +330,7 @@ HRESULT CRenderer::Add_RenderGroup_Front(RENDERGROUP eRenderGroup, CGameObject *
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
+HRESULT CRenderer::Render_GameObjects(_bool _bDebug, _int _iLevel)
 {
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
@@ -348,7 +348,7 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug)
 	if (FAILED(Render_AO()))
 		return E_FAIL;
 	//	그려진 객체들을 아름답게 섞습니다.
-	if (FAILED(Render_Blend()))
+	if (FAILED(Render_Blend(_iLevel)))
 		return E_FAIL;
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
@@ -692,7 +692,7 @@ HRESULT CRenderer::Render_AO()
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_Blend()
+HRESULT CRenderer::Render_Blend(_int _iLevel)
 {
 	/* 백버퍼에 그린다. */
 	if (nullptr == m_pTarget_Manager)
@@ -736,8 +736,13 @@ HRESULT CRenderer::Render_Blend()
 
 	_vector		vLightEye, vLightAt, vLightUp;
 	_matrix		matLightView;
+	const LIGHTDESC* pLightDesc = nullptr;
 
-	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
+	if(_iLevel == 1)
+		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
+	else if(_iLevel == 2)
+		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
+
 	if (nullptr != pLightDesc)
 	{
 		vLightEye = XMLoadFloat4(&pLightDesc->vDirection);
@@ -756,7 +761,7 @@ HRESULT CRenderer::Render_Blend()
 
 
 	}
-
+	 
 	//	StaticObjs
 	if (nullptr != pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW))
 	{

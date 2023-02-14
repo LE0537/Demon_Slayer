@@ -7,7 +7,7 @@ BEGIN(Akaza)
 class CHitState : public CAkazaState
 {
 public:
-	CHitState(_float _fPow,_bool _bJump = 0);
+	CHitState(_float _fPow, _bool _bJump = 0);
 
 	virtual CAkazaState* HandleInput(CAkaza* pAkaza) override;
 	virtual CAkazaState* Tick(CAkaza* pAkaza, _float fTimeDelta) override;
@@ -18,7 +18,8 @@ public:
 	virtual void Exit(CAkaza* pAkaza) override;
 private:
 	CAkazaState* Jump(CAkaza* pAkaza, _float fTimeDelta);
-
+	void Set_HitState(CAkaza* pAkaza);
+	void Set_JumpHitState(CAkaza* pAkaza);
 private:
 	_float fHitTime = 0.f;
 	_float m_fPow = 0.f;
@@ -29,6 +30,10 @@ private:
 	_float m_fJumpTime = 0.f;
 	_float m_fCurrentPosY = 0.f;
 	_bool  m_bTrun = false;
+
+
+private:
+	_bool m_bHitPlayerJump = false;
 
 };
 END

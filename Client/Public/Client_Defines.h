@@ -20,5 +20,5 @@ extern HWND			g_hWnd;
 extern HINSTANCE	g_hInst;
 extern bool			g_bDebug;
 extern bool			g_bCollBox;
-
+extern int			g_iLevel; //겜플 1 루이스토리 2 그외 0
 using namespace Client;

@@ -82,9 +82,9 @@ HRESULT CAdcMenuNameBar::Render()
 	_uint iStageNum = pUI_Manager->Get_AdvStageNum();
 
 	if (iStageNum == 0)
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("히노카미 카구라 편"), XMVectorSet(m_fX - 100.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("히노카미 카구라 편"), XMVectorSet(m_fX - 140.f, m_fY - 24.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
 	else 
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("무한열차 아카자 편"), XMVectorSet(m_fX - 100.f, m_fY - 12.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("무한열차 아카자 편"), XMVectorSet(m_fX - 140.f, m_fY - 24.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);

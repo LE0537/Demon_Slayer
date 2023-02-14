@@ -16,6 +16,8 @@
 #include "RuiBattleSTState.h"
 #include "RuiGuardHitState.h"
 #include "Effect_Manager.h"
+#include "RuiTakeDownState.h"
+#include "RuiUpperHitState.h"
 using namespace Rui;
 
 
@@ -42,8 +44,9 @@ HRESULT CRui::Initialize(void * pArg)
 	m_i1p = tCharacterDesc.i1P2P;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	m_i1p = 10;
-	//if (m_i1p != 10)
+
+	//m_i1p = 10;
+	if (m_i1p != 10)
 	{
 		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
 		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
@@ -84,21 +87,21 @@ HRESULT CRui::Initialize(void * pArg)
 
 		}
 	}
-	//else if (m_i1p == 10)
-	//{
-	//	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	//	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-	//	RELEASE_INSTANCE(CGameInstance);
-	//	_vector vPos = { -86.276f,9.252f,6.756f,1.f };
-	//	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	//	m_pTransformCom->Set_Scale(XMVectorSet(0.3f, 0.3f, 0.3f, 0.f));
-	//	m_pNavigationCom->Find_CurrentCellIndex(vPos);
+	else if (m_i1p == 10)
+	{
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		RELEASE_INSTANCE(CGameInstance);
+		_vector vPos = { -860.374f,92.52f,-68.017f,1.f };
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	
+		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 
-	//	m_tInfo.bSub = tCharacterDesc.bSub;
-	//	m_bChange = tCharacterDesc.bSub;
-	////	CUI_Manager::Get_Instance()->Set_2P(this);
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+	//	CUI_Manager::Get_Instance()->Set_2P(this);
 
-	//}
+	}
 	CRuiState* pState = new CIdleState();
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 
@@ -166,11 +169,17 @@ void CRui::Tick(_float fTimeDelta)
 		m_pSphereCom->Update(matColl);
 
 
-	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP || m_pRuiState->Get_RuiState() == CRuiState::STATE_CHANGE)
+	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP || m_pRuiState->Get_RuiState() == CRuiState::STATE_CHANGE || m_pRuiState->Get_RuiState() == CRuiState::STATE_JUMP_ATTACK)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
 
+	}
+	if (m_pTransformCom->Get_Jump() == true)
+		m_tInfo.bJump = true;
+	if (m_pRuiState != nullptr)
+	{
+		m_iState = m_pRuiState->Get_RuiState();
 	}
 
 }
@@ -233,12 +242,22 @@ HRESULT CRui::Render_ShadowDepth()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
 		return E_FAIL;
 
-
-	_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
-	_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
-	_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
-	_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
-
+	_vector vLightEye, vLightAt, vLightUp;
+	_matrix matLightView;
+	if (g_iLevel == 1)
+	{
+		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
+		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
+		vLightUp = { 0.f, 1.f, 0.f ,0.f };
+		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+	}
+	else if (g_iLevel == 2)
+	{
+		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
+		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);
+		vLightUp = { 0.f, 1.f, 0.f ,0.f };
+		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+	}
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 		return E_FAIL;
 
@@ -438,6 +457,18 @@ void CRui::Get_GuardHit(_int eType)
 		m_pModelCom->Reset_Anim(CRui::ANIMID::ANIM_GUARD_HIT_1);
 		pState = new CGuardHitState(CRuiState::STATE_TYPE::TYPE_LOOP);
 	}
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+}
+
+void CRui::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+	CRuiState* pState = new CTakeDownState(_fPow, _bJump);
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+}
+
+void CRui::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+	CRuiState* pState = new CUpperHitState(eHitType, CRuiState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 }
 

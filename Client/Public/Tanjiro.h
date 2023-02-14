@@ -38,12 +38,12 @@ public:
 		ANIM_JUMP_END = 68,
 
 		// change
-		ANIM_CHANGE_UP = 66, 
+		ANIM_CHANGE_UP = 66,
 		ANIM_CHANGE_DOWN_START = 67,
 		ANIM_CHANGE_DOWN_END = 68,
 
 		// ATTACK
-		ANIM_ATTACK_1 =12,
+		ANIM_ATTACK_1 = 12,
 		ANIM_ATTACK_2 = 13,
 		ANIM_ATTACK_3 = 14,
 		ANIM_ATTACK_4 = 17,
@@ -72,7 +72,7 @@ public:
 		ANIM_SKILL_JUMPMOVE_2 = 27,
 
 		// HIT
-		ANIM_HIT= 22,
+		ANIM_HIT = 22,
 
 
 		// GUARD
@@ -126,6 +126,28 @@ public:
 
 		ANIM_BATTLE_START = 99,
 
+
+		ANIM_HIT_DMG_F = 114,
+		ANIM_HIT_DMG_L = 115,
+		ANIM_HIT_DMG_R = 116,
+		ANIM_HIT_DMG_U = 117,
+		ANIM_HIT_DMG_AF = 118,
+		ANIM_HIT_DMG_AL = 119,
+		ANIM_HIT_DMG_AR = 120,
+		ANIM_HIT_DMG_AU = 121,
+		ANIM_HIT_DMG2_F = 122,
+		ANIM_HIT_DMG2_G = 123,
+		ANIM_HIT_DMG_DOWN_0 = 124,
+		ANIM_HIT_DMG_DOWN_1 = 125,
+		ANIM_HIT_DMG_DOWN_2 = 126,
+		ANIM_HIT_DMG_DOWN_COL = 127,
+		ANIM_HIT_DMG_UPPER_0 = 128,
+		ANIM_HIT_DMG_UPPER_1 = 129,
+		ANIM_HIT_DMG_UPPER_2 = 130,
+		ANIM_HIT_DMG_DEATH = 131,
+
+		ANIM_HIT_DMG_RETURN_0 = 57,
+		ANIM_HIT_DMG_RETURN_1 = 58,
 		ANIM_END = 114
 	};
 
@@ -141,16 +163,17 @@ public:
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
 public:
-//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
+	//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
 	CModel* Get_Model() const { return m_pModelCom; }
 
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
-	void   Set_AnimIndex(ANIMID iAnimIndex) {m_eAnimID = iAnimIndex;}
+	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
 
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);
-
+	virtual void  Player_TakeDown(_float _fPow, _bool _bJumpHit = 0);
+	virtual void  Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower);
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 	_int Get_WaterMillHit() { return m_iWaterMillHit; }
@@ -166,10 +189,11 @@ public:
 	void Set_KaguraMode(_bool bKagura) { m_bIsKagura = bKagura; }
 	_bool Get_KaguraMode() const { return m_bIsKagura; }
 	void Set_Render(_bool _bRender) { m_bRender = _bRender; }
+	
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
-
+	void Set_Shadow();
 
 private:
 	void HandleInput(_float fTimeDelta);

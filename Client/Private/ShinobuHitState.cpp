@@ -2,6 +2,7 @@
 #include "ShinobuHitState.h"
 #include "ShinobuIdleState.h"
 #include "GameInstance.h"
+#include "ShinobuUpperHitState.h"
 
 using namespace Shinobu;
 
@@ -22,7 +23,7 @@ CShinobuState * CHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 	{
 		if (pShinobu->Get_PlayerInfo().iUnicCount < 3 && pShinobu->Get_PlayerInfo().iUnicBar < pShinobu->Get_PlayerInfo().iUnicMaxBar)
 		{
-			pShinobu->Set_UnicBar(67);
+			pShinobu->Set_UnicBar(33);
 			if (pShinobu->Get_PlayerInfo().iUnicBar >= pShinobu->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pShinobu->Get_PlayerInfo().iUnicCount < 3)
@@ -34,78 +35,82 @@ CShinobuState * CHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 					pShinobu->Set_UnicBar(pShinobu->Get_PlayerInfo().iUnicMaxBar);
 			}
 		}
+		pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_HIT);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_HIT);
 		m_bReset = true;
 	}
-	m_fJumpTime += 0.035f;
-	if (m_bJumpHit && !m_bJump)
+
+
+	fHitTime += fTimeDelta * 60.f;
+
+	if (!m_bJumpHit)
 	{
-		Jump(pShinobu, m_fJumpTime);
-	}
-
-	_vector vPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-
-	if (m_bJumpHit == false)
-	{
-		if (pShinobu->Get_Model()->Get_CurrentFrame() <= 60)
-		{
+		if (fHitTime <= 20.f)
 			pShinobu->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
 
-			_vector vPlayerY = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-			vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
-			if (vPlayerY.m128_f32[1] < 0)
-				vPlayerY.m128_f32[1] = 0;
-
-			pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
-
-		
-		}
-
-		pShinobu->Get_Model()->Play_Animation(fTimeDelta, false);
-
-		if (pShinobu->Get_Model()->Get_CurrentFrame() >= 54)
-			return new CIdleState();
 	}
-	else
+
+
+	//	_vector vPlayerY = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	//
+	//	vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
+	//	if (vPlayerY.m128_f32[1] < 0)
+	//		vPlayerY.m128_f32[1] = 0;
+
+	//	pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
+	//	if (fHitTime >= 35.f)
+	//		return new CIdleState();
+	//}
+	//else if (m_bJumpHit)
+	//{
+	//	if (fHitTime <= 35.f)
+	//	{
+	//		if (!m_bTrun)
+	//		{
+	//			_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	//			_vector vLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+	//			vPos += XMVector3Normalize(vLook) * 15.f * fTimeDelta * m_fPow;
+	//			if (pShinobu->Get_NavigationCom()->Cheak_Cell(vPos))
+	//				pShinobu->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
+	//			else
+	//			{
+	//				m_bTrun = true;
+	//			}
+	//		}
+	//		if (m_bTrun)
+	//		{
+	//			pShinobu->Get_Transform()->Go_Straight(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
+	//		}
+	//	}
+	//	if (pShinobu->Get_Model()->Get_End(CShinobu::ANIM_HIT))
+	//	{
+	//		pShinobu->Get_Model()->Set_End(CShinobu::ANIM_HIT);
+	//		//pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_HIT);
+
+	//		pShinobu->Get_Model()->Set_CurrentAnimIndex(58);
+	//		pShinobu->Get_Model()->Set_Loop(58);
+	//		pShinobu->Get_Model()->Set_LinearTime(58, 0.01f);
+	//		pShinobu->Set_bGuard(true);
+	//	}
+
+	//	if (pShinobu->Get_Model()->Get_End(58))
+	//	{
+	//		pShinobu->Get_Model()->Reset_Anim(58);
+	//		pShinobu->Get_Model()->Set_End(58);
+	//		pShinobu->Set_bGuard(false);
+	//		return new CIdleState();
+	//	}
+	//}
+
+
+	if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
 	{
-		if (pShinobu->Get_Model()->Get_CurrentFrame() <= 60)
-		{
-			if (!m_bTrun)
-			{
-				_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-				_vector vLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK);
-				vPos += XMVector3Normalize(vLook) * 15.f * fTimeDelta * m_fPow;
-				if (pShinobu->Get_NavigationCom()->Cheak_Cell(vPos))
-					pShinobu->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
-				else
-				{
-					m_bTrun = true;
-				}
-			}
-			if (m_bTrun)
-			{
-				pShinobu->Get_Transform()->Go_Straight(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
-			}
-			pShinobu->Get_Model()->Play_Animation(fTimeDelta, false);
-
-		}
-		
-		else if (pShinobu->Get_Model()->Get_CurrentTime() >= 86)
-		{
-			//if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
-			//{
-			//	pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-				//pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_HIT);
-				return new CIdleState();
-			//}
-		}
-		else
-			pShinobu->Get_Model()->Play_Animation(fTimeDelta, false);
-
+		pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+		return new CIdleState(STATE_HIT);
 	}
 
-	
+
+
 
 
 	return nullptr;
@@ -113,12 +118,20 @@ CShinobuState * CHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 CShinobuState * CHitState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
-	m_fJumpTime += 0.035f;
-	if (m_bJumpHit && !m_bJump)
-	{
-		Jump(pShinobu, m_fJumpTime);
-	}
-	pShinobu->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
+	//m_fJumpTime += 0.035f;
+	//if (m_bJumpHit && !m_bJump)
+	//{
+	//	Jump(pShinobu, m_fJumpTime);
+	//}
+
+	if (pShinobu->Get_AnimIndex() == CShinobu::ANIMID::ANIM_HIT_DMG2_G)
+		pShinobu->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
+	else
+		pShinobu->Get_Model()->Play_Animation(fTimeDelta);
+
+
+
+
 
 	return nullptr;
 }
@@ -127,40 +140,41 @@ void CHitState::Enter(CShinobu* pShinobu)
 {
 	m_eStateId = STATE_ID::STATE_HIT;
 
-	pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT);
-	pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT);
-	
-	
-	
-	if (m_bJumpHit == false)
+
+	if (pShinobu->Get_NavigationHeight().y < XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
 	{
-		pShinobu->Get_Model()->Set_FrameNum(pShinobu->Get_AnimIndex(), 100);
-		//pAkaza->Get_Model()->Set_FrameTime(pAkaza->Get_AnimIndex(), 0, 20, 1.f);
-		pShinobu->Get_Model()->Set_UsingFrame(CShinobu::ANIM_HIT, 30, 60);
+		m_bHitPlayerJump = true;
+		Set_JumpHitState(pShinobu);
 	}
 	else
 	{
-		pShinobu->Get_Model()->Set_FrameNum(pShinobu->Get_AnimIndex(), 100);
-		//pAkaza->Get_Model()->Set_FrameTime(pAkaza->Get_AnimIndex(), 0, 20, 1.f);
-		pShinobu->Get_Model()->Set_UsingFrame(CShinobu::ANIM_HIT, 30, 100);
+		m_bHitPlayerJump = false;
+		Set_HitState(pShinobu);
 	}
+
+
+
 
 	_uint iRand = rand() % 4;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Hit_1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_1.wav"), fEFFECT);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Hit_2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_2.wav"), fEFFECT);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Hit_3.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_3.wav"), fEFFECT);
 	else if (iRand == 3)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Hit_4.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_4.wav"), fEFFECT);
 
 	if (iRand == 0)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
 	else if (iRand == 1)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
+
+
+
+
 CShinobuState * CHitState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 {
 	pShinobu->Set_NavigationHeight(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
@@ -169,8 +183,8 @@ CShinobuState * CHitState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
-	static _float fVelocity = 12.5f;
-	static _float fGravity = 15.f;
+	static _float fVelocity = 20.f;
+	static _float fGravity = 40.f;
 
 
 	_vector      vPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -194,11 +208,177 @@ CShinobuState * CHitState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 
 	return nullptr;
 }
+void CHitState::Set_HitState(CShinobu* pShinobu)
+{
+	_int iHit = pShinobu->Get_BattleTarget()->Get_TargetState();
+
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 3);
+	int iRandom = RandomPattern(gen);
+
+	if (iHit >= 12)
+	{
+
+		switch (iRandom)
+		{
+		case 1:
+			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_F);
+			pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_F);
+			pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+			pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+			break;
+		case 2:
+			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_L);
+			pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_L);
+			pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+			pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+			break;
+		case 3:
+			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_R);
+			pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_R);
+			pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+			pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+			break;
+		}
+	}
+
+	else
+	{
+
+		switch (iHit)
+		{
+		case 3: // atk 1
+			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_F);
+			pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_F);
+			pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+			pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+			break;
+		case 4: // atk 2
+			if (pShinobu->Get_Atk2() == false)
+			{
+				pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_L);
+				pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_L);
+				pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+				pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+				pShinobu->Set_Atk2(true);
+			}
+			else if (pShinobu->Get_Atk2() == true)
+			{
+				pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_R);
+				pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_R);
+				pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+				pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+				pShinobu->Set_Atk2(false);
+			}
+			break;
+		case 5: // atk 3
+			if (pShinobu->Get_Atk2() == true)
+			{
+				pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_F);
+				pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_F);
+				pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+				pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+				pShinobu->Set_Atk2(false);
+				break;
+			}
+			else
+			{
+				pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG2_G);
+				pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG2_G);
+				pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+				pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+				pShinobu->Set_Atk2(false);
+			}
+			break;
+		case 6: // atk 4
+			if (pShinobu->Get_Atk2() == true)
+			{
+				std::random_device RandomDevice;
+				std::mt19937 gen(RandomDevice());
+				std::uniform_int_distribution<int> RandomPattern(1, 3);
+				int iRandom = RandomPattern(gen);
+				switch (iRandom)
+				{
+				case 1:
+					pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_F);
+					pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_F);
+					pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+					pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+					break;
+				case 2:
+					pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_L);
+					pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_L);
+					pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+					pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+					break;
+				case 3:
+					pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_R);
+					pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_R);
+					pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+					pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+					break;
+				}
+			}
+			else
+			{
+				pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG2_F);
+				pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG2_F);
+				pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+				pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+			}
+			break;
+		default:
+			break;
+		}
+
+	}
+
+
+}
+void CHitState::Set_JumpHitState(CShinobu* pShinobu)
+{
+
+	_int iHit = pShinobu->Get_BattleTarget()->Get_TargetState();
+
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 4);
+	int iRandom = RandomPattern(gen);
+
+
+	switch (iRandom)
+	{
+	case 1:
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_AF);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_AF);
+		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+		pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+		break;
+	case 2:
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_AL);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_AL);
+		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+		pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+		break;
+	case 3:
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_AR);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_AR);
+		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+		pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+		break;
+	case 4:
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_AU);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_AU);
+		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+		pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+		break;
+	}
+}
 void CHitState::Exit(CShinobu* pShinobu)
 {
-	pShinobu->Set_HitTime(0.5f);
-	pShinobu->Get_Model()->Set_UsingFrame(CShinobu::ANIM_HIT, 0, 100);
-	pShinobu->Get_Model()->Clear_Frame(CShinobu::ANIM_HIT);
+	pShinobu->Set_HitTime(0.3f);
+	//pShinobu->Get_Model()->Reset_Anim(pShinobu->Get_AnimIndex());
 }
 
 

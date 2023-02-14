@@ -14,6 +14,8 @@
 #include "ImGuiManager.h"
 #include "Level_GamePlay.h"
 #include "KyoujuroBattleSTState.h"
+#include "KyoujuroTakeDownState.h"
+#include "KyoujuroUpperHitState.h"
 #include "Effect_Manager.h"
 using namespace Kyoujuro;
 
@@ -144,10 +146,17 @@ void CKyoujuro::Tick(_float fTimeDelta)
 
 	}
 	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_JUMP
-		|| m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_CHANGE)
+		|| m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_CHANGE || m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_JUMP_ATTACK)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
+
+	if (m_pTransformCom->Get_Jump() == true)
+		m_tInfo.bJump = true;
+	if (m_pKyoujuroState != nullptr)
+	{
+		m_iState = m_pKyoujuroState->Get_TanjiroState();
+	}
 
 }
 
@@ -648,6 +657,18 @@ void CKyoujuro::Get_GuardHit(_int eType)
 		pState = new CGuardHitState(CKyoujuroState::STATE_TYPE::TYPE_LOOP);
 	}
 
+	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+}
+
+void CKyoujuro::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+	CKyoujuroState* pState = new CTakeDownState(_fPow, _bJump);
+	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+}
+
+void CKyoujuro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+	CKyoujuroState* pState = new CUpperHitState(eHitType, CKyoujuroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 }
 

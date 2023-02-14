@@ -54,6 +54,8 @@ private:
 	void Camera_ShakeDown(_float fTimeDelta);
 	void Camera_ShakeHit(_float fTimeDelta);
 	void Check_Model();
+
+	void Check_StoryCam();
 private:
 	CCharacters*				m_pPlayer = nullptr;
 	CCharacters*				m_pTarget = nullptr;
@@ -89,6 +91,7 @@ private:
 	//CamType
 	_bool m_bStory = false;
 	_float		 m_FovAngle = 0.f;
+	_bool	m_bStoryBattle = false;
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 

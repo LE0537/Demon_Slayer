@@ -17,6 +17,8 @@
 #include "ShinobuHitState.h"
 #include "ShinobuBattleSTState.h"
 #include "Effect_Manager.h"
+#include "ShinobuTakeDownState.h"
+#include "ShinobuUpperHitState.h"
 using namespace Shinobu;
 
 CShinobu::CShinobu(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -157,7 +159,13 @@ void CShinobu::Tick(_float fTimeDelta)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
+	if (m_pTransformCom->Get_Jump() == true)
+		m_tInfo.bJump = true;
 
+	if (m_pShinobuState != nullptr)
+	{
+		m_iState = m_pShinobuState->Get_ShinobuState();
+	}
 
 }
 
@@ -505,6 +513,18 @@ void CShinobu::Get_GuardHit(_int eType)
 		pState = new CGuardHitState(CShinobuState::STATE_TYPE::TYPE_LOOP);
 	}
 
+	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+}
+
+void CShinobu::Player_TakeDown(_float _fPow, _bool _bJump)
+{
+	CShinobuState* pState = new CTakeDownState(_fPow, _bJump);
+	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+}
+
+void CShinobu::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+	CShinobuState* pState = new CUpperHitState(eHitType, CShinobuState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
 	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 }
 

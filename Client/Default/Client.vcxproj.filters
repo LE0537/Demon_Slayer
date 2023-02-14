@@ -1096,6 +1096,39 @@
     <Filter Include="02.GameObjects\02.Map\04.MeshObj_Smell_Inst">
       <UniqueIdentifier>{6c531939-e597-4915-b7db-ec724814dd58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\02.Ani">
+      <UniqueIdentifier>{7212ccd5-9f37-4f75-882d-42456b522806}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\02.Ani\0.Deer">
+      <UniqueIdentifier>{681a0712-7371-4427-876b-5d756831ff0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\02.Ani\1.Bird">
+      <UniqueIdentifier>{60953b00-6dd9-4d93-8b11-2d3e2bbf5460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\02.Ani\2.Butterfly">
+      <UniqueIdentifier>{fce3babb-da47-4f7c-a503-304568191cb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC">
+      <UniqueIdentifier>{ffd69c1f-ddfe-45a4-b8b5-1fa8860e12cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC\Murata">
+      <UniqueIdentifier>{de077741-3b0b-4863-bfd5-78f8b7f71766}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC\Ozaki">
+      <UniqueIdentifier>{3d6d48fb-c5ea-45d7-a0c0-f8c23757a775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC\Goto">
+      <UniqueIdentifier>{adfb3706-41a9-4a6f-86b9-d3084c0c245a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\02.Ani\3.BigBird">
+      <UniqueIdentifier>{968cb4c3-e654-40e1-a7aa-e32c92f8338a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\02.Ani\4.Hoke">
+      <UniqueIdentifier>{cf6a2662-511e-46a3-b90a-7e248a2d0cb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\02.Ani\5.Deer2">
+      <UniqueIdentifier>{c8e5e657-c28f-4b70-87e1-1fb2727be175}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2160,6 +2193,69 @@
     <ClInclude Include="..\Public\MeshObj_Smell_Inst.h">
       <Filter>02.GameObjects\02.Map\04.MeshObj_Smell_Inst</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Deer.h">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\0.Deer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Butterfly.h">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\2.Butterfly</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Bird.h">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\1.Bird</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Murata.h">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\Murata</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Ozaki.h">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\Ozaki</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Goto.h">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\Goto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BigBird.h">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\3.BigBird</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Hoke.h">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\4.Hoke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Deer2.h">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\5.Deer2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -2197,9 +2293,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Data_Manager.cpp">
       <Filter>96.Data_Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Camera_Dynamic.cpp">
-      <Filter>02.GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Rui.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui</Filter>
@@ -3196,6 +3289,72 @@
     </ClCompile>
     <ClCompile Include="..\Private\MeshObj_Smell_Inst.cpp">
       <Filter>02.GameObjects\02.Map\04.MeshObj_Smell_Inst</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Deer.cpp">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\0.Deer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Butterfly.cpp">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\2.Butterfly</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Bird.cpp">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\1.Bird</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Murata.cpp">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\Murata</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Ozaki.cpp">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\Ozaki</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Goto.cpp">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\Goto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BigBird.cpp">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\3.BigBird</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Hoke.cpp">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\4.Hoke</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Deer2.cpp">
+      <Filter>02.GameObjects\99.GameObj\02.Ani\5.Deer2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Dynamic.cpp">
+      <Filter>02.GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

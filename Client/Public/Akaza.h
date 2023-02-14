@@ -44,6 +44,9 @@ public:
 		ANIM_DASH_R_02 = 62,
 
 
+		ANIM_HIT_DMG_RETURN_0 = 36,
+		ANIM_HIT_DMG_RETURN_1 = 37,
+
 		ANIM_SKILL_JUMPCOMMON_0 = 20,
 		ANIM_SKILL_JUMPCOMMON_1 = 21,
 		ANIM_SKILL_JUMPCOMMON_2 = 22,
@@ -127,6 +130,26 @@ public:
 
 		ANIM_BATTLE_START = 64,
 
+
+		ANIM_HIT_DMG_F = 66,
+		ANIM_HIT_DMG_L = 67,
+		ANIM_HIT_DMG_R = 68,
+		ANIM_HIT_DMG_U = 69,
+		ANIM_HIT_DMG_AF = 70,
+		ANIM_HIT_DMG_AL = 71,
+		ANIM_HIT_DMG_AR = 72,
+		ANIM_HIT_DMG_AU = 73,
+		ANIM_HIT_DMG2_F = 74,
+		ANIM_HIT_DMG2_G = 75,
+		ANIM_HIT_DMG_DOWN_0 = 76,
+		ANIM_HIT_DMG_DOWN_1 = 77,
+		ANIM_HIT_DMG_DOWN_2 = 78,
+		ANIM_HIT_DMG_DOWN_COL = 79,
+		ANIM_HIT_DMG_UPPER_0 = 80,
+		ANIM_HIT_DMG_UPPER_1 = 81,
+		ANIM_HIT_DMG_UPPER_2 = 82,
+		ANIM_HIT_DMG_DEATH = 83,
+
 		ANIM_END = 100
 	};
 private:
@@ -163,6 +186,8 @@ private:
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);
+	virtual void  Player_TakeDown(_float _fPow, _bool _bJump = 0);
+	virtual void  Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower);
 private:
 	CModel*					m_pModelCom = nullptr;
 	CCollider*				m_pAABBCom = nullptr;

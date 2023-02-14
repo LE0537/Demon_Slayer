@@ -267,7 +267,14 @@ CNezukoState * CIdleState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 		return new CChangeState(STATE_TYPE::TYPE_START);
 	}
 
-	
+	if (m_ePreState == STATE_MOVE)
+	{
+		if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
+		{
+			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+			return new CIdleState(STATE_IDLE);
+		}
+	}
 
 	return nullptr;
 }
@@ -349,9 +356,26 @@ void CIdleState::Enter(CNezuko* pNezuko)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
-	pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_IDLE);
-	pNezuko->Set_AnimIndex(CNezuko::ANIM_IDLE);
 
+	if (m_ePreState == STATE_MOVE)
+	{
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_MOVE_END);
+		pNezuko->Set_AnimIndex(CNezuko::ANIM_MOVE_END);
+		pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_MOVE_END, 0.01f);
+	}
+	else
+	{
+		if (m_ePreState == STATE_HIT)
+			m_ePreState = STATE_IDLE;
+
+		pNezuko->Set_GodMode(false);
+		//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_IDLE);
+		pNezuko->Set_AnimIndex(CNezuko::ANIM_IDLE);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_IDLE, 0.05f);
+		pNezuko->Get_Model()->Set_FrameNum(pNezuko->Get_AnimIndex(), 100);
+	}
 }
 
 void CIdleState::Exit(CNezuko* pNezuko)

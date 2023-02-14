@@ -17,6 +17,8 @@
 #include "Level_GamePlay.h"
 #include "TanjiroBattleSTState.h"
 #include "Effect_Manager.h"
+#include "TanjiroTakeDownState.h"
+#include "TanjiroUpperHitState.h"
 using namespace Tanjiro;
 
 
@@ -95,9 +97,8 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
-		_vector vPos = {-9.524f,0.314f,0.513f,1.f};
+		_vector vPos = {-100.f,3.204f,8.337f,1.f};
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		m_pTransformCom->Set_Scale(XMVectorSet(0.25f, 0.25f, 0.25f, 0.f));
 		m_pTransformCom->Set_Rotation(_float3(0.f, 180.f, 0.f));
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
@@ -172,14 +173,19 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 	RELEASE_INSTANCE(CGameInstance);
 
-
+	if (g_iLevel == 2)
+		Set_Shadow();
 	}
 
 	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
- 		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE)
+ 		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE || 
+		m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP_ATTACK)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
+
+	if(m_pTransformCom->Get_Jump() == true)
+		m_tInfo.bJump = true;
 
 
 	if (m_pTanjiroState != nullptr)
@@ -483,12 +489,22 @@ HRESULT CTanjiro::Render_ShadowDepth()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
 		return E_FAIL;
 
-
-	_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
-	_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
-	_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
-	_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
-
+	_vector vLightEye, vLightAt, vLightUp;
+	_matrix matLightView;
+	if (g_iLevel == 1)
+	{
+		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
+		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
+		vLightUp = { 0.f, 1.f, 0.f ,0.f };
+		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+	}
+	else if (g_iLevel == 2)
+	{
+		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
+		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);
+		vLightUp = { 0.f, 1.f, 0.f ,0.f };
+		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+	}
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 		return E_FAIL;
 
@@ -540,11 +556,26 @@ void CTanjiro::Get_GuardHit(_int eType)
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
 
+void CTanjiro::Player_TakeDown(_float _fPow, _bool _bJumpHit)
+{
+	CTanjiroState* pState = new CTakeDownState(_fPow, _bJumpHit);
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+}
+
+void CTanjiro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+	CTanjiroState* pState = new CUpperHitState(eHitType, CTanjiroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
+}
+
 void CTanjiro::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
 {
 	CTanjiroState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CTanjiroState::STATE_TYPE>(iTypeIndex), bIsContinue);
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
+
+
 
 
 HRESULT CTanjiro::SetUp_ShaderResources()
@@ -611,6 +642,24 @@ HRESULT CTanjiro::Ready_Components()
 			return E_FAIL;
 	}
 	return S_OK;
+}
+
+void CTanjiro::Set_Shadow()
+{
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+
+	_float4 vPos;
+	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+	_float4 vAt = vPos;
+	
+	vPos.x -= 20.f;
+	vPos.y += 40.f;
+	vPos.z -= 40.f;
+
+	pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW, vPos, vAt);
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 

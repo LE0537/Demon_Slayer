@@ -105,40 +105,42 @@ CTanjiroState * CKaguraSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _float fT
 					m_pTarget->Set_GuardTime(2.f);
 				}
 			}
-			else
+			else  if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 			{
 				m_pTarget->Set_Hp(-20 * pTanjiro->Get_PlayerInfo().fPowerUp);
 				m_pTarget->Take_Damage(0.3f, false);
 				pTanjiro->Set_Combo(1);
 				pTanjiro->Set_ComboTime(0.f);
 			}
-
-			_int iDest = rand() % 5;
-			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-			switch (iDest)
+			if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 			{
-			case 0:
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-				break;
-			case 1:
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
-				break;
-			case 2:
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
-				break;
-			case 3:
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
-				break;
-			case 4:
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
-				break;
-			default:
-				break;
+				_int iDest = rand() % 5;
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				switch (iDest)
+				{
+				case 0:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+					break;
+				case 1:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+					break;
+				case 2:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+					break;
+				case 3:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+					break;
+				case 4:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+					break;
+				default:
+					break;
+				}
+
+
+				RELEASE_INSTANCE(CEffect_Manager);
+				m_fDelay = 1.f;
 			}
-
-
-			RELEASE_INSTANCE(CEffect_Manager);
-			m_fDelay = 1.f;
 		}
 	}
 	else if (m_iMove >= 4 && m_fMove > 0.3f && m_fDelay < 0.1f)
@@ -167,47 +169,49 @@ CTanjiroState * CKaguraSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _float fT
 				if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 				{
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-					  pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
 					RELEASE_INSTANCE(CEffect_Manager);
 					m_pTarget->Set_ResetGuardHp();
 					m_pTarget->Set_GuardTime(2.f);
 				}
 			}
-			else
+			else  if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 			{
 				m_pTarget->Set_Hp(-20 * pTanjiro->Get_PlayerInfo().fPowerUp);
-				m_pTarget->Take_Damage(0.6f, false);
+				m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 2.f);
 				pTanjiro->Set_Combo(1);
 				pTanjiro->Set_ComboTime(0.f);
 			}
-
-			_int iDest = rand() % 5;
-			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-			switch (iDest)
+			if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 			{
-			case 0:
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
-				break;
-			case 1:
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
-				break;
-			case 2:
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
-				break;
-			case 3:
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
-				break;
-			case 4:
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
-				break;
-			default:
-				break;
+				_int iDest = rand() % 5;
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				switch (iDest)
+				{
+				case 0:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+					break;
+				case 1:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+					break;
+				case 2:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+					break;
+				case 3:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+					break;
+				case 4:
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+					break;
+				default:
+					break;
+				}
+
+
+				RELEASE_INSTANCE(CEffect_Manager);
+
+				m_fDelay = 1.f;
 			}
-
-
-			RELEASE_INSTANCE(CEffect_Manager);
-
-			m_fDelay = 1.f;
 		}
 	}
 	if (pMyCollider2->Collision(pTargetCollider))
