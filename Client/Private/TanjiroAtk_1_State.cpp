@@ -332,7 +332,7 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_MAIN2, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1, pTanjiro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1_GROUND, pTanjiro);
 
 		RELEASE_INSTANCE(CEffect_Manager);
