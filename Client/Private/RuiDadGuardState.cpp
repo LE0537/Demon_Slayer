@@ -63,7 +63,6 @@ CRuiDadState * CGuardState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 	return nullptr;
 
-	return nullptr;
 }
 
 CRuiDadState * CGuardState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)

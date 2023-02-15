@@ -346,6 +346,10 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(-10 * pNezuko->Get_PlayerInfo().fPowerUp);
 						m_pTarget->Player_TakeDown(0.4f, false);
+
+						CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+						RELEASE_INSTANCE(CGameInstance);
 						pNezuko->Set_Combo(1);
 						pNezuko->Set_ComboTime(0.f);
 					}

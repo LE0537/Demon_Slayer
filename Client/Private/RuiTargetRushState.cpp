@@ -309,6 +309,7 @@ void CTargetRushState::Move(CRui* pRui, _float fTimeDelta)
 			RELEASE_INSTANCE(CEffect_Manager);
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
 			RELEASE_INSTANCE(CGameInstance);
 			pRui->Get_BattleTarget()->Take_Damage(0.3f, false);
 		}

@@ -251,6 +251,10 @@ CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(-70 * pShinobu->Get_PlayerInfo().fPowerUp);
 						m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER_2, 20.f, 30.f, 2.f);
+						CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+						RELEASE_INSTANCE(CGameInstance);
+
 						//m_pTarget->Take_Damage(0.6f, true);
 						pShinobu->Set_Combo(1);
 						pShinobu->Set_ComboTime(0.f);
@@ -410,6 +414,9 @@ void CSkill_UpperState::Move(CShinobu * pShinobu, _float fTimeDelta)
 	{
 		//pShinobu->Get_Transform()->Go_Straight(fTimeDelta, pShinobu->Get_NavigationCom());
 		m_bNextAnim = true;
+
+
+
 	}
 	else
 	{

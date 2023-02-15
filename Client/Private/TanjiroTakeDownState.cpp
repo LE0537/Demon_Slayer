@@ -62,8 +62,22 @@ CTanjiroState * CTakeDownState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 	}
 
+	switch (m_eStateType)
+	{
+	case Client::CTanjiroState::TYPE_START:
+		_float fDuration = pTanjiro->Get_Model()->Get_Duration_Index(CTanjiro::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fCurrentDuration = pTanjiro->Get_Model()->Get_CurrentTime_Index(CTanjiro::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fRatio = fCurrentDuration / fDuration;
 
+		if (fRatio > 0.6f)
+		{
+			pTanjiro->Set_GodMode(true);
+		}
 
+		break;
+	}
+
+	
 
 
 	return nullptr;
@@ -92,7 +106,6 @@ void CTakeDownState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_HIT_DMG_DOWN_COL);
 		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
 		pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.2f);
-		pTanjiro->Set_GodMode(true);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_HIT_DMG_RETURN_1);
