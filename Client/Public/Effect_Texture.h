@@ -28,7 +28,7 @@ public:
 		_int							iNumUV_V = 1;
 
 		_uint							iShader;
-		_uint							iMoveType;
+		_uint							iYBillBoard;
 
 		_float							fStartTime;
 		_float							fLifeTime;

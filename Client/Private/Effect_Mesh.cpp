@@ -69,7 +69,10 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 		m_pTransformCom->Set_Scale(vSize);
 
 		m_fTurnSpeed += m_MeshInfo.fTurnFalloff;
-		if (m_MeshInfo.fTurnFalloff < 0 && m_fTurnSpeed < 0)
+		if (m_fTurnSpeed < 0 && m_MeshInfo.fTurn > 0)
+			m_fTurnSpeed = 0.f;
+
+		if (m_fTurnSpeed > 0 && m_MeshInfo.fTurn < 0)
 			m_fTurnSpeed = 0.f;
 
 		if (m_MeshInfo.vTurnDirection.x == 1)

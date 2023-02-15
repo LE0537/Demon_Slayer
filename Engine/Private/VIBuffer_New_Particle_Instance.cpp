@@ -302,8 +302,17 @@ void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLi
 				XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vLook), XMConvertToRadians(z));
 		}
 		else if (iParticleType == 1) { // 원
-			_float z = Dgree360(Seed);
-			RevolveMatrix = XMMatrixRotationZ(XMConvertToRadians(z));
+			_float Revolvez = Dgree360(Seed);
+
+			_float x = RotationXRand(Seed);
+			_float y = RotationYRand(Seed);
+			_float z = RotationZRand(Seed);
+
+			RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vRight), XMConvertToRadians(x)) *
+				XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vUp), XMConvertToRadians(y)) *
+				XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vLook), XMConvertToRadians(z));
+
+			RevolveMatrix = XMMatrixRotationZ(XMConvertToRadians(Revolvez));
 			PositionMatrix = XMMatrixTranslation(0.f, fRadius, 0.f);
 		}
 		else if (iParticleType == 2) { // 상자
@@ -431,8 +440,17 @@ void CVIBuffer_NewParticle_Instance::Reset_One(_uint iNum)
 			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vLook), XMConvertToRadians(z));
 	}
 	else if (m_iShape == 1) { // 원
-		_float z = Dgree360(Seed);
-		RevolveMatrix = XMMatrixRotationZ(XMConvertToRadians(z));
+		_float Revolvez = Dgree360(Seed);
+
+		_float x = RotationXRand(Seed);
+		_float y = RotationYRand(Seed);
+		_float z = RotationZRand(Seed);
+
+		RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vRight), XMConvertToRadians(x)) *
+			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vUp), XMConvertToRadians(y)) *
+			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vLook), XMConvertToRadians(z));
+
+		RevolveMatrix = XMMatrixRotationZ(XMConvertToRadians(Revolvez));
 		PositionMatrix = XMMatrixTranslation(0.f, m_fRadius, 0.f);
 	}
 	else if (m_iShape == 2) { // 상자

@@ -60,7 +60,7 @@ struct VS_OUT
 VS_OUT VS_MAIN(VS_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;
-	
+
 	float4x4	TransformMatrix = float4x4(In.vRight, In.vUp, In.vLook, In.vTranslation);
 
 	vector		vPosition = mul(vector(In.vPosition, 1.f), mul(TransformMatrix, g_WorldMatrix));
@@ -119,17 +119,22 @@ struct GS_OUT
 [maxvertexcount(20)]
 void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> DataStream)
 {
-	GS_OUT			Out[4];	
+	GS_OUT			Out[4];
 
-	float3			vLook = ((g_vCamPosition.xyz - In[0].vPosition) * g_bBillboard)
+	float3 vLook = ((g_vCamPosition.xyz - In[0].vPosition) * g_bBillboard)
 		+ ((g_vCamPosition.xyz - In[0].vPosition) * g_bYBillboard)
-		+ (In[0].vLook * (1 - g_bBillboard) * (1 - g_bYBillboard));
-	float3			vRight = ((normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * (In[0].vPSize.x )) * g_bBillboard)
-		+ ((normalize(cross(In[0].vUp, vLook)) * (In[0].vPSize.x )) * g_bYBillboard)
-		+ (In[0].vRight * (1 - g_bBillboard) * (1 - g_bYBillboard));
-	float3			vUp = ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y )) * g_bBillboard) 
-		+ ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y )) * g_bYBillboard)
-		+ (In[0].vUp * (1- g_bBillboard) * (1 - g_bYBillboard));
+		+ ((g_vCamPosition.xyz - In[0].vPosition) * g_bBillboardTurn)
+		+ (In[0].vLook * (1 - g_bBillboard) * (1 - g_bYBillboard) * (1 - g_bBillboardTurn));
+
+	float3 vRight = ((normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * (In[0].vPSize.x)) * g_bBillboard)
+		+ ((normalize(cross(float3(0.f, 1.f, 0.f), vLook)) * (In[0].vPSize.x)) * g_bYBillboard)
+		+ ((normalize(cross(In[0].vUp, vLook)) * (In[0].vPSize.x)) * g_bBillboardTurn)
+		+ (In[0].vRight * (1 - g_bBillboard) * (1 - g_bYBillboard) * (1 - g_bBillboardTurn));
+
+	float3 vUp = ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y)) * g_bBillboard)
+		+ (float3(0.f, 1.f, 0.f) * g_bYBillboard)
+		+ ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y)) * g_bBillboardTurn)
+		+ (In[0].vUp * (1 - g_bBillboard) * (1 - g_bYBillboard) * (1 - g_bBillboardTurn));
 
 	matrix			matVP;
 
@@ -306,7 +311,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-		
+
 	if (Out.vColor.a < 0.5f)
 		discard;
 
@@ -319,7 +324,7 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor = g_bUseColor * (In.vColor)+(1.f - g_bUseColor) * vTexture;
+	Out.vColor = g_bUseColor * (In.vColor) + (1.f - g_bUseColor) * vTexture;
 	Out.vGlowColor.rgb = g_vGlowColor * g_bGlow;
 
 	float fFullTime = In.fLifeTime;
@@ -345,7 +350,7 @@ PS_OUT PS_COLORTEST(PS_IN In)
 
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor = g_bUseColor * (In.vColor)+(1.f - g_bUseColor) * vTexture;
+	Out.vColor = g_bUseColor * (In.vColor) + (1.f - g_bUseColor) * vTexture;
 	Out.vGlowColor.rgb = g_vGlowColor * g_bGlow;
 
 	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + saturate(g_bUseRGB * vTexture.r);

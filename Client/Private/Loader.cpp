@@ -855,7 +855,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 57))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 63))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -873,6 +873,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Smoke", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Unity", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Useful", "../Bin/Resources/Effect/Texture/");
+		Load_Texture("Fire", "../Bin/Resources/Effect/Texture/");
 
 		Load_Texture("Shock", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Slash", "../Bin/Resources/Effect/Mesh/MeshTexture/");
@@ -1165,6 +1166,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Move3"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Move4"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Move5"));
+		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Sphere_Main1"));
+		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Sphere_Main2"));
+		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Sphere_Start"));
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_NormAtk_1_Cl"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_NormAtk_2_1_Cl"));
