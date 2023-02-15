@@ -61,7 +61,9 @@ void CPatternWind::Tick(_float fTimeDelta)
 		m_fUvMoveTime = 0.f;
 	if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 50.f, 1.f));
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_MENU)
+	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_MENU)
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+	else
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -101,7 +103,7 @@ HRESULT CPatternWind::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_UIVtxTex"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR || m_ThrowUIinfo.iLevelIndex == LEVEL_MENU)
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR || m_ThrowUIinfo.iLevelIndex == LEVEL_MENU || m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTMAP)
 	{
 		/* For.Com_Texture */
 		if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSel_BgWind"), (CComponent**)&m_pTextureCom)))

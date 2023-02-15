@@ -13,6 +13,9 @@ private:
 	virtual ~CWindowRight() = default;
 
 public:
+	_bool Get_CloseCheck() { return m_bCloseCheck; }
+
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -29,6 +32,7 @@ private:
 private:
 	_float							m_fUvMove = 0.f;
 	_float							m_fDelayTime = 0.f;
+	_bool							m_bCloseCheck = false;
 
 public:
 	static CWindowRight* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -214,6 +214,7 @@ private:
 	_bool					m_bRender = false;
 	_float					m_fEffectTime = 0.f;
 	_float					m_fTest = 0.f;
+
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
