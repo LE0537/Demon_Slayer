@@ -90,6 +90,7 @@ void CMainApp::Tick(_float fTimeDelta)
 	m_pGameInstance->Tick_Engine(fTimeDelta);
 
 	m_fTimeAcc += fTimeDelta;
+	m_fTimeDelta = fTimeDelta;
 }
 
 HRESULT CMainApp::Render()
@@ -97,7 +98,7 @@ HRESULT CMainApp::Render()
 	m_pGameInstance->Clear_BackBuffer_View(_float4(0.f, 0.f, 0.f, 1.f));
 	m_pGameInstance->Clear_DepthStencil_View();
 
-	m_pRenderer->Render_GameObjects(g_bDebug, g_iLevel);
+	m_pRenderer->Render_GameObjects(m_fTimeDelta, g_bDebug, g_iLevel);
 
 	m_pImGuiManager->Render();
 	m_pGameInstance->Present();
@@ -106,7 +107,7 @@ HRESULT CMainApp::Render()
 
 	if (m_fTimeAcc > 1.0f)
 	{
-		wsprintf(m_szFPS, TEXT("FPS : %d"), m_iNumRender);		
+		wsprintf(m_szFPS, TEXT("FPS : %d"), m_iNumRender);
 		
 	//	OutputDebugString(m_szFPS);
 		SetWindowText(g_hWnd, m_szFPS);

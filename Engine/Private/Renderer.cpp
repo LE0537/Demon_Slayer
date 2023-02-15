@@ -38,7 +38,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fValue[VALUE_LIGHTSHAFT] = 0.5f;
 	m_fValue[VALUE_LIGHTPOWER] = 1.f;
 	m_fValue[VALUE_SHADOWTESTLENGTH] = 0.5f;
-	m_fValue[VALUE_MAPGRAYSCALETIME] = 5.f;
+	m_fValue[VALUE_MAPGRAYSCALETIME] = 15.f;
 
 	m_bRenderAO = true;
 	m_bMapGrayScale = false;
@@ -103,7 +103,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlurX"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 	/* For.Target_BlurXY */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BlurXY"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
-	
+
 	/* For.Target_GrayScale */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_GrayScale"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 	/* For.Target_Distortion */
@@ -331,7 +331,7 @@ HRESULT CRenderer::Add_RenderGroup_Front(RENDERGROUP eRenderGroup, CGameObject *
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_GameObjects(_bool _bDebug, _int _iLevel)
+HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel)
 {
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
@@ -352,26 +352,26 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug, _int _iLevel)
 	if (FAILED(Render_Blend(_iLevel)))
 		return E_FAIL;
 
-	m_fMapGrayScaleTime += 1.f / 60.f;
+	m_fMapGrayScaleTime += fTimeDelta;
+	if (5.f < m_fMapGrayScaleTime)
+	{
+		m_bMapGrayScale = false;
+	}
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	if (true == pGameInstance->Key_Down(DIK_Y))
 	{
-		m_bMapGrayScale = !m_bMapGrayScale;
-		if (m_bPreMapGrayScale != m_bMapGrayScale)
-		{			
-			if (true == m_bMapGrayScale)
-			{
-				m_fMapGrayScalePower = 1.f;
-				m_fMapGrayScaleTime = 0.f;
-				int a = 10;
-			}
-			m_bPreMapGrayScale = m_bMapGrayScale;
+		if (false == m_bMapGrayScale)
+		{
+			m_bMapGrayScale = !m_bMapGrayScale;
+			m_fMapGrayScaleTime = 0.f;
+
+			m_fMapGrayScalePower = 1.f;
 		}
 	}
 
 	if (false == m_bMapGrayScale)
-		m_fMapGrayScalePower /= 1.2f;
+		m_fMapGrayScalePower /= (fTimeDelta * 65.f);	//	(1.2f)
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -755,9 +755,9 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 	_matrix		matLightView;
 	const LIGHTDESC* pLightDesc = nullptr;
 
-	if(_iLevel == 1)
+	if (_iLevel == 1)
 		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
-	else if(_iLevel == 2)
+	else if (_iLevel == 2)
 		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
 
 	if (nullptr != pLightDesc)
@@ -778,7 +778,7 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 
 
 	}
-	 
+
 	//	StaticObjs
 	if (nullptr != pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW))
 	{
@@ -1052,7 +1052,7 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_LightShaft"), m_pShader, "g_AddTexture")))
 		return E_FAIL;
-		
+
 	if (FAILED(m_pShader->Set_RawValue("g_fAddValue", &m_fValue[VALUE_LIGHTSHAFT], sizeof(_float))))
 		return E_FAIL;
 

@@ -26,7 +26,7 @@ public:
 public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
 	HRESULT Add_RenderGroup_Front(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
-	HRESULT Render_GameObjects(_bool _bDebug, _int _iLevel);
+	HRESULT Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel);
 
 public:
 	HRESULT Add_Debug(class CComponent* pDebugCom);
@@ -39,6 +39,7 @@ public:
 		m_fValue[eValueType] = fValue; 
 	}
 	void	AO_OnOff(_bool bTrueisOn) { m_bRenderAO = bTrueisOn; }
+	_bool	Get_MapGrayValue() { return m_bMapGrayScale; }
 
 
 //	member
