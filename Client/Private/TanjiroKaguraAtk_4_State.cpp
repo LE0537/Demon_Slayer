@@ -392,6 +392,17 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 
 	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
 
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOATT4_1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOATT4_2, pTanjiro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+
 	return nullptr;
 }
 

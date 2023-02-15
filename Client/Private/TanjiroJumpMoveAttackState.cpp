@@ -177,6 +177,25 @@ CTanjiroState * CJumpMoveAttackState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 	else
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (!m_bEffect && m_eStateType == TYPE_LOOP && !pTanjiro->Get_KaguraMode())
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANJUMPMOVEATT1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANJUMPMOVEATT2, pTanjiro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+	else if (!m_bEffect && m_eStateType == TYPE_LOOP && pTanjiro->Get_KaguraMode())
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANJUMPMOVEATT1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOMOVEJUMPATT2, pTanjiro);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 
 	return nullptr;

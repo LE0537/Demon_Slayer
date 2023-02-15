@@ -45,6 +45,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_fZoomAngle = 25.f;
 	m_FovAngle = XMConvertToRadians(60.f);
 	//m_bStory = true;
+	m_eTurn == CAM_END;
 	return S_OK;
 }
 
@@ -258,9 +259,34 @@ void CCamera_Dynamic::Set_CamPos()
 		m_fCamDist = 0.33f;
 	vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
 
-	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	m_pTransform->Set_Rotation(_float3(0.f, m_fAngle, 0.f)); 
+	if (m_eTurn == CAM_RIGHT || m_eTurn == CAM_TARGETLEFT)
+	{
+		fAngleDot -= 3.f;
+		if (fAngleDot <= -360.f)
+			fAngleDot = 0.f;
+		fTurnAngle -= 3.f;
+		if (fTurnAngle <= 0.f)
+		{
+			m_eTurn = CAM_END;
+			m_fTurnCol = 1.f;
+		}
+	}
+	else if (m_eTurn == CAM_LEFT || m_eTurn == CAM_TARGETRIGHT)
+	{
+		fAngleDot += 3.f;
+		if (fAngleDot >= 360.f)
+			fAngleDot = 0.f;
+		fTurnAngle -= 3.f;
+		if (fTurnAngle <= 0.f)
+		{
+			m_eTurn = CAM_END;
+			m_fTurnCol = 1.f;
+		}
+	}
+	
 
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	m_pTransform->Set_Rotation(_float3(0.f, m_fAngle - fAngleDot, 0.f));
 	_vector vLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
 	_float fTime = 1.f;
 	vPos -= vLook * (fTime + m_fLookY) * (fDiameter * 0.5f) * m_fCamDist;
@@ -282,6 +308,8 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 				if (m_f1pX >= 200.f)
 					break;
 				m_fAngle += 0.1f;
+				if (m_fAngle >= 360)
+					m_fAngle = 0.f;
 				Set_CamPos();
 
 				ConvertToViewPort(fTimeDelta);
@@ -294,6 +322,8 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 				if (m_f1pX <= 1100.f)
 					break;
 				m_fAngle -= 0.1f;
+				if (m_fAngle <= -360)
+					m_fAngle = 0.f;
 				Set_CamPos();
 
 				ConvertToViewPort(fTimeDelta);
@@ -340,18 +370,35 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 			}
 		}
 	}
+	if (m_fTurnCol > 0.f)
+		m_fTurnCol -= fTimeDelta;
+	if (m_eTurn == CAM_END && m_p1P->Get_PlayerInfo().iCombo > 1)
+	{
+		if (m_fTurnCol <= 0.f)
+			m_bTurn = true;
+	}
+	else if (m_eTurn == CAM_END && m_p2P->Get_PlayerInfo().iCombo > 1)
+	{
+		if (m_fTurnCol <= 0.f)
+			m_bTargetTurn = true;
+	}
+	if(m_bTurn)
+		Check_Trun(fTimeDelta);
+	else if(m_bTargetTurn)
+		Check_TargetTrun(fTimeDelta);
 
 	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
 	if (CheckSubChar())
 		vPos.m128_f32[1] += v1PY.m128_f32[1] / 2.f;
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	m_pPlayer->Set_CamAngle(m_fAngle);
-	m_pTarget->Set_CamAngle(m_fAngle);
+	m_pPlayer->Set_CamAngle(m_fAngle - fAngleDot);
+	m_pTarget->Set_CamAngle(m_fAngle - fAngleDot);
 
 	Check_Shake(fTimeDelta);
 
 	if (m_bZoom)
 		Check_Zoom(fTimeDelta);
+
 }
 void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 {
@@ -517,6 +564,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 			break;
 		}
 		m_p1P = m_pPlayer;
+		m_p2P = m_pTarget;
 		m_b1P = true;
 	}
 	else
@@ -540,6 +588,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 			break;
 		}
 		m_p1P = m_pTarget;
+		m_p2P = m_pPlayer;
 		m_b1P = false;
 	}
 
@@ -803,6 +852,119 @@ void CCamera_Dynamic::Zoom_High(_float fTimeDelta)
 		}
 	}
 	m_CameraDesc.fFovy = XMConvertToRadians(m_fZoomAngle);
+}
+
+void CCamera_Dynamic::Check_Trun(_float fTimeDelta)
+{
+	if (nullptr == m_p1P ||
+		nullptr == m_p2P)
+	{
+		return;
+	}
+	_vector vPos = m_p1P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTarget = m_p2P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vLook2 = vPos - vTarget;
+
+	_float fDist = XMVectorGetX(XMVector3Length(vLook2));
+	
+	vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
+
+	_vector vTurnLook = m_p1P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION) - vPos;
+	_vector vCamTurnLook = m_pTransform->Get_State(CTransform::STATE_LOOK) * -1.f;
+	_vector vTurnDot = XMVector3Dot(XMVector3Normalize(vTurnLook), XMVector3Normalize(vCamTurnLook));
+	fTurnAngle = XMConvertToDegrees(acosf(XMVectorGetX(vTurnDot)));
+
+
+	_vector vPlayerPosition = m_p1P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vMyPosition = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
+
+	_vector vUpVector = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+	_vector vCamLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
+	_vector vTargetLook = XMVector3Normalize(vPlayerPosition - vMyPosition);
+
+	_vector vCross = XMVector3Cross(vCamLook, vTargetLook);
+	_vector vDot = XMVector3Dot(vCross, vUpVector);
+
+
+	if (XMVectorGetX(vDot) > 0.f)
+	{
+		if (fTurnAngle >= 0.f && fTurnAngle < 90.f)
+		{
+			fTurnAngle = 90.f - fTurnAngle;
+			m_bTurn = false;
+			m_eTurn = CAM_RIGHT;
+		}
+		else
+			m_bTurn = false;
+	}
+	else
+	{
+		if (fTurnAngle >= 0.f && fTurnAngle < 90.f)
+		{
+			fTurnAngle = 90.f - fTurnAngle;
+			m_bTurn = false;
+			m_eTurn = CAM_LEFT;
+		}
+		else
+			m_bTurn = false;
+	}
+
+}
+
+void CCamera_Dynamic::Check_TargetTrun(_float fTimeDelta)
+{
+	if (nullptr == m_p1P ||
+		nullptr == m_p2P)
+	{
+		return;
+	}
+	_vector vPos = m_p1P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTarget = m_p2P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vLook2 = vPos - vTarget;
+
+	_float fDist = XMVectorGetX(XMVector3Length(vLook2));
+
+	vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
+
+	_vector vTurnLook = m_p1P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION) - vPos;
+	_vector vCamTurnLook = m_pTransform->Get_State(CTransform::STATE_LOOK) * -1.f;
+	_vector vTurnDot = XMVector3Dot(XMVector3Normalize(vTurnLook), XMVector3Normalize(vCamTurnLook));
+	fTurnAngle = XMConvertToDegrees(acosf(XMVectorGetX(vTurnDot)));
+
+
+	_vector vPlayerPosition = m_p2P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vMyPosition = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
+
+	_vector vUpVector = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+	_vector vCamLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
+	_vector vTargetLook = XMVector3Normalize(vPlayerPosition - vMyPosition);
+
+	_vector vCross = XMVector3Cross(vCamLook, vTargetLook);
+	_vector vDot = XMVector3Dot(vCross, vUpVector);
+
+
+	if (XMVectorGetX(vDot) > 0.f)
+	{
+		if (fTurnAngle >= 0.f && fTurnAngle < 90.f)
+		{
+			fTurnAngle = 90.f - fTurnAngle;
+			m_bTargetTurn = false;
+			m_eTurn = CAM_LEFT;
+		}
+		else
+			m_bTargetTurn = false;
+	}
+	else
+	{
+		if (fTurnAngle >= 0.f && fTurnAngle < 90.f)
+		{
+			fTurnAngle = 90.f - fTurnAngle;
+			m_bTargetTurn = false;
+			m_eTurn = CAM_RIGHT;
+		}
+		else
+			m_bTargetTurn = false;
+	}
 }
 
 void CCamera_Dynamic::Check_StoryCam()
