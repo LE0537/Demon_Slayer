@@ -393,6 +393,11 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 						m_pTarget->Set_Hp(-30 * pAkaza->Get_PlayerInfo().fPowerUp);
 
 						m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER, 20.f, 30.f, 2.f);
+
+						CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+						RELEASE_INSTANCE(CGameInstance);
+
 						pAkaza->Set_Combo(1);
 						pAkaza->Set_ComboTime(0.f);
 					}

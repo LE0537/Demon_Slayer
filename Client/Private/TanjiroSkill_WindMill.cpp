@@ -268,6 +268,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 						if (!m_bHit)
 						{
 							m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER_2, 15.f, 20.f, 8.f);
+							dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
 							m_bHit = true;
 						}
 					}

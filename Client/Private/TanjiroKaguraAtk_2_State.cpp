@@ -383,6 +383,16 @@ CTanjiroState * CAtk_2_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 			pTanjiro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pTanjiro->Get_NavigationCom());
 	}
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOATT2_1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOATT2_2, pTanjiro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }

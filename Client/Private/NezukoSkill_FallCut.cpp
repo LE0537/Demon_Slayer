@@ -266,6 +266,11 @@ CNezukoState * CSkill_FallCutState::Late_Tick(CNezuko* pNezuko, _float fTimeDelt
 					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(-80 * pNezuko->Get_PlayerInfo().fPowerUp);
 					m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_KNOCKBACK, 20.f, 30.f, 5.f);
+
+					CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+					RELEASE_INSTANCE(CGameInstance);
+
 					pNezuko->Set_Combo(1);
 					pNezuko->Set_ComboTime(0.f);
 				}
@@ -426,7 +431,7 @@ CNezukoState * CSkill_FallCutState::Increase_Height(CNezuko * pNezuko, _float fT
 
 	_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
 
-	if (XMVectorGetY(vCurrentPos) > 5.f)
+	if (XMVectorGetY(vCurrentPos) > 7.f)
 	{
 
 		//pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

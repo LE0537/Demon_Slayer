@@ -81,9 +81,7 @@ CRuiState * CAiState::HandleInput(CRui * pRui)
 	}
 
 
-
-
-
+	
 	if (pRui->Get_RuiHit() == true)
 		m_ePreState = AI_HIT;
 	else
@@ -117,6 +115,8 @@ CRuiState * CAiState::Tick(CRui * pRui, _float fTimeDelta)
 		m_fDelay += fTimeDelta;
 
 	//Update_TargetToAngle(pRui);
+
+	m_bNextRound = pRui->Get_NextRound();
 
 	m_fAIPatternDelay += fTimeDelta;
 
@@ -454,6 +454,12 @@ CRuiState * CAiState::Return_AIState(CRui * pRui)
 		break;
 	case Client::Rui::CAiState::AI_JUMP:
 		break;
+	case Client::Rui::CAiState::AI_ADV_SKILL_0:
+		return new CAdvSkill_CommonState();
+		break;
+	case Client::Rui::CAiState::AI_ADV_SKILL_1:
+		return new CAdvSkill_MoveState();
+		break;
 	case Client::Rui::CAiState::AI_END:
 		break;
 	default:
@@ -510,11 +516,11 @@ void CAiState::Update_NearAttack()
 
 void CAiState::Update_NearMove()
 {
+
 	std::random_device RandomDevice;
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 10);
 	int iRandom = RandomPattern(gen);
-
 
 	switch (iRandom)
 	{
@@ -548,8 +554,8 @@ void CAiState::Update_NearMove()
 	case 10:
 		m_eState = AI_STATE::AI_DASH;
 		break;
-	}
 
+	}
 }
 
 void CAiState::Update_NearGuard()
@@ -558,7 +564,6 @@ void CAiState::Update_NearGuard()
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 10);
 	int iRandom = RandomPattern(gen);
-
 
 	switch (iRandom)
 	{
@@ -602,6 +607,7 @@ void CAiState::Update_NearRush()
 	std::uniform_int_distribution<int> RandomPattern(1, 10);
 	int iRandom = RandomPattern(gen);
 
+
 	switch (iRandom)
 	{
 	case 1:
@@ -643,6 +649,8 @@ void CAiState::Update_NearSkill()
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 10);
 	int iRandom = RandomPattern(gen);
+
+
 
 	switch (iRandom)
 	{
@@ -689,6 +697,13 @@ void CAiState::Near_Skill_Setting(CRui * pRui)
 	// 1 발사체
 	// 2 3방향
 	// 3 가드
+	if (m_bNextRound == true)
+	{
+		std::uniform_int_distribution<int> RandomPattern(1, 9);
+		iRandom = RandomPattern(gen);
+	}
+	
+
 
 	switch (iRandom)
 	{
@@ -706,6 +721,18 @@ void CAiState::Near_Skill_Setting(CRui * pRui)
 		break;
 	case 5:
 		m_eState = NEAR_AI_SKILL_3;
+		break;
+	case 6:
+		m_eState = AI_ADV_SKILL_0;
+		break;
+	case 7:
+		m_eState = AI_ADV_SKILL_0;
+		break;
+	case 8:
+		m_eState = AI_ADV_SKILL_1;
+		break;
+	case 9:
+		m_eState = AI_ADV_SKILL_1;
 		break;
 	}
 
@@ -786,6 +813,12 @@ void CAiState::Update_Far_InMove()
 	std::uniform_int_distribution<int> RandomPattern(1, 11);
 	int iRandom = RandomPattern(gen);
 
+
+	if (m_bNextRound == true)
+	{
+		std::uniform_int_distribution<int> RandomPattern(1, 13);
+		iRandom = RandomPattern(gen);
+	}
 	// 1 발사체
 	// 2 3방향
 	// 3 가드
@@ -825,6 +858,12 @@ void CAiState::Update_Far_InMove()
 	case 11:
 		m_eState = AI_DASH_F;
 		break;
+	case 12:
+		m_eState = AI_ADV_SKILL_0;
+		break;
+	case 13:
+		m_eState = AI_ADV_SKILL_1;
+		break;
 	}
 }
 
@@ -835,6 +874,12 @@ void CAiState::Update_Far_InGuard()
 	std::uniform_int_distribution<int> RandomPattern(1, 12);
 	int iRandom = RandomPattern(gen);
 
+
+	if (m_bNextRound == true)
+	{
+		std::uniform_int_distribution<int> RandomPattern(1, 14);
+		iRandom = RandomPattern(gen);
+	}
 	// 1 발사체
 	// 2 3방향
 	// 3 가드
@@ -877,6 +922,12 @@ void CAiState::Update_Far_InGuard()
 	case 12:
 		m_eState = AI_DASH_F;
 		break;
+	case 13:
+		m_eState = AI_ADV_SKILL_0;
+		break;
+	case 14:
+		m_eState = AI_ADV_SKILL_1;
+		break;
 	}
 }
 
@@ -886,6 +937,13 @@ void CAiState::Update_Far_InRush()
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 10);
 	int iRandom = RandomPattern(gen);
+
+
+	if (m_bNextRound == true)
+	{
+		std::uniform_int_distribution<int> RandomPattern(1, 12);
+		iRandom = RandomPattern(gen);
+	}
 
 	// 1 발사체
 	// 2 3방향
@@ -923,6 +981,12 @@ void CAiState::Update_Far_InRush()
 	case 10:
 		m_eState = AI_DASH_R;
 		break;
+	case 11:
+		m_eState = AI_ADV_SKILL_0;
+		break;
+	case 12:
+		m_eState = AI_ADV_SKILL_1;
+		break;
 	}
 }
 
@@ -936,7 +1000,11 @@ void CAiState::Update_Far_InSkill()
 	// 1 발사체
 	// 2 3방향
 	// 3 가드
-
+	if (m_bNextRound == true)
+	{
+		std::uniform_int_distribution<int> RandomPattern(1, 13);
+		iRandom = RandomPattern(gen);
+	}
 	switch (iRandom)
 	{
 	case 1:
@@ -972,6 +1040,12 @@ void CAiState::Update_Far_InSkill()
 	case 11:
 		m_eState = AI_DASH_F;
 		break;
+	case 12:
+		m_eState = AI_ADV_SKILL_0;
+		break;
+	case 13:
+		m_eState = AI_ADV_SKILL_1;
+		break;
 	}
 }
 
@@ -981,7 +1055,11 @@ void CAiState::Update_Far_OutAttack()
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 12);
 	int iRandom = RandomPattern(gen);
-
+	if (m_bNextRound == true)
+	{
+		std::uniform_int_distribution<int> RandomPattern(1, 14);
+		iRandom = RandomPattern(gen);
+	}
 	// 1 발사체
 	// 2 3방향
 	// 3 가드
@@ -1023,6 +1101,12 @@ void CAiState::Update_Far_OutAttack()
 		break;
 	case 12:
 		m_eState = AI_FRONTMOVE;
+		break;
+	case 13:
+		m_eState = AI_ADV_SKILL_0;
+		break;
+	case 14:
+		m_eState = AI_ADV_SKILL_1;
 		break;
 	}
 }
@@ -1033,7 +1117,11 @@ void CAiState::Update_Far_OutMove()
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 12);
 	int iRandom = RandomPattern(gen);
-
+	if (m_bNextRound == true)
+	{
+		std::uniform_int_distribution<int> RandomPattern(1, 14);
+		iRandom = RandomPattern(gen);
+	}
 	// 1 발사체
 	// 2 3방향
 	// 3 가드
@@ -1075,6 +1163,12 @@ void CAiState::Update_Far_OutMove()
 		break;
 	case 12:
 		m_eState = AI_FRONTMOVE;
+		break;
+	case 13:
+		m_eState = AI_ADV_SKILL_0;
+		break;
+	case 14:
+		m_eState = AI_ADV_SKILL_1;
 		break;
 	}
 }
@@ -1085,7 +1179,11 @@ void CAiState::Update_Far_OutGuard()
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 12);
 	int iRandom = RandomPattern(gen);
-
+	if (m_bNextRound == true)
+	{
+		std::uniform_int_distribution<int> RandomPattern(1, 14);
+		iRandom = RandomPattern(gen);
+	}
 	// 1 발사체
 	// 2 3방향
 	// 3 가드
@@ -1127,6 +1225,12 @@ void CAiState::Update_Far_OutGuard()
 		break;
 	case 12:
 		m_eState = AI_FRONTMOVE;
+		break;
+	case 13:
+		m_eState = AI_ADV_SKILL_0;
+		break;
+	case 14:
+		m_eState = AI_ADV_SKILL_1;
 		break;
 	}
 }
@@ -1137,7 +1241,11 @@ void CAiState::Update_Far_OutRush()
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 12);
 	int iRandom = RandomPattern(gen);
-
+	if (m_bNextRound == true)
+	{
+		std::uniform_int_distribution<int> RandomPattern(1, 14);
+		iRandom = RandomPattern(gen);
+	}
 	// 1 발사체
 	// 2 3방향
 	// 3 가드
@@ -1179,6 +1287,12 @@ void CAiState::Update_Far_OutRush()
 		break;
 	case 12:
 		m_eState = AI_FRONTMOVE;
+		break;
+	case 13:
+		m_eState = AI_ADV_SKILL_0;
+		break;
+	case 14:
+		m_eState = AI_ADV_SKILL_1;
 		break;
 	}
 }
@@ -1189,7 +1303,11 @@ void CAiState::Update_Far_OutSkill()
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 12);
 	int iRandom = RandomPattern(gen);
-
+	if (m_bNextRound == true)
+	{
+		std::uniform_int_distribution<int> RandomPattern(1, 14);
+		iRandom = RandomPattern(gen);
+	}
 	// 1 발사체
 	// 2 3방향
 	// 3 가드
@@ -1231,6 +1349,12 @@ void CAiState::Update_Far_OutSkill()
 		break;
 	case 12:
 		m_eState = AI_FRONTMOVE;
+		break;
+	case 13:
+		m_eState = AI_ADV_SKILL_0;
+		break;
+	case 14:
+		m_eState = AI_ADV_SKILL_1;
 		break;
 	}
 }
@@ -1279,11 +1403,11 @@ void CAiState::DashDir_Calcul(CRui * pRui)
 
 	if (XMVectorGetX(vDot) > 0.f)
 	{
-		m_eState = AI_STATE::AI_DASH_L;
+		m_eState = AI_STATE::AI_DASH_R;
 	}
 	else
 	{
-		m_eState = AI_STATE::AI_DASH_R;
+		m_eState = AI_STATE::AI_DASH_L;
 	}
 
 	//월드 공간의 UP 방향 벡터를 U, 플레이어의 Forward 방향을 F, 플레이어에서 물체를 가르키는 방향을 A라고 했을 때, 

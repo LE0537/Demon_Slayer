@@ -45,8 +45,9 @@ HRESULT CRui::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	//m_i1p = 10;
-	if (m_i1p != 10)
+	m_i1p = 11;
+
+	if (m_i1p != 10 && m_i1p != 11)
 	{
 		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
 		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
@@ -102,6 +103,24 @@ HRESULT CRui::Initialize(void * pArg)
 	//	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	}
+
+	else if (m_i1p == 11)
+	{
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		RELEASE_INSTANCE(CGameInstance);
+		_vector vPos = { 64.f, 0.f, 38.5f,1.f };
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+
+		m_pNavigationCom->Find_CurrentCellIndex(vPos);
+
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		CUI_Manager::Get_Instance()->Set_2P(this);
+
+	}
+
+
 	CRuiState* pState = new CIdleState();
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 
@@ -124,7 +143,7 @@ void CRui::Tick(_float fTimeDelta)
 		}
 		
 
-		if (m_i1p == 10)
+		if (m_i1p == 11)
 		{
 			if (m_bStart == true)
 			{

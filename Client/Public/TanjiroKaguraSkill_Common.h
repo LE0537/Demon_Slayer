@@ -30,6 +30,7 @@ private:
 	_int   m_iHit = 0;
 	_bool   m_bLook = false;
 	_float4 m_vLook;
+	_bool  m_bEffect = false;
 };
 END
 END

@@ -64,7 +64,20 @@ CShinobuState * CTakeDownState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 
 
+	switch (m_eStateType)
+	{
+	case Client::CShinobuState::TYPE_START:
+		_float fDuration = pShinobu->Get_Model()->Get_Duration_Index(CShinobu::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fCurrentDuration = pShinobu->Get_Model()->Get_CurrentTime_Index(CShinobu::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fRatio = fCurrentDuration / fDuration;
 
+		if (fRatio > 0.6f)
+		{
+			pShinobu->Set_GodMode(true);
+		}
+
+		break;
+	}
 
 	return nullptr;
 }
