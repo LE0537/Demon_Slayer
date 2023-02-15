@@ -120,6 +120,11 @@ void CRuiDad::Tick(_float fTimeDelta)
 	{
 		HandleInput();
 		TickState(fTimeDelta);
+
+		//if (m_pTransformCom->Get_Jump() == true)
+		//	m_tInfo.bJump = true;
+		//else
+		//	m_tInfo.bJump = false;
 	}
 }
 
@@ -180,8 +185,36 @@ HRESULT CRuiDad::Render_ShadowDepth()
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
+	
+	if(m_bShadowAlphaIncrease == false)
+		m_ShadowMatrix = m_pTransformCom->Get_WorldMatrix();
+	
+	if(m_bShadowAlphaDecrease == true)
+		m_ShadowMatrix = m_pTransformCom->Get_WorldMatrix();
+
+
+	_float4 vTemp = *(_float4*)&m_ShadowMatrix.r[3];
+
+	if (m_bShadowAlphaIncrease == true)
+	{
+		vTemp.x += 100.f;
+		vTemp.y += 100.f;
+		vTemp.z += 100.f;
+	}
+
+	*(_float4*)&m_ShadowMatrix.r[3] = vTemp;
+
+	//_float4x4 WorldMatrix = m_pTransformCom->Get_World4x4();
+	
+	_float4x4	TransposeMatrix;
+	XMStoreFloat4x4(&TransposeMatrix, XMMatrixTranspose(m_ShadowMatrix));
+
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &TransposeMatrix, sizeof(_float4x4))))
 		return E_FAIL;
+
+
+
 
 	_vector vLightEye, vLightAt, vLightUp;
 	_matrix matLightView;

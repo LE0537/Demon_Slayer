@@ -1129,6 +1129,21 @@
     <Filter Include="02.GameObjects\99.GameObj\02.Ani\5.Deer2">
       <UniqueIdentifier>{c8e5e657-c28f-4b70-87e1-1fb2727be175}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\Punch">
+      <UniqueIdentifier>{5bdd6b4f-d90b-4d8e-ab59-08d9d5dfdbdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\Throw">
+      <UniqueIdentifier>{f94c6ab8-f49a-4de6-969b-a69f59ec0032}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\Rush">
+      <UniqueIdentifier>{d1b6c000-f219-4555-929f-e5002ddd50f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\JumpDrop">
+      <UniqueIdentifier>{0da00d50-008d-4379-8b82-c080962c6e76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\JumpDrop\TargetCircle">
+      <UniqueIdentifier>{6b35da2a-e221-4855-8e4e-85feb3989ab1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2256,6 +2271,21 @@
     <ClInclude Include="..\public\Deer2.h">
       <Filter>02.GameObjects\99.GameObj\02.Ani\5.Deer2</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RuiDadSkill_JumpDrop.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\JumpDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadSkill_Punch.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\Punch</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadSkill_Rush.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\Rush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadSkill_Throw.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\Throw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TargetCircle.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\JumpDrop\TargetCircle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3355,6 +3385,21 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Dynamic.cpp">
       <Filter>02.GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadSkill_JumpDrop.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\JumpDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadSkill_Punch.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\Punch</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadSkill_Throw.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\Throw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiDadSkill_Rush.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\Rush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TargetCircle.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Skill\JumpDrop\TargetCircle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

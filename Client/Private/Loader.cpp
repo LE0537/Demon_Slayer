@@ -158,6 +158,10 @@
 #include "Bird.h"
 #include "BigBird.h"
 #include "Hoke.h"
+
+// Test Target 
+#include "TargetCircle.h"
+
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -1084,6 +1088,13 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_CmnWind5"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Cmn/Wind5.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_CmnWind6"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Cmn/Wind6.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_WindSpiral"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Cmn/WindSpiral.fbx", PivotMatrix)))) return E_FAIL;
+
+		// Test Target ³ªÁß¿¡ ¹Ù²ãÁà
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_TargetCircle"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/TargetTest/Floor.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TargetCircle"),
+			CTargetCircle::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+		
 
 #pragma endregion Effect Model
 

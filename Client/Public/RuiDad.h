@@ -29,26 +29,22 @@ public:
 		ANIM_ATTACK_1 = 5,
 		ANIM_ATTACK_2 = 6,
 
-		ANIM_SKILL0_0 = 10,
-		ANIM_SKILL0_1 = 11,
+		ANIM_SKILL0 = 10,
 
-		ANIM_SKILL1_0 = 12,
-		ANIM_SKILL1_1 = 13,
-		ANIM_SKILL1_2 = 14,
-		//
-		ANIM_SKILL2_0 = 16,
-		ANIM_SKILL2_1 = 17,
-		ANIM_SKILL2_2 = 18,
+		ANIM_SKILL1 = 11,
+
+		ANIM_SKILL2_0 = 12,
+		ANIM_SKILL2_1 = 13,
+		ANIM_SKILL2_2 = 14,
+	
 
 		// 점프해서 플레이어에 내려찍기
 		ANIM_SKILL3_0 = 19,
-		ANIM_SKILL3_1 = 20, // LOOP 인갑다
+		ANIM_SKILL3_1 = 20,
 		ANIM_SKILL3_2 = 21,
 
-		ANIM_SKILL4_0 = 22,
-		ANIM_SKILL4_1 = 23,
-		ANIM_SKILL4_2 = 24,
-		ANIM_SKILL4_3 = 25,
+	
+
 
 
 		ANIM_RUSH_0 = 26,
@@ -103,6 +99,9 @@ public:
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
 
+	void   Set_ShadowAlphaIncrease(_bool bShadow) { m_bShadowAlphaIncrease = bShadow; }
+	void   Set_ShadowAlphaDecrease(_bool bShadow) { m_bShadowAlphaDecrease = bShadow; }
+
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
@@ -129,6 +128,12 @@ private:
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
+
+	_bool	m_bShadowAlphaIncrease = false;
+	_bool	m_bShadowAlphaDecrease= false;
+
+	_matrix m_ShadowMatrix;
+
 
 	class CRuiDadState* m_pRuiDadState = nullptr;
 public:

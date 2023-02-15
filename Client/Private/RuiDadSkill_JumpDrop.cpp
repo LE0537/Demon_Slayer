@@ -1,0 +1,279 @@
+#include "stdafx.h"
+#include "RuiDadSkill_JumpDrop.h"
+#include "RuiDadIdleState.h"
+#include "GameInstance.h"
+#include "Layer.h"
+#include "Effect_Manager.h"
+#include "Camera_Dynamic.h"
+#include "TargetCircle.h"
+
+using namespace RuiDad;
+
+
+CSkill_JumpDropState::CSkill_JumpDropState(STATE_TYPE eType)
+{
+	m_eStateType = eType;
+
+}
+
+CRuiDadState * CSkill_JumpDropState::HandleInput(CRuiDad* pRuiDad)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+
+	
+
+	
+
+
+	return nullptr;
+}
+
+CRuiDadState * CSkill_JumpDropState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
+{
+
+
+	if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
+	{
+		switch (m_eStateType)
+		{
+		case Client::CRuiDadState::TYPE_START:
+			pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+
+			//if(m_bNextAnim == true)
+			//	return new CSkill_JumpDropState(CRuiDadState::TYPE_LOOP);
+			break;
+		case Client::CRuiDadState::TYPE_LOOP:
+			pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+
+
+			//return new CSkill_JumpDropState(CRuiDadState::TYPE_END);
+			break;
+		case Client::CRuiDadState::TYPE_END:
+			pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+			return new CIdleState();
+			break;
+		}
+		pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+	}
+
+	
+	_float fRatio = 0.f;
+	switch (m_eStateType)
+	{
+	case Client::CRuiDadState::TYPE_START:
+		m_fDuration = pRuiDad->Get_Model()->Get_Duration_Index(CRuiDad::ANIM_SKILL3_0);
+		m_fCurrentDuration = pRuiDad->Get_Model()->Get_CurrentTime_Index(CRuiDad::ANIM_SKILL3_0);
+
+		 fRatio = m_fCurrentDuration / m_fDuration;
+
+		 if (fRatio >= 0.5f)
+			 m_bIncreaseHeight = true;
+
+		 if (m_bIncreaseHeight == true)
+		 {
+			 pRuiDad->Set_ShadowAlphaIncrease(true);
+			 Increase_Height(pRuiDad, fTimeDelta);
+		 }
+
+		 if(m_bNextAnim == true)
+			 return new CSkill_JumpDropState(CRuiDadState::TYPE_LOOP);
+
+		break;
+	case Client::CRuiDadState::TYPE_LOOP:
+
+		if (m_bCreateTargetCircle == true)
+			m_fFallTime += fTimeDelta;
+
+		if (m_fFallTime >= 1.5f && m_bCreateTargetCircle == true)
+		{
+			_vector vPosition = XMVectorSetW(XMLoadFloat3(&m_vTempPosition), 1.f);
+			pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+
+			m_bCreateTargetCircle = false;
+		}
+
+		if (m_fFallTime >= 1.5f)
+		{
+			pRuiDad->Set_ShadowAlphaIncrease(false);
+			pRuiDad->Set_ShadowAlphaDecrease(true);
+			Fall_Height(pRuiDad, fTimeDelta);
+		}
+
+		if (m_bNextAnim == true)
+			return new CSkill_JumpDropState(STATE_TYPE::TYPE_END);
+		break;
+	case Client::CRuiDadState::TYPE_END:
+		break;
+	case Client::CRuiDadState::TYPE_DEFAULT:
+		break;
+	case Client::CRuiDadState::TYPE_CHANGE:
+		break;
+	default:
+		break;
+	}
+
+	return nullptr;
+}
+
+CRuiDadState * CSkill_JumpDropState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
+{
+	
+	if (m_bIncreaseHeight == false)
+		pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
+
+
+	/*else if (m_bIncreaseHeight == true)
+		pRuiDad->Get_Model()->Reset_Anim(CRuiDad::ANIM_SKILL3_0);*/
+	return nullptr;
+}
+
+void CSkill_JumpDropState::Enter(CRuiDad* pRuiDad)
+{
+	m_eStateId = STATE_ID::STATE_SKILL_FALLCUT;
+
+	switch (m_eStateType)
+	{
+	case Client::CRuiDadState::TYPE_START:
+		pRuiDad->Get_Transform()->Set_PlayerLookAt(pRuiDad->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIM_SKILL3_0);
+		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_SKILL3_0, 0.01f);
+		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_SKILL3_0);
+		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_SKILL3_0);
+		m_vVelocity.x = 0.f;
+		m_vVelocity.y = 30.f;
+		m_vVelocity.z = 0.f;
+		m_vPosition.x = XMVectorGetX(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		m_vPosition.y = XMVectorGetY(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		m_vPosition.z = XMVectorGetZ(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		break;
+	case Client::CRuiDadState::TYPE_LOOP:
+		pRuiDad->Get_Transform()->Set_PlayerLookAt(pRuiDad->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIM_SKILL3_1);
+		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_SKILL3_1, 0.01f);
+		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_SKILL3_1);
+		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_SKILL3_1, true);
+		m_vVelocity.x = 0.f;
+		m_vVelocity.y = 0.f;
+		m_vVelocity.z = 0.f;
+		Create_TargetCircle(pRuiDad, 0.f);
+		pRuiDad->Get_BattleTarget()->Set_NavigationHeight(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		m_fOriginPosY = pRuiDad->Get_BattleTarget()->Get_NavigationHeight().y;
+		m_vPosition.y = XMVectorGetY(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		break;
+	case Client::CRuiDadState::TYPE_END:
+
+		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIM_SKILL3_2);
+		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_SKILL3_2, 0.01f);
+		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_SKILL3_2);
+		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_SKILL3_2);
+
+
+		CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.4f);
+		RELEASE_INSTANCE(CGameInstance);
+		break;
+	}
+
+}
+
+void CSkill_JumpDropState::Exit(CRuiDad* pRuiDad)
+{
+
+}
+
+CRuiDadState * CSkill_JumpDropState::Increase_Height(CRuiDad * pRuiDad, _float fTimeDelta)
+{
+	pRuiDad->Set_NavigationHeight(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pRuiDad->Get_NavigationHeight().y;
+	pRuiDad->Get_Transform()->Set_Jump(true);
+
+	static _float fJump_Velocity = 10.f;
+	static _float fGravity = 200.f;
+
+
+	m_vVelocity.y += fGravity * fTimeDelta;
+	m_vPosition.x += m_vVelocity.x * fTimeDelta;
+	m_vPosition.y += m_vVelocity.y * fTimeDelta;
+	m_vPosition.z += m_vVelocity.z * fTimeDelta;
+
+	_vector vCurrentPos = pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
+
+	if (XMVectorGetY(vCurrentPos) > 15.f)
+	{
+
+		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		
+		m_bNextAnim = true;
+	}
+	else
+		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+
+	return nullptr;
+}
+
+CRuiDadState * CSkill_JumpDropState::Fall_Height(CRuiDad * pRuiDad, _float fTimeDelta)
+{
+
+	static _float fGravity = -200.f;
+	static _float fVelocity = 0.f;
+
+
+	m_vPosition.x = XMVectorGetX(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_vPosition.y = XMVectorGetY(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_vPosition.z = XMVectorGetZ(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	fVelocity += fGravity *fTimeDelta;
+	m_vPosition.y += fVelocity * fTimeDelta;
+
+	_vector vecPos = pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vecPos = XMVectorSetY(vecPos, m_vPosition.y);
+
+	if (m_vPosition.y <= m_fOriginPosY)
+	{
+		m_vPosition.y = m_fOriginPosY;
+		fVelocity = m_fOriginPosY;
+
+		_vector vecPos = pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vecPos = XMVectorSetY(vecPos, m_vPosition.y);
+
+		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		pRuiDad->Get_Transform()->Set_Jump(false);
+		m_bNextAnim = true;
+	}
+	else
+		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+
+
+	return nullptr;
+}
+
+void CSkill_JumpDropState::Create_TargetCircle(CRuiDad* pRuiDad, _float fTimeDelta)
+{
+	CTargetCircle::tagRangeCircleDesc tInfo{};
+	ZeroMemory(&tInfo, sizeof(tInfo));
+
+	_float3 vTargetPosition; XMStoreFloat3(&vTargetPosition, pRuiDad->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	
+	vTargetPosition.y = pRuiDad->Get_BattleTarget()->Get_NavigationHeight().y + 0.1f;
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	tInfo.vPosition = vTargetPosition;
+	
+
+	pGameInstance->Add_GameObject(L"Prototype_GameObject_TargetCircle", LEVEL_GAMEPLAY, L"Layer_TargetCircle", &tInfo);
+		
+	m_bCreateTargetCircle = true;
+
+	vTargetPosition.y += 20.f;
+
+	m_vTempPosition = vTargetPosition;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+
+}
+
