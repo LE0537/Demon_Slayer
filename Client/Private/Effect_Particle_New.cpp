@@ -161,6 +161,8 @@ HRESULT CEffect_Particle_New::SetUp_ShaderResources()
 	m_pShaderCom->Set_RawValue("g_bUseColor", &m_ParticleInfo.bUseColor, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bGlow", &m_ParticleInfo.bUseGlow, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bBillboard", &m_ParticleInfo.bBillboard, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_bYBillboard", &m_ParticleInfo.bYBillboard, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_bBillboardTurn", &m_ParticleInfo.bBillboardTurn, sizeof(_bool));
 
 	return S_OK;
 }

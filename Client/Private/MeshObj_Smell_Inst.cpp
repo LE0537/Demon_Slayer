@@ -62,7 +62,8 @@ void CMeshObj_Smell_Inst::Late_Tick(_float fTimeDelta)
 
 	if (nullptr != m_pRendererCom)
 	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
+		if(true == m_pRendererCom->Get_MapGrayValue())
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
 
 	}
 }
