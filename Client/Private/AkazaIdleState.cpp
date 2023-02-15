@@ -78,7 +78,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 				RELEASE_INSTANCE(CUI_Manager);
 				pAkaza->Set_PowerIndex(1);
 				pAkaza->Set_PowerUp(1.5f);
-				pAkaza->Set_PowerUpTime(6.f);
+				pAkaza->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pAkaza);
@@ -90,7 +90,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 				pUI_Manager->Set_UltUseCount(1, 0);
 				RELEASE_INSTANCE(CUI_Manager);
 				pAkaza->Set_PowerIndex(2);
-				pAkaza->Set_PowerUpTime(6.f);
+				pAkaza->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pAkaza);
@@ -200,7 +200,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 				RELEASE_INSTANCE(CUI_Manager);
 				pAkaza->Set_PowerIndex(1);
 				pAkaza->Set_PowerUp(1.5f);
-				pAkaza->Set_PowerUpTime(6.f);
+				pAkaza->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pAkaza);
@@ -212,7 +212,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 				pUI_Manager->Set_UltUseCount(1, 1);
 				RELEASE_INSTANCE(CUI_Manager);
 				pAkaza->Set_PowerIndex(2);
-				pAkaza->Set_PowerUpTime(6.f);
+				pAkaza->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pAkaza);

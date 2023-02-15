@@ -70,7 +70,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				{
 					pShinobu->Set_PowerIndex(1);
 					pShinobu->Set_PowerUp(1.5f);
-					pShinobu->Set_PowerUpTime(6.f);
+					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pShinobu);
@@ -79,7 +79,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
 				{
 					pShinobu->Set_PowerIndex(2);
-					pShinobu->Set_PowerUpTime(6.f);
+					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pShinobu);
@@ -157,7 +157,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				{
 					pShinobu->Set_PowerIndex(1);
 					pShinobu->Set_PowerUp(1.5f);
-					pShinobu->Set_PowerUpTime(6.f);
+					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pShinobu);
@@ -166,7 +166,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
 				{
 					pShinobu->Set_PowerIndex(2);
-					pShinobu->Set_PowerUpTime(6.f);
+					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pShinobu);

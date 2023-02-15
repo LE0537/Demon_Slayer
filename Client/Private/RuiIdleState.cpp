@@ -84,7 +84,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 				RELEASE_INSTANCE(CUI_Manager);
 				pRui->Set_PowerIndex(1);
 				pRui->Set_PowerUp(1.5f);
-				pRui->Set_PowerUpTime(6.f);
+				pRui->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pRui);
@@ -96,7 +96,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 				pUI_Manager->Set_UltUseCount(1, 0);
 				RELEASE_INSTANCE(CUI_Manager);
 				pRui->Set_PowerIndex(2);
-				pRui->Set_PowerUpTime(6.f);
+				pRui->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pRui);
@@ -206,7 +206,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 				RELEASE_INSTANCE(CUI_Manager);
 				pRui->Set_PowerIndex(1);
 				pRui->Set_PowerUp(1.5f);
-				pRui->Set_PowerUpTime(6.f);
+				pRui->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pRui);
@@ -218,7 +218,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 				pUI_Manager->Set_UltUseCount(1, 1);
 				RELEASE_INSTANCE(CUI_Manager);
 				pRui->Set_PowerIndex(2);
-				pRui->Set_PowerUpTime(6.f);
+				pRui->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pRui);
