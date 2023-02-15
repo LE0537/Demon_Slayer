@@ -162,8 +162,11 @@ public:
 	queue<_uint> Get_QueueCombo() { return m_queueDash; }
 	_bool Get_RuiHit();
 	void Set_RuiHit(_bool bHit) { m_bIsHit = bHit; }
+	void	Set_NextRound(_bool bNextRound) { m_bNextRound = bNextRound; }
+	_bool   Get_NextRound() { return m_bNextRound; }
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
+
 private:
 	void HandleInput(_float fTimeDelta);
 	void TickState(_float fTimeDelta);
@@ -176,7 +179,7 @@ private:
 	void	Boss_LateTick(_float fTimeDelta);
 	void	Boss_Render();
 	void	Set_Info();
-	
+
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);
@@ -204,6 +207,8 @@ private:
 	_bool m_bIsHit = false;
 	queue<_uint> m_queueDash;
 	
+	_bool m_bNextRound = false;
+
 	list <class CRuiState*> m_AIStateList;
 public:
 	static CRui* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

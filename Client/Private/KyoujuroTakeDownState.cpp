@@ -63,7 +63,20 @@ CKyoujuroState * CTakeDownState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	}
 
 
+	switch (m_eStateType)
+	{
+	case Client::CKyoujuroState::TYPE_START:
+		_float fDuration = pKyoujuro->Get_Model()->Get_Duration_Index(CKyoujuro::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fCurrentDuration = pKyoujuro->Get_Model()->Get_CurrentTime_Index(CKyoujuro::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fRatio = fCurrentDuration / fDuration;
 
+		if (fRatio > 0.6f)
+		{
+			pKyoujuro->Set_GodMode(true);
+		}
+
+		break;
+	}
 
 
 	return nullptr;
@@ -92,7 +105,7 @@ void CTakeDownState::Enter(CKyoujuro* pKyoujuro)
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_HIT_DMG_DOWN_COL);
 		pKyoujuro->Get_Model()->Set_Loop(pKyoujuro->Get_AnimIndex());
 		pKyoujuro->Get_Model()->Set_LinearTime(pKyoujuro->Get_AnimIndex(), 0.2f);
-		pKyoujuro->Set_GodMode(true);
+	
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_HIT_DMG_RETURN_1);

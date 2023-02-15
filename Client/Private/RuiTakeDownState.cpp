@@ -63,7 +63,20 @@ CRuiState * CTakeDownState::Tick(CRui* pRui, _float fTimeDelta)
 	}
 
 
+	switch (m_eStateType)
+	{
+	case Client::CRuiState::TYPE_START:
+		_float fDuration = pRui->Get_Model()->Get_Duration_Index(CRui::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fCurrentDuration = pRui->Get_Model()->Get_CurrentTime_Index(CRui::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fRatio = fCurrentDuration / fDuration;
 
+		if (fRatio > 0.6f)
+		{
+			pRui->Set_GodMode(true);
+		}
+
+		break;
+	}
 
 
 	return nullptr;
@@ -92,7 +105,7 @@ void CTakeDownState::Enter(CRui* pRui)
 		pRui->Set_AnimIndex(CRui::ANIM_HIT_DMG_DOWN_COL);
 		pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex());
 		pRui->Get_Model()->Set_LinearTime(pRui->Get_AnimIndex(), 0.2f);
-		pRui->Set_GodMode(true);
+
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_HIT_DMG_RETURN_1);

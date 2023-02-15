@@ -408,6 +408,11 @@ CNezukoState * CSkill_CommonState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta
 
 						m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 5.f);
 
+
+						CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+						RELEASE_INSTANCE(CGameInstance);
+
 						//m_pTarget->Take_Damage(0.5f, false);
 						pNezuko->Set_Combo(1);
 						pNezuko->Set_ComboTime(0.f);

@@ -6,6 +6,7 @@
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "KyoujuroJumpState.h"
+#include "Camera_Dynamic.h"
 using namespace Kyoujuro;
 
 
@@ -126,12 +127,17 @@ CKyoujuroState * CJumpSkill_MoveState::Late_Tick(CKyoujuro * pKyojuro, _float fT
 						m_pTarget->Set_GuardTime(2.f);
 					}
 				}
-				else if(pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
-				{ 
+				else if (pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
+				{
 					m_pTarget->Set_Hp(-pKyojuro->Get_PlayerInfo().iDmg * pKyojuro->Get_PlayerInfo().fPowerUp);
 
-					if(m_iHit ==3)
+					if (m_iHit == 3)
+					{
+						CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 15.f, 20.f, 0.3f);
+					}
 					else
 						m_pTarget->Take_Damage(0.3f, false);
 

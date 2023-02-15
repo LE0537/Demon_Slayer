@@ -62,7 +62,20 @@ CNezukoState * CTakeDownState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 		pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
 	}
 
+	switch (m_eStateType)
+	{
+	case Client::CNezukoState::TYPE_START:
+		_float fDuration = pNezuko->Get_Model()->Get_Duration_Index(CNezuko::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fCurrentDuration = pNezuko->Get_Model()->Get_CurrentTime_Index(CNezuko::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fRatio = fCurrentDuration / fDuration;
 
+		if (fRatio > 0.6f)
+		{
+			pNezuko->Set_GodMode(true);
+		}
+
+		break;
+	}
 
 
 
@@ -92,7 +105,7 @@ void CTakeDownState::Enter(CNezuko* pNezuko)
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_DOWN_COL);
 		pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
 		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
-		pNezuko->Set_GodMode(true);
+	
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_RETURN_1);

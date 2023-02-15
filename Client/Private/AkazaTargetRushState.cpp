@@ -299,6 +299,10 @@ void CTargetRushState::Move(CAkaza* pAkaza, _float fTimeDelta)
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 			RELEASE_INSTANCE(CGameInstance);
+
+			CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+			RELEASE_INSTANCE(CGameInstance);
 		}
 	}
 	else

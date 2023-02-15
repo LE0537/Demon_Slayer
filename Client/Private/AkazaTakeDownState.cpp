@@ -63,7 +63,20 @@ CAkazaState * CTakeDownState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	}
 
 
+	switch (m_eStateType)
+	{
+	case Client::CAkazaState::TYPE_START:
+		_float fDuration = pAkaza->Get_Model()->Get_Duration_Index(CAkaza::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fCurrentDuration = pAkaza->Get_Model()->Get_CurrentTime_Index(CAkaza::ANIMID::ANIM_HIT_DMG_DOWN_COL);
+		_float fRatio = fCurrentDuration / fDuration;
 
+		if (fRatio > 0.6f)
+		{
+			pAkaza->Set_GodMode(true);
+		}
+
+		break;
+	}
 
 
 	return nullptr;
@@ -92,7 +105,7 @@ void CTakeDownState::Enter(CAkaza* pAkaza)
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT_DMG_DOWN_COL);
 		pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.2f);
-		pAkaza->Set_GodMode(true);
+	
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_HIT_DMG_RETURN_1);
