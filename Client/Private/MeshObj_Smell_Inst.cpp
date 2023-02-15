@@ -24,6 +24,7 @@ HRESULT CMeshObj_Smell_Inst::Initialize(void * pArg)
 		return E_FAIL;
 
 	memcpy(&m_tMyDesc, pArg, sizeof m_tMyDesc);
+	*(CMeshObj_Smell_Inst**)(&((MESHOBJ_SMELL_INSTANCING_DESC*)pArg)->pMe) = this;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -62,7 +63,7 @@ void CMeshObj_Smell_Inst::Tick(_float fTimeDelta)
 		XMStoreFloat4(&iter.vLook, XMVector3TransformNormal(XMLoadFloat4(&iter.vLook), matRotation));
 	}
 
-	m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta, 30.f);
+	m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta, 40.f);
 }
 
 void CMeshObj_Smell_Inst::Late_Tick(_float fTimeDelta)
