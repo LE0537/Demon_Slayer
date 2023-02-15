@@ -10,6 +10,7 @@
 #include "Level_Menu.h"
 #include "Level_StroyMenu.h"
 #include "Level_AdvRui.h"
+#include "Level_SelectMap.h"
 #include "UI_Manager.h"
 #include "SoundMgr.h"
 
@@ -74,6 +75,9 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 			break;
 		case LEVEL_ADVRUI:
 			pNewLevel = CLevel_AdvRui::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_SELECTMAP:
+			pNewLevel = CLevel_SelectMap::Create(m_pDevice, m_pContext);
 			break;
 		}
 

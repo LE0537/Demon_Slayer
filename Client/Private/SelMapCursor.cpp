@@ -1,26 +1,25 @@
 #include "stdafx.h"
-#include "WindowRight.h"
+#include "SelMapCursor.h"
 #include "GameInstance.h"
-#include "SelP1Cursor.h"
-#include "SelP2Cursor.h"
+#include "SelMapIconFrame.h"
 #include "UI_Manager.h"
 
-CWindowRight::CWindowRight(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CSelMapCursor::CSelMapCursor(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CWindowRight::CWindowRight(const CWindowRight & rhs)
+CSelMapCursor::CSelMapCursor(const CSelMapCursor & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CWindowRight::Initialize_Prototype()
+HRESULT CSelMapCursor::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CWindowRight::Initialize(void * pArg)
+HRESULT CSelMapCursor::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -35,7 +34,7 @@ HRESULT CWindowRight::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -47,63 +46,67 @@ HRESULT CWindowRight::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-	if (m_ThrowUIinfo.iLayerNum == 0)
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.45f, 1.f));
-	else
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
-
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-	if (m_ThrowUIinfo.iLayerNum == 0)
-		pUI_Manager->Set_Window(this, 1);
-	else
-		pUI_Manager->Set_Window(this, 3);
+	pUI_Manager->Set_SelMapCursor(this);
 	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
 
-void CWindowRight::Tick(_float fTimeDelta)
+void CSelMapCursor::Tick(_float fTimeDelta)
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	_bool bP1SelComple = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor())->Get_SelComple();
-	_bool bP2SelComple = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_SelComple();
-
-	if (m_ThrowUIinfo.iLayerNum == 0)
+	if (pGameInstance->Key_Down(DIK_A))
 	{
-		if (bP1SelComple && bP2SelComple)
+		if (m_iFrameNum != 0)
 		{
-			m_fUvMove += fTimeDelta;
-			if (m_fUvMove >= 1.f)
-			{
-				m_fUvMove = 1.f;
-				m_bCloseCheck = true;
-			}
+			--m_iFrameNum;
+			m_fX = dynamic_cast<CSelMapIconFrame*>(pUI_Manager->Get_SelMapIconFrame(m_iFrameNum))->Get_fX();
+			m_fY = dynamic_cast<CSelMapIconFrame*>(pUI_Manager->Get_SelMapIconFrame(m_iFrameNum))->Get_fY();
+		}
+		else
+		{
+			++m_iFrameNum;
+			m_fX = dynamic_cast<CSelMapIconFrame*>(pUI_Manager->Get_SelMapIconFrame(m_iFrameNum))->Get_fX();
+			m_fY = dynamic_cast<CSelMapIconFrame*>(pUI_Manager->Get_SelMapIconFrame(m_iFrameNum))->Get_fY();
 		}
 	}
-	else
+	else if (pGameInstance->Key_Down(DIK_D))
 	{
-		if (dynamic_cast<CWindowRight*>(pUI_Manager->Get_Window(1))->Get_CloseCheck())
+		if (m_iFrameNum != 1)
 		{
-			m_fUvMove += fTimeDelta;
-			if (m_fUvMove >= 1.f)
-			{
-				m_fUvMove = 1.f;
-				m_bCloseCheck = true;
-			}
+			++m_iFrameNum;
+			m_fX = dynamic_cast<CSelMapIconFrame*>(pUI_Manager->Get_SelMapIconFrame(m_iFrameNum))->Get_fX();
+			m_fY = dynamic_cast<CSelMapIconFrame*>(pUI_Manager->Get_SelMapIconFrame(m_iFrameNum))->Get_fY();
+		}
+		else
+		{
+			--m_iFrameNum;
+			m_fX = dynamic_cast<CSelMapIconFrame*>(pUI_Manager->Get_SelMapIconFrame(m_iFrameNum))->Get_fX();
+			m_fY = dynamic_cast<CSelMapIconFrame*>(pUI_Manager->Get_SelMapIconFrame(m_iFrameNum))->Get_fY();
 		}
 	}
 
+	if (pGameInstance->Key_Down(DIK_E))
+	{
+		pUI_Manager->Set_SelMapNum(m_iFrameNum);
+		m_bMapSelectCheck = true;
+	}
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
-void CWindowRight::Late_Tick(_float fTimeDelta)
+void CSelMapCursor::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CWindowRight::Render()
+HRESULT CSelMapCursor::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -112,14 +115,17 @@ HRESULT CWindowRight::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(21);
+	if (!m_ThrowUIinfo.bReversal)
+		m_pShaderCom->Begin();
+	else
+		m_pShaderCom->Begin(1);
 
 	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
-HRESULT CWindowRight::Ready_Components()
+HRESULT CSelMapCursor::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -134,11 +140,7 @@ HRESULT CWindowRight::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_WindowRight"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
-
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_MaskWindowRight"), (CComponent**)&m_pTextureMaskCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapCursor"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -148,7 +150,7 @@ HRESULT CWindowRight::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CWindowRight::SetUp_ShaderResources()
+HRESULT CSelMapCursor::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -160,25 +162,19 @@ HRESULT CWindowRight::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fUvMoveTime", &m_fUvMove, sizeof(_float))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pTextureMaskCom->Get_SRV(0))))
-		return E_FAIL;
-
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CWindowRight * CWindowRight::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CSelMapCursor * CSelMapCursor::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CWindowRight*	pInstance = new CWindowRight(pDevice, pContext);
+	CSelMapCursor*	pInstance = new CSelMapCursor(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CWindowRight"));
+		ERR_MSG(TEXT("Failed to Created : CSelMapCursor"));
 		Safe_Release(pInstance);
 	}
 
@@ -186,27 +182,26 @@ CWindowRight * CWindowRight::Create(ID3D11Device * pDevice, ID3D11DeviceContext 
 }
 
 
-CGameObject * CWindowRight::Clone(void * pArg)
+CGameObject * CSelMapCursor::Clone(void * pArg)
 {
-	CWindowRight*	pInstance = new CWindowRight(*this);
+	CSelMapCursor*	pInstance = new CSelMapCursor(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CWindowRight"));
+		ERR_MSG(TEXT("Failed to Cloned : CSelMapCursor"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CWindowRight::Free()
+void CSelMapCursor::Free()
 {
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_pTextureMaskCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);
 }

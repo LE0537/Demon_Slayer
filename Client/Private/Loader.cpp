@@ -130,6 +130,15 @@
 #include "ResultScoreBar.h"
 #include "ResultScoreBase.h"
 #include "ResultTotalBase.h"
+#include "LineFrame.h"
+#include "SelMapIconFrame.h"
+#include "SelMapFixedImg.h"
+#include "SelMapNameBase.h"
+#include "SelMapIcon.h"
+#include "SelMapCursor.h"
+#include "SelMapEff.h"
+#include "SelMapImg.h"
+#include "SelMapListPattern.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -194,6 +203,9 @@ unsigned int APIENTRY Thread_Main(void* pArg)
 		break;
 	case LEVEL_ADVRUI:
 		pLoader->Loading_ForAdvRui();
+		break;
+	case LEVEL_SELECTMAP:
+		pLoader->Loading_ForSelectMap();
 		break;
 	}
 	
@@ -496,6 +508,20 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Logo/Logo_Button_%d.png"), 2))))
 			return E_FAIL;
 #pragma endregion LogoTitleUI
+
+#pragma region SelectMap
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapFixedImg"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Fixed_%d.png"), 6)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapEff"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Map_SelEff_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapCursor"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Cursor_Stage.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapIconFrame"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Frame_Icon_Stage.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapImg"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Image_BG_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapIconImg"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Image_Icon_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LineFrame"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Line_Frame_Stage.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapImgMask"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Mask_Image_Stage.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_StageNameBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Name_Base_Stage.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapPatternMask"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Stage_Mask02.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapPattern"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Stage_Pattern01.png"), 1)))) return E_FAIL;
+#pragma endregion SelectMap
 
 #pragma region Adc_Menu
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Adc_MenuBG"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Adc_Menu/Lang_StoryBG_%d.png"), 2)))) return E_FAIL;
@@ -1514,6 +1540,33 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 #pragma region UI객체
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelectMapFixedImg"),
+		CSelMapFixedImg::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelMapNameBase"),
+		CSelMapNameBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapListPattern"),
+		CSelMapListPattern::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelMapImg"),
+		CSelMapImg::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LineFrame"),
+		CLineFrame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelMapIconFrame"),
+		CSelMapIconFrame::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapIconImg"),
+		CSelMapIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelMapCursor"),
+		CSelMapCursor::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelMapEff"),
+		CSelMapEff::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultScoreBar"),
 		CResultScoreBar::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1940,6 +1993,33 @@ HRESULT CLoader::Loading_ForStoryMenu()
 }
 
 HRESULT CLoader::Loading_ForAdvRui()
+{
+	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
+	if (nullptr == pGameInstance)
+		return E_FAIL;
+
+	Safe_AddRef(pGameInstance);
+
+
+	/* 텍스쳐 로딩 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+
+
+
+	/* 객체 생성 중. */
+	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
+
+
+	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
+
+	m_isFinished = true;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_ForSelectMap()
 {
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	if (nullptr == pGameInstance)

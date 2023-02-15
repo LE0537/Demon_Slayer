@@ -5,15 +5,12 @@
 
 BEGIN(Client)
 
-class CWindowLeft final : public CUI
+class CSelMapEff final : public CUI
 {
 private:
-	CWindowLeft(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CWindowLeft(const CWindowLeft& rhs);
-	virtual ~CWindowLeft() = default;
-
-public:
-	_bool Get_CloseCheck() { return m_bCloseCheck; }
+	CSelMapEff(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CSelMapEff(const CSelMapEff& rhs);
+	virtual ~CSelMapEff() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -27,15 +24,14 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 private:
-	CTexture*						m_pTextureMaskCom = nullptr;
-
-private:
-	_float							m_fUvMove = 0.f;
-	_float							m_fDelayTime = 0.f;
-	_bool							m_bCloseCheck = false;
+	_bool						m_bMapSelectCheck = false;
+	_bool						m_bFadeCheck = false;
+	_bool						m_bEffEnd = false;
+	_uint						m_iSelNum = 0;
+	_float						m_fFadeTime = 0.f;
 
 public:
-	static CWindowLeft* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CSelMapEff* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };

@@ -122,6 +122,21 @@ PS_OUT PS_MAIN(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_Mask(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	float4 DiffuseTexture = g_DiffuseTexture.Sample(PointSampler, In.vTexUV);
+	float4 MaskTexture = g_MaskTexture.Sample(PointSampler, In.vTexUV);
+
+	float fAlpha = MaskTexture.r;
+
+	Out.vColor = DiffuseTexture;
+	Out.vColor.a = fAlpha;
+
+	return Out;
+}
+
 PS_OUT PS_HpBarMinus(PS_IN In)
 {
 	PS_OUT      Out = (PS_OUT)0;
@@ -346,7 +361,7 @@ PS_OUT PS_PatternWind(PS_IN In)
 
 	float2 vNewUV = In.vTexUV;
 
-	if (g_iLevelNum == 4)
+	if (g_iLevelNum == 4 || g_iLevelNum == 9)
 	{
 		vNewUV.x -= g_fUvMoveTime;
 		vNewUV.y -= g_fUvMoveTime;
@@ -378,7 +393,7 @@ PS_OUT PS_PatternOne(PS_IN In)
 
 	float2 vNewUV = In.vTexUV;
 
-	if (g_iLevelNum == 4)
+	if (g_iLevelNum == 4 || g_iLevelNum == 9)
 	{
 		vNewUV.x *= 15.f;
 		vNewUV.y *= 15.f;
@@ -406,6 +421,30 @@ PS_OUT PS_PatternOne(PS_IN In)
 		if (DiffuseTexture.a <= 0)
 			discard;
 	}
+
+	return Out;
+}
+
+PS_OUT PS_MapListPattern(PS_IN In)
+{
+	PS_OUT      Out = (PS_OUT)0;
+
+	float2 vNewUV = In.vTexUV;
+
+	vNewUV.x *= 15.f;
+	vNewUV.y *= 1.f;
+
+	float4 DiffuseTexture = g_DiffuseTexture.Sample(PointSampler, vNewUV);
+	float4 MaskTexture = g_MaskTexture.Sample(PointSampler, In.vTexUV);
+
+	Out.vColor = DiffuseTexture;
+
+	float fAlpha = MaskTexture.r - DiffuseTexture.a;
+
+	Out.vColor.a = fAlpha - 0.4f;
+
+	if (DiffuseTexture.a <= 0.f)
+		discard;
 
 	return Out;
 }
@@ -970,5 +1009,26 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_PowerUpBar();
 	}
-	
+
+	pass MapListPattern //29
+	{
+		SetRasterizerState(RS_UI);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MapListPattern();
+	}	
+
+	pass Mask //30
+	{
+		SetRasterizerState(RS_UI);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_Mask();
+	}
 }

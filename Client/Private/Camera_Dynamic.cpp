@@ -288,7 +288,7 @@ void CCamera_Dynamic::Set_CamPos()
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransform->Set_Rotation(_float3(0.f, m_fAngle - fAngleDot, 0.f));
 	_vector vLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
-	_float fTime = 1.f;
+ 	_float fTime = 1.f;
 	vPos -= vLook * (fTime + m_fLookY) * (fDiameter * 0.5f) * m_fCamDist;
 	vPos.m128_f32[0] -= 3.f;
 	vPos.m128_f32[1] = 0.f;
