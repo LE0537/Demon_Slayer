@@ -163,6 +163,24 @@ CTanjiroState * CJumpAttackState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDel
 			else
 				pTanjiro->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pTanjiro->Get_NavigationCom());
 		}
+		if (!m_bEffect && !pTanjiro->Get_KaguraMode())
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_TANJUMPATT, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+		else if (!m_bEffect && pTanjiro->Get_KaguraMode())
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOJUMPATT, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 
 	}
 	if (m_eStateType == TYPE_END)
