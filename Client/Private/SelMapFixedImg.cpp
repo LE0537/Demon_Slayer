@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "CharSelBg.h"
+#include "SelMapFixedImg.h"
 #include "GameInstance.h"
 
-CCharSelBg::CCharSelBg(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CSelMapFixedImg::CSelMapFixedImg(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CCharSelBg::CCharSelBg(const CCharSelBg & rhs)
+CSelMapFixedImg::CSelMapFixedImg(const CSelMapFixedImg & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CCharSelBg::Initialize_Prototype()
+HRESULT CSelMapFixedImg::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CCharSelBg::Initialize(void * pArg)
+HRESULT CSelMapFixedImg::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -42,25 +42,36 @@ HRESULT CCharSelBg::Initialize(void * pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
-	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
+
+	if(m_ThrowUIinfo.iTextureNum == 9)
+		m_iImgNum = 0;
+	else if (m_ThrowUIinfo.iTextureNum == 10)
+		m_iImgNum = 1;
+	else if (m_ThrowUIinfo.iTextureNum == 11)
+		m_iImgNum = 2;
+	else if (m_ThrowUIinfo.iTextureNum == 16)
+		m_iImgNum = 3;
+	else if (m_ThrowUIinfo.iTextureNum == 17)
+		m_iImgNum = 4;
+	else if (m_ThrowUIinfo.iTextureNum == 18)
+		m_iImgNum = 5;
+
 	return S_OK;
 }
 
-void CCharSelBg::Tick(_float fTimeDelta)
+void CSelMapFixedImg::Tick(_float fTimeDelta)
 {
-	if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 50.f, 1.f));
-	else 
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void CCharSelBg::Late_Tick(_float fTimeDelta)
+void CSelMapFixedImg::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CCharSelBg::Render()
+HRESULT CSelMapFixedImg::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -79,7 +90,7 @@ HRESULT CCharSelBg::Render()
 	return S_OK;
 }
 
-HRESULT CCharSelBg::Ready_Components()
+HRESULT CSelMapFixedImg::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -94,7 +105,7 @@ HRESULT CCharSelBg::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSelBg"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapFixedImg"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -104,7 +115,7 @@ HRESULT CCharSelBg::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CCharSelBg::SetUp_ShaderResources()
+HRESULT CSelMapFixedImg::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -116,19 +127,19 @@ HRESULT CCharSelBg::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CCharSelBg * CCharSelBg::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CSelMapFixedImg * CSelMapFixedImg::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CCharSelBg*	pInstance = new CCharSelBg(pDevice, pContext);
+	CSelMapFixedImg*	pInstance = new CSelMapFixedImg(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CCharSelBg"));
+		ERR_MSG(TEXT("Failed to Created : CSelMapFixedImg"));
 		Safe_Release(pInstance);
 	}
 
@@ -136,20 +147,20 @@ CCharSelBg * CCharSelBg::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pC
 }
 
 
-CGameObject * CCharSelBg::Clone(void * pArg)
+CGameObject * CSelMapFixedImg::Clone(void * pArg)
 {
-	CCharSelBg*	pInstance = new CCharSelBg(*this);
+	CSelMapFixedImg*	pInstance = new CSelMapFixedImg(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CCharSelBg"));
+		ERR_MSG(TEXT("Failed to Cloned : CSelMapFixedImg"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CCharSelBg::Free()
+void CSelMapFixedImg::Free()
 {
 	__super::Free();
 

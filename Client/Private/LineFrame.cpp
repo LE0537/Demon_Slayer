@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "CharSelBg.h"
+#include "LineFrame.h"
 #include "GameInstance.h"
 
-CCharSelBg::CCharSelBg(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CLineFrame::CLineFrame(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CCharSelBg::CCharSelBg(const CCharSelBg & rhs)
+CLineFrame::CLineFrame(const CLineFrame & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CCharSelBg::Initialize_Prototype()
+HRESULT CLineFrame::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CCharSelBg::Initialize(void * pArg)
+HRESULT CLineFrame::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -42,25 +42,24 @@ HRESULT CCharSelBg::Initialize(void * pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
-	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
+
+
 	return S_OK;
 }
 
-void CCharSelBg::Tick(_float fTimeDelta)
+void CLineFrame::Tick(_float fTimeDelta)
 {
-	if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 50.f, 1.f));
-	else 
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void CCharSelBg::Late_Tick(_float fTimeDelta)
+void CLineFrame::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CCharSelBg::Render()
+HRESULT CLineFrame::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -69,17 +68,17 @@ HRESULT CCharSelBg::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
+	if(m_ThrowUIinfo.iLayerNum == 0 || m_ThrowUIinfo.iLayerNum == 1)
+		m_pShaderCom->Begin(30);
 	else
-		m_pShaderCom->Begin(1);
+		m_pShaderCom->Begin(0);
 
 	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
-HRESULT CCharSelBg::Ready_Components()
+HRESULT CLineFrame::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -94,7 +93,11 @@ HRESULT CCharSelBg::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSelBg"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_LineFrame"), (CComponent**)&m_pTextureCom)))
+		return E_FAIL;
+
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapImgMask"), (CComponent**)&m_pTextureCom1)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -104,7 +107,7 @@ HRESULT CCharSelBg::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CCharSelBg::SetUp_ShaderResources()
+HRESULT CLineFrame::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -116,19 +119,22 @@ HRESULT CCharSelBg::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pTextureCom1->Get_SRV(0))))
+		return E_FAIL;
+
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CCharSelBg * CCharSelBg::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CLineFrame * CLineFrame::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CCharSelBg*	pInstance = new CCharSelBg(pDevice, pContext);
+	CLineFrame*	pInstance = new CLineFrame(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CCharSelBg"));
+		ERR_MSG(TEXT("Failed to Created : CLineFrame"));
 		Safe_Release(pInstance);
 	}
 
@@ -136,26 +142,27 @@ CCharSelBg * CCharSelBg::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pC
 }
 
 
-CGameObject * CCharSelBg::Clone(void * pArg)
+CGameObject * CLineFrame::Clone(void * pArg)
 {
-	CCharSelBg*	pInstance = new CCharSelBg(*this);
+	CLineFrame*	pInstance = new CLineFrame(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CCharSelBg"));
+		ERR_MSG(TEXT("Failed to Cloned : CLineFrame"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CCharSelBg::Free()
+void CLineFrame::Free()
 {
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTextureCom1);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pRendererCom);
 }

@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "CharSelBg.h"
+#include "SelMapIcon.h"
 #include "GameInstance.h"
 
-CCharSelBg::CCharSelBg(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CSelMapIcon::CSelMapIcon(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CCharSelBg::CCharSelBg(const CCharSelBg & rhs)
+CSelMapIcon::CSelMapIcon(const CSelMapIcon & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CCharSelBg::Initialize_Prototype()
+HRESULT CSelMapIcon::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CCharSelBg::Initialize(void * pArg)
+HRESULT CSelMapIcon::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -32,7 +32,7 @@ HRESULT CCharSelBg::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
 	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 0.f, 1.f, 0.f), XMConvertToRadians(m_ThrowUIinfo.vRot));
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
@@ -42,25 +42,28 @@ HRESULT CCharSelBg::Initialize(void * pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
-	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, -500.f, 100.f)));
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
+
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		m_iImgNum = 0;
+	else if (m_ThrowUIinfo.iLayerNum == 1)
+		m_iImgNum = 1;
+
 	return S_OK;
 }
 
-void CCharSelBg::Tick(_float fTimeDelta)
+void CSelMapIcon::Tick(_float fTimeDelta)
 {
-	if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 50.f, 1.f));
-	else 
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
-void CCharSelBg::Late_Tick(_float fTimeDelta)
+void CSelMapIcon::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CCharSelBg::Render()
+HRESULT CSelMapIcon::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -79,7 +82,7 @@ HRESULT CCharSelBg::Render()
 	return S_OK;
 }
 
-HRESULT CCharSelBg::Ready_Components()
+HRESULT CSelMapIcon::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -94,7 +97,7 @@ HRESULT CCharSelBg::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSelBg"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapIconImg"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -104,7 +107,7 @@ HRESULT CCharSelBg::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CCharSelBg::SetUp_ShaderResources()
+HRESULT CSelMapIcon::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -116,19 +119,19 @@ HRESULT CCharSelBg::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CCharSelBg * CCharSelBg::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CSelMapIcon * CSelMapIcon::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CCharSelBg*	pInstance = new CCharSelBg(pDevice, pContext);
+	CSelMapIcon*	pInstance = new CSelMapIcon(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CCharSelBg"));
+		ERR_MSG(TEXT("Failed to Created : CSelMapIcon"));
 		Safe_Release(pInstance);
 	}
 
@@ -136,20 +139,20 @@ CCharSelBg * CCharSelBg::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pC
 }
 
 
-CGameObject * CCharSelBg::Clone(void * pArg)
+CGameObject * CSelMapIcon::Clone(void * pArg)
 {
-	CCharSelBg*	pInstance = new CCharSelBg(*this);
+	CSelMapIcon*	pInstance = new CSelMapIcon(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CCharSelBg"));
+		ERR_MSG(TEXT("Failed to Cloned : CSelMapIcon"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CCharSelBg::Free()
+void CSelMapIcon::Free()
 {
 	__super::Free();
 
