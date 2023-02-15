@@ -66,12 +66,13 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else if (pGameInstance->Key_Down(DIK_Q) && pTanjiro->Get_PlayerInfo().iUnicCount > 0 && pTanjiro->Get_PlayerInfo().iPowerIndex < 2)
 			{
+				pTanjiro->Set_KaguraMode(true);
 				pTanjiro->Set_UnicCount(-1);
 				if (pTanjiro->Get_PlayerInfo().iPowerIndex == 0)
 				{
 					pTanjiro->Set_PowerIndex(1);
 					pTanjiro->Set_PowerUp(1.5f);
-					pTanjiro->Set_PowerUpTime(6.f);
+					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pTanjiro);
@@ -80,7 +81,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
 				{
 					pTanjiro->Set_PowerIndex(2);
-					pTanjiro->Set_PowerUpTime(6.f);
+					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pTanjiro);
@@ -182,12 +183,13 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			}
 			else if (pGameInstance->Key_Down(DIK_RCONTROL) && pTanjiro->Get_PlayerInfo().iUnicCount > 0 && pTanjiro->Get_PlayerInfo().iPowerIndex < 2)
 			{
+				pTanjiro->Set_KaguraMode(true);
 				pTanjiro->Set_UnicCount(-1);
 				if (pTanjiro->Get_PlayerInfo().iPowerIndex == 0)
 				{
 					pTanjiro->Set_PowerIndex(1);
 					pTanjiro->Set_PowerUp(1.5f);
-					pTanjiro->Set_PowerUpTime(6.f);
+					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pTanjiro);
@@ -196,7 +198,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
 				{
 					pTanjiro->Set_PowerIndex(2);
-					pTanjiro->Set_PowerUpTime(6.f);
+					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pTanjiro);
