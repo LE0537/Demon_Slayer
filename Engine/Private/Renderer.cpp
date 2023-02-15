@@ -38,6 +38,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fValue[VALUE_LIGHTSHAFT] = 0.5f;
 	m_fValue[VALUE_LIGHTPOWER] = 1.f;
 	m_fValue[VALUE_SHADOWTESTLENGTH] = 0.5f;
+	m_fValue[VALUE_MAPGRAYSCALETIME] = 5.f;
 
 	m_bRenderAO = true;
 	m_bMapGrayScale = false;
@@ -351,11 +352,27 @@ HRESULT CRenderer::Render_GameObjects(_bool _bDebug, _int _iLevel)
 	if (FAILED(Render_Blend(_iLevel)))
 		return E_FAIL;
 
+	m_fMapGrayScaleTime += 1.f / 60.f;
+
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	if (true == pGameInstance->Key_Down(DIK_Y))
 	{
 		m_bMapGrayScale = !m_bMapGrayScale;
+		if (m_bPreMapGrayScale != m_bMapGrayScale)
+		{			
+			if (true == m_bMapGrayScale)
+			{
+				m_fMapGrayScalePower = 1.f;
+				m_fMapGrayScaleTime = 0.f;
+				int a = 10;
+			}
+			m_bPreMapGrayScale = m_bMapGrayScale;
+		}
 	}
+
+	if (false == m_bMapGrayScale)
+		m_fMapGrayScalePower /= 1.2f;
+
 	RELEASE_INSTANCE(CGameInstance);
 
 
@@ -1191,24 +1208,20 @@ HRESULT CRenderer::Render_Blur(const _tchar* pTexName, const _tchar* pMRTName)
 
 HRESULT CRenderer::Render_MapGrayScale(const _tchar * pTexName, const _tchar * pMRTName)
 {
-	if (false == m_bMapGrayScale)
-	{
-		if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
-			return E_FAIL;
-		if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
-			return E_FAIL;
-		m_pShader->Begin(0);
-		m_pVIBuffer->Render();
-		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
-			return E_FAIL;
-
-		return S_OK;
-	}
-
-
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Player"), m_pShader, "g_PlayerTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Effect"), m_pShader, "g_EffectTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
+		return E_FAIL;
+
+	_float	fGrayScaleTimeRatio = min(m_fMapGrayScaleTime / m_fValue[VALUE_MAPGRAYSCALETIME], 1.f);
+	if (FAILED(m_pShader->Set_RawValue("g_fMapGrayScaleTimeRatio", &fGrayScaleTimeRatio, sizeof(_float))))
+		return E_FAIL;
+	_float	fGrayScaleFogRange = 10.f;
+	if (FAILED(m_pShader->Set_RawValue("g_fMapGrayScaleFogRange", &fGrayScaleFogRange, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fMapGrayScalePower", &m_fMapGrayScalePower, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
