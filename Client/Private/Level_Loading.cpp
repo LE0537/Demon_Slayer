@@ -27,7 +27,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevel)
 	m_eNextLevel = eNextLevel;
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	if(eNextLevel != LEVEL_MENU)
+	if(eNextLevel != LEVEL_MENU && eNextLevel != LEVEL_SELECTMAP)
 		pUIManager->Add_Loading();
 
 	RELEASE_INSTANCE(CUI_Manager);
