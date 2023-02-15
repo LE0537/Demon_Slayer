@@ -17,6 +17,7 @@ public:
 		CCamera::CAMERADESC			CameraDesc;
 	}CAMERADESC_DERIVED;
 	enum SHAKE{ SHAKE_DOWN,SHAKE_HIT,SHAKE_END};
+	enum ZOOM { ZOOM_LOW,ZOOM_MIDDLE ,ZOOM_HIGH, ZOOM_END };
 private:
 	CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCamera_Dynamic(const CCamera_Dynamic& rhs);
@@ -46,6 +47,7 @@ public:
 	void Set_Target(CCharacters* _pTarget) { m_pTarget = _pTarget; }
 	_bool	Get_1PCam() { return m_b1P; }
 	void Set_Shake(SHAKE eShake, _float _fTime) { m_ShakeInfo = eShake, m_ShakeTime = _fTime; }
+	void Set_Zoom(ZOOM eZoom) { m_ZoomInfo = eZoom, m_bZoom = true; }
 	void Set_CamType(_bool _bStory) { m_bStory = _bStory; }
 	void	Key_Input(_float fTimeDelta);
 private:
@@ -54,6 +56,11 @@ private:
 	void Camera_ShakeDown(_float fTimeDelta);
 	void Camera_ShakeHit(_float fTimeDelta);
 	void Check_Model();
+	//Zoom
+	void Check_Zoom(_float fTimeDelta);
+	void Zoom_Low(_float fTimeDelta);
+	void Zoom_Middle(_float fTimeDelta);
+	void Zoom_High(_float fTimeDelta);
 
 	void Check_StoryCam();
 private:
@@ -92,6 +99,11 @@ private:
 	_bool m_bStory = false;
 	_float		 m_FovAngle = 0.f;
 	_bool	m_bStoryBattle = false;
+	//ZOOM
+	_bool	m_bZoom = false;
+	_bool	m_bZoomIn = false;
+	ZOOM    m_ZoomInfo;
+	_float  m_fZoomAngle = 0.f;
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 
