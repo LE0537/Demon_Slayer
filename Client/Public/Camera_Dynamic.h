@@ -18,6 +18,7 @@ public:
 	}CAMERADESC_DERIVED;
 	enum SHAKE{ SHAKE_DOWN,SHAKE_HIT,SHAKE_END};
 	enum ZOOM { ZOOM_LOW,ZOOM_MIDDLE ,ZOOM_HIGH, ZOOM_END };
+	enum CAMTURN { CAM_RIGHT, CAM_LEFT, CAM_TARGETRIGHT, CAM_TARGETLEFT, CAM_END };
 private:
 	CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCamera_Dynamic(const CCamera_Dynamic& rhs);
@@ -61,6 +62,9 @@ private:
 	void Zoom_Low(_float fTimeDelta);
 	void Zoom_Middle(_float fTimeDelta);
 	void Zoom_High(_float fTimeDelta);
+	//Turn
+	void Check_Trun(_float fTimeDelta);
+	void Check_TargetTrun(_float fTimeDelta);
 
 	void Check_StoryCam();
 private:
@@ -76,6 +80,7 @@ private:
 	_float					m_fCamDist = 0.f;
 	_float					m_fLookY = 0.f;
 	CCharacters*			m_p1P = nullptr;
+	CCharacters*			m_p2P = nullptr;
 	_bool					m_b1P = false;
 	_int					m_iIniti = 0;
 	_float					m_fFov = 0.f;
@@ -104,6 +109,13 @@ private:
 	_bool	m_bZoomIn = false;
 	ZOOM    m_ZoomInfo;
 	_float  m_fZoomAngle = 0.f;
+	//Turn
+	_float fTurnAngle = 0.f;
+	_float fAngleDot = 0.f;
+	_bool  m_bTurn = false;
+	_bool  m_bTargetTurn = false;
+	_float m_fTurnCol = 0.f;
+	CAMTURN m_eTurn = CAM_END;
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 

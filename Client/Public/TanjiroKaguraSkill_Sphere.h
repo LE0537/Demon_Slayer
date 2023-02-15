@@ -39,6 +39,10 @@ private:
 	_float m_fGravity;
 	_float m_fHeight;
 	_float m_fOriginPosY;
+
+	_bool  m_bEffect = false;
+	_bool  m_bEffect2 = false;
+	_bool  m_bTrue = false;
 };
 END
 END

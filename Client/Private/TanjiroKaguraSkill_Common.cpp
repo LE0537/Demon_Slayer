@@ -243,7 +243,16 @@ CTanjiroState * CKaguraSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float 
 
 
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOCOMMON1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOCOMMON2, pTanjiro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 	return nullptr;
 }
 

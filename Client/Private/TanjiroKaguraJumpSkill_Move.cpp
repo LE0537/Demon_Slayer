@@ -234,6 +234,20 @@ CTanjiroState * CKaguraJumpSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _floa
 
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOMOVE1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOMOVE2, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOMOVE3, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOMOVE4, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOMOVE5, pTanjiro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+
 	return nullptr;
 }
 
