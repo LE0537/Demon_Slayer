@@ -165,8 +165,6 @@ HRESULT CLevel_AdvRui::Ready_Layer_Player(const _tchar * pLayerTag)
 		return E_FAIL;
 	
 
-	
-
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
