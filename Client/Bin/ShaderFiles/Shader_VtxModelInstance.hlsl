@@ -221,6 +221,7 @@ PS_OUT PS_SMELL(PS_FLOWMAP_IN In)
 
 	vector		vMaskTexture = g_MaskTexture.Sample(LinearSampler, noiseCoords);
 
+	Out.vDrawEffect = Out.vColor;
 	if (Out.vColor.a < 0.3f)
 		discard;
 
