@@ -92,7 +92,7 @@ void CEffect_Texture::Late_Tick(_float fTimeDelta)
 
 	if (m_fTime > m_TextureInfo.fStartTime && m_fTime < m_TextureInfo.fLifeTime + m_TextureInfo.fStartTime) {
 
-		if (1 == m_TextureInfo.iYBillBoard) {
+		if (1 == m_TextureInfo.iYBillBoard || m_TextureInfo.bBillboard) {
 
 			CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
