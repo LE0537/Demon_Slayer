@@ -35,6 +35,7 @@ private:
 	_uint					m_iNumRender = 0;
 	_tchar					m_szFPS[MAX_PATH] = TEXT("");
 	_float					m_fTimeAcc = 0.f;
+	_float					m_fTimeDelta;
 
 private:
 	HRESULT Open_Level(LEVEL eLevel);

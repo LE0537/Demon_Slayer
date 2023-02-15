@@ -55,6 +55,9 @@ float			g_fLightPower = 1.f;
 float			g_fShadowTestLength = 1.f;
 
 float			g_fAddValue;
+float			g_fMapGrayScaleTimeRatio;
+float			g_fMapGrayScaleFogRange;
+float			g_fMapGrayScalePower;
 
 const float		g_fWeight[13] =
 {
@@ -708,12 +711,21 @@ PS_OUT PS_MAPGRAYSCALE(PS_IN In)
 
 	vector	vPlayer = g_PlayerTexture.Sample(LinearSampler, In.vTexUV);
 	vector	vEffect = g_EffectTexture.Sample(LinearSampler, In.vTexUV);
+	vector	vDepth = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
+
+	vector	vGrayColor = (1.f - g_fMapGrayScalePower) * vColor +
+		g_fMapGrayScalePower * (vColor.r * 0.3f + vColor.g * 0.59f + vColor.b * 0.11f);
+	
+	float		fFogDistance = g_fFar * g_fMapGrayScaleTimeRatio;
+	float		fFogValue = saturate(min((max((vDepth.y * g_fFar) - fFogDistance, 0.f) / g_fMapGrayScaleFogRange), 1.f));
+
+	bool		bWhite = step(abs(fFogValue - 0.5f), 0.499f);		//	Fog	되고있는 범위면 1, 아니면 0 (Fog 전이거나 Fog 이후)
+	vGrayColor = vGrayColor + (bWhite * 0.3f);
 
 	bool	bDrew = all(vPlayer.a + vEffect.a);	//	false == Player나 Effect가 그려지지 않은 픽셀.
-	Out.vColor = bDrew * vColor +
-		(1.f - bDrew) * (vColor.r * 0.3f + vColor.g * 0.59f + vColor.b * 0.11f);
-
-
+	
+	Out.vColor = bDrew * vColor + 
+		(1.f - bDrew) * ((fFogValue * vColor) + (vGrayColor * (1.f - fFogValue)));
 
 	return Out;
 }

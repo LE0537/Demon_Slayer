@@ -42,7 +42,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_fFov = 14.f;
 	m_fLookAtY = 4.f;
 	m_fAngle = 45.f;
-
+	m_fZoomAngle = 25.f;
 	m_FovAngle = XMConvertToRadians(60.f);
 	//m_bStory = true;
 	return S_OK;
@@ -273,34 +273,36 @@ void CCamera_Dynamic::Set_CamPos()
 void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 {
 	ConvertToViewPort(fTimeDelta);
+	if (!m_bZoom)
+	{
+		if (m_f1pX < 200.f)
+		{
+			while (true)
+			{
+				if (m_f1pX >= 200.f)
+					break;
+				m_fAngle += 0.1f;
+				Set_CamPos();
 
-	if (m_f1pX < 200.f)
-	{
-		while (true)
-		{
-			if (m_f1pX >= 200.f)
-				break;
-			m_fAngle += 0.1f;
-			Set_CamPos();
-		
-			ConvertToViewPort(fTimeDelta);
+				ConvertToViewPort(fTimeDelta);
+			}
 		}
-	}
-	else if (m_f1pX > 1100.f)
-	{
-		while (true)
+		else if (m_f1pX > 1100.f)
 		{
-			if (m_f1pX <= 1100.f)
-				break;
-			m_fAngle -= 0.1f;
-			Set_CamPos();
-		
-			ConvertToViewPort(fTimeDelta);
+			while (true)
+			{
+				if (m_f1pX <= 1100.f)
+					break;
+				m_fAngle -= 0.1f;
+				Set_CamPos();
+
+				ConvertToViewPort(fTimeDelta);
+			}
 		}
 	}
 	_vector v1PY = m_p1P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_bool	bTrue = m_b1P;
-	if (CheckSubChar())
+	if (CheckSubChar() && !m_bZoom)
 	{
 		if (!m_p1P->Get_PlayerInfo().bJump && v1PY.m128_f32[1] < 0.1f)
 		{
@@ -316,7 +318,7 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 					if (m_fLookY > 85.f)
 						m_fLookY = 85.f;
 					Set_CamPos();
-				
+
 					ConvertToViewPort(fTimeDelta);
 				}
 			}
@@ -326,18 +328,19 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 				{
 					if (m_f1pY >= 580.f)
 						break;
-					if(bTrue != m_b1P)
+					if (bTrue != m_b1P)
 						break;
 					m_fLookY -= fTimeDelta / 7.f;
 					if (m_fLookY < 0.f)
 						m_fLookY = 0.f;
 					Set_CamPos();
-					
+
 					ConvertToViewPort(fTimeDelta);
 				}
 			}
 		}
 	}
+
 	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
 	if (CheckSubChar())
 		vPos.m128_f32[1] += v1PY.m128_f32[1] / 2.f;
@@ -346,6 +349,9 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 	m_pTarget->Set_CamAngle(m_fAngle);
 
 	Check_Shake(fTimeDelta);
+
+	if (m_bZoom)
+		Check_Zoom(fTimeDelta);
 }
 void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 {
@@ -673,7 +679,6 @@ void CCamera_Dynamic::Check_Shake(_float fTimeDelta)
 		default:
 			break;
 		}
-
 		m_ShakeTime -= fTimeDelta;
 	}
 	
@@ -689,6 +694,7 @@ void CCamera_Dynamic::Camera_ShakeDown(_float fTimeDelta)
 	vPos += XMVectorSet(fShake, fShake, fShake, 0.f);
 
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+
 }
 void CCamera_Dynamic::Camera_ShakeHit(_float fTimeDelta)
 {
@@ -716,6 +722,87 @@ void CCamera_Dynamic::Check_Model()
 		m_iAnimIndex = 10;
 	else if (m_pPlayer->Get_PlayerInfo().strName == TEXT("½Ã³ëºÎ"))
 		m_iAnimIndex = 89;
+}
+
+void CCamera_Dynamic::Check_Zoom(_float fTimeDelta)
+{
+	switch (m_ZoomInfo)
+	{
+	case CCamera_Dynamic::ZOOM::ZOOM_LOW:
+		Zoom_Low(fTimeDelta);
+		break;
+	case CCamera_Dynamic::ZOOM::ZOOM_MIDDLE:
+		Zoom_Middle(fTimeDelta);
+		break;
+	case CCamera_Dynamic::ZOOM::ZOOM_HIGH:
+		Zoom_High(fTimeDelta);
+		break;
+	default:
+		break;
+	}
+}
+
+void CCamera_Dynamic::Zoom_Low(_float fTimeDelta)
+{
+	if (!m_bZoomIn)
+	{
+		m_fZoomAngle -= fTimeDelta * 20.f;
+		if (m_fZoomAngle < 20.f)
+			m_bZoomIn = true;
+	}
+	else if (m_bZoomIn)
+	{
+		m_fZoomAngle += fTimeDelta * 10.f;
+		if (m_fZoomAngle >= 25.f)
+		{
+			m_bZoomIn = false;
+			m_fZoomAngle = 25.f;
+			m_bZoom = false;
+		}
+	}
+	m_CameraDesc.fFovy = XMConvertToRadians(m_fZoomAngle);
+}
+
+void CCamera_Dynamic::Zoom_Middle(_float fTimeDelta)
+{
+	if (!m_bZoomIn)
+	{
+		m_fZoomAngle -= fTimeDelta * 25.f;
+		if (m_fZoomAngle < 17.f)
+			m_bZoomIn = true;
+	}
+	else if (m_bZoomIn)
+	{
+		m_fZoomAngle += fTimeDelta * 12.5f;
+		if (m_fZoomAngle >= 25.f)
+		{
+			m_bZoomIn = false;
+			m_fZoomAngle = 25.f;
+			m_bZoom = false;
+		}
+	}
+	m_CameraDesc.fFovy = XMConvertToRadians(m_fZoomAngle);
+}
+
+void CCamera_Dynamic::Zoom_High(_float fTimeDelta)
+{
+	if (!m_bZoomIn)
+	{
+		m_fZoomAngle -= fTimeDelta * 30.f;
+		if (m_fZoomAngle < 15.f)
+			m_bZoomIn = true;
+	}
+	else if (m_bZoomIn)
+	{
+		m_fZoomAngle += fTimeDelta * 15.f;
+		if (m_fZoomAngle >= 25.f)
+		{
+			m_bZoomIn = false;
+			m_fZoomAngle = 25.f;
+			m_bZoom = false;
+		}
+	}
+	m_CameraDesc.fFovy = XMConvertToRadians(m_fZoomAngle);
 }
 
 void CCamera_Dynamic::Check_StoryCam()

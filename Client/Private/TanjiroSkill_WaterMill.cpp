@@ -7,7 +7,7 @@
 #include "Kyoujuro.h"
 #include "Effect_Manager.h"
 #include "UI_Manager.h"
-
+#include "Camera_Dynamic.h"
 #include "TanjiroJumpState.h"
 #include "TanjiroSkill_Common.h"
 #include "TanjiroSkill_WaterMill.h"
@@ -248,6 +248,8 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 			
 			if (m_fHitTime > 0.1f && iHit < 3 && pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 			{
+				if(iHit == 0)
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_MIDDLE);
 				if (nullptr == pTargetCollider)
 					return nullptr;
 

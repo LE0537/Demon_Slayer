@@ -11,7 +11,7 @@ public:
 	enum RENDERGROUP {RENDER_PRIORITY, RENDER_STATIC_SHADOWDEPTH, RENDER_SHADOWDEPTH, RENDER_NONALPHABLEND, RENDER_NONLIGHT, RENDER_ALPHABLEND,
 		RENDER_GRAYSCALE, RENDER_BLUR, RENDER_DISTORTION, RENDER_UI, RENDER_UIPOKE, RENDER_EFFECT, RENDER_END };
 	enum VALUETYPE { VALUE_FOGCOLOR_R, VALUE_FOGCOLOR_G, VALUE_FOGCOLOR_B, VALUE_FOGDISTANCE, VALUE_FOGRANGE, VALUE_AO, VALUE_AORADIUS, VALUE_GLOWBLURCOUNT, VALUE_DISTORTION, VALUE_OUTLINE, VALUE_INNERLINE, 
-		VALUE_ENVLIGHT, VALUE_LIGHTSHAFT, VALUE_LIGHTPOWER, VALUE_SHADOWTESTLENGTH, VALUE_END };
+		VALUE_ENVLIGHT, VALUE_LIGHTSHAFT, VALUE_LIGHTPOWER, VALUE_SHADOWTESTLENGTH, VALUE_MAPGRAYSCALETIME, VALUE_END };
 private:
 	enum RENDER_ORDER { ORDER_GLOW, ORDER_MAPGRAYSCALE, ORDER_GRAYSCALE, ORDER_BLUR, ORDER_LIGHTSHAFT, ORDER_DISTORTION, ORDER_END };
 
@@ -26,7 +26,7 @@ public:
 public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
 	HRESULT Add_RenderGroup_Front(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
-	HRESULT Render_GameObjects(_bool _bDebug, _int _iLevel);
+	HRESULT Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel);
 
 public:
 	HRESULT Add_Debug(class CComponent* pDebugCom);
@@ -39,6 +39,7 @@ public:
 		m_fValue[eValueType] = fValue; 
 	}
 	void	AO_OnOff(_bool bTrueisOn) { m_bRenderAO = bTrueisOn; }
+	_bool	Get_MapGrayValue() { return m_bMapGrayScale; }
 
 
 //	member
@@ -72,9 +73,15 @@ private:/* For.Glow*/
 	ID3D11DepthStencilView*		m_pGlowDSV = nullptr;
 
 private:/* For.PostProcessing Value */
+	_float		m_fValue[VALUE_END] = { 1.f, };
+
 	_bool		m_bRenderAO = false;
+
 	_bool		m_bMapGrayScale = false;
-	_float		m_fValue[VALUE_END] = { 1.f,  };	
+	_bool		m_bPreMapGrayScale = false;
+	_float		m_fMapGrayScaleTime = 0.f;
+	_float		m_fMapGrayScalePower = 0.f;
+
 
 
 
