@@ -52,8 +52,17 @@ void CMeshObj_Smell_Inst::Tick(_float fTimeDelta)
 
 	m_fAliveTime += fTimeDelta;
 
-	//m_pTransformCom->Turn(XMVectorSet(1.f, 0.f, 0.f, 0.f), fTimeDelta * 1.f / 83.f);
-	m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
+	//	m_pTransformCom->Turn(XMVectorSet(1.f, 0.f, 0.f, 0.f), fTimeDelta * 1.f / 83.f);
+	for (auto & iter : m_vecMatrix)
+	{
+		_matrix matRotation = XMMatrixRotationAxis(XMLoadFloat4(&iter.vRight), XMConvertToRadians(90.f) * fTimeDelta * (1.f / 83.f));
+
+		XMStoreFloat4(&iter.vRight, XMVector3TransformNormal(XMLoadFloat4(&iter.vRight), matRotation));
+		XMStoreFloat4(&iter.vUp, XMVector3TransformNormal(XMLoadFloat4(&iter.vUp), matRotation));
+		XMStoreFloat4(&iter.vLook, XMVector3TransformNormal(XMLoadFloat4(&iter.vLook), matRotation));
+	}
+
+	m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta, 30.f);
 }
 
 void CMeshObj_Smell_Inst::Late_Tick(_float fTimeDelta)
