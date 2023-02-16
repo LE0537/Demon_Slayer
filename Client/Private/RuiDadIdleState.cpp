@@ -22,43 +22,50 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 	
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	Update_TargetState(pRuiDad);
 
-
-	switch (m_eRange)
+	if (pRuiDad->Get_RuiDadAiMode() == true)
 	{
-	case Client::RuiDad::CIdleState::RANGE_NEAR:
-		Update_AI_Near(pRuiDad);
-		break;
-	case Client::RuiDad::CIdleState::RANGE_FAR:
-		Update_AI_Far(pRuiDad);
-		break;
-	case Client::RuiDad::CIdleState::RANGE_OUT:
-		Update_AI_Out(pRuiDad);
-		break;
-	}
-
-	if (pRuiDad->Get_RuiDadHit() == true)
-		m_ePreState = AI_HIT;
-	else
-		m_ePreState = m_eState;
+		Update_TargetState(pRuiDad);
 
 
-	if (m_ePreState == AI_HIT)
-	{
-		if (m_fDelay <= 0.3f)
+		switch (m_eRange)
 		{
-			return nullptr;
+		case Client::RuiDad::CIdleState::RANGE_NEAR:
+			Update_AI_Near(pRuiDad);
+			break;
+		case Client::RuiDad::CIdleState::RANGE_FAR:
+			Update_AI_Far(pRuiDad);
+			break;
+		case Client::RuiDad::CIdleState::RANGE_OUT:
+			Update_AI_Out(pRuiDad);
+			break;
+		}
+
+		if (pRuiDad->Get_RuiDadHit() == true)
+			m_ePreState = AI_HIT;
+		else
+			m_ePreState = m_eState;
+
+
+		if (m_ePreState == AI_HIT)
+		{
+			if (m_fDelay <= 0.3f)
+			{
+				return nullptr;
+			}
+			else
+			{
+				pRuiDad->Set_RuiDadHit(false);
+				m_fDelay = 0.f;
+				return  Return_AIState(pRuiDad);
+			}
 		}
 		else
-		{
-			pRuiDad->Set_RuiDadHit(false);
-			m_fDelay = 0.f;
 			return  Return_AIState(pRuiDad);
-		}
 	}
-	else
-		return  Return_AIState(pRuiDad);
+
+
+	return nullptr;
 }
 
 CRuiDadState * CIdleState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
@@ -85,7 +92,7 @@ void CIdleState::Enter(CRuiDad* pRuiDad)
 	pRuiDad->Set_bGuard(false);
 	pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_IDLE);
 	pRuiDad->Set_AnimIndex(CRuiDad::ANIM_IDLE);
-	pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex());
+	pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex(),true);
 	pRuiDad->Get_Model()->Set_LinearTime(pRuiDad->Get_AnimIndex(), 0.05f);
 
 	pRuiDad->Set_RuiDadHit(false);
