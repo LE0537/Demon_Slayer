@@ -155,6 +155,7 @@ void CHitState::Enter(CRuiDad* pRuiDad)
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FULL);
 	}
 
+	pRuiDad->Set_RuiDadHit(true);
 
 	//pRuiDad->Set_RuiHit(true);
 

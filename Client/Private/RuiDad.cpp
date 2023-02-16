@@ -31,11 +31,11 @@ HRESULT CRuiDad::Initialize(void * pArg)
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
 	m_i1p = tCharacterDesc.i1P2P;
-	
+	m_i1p = 11;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_i1p = 11;
+	
 
 	//if (m_i1p == 10)
 	//{
@@ -109,7 +109,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 	CRuiDadState* pState = new CIdleState();
 	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
 
-	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	Set_Info();
 	return S_OK;
 }
@@ -118,13 +118,16 @@ void CRuiDad::Tick(_float fTimeDelta)
 {
 	if (!m_tInfo.bSub)
 	{
-		HandleInput();
-		TickState(fTimeDelta);
+		if (m_bBattleStart == true)
+		{
+			HandleInput();
+			TickState(fTimeDelta);
 
-		//if (m_pTransformCom->Get_Jump() == true)
-		//	m_tInfo.bJump = true;
-		//else
-		//	m_tInfo.bJump = false;
+			//if (m_pTransformCom->Get_Jump() == true)
+			//	m_tInfo.bJump = true;
+			//else
+			//	m_tInfo.bJump = false;
+		}
 	}
 }
 
@@ -132,14 +135,17 @@ void CRuiDad::Late_Tick(_float fTimeDelta)
 {
 	if (!m_tInfo.bSub)
 	{
-		LateTickState(fTimeDelta);
-
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
-		if (g_bCollBox)
+		if (m_bBattleStart == true)
 		{
-			m_pRendererCom->Add_Debug(m_pSphereCom);
+			LateTickState(fTimeDelta);
+
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+			if (g_bCollBox)
+			{
+				m_pRendererCom->Add_Debug(m_pSphereCom);
+			}
 		}
 	}
 }
@@ -339,8 +345,16 @@ HRESULT CRuiDad::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
-		return E_FAIL;
+	if (m_i1p == 11)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

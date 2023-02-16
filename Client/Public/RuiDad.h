@@ -101,7 +101,8 @@ public:
 
 	void   Set_ShadowAlphaIncrease(_bool bShadow) { m_bShadowAlphaIncrease = bShadow; }
 	void   Set_ShadowAlphaDecrease(_bool bShadow) { m_bShadowAlphaDecrease = bShadow; }
-
+	void   Set_RuiDadHit(_bool bHit) { m_bRuiDadHit = bHit; }
+	_bool  Get_RuiDadHit() const { return m_bRuiDadHit; }
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
@@ -134,6 +135,8 @@ private:
 
 	_matrix m_ShadowMatrix;
 
+	_bool   m_bRuiDadHit = false;
+	_bool	m_bStart = false;
 
 	class CRuiDadState* m_pRuiDadState = nullptr;
 public:

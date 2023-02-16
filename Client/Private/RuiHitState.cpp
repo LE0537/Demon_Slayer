@@ -153,6 +153,7 @@ void CHitState::Enter(CRui* pRui)
 	}
 
 
+	pRui->Set_RuiHit(true);
 
 
 	_uint iRand = rand() % 4;

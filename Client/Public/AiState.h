@@ -51,7 +51,7 @@ private:
 	void Update_Far_InAttack();
 	void Update_Far_InMove();
 	void Update_Far_InGuard();
-	void Update_Far_InRush();
+	void Update_Far_InRush(); 
 	void Update_Far_InSkill();
 	// Out -> 지점과 먼 경우
 	void Update_Far_OutAttack();

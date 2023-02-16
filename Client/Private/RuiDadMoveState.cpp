@@ -32,7 +32,7 @@ CRuiDadState * CMoveState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 		switch (m_eStateType)
 		{
 		case Client::CRuiDadState::TYPE_START:
-			m_eStateType = CRuiDadState::TYPE_LOOP;
+			return new CMoveState(m_eDirection, TYPE_LOOP);
 		}
 		pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
 	}
@@ -70,10 +70,14 @@ void CMoveState::Enter(CRuiDad* pRuiDad)
 	case Client::CRuiDadState::TYPE_START:
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_MOVE_0);
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_MOVE_0);
+		pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex());
+		pRuiDad->Get_Model()->Set_LinearTime(pRuiDad->Get_AnimIndex(), 0.01f);
 		break;
 	case Client::CRuiDadState::TYPE_LOOP:
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_MOVE_1);
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_MOVE_1);
+		pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex(), true);
+		pRuiDad->Get_Model()->Set_LinearTime(pRuiDad->Get_AnimIndex(), 0.01f);
 		break;
 	case Client::CRuiDadState::TYPE_DEFAULT:
 		break;

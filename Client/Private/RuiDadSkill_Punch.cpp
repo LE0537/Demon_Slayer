@@ -29,7 +29,7 @@ CRuiDadState * CSkill_PunchState::HandleInput(CRuiDad* pRuiDad)
 
 CRuiDadState * CSkill_PunchState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
-	pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex());
+	//pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex());
 
 	if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
 	{
@@ -56,7 +56,7 @@ void CSkill_PunchState::Enter(CRuiDad* pRuiDad)
 	pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_SKILL1, 0.01f);
 	pRuiDad->Set_AnimIndex(CRuiDad::ANIM_SKILL1);
 	pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_SKILL1);
-
+	pRuiDad->Get_Transform()->Set_PlayerLookAt(pRuiDad->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 }
 
 void CSkill_PunchState::Exit(CRuiDad* pRuiDad)

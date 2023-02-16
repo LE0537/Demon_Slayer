@@ -1460,7 +1460,7 @@ void CAiState::Compare_OriginPoint(CRui * pRui)
 			m_queueDash.push(DASH_F);
 			m_queueDash.push(DASH_F);
 			pRui->Set_QueueCombo(m_queueDash);
-			// 음수 왼쪽	
+			// 음수 왼쪽	E
 		}
 	}
 

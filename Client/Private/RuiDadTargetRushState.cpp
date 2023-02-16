@@ -135,6 +135,8 @@ void CTargetRushState::Move(CRuiDad* pRuiDad, _float fTimeDelta)
 	//{
 	//	m_bNextAnim = true;
 	//}
+
+
 	if (pRuiDad->Get_SphereCollider()->Collision(pRuiDad->Get_BattleTarget()->Get_SphereCollider()))
 	{
 		m_bNextAnim = true;
@@ -146,7 +148,7 @@ void CTargetRushState::Move(CRuiDad* pRuiDad, _float fTimeDelta)
 		{
 			pRuiDad->Get_BattleTarget()->Get_GuardHit(0);
 		}
-		else
+		else 
 		{
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);

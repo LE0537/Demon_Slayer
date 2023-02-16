@@ -29,7 +29,9 @@ CRuiDadState * CSkill_ThrowState::HandleInput(CRuiDad* pRuiDad)
 
 CRuiDadState * CSkill_ThrowState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
-	pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex());
+	//pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex());
+
+	pRuiDad->Get_Transform()->Set_PlayerLookAt(pRuiDad->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
 	if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
 	{
@@ -37,7 +39,7 @@ CRuiDadState * CSkill_ThrowState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 		{
 		case Client::CRuiDadState::TYPE_START:
 			pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
-			return new CSkill_ThrowState(CRuiDadState::TYPE_LOOP);
+			return new CIdleState();
 			break;
 		case Client::CRuiDadState::TYPE_LOOP:
 			pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());

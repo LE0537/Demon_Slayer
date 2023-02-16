@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-
+#include "Camera_Dynamic.h"
 using namespace RuiDad;
 
 
@@ -30,6 +30,7 @@ CRuiDadState * CSkill_RushState::HandleInput(CRuiDad* pRuiDad)
 CRuiDadState * CSkill_RushState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
 	//pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex());
+	pRuiDad->Get_Transform()->Set_PlayerLookAt(pRuiDad->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
 	if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
 	{
@@ -114,6 +115,9 @@ void CSkill_RushState::Enter(CRuiDad* pRuiDad)
 		break;
 	}
 
+
+
+
 }
 
 void CSkill_RushState::Exit(CRuiDad* pRuiDad)
@@ -141,14 +145,34 @@ void CSkill_RushState::Move(CRuiDad * pRuiDad, _float fTimeDelta)
 
 	_vector vPosition = XMVectorSet(m_vPosition.x, XMVectorGetY(vCurrentPos), m_vPosition.z, 1.f);
 
-	if (fDistance <= 3.f)
+	if (fDistance <= 3.f) // юс╫ц
 	{
 		m_bNextAnim = true;
 	}
 	else
 		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
+	//if (pRuiDad->Get_SphereCollider()->Collision(pRuiDad->Get_BattleTarget()->Get_SphereCollider()))
+	//{
+	//	m_bNextAnim = true;
+	//	_vector vPos = pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
+	//	pRuiDad->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
+
+	//	if (pRuiDad->Get_BattleTarget()->Get_PlayerInfo().bGuard && pRuiDad->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+	//	{
+	//		pRuiDad->Get_BattleTarget()->Get_GuardHit(0);
+	//	}
+	//	else
+	//	{
+	//		CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+	//		dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+	//		RELEASE_INSTANCE(CGameInstance);
+	//		pRuiDad->Get_BattleTarget()->Take_Damage(0.3f, false);
+	//	}
+	//}
+	//else
+	//	pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
 
 }
