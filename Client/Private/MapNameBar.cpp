@@ -73,7 +73,14 @@ HRESULT CMapNameBar::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	//m_pVIBufferCom->Render();
+	m_pVIBufferCom->Render();
+
+	
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("나타구모 산 초입"), XMVectorSet(m_fX - 70.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+	
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }

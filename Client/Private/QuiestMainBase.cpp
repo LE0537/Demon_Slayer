@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "QuiestMainBase.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CQuiestMainBase::CQuiestMainBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,7 +51,21 @@ HRESULT CQuiestMainBase::Initialize(void * pArg)
 
 void CQuiestMainBase::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	switch (pUI_Manager->Get_QuestCount())
+	{
+	case 0: m_szMainQuest = TEXT("나타구모 산을 조사하자");
+		break;
+	case 1: m_szMainQuest = TEXT("");
+		break;
+
+	default:
+		break;
+	}
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CQuiestMainBase::Late_Tick(_float fTimeDelta)
@@ -74,6 +89,12 @@ HRESULT CQuiestMainBase::Render()
 		m_pShaderCom->Begin(1);
 
 	m_pVIBufferCom->Render();
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	
+	//pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szMainQuest.c_str(), XMVectorSet(m_fX - 450.f, m_fY - 30.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }

@@ -24,7 +24,7 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 private:
-	_float							m_fFadeTime = 0.f;
+	_float							m_fFadeTime = 1.f;
 
 
 public:

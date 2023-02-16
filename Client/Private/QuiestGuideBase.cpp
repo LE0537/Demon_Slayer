@@ -92,14 +92,10 @@ HRESULT CQuiestGuideBase::Render()
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	CMsgTextBase* pMsgTextBase = dynamic_cast<CMsgTextBase*>(pUI_Manager->Get_MsgTextBase());
-	if (pMsgTextBase != nullptr)
+	if (!pUI_Manager->Get_MsgOnOff())
 	{
-		if (!pMsgTextBase->Get_MsgOnCheck())
-		{
-			m_pVIBufferCom->Render();
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("³¿»õ Å½Áö"), XMVectorSet(m_fX - 70.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
-		}
+		m_pVIBufferCom->Render();
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("³¿»õ Å½Áö"), XMVectorSet(m_fX - 70.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
 	}
 
 	RELEASE_INSTANCE(CUI_Manager);

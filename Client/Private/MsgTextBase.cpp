@@ -82,7 +82,9 @@ void CMsgTextBase::Tick(_float fTimeDelta)
 		}
 
 		if (pGameInstance->Key_Down(DIK_RETURN))
+		{
 			pUI_Manager->Set_MsgCount(1);
+		}
 	}
 	else
 	{
