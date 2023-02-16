@@ -167,9 +167,12 @@
 #include "Bird.h"
 #include "BigBird.h"
 #include "Hoke.h"
-
 // Test Target 
 #include "TargetCircle.h"
+//NPC
+#include "Murata.h"
+#include "Goto.h"
+#include "Ozaki.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -1393,6 +1396,31 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hoke"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Hoke"),
 		CHoke::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	//NPC
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Murata"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Murata/Murata.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Murata"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Murata"),
+		CMurata::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ozaki"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Ozaki/Ozaki.fbx", PivotMatrix))))
+		return E_FAIL;*/
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Ozaki"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Ozaki"),
+		COzaki::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Goto"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Goto/Goto.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Goto"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Goto"),
+		CGoto::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/* 케릭터 객체 */

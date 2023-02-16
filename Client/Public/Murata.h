@@ -55,8 +55,6 @@ private:
 	CModel*					m_pModelCom = nullptr;
 
 	_float					m_fEffectTime = 0.f;
-private:
-
 
 public:
 	static CMurata* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
