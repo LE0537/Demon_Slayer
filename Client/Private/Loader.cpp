@@ -1386,6 +1386,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Move_Main_2L"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Move_Final_NonFol"));
 
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Start_1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Start_2"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Start_3"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Start_4"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Loop_Fol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Loop_NonFol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Loop_FinalYZero"));
+
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
 	}
