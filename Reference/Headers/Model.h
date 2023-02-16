@@ -30,6 +30,7 @@ public: // 민준 추가 키프레임 가져오기
 
 	_float	Get_Duration_Index(_uint iIndex);
 	_float  Get_CurrentTime_Index(_uint iIndex);
+	void    Set_CurrentTime_Index(_uint iIndex,_float _fTime);
 
 	_float  Get_CurrentTime();
 	_uint Get_AllFrame();

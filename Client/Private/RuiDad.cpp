@@ -102,7 +102,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
 		CUI_Manager::Get_Instance()->Set_2P(this);
-
+		m_bAiMode = true;
 	}
 
 	CRuiDadState* pState = new CIdleState();
@@ -130,21 +130,25 @@ void CRuiDad::Tick(_float fTimeDelta)
 			_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
 
-			if (fDist <= 7.f) // idle
+			if (fDist <= 9.f) // idle
 			{
 				m_bQuestStop = true;
 				dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
 			}
-			else if (!m_bQuestStop) // ¹«ºê
-			{
-				//m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
-			}
+		
 		}
 	}
 	else if (m_i1p == 11)
 	{
-		if (!m_tInfo.bSub)
+		if (!m_tInfo.bSub && m_bBattleStart)
 		{
+			CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+			if (nullptr == pSocket)
+				return;
+			_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+
+			m_pSphereCom->Update(matColl);
+
 			HandleInput();
 			TickState(fTimeDelta);
 		}
@@ -173,7 +177,7 @@ void CRuiDad::Late_Tick(_float fTimeDelta)
 	}
 	else if (m_i1p == 11)
 	{
-		if (!m_tInfo.bSub)
+		if (!m_tInfo.bSub && m_bBattleStart)
 		{
 
 			LateTickState(fTimeDelta);
@@ -381,7 +385,7 @@ HRESULT CRuiDad::Ready_Components()
 
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
-	ColliderDesc.vScale = _float3(130.f, 130.f, 130.f);
+	ColliderDesc.vScale = _float3(160.f, 160.f, 160.f);
 	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;

@@ -80,7 +80,10 @@ _float CModel::Get_CurrentTime_Index(_uint iIndex)
 {
 	return m_Animations[iIndex]->Get_CurrentTime();
 }
-
+void CModel::Set_CurrentTime_Index(_uint iIndex,_float _fTime)
+{
+	m_Animations[iIndex]->Set_CurrentTime2(_fTime);
+}
 _float CModel::Get_CurrentTime()
 {
 	return m_Animations[m_iCurrentAnimIndex]->Get_CurrentTime();

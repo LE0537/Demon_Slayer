@@ -146,7 +146,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	{
 		Key_Input(fTimeDelta);
 
-		Check_StoryCam();
+		//Check_StoryCam();
 	}
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -425,38 +425,39 @@ void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 	m_CameraDesc.fFovy = m_FovAngle;
 
 	static _float fAngleX = 0.f;
-	static _float fAngleY = 0.f;
+	static _float fAngleY = 180.f;
 
 	_long         MouseMoveX = 0;
 	_long         MouseMoveY = 0;
 
 	CTransform* pTransform = m_pPlayer->Get_Transform();
 
-
-	if (MouseMoveY = pGameInstance->Get_DIMMoveState(DIMM_Y))
+	if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
 	{
+		if (MouseMoveY = pGameInstance->Get_DIMMoveState(DIMM_Y))
+		{
 
-		fAngleX += MouseMoveY * fTimeDelta * 8.f;
+			fAngleX += MouseMoveY * fTimeDelta * 8.f;
 
-		if (40.f <= fAngleX)
-			fAngleX = 40.f;
-		else if (-40.f >= fAngleX)
-			fAngleX = -40.f;
+			if (40.f <= fAngleX)
+				fAngleX = 40.f;
+			else if (-40.f >= fAngleX)
+				fAngleX = -40.f;
 
+		}
+
+		if (MouseMoveX = pGameInstance->Get_DIMMoveState(DIMM_X))
+		{
+
+			fAngleY += MouseMoveX * fTimeDelta * 8.f;
+
+			if (360.f <= fAngleY)
+				fAngleY = 0.f;
+			else if (0.f >= fAngleY)
+				fAngleY = 360.f;
+
+		}
 	}
-
-	if (MouseMoveX = pGameInstance->Get_DIMMoveState(DIMM_X))
-	{
-
-		fAngleY += MouseMoveX * fTimeDelta * 8.f;
-
-		if (360.f <= fAngleY)
-			fAngleY = 0.f;
-		else if (0.f >= fAngleY)
-			fAngleY = 360.f;
-
-	}
-
 	_matrix matRotX = XMMatrixRotationAxis(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(fAngleX));
 	_matrix matRotY = XMMatrixRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(fAngleY));
 
@@ -468,7 +469,7 @@ void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vDestPos);
 
 	_vector vLookPos = XMVectorSetY(pTransform->Get_State(CTransform::STATE_TRANSLATION), XMVectorGetY(pTransform->Get_State(CTransform::STATE_TRANSLATION)) + 0.8f);
-	vLookPos.m128_f32[1] += 2.f;
+	vLookPos.m128_f32[1] += 3.f;
 	m_pTransform->LookAt(vLookPos);
 
 	RELEASE_INSTANCE(CGameInstance);

@@ -8,7 +8,7 @@
 #include "Level_GamePlay.h"
 #include "Data_Manager.h"
 #include "Tanjiro.h"
-
+#include "Level_Loading.h"
 CMurata::CMurata(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
 {
@@ -57,8 +57,25 @@ void CMurata::Tick(_float fTimeDelta)
 		
 		if (fDist <= 3.f)
 		{
-			m_bQuestStop = true;
-			dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
+	
+			CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+			pUIManager->Set_NPC(this);
+				m_bQuestStop = true;
+				dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
+				m_pModelCom->Set_CurrentAnimIndex(3);
+
+				_float m_fCurrentDuration = m_pModelCom->Get_CurrentTime_Index(3);
+
+				if (m_fCurrentDuration > 115.5f)
+				{
+					m_pModelCom->Reset_Anim(3);
+					m_pModelCom->Set_CurrentTime_Index(3, 35.f);
+				}
+			
+		
+
+				RELEASE_INSTANCE(CUI_Manager);
+	
 		}
 		else if(!m_bQuestStop)
 		{
@@ -77,8 +94,9 @@ void CMurata::Late_Tick(_float fTimeDelta)
 
 	if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 	{
-		if (fDist < 45.f)
+		if (fDist < 40.f)
 		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 			m_pModelCom->Play_Animation(fTimeDelta);
 		}
