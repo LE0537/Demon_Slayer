@@ -228,7 +228,6 @@
     <ClInclude Include="..\public\Butterfly.h" />
     <ClInclude Include="..\Public\ButtonEff.h" />
     <ClInclude Include="..\Public\CharSelMsg.h" />
-    <ClInclude Include="..\Public\Cinema_Manager.h" />
     <ClInclude Include="..\public\CollBox.h" />
     <ClInclude Include="..\Public\1PIcon.h" />
     <ClInclude Include="..\Public\1PMainOnBase.h" />
@@ -246,6 +245,7 @@
     <ClInclude Include="..\public\Deer2.h" />
     <ClInclude Include="..\Public\FeedArrow.h" />
     <ClInclude Include="..\public\Goto.h" />
+    <ClInclude Include="..\Public\HinoCami_CinemaState.h" />
     <ClInclude Include="..\public\Hoke.h" />
     <ClInclude Include="..\public\KaguraSkill.h" />
     <ClInclude Include="..\Public\KyoujuroBattleSTState.h" />
@@ -632,7 +632,6 @@
     <ClCompile Include="..\Private\ButtonEff.cpp" />
     <ClCompile Include="..\Private\Camera_Dynamic.cpp" />
     <ClCompile Include="..\Private\CharSelMsg.cpp" />
-    <ClCompile Include="..\Private\Cinema_Manager.cpp" />
     <ClCompile Include="..\private\CollBox.cpp" />
     <ClCompile Include="..\Private\1PIcon.cpp" />
     <ClCompile Include="..\Private\1PMainOnBase.cpp" />
@@ -650,6 +649,7 @@
     <ClCompile Include="..\private\Deer2.cpp" />
     <ClCompile Include="..\Private\FeedArrow.cpp" />
     <ClCompile Include="..\private\Goto.cpp" />
+    <ClCompile Include="..\Private\HinoCami_CinemaState.cpp" />
     <ClCompile Include="..\private\Hoke.cpp" />
     <ClCompile Include="..\private\KaguraSkill.cpp" />
     <ClCompile Include="..\Private\KyoujuroBattleSTState.cpp" />

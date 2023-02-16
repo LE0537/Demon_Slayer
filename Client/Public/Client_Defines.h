@@ -13,6 +13,7 @@ namespace Client
 #include <process.h>
 #include <string>
 #include <time.h>
+#include <queue>
 // Client_Defines.h
 #define fBGM	0.7f
 #define fEFFECT 1.0f

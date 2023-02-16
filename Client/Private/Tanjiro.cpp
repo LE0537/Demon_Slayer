@@ -19,6 +19,9 @@
 #include "Effect_Manager.h"
 #include "TanjiroTakeDownState.h"
 #include "TanjiroUpperHitState.h"
+#include "HinoCami_CinemaState.h"
+
+
 using namespace Tanjiro;
 
 

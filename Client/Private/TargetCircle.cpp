@@ -112,6 +112,7 @@ HRESULT CTargetCircle::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_TargetCircle"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
+	return S_OK;
 }
 
 HRESULT CTargetCircle::SetUp_ShaderResources()

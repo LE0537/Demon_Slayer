@@ -125,6 +125,13 @@ public:
 	void	   Set_GodMode(_bool bGodMode) { m_bGodMode = bGodMode; }
 	_bool	   Get_GodMode() const { return m_bGodMode; }
 
+	void	   Set_SplSkl(_bool bSkpSkl) { m_bSplSkl = bSkpSkl; }
+	_bool Get_SplSkl() const { return m_bSplSkl; }
+
+
+	
+
+
 protected:
 	PLAYERINFO		m_tInfo;
 	CCharacters*	m_pBattleTarget = nullptr;
@@ -150,6 +157,10 @@ protected:
 
 	_bool					m_bAtk2 = false;
 	_bool					m_bGodMode = false;
+	_bool					m_bSplSkl = false;
+
+	queue<_uint>			m_SplSklIndex;
+	queue<_uint>			m_SplSklHitIndex;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
