@@ -387,6 +387,20 @@ CShinobuState * CSkill_CommonState::Late_Tick(CShinobu* pShinobu, _float fTimeDe
 	
 
 	pShinobu->Get_Model()->Play_Animation(fTimeDelta);
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_1, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_2, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_3, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_4, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_5, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_FINAL, pShinobu);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }
