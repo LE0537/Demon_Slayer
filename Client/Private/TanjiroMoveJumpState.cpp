@@ -295,7 +295,7 @@ CTanjiroState * CMoveJumpState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta
 	else
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
-	m_fJumpTime += 0.05f;
+	m_fJumpTime += 0.035f;
 
 	if (m_eStateType != TYPE_DEFAULT && m_eStateType != TYPE_CHANGE)
 		Jump(pTanjiro, fTimeDelta + m_fJumpTime);
@@ -433,7 +433,7 @@ CTanjiroState*  CMoveJumpState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
-	static _float fGravity = 40.f;
+	static _float fGravity = 30.f;
 
 
 

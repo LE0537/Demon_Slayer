@@ -126,7 +126,7 @@ CKyoujuroState * CJumpState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	else
 		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta);
 
-	m_fJumpTime += 0.05f;
+	m_fJumpTime += 0.035f;
 
 	if (m_eStateType != TYPE_DEFAULT)
 		Jump(pKyoujuro, fTimeDelta + m_fJumpTime);
@@ -176,7 +176,7 @@ CKyoujuroState * CJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
-	static _float fGravity = 40.f;
+	static _float fGravity = 30.f;
 
 
 	_vector      vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
