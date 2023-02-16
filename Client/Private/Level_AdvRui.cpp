@@ -22,9 +22,9 @@ HRESULT CLevel_AdvRui::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
-	/*CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-	pUI_Manager->Add_Adc_Menu();
-	RELEASE_INSTANCE(CUI_Manager);*/
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	pUI_Manager->Add_Quiest();
+	RELEASE_INSTANCE(CUI_Manager);
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;

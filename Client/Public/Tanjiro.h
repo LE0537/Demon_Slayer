@@ -189,12 +189,18 @@ public:
 	void Set_KaguraMode(_bool bKagura) { m_bIsKagura = bKagura; }
 	_bool Get_KaguraMode() const { return m_bIsKagura; }
 	void Set_Render(_bool _bRender) { m_bRender = _bRender; }
-	
+	void Set_Quest1() { m_bQuest1 = true; }
+	_bool Get_Quest1() { return m_bQuest1; }
+	void Set_Quest2() { m_bQuest2 = true; }
+	_bool Get_Quest2() { return m_bQuest2; }
+
+	void Set_Stop(_bool _bStop) { m_bStop = _bStop; }
+	_bool Get_Stop() { return m_bStop; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
 	void Set_Shadow();
-
+	void Check_QuestEvent(_float fTimeDelta);
 private:
 	void HandleInput(_float fTimeDelta);
 	void TickState(_float fTimeDelta);
@@ -214,7 +220,10 @@ private:
 	_bool					m_bRender = false;
 	_float					m_fEffectTime = 0.f;
 	_float					m_fTest = 0.f;
-
+	//Quest
+	_bool					m_bStop = false;
+	_bool					m_bQuest1 = false;
+	_bool					m_bQuest2 = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

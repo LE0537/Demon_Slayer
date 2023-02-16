@@ -33,6 +33,7 @@ HRESULT CLevel_Logo::Initialize()
 	pUIManager->Load_Data("Loading");
 	pUIManager->Load_Data("Adc_Menu");
 	pUIManager->Load_Data("MapSelect");
+	pUIManager->Load_Data("Quiest");
 
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("Title.wav"), fBGM);
 	CSoundMgr::Get_Instance()->PlayEffect(TEXT("LogoStart.wav"), fEFFECT);

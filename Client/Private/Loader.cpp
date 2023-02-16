@@ -139,6 +139,17 @@
 #include "SelMapEff.h"
 #include "SelMapImg.h"
 #include "SelMapListPattern.h"
+#include "QuiestGuideBase.h"
+#include "QuiestKeyUI.h"
+#include "QuiestMainBase.h"
+#include "QuiestStampIcon.h"
+#include "QuiestSubBase.h"
+#include "QuiestSubIcon.h"
+#include "QuiestMainIcon.h"
+#include "FeedArrow.h"
+#include "MsgNameBase.h"
+#include "MsgTextBase.h"
+#include "MapNameBar.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -515,6 +526,20 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Logo/Logo_Button_%d.png"), 2))))
 			return E_FAIL;
 #pragma endregion LogoTitleUI
+
+#pragma region Quiest
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestMainIcon"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/FIcon_Main01.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestSubIcon"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/FIcon_Minievent.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestStampIcon"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/Stamp.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestSubBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/Mission_Base.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestMainBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/Mission_Main_Base.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestGuideBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/MiniTitle_Base2.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestKeyUI"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/kb_LCtrl_00.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MsgNameBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/Msg_Name_Base02.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MsgTextBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/Msg_Text_Base.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FeedArrow"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/LineFeed_Arrow.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MapNameBar"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/Profile_Info_Base.png"), 1)))) return E_FAIL;
+#pragma endregion Quiest
 
 #pragma region SelectMap
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SelMapFixedImg"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Map_Sel/Fixed_%d.png"), 6)))) return E_FAIL;
@@ -1629,6 +1654,39 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapNameBar"),
+		CMapNameBar::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MsgNameBase"),
+		CMsgNameBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MsgTextBase"),
+		CMsgTextBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_FeedArrow"),
+		CFeedArrow::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_QuiestGuideBase"),
+		CQuiestGuideBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_QuiestKeyUI"),
+		CQuiestKeyUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_QuiestMainBase"),
+		CQuiestMainBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_QuiestSubBase"),
+		CQuiestSubBase::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_QuiestMainIcon"),
+		CQuiestMainIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_QuiestSubIcon"),
+		CQuiestSubIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_QuiestStampIcon"),
+		CQuiestStampIcon::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SelectMapFixedImg"),
 		CSelMapFixedImg::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

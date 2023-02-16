@@ -118,6 +118,8 @@ void CUI_Manager::Load_Data(string sLoadName)
 			ADC_MENU_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "MapSelect")
 			SELECTMAP_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
+		else if (sLoadName == "Quiest")
+			QUIEST_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -478,6 +480,31 @@ void CUI_Manager::Add_Adc_Menu()
 
 	m_iAdcMenuSelImgLayerNum = 0;
 	m_iAdcMenuSelFrameImgLayerNum = 0;
+}
+
+void CUI_Manager::Add_Quiest()
+{
+	for (auto iter : QUIEST_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.vPos.x = iter.vPos.x;
+		m_ThrowInfo.vPos.y = iter.vPos.y;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.bPlyCheck = true;
+		m_ThrowInfo.iLevelIndex = LEVEL_ADVRUI;
+
+		QUIEST_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : QUIEST_DATALIST)
+		Add_QuiestUI(iter);
+
+	QUIEST_DATALIST.clear();
+
+	m_iSubBaseNum = 0;
+	m_iSubIconLayerNum = 0;
 }
 
 HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
@@ -1477,6 +1504,70 @@ HRESULT CUI_Manager::Add_Adc_MenuUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		break;
 	}
+	default:
+		break;
+	}
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	switch (iter.iTextureNum)
+	{
+	case 0:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestMainBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 1:
+		iter.iLayerNum = m_iSubBaseNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestSubBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iSubBaseNum;
+		break;
+	case 2:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestMainIcon"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 3:
+		iter.iLayerNum = m_iSubIconLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestSubIcon"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iSubIconLayerNum;
+		break;
+	case 4:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestStampIcon"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 5:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestGuideBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 6:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestKeyUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 7:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MsgNameBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 8:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MsgTextBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 9:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FeedArrow"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 10:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MapNameBar"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
 	default:
 		break;
 	}

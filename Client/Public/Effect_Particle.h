@@ -100,6 +100,7 @@ private:
 	_float							m_fTime = 0.f;
 
 	_float4x4						m_CombinedWorldMatrix;
+	_float4x4						m_ParentsMtr;
 
 	CEffect*						m_pParents = nullptr;
 

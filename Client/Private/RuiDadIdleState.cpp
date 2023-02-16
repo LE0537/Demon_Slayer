@@ -11,6 +11,7 @@
 #include "RuiDadSkill_Throw.h"
 #include "RuiDadSkill_Punch.h"
 #include "RuiDadDashState.h"
+#include "Tanjiro.h"
 using namespace RuiDad;
 
 CIdleState::CIdleState()
@@ -21,6 +22,9 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 {
 	
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+
+
 
 
 	if (pRuiDad->Get_RuiDadAiMode() == true)
@@ -62,6 +66,11 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 		}
 		else
 			return  Return_AIState(pRuiDad);
+	}
+	else
+	{
+		if (pRuiDad->Get_QuestStop() == false && dynamic_cast<CTanjiro*>(pRuiDad->Get_BattleTarget())->Get_Quest2())
+			return new CMoveState(OBJDIR::DIR_STRAIGHT, TYPE_START);
 	}
 
 

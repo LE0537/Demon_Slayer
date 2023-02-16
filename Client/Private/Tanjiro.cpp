@@ -152,7 +152,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 		}
 		if (m_tInfo.iPowerIndex == 2)
 			m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
-		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
+		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub && !m_bStop)
 			HandleInput(fTimeDelta);
 		
 		TickState(fTimeDelta);
@@ -167,7 +167,10 @@ void CTanjiro::Tick(_float fTimeDelta)
 	m_pSphereCom->Update(matColl);
 
 	if (g_iLevel == 2)
+	{
 		Set_Shadow();
+		Check_QuestEvent(fTimeDelta);
+	}
 	}
 
 	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
@@ -653,6 +656,32 @@ void CTanjiro::Set_Shadow()
 	pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW, vPos, vAt);
 
 	RELEASE_INSTANCE(CGameInstance);
+}
+
+void CTanjiro::Check_QuestEvent(_float fTimeDelta)
+{
+	if (!m_bQuest1)
+	{
+		_vector vQuest1 = { -232.878f,37.521f,-338.528f,1.f };
+		_float fDist1 = XMVectorGetX(XMVector3Length(vQuest1 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+		
+		if (fDist1 < 10.f)
+			m_bQuest1 = true;
+		// 1차 대사UI
+	}
+	else if (!m_bQuest2)
+	{
+		_vector vQuest2 = { -287.899f,39.223f,-322.629f,1.f };
+		_float fDist2 = XMVectorGetX(XMVector3Length(vQuest2 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+
+		if (fDist2 < 10.f)
+		{
+			m_bQuest2 = true;
+			m_bStop = true;
+		}
+
+		// 2차 무라타 조우
+	}
 }
 
 
