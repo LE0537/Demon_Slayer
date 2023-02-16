@@ -7,6 +7,7 @@
 #include "Layer.h"
 #include "Level_GamePlay.h"
 #include "Data_Manager.h"
+#include "Tanjiro.h"
 
 CMurata::CMurata(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -34,6 +35,9 @@ HRESULT CMurata::Initialize(void * pArg)
 		return E_FAIL;
 	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
 	m_pTransformCom->Set_Scale(XMVectorSet(1.f, 1.f, 1.f, 0.f));
+	_vector vPos = { -323.555f,42.254f,-321.173f,1.f };
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	m_pNavigationCom->Find_CurrentCellIndex(vPos);
 	m_pBattleTarget = tCharacterDesc.pSubChar;
 	m_pModelCom->Set_CurrentAnimIndex(0);
 	return S_OK;
@@ -41,7 +45,26 @@ HRESULT CMurata::Initialize(void * pArg)
 
 void CMurata::Tick(_float fTimeDelta)
 {
-
+	if (dynamic_cast<CTanjiro*>(m_pBattleTarget)->Get_Quest2())
+	{
+		if (!m_bQuestStart)
+		{
+			m_bQuestStart = true;
+			m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		}
+		_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+		
+		if (!m_bQuestStop && fDist <= 3.f)
+		{
+			m_bQuestStop = true;
+			dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
+		}
+		else
+		{
+			m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
+		}
+	}
 }
 
 void CMurata::Late_Tick(_float fTimeDelta)
@@ -54,7 +77,7 @@ void CMurata::Late_Tick(_float fTimeDelta)
 
 	if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 	{
-		if (fDist < 30.f)
+		if (fDist < 60.f)
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 			m_pModelCom->Play_Animation(fTimeDelta);
@@ -198,6 +221,8 @@ HRESULT CMurata::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Murata"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -249,5 +274,5 @@ void CMurata::Free()
 	__super::Free();
 
 	Safe_Release(m_pModelCom);
-
+	Safe_Release(m_pNavigationCom);
 }

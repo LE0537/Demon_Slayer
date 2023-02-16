@@ -426,6 +426,9 @@ CTanjiroState * CMoveState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 	}
 
+	if(pTanjiro->Get_Stop())
+		return new CIdleState(STATE_MOVE);
+
 	return nullptr;
 }
 
