@@ -105,6 +105,7 @@ public:
 	_bool  Get_RuiDadHit() const { return m_bRuiDadHit; }
 	void   Set_RuiDadAiMode(_bool bAIMode) { m_bAiMode = bAIMode; }
 	_bool  Get_RuiDadAiMode() const { return m_bAiMode; }
+	_bool  Get_QuestStop() const { return m_bQuestStop; }
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);

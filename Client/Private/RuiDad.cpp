@@ -117,6 +117,9 @@ void CRuiDad::Tick(_float fTimeDelta)
 {
 	if (m_i1p == 10)
 	{
+		HandleInput();
+		TickState(fTimeDelta);
+
 		if (dynamic_cast<CTanjiro*>(m_pBattleTarget)->Get_Quest2())
 		{
 			if (!m_bQuestStart)
@@ -127,14 +130,14 @@ void CRuiDad::Tick(_float fTimeDelta)
 			_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
 
-			if (fDist <= 7.f)
+			if (fDist <= 7.f) // idle
 			{
 				m_bQuestStop = true;
 				dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
 			}
-			else if (!m_bQuestStop)
+			else if (!m_bQuestStop) // ¹«ºê
 			{
-				m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
+				//m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
 			}
 		}
 	}
@@ -156,12 +159,11 @@ void CRuiDad::Late_Tick(_float fTimeDelta)
 		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 		_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
-
+		LateTickState(fTimeDelta);
 		if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 		{
 			if (fDist < 45.f)
 			{
-				LateTickState(fTimeDelta);
 
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);

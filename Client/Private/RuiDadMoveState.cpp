@@ -38,14 +38,26 @@ CRuiDadState * CMoveState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 	}
 	
 
-
-
-	return AIMove(pRuiDad, m_eDirection, fTimeDelta);
+	if(pRuiDad->Get_RuiDadAiMode() == true)
+		return AIMove(pRuiDad, m_eDirection, fTimeDelta);
+	else
+	{
+		if (pRuiDad->Get_QuestStop() == false)
+		{
+			pRuiDad->Get_Transform()->Go_Straight(fTimeDelta, pRuiDad->Get_NavigationCom());
+			return nullptr;
+		}
+		else
+			return new CIdleState();
+	}
 }
 
 CRuiDadState * CMoveState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
-	Move(pRuiDad, fTimeDelta);
+	if(pRuiDad->Get_RuiDadAiMode() == true)
+		Move(pRuiDad, fTimeDelta);
+
+
 	pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
 
 	if (pRuiDad->Get_PlayerInfo().bSub)

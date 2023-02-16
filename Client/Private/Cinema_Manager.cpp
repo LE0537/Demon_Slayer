@@ -9,16 +9,6 @@ CCinema_Manager::CCinema_Manager()
 }
 
 
-CCinema_Manager::~CCinema_Manager()
-{
-}
-
-HRESULT CCinema_Manager::Initialize()
-{
-
-	return S_OK;
-}
-
 void CCinema_Manager::Free()
 {
 }
