@@ -98,7 +98,7 @@ void CUI_Manager::Load_Data(string sLoadName)
 			P2_P_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "P2_Oni_BtlUI")
 			P2_O_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
-		else if (sLoadName == "Change_Select")
+		else if (sLoadName == "Char_Select")
 			SELECT_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "LogoTitle")
 			LOGOTITLE_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
@@ -116,6 +116,8 @@ void CUI_Manager::Load_Data(string sLoadName)
 			P2_COMBO_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "Adc_Menu")
 			ADC_MENU_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
+		else if (sLoadName == "MapSelect")
+			SELECTMAP_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -263,6 +265,37 @@ void CUI_Manager::Add_Select_CharUI()
 	m_iSelStampLayerNum = 0;
 	m_iSelNameShadowLayerNum = 0;
 	m_iCharSelMsgLayerNum = 0;
+	m_iWindowLLayerNum = 0;
+	m_iWindowRLayerNum = 0;
+}
+
+void CUI_Manager::Add_Select_Map()
+{
+	for (auto iter : SELECTMAP_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.bSelCheck = false;
+		m_ThrowInfo.iLevelIndex = LEVEL_SELECTMAP;
+
+		SELECTMAP_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : SELECTMAP_DATALIST)
+		Add_SelectMapUI(iter);
+
+	SELECTMAP_DATALIST.clear();
+
+	m_iResultCloudLayerNum = 0;
+	m_iResultCloudSecondLayerNum = 0;
+	m_iLineFrameLayerNum = 0;
+	m_iSelMapIconFrameLayerNum = 0;
+	m_iMapIcomImgLayerNum = 0;
+	m_iSelMapCursorEffLayerNum = 0;
+	m_iSelMapCursorEff2LayerNum = 0;
 }
 
 void CUI_Manager::Add_Logo_Title()
@@ -745,12 +778,16 @@ HRESULT CUI_Manager::Add_SelectUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		break;
 	case 14:
+		iter.iLayerNum = m_iWindowLLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WindowLeft"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iWindowLLayerNum;
 		break;
 	case 15:
+		iter.iLayerNum = m_iWindowRLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WindowRight"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iWindowRLayerNum;
 		break;
 	case 16:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharFrameEff"), LEVEL_SELECTCHAR, TEXT("Layer_UI"), &iter)))
@@ -840,6 +877,132 @@ HRESULT CUI_Manager::Add_SelectUI(CUI::THROWUIINFO iter)
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_SelectMapUI(CUI::THROWUIINFO iter)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	switch (iter.iTextureNum)
+	{
+	case 0:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelectBg"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 1:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PatternWind"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 2:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PatternOne"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 3:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharSelBg"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 4:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 5:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 6:
+		iter.iLayerNum = m_iResultCloudLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iResultCloudLayerNum;
+		break;
+	case 7:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 8:
+		iter.iLayerNum = m_iResultCloudSecondLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultCloud"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iResultCloudSecondLayerNum;
+		break;
+	case 9: // top Flower 0
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelectMapFixedImg"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 10: // Buttom Flower 1
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelectMapFixedImg"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 11: // MapList Base 2
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelectMapFixedImg"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 12:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelMapNameBase"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 13:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MapListPattern"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 14:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelMapImg"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 15:
+		iter.iLayerNum = m_iLineFrameLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LineFrame"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iLineFrameLayerNum;
+		break;
+	case 16: // SelTitleStage 3
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelectMapFixedImg"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 17: //MapList Deco1 4
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelectMapFixedImg"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 18: //MapList Deco1 5
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelectMapFixedImg"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 19:
+		iter.iLayerNum = m_iSelMapIconFrameLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelMapIconFrame"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iSelMapIconFrameLayerNum;
+		break;
+	case 20:
+		iter.iLayerNum = m_iMapIcomImgLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MapIconImg"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iMapIcomImgLayerNum;
+		break;
+	case 21:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelMapCursor"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 22:
+		iter.iLayerNum = m_iSelMapCursorEffLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelMapEff"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iSelMapCursorEffLayerNum;
+		break;
+	case 23:
+		iter.iLayerNum = m_iSelMapCursorEff2LayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SelMapEff"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iSelMapCursorEff2LayerNum;
+		break;
+	default:
+		break;
+	}
+
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }

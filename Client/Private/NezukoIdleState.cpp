@@ -80,7 +80,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_PowerIndex(1);
 					pNezuko->Set_PowerUp(1.5f);
-					pNezuko->Set_PowerUpTime(6.f);
+					pNezuko->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pNezuko);
@@ -92,7 +92,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 					pUI_Manager->Set_UltUseCount(1, 0);
 					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_PowerIndex(2);
-					pNezuko->Set_PowerUpTime(6.f);
+					pNezuko->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pNezuko);
@@ -192,7 +192,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_PowerIndex(1);
 					pNezuko->Set_PowerUp(1.5f);
-					pNezuko->Set_PowerUpTime(6.f);
+					pNezuko->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pNezuko);
@@ -204,7 +204,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 					pUI_Manager->Set_UltUseCount(1, 1);
 					RELEASE_INSTANCE(CUI_Manager);
 					pNezuko->Set_PowerIndex(2);
-					pNezuko->Set_PowerUpTime(6.f);
+					pNezuko->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pNezuko);

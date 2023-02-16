@@ -65,7 +65,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				{
 					pKyoujuro->Set_PowerIndex(1);
 					pKyoujuro->Set_PowerUp(1.5f);
-					pKyoujuro->Set_PowerUpTime(6.f);
+					pKyoujuro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pKyoujuro);
@@ -74,7 +74,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				else if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 1)
 				{
 					pKyoujuro->Set_PowerIndex(2);
-					pKyoujuro->Set_PowerUpTime(6.f);
+					pKyoujuro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pKyoujuro);
@@ -146,7 +146,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				{
 					pKyoujuro->Set_PowerIndex(1);
 					pKyoujuro->Set_PowerUp(1.5f);
-					pKyoujuro->Set_PowerUpTime(6.f);
+					pKyoujuro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pKyoujuro);
@@ -155,7 +155,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				else if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 1)
 				{
 					pKyoujuro->Set_PowerIndex(2);
-					pKyoujuro->Set_PowerUpTime(6.f);
+					pKyoujuro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pKyoujuro);

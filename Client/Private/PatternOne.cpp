@@ -51,6 +51,12 @@ HRESULT CPatternOne::Initialize(void * pArg)
 		XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 	}
+	else
+	{
+		XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
+		XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
+	}
+
 
 	return S_OK;
 }
@@ -103,7 +109,7 @@ HRESULT CPatternOne::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_UIVtxTex"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR || m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTMAP)
 	{
 		/* For.Com_Texture */
 		if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharSel_BgGara"), (CComponent**)&m_pTextureCom)))

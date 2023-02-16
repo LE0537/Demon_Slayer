@@ -316,8 +316,8 @@ CShinobuState * CAtk_2_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-//		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK2_1, pShinobu);
-//		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK2_2, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_ATK_2_1, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_ATK_2_2, pShinobu);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;

@@ -579,14 +579,14 @@ HRESULT CModel::Bin_Initialize(void * pArg)
 
 	return S_OK;
 }
-void CModel::Update_Instancing(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _float fTimeDelta)
+void CModel::Update_Instancing(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _float fTimeDelta, _float fCamDistCull)
 {
 	if (TYPE_NONANIM_INSTANCING != m_eModelType)
 		return;
 
 	for (auto & iter : m_Meshes_Instancing)
 	{
-		iter->Update(vecMatrix, fRadiusRatio, fTimeDelta);
+		iter->Update(vecMatrix, fRadiusRatio, fTimeDelta, fCamDistCull);
 	}
 }
 HRESULT CModel::Get_HierarchyNodeData(DATA_BINSCENE * pBinScene)

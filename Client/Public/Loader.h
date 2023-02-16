@@ -40,6 +40,7 @@ public:
 	HRESULT Loading_ForMenu();
 	HRESULT Loading_ForStoryMenu();
 	HRESULT Loading_ForAdvRui();
+	HRESULT Loading_ForSelectMap();
 	
 private:
 	void Load_Texture(char* szFolderName, char* szFilePath);

@@ -36,6 +36,7 @@ public:
 	void Add_P2_PersonHpUI();
 	void Add_P2_OniHpUI();
 	void Add_Select_CharUI();
+	void Add_Select_Map();
 	void Add_Logo_Title();
 	void Add_Menu();
 	void Add_Loading();
@@ -46,6 +47,7 @@ public:
 	void Add_Adc_Menu();
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
+	HRESULT Add_SelectMapUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LogoUI(CUI::THROWUIINFO iter);
 	HRESULT Add_MenuUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LoadingUI(CUI::THROWUIINFO iter);
@@ -143,11 +145,20 @@ public:
 	CUI*	Get_AdvFrame(_uint iFrameNum) { return m_pAdvMenuFrame[iFrameNum]; }
 	void	Set_AdvFrame(CUI* pTargetUI, _uint iFrameNum) { m_pAdvMenuFrame[iFrameNum] = pTargetUI; }
 
+	CUI*	Get_SelMapIconFrame(_uint iFrameNum) { return m_pSelMapIconFrame[iFrameNum]; }
+	void	Set_SelMapIconFrame(CUI* pTargetUI, _uint iFrameNum) { m_pSelMapIconFrame[iFrameNum] = pTargetUI; }
+
+	CUI*	Get_Window(_uint iFrameNum) { return m_pWindow[iFrameNum]; }
+	void	Set_Window(CUI* pTargetUI, _uint iFrameNum) { m_pWindow[iFrameNum] = pTargetUI; }
+
 	CUI*	Get_MenuCursor() { return m_pMenuCursor; }
 	void	Set_MenuCursor(CUI* MenuCursor) { m_pMenuCursor = MenuCursor; }
 
 	CUI*	Get_RankIcon() { return m_pRankIcon; }
 	void	Set_RankIcon(CUI* pTarget) { m_pRankIcon = pTarget; }
+
+	CUI*	Get_SelMapCursor() { return m_pSelMapCursor; }
+	void	Set_SelMapCursor(CUI* pTarget) { m_pSelMapCursor = pTarget; }
 	
 	_uint   Get_Sel1P() { return m_i1p; }
 	void	Set_Sel1P(_uint _i1p) { m_i1p = _i1p; }
@@ -164,6 +175,9 @@ public:
 	//1¿œ∂ß ƒÏ¡Í∑Œ
 	//2¿œ∂ß ∑Á¿Ã
 	//3¿œ∂ß ≈∫¡ˆ∑Œ
+
+	_uint   Get_SelMapNum() { return m_iSelMapNum; }
+	void	Set_SelMapNum(_uint _iNum) { m_iSelMapNum = _iNum; }
 
 	_uint   Get_AdvStageNum() { return m_iAdvStageNum; }
 	void	Set_AdvStageNum(_uint _iNum) { m_iAdvStageNum = _iNum; }
@@ -198,6 +212,7 @@ private:
 	list<CUI::LOADUIINFO>				P1_COMBO_LOADDATALIST;
 	list<CUI::LOADUIINFO>				P2_COMBO_LOADDATALIST;
 	list<CUI::LOADUIINFO>				ADC_MENU_LOADDATALIST;
+	list<CUI::LOADUIINFO>				SELECTMAP_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
@@ -212,6 +227,7 @@ private:
 	list<CUI::THROWUIINFO>				P1_COMBO_DATALIST;
 	list<CUI::THROWUIINFO>				P2_COMBO_DATALIST;
 	list<CUI::THROWUIINFO>				ADC_MENU_DATALIST;
+	list<CUI::THROWUIINFO>				SELECTMAP_DATALIST;
 
 	string							m_sFilePath;
 	CCharacters*					m_p1P;
@@ -233,7 +249,10 @@ private:
 	CUI*							m_pTimerUI = nullptr;
 	CUI*							m_pComboNum[2];
 	CUI*							m_pAdvMenuFrame[2];
+	CUI*							m_pSelMapIconFrame[2];
+	CUI*							m_pWindow[4];
 	CUI*							m_pRankIcon = nullptr;
+	CUI*							m_pSelMapCursor = nullptr;
 
 	CUI::THROWUIINFO				m_ThrowInfo;
 	CUI::RESULTINFO					m_ResultInfo;
@@ -261,7 +280,15 @@ private:
 	_uint							m_iResultCloudLayerNum = 0;
 	_uint							m_iResultCloudSecondLayerNum = 0;
 	_uint							m_iScoreBarLayerNum = 0;
+	_uint							m_iLineFrameLayerNum = 0;
+	_uint							m_iSelMapIconFrameLayerNum = 0;
+	_uint							m_iMapIcomImgLayerNum = 0;
+	_uint							m_iSelMapCursorEffLayerNum = 0;
+	_uint							m_iSelMapCursorEff2LayerNum = 0;
+	_uint							m_iWindowRLayerNum = 0;
+	_uint							m_iWindowLLayerNum = 0;
 	_uint							m_iAdvStageNum = 0;
+	_uint							m_iSelMapNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;

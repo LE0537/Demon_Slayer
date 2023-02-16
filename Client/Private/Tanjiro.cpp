@@ -147,6 +147,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 			{
 				m_tInfo.fPowerUp = 1.f;
 				m_tInfo.iPowerIndex = 0;
+				m_bIsKagura = false;
 			}
 		}
 		if (m_tInfo.iPowerIndex == 2)
@@ -164,14 +165,6 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 
 	m_pSphereCom->Update(matColl);
-
-
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
-	if (pGameInstance->Key_Down(DIK_F3))
-		m_bIsKagura = !m_bIsKagura;
-
-	RELEASE_INSTANCE(CGameInstance);
 
 	if (g_iLevel == 2)
 		Set_Shadow();

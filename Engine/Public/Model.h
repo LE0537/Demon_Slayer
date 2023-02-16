@@ -48,7 +48,7 @@ public:
 	virtual HRESULT Bin_Initialize(void* pArg); // Ãß°¡
 //------------------Instancing-------------------------------------------------
 public:
-	void	Update_Instancing(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _float fTimeDelta);
+	void	Update_Instancing(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _float fTimeDelta, _float fCamDistCull = 0.f);
 //------------------Instancing-------------------------------------------------
 
 public:
