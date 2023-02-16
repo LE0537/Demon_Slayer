@@ -163,10 +163,10 @@ HRESULT CLevel_AdvRui::Ready_Layer_Player(const _tchar * pLayerTag)
 		return E_FAIL;
 	tCharacterDesc1p.pSubChar = tCharacterDesc.pSubChar;
 	m_pPlayer = tCharacterDesc.pSubChar;
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_ADVRUI, TEXT("Layer_RuiDad"), &tCharacterDesc1p)))
-	//	return E_FAIL;
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_ADVRUI, TEXT("Layer_Rui"), &tCharacterDesc1p)))
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_ADVRUI, TEXT("Layer_RuiDad"), &tCharacterDesc1p)))
 		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_ADVRUI, TEXT("Layer_Rui"), &tCharacterDesc1p)))
+	//	return E_FAIL;
 	//tCharacterDesc1p.bSub = true;
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Nezuko"), LEVEL_ADVRUI, TEXT("Layer_Nezuko"), &tCharacterDesc1p)))
 	//	return E_FAIL;
@@ -518,12 +518,18 @@ HRESULT CLevel_AdvRui::Load_StaticObjects(char * pFileName)
 					continue;
 					break;
 				case 2041:
+					if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Murata"), LEVEL_ADVRUI, TEXT("Layer_NPC"), &tCharacterDesc1p)))
+						return E_FAIL;
 					continue;
 					break;
 				case 2042:
+					if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Ozaki"), LEVEL_ADVRUI, TEXT("Layer_NPC"), &tCharacterDesc1p)))
+						return E_FAIL;
 					continue;
 					break;
 				case 2043:
+					if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Goto"), LEVEL_ADVRUI, TEXT("Layer_NPC"), &tCharacterDesc1p)))
+						return E_FAIL;
 					continue;
 					break;
 				default:

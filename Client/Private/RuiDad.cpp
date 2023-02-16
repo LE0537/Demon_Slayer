@@ -35,7 +35,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_i1p = 11;
+	//m_i1p = 11;
 
 	//if (m_i1p == 10)
 	//{
@@ -84,8 +84,8 @@ HRESULT CRuiDad::Initialize(void * pArg)
 
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 
-		m_tInfo.bSub = tCharacterDesc.bSub;
-		m_bChange = tCharacterDesc.bSub;
+		m_tInfo.bSub = false;
+		m_bChange = false;
 		//CUI_Manager::Get_Instance()->Set_2P(this);
 	}
 

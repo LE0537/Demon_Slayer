@@ -33,45 +33,15 @@ HRESULT CMurata::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
-	m_pTransformCom->Set_Scale(XMVectorSet(1.5f, 1.5f, 1.5f, 0.f));
-	m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-110.f));
+	m_pTransformCom->Set_Scale(XMVectorSet(1.f, 1.f, 1.f, 0.f));
 	m_pBattleTarget = tCharacterDesc.pSubChar;
-
-	_int iDest = rand() % 3;
-	switch (iDest)
-	{
-	case 0:
-		m_pModelCom->Set_CurrentAnimIndex(2);
-		break;
-	case 1:
-		m_pModelCom->Set_CurrentAnimIndex(8);
-		break;
-	case 2:
-		m_pModelCom->Set_CurrentAnimIndex(9);
-		break;
-	default:
-		break;
-	}
-
+	m_pModelCom->Set_CurrentAnimIndex(0);
 	return S_OK;
 }
 
 void CMurata::Tick(_float fTimeDelta)
 {
-	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	//if (pGameInstance->Key_Down(DIK_F5))	// 추가 -> 저장하기
-	//{
-	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
-	//	char cName[MAX_PATH];
-	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
-	//	pData_Manager->TCtoC(TEXT("Deer"), cName);
-	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
-	//	ERR_MSG(TEXT("Save_Bin_Deer"));
-	//	RELEASE_INSTANCE(CData_Manager);
-	//}
-
-	//RELEASE_INSTANCE(CGameInstance);
 }
 
 void CMurata::Late_Tick(_float fTimeDelta)
@@ -84,7 +54,7 @@ void CMurata::Late_Tick(_float fTimeDelta)
 
 	if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 	{
-		if (fDist < 100.f)
+		if (fDist < 30.f)
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 			m_pModelCom->Play_Animation(fTimeDelta);
@@ -225,7 +195,7 @@ HRESULT CMurata::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Model*/
-	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Deer"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Murata"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 
