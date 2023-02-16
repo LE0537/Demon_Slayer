@@ -51,8 +51,23 @@ void CEffect_Particle::Tick(_float fTimeDelta)
 
 void CEffect_Particle::Late_Tick(_float fTimeDelta)
 {
+
+	/*if (static_cast<CEffect*>(m_pParents)->Get_EffectMove() == CEffect::EFFMOVE_STOP) {
+		if (m_fTime <= m_ParticleInfo.fStartTime) {
+			_matrix mtrParents = XMLoadFloat4x4(&m_pParents->Get_CombinedWorldMatrix());
+			XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+			XMStoreFloat4x4(&m_ParentsMtr, mtrParents);
+		}
+		else {
+			XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * XMLoadFloat4x4(&m_ParentsMtr));
+		}
+	}
+	else {
+		_matrix mtrParents = XMLoadFloat4x4(&m_pParents->Get_CombinedWorldMatrix());
+		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+	}*/
+
 	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime) {
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_ParticleInfo.vPosition.x, m_ParticleInfo.vPosition.y, m_ParticleInfo.vPosition.z, 1.f));
 
 		if (m_ParticleInfo.bRotationPix) {
 			_matrix mtrParents = XMLoadFloat4x4(&m_pParents->Get_CombinedWorldMatrix());
@@ -220,6 +235,8 @@ void CEffect_Particle::Set_ParticleInfo(PARTICLE_INFO ParticleInfo)
 
 	_matrix mtrParents = XMLoadFloat4x4(&m_pParents->Get_CombinedWorldMatrix());
 	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_ParticleInfo.vPosition.x, m_ParticleInfo.vPosition.y, m_ParticleInfo.vPosition.z, 1.f));
 
 	_float3		vRotation = m_ParticleInfo.vRotation;
 	vRotation.x = XMConvertToRadians(vRotation.x);
