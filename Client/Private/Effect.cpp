@@ -66,7 +66,8 @@ HRESULT CEffect::Initialize(void * pArg)
 	m_pTransformCom->RotationAll(vRadian);
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
-	
+
+	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
 	//m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-180.f));
 
 	if (FAILED(Ready_Parts()))
@@ -84,14 +85,14 @@ void CEffect::Tick(_float fTimeDelta)
 	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 		if (m_bStart) {
 			if (m_EffectInfo.iMoveType != EFFMOVE_ZERO) {
-				m_pTransformCom->Set_WorldMatrix(m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
 			}
 			else {
 				_matrix mtrTargetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
 				mtrTargetWorld.r[3].m128_f32[1] = 0.f;
 				_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
 
-				m_pTransformCom->Set_WorldMatrix(mtrWorld * mtrTargetWorld);
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * mtrTargetWorld);
 			}
 			m_bStart = false;
 		}
