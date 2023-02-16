@@ -1147,6 +1147,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Spiral2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Spiral2.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Slash"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Slash.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_LongCross"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_LongCross.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Wind2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Wind2.fbx", PivotMatrix)))) return E_FAIL;
 
 
 #pragma endregion Effect Model
@@ -1352,8 +1353,13 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Main_3"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Main_4"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Main_5"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Final"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Final_NonFol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Final_Fol"));
 
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Move_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Move_Main_1R"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Move_Main_2L"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Move_Final_NonFol"));
 
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object
