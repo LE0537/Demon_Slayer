@@ -1142,6 +1142,13 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Unique2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Unique2.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Wind1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Wind1.fbx", PivotMatrix)))) return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Unique3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Unique3.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Plane"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Plane.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Spiral2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Spiral2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Slash"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Slash.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_LongCross"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_LongCross.fbx", PivotMatrix)))) return E_FAIL;
+
+
 #pragma endregion Effect Model
 
 #pragma region Effect Object
@@ -1335,6 +1342,17 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Atk3_1"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Atk4_1"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Atk4_2"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Atk_JumpCom_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Atk_JumpMove_Follow"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Atk_JumpMove_NonFollow"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Main_1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Main_2"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Main_3"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Main_4"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Main_5"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Final"));
 
 
 		RELEASE_INSTANCE(CEffect_Manager);

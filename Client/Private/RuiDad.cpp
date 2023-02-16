@@ -7,7 +7,7 @@
 #include "Level_GamePlay.h"
 #include "RuiDadIdleState.h"
 #include "ImGuiManager.h"
-
+#include "Tanjiro.h"
 using namespace RuiDad;
 
 CRuiDad::CRuiDad(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -31,7 +31,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
 	m_i1p = tCharacterDesc.i1P2P;
-	m_i1p = 10;
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -115,37 +115,78 @@ HRESULT CRuiDad::Initialize(void * pArg)
 
 void CRuiDad::Tick(_float fTimeDelta)
 {
-	if (!m_tInfo.bSub)
+	if (m_i1p == 10)
 	{
+		if (dynamic_cast<CTanjiro*>(m_pBattleTarget)->Get_Quest2())
+		{
+			if (!m_bQuestStart)
+			{
+				m_bQuestStart = true;
+				m_pTransformCom->Set_PlayerLookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+			}
+			_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
 
-		HandleInput();
-		TickState(fTimeDelta);
-
-	
-		//if (m_pTransformCom->Get_Jump() == true)
-		//	m_tInfo.bJump = true;
-		//else
-		//	m_tInfo.bJump = false;
-
+			if (fDist <= 7.f)
+			{
+				m_bQuestStop = true;
+				dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
+			}
+			else if (!m_bQuestStop)
+			{
+				m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
+			}
+		}
+	}
+	else if (m_i1p == 11)
+	{
+		if (!m_tInfo.bSub)
+		{
+			HandleInput();
+			TickState(fTimeDelta);
+		}
 	}
 }
 
 void CRuiDad::Late_Tick(_float fTimeDelta)
 {
-	if (!m_tInfo.bSub)
+	
+	if (m_i1p == 10)
 	{
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+		_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
 
-		LateTickState(fTimeDelta);
-
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
-		if (g_bCollBox)
+		if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 		{
-			m_pRendererCom->Add_Debug(m_pSphereCom);
-		}
+			if (fDist < 45.f)
+			{
+				LateTickState(fTimeDelta);
 
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			}
+		}
+		RELEASE_INSTANCE(CGameInstance);
 	}
+	else if (m_i1p == 11)
+	{
+		if (!m_tInfo.bSub)
+		{
+
+			LateTickState(fTimeDelta);
+
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+			if (g_bCollBox)
+			{
+				m_pRendererCom->Add_Debug(m_pSphereCom);
+			}
+
+		}
+	}
+	
 }
 
 HRESULT CRuiDad::Render()

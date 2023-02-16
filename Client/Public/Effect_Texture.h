@@ -4,6 +4,8 @@
 
 BEGIN(Client)
 
+class CEffect;
+
 class CEffect_Texture : public CGameObj
 {
 public:
@@ -70,7 +72,7 @@ public:
 	virtual HRESULT Render();
 
 public:
-	void Set_Parents(CGameObj* pParents) { m_pParents = pParents; }
+	void Set_Parents(CEffect* pParents) { m_pParents = pParents; }
 	void Set_TexInfo(TextureInfo TexInfo);
 
 private:
@@ -89,7 +91,7 @@ private:
 	_float4x4						m_CombinedWorldMatrix;
 	_float4x4						m_ParentsMtr;
 
-	CGameObj*						m_pParents = nullptr;
+	CEffect*						m_pParents = nullptr;
 
 	_bool							m_bDead = false;
 

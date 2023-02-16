@@ -170,6 +170,14 @@ CShinobuState * CJumpAttackState::Late_Tick(CShinobu* pShinobu, _float fTimeDelt
 	else
 		pShinobu->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (!m_bEffect &&
+		m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_ATK_JUMP_COM_MAIN, pShinobu);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 
 	return nullptr;

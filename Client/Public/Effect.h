@@ -47,6 +47,7 @@ public:
 
 public:
 	_uint Get_EffectMove() { return m_EffectInfo.iMoveType; }
+	_float4x4 Get_CombinedWorldMatrix() { return m_CombinedWorldMatrix; }
 
 private:
 	HRESULT Ready_Components();
@@ -60,6 +61,8 @@ private:
 	_float											m_fEffectTime = 0.f;
 
 	_float4											m_vDestination;
+
+	_float4x4										m_CombinedWorldMatrix;
 
 	EFFECT_INFO										m_EffectInfo;
 
