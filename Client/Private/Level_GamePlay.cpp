@@ -23,8 +23,8 @@ CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 HRESULT CLevel_GamePlay::Initialize()
 {
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	
 	pUIManager->Set_CharNameUIZero();
-	RELEASE_INSTANCE(CUI_Manager);
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
@@ -41,8 +41,15 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Load_Map(L"Layer_BackGround", "11_Map_Rui")))
-		return E_FAIL;
+	if (pUIManager->Get_SelMapNum() == 0)
+	{
+		if (FAILED(Load_Map(L"Layer_BackGround", "11_Map_Rui")))
+			return E_FAIL;
+	}
+	else if(pUIManager->Get_SelMapNum() == 1)
+	{
+		//무한열차 맵 로드맵에서 바꾸거나 여기서 만들거나하면될듯요
+	}
 
 //	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 //		return E_FAIL;
@@ -82,6 +89,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
 
 	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
 
 	g_iLevel = 1;
 

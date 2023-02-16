@@ -48,7 +48,10 @@ HRESULT CCharSelBg::Initialize(void * pArg)
 
 void CCharSelBg::Tick(_float fTimeDelta)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 50.f, 1.f));
+	if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 50.f, 1.f));
+	else 
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
 void CCharSelBg::Late_Tick(_float fTimeDelta)

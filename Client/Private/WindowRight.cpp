@@ -47,7 +47,17 @@ HRESULT CWindowRight::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.45f, 1.f));
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.45f, 1.f));
+	else
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		pUI_Manager->Set_Window(this, 1);
+	else
+		pUI_Manager->Set_Window(this, 3);
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
@@ -59,11 +69,29 @@ void CWindowRight::Tick(_float fTimeDelta)
 	_bool bP1SelComple = dynamic_cast<CSelP1Cursor*>(pUI_Manager->Get_1PCursor())->Get_SelComple();
 	_bool bP2SelComple = dynamic_cast<CSelP2Cursor*>(pUI_Manager->Get_2PCursor())->Get_SelComple();
 
-	if (bP1SelComple && bP2SelComple)
+	if (m_ThrowUIinfo.iLayerNum == 0)
 	{
-		m_fUvMove += fTimeDelta;
-		if (m_fUvMove >= 1.f)
-			m_fUvMove = 1.f;
+		if (bP1SelComple && bP2SelComple)
+		{
+			m_fUvMove += fTimeDelta;
+			if (m_fUvMove >= 1.f)
+			{
+				m_fUvMove = 1.f;
+				m_bCloseCheck = true;
+			}
+		}
+	}
+	else
+	{
+		if (dynamic_cast<CWindowRight*>(pUI_Manager->Get_Window(1))->Get_CloseCheck())
+		{
+			m_fUvMove += fTimeDelta;
+			if (m_fUvMove >= 1.f)
+			{
+				m_fUvMove = 1.f;
+				m_bCloseCheck = true;
+			}
+		}
 	}
 
 	RELEASE_INSTANCE(CUI_Manager);

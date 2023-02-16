@@ -10,6 +10,7 @@
 #include "Level_Menu.h"
 #include "Level_StroyMenu.h"
 #include "Level_AdvRui.h"
+#include "Level_SelectMap.h"
 #include "UI_Manager.h"
 #include "SoundMgr.h"
 
@@ -26,7 +27,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevel)
 	m_eNextLevel = eNextLevel;
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	if(eNextLevel != LEVEL_MENU)
+	if(eNextLevel != LEVEL_MENU && eNextLevel != LEVEL_SELECTMAP)
 		pUIManager->Add_Loading();
 
 	RELEASE_INSTANCE(CUI_Manager);
@@ -74,6 +75,9 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 			break;
 		case LEVEL_ADVRUI:
 			pNewLevel = CLevel_AdvRui::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_SELECTMAP:
+			pNewLevel = CLevel_SelectMap::Create(m_pDevice, m_pContext);
 			break;
 		}
 

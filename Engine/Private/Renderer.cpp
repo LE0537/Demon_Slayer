@@ -353,7 +353,7 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 		return E_FAIL;
 
 	m_fMapGrayScaleTime += fTimeDelta;
-	if (5.f < m_fMapGrayScaleTime)
+	if (10.f < m_fMapGrayScaleTime)
 	{
 		m_bMapGrayScale = false;
 	}

@@ -27,11 +27,12 @@ HRESULT CLevel_Logo::Initialize()
 	pUIManager->Load_Data("1P_Combo");
 	pUIManager->Load_Data("2P_Combo");
 	pUIManager->Load_Data("BattleResult");
-	pUIManager->Load_Data("Change_Select");
+	pUIManager->Load_Data("Char_Select");
 	pUIManager->Load_Data("LogoTitle");
 	pUIManager->Load_Data("Menu");
 	pUIManager->Load_Data("Loading");
 	pUIManager->Load_Data("Adc_Menu");
+	pUIManager->Load_Data("MapSelect");
 
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("Title.wav"), fBGM);
 	CSoundMgr::Get_Instance()->PlayEffect(TEXT("LogoStart.wav"), fEFFECT);

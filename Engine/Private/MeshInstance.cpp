@@ -1,6 +1,7 @@
 #include "..\Public\MeshInstance.h"
 #include "HierarchyNode.h"
 #include "Frustum.h"
+#include "PipeLine.h"
 
 CMeshInstance::CMeshInstance(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CVIBuffer_Instance(pDevice, pContext)
@@ -212,23 +213,34 @@ HRESULT CMeshInstance::Render()
 	m_pContext->IASetIndexBuffer(m_pIB, m_eFormat, 0);
 	m_pContext->IASetPrimitiveTopology(m_eTopology);
 
-	m_pContext->DrawIndexedInstanced(m_iNumIndicesPerInstance, m_iNumInstance, 0, 0, 0);
+	m_pContext->DrawIndexedInstanced(m_iNumIndicesPerInstance, m_iNumRendering, 0, 0, 0);
 
 
 	return S_OK;
 }
 
-void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _float fTimeDelta)
+void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _float fTimeDelta, _float fCamDistCull)
 {
 	vector<VTXMATRIX>	vecRenderMatrix;
 
 	CFrustum*	pFrustum = GET_INSTANCE(CFrustum);
+	CPipeLine*	pPipeLine = GET_INSTANCE(CPipeLine);
 	for (auto & iter : vecMatrix)
 	{
 		_float	fLength = fRadiusRatio * max(max(XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vRight))), XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vUp)))), XMVectorGetX(XMVector3Length(XMLoadFloat4(&iter.vLook))));
 
 		if (true == pFrustum->IsinFrustum(XMLoadFloat4(&iter.vPosition), fLength))
-			vecRenderMatrix.push_back(iter);
+		{
+			if (0.f != fCamDistCull)
+			{
+				_float4 vCamPos = pPipeLine->Get_CamPosition();
+				_float fDistance = XMVectorGetX(XMVector3Length(XMLoadFloat4(&vCamPos) - XMLoadFloat4(&iter.vPosition)));
+				if(fCamDistCull > fDistance)
+					vecRenderMatrix.push_back(iter);
+			}
+			else
+				vecRenderMatrix.push_back(iter);
+		}
 	}
 
 	m_iNumRendering = vecRenderMatrix.size();
@@ -265,6 +277,7 @@ void CMeshInstance::Update(vector<VTXMATRIX> vecMatrix, _float fRadiusRatio, _fl
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
 
 	RELEASE_INSTANCE(CFrustum);
+	RELEASE_INSTANCE(CPipeLine);
 }
 
 HRESULT CMeshInstance::SetUp_Bones(CModel * pModel)
