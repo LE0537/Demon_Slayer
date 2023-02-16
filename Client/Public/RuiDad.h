@@ -103,6 +103,8 @@ public:
 	void   Set_ShadowAlphaDecrease(_bool bShadow) { m_bShadowAlphaDecrease = bShadow; }
 	void   Set_RuiDadHit(_bool bHit) { m_bRuiDadHit = bHit; }
 	_bool  Get_RuiDadHit() const { return m_bRuiDadHit; }
+	void   Set_RuiDadAiMode(_bool bAIMode) { m_bAiMode = bAIMode; }
+	_bool  Get_RuiDadAiMode() const { return m_bAiMode; }
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
@@ -137,6 +139,7 @@ private:
 
 	_bool   m_bRuiDadHit = false;
 	_bool	m_bStart = false;
+	_bool   m_bAiMode = false;
 
 	class CRuiDadState* m_pRuiDadState = nullptr;
 public:

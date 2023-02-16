@@ -31,7 +31,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
 	m_i1p = tCharacterDesc.i1P2P;
-	m_i1p = 11;
+	m_i1p = 10;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -71,14 +71,14 @@ HRESULT CRuiDad::Initialize(void * pArg)
 
 	//	}
 	//}
-	 if (m_i1p == 10)
+	if (m_i1p == 10)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
 
-	//	_vector vPos = { -860.374f,92.52f,-68.017f,1.f }; 보스자리
-		_vector vPos = { -335.479f,42.501f,-328.243f,1.f }; 
+		//	_vector vPos = { -860.374f,92.52f,-68.017f,1.f }; 보스자리
+		_vector vPos = { -335.479f,42.501f,-328.243f,1.f };
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
@@ -117,16 +117,15 @@ void CRuiDad::Tick(_float fTimeDelta)
 {
 	if (!m_tInfo.bSub)
 	{
-		if (m_bBattleStart == true)
-		{
-			HandleInput();
-			TickState(fTimeDelta);
 
-			//if (m_pTransformCom->Get_Jump() == true)
-			//	m_tInfo.bJump = true;
-			//else
-			//	m_tInfo.bJump = false;
-		}
+		HandleInput();
+		TickState(fTimeDelta);
+
+		//if (m_pTransformCom->Get_Jump() == true)
+		//	m_tInfo.bJump = true;
+		//else
+		//	m_tInfo.bJump = false;
+
 	}
 }
 
@@ -134,18 +133,17 @@ void CRuiDad::Late_Tick(_float fTimeDelta)
 {
 	if (!m_tInfo.bSub)
 	{
-		if (m_bBattleStart == true)
+
+		LateTickState(fTimeDelta);
+
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+		if (g_bCollBox)
 		{
-			LateTickState(fTimeDelta);
-
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
-			if (g_bCollBox)
-			{
-				m_pRendererCom->Add_Debug(m_pSphereCom);
-			}
+			m_pRendererCom->Add_Debug(m_pSphereCom);
 		}
+
 	}
 }
 
@@ -190,11 +188,11 @@ HRESULT CRuiDad::Render_ShadowDepth()
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	
-	if(m_bShadowAlphaIncrease == false)
+
+	if (m_bShadowAlphaIncrease == false)
 		m_ShadowMatrix = m_pTransformCom->Get_WorldMatrix();
-	
-	if(m_bShadowAlphaDecrease == true)
+
+	if (m_bShadowAlphaDecrease == true)
 		m_ShadowMatrix = m_pTransformCom->Get_WorldMatrix();
 
 
@@ -210,7 +208,7 @@ HRESULT CRuiDad::Render_ShadowDepth()
 	*(_float4*)&m_ShadowMatrix.r[3] = vTemp;
 
 	//_float4x4 WorldMatrix = m_pTransformCom->Get_World4x4();
-	
+
 	_float4x4	TransposeMatrix;
 	XMStoreFloat4x4(&TransposeMatrix, XMMatrixTranspose(m_ShadowMatrix));
 
@@ -274,7 +272,7 @@ void CRuiDad::HandleInput()
 
 void CRuiDad::TickState(_float fTimeDelta)
 {
-	CRuiDadState* pNewState = m_pRuiDadState->Tick(this,fTimeDelta);
+	CRuiDadState* pNewState = m_pRuiDadState->Tick(this, fTimeDelta);
 
 	if (pNewState)
 		m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pNewState);
