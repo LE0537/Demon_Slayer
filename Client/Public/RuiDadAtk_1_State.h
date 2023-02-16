@@ -7,7 +7,7 @@ BEGIN(RuiDad)
 class CAtk_1_State : public CRuiDadState
 {
 public:
-	CAtk_1_State();
+	CAtk_1_State(STATE_TYPE eType);
 
 	virtual CRuiDadState* HandleInput(CRuiDad* pRuiDad) override;
 	virtual CRuiDadState* Tick(CRuiDad* pRuiDad, _float fTimeDelta) override;
@@ -26,6 +26,7 @@ private:
 	_bool  m_bEffect = false;
 	_float m_fMove = 0.f;
 	_int   m_iHit = 0;
+	_bool m_bNextAnim = false;
 };
 END
 END

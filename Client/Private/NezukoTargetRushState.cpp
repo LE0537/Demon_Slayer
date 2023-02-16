@@ -229,7 +229,7 @@ CNezukoState * CTargetRushState::Late_Tick(CNezuko * pNezuko, _float fTimeDelta)
 
 void CTargetRushState::Enter(CNezuko * pNezuko)
 {
-	m_eStateId = STATE_JUMP_ATTACK;
+	m_eStateId = STATE_RUSH;
 
 	switch (m_eStateType)
 	{

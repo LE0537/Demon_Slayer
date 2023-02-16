@@ -287,6 +287,10 @@
     <ClInclude Include="..\Public\RuiDadIdleState.h" />
     <ClInclude Include="..\Public\RuiDadJumpState.h" />
     <ClInclude Include="..\Public\RuiDadMoveState.h" />
+    <ClInclude Include="..\Public\RuiDadSkill_JumpDrop.h" />
+    <ClInclude Include="..\Public\RuiDadSkill_Punch.h" />
+    <ClInclude Include="..\Public\RuiDadSkill_Rush.h" />
+    <ClInclude Include="..\Public\RuiDadSkill_Throw.h" />
     <ClInclude Include="..\Public\RuiDadTargetRushState.h" />
     <ClInclude Include="..\Public\RuiJumpAttackState.h" />
     <ClInclude Include="..\Public\RuiJumpMoveAttackState.h" />
@@ -527,6 +531,7 @@
     <ClInclude Include="..\Public\TanjiroToolState.h" />
     <ClInclude Include="..\Public\TanjiroUpperHitState.h" />
     <ClInclude Include="..\Public\TanjiroWeapon.h" />
+    <ClInclude Include="..\Public\TargetCircle.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\TxtWinLight.h" />
     <ClInclude Include="..\Public\TxtWinUI.h" />
@@ -674,6 +679,10 @@
     <ClCompile Include="..\Private\RuiDadIdleState.cpp" />
     <ClCompile Include="..\Private\RuiDadJumpState.cpp" />
     <ClCompile Include="..\Private\RuiDadMoveState.cpp" />
+    <ClCompile Include="..\Private\RuiDadSkill_JumpDrop.cpp" />
+    <ClCompile Include="..\Private\RuiDadSkill_Punch.cpp" />
+    <ClCompile Include="..\Private\RuiDadSkill_Rush.cpp" />
+    <ClCompile Include="..\Private\RuiDadSkill_Throw.cpp" />
     <ClCompile Include="..\Private\RuiDadTargetRushState.cpp" />
     <ClCompile Include="..\Private\RuiJumpAttackState.cpp" />
     <ClCompile Include="..\Private\RuiJumpMoveAttackState.cpp" />
@@ -907,6 +916,7 @@
     <ClCompile Include="..\Private\TanjiroToolState.cpp" />
     <ClCompile Include="..\Private\TanjiroUpperHitState.cpp" />
     <ClCompile Include="..\Private\TanjiroWeapon.cpp" />
+    <ClCompile Include="..\Private\TargetCircle.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\TxtWinLight.cpp" />
     <ClCompile Include="..\Private\TxtWinUI.cpp" />
