@@ -45,6 +45,7 @@ public:
 	void Add_P1_Combo();
 	void Add_P2_Combo();
 	void Add_Adc_Menu();
+	void Add_Quiest();
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectMapUI(CUI::THROWUIINFO iter);
@@ -53,6 +54,7 @@ public:
 	HRESULT Add_LoadingUI(CUI::THROWUIINFO iter);
 	HRESULT Add_BattleResultUI(CUI::THROWUIINFO iter);
 	HRESULT Add_Adc_MenuUI(CUI::THROWUIINFO iter);
+	HRESULT Add_QuiestUI(CUI::THROWUIINFO iter);
 	_bool P1_Oni_Check();
 	_bool P2_Oni_Check();
 
@@ -151,6 +153,9 @@ public:
 	CUI*	Get_Window(_uint iFrameNum) { return m_pWindow[iFrameNum]; }
 	void	Set_Window(CUI* pTargetUI, _uint iFrameNum) { m_pWindow[iFrameNum] = pTargetUI; }
 
+	CUI*	Get_SubBase(_uint iFrameNum) { return m_pSubBase[iFrameNum]; }
+	void	Set_SubBase(CUI* pTargetUI, _uint iFrameNum) { m_pSubBase[iFrameNum] = pTargetUI; }
+
 	CUI*	Get_MenuCursor() { return m_pMenuCursor; }
 	void	Set_MenuCursor(CUI* MenuCursor) { m_pMenuCursor = MenuCursor; }
 
@@ -159,6 +164,9 @@ public:
 
 	CUI*	Get_SelMapCursor() { return m_pSelMapCursor; }
 	void	Set_SelMapCursor(CUI* pTarget) { m_pSelMapCursor = pTarget; }
+
+	CUI*	Get_MsgTextBase() { return m_pMsgTextBase; }
+	void	Set_MsgTextBase(CUI* pTarget) { m_pMsgTextBase = pTarget; }
 	
 	_uint   Get_Sel1P() { return m_i1p; }
 	void	Set_Sel1P(_uint _i1p) { m_i1p = _i1p; }
@@ -176,11 +184,28 @@ public:
 	//2일때 루이
 	//3일때 탄지로
 
+	wstring Get_Msg() { return m_szMsg; }
+	void	Set_Msg(wstring _szMsg) { m_szMsg = _szMsg; }
+
+	wstring Get_MsgName() { return m_szMsgName; }
+	void	Set_MsgName(wstring _szMsgName) { m_szMsgName = _szMsgName; }
+
 	_uint   Get_SelMapNum() { return m_iSelMapNum; }
 	void	Set_SelMapNum(_uint _iNum) { m_iSelMapNum = _iNum; }
 
 	_uint   Get_AdvStageNum() { return m_iAdvStageNum; }
 	void	Set_AdvStageNum(_uint _iNum) { m_iAdvStageNum = _iNum; }
+
+	_uint   Get_MsgCount() { return m_iMsgCount; }
+	void	Set_MsgCount(_uint _iNum) { m_iMsgCount += _iNum; }
+
+	_uint   Get_QuestCount() { return m_iQuestCount; }
+	void	Set_QuestCount(_uint _iNum) { m_iQuestCount = _iNum; }
+
+	_bool   Get_MsgOnOff() { return m_bMsgOnoff; }
+	void	Set_MsgOn() { m_bMsgOnoff = true; }
+	void	Set_MsgOff() { m_bMsgOnoff = false; }
+
 
 	void	Set_CharNameUIZero() { m_iCharNameLayerNum = 0; }
 
@@ -213,6 +238,7 @@ private:
 	list<CUI::LOADUIINFO>				P2_COMBO_LOADDATALIST;
 	list<CUI::LOADUIINFO>				ADC_MENU_LOADDATALIST;
 	list<CUI::LOADUIINFO>				SELECTMAP_LOADDATALIST;
+	list<CUI::LOADUIINFO>				QUIEST_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
@@ -228,6 +254,7 @@ private:
 	list<CUI::THROWUIINFO>				P2_COMBO_DATALIST;
 	list<CUI::THROWUIINFO>				ADC_MENU_DATALIST;
 	list<CUI::THROWUIINFO>				SELECTMAP_DATALIST;
+	list<CUI::THROWUIINFO>				QUIEST_DATALIST;
 
 	string							m_sFilePath;
 	CCharacters*					m_p1P;
@@ -251,12 +278,15 @@ private:
 	CUI*							m_pAdvMenuFrame[2];
 	CUI*							m_pSelMapIconFrame[2];
 	CUI*							m_pWindow[4];
+	CUI*							m_pSubBase[5];
 	CUI*							m_pRankIcon = nullptr;
 	CUI*							m_pSelMapCursor = nullptr;
+	CUI*							m_pMsgTextBase = nullptr;
 
 	CUI::THROWUIINFO				m_ThrowInfo;
 	CUI::RESULTINFO					m_ResultInfo;
 	RANKINFO						m_RankInfo[2];
+
 	_uint							m_iCharIconLayerNum = 0;
 	_uint							m_iCharNameLayerNum = 0;
 	_uint							m_iCharFrameLayerNum = 0;
@@ -289,15 +319,25 @@ private:
 	_uint							m_iWindowLLayerNum = 0;
 	_uint							m_iAdvStageNum = 0;
 	_uint							m_iSelMapNum = 0;
+	_uint							m_iSubBaseNum = 0;
+	_uint							m_iSubIconLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;
 	_uint                           m_i2p_2 = 0;
 	
+	_uint							m_iMsgCount = 0;
+	_uint							m_iQuestCount = 0;
+	
 	_bool							m_bAdvMenuSelCheck = false;
 
 	_bool							m_bLevelResultOn = false;
 	_bool							m_bLevelMenu = false;
+
+	_bool							m_bMsgOnoff = false;
+	wstring							m_szMsg = TEXT("신현수 바보");
+	wstring							m_szMsgName = TEXT("카마도 탄지로");
+
 
 public:
 	virtual void Free() override;

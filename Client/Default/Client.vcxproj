@@ -243,6 +243,7 @@
     <ClInclude Include="..\Public\Effect_Particle_New.h" />
     <ClInclude Include="..\public\Deer.h" />
     <ClInclude Include="..\public\Deer2.h" />
+    <ClInclude Include="..\Public\FeedArrow.h" />
     <ClInclude Include="..\public\Goto.h" />
     <ClInclude Include="..\public\Hoke.h" />
     <ClInclude Include="..\public\KaguraSkill.h" />
@@ -258,8 +259,11 @@
     <ClInclude Include="..\Public\Level_SelectMap.h" />
     <ClInclude Include="..\Public\Level_StroyMenu.h" />
     <ClInclude Include="..\Public\LineFrame.h" />
+    <ClInclude Include="..\Public\MapNameBar.h" />
     <ClInclude Include="..\Public\MeshObj_Smell.h" />
     <ClInclude Include="..\Public\MeshObj_Smell_Inst.h" />
+    <ClInclude Include="..\Public\MsgNameBase.h" />
+    <ClInclude Include="..\Public\MsgTextBase.h" />
     <ClInclude Include="..\public\Murata.h" />
     <ClInclude Include="..\Public\NezukoBattleSTState.h" />
     <ClInclude Include="..\Public\NezukoJumpAttackState.h" />
@@ -271,6 +275,13 @@
     <ClInclude Include="..\public\ChangeBar.h" />
     <ClInclude Include="..\Public\NezukoUpperHitState.h" />
     <ClInclude Include="..\Public\OniSpecialSkillBar.h" />
+    <ClInclude Include="..\Public\QuiestGuideBase.h" />
+    <ClInclude Include="..\Public\QuiestKeyUI.h" />
+    <ClInclude Include="..\Public\QuiestMainBase.h" />
+    <ClInclude Include="..\Public\QuiestMainIcon.h" />
+    <ClInclude Include="..\Public\QuiestStampIcon.h" />
+    <ClInclude Include="..\Public\QuiestSubBase.h" />
+    <ClInclude Include="..\Public\QuiestSubIcon.h" />
     <ClInclude Include="..\Public\ResultScoreBar.h" />
     <ClInclude Include="..\Public\ResultScoreBase.h" />
     <ClInclude Include="..\Public\ResultTotalBase.h" />
@@ -635,6 +646,7 @@
     <ClCompile Include="..\Private\Effect_Particle_New.cpp" />
     <ClCompile Include="..\private\Deer.cpp" />
     <ClCompile Include="..\private\Deer2.cpp" />
+    <ClCompile Include="..\Private\FeedArrow.cpp" />
     <ClCompile Include="..\private\Goto.cpp" />
     <ClCompile Include="..\private\Hoke.cpp" />
     <ClCompile Include="..\private\KaguraSkill.cpp" />
@@ -650,8 +662,11 @@
     <ClCompile Include="..\Private\Level_SelectMap.cpp" />
     <ClCompile Include="..\Private\Level_StoryMenu.cpp" />
     <ClCompile Include="..\Private\LineFrame.cpp" />
+    <ClCompile Include="..\Private\MapNameBar.cpp" />
     <ClCompile Include="..\Private\MeshObj_Smell.cpp" />
     <ClCompile Include="..\Private\MeshObj_Smell_Inst.cpp" />
+    <ClCompile Include="..\Private\MsgNameBase.cpp" />
+    <ClCompile Include="..\Private\MsgTextBase.cpp" />
     <ClCompile Include="..\private\Murata.cpp" />
     <ClCompile Include="..\Private\NezukoBattleSTState.cpp" />
     <ClCompile Include="..\Private\NezukoJumpAttackState.cpp" />
@@ -663,6 +678,13 @@
     <ClCompile Include="..\private\ChangeBar.cpp" />
     <ClCompile Include="..\Private\NezukoUpperHitState.cpp" />
     <ClCompile Include="..\Private\OniSpecialSkillBar.cpp" />
+    <ClCompile Include="..\Private\QuiestGuideBase.cpp" />
+    <ClCompile Include="..\Private\QuiestKeyUI.cpp" />
+    <ClCompile Include="..\Private\QuiestMainBase.cpp" />
+    <ClCompile Include="..\Private\QuiestMainIcon.cpp" />
+    <ClCompile Include="..\Private\QuiestStampIcon.cpp" />
+    <ClCompile Include="..\Private\QuiestSubBase.cpp" />
+    <ClCompile Include="..\Private\QuiestSubIcon.cpp" />
     <ClCompile Include="..\Private\ResultScoreBar.cpp" />
     <ClCompile Include="..\Private\ResultScoreBase.cpp" />
     <ClCompile Include="..\Private\ResultTotalBase.cpp" />
