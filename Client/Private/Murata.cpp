@@ -55,12 +55,12 @@ void CMurata::Tick(_float fTimeDelta)
 		_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
 		
-		if (!m_bQuestStop && fDist <= 3.f)
+		if (fDist <= 3.f)
 		{
 			m_bQuestStop = true;
 			dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
 		}
-		else
+		else if(!m_bQuestStop)
 		{
 			m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
 		}
@@ -77,7 +77,7 @@ void CMurata::Late_Tick(_float fTimeDelta)
 
 	if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 	{
-		if (fDist < 60.f)
+		if (fDist < 45.f)
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 			m_pModelCom->Play_Animation(fTimeDelta);
