@@ -10,6 +10,7 @@ class CVIBuffer_Particle_Instance;
 END
 
 BEGIN(Client)
+class CEffect;
 
 class CEffect_Particle :
 	public CGameObj
@@ -92,7 +93,7 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 public:
-	void Set_Parents(CGameObj* pParents) { m_pParents = pParents; }
+	void Set_Parents(CEffect* pParents) { m_pParents = pParents; }
 	void Set_ParticleInfo(PARTICLE_INFO ParticleInfo);
 
 private:
@@ -100,7 +101,7 @@ private:
 
 	_float4x4						m_CombinedWorldMatrix;
 
-	CGameObj*						m_pParents = nullptr;
+	CEffect*						m_pParents = nullptr;
 
 	PARTICLE_INFO					m_ParticleInfo;
 

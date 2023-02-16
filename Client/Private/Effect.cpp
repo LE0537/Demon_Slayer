@@ -98,10 +98,10 @@ void CEffect::Tick(_float fTimeDelta)
 		else { 
 			if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO) {
 				if(!m_bDead){
-					_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-					_vector vPos = XMLoadFloat3(&m_EffectInfo.vPosition);
-
-					m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vTargetPos + vPos);
+					_matrix vTargetPos = m_pTarget->Get_Transform()->Get_WorldMatrix();
+					_matrix vPos = m_pTransformCom->Get_WorldMatrix();
+					
+					XMStoreFloat4x4(&m_CombinedWorldMatrix, vPos * vTargetPos);
 				}
 			}
 		}

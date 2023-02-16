@@ -75,7 +75,7 @@ void CEffect_Texture::Late_Tick(_float fTimeDelta)
 {
 	if (static_cast<CEffect*>(m_pParents)->Get_EffectMove() == CEffect::EFFMOVE_STOP) {
 		if (m_fTime <= m_TextureInfo.fStartTime) {
-			_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+			_matrix mtrParents = XMLoadFloat4x4(&m_pParents->Get_CombinedWorldMatrix());
 			XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
 			XMStoreFloat4x4(&m_ParentsMtr, mtrParents);
 		}
@@ -84,7 +84,7 @@ void CEffect_Texture::Late_Tick(_float fTimeDelta)
 		}
 	}
 	else {
-		_matrix mtrParents = m_pParents->Get_Transform()->Get_WorldMatrix();
+		_matrix mtrParents = XMLoadFloat4x4(&m_pParents->Get_CombinedWorldMatrix());
 		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
 	}
 
@@ -289,7 +289,7 @@ void CEffect_Texture::Set_TexInfo(TextureInfo TexInfo)
 	vRotation.z = XMConvertToRadians(vRotation.z);
 	m_pTransformCom->RotationAll(vRotation);
 
-	XMStoreFloat4x4(&m_ParentsMtr, m_pParents->Get_Transform()->Get_WorldMatrix());
+	m_ParentsMtr = m_pParents->Get_CombinedWorldMatrix();
 }
 
 HRESULT CEffect_Texture::SetUp_ShaderResources()

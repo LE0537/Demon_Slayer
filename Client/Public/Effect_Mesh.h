@@ -9,6 +9,7 @@ class CModel;
 END
 
 BEGIN(Client)
+class CEffect;
 
 class CEffect_Mesh :
 	public CGameObj
@@ -79,7 +80,7 @@ public:
 	virtual HRESULT Render();
 
 public:
-	void Set_Parents(CGameObj* pParents) { m_pParents = pParents; }
+	void Set_Parents(CEffect* pParents) { m_pParents = pParents; }
 	void Set_MeshInfo(MESH_INFO MeshInfo);
 
 private:
@@ -102,7 +103,7 @@ private:
 	_float4x4						m_CombinedWorldMatrix;
 	_float4x4						m_ParentsMtr;
 
-	CGameObj*						m_pParents = nullptr;
+	CEffect*						m_pParents = nullptr;
 
 	vector<char *>					m_MeshName;
 
