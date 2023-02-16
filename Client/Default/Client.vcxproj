@@ -228,6 +228,7 @@
     <ClInclude Include="..\public\Butterfly.h" />
     <ClInclude Include="..\Public\ButtonEff.h" />
     <ClInclude Include="..\Public\CharSelMsg.h" />
+    <ClInclude Include="..\Public\Cinema_Manager.h" />
     <ClInclude Include="..\public\CollBox.h" />
     <ClInclude Include="..\Public\1PIcon.h" />
     <ClInclude Include="..\Public\1PMainOnBase.h" />
@@ -620,6 +621,7 @@
     <ClCompile Include="..\Private\ButtonEff.cpp" />
     <ClCompile Include="..\Private\Camera_Dynamic.cpp" />
     <ClCompile Include="..\Private\CharSelMsg.cpp" />
+    <ClCompile Include="..\Private\Cinema_Manager.cpp" />
     <ClCompile Include="..\private\CollBox.cpp" />
     <ClCompile Include="..\Private\1PIcon.cpp" />
     <ClCompile Include="..\Private\1PMainOnBase.cpp" />

@@ -121,6 +121,7 @@ void CRuiDad::Tick(_float fTimeDelta)
 		HandleInput();
 		TickState(fTimeDelta);
 
+	
 		//if (m_pTransformCom->Get_Jump() == true)
 		//	m_tInfo.bJump = true;
 		//else

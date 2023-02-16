@@ -1180,6 +1180,9 @@
     <Filter Include="03.UI\07.SelectMap\Eff">
       <UniqueIdentifier>{7dab2c3b-1c50-4903-b70a-e85b796726b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="94.CinemaMgr">
+      <UniqueIdentifier>{1872b07d-cdb7-4e8e-937f-cfaad9578085}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2352,6 +2355,9 @@
     <ClInclude Include="..\Public\SelMapImg.h">
       <Filter>03.UI\07.SelectMap\SelMapImg</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Cinema_Manager.h">
+      <Filter>94.CinemaMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3496,6 +3502,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\SelMapEff.cpp">
       <Filter>03.UI\07.SelectMap\Eff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Cinema_Manager.cpp">
+      <Filter>94.CinemaMgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
