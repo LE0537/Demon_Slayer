@@ -271,6 +271,13 @@
     <ClInclude Include="..\public\ChangeBar.h" />
     <ClInclude Include="..\Public\NezukoUpperHitState.h" />
     <ClInclude Include="..\Public\OniSpecialSkillBar.h" />
+    <ClInclude Include="..\Public\QuiestGuideBase.h" />
+    <ClInclude Include="..\Public\QuiestKeyUI.h" />
+    <ClInclude Include="..\Public\QuiestMainBase.h" />
+    <ClInclude Include="..\Public\QuiestMainIcon.h" />
+    <ClInclude Include="..\Public\QuiestStampIcon.h" />
+    <ClInclude Include="..\Public\QuiestSubBase.h" />
+    <ClInclude Include="..\Public\QuiestSubIcon.h" />
     <ClInclude Include="..\Public\ResultScoreBar.h" />
     <ClInclude Include="..\Public\ResultScoreBase.h" />
     <ClInclude Include="..\Public\ResultTotalBase.h" />
@@ -658,6 +665,13 @@
     <ClCompile Include="..\private\ChangeBar.cpp" />
     <ClCompile Include="..\Private\NezukoUpperHitState.cpp" />
     <ClCompile Include="..\Private\OniSpecialSkillBar.cpp" />
+    <ClCompile Include="..\Private\QuiestGuideBase.cpp" />
+    <ClCompile Include="..\Private\QuiestKeyUI.cpp" />
+    <ClCompile Include="..\Private\QuiestMainBase.cpp" />
+    <ClCompile Include="..\Private\QuiestMainIcon.cpp" />
+    <ClCompile Include="..\Private\QuiestStampIcon.cpp" />
+    <ClCompile Include="..\Private\QuiestSubBase.cpp" />
+    <ClCompile Include="..\Private\QuiestSubIcon.cpp" />
     <ClCompile Include="..\Private\ResultScoreBar.cpp" />
     <ClCompile Include="..\Private\ResultScoreBase.cpp" />
     <ClCompile Include="..\Private\ResultTotalBase.cpp" />

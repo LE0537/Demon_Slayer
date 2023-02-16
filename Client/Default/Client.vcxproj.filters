@@ -697,27 +697,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill\FriendAdv\Move">
       <UniqueIdentifier>{4788b023-8efe-4d7e-8f04-dde538c0667d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom">
-      <UniqueIdentifier>{f5b5bc51-153b-4f35-bf58-ee601f650688}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Eff">
-      <UniqueIdentifier>{f637d0e3-3b27-4327-a37a-9ce57cb29392}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Frame">
-      <UniqueIdentifier>{1a6214d1-de4b-4eff-bf75-13f1043d127d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Base">
-      <UniqueIdentifier>{a45f935c-bd8e-4481-8524-6b6cbfc3404f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\StockNum">
-      <UniqueIdentifier>{3d0da459-111a-430d-abbd-57116203dd98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Deco">
-      <UniqueIdentifier>{11a3a066-48ad-4f45-a7d4-3e5b6f4a677e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Bar">
-      <UniqueIdentifier>{540e57b6-b12a-42b3-bc39-19453d9bad87}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel\KyoujuroWeapon%28Menu%29">
       <UniqueIdentifier>{158b3a24-71fe-4294-b102-c1291eff15f3}</UniqueIdentifier>
     </Filter>
@@ -1042,30 +1021,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\JumpSkillMove">
       <UniqueIdentifier>{c2e2964f-1b16-4472-bba9-b725916669a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Fire">
-      <UniqueIdentifier>{a6ff315a-c144-4269-a9af-c663c310bc47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Eff\Common">
-      <UniqueIdentifier>{c112e268-a2a2-41aa-a707-4e9e8a8f26dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Eff\NumEff">
-      <UniqueIdentifier>{263ed94a-8400-40f1-92a8-a61109f348d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Eff\Fade">
-      <UniqueIdentifier>{6c450942-9a78-4b18-a69d-0570ce21282a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Bar\Close">
-      <UniqueIdentifier>{fd89a620-471c-44d9-a44d-3cd24edac605}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Bar\Open">
-      <UniqueIdentifier>{20904bfe-a4fc-401a-9cac-2744add807da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Frame\Stock">
-      <UniqueIdentifier>{0ac84e66-caf0-42e6-be45-cb07dde54d4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\02.Battle\BattleBottom\Frame\Gauge">
-      <UniqueIdentifier>{35d3d1e4-9011-48b6-8666-306272086365}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\04.Result\Score">
       <UniqueIdentifier>{212fba49-c486-4cd4-8f95-7d3fb747ef4a}</UniqueIdentifier>
     </Filter>
@@ -1164,6 +1119,81 @@
     </Filter>
     <Filter Include="03.UI\07.SelectMap\Eff">
       <UniqueIdentifier>{7dab2c3b-1c50-4903-b70a-e85b796726b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom">
+      <UniqueIdentifier>{f5b5bc51-153b-4f35-bf58-ee601f650688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Eff">
+      <UniqueIdentifier>{f637d0e3-3b27-4327-a37a-9ce57cb29392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Eff\Common">
+      <UniqueIdentifier>{c112e268-a2a2-41aa-a707-4e9e8a8f26dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Eff\NumEff">
+      <UniqueIdentifier>{263ed94a-8400-40f1-92a8-a61109f348d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Eff\Fade">
+      <UniqueIdentifier>{6c450942-9a78-4b18-a69d-0570ce21282a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Frame">
+      <UniqueIdentifier>{1a6214d1-de4b-4eff-bf75-13f1043d127d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Frame\Stock">
+      <UniqueIdentifier>{0ac84e66-caf0-42e6-be45-cb07dde54d4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Frame\Gauge">
+      <UniqueIdentifier>{35d3d1e4-9011-48b6-8666-306272086365}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Base">
+      <UniqueIdentifier>{a45f935c-bd8e-4481-8524-6b6cbfc3404f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\StockNum">
+      <UniqueIdentifier>{3d0da459-111a-430d-abbd-57116203dd98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Deco">
+      <UniqueIdentifier>{11a3a066-48ad-4f45-a7d4-3e5b6f4a677e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Bar">
+      <UniqueIdentifier>{540e57b6-b12a-42b3-bc39-19453d9bad87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Bar\Close">
+      <UniqueIdentifier>{fd89a620-471c-44d9-a44d-3cd24edac605}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Bar\Open">
+      <UniqueIdentifier>{20904bfe-a4fc-401a-9cac-2744add807da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleBottom\Fire">
+      <UniqueIdentifier>{a6ff315a-c144-4269-a9af-c663c310bc47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\94.Quiest">
+      <UniqueIdentifier>{939cae73-3802-484a-a1ab-c0e35aefa9e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\94.Quiest\Icon">
+      <UniqueIdentifier>{9af55cb8-280a-4fdd-a600-78ee08f25c91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\94.Quiest\Icon\Main">
+      <UniqueIdentifier>{c58ea172-60ba-4b86-b80b-20b5cdd86ec8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\94.Quiest\Icon\Sub">
+      <UniqueIdentifier>{67efcc66-b4c7-430b-bc1f-db2a7b54e492}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\94.Quiest\Icon\Key">
+      <UniqueIdentifier>{0dd639ee-b58c-4201-a01a-031c929b5925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\94.Quiest\Base">
+      <UniqueIdentifier>{d7562cc7-8de1-407a-bd10-a1d27f0810b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\94.Quiest\Base\Main">
+      <UniqueIdentifier>{3e2991f9-ebf9-4e96-b727-1cb6ba925559}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\94.Quiest\Base\Sub">
+      <UniqueIdentifier>{cb37875d-670a-4401-9312-6c1462deca23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\94.Quiest\Base\Guide">
+      <UniqueIdentifier>{e2432785-71f6-44ef-a829-db9076b39bb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\94.Quiest\Icon\ClearStamp">
+      <UniqueIdentifier>{d0dc266a-9ca4-430e-8d73-ee39f03a625e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2322,6 +2352,27 @@
     <ClInclude Include="..\Public\SelMapImg.h">
       <Filter>03.UI\07.SelectMap\SelMapImg</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\QuiestMainIcon.h">
+      <Filter>03.UI\94.Quiest\Icon\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuiestGuideBase.h">
+      <Filter>03.UI\94.Quiest\Base\Guide</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuiestMainBase.h">
+      <Filter>03.UI\94.Quiest\Base\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuiestSubBase.h">
+      <Filter>03.UI\94.Quiest\Base\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuiestSubIcon.h">
+      <Filter>03.UI\94.Quiest\Icon\Sub</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuiestStampIcon.h">
+      <Filter>03.UI\94.Quiest\Icon\ClearStamp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\QuiestKeyUI.h">
+      <Filter>03.UI\94.Quiest\Icon\Key</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3451,6 +3502,27 @@
     </ClCompile>
     <ClCompile Include="..\Private\SelMapEff.cpp">
       <Filter>03.UI\07.SelectMap\Eff</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuiestMainIcon.cpp">
+      <Filter>03.UI\94.Quiest\Icon\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuiestGuideBase.cpp">
+      <Filter>03.UI\94.Quiest\Base\Guide</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuiestMainBase.cpp">
+      <Filter>03.UI\94.Quiest\Base\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuiestSubBase.cpp">
+      <Filter>03.UI\94.Quiest\Base\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuiestSubIcon.cpp">
+      <Filter>03.UI\94.Quiest\Icon\Sub</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuiestKeyUI.cpp">
+      <Filter>03.UI\94.Quiest\Icon\Key</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\QuiestStampIcon.cpp">
+      <Filter>03.UI\94.Quiest\Icon\ClearStamp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

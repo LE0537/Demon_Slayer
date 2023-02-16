@@ -45,6 +45,7 @@ public:
 	void Add_P1_Combo();
 	void Add_P2_Combo();
 	void Add_Adc_Menu();
+	void Add_Quiest();
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectMapUI(CUI::THROWUIINFO iter);
@@ -53,6 +54,7 @@ public:
 	HRESULT Add_LoadingUI(CUI::THROWUIINFO iter);
 	HRESULT Add_BattleResultUI(CUI::THROWUIINFO iter);
 	HRESULT Add_Adc_MenuUI(CUI::THROWUIINFO iter);
+	HRESULT Add_QuiestUI(CUI::THROWUIINFO iter);
 	_bool P1_Oni_Check();
 	_bool P2_Oni_Check();
 
@@ -213,6 +215,7 @@ private:
 	list<CUI::LOADUIINFO>				P2_COMBO_LOADDATALIST;
 	list<CUI::LOADUIINFO>				ADC_MENU_LOADDATALIST;
 	list<CUI::LOADUIINFO>				SELECTMAP_LOADDATALIST;
+	list<CUI::LOADUIINFO>				QUIEST_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
@@ -228,6 +231,7 @@ private:
 	list<CUI::THROWUIINFO>				P2_COMBO_DATALIST;
 	list<CUI::THROWUIINFO>				ADC_MENU_DATALIST;
 	list<CUI::THROWUIINFO>				SELECTMAP_DATALIST;
+	list<CUI::THROWUIINFO>				QUIEST_DATALIST;
 
 	string							m_sFilePath;
 	CCharacters*					m_p1P;

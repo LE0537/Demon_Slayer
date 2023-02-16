@@ -118,6 +118,8 @@ void CUI_Manager::Load_Data(string sLoadName)
 			ADC_MENU_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "MapSelect")
 			SELECTMAP_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
+		else if (sLoadName == "Quiest")
+			QUIEST_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -478,6 +480,28 @@ void CUI_Manager::Add_Adc_Menu()
 
 	m_iAdcMenuSelImgLayerNum = 0;
 	m_iAdcMenuSelFrameImgLayerNum = 0;
+}
+
+void CUI_Manager::Add_Quiest()
+{
+	for (auto iter : QUIEST_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.vPos.x = iter.vPos.x;
+		m_ThrowInfo.vPos.y = iter.vPos.y;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.bPlyCheck = true;
+		m_ThrowInfo.iLevelIndex = LEVEL_ADVRUI;
+
+		QUIEST_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : QUIEST_DATALIST)
+		Add_QuiestUI(iter);
+
+	QUIEST_DATALIST.clear();
 }
 
 HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
@@ -1477,6 +1501,50 @@ HRESULT CUI_Manager::Add_Adc_MenuUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		break;
 	}
+	default:
+		break;
+	}
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	switch (iter.iTextureNum)
+	{
+	case 0:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 1:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackEff"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 2:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackLight"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 3:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 4:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 5:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 6:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoButton"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
 	default:
 		break;
 	}
