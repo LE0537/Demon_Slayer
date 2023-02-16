@@ -1195,6 +1195,21 @@
     <Filter Include="03.UI\94.Quiest\Icon\ClearStamp">
       <UniqueIdentifier>{d0dc266a-9ca4-430e-8d73-ee39f03a625e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\96.MsgUI\Story">
+      <UniqueIdentifier>{bd0b2fc4-75e8-4cbc-bd6b-9bf45d7e237c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\96.MsgUI\Story\Arrow">
+      <UniqueIdentifier>{ce6efc79-93be-43bd-8616-ae704afd2df7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\96.MsgUI\Story\NameBase">
+      <UniqueIdentifier>{fea5e840-97de-4e66-afb4-ed6d41af913b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\96.MsgUI\Story\TextBase">
+      <UniqueIdentifier>{871aba20-f366-4628-87f5-7f05daa7e1a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\96.MsgUI\Story\MapName">
+      <UniqueIdentifier>{d789d760-6408-44df-8d10-f0509ff985a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2373,6 +2388,18 @@
     <ClInclude Include="..\Public\QuiestKeyUI.h">
       <Filter>03.UI\94.Quiest\Icon\Key</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\FeedArrow.h">
+      <Filter>03.UI\96.MsgUI\Story\Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MsgTextBase.h">
+      <Filter>03.UI\96.MsgUI\Story\TextBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MsgNameBase.h">
+      <Filter>03.UI\96.MsgUI\Story\NameBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MapNameBar.h">
+      <Filter>03.UI\96.MsgUI\Story\MapName</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3523,6 +3550,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\QuiestStampIcon.cpp">
       <Filter>03.UI\94.Quiest\Icon\ClearStamp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FeedArrow.cpp">
+      <Filter>03.UI\96.MsgUI\Story\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MsgNameBase.cpp">
+      <Filter>03.UI\96.MsgUI\Story\NameBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MsgTextBase.cpp">
+      <Filter>03.UI\96.MsgUI\Story\TextBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MapNameBar.cpp">
+      <Filter>03.UI\96.MsgUI\Story\MapName</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

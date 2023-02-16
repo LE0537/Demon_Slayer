@@ -1,25 +1,24 @@
 #include "stdafx.h"
-#include "QuiestKeyUI.h"
+#include "FeedArrow.h"
 #include "GameInstance.h"
-#include "MsgTextBase.h"
 #include "UI_Manager.h"
 
-CQuiestKeyUI::CQuiestKeyUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CFeedArrow::CFeedArrow(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CQuiestKeyUI::CQuiestKeyUI(const CQuiestKeyUI & rhs)
+CFeedArrow::CFeedArrow(const CFeedArrow & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CQuiestKeyUI::Initialize_Prototype()
+HRESULT CFeedArrow::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CQuiestKeyUI::Initialize(void * pArg)
+HRESULT CFeedArrow::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -50,11 +49,11 @@ HRESULT CQuiestKeyUI::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CQuiestKeyUI::Tick(_float fTimeDelta)
+void CFeedArrow::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (!pUI_Manager->Get_MsgOnOff())
+	if (pUI_Manager->Get_MsgOnOff())
 	{
 		m_fFadeTime += 0.2f;
 		if (m_fFadeTime >= 1.f)
@@ -67,18 +66,34 @@ void CQuiestKeyUI::Tick(_float fTimeDelta)
 			m_fFadeTime = 0.f;
 	}
 
+	if (m_iMoveCount >= 20)
+		m_bMoveCheck = true;
+	else if(m_iMoveCount <= 0)
+		m_bMoveCheck = false;
+
+	if (!m_bMoveCheck)
+	{
+		m_iMoveCount += 1;
+		m_fY += 0.5f;
+	}
+	else if (m_iMoveCount >= 0)
+	{
+		m_iMoveCount -= 1;
+		m_fY -= 0.5f;
+	}
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
-void CQuiestKeyUI::Late_Tick(_float fTimeDelta)
+void CFeedArrow::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CQuiestKeyUI::Render()
+HRESULT CFeedArrow::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -87,15 +102,14 @@ HRESULT CQuiestKeyUI::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	
 	m_pShaderCom->Begin(12);
-	
+
 	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
-HRESULT CQuiestKeyUI::Ready_Components()
+HRESULT CFeedArrow::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -110,7 +124,7 @@ HRESULT CQuiestKeyUI::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestKeyUI"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_FeedArrow"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -120,7 +134,7 @@ HRESULT CQuiestKeyUI::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CQuiestKeyUI::SetUp_ShaderResources()
+HRESULT CFeedArrow::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -141,13 +155,13 @@ HRESULT CQuiestKeyUI::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CQuiestKeyUI * CQuiestKeyUI::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CFeedArrow * CFeedArrow::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CQuiestKeyUI*	pInstance = new CQuiestKeyUI(pDevice, pContext);
+	CFeedArrow*	pInstance = new CFeedArrow(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CQuiestKeyUI"));
+		ERR_MSG(TEXT("Failed to Created : CFeedArrow"));
 		Safe_Release(pInstance);
 	}
 
@@ -155,20 +169,20 @@ CQuiestKeyUI * CQuiestKeyUI::Create(ID3D11Device * pDevice, ID3D11DeviceContext 
 }
 
 
-CGameObject * CQuiestKeyUI::Clone(void * pArg)
+CGameObject * CFeedArrow::Clone(void * pArg)
 {
-	CQuiestKeyUI*	pInstance = new CQuiestKeyUI(*this);
+	CFeedArrow*	pInstance = new CFeedArrow(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CQuiestKeyUI"));
+		ERR_MSG(TEXT("Failed to Cloned : CFeedArrow"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CQuiestKeyUI::Free()
+void CFeedArrow::Free()
 {
 	__super::Free();
 

@@ -502,6 +502,9 @@ void CUI_Manager::Add_Quiest()
 		Add_QuiestUI(iter);
 
 	QUIEST_DATALIST.clear();
+
+	m_iSubBaseNum = 0;
+	m_iSubIconLayerNum = 0;
 }
 
 HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
@@ -1518,31 +1521,51 @@ HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
 	switch (iter.iTextureNum)
 	{
 	case 0:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestMainBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 1:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackEff"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+		iter.iLayerNum = m_iSubBaseNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestSubBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iSubBaseNum;
 		break;
 	case 2:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackLight"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestMainIcon"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 3:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+		iter.iLayerNum = m_iSubIconLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestSubIcon"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iSubIconLayerNum;
 		break;
 	case 4:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestStampIcon"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 5:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestGuideBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 6:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoButton"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestKeyUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 7:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MsgNameBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 8:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MsgTextBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 9:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FeedArrow"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 10:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MapNameBar"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	default:

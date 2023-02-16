@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "QuiestSubIcon.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
+#include "QuiestSubBase.h"
 
 CQuiestSubIcon::CQuiestSubIcon(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -44,13 +46,31 @@ HRESULT CQuiestSubIcon::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-
 	return S_OK;
 }
 
 void CQuiestSubIcon::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	m_bIconOn = dynamic_cast<CQuiestSubBase*>(pUI_Manager->Get_SubBase(m_ThrowUIinfo.iLayerNum))->Get_BaseOn();
+
+	if (m_bIconOn)
+	{
+		m_fFadeTime += 0.2f;
+		if (m_fFadeTime >= 1.f)
+			m_fFadeTime = 1.f;
+	}
+	else
+	{
+		m_fFadeTime -= 0.2f;
+		if (m_fFadeTime <= 0.f)	
+			m_fFadeTime = 0.f;
+	}
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CQuiestSubIcon::Late_Tick(_float fTimeDelta)
@@ -68,12 +88,10 @@ HRESULT CQuiestSubIcon::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	if (m_bIconOn)
+		m_pVIBufferCom->Render();
 
 	return S_OK;
 }
@@ -93,7 +111,7 @@ HRESULT CQuiestSubIcon::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeBaseDeco"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestSubIcon"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -113,6 +131,9 @@ HRESULT CQuiestSubIcon::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

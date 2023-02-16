@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "QuiestSubBase.h"
 #include "GameInstance.h"
-
+#include "UI_Manager.h"
 CQuiestSubBase::CQuiestSubBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
@@ -26,7 +26,7 @@ HRESULT CQuiestSubBase::Initialize(void * pArg)
 
 	m_fSizeX = m_ThrowUIinfo.vScale.x;
 	m_fSizeY = m_ThrowUIinfo.vScale.y;
-	m_fX = m_ThrowUIinfo.vPos.x;
+	m_fX = m_ThrowUIinfo.vPos.x - 20.f;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
@@ -44,13 +44,52 @@ HRESULT CQuiestSubBase::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	pUI_Manager->Set_SubBase(this, m_ThrowUIinfo.iLayerNum);
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
 
 void CQuiestSubBase::Tick(_float fTimeDelta)
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	
+	if (pGameInstance->Key_Down(DIK_TAB))
+	{
+		if(!m_bBaseOn)
+			m_bBaseOn = true;
+		else 
+			m_bBaseOn = false;
+	}
+
+	if (m_bBaseOn)
+	{
+		m_fX += 4.f;
+		m_fFadeTime += 0.2f;
+		if (m_fX >= m_ThrowUIinfo.vPos.x && m_fFadeTime >= 1.f)
+		{
+			m_fX = m_ThrowUIinfo.vPos.x;
+			m_fFadeTime = 1.f;
+		}
+	}
+	else
+	{
+		m_fX -= 4.f;
+		m_fFadeTime -= 0.2f;
+		if (m_fX <= m_ThrowUIinfo.vPos.x - 10.f && m_fFadeTime <= 0.f)
+		{
+			m_fX = m_ThrowUIinfo.vPos.x - 10.f;
+			m_fFadeTime = 0.f;
+		}
+	}
+
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CQuiestSubBase::Late_Tick(_float fTimeDelta)
@@ -68,10 +107,7 @@ HRESULT CQuiestSubBase::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(12);
 
 	m_pVIBufferCom->Render();
 
@@ -93,7 +129,7 @@ HRESULT CQuiestSubBase::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeBaseDeco"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestSubBase"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -113,6 +149,9 @@ HRESULT CQuiestSubBase::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

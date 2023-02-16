@@ -13,6 +13,9 @@ private:
 	virtual ~CQuiestSubBase() = default;
 
 public:
+	_bool Get_BaseOn() { return m_bBaseOn; }
+
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -22,6 +25,10 @@ public:
 private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
+
+private:
+	_bool						m_bBaseOn = false;
+	_float						m_fFadeTime = 0.f;
 
 
 public:

@@ -1,25 +1,24 @@
 #include "stdafx.h"
-#include "QuiestKeyUI.h"
-#include "GameInstance.h"
 #include "MsgTextBase.h"
+#include "GameInstance.h"
 #include "UI_Manager.h"
 
-CQuiestKeyUI::CQuiestKeyUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CMsgTextBase::CMsgTextBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CQuiestKeyUI::CQuiestKeyUI(const CQuiestKeyUI & rhs)
+CMsgTextBase::CMsgTextBase(const CMsgTextBase & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CQuiestKeyUI::Initialize_Prototype()
+HRESULT CMsgTextBase::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CQuiestKeyUI::Initialize(void * pArg)
+HRESULT CMsgTextBase::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -29,7 +28,7 @@ HRESULT CQuiestKeyUI::Initialize(void * pArg)
 	m_fSizeX = m_ThrowUIinfo.vScale.x;
 	m_fSizeY = m_ThrowUIinfo.vScale.y;
 	m_fX = m_ThrowUIinfo.vPos.x;
-	m_fY = m_ThrowUIinfo.vPos.y;
+	m_fY = m_ThrowUIinfo.vPos.y + 10.f;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
 
@@ -46,39 +45,71 @@ HRESULT CQuiestKeyUI::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
+	pUI_Manager->Set_MsgTextBase(this);
+
+	RELEASE_INSTANCE(CUI_Manager);
 	return S_OK;
 }
 
-void CQuiestKeyUI::Tick(_float fTimeDelta)
+void CMsgTextBase::Tick(_float fTimeDelta)
 {
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (!pUI_Manager->Get_MsgOnOff())
+
+	if (pGameInstance->Key_Down(DIK_PGUP))
+		pUI_Manager->Set_MsgOn();
+	if (pGameInstance->Key_Down(DIK_PGDN))
+		pUI_Manager->Set_MsgOff();
+
+	if (pUI_Manager->Get_MsgOnOff())
+		m_bMoveCheck = true;
+	else
+		m_bMoveCheck = false;
+
+	if (m_bMoveCheck)
 	{
+		m_iMoveCount += 1;
 		m_fFadeTime += 0.2f;
-		if (m_fFadeTime >= 1.f)
+		m_fY -= 2.f;
+		if (m_iMoveCount >= 5)
+		{
+			m_iMoveCount = 10;
 			m_fFadeTime = 1.f;
+			m_fY = m_ThrowUIinfo.vPos.y;
+		}
+
+		if (pGameInstance->Key_Down(DIK_RETURN))
+			pUI_Manager->Set_MsgCount(1);
 	}
 	else
 	{
+		m_iMoveCount -= 1;
 		m_fFadeTime -= 0.2f;
-		if (m_fFadeTime <= 0.f)
+		m_fY += 2.f;
+		if (m_iMoveCount <= 0)
+		{
+			m_iMoveCount = 0;
 			m_fFadeTime = 0.f;
+			m_fY = m_ThrowUIinfo.vPos.y + 10.f;
+		}
 	}
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
+	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
-void CQuiestKeyUI::Late_Tick(_float fTimeDelta)
+void CMsgTextBase::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CQuiestKeyUI::Render()
+HRESULT CMsgTextBase::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -87,15 +118,22 @@ HRESULT CQuiestKeyUI::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	
 	m_pShaderCom->Begin(12);
-	
+
 	m_pVIBufferCom->Render();
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	pGameInstance->Render_Font(TEXT("Font_Nexon"), pUI_Manager->Get_Msg().c_str(), XMVectorSet(m_fX - 450.f, m_fY - 30.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
 
-HRESULT CQuiestKeyUI::Ready_Components()
+HRESULT CMsgTextBase::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -110,7 +148,7 @@ HRESULT CQuiestKeyUI::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestKeyUI"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_MsgTextBase"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -120,7 +158,7 @@ HRESULT CQuiestKeyUI::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CQuiestKeyUI::SetUp_ShaderResources()
+HRESULT CMsgTextBase::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -141,13 +179,13 @@ HRESULT CQuiestKeyUI::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CQuiestKeyUI * CQuiestKeyUI::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CMsgTextBase * CMsgTextBase::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CQuiestKeyUI*	pInstance = new CQuiestKeyUI(pDevice, pContext);
+	CMsgTextBase*	pInstance = new CMsgTextBase(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CQuiestKeyUI"));
+		ERR_MSG(TEXT("Failed to Created : CMsgTextBase"));
 		Safe_Release(pInstance);
 	}
 
@@ -155,20 +193,20 @@ CQuiestKeyUI * CQuiestKeyUI::Create(ID3D11Device * pDevice, ID3D11DeviceContext 
 }
 
 
-CGameObject * CQuiestKeyUI::Clone(void * pArg)
+CGameObject * CMsgTextBase::Clone(void * pArg)
 {
-	CQuiestKeyUI*	pInstance = new CQuiestKeyUI(*this);
+	CMsgTextBase*	pInstance = new CMsgTextBase(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CQuiestKeyUI"));
+		ERR_MSG(TEXT("Failed to Cloned : CMsgTextBase"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CQuiestKeyUI::Free()
+void CMsgTextBase::Free()
 {
 	__super::Free();
 

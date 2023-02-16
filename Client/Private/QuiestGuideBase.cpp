@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "QuiestGuideBase.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
+#include "MsgTextBase.h"
 
 CQuiestGuideBase::CQuiestGuideBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,7 +52,24 @@ HRESULT CQuiestGuideBase::Initialize(void * pArg)
 
 void CQuiestGuideBase::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (!pUI_Manager->Get_MsgOnOff())
+	{
+		m_fFadeTime += 0.2f;
+		if (m_fFadeTime >= 1.f)
+			m_fFadeTime = 1.f;
+	}
+	else
+	{
+		m_fFadeTime -= 0.2f;
+		if (m_fFadeTime <= 0.f)
+			m_fFadeTime = 0.f;
+	}
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CQuiestGuideBase::Late_Tick(_float fTimeDelta)
@@ -68,12 +87,23 @@ HRESULT CQuiestGuideBase::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(12);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CMsgTextBase* pMsgTextBase = dynamic_cast<CMsgTextBase*>(pUI_Manager->Get_MsgTextBase());
+	if (pMsgTextBase != nullptr)
+	{
+		if (!pMsgTextBase->Get_MsgOnCheck())
+		{
+			m_pVIBufferCom->Render();
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("³¿»õ Å½Áö"), XMVectorSet(m_fX - 70.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+		}
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
@@ -93,7 +123,7 @@ HRESULT CQuiestGuideBase::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_ChangeBaseDeco"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestGuideBase"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -113,6 +143,9 @@ HRESULT CQuiestGuideBase::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

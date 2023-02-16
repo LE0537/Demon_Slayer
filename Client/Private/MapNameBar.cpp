@@ -1,25 +1,23 @@
 #include "stdafx.h"
-#include "QuiestKeyUI.h"
+#include "MapNameBar.h"
 #include "GameInstance.h"
-#include "MsgTextBase.h"
-#include "UI_Manager.h"
 
-CQuiestKeyUI::CQuiestKeyUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CMapNameBar::CMapNameBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CQuiestKeyUI::CQuiestKeyUI(const CQuiestKeyUI & rhs)
+CMapNameBar::CMapNameBar(const CMapNameBar & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CQuiestKeyUI::Initialize_Prototype()
+HRESULT CMapNameBar::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CQuiestKeyUI::Initialize(void * pArg)
+HRESULT CMapNameBar::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
@@ -50,35 +48,18 @@ HRESULT CQuiestKeyUI::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CQuiestKeyUI::Tick(_float fTimeDelta)
+void CMapNameBar::Tick(_float fTimeDelta)
 {
-	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-
-	if (!pUI_Manager->Get_MsgOnOff())
-	{
-		m_fFadeTime += 0.2f;
-		if (m_fFadeTime >= 1.f)
-			m_fFadeTime = 1.f;
-	}
-	else
-	{
-		m_fFadeTime -= 0.2f;
-		if (m_fFadeTime <= 0.f)
-			m_fFadeTime = 0.f;
-	}
-
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
-
-	RELEASE_INSTANCE(CUI_Manager);
 }
 
-void CQuiestKeyUI::Late_Tick(_float fTimeDelta)
+void CMapNameBar::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
-HRESULT CQuiestKeyUI::Render()
+HRESULT CMapNameBar::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -87,15 +68,17 @@ HRESULT CQuiestKeyUI::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	
-	m_pShaderCom->Begin(12);
-	
-	m_pVIBufferCom->Render();
+	if (!m_ThrowUIinfo.bReversal)
+		m_pShaderCom->Begin();
+	else
+		m_pShaderCom->Begin(1);
+
+	//m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
-HRESULT CQuiestKeyUI::Ready_Components()
+HRESULT CMapNameBar::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -110,7 +93,7 @@ HRESULT CQuiestKeyUI::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestKeyUI"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_MapNameBar"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -120,7 +103,7 @@ HRESULT CQuiestKeyUI::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CQuiestKeyUI::SetUp_ShaderResources()
+HRESULT CMapNameBar::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -141,13 +124,13 @@ HRESULT CQuiestKeyUI::SetUp_ShaderResources()
 	return S_OK;
 }
 
-CQuiestKeyUI * CQuiestKeyUI::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CMapNameBar * CMapNameBar::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CQuiestKeyUI*	pInstance = new CQuiestKeyUI(pDevice, pContext);
+	CMapNameBar*	pInstance = new CMapNameBar(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CQuiestKeyUI"));
+		ERR_MSG(TEXT("Failed to Created : CMapNameBar"));
 		Safe_Release(pInstance);
 	}
 
@@ -155,20 +138,20 @@ CQuiestKeyUI * CQuiestKeyUI::Create(ID3D11Device * pDevice, ID3D11DeviceContext 
 }
 
 
-CGameObject * CQuiestKeyUI::Clone(void * pArg)
+CGameObject * CMapNameBar::Clone(void * pArg)
 {
-	CQuiestKeyUI*	pInstance = new CQuiestKeyUI(*this);
+	CMapNameBar*	pInstance = new CMapNameBar(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CQuiestKeyUI"));
+		ERR_MSG(TEXT("Failed to Cloned : CMapNameBar"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CQuiestKeyUI::Free()
+void CMapNameBar::Free()
 {
 	__super::Free();
 
