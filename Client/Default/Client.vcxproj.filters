@@ -1237,6 +1237,9 @@
     <Filter Include="05.CollBox\15.RuiDadSmallStone">
       <UniqueIdentifier>{eb0913c2-0008-4b99-a877-9a2f635db0ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\96.MsgUI\Story\Interaction">
+      <UniqueIdentifier>{4d9a7ddb-be8c-4538-9dee-adabc6cc66d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2454,6 +2457,9 @@
     <ClInclude Include="..\public\RuiDadSmallStone.h">
       <Filter>05.CollBox\15.RuiDadSmallStone</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\InteractionUI.h">
+      <Filter>03.UI\96.MsgUI\Story\Interaction</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3643,6 +3649,9 @@
     </ClCompile>
     <ClCompile Include="..\private\RuiDadSmallStone.cpp">
       <Filter>05.CollBox\15.RuiDadSmallStone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InteractionUI.cpp">
+      <Filter>03.UI\96.MsgUI\Story\Interaction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

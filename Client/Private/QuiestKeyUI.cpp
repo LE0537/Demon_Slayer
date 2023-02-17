@@ -46,7 +46,7 @@ HRESULT CQuiestKeyUI::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-
+	m_iImgNum = m_ThrowUIinfo.iLayerNum;
 	return S_OK;
 }
 
@@ -134,7 +134,7 @@ HRESULT CQuiestKeyUI::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
 		return E_FAIL;
 
 	return S_OK;

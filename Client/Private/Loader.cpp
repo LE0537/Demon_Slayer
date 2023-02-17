@@ -174,6 +174,7 @@
 #include "RuiDadJump.h"
 #include "RuiDadBigStone.h"
 #include "RuiDadSmallStone.h"
+#include "InteractionUI.h"
 //Ani
 #include "Butterfly.h"
 #include "Deer.h"
@@ -540,11 +541,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestSubBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/Mission_Base.png"), 1)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestMainBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/Mission_Main_Base.png"), 1)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestGuideBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/MiniTitle_Base2.png"), 1)))) return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestKeyUI"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/kb_LCtrl_00.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestKeyUI"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/Key_%d.png"), 2)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MsgNameBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/Msg_Name_Base02.png"), 1)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MsgTextBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/Msg_Text_Base.png"), 1)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FeedArrow"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/LineFeed_Arrow.png"), 1)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MapNameBar"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/Profile_Info_Base.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_InteractionUI"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Interaction/Base_Title01.png"), 1)))) return E_FAIL;
 #pragma endregion Quiest
 
 #pragma region SelectMap
@@ -1708,6 +1710,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_InteractionUI"),
+		CInteractionUI::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MapNameBar"),
 		CMapNameBar::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

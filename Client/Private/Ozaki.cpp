@@ -214,8 +214,10 @@ void COzaki::Check_Event()
 	{
 		if (!m_bMsgEnd)
 		{
-			//여기에 상호작용 F 유아이 띄우기
+			pUIManager->Set_InteractionOn();
 		}
+		else
+			pUIManager->Set_InteractionOff();
 		if (!m_bMsgStart && !m_bMsgEnd && pGameInstance->Key_Down(DIK_F))
 		{
 			m_bMsgStart = true;

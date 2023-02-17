@@ -208,6 +208,13 @@ public:
 	void	Set_MsgOn() { m_bMsgOnoff = true; }
 	void	Set_MsgOff() { m_bMsgOnoff = false; }
 
+	_bool   Get_MainQuestOnOff() { return m_bMainQuestOnOff; }
+	void	Set_MainQuestOn() { m_bMainQuestOnOff = true; }
+	void	Set_MainQuestOff() { m_bMainQuestOnOff = false; }
+
+	_bool   Get_InteractionOnOff() { return m_bInteractionUIOnOff; }
+	void	Set_InteractionOn() { m_bInteractionUIOnOff = true; }
+	void	Set_InteractionOff() { m_bInteractionUIOnOff = false; }
 
 	void	Set_CharNameUIZero() { m_iCharNameLayerNum = 0; }
 
@@ -343,6 +350,8 @@ private:
 	_uint							m_iSubBaseNum = 0;
 	_uint							m_iSubIconLayerNum = 0;
 	_uint							m_iSubStampIconLayerNum = 0;
+	_uint							m_iGuideKeyLayerNum = 0;
+	_uint							m_iGuideBaseLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;
@@ -358,6 +367,8 @@ private:
 
 	_bool							m_bBattleTypeCheck = false;
 
+	_bool							m_bInteractionUIOnOff = false;
+	_bool							m_bMainQuestOnOff = false;
 	_bool							m_bQuestStartCheck = false;
 	_bool							m_bMsgOnoff = false;
 	wstring							m_szMsg = TEXT("신현수 바보");
