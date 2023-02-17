@@ -1228,6 +1228,9 @@
     <Filter Include="94.CinemaMgr">
       <UniqueIdentifier>{1872b07d-cdb7-4e8e-937f-cfaad9578085}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\13.RuiDadJump">
+      <UniqueIdentifier>{e9212999-48e1-4103-b04d-82d8f159a8ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2436,6 +2439,9 @@
     <ClInclude Include="..\Public\Cinema_Manager.h">
       <Filter>94.CinemaMgr</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RuiDadJump.h">
+      <Filter>05.CollBox\13.RuiDadJump</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3616,6 +3622,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Cinema_Manager.cpp">
       <Filter>94.CinemaMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiDadJump.cpp">
+      <Filter>05.CollBox\13.RuiDadJump</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

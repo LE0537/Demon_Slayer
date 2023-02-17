@@ -297,6 +297,7 @@
     <ClInclude Include="..\Public\RuiDadGuardState.h" />
     <ClInclude Include="..\Public\RuiDadHitState.h" />
     <ClInclude Include="..\Public\RuiDadIdleState.h" />
+    <ClInclude Include="..\public\RuiDadJump.h" />
     <ClInclude Include="..\Public\RuiDadJumpState.h" />
     <ClInclude Include="..\Public\RuiDadMoveState.h" />
     <ClInclude Include="..\Public\RuiDadSkill_JumpDrop.h" />
@@ -701,6 +702,7 @@
     <ClCompile Include="..\Private\RuiDadGuardState.cpp" />
     <ClCompile Include="..\Private\RuiDadHitState.cpp" />
     <ClCompile Include="..\Private\RuiDadIdleState.cpp" />
+    <ClCompile Include="..\private\RuiDadJump.cpp" />
     <ClCompile Include="..\Private\RuiDadJumpState.cpp" />
     <ClCompile Include="..\Private\RuiDadMoveState.cpp" />
     <ClCompile Include="..\Private\RuiDadSkill_JumpDrop.cpp" />
