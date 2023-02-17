@@ -242,17 +242,22 @@ void COzaki::Check_Event()
 			case 2:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
-				pUIManager->Set_Msg(TEXT("너는 내려가지 않는거야?? 너무 위험해! 우선은 같이 내려가자."));
+				pUIManager->Set_Msg(TEXT("으으...내가 그녀석의 눈을 봤어...그녀석..."));
 				break;
 			case 3:
 				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("걱정마세요.아직 도망치지 못한 대원들이 있나 찾아보고 따라갈게요."));
+				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
+				pUIManager->Set_Msg(TEXT("십이귀월의 하현이였어...최소 '주'급이 와야 감당 가능할거야."));	
 				break;
 			case 4:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
-				pUIManager->Set_Msg(TEXT("조심해야해...해가 뜨려면 아직 멀었으니..."));
+				pUIManager->Set_Msg(TEXT("너는 내려가지 않는거야?? 너무 위험해! 우선은 같이 내려가자."));
+				break;
+			case 5:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("걱정마세요.아직 도망치지 못한 대원들이 있나 찾아보고 따라갈게요."));
 				pUIManager->Set_RescueCount(2);
 				m_bMsgEnd = true;
 				break;

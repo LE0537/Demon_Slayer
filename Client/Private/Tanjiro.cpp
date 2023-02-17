@@ -777,12 +777,9 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 			{
 				m_bQuest3 = true;
 				m_bStop = true;
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
 			}
 		}
-		else if (!m_bQuest3MSG && m_bQuest1 && m_bQuest2 && m_bQuest3)
+		else if (!m_bQuest3MSG && m_bQuest3)
 		{
 			if (m_bQuest3_2MSG && !m_bQuest3_1MSG)
 			{
