@@ -55,7 +55,7 @@ void CQuiestMainBase::Tick(_float fTimeDelta)
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
 
-	if (m_iBeforeCount != pUI_Manager->Get_QuestCount())
+	if (pUI_Manager->Get_MsgOnOff())
 		m_bQuestOn = true;
 	
 	if (m_bQuestOn)

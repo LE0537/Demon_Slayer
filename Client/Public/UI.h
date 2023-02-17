@@ -72,6 +72,10 @@ public:
 	SELUIINFO Get_SelectUIInfoSecond() { return m_SelectInfo_2; }
 
 	ADVFRAMEINFO Get_AdvFrameInfo() { return m_AdvFrameInfo; }
+
+	_bool Get_ClearCheck() { return m_bClearCheck; }
+	void Set_ClearCheck(_bool bCheck) { m_bClearCheck = bCheck; }
+
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
@@ -85,6 +89,7 @@ protected:
 	_float4x4				m_ViewMatrix, m_ProjMatrix;
 	_bool					m_bSelectVS = false;
 	_bool					m_bSelectStoryMenu = false;
+	_bool					m_bClearCheck = false;
 	_uint					m_iImgNum = 0;
 	_uint					m_iSelCount = 0;
 	LOADUIINFO				m_LoadUIinfo;

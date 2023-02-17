@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MapNameBar.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CMapNameBar::CMapNameBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,7 +51,50 @@ HRESULT CMapNameBar::Initialize(void * pArg)
 
 void CMapNameBar::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (m_fFadeTime <= 0.f)
+		m_bFadeCheck = true;
+	else if (m_fFadeTime >= 0.8f)
+	{
+		m_fStopTime += fTimeDelta;
+		if(m_fStopTime >= 1.f)
+			m_bFadeCheck = false;
+	}
+
+	if (m_bFadeCheck && !m_bOnCheck)
+	{
+		m_iMoveCount += 1;
+		m_fFadeTime += 0.01f;
+		if (m_iMoveCount >= 80)
+		{
+			m_iMoveCount = 80;
+			m_fFadeTime = 1.f;
+		}
+	}
+	else
+	{
+		m_iMoveCount -= 1;
+		m_fFadeTime -= 0.01f;
+		if (m_iMoveCount <= 0)
+		{
+			m_iMoveCount = 0;
+			m_fFadeTime = 0.f;
+			m_bOnCheck = true;
+			if (!m_bMsgOnCheck)
+			{
+				pUI_Manager->Set_MsgOn();
+				pUI_Manager->Set_Msg(TEXT("(산 깊은 곳에서 혈귀 냄새가 흘러들어오고 있어...)"));
+				pUI_Manager->Set_QuestStartCheck(true);
+				m_bMsgOnCheck = true;
+			}
+			
+		}
+	}
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CMapNameBar::Late_Tick(_float fTimeDelta)
@@ -68,17 +112,14 @@ HRESULT CMapNameBar::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(12);
 
 	m_pVIBufferCom->Render();
 
 	
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("나타구모 산 초입"), XMVectorSet(m_fX - 70.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+	pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("나타구모 산 초입"), XMVectorSet(m_fX - 115.f, m_fY - 23.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
 	
 	RELEASE_INSTANCE(CGameInstance);
 

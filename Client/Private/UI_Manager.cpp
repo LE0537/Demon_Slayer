@@ -507,6 +507,7 @@ void CUI_Manager::Add_Quiest()
 
 	m_iSubBaseNum = 0;
 	m_iSubIconLayerNum = 0;
+	m_iSubStampIconLayerNum = 0;
 }
 
 void CUI_Manager::Add_AdvBattleUI()
@@ -1568,8 +1569,10 @@ HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
 		++m_iSubIconLayerNum;
 		break;
 	case 4:
+		iter.iLayerNum = m_iSubStampIconLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestStampIcon"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iSubStampIconLayerNum;
 		break;
 	case 5:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestGuideBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
@@ -1592,7 +1595,7 @@ HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		break;
 	case 10:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MapNameBar"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MapNameBar"), LEVEL_ADVRUI, TEXT("Layer_NameBarUI"), &iter)))
 			return E_FAIL;
 		break;
 	default:

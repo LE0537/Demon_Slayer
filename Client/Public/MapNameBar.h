@@ -13,6 +13,9 @@ private:
 	virtual ~CMapNameBar() = default;
 
 public:
+	_bool Get_OffCheck() { return m_bOnCheck; }
+
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -24,8 +27,12 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 private:
-	_float							m_fFadeTime = 1.f;
-
+	_float							m_fFadeTime = 0.f;
+	_float							m_fStopTime = 0.f;
+	_uint							m_iMoveCount = 0;
+	_bool							m_bFadeCheck = false;
+	_bool							m_bOnCheck = false;
+	_bool							m_bMsgOnCheck = false;
 
 public:
 	static CMapNameBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
