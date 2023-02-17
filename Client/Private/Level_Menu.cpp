@@ -43,12 +43,14 @@ void CLevel_Menu::Tick(_float fTimeDelta)
 	{
 		if (pUI_Manager->Get_MenuCursor()->Get_SelectVS())
 		{
+			pUI_Manager->Set_BattleTypeCheck(true);
 			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTCHAR))))
 				return;
 			CSoundMgr::Get_Instance()->BGM_Stop();
 		}
 		else if (pUI_Manager->Get_MenuCursor()->Get_SelectStoryMenu())
 		{
+			pUI_Manager->Set_BattleTypeCheck(false);
 			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_STORYMENU))))
 				return;
 			CSoundMgr::Get_Instance()->BGM_Stop();

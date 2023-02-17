@@ -31,6 +31,8 @@ private:
 	_float					m_fFadeTime = 0.f;
 	_int					m_iMoveCount = 0;
 	_bool					m_bMoveCheck = false;
+	_float					m_fFirstMsg = 0.f;
+	_bool					m_bFirstMsgCheck = false;
 
 public:
 	static CMsgTextBase* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

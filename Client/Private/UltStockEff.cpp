@@ -159,14 +159,22 @@ HRESULT CUltStockEff::Render()
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (!m_ThrowUIinfo.bPlyCheck)
+	if (pUI_Manager->Get_BattleTypeCheck())
 	{
-		if(pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex == 0 && pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount > 0)
-			m_pVIBufferCom->Render();
+		if (!m_ThrowUIinfo.bPlyCheck)
+		{
+			if (pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex == 0 && pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount > 0)
+				m_pVIBufferCom->Render();
+		}
+		else
+		{
+			if (pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex == 0 && pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicCount > 0)
+				m_pVIBufferCom->Render();
+		}
 	}
-	else
+	else if (!m_ThrowUIinfo.bPlyCheck)
 	{
-		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex == 0 && pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicCount > 0)
+		if (pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex > 0)
 			m_pVIBufferCom->Render();
 	}
 	

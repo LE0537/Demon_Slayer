@@ -60,48 +60,46 @@ void CNumTimer::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	m_bTimerOnoff = dynamic_cast<CRoundUI*>(pUI_Manager->Get_RoundUI())->Get_RoundOnOff();
-
-	if (!m_bTimerOnoff)
+	if (pUI_Manager->Get_BattleTypeCheck())
 	{
-		m_fTimer -= fTimeDelta;
+		m_bTimerOnoff = dynamic_cast<CRoundUI*>(pUI_Manager->Get_RoundUI())->Get_RoundOnOff();
 
-		if (m_ThrowUIinfo.iLayerNum == 0)
-			m_iFirstNum = (_uint)m_fTimer / 10;
-		else if (m_ThrowUIinfo.iLayerNum == 1)
-			m_iSecondNum = (_uint)m_fTimer % 10;
-
-		if (m_iFirstNum <= 0)
-			m_iFirstNum = 0;
-
-		m_bRecord = true;
-	}
-	else
-	{
-		if (m_bRecord)
+		if (!m_bTimerOnoff)
 		{
-			if (m_ThrowUIinfo.iLayerNum == 1)
-			{
-				if (!m_ThrowUIinfo.bPlyCheck)
-					pUI_Manager->Set_RemnantTime((_uint)m_fTimer, 0);
-				else if (m_ThrowUIinfo.bPlyCheck)
-					pUI_Manager->Set_RemnantTime((_uint)m_fTimer, 1);
-			}
-			
-			m_bRecord = false;
+			m_fTimer -= fTimeDelta;
+
+			if (m_ThrowUIinfo.iLayerNum == 0)
+				m_iFirstNum = (_uint)m_fTimer / 10;
+			else if (m_ThrowUIinfo.iLayerNum == 1)
+				m_iSecondNum = (_uint)m_fTimer % 10;
+
+			if (m_iFirstNum <= 0)
+				m_iFirstNum = 0;
+
+			m_bRecord = true;
 		}
-		m_fTimer = 99.f;
+		else
+		{
+			if (m_bRecord)
+			{
+				if (m_ThrowUIinfo.iLayerNum == 1)
+				{
+					if (!m_ThrowUIinfo.bPlyCheck)
+						pUI_Manager->Set_RemnantTime((_uint)m_fTimer, 0);
+					else if (m_ThrowUIinfo.bPlyCheck)
+						pUI_Manager->Set_RemnantTime((_uint)m_fTimer, 1);
+				}
 
-		if (m_ThrowUIinfo.iLayerNum == 0)
-			m_iFirstNum = (_uint)m_fTimer / 10;
-		else if (m_ThrowUIinfo.iLayerNum == 1)
-			m_iSecondNum = (_uint)m_fTimer % 10;
+				m_bRecord = false;
+			}
+			m_fTimer = 99.f;
+
+			if (m_ThrowUIinfo.iLayerNum == 0)
+				m_iFirstNum = (_uint)m_fTimer / 10;
+			else if (m_ThrowUIinfo.iLayerNum == 1)
+				m_iSecondNum = (_uint)m_fTimer % 10;
+		}
 	}
-
-	
-
-	
-	
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
@@ -147,9 +145,22 @@ HRESULT CNumTimer::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_UIVtxTex"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_NumTimer"), (CComponent**)&m_pTextureCom)))
-		return E_FAIL;
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (pUI_Manager->Get_BattleTypeCheck())
+	{
+		/* For.Com_Texture */
+		if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_NumTimer"), (CComponent**)&m_pTextureCom)))
+			return E_FAIL;
+	}
+	else
+	{
+		/* For.Com_Texture */
+		if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_AdvNumTimer"), (CComponent**)&m_pTextureCom)))
+			return E_FAIL;
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"), (CComponent**)&m_pVIBufferCom)))
@@ -170,14 +181,27 @@ HRESULT CNumTimer::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (m_ThrowUIinfo.iLayerNum == 0)
-		m_iImgNum = m_iFirstNum;
-	else if (m_ThrowUIinfo.iLayerNum == 1)
-		m_iImgNum = m_iSecondNum;
-	
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
-		return E_FAIL;
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
+	if (pUI_Manager->Get_BattleTypeCheck())
+	{
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_iImgNum = m_iFirstNum;
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			m_iImgNum = m_iSecondNum;
+
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
+			return E_FAIL;
+	}
+
+
+
+	RELEASE_INSTANCE(CUI_Manager);
 	return S_OK;
 }
 

@@ -2,6 +2,7 @@
 #include "UltBar.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+
 CUltBar::CUltBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
@@ -66,20 +67,22 @@ HRESULT CUltBar::Render()
 
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
-
-	//if (!m_ThrowUIinfo.bReversal)
-	//	m_pShaderCom->Begin();
-	//else
-	//	m_pShaderCom->Begin(1);
-
+	
 	if (m_ThrowUIinfo.iLayerNum == 1)
 		m_pShaderCom->Begin(15);
-	else if(m_ThrowUIinfo.iLayerNum == 3)
+	else if (m_ThrowUIinfo.iLayerNum == 3)
 		m_pShaderCom->Begin(15);
-	else 
+	else
 		m_pShaderCom->Begin(0);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	
+	if (pUI_Manager->Get_BattleTypeCheck())
+		m_pVIBufferCom->Render();
+	else if(!m_ThrowUIinfo.bPlyCheck)
+		m_pVIBufferCom->Render();
+		
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }

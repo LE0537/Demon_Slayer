@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "UltGaugeDeco.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CUltGaugeDeco::CUltGaugeDeco(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -75,7 +76,16 @@ HRESULT CUltGaugeDeco::Render()
 
 	m_pShaderCom->Begin(25);
 
-	m_pVIBufferCom->Render();
+
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (pUI_Manager->Get_BattleTypeCheck())
+		m_pVIBufferCom->Render();
+	else if (!m_ThrowUIinfo.bPlyCheck)
+		m_pVIBufferCom->Render();
+
+	RELEASE_INSTANCE(CUI_Manager);
+	
 
 	return S_OK;
 }
