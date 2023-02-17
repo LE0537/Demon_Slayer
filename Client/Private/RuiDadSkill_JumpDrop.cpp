@@ -13,7 +13,12 @@ using namespace RuiDad;
 CSkill_JumpDropState::CSkill_JumpDropState(STATE_TYPE eType)
 {
 	m_eStateType = eType;
+	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiDadJump"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+		return;
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 CRuiDadState * CSkill_JumpDropState::HandleInput(CRuiDad* pRuiDad)
@@ -57,7 +62,7 @@ CRuiDadState * CSkill_JumpDropState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 		pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
 	}
 
-	
+	CCharacters* m_pTarget = pRuiDad->Get_BattleTarget();
 	_float fRatio = 0.f;
 	switch (m_eStateType)
 	{
@@ -104,6 +109,107 @@ CRuiDadState * CSkill_JumpDropState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 			return new CSkill_JumpDropState(STATE_TYPE::TYPE_END);
 		break;
 	case Client::CRuiDadState::TYPE_END:
+		m_fMove += fTimeDelta;
+		
+		if (m_fMove < 0.4f)
+		{
+			_vector vCollPos = pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
+			vCollPos.m128_f32[1] = 1.f; //추가
+			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
+			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
+			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
+			CCollider*	pMyCollider2 = pRuiDad->Get_SphereCollider();
+			if (m_iHit < 1)
+			{
+				if (nullptr == pTargetCollider)
+					return nullptr;
+
+				if (pMyCollider->Collision(pTargetCollider))
+				{
+					_vector vPos = pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					{
+						m_pTarget->Get_GuardHit(0);
+						m_pTarget->Set_GuardHp(-150 * pRuiDad->Get_PlayerInfo().fPowerUp);
+						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
+						{
+							CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
+							RELEASE_INSTANCE(CEffect_Manager);
+							m_pTarget->Set_ResetGuardHp();
+							m_pTarget->Set_GuardTime(2.f);
+						}
+					}
+					else if (pRuiDad->Get_BattleTarget()->Get_GodMode() == false)
+					{
+						m_pTarget->Set_Hp(-150 * pRuiDad->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Take_Damage(0.7f, true);
+						pRuiDad->Set_Combo(1);
+						pRuiDad->Set_ComboTime(0.f);
+					}
+
+
+					if (pRuiDad->Get_BattleTarget()->Get_GodMode() == false)
+					{
+
+						_int iDest = rand() % 5;
+						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+						switch (iDest)
+						{
+						case 0:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
+							break;
+						case 1:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
+							break;
+						case 2:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
+							break;
+						case 3:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
+							break;
+						case 4:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
+							break;
+						default:
+							break;
+						}
+						RELEASE_INSTANCE(CEffect_Manager);
+						++m_iHit;
+					}
+				}
+
+			}
+
+			if (pMyCollider2->Collision(pTargetCollider))
+			{
+				_float fSpeed = pRuiDad->Get_Transform()->Get_TransformDesc().fSpeedPerSec * fTimeDelta;
+
+				_vector vTargetPos = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vPos = pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				_vector vTargetLook = XMVector3Normalize(vTargetPos - vPos);
+				_vector vMyLook = vTargetLook * -1.f;
+
+				_vector vPow = XMVector3Dot(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_LOOK), vTargetLook);
+
+				_float fPow = XMVectorGetX(XMVector3Normalize(vPow));
+
+				vPos += vMyLook * (fSpeed - fSpeed * fPow);
+				vTargetPos += vTargetLook * fSpeed * fPow;
+				vPos.m128_f32[1] = 0.f;
+				_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
+				if (pRuiDad->Get_NavigationCom()->Cheak_Cell(vPos))
+					pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+				if (m_pTarget->Get_NavigationCom()->Cheak_Cell(vTargetPos))
+					m_pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTargetPos);
+				else
+					pRuiDad->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pRuiDad->Get_NavigationCom());
+			}
+		}
 		break;
 	case Client::CRuiDadState::TYPE_DEFAULT:
 		break;
@@ -179,7 +285,7 @@ void CSkill_JumpDropState::Enter(CRuiDad* pRuiDad)
 
 void CSkill_JumpDropState::Exit(CRuiDad* pRuiDad)
 {
-
+	m_pCollBox->Set_Dead();
 }
 
 CRuiDadState * CSkill_JumpDropState::Increase_Height(CRuiDad * pRuiDad, _float fTimeDelta)

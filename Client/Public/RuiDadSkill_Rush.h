@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RuiDadState.h"
-
+#include "BaseAtk.h"
 
 BEGIN(Client)
 BEGIN(RuiDad)
@@ -20,7 +20,7 @@ public:
 	void Move(CRuiDad* pRuiDad, _float fTimeDelta);
 	void Initialize_value(CRuiDad* pRuiDad);
 private:
-
+	CBaseAtk*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;
 	_float m_fHitTime = 0.f;
 	_float m_fDelay = 0.f;

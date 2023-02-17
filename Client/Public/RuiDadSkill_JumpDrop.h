@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RuiDadState.h"
-
+#include "RuiDadJump.h"
 
 BEGIN(Client)
 BEGIN(RuiDad)
@@ -24,7 +24,7 @@ public:
 
 
 private:
-
+	CRuiDadJump*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;
 	_float m_fHitTime = 0.f;
 	_float m_fDelay = 0.f;
