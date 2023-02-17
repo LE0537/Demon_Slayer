@@ -98,9 +98,19 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
-		_vector vPos = {-100.f,3.204f,8.337f,1.f};
+		_vector vPos;
+		if (CUI_Manager::Get_Instance()->Get_SaveStory())
+		{
+			vPos = { -278.321f,38.569f,-329.935f,1.f };
+			m_pTransformCom->Set_Rotation(_float3(0.f, 220.f, 0.f));
+		}
+		else
+		{
+			vPos = { -100.f,3.204f,8.337f,1.f };
+			m_pTransformCom->Set_Rotation(_float3(0.f, 180.f, 0.f));
+		}
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		m_pTransformCom->Set_Rotation(_float3(0.f, 180.f, 0.f));
+		
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
 		CUI_Manager::Get_Instance()->Set_1P(this);
@@ -663,6 +673,15 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 {
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	if (pUIManager->Get_SaveStory())
+	{
+		m_bQuest1 = true;
+		m_bQuest1MSG = true;
+		m_bQuest2 = true;
+		m_bQuest2MSG = true;
+		m_bQuest2_1MSG = true;
+		m_bQuest2_2MSG = true;
+	}
 	if (!m_bQuest1)
 	{
 		_vector vQuest1 = { -232.878f,37.521f,-338.528f,1.f };
@@ -710,17 +729,17 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 			case 0:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("귀살대원 계급 탄지로 입니다.지원 왔습니다."));
+				pUIManager->Set_Msg(TEXT("귀살대원 '계'급 탄지로 입니다.지원 왔습니다."));
 				break;
 			case 1:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-				pUIManager->Set_Msg(TEXT("앗! 지원군이 왔구나! 엥? 뭐라고? 계급이라고?"));
+				pUIManager->Set_Msg(TEXT("앗! 지원군이 왔구나! 엥? 뭐라고? '계'급이라고?"));
 				break;
 			case 2:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-				pUIManager->Set_Msg(TEXT("주급정도는 와야한다고!!계급은 몇명이 오든 의미가 없어!"));
+				pUIManager->Set_Msg(TEXT("'주'급 정도는 와야한다고!!계급은 몇명이 오든 의미가 없어!"));
 				break;
 			case 3:
 				pUIManager->Set_MsgOn();
@@ -752,6 +771,68 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 		{
 			pUIManager->Reset_MsgCount();
 			m_bQuest2_2MSG = true;
+		}
+	}
+	else if (!m_bQuest3)
+	{
+		_vector vQuest = { -834.618f,92.528f,-61.440f,1.f };
+		_float fDist1 = XMVectorGetX(XMVector3Length(vQuest - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+
+		if (fDist1 < 10.f)
+		{
+			m_bQuest3 = true;
+			m_bStop = true;
+			pUIManager->Set_MsgOn();
+			pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+			pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
+		}
+	}
+	else if (!m_bQuest3MSG && m_bQuest1 && m_bQuest2 && m_bQuest3)
+	{
+		if (m_bQuest3_2MSG && !m_bQuest3_1MSG)
+		{
+			switch (pUIManager->Get_MsgCount())
+			{
+			case 0:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("루이"));
+				pUIManager->Set_Msg(TEXT("우리가족의 조용한 생활을 방해하지 마라"));
+				break;
+			case 1:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("왜 죄없는 대원들을 죽인거야...용서 할 수 없어!!"));
+				break;
+			case 2:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("루이"));
+				pUIManager->Set_Msg(TEXT("지금...뭐라고 했어?"));
+				break;
+			case 3:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("지옥 끝까지 쫒아가서!반드시 네 목에 칼을 휘두르겠다!"));
+				break;
+			case 4:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("루이"));
+				pUIManager->Set_Msg(TEXT("성가시군.큰 소리 내지 말아줄래? 너하고는 맞지가 않네."));
+				m_bQuest3_1MSG = true;
+				break;
+			default:
+				break;
+			}
+		}
+		if (m_bQuest3_2MSG && m_bQuest3_1MSG && !pUIManager->Get_MsgOnOff())
+		{
+			m_bStop = false;
+			m_bQuest3MSG = true;
+
+		}
+		if (!m_bQuest3_2MSG && !pUIManager->Get_MsgOnOff())
+		{
+			pUIManager->Reset_MsgCount();
+			m_bQuest3_2MSG = true;
 		}
 	}
 	RELEASE_INSTANCE(CUI_Manager);

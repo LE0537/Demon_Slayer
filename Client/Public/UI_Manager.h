@@ -229,13 +229,17 @@ public:
 	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }
 	void Set_Result_Info(CUI::RESULTINFO ResultInfo) { m_ResultInfo = ResultInfo; }
 
+	void	Set_RescueCount(_int _iCount) { m_iRescueCount = _iCount; }
+	_int    Get_RescueCount() { return m_iRescueCount; }
 	//스토리 데이터 함수
 	_float4 Get_PlayerPos() { return m_vPlayerPos; }
 	_float4 Get_TargetPos() { return m_vTargetPos; }
+	_bool Get_SaveStory() { return  m_bSaveCheck; }
 	CCharacters* Get_NPC() { return m_pNPC; }
 	void Set_PlayerPos(_float4 _vPos) { m_vPlayerPos = _vPos; }
 	void Set_TargetPos(_float4 _vPos) { m_vTargetPos = _vPos; }
 	void Set_NPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
+	void Set_SaveStory(_bool _bSave) { m_bSaveCheck = _bSave; }
 private:
 	ID3D11Device*					m_pDevice = nullptr;
 	ID3D11DeviceContext*			m_pContext = nullptr;
@@ -357,8 +361,9 @@ private:
 	_bool							m_bMsgOnoff = false;
 	wstring							m_szMsg = TEXT("신현수 바보");
 	wstring							m_szMsgName = TEXT("카마도 탄지로");
-
+	_int							m_iRescueCount = 0;
 	//스토리 데이터 저장
+	_bool							m_bSaveCheck = false;
 	_float4							m_vPlayerPos, m_vTargetPos;
 	CCharacters*					m_pNPC = nullptr;
 public:

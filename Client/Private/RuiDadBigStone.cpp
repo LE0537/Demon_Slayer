@@ -163,7 +163,7 @@ void CRuiDadBigStone::Throw(_float fTimeDelta)
 		for (_int i = 0; i < 4; ++i)
 		{
 			tInfo.iIndex = i;
-			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDadSmallStone"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDadSmallStone"), LEVEL_GAMEPLAY, TEXT("Layer_CollBox"), &tInfo)))
 				return;
 		}
 		RELEASE_INSTANCE(CGameInstance);
