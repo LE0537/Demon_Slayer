@@ -86,8 +86,26 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	if (pGameInstance->Key_Down(DIK_F8))
-		++m_iQuestIndex;
+	
+	switch (pUIManager->Get_RescueCount())
+	{
+	case 1:
+		if (!m_bRescue[0])
+		{
+			++m_iQuestIndex;
+			m_bRescue[0] = true;
+		}
+		break;
+	case 2:
+		if (!m_bRescue[1])
+		{
+			++m_iQuestIndex;
+			m_bRescue[1] = true;
+		}
+		break;
+	default:
+		break;
+	}
 
 	if (dynamic_cast<CTanjiro*>(m_pPlayer)->Get_Quest2MSG())
 	{
@@ -103,6 +121,17 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
 			return;
 	}
+	if (dynamic_cast<CTanjiro*>(m_pPlayer)->Get_Quest3MSG())
+	{
+		pUIManager->Set_Sel1P(0);
+		pUIManager->Set_Sel1P_2(4);
+		pUIManager->Set_Sel2P(7);
+		pUIManager->Set_Sel2P_2(99);
+	
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
+			return;
+	}
+
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 	if(!m_bQuest[0] || !m_bQuest[1] || !m_bQuest[2])
@@ -178,10 +207,19 @@ HRESULT CLevel_AdvRui::Ready_Layer_Player(const _tchar * pLayerTag)
 		return E_FAIL;
 	tCharacterDesc1p.pSubChar = tCharacterDesc.pSubChar;
 	m_pPlayer = tCharacterDesc.pSubChar;
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_ADVRUI, TEXT("Layer_RuiDad"), &tCharacterDesc1p)))
-		return E_FAIL;
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_ADVRUI, TEXT("Layer_Rui"), &tCharacterDesc1p)))
-	//	return E_FAIL;
+
+	if (!CUI_Manager::Get_Instance()->Get_SaveStory())
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_ADVRUI, TEXT("Layer_RuiDad"), &tCharacterDesc1p)))
+			return E_FAIL;
+	}
+	else
+	{ 
+		++m_iQuestIndex;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_ADVRUI, TEXT("Layer_Rui"), &tCharacterDesc1p)))
+			return E_FAIL;
+	}
+
 	//tCharacterDesc1p.bSub = true;
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Nezuko"), LEVEL_ADVRUI, TEXT("Layer_Nezuko"), &tCharacterDesc1p)))
 	//	return E_FAIL;
@@ -591,7 +629,7 @@ HRESULT CLevel_AdvRui::Load_Weed(char * pFileName)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
-		ERR_MSG(L"Failed to GamePlay : Load StaticObjs");
+		ERR_MSG(L"Failed to GamePlay : Load Weed");
 
 		return E_FAIL;
 	}
@@ -751,7 +789,7 @@ HRESULT CLevel_AdvRui::Load_Smell_1(char * pFileName)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
-		ERR_MSG(L"Failed to GamePlay : Load StaticObjs");
+		ERR_MSG(L"Failed to GamePlay : Load Smell");
 
 		return E_FAIL;
 	}
@@ -928,12 +966,12 @@ HRESULT CLevel_AdvRui::Load_Smell_1(char * pFileName)
 
 		}
 
-		CloseHandle(hFile);
+		
 
 		Safe_Delete(pWorld);
 		Safe_Delete(pMeshIndex);
 	}
-
+	CloseHandle(hFile);
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
@@ -1588,7 +1626,6 @@ HRESULT CLevel_AdvRui::Check_Smell()
 
 	return S_OK;
 }
-
 
 CLevel_AdvRui * CLevel_AdvRui::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

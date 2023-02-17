@@ -194,7 +194,7 @@ public:
 	void Set_Quest2() { m_bQuest2 = true; }
 	_bool Get_Quest2() { return m_bQuest2; }
 	_bool Get_Quest2MSG() { return m_bQuest2MSG; }
-
+	_bool Get_Quest3MSG() { return m_bQuest3MSG; }
 	void Set_Stop(_bool _bStop) { m_bStop = _bStop; }
 	_bool Get_Stop() { return m_bStop; }
 private:
@@ -229,6 +229,10 @@ private:
 	_bool					m_bQuest2MSG = false;
 	_bool					m_bQuest2_1MSG = false;
 	_bool					m_bQuest2_2MSG = false;
+	_bool					m_bQuest3 = false;
+	_bool					m_bQuest3MSG = false;
+	_bool					m_bQuest3_1MSG = false;
+	_bool					m_bQuest3_2MSG = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

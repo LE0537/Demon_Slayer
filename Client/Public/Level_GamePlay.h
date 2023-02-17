@@ -50,6 +50,7 @@ private:
 
 	_bool		m_bCreateUI = false;
 
+	_float      m_fNextLevelTime = 0.f;
 
 public:
 	static CLevel_GamePlay* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

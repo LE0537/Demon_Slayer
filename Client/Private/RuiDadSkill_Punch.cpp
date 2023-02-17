@@ -13,7 +13,7 @@ CSkill_PunchState::CSkill_PunchState(STATE_TYPE eType)
 	m_eStateType = eType;
 	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_GAMEPLAY, TEXT("Layer_CollBox"), &m_pCollBox)))
 		return;
 
 	RELEASE_INSTANCE(CGameInstance);
