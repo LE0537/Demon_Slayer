@@ -914,7 +914,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 67))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 72))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -1404,6 +1404,20 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Loop_Fol"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Loop_NonFol"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Loop_FinalYZero"));
+
+		//Nezuko
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack3_1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack3_2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack3_3"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack4_1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack4_2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Attack1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Attack2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_JumpMoveAttack"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_JumpMoveAttack2"));
+
 
 		RELEASE_INSTANCE(CEffect_Manager);
 #pragma endregion Effect Object

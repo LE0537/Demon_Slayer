@@ -19,8 +19,8 @@ public:
 	void Update(_float fTimeDelta, _float2 fScaleReduction, _float4x4 ParentMtr, _float iSpeedReduction, _float fGravity, _bool bSpeedKill);
 
 	void Reset(_uint iMaxParticleNumber, _float* fLifeTime, _float* fSpeed, _float2* vTexScale, _uint iParticleType,
-		_float fAngle, _float fRadius, _float3 vSize, _float3* vRotation, _float4 vColor, _float fDuration, _float fShotTime, 
-		_uint iOneParticleNumber);
+		_float fAngle, _float fRadius, _float3 vSize, _float3* vRotation, _float4 vColor, _float fDuration, _float fShotTime,
+		_uint iOneParticleNumber, _float fCircleY, _float fCircleAngle);
 
 	void Reset_One(_uint iNum);
 
@@ -39,6 +39,8 @@ private:
 
 	_float				m_fAngle;
 	_float				m_fRadius;
+	_float				m_fCircleAngle;
+	_float				m_fCircleY;
 
 	_float3				m_vSize;
 	_float3				m_vParticleRotation[2];

@@ -74,8 +74,8 @@ public:
 		_int							i2;
 		_int							i3;
 
-		_float							f1;
-		_float							f2;
+		_float							fCircleAngle;
+		_float							fCircleY;
 		_float							f3;
 		_float							f4;
 		_float							f5;
