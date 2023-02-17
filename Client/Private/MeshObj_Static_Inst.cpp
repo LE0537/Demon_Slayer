@@ -53,6 +53,7 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	}
 
 	m_pModelCom->Update_Instancing(m_vecMatrix, 30000, 1.f / 60.f);
+	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
 
 	return S_OK;
 }
@@ -60,17 +61,8 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	//m_iInit = 1;
-	if (0 < m_iInit)
-	{
-		m_pModelCom->Update_Instancing(m_vecMatrix, 50000.f, fTimeDelta);
 
-		if (true == m_bRenderShadow)
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
-		--m_iInit;
-	}
-	else
-		m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
+	m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
 }
 
 void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)

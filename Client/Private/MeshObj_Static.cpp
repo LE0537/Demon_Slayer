@@ -54,14 +54,6 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 void CMeshObj_Static::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	//m_iInit = 1;
-	if (0 < m_iInit)
-	{
-		if(true == m_bRenderShadow)
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
-
-		--m_iInit;
-	}
 
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);

@@ -49,7 +49,6 @@ private:
 
 private:
 	MESHOBJ_STATIC_INSTANCING_DESC			m_tMyDesc;
-	_int		m_iInit = 2;
 	_bool		m_bRenderShadow = true;
 
 private:

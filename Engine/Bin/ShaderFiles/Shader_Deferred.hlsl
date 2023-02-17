@@ -5,6 +5,7 @@ matrix			g_ViewMatrixInv, g_ProjMatrixInv;
 matrix		    g_matLightView;
 matrix		    g_matLightView_Static;
 matrix			g_matLightProj;
+matrix			g_StaticShadowProj;
 
 vector			g_vCamPosition;
 
@@ -406,7 +407,7 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	vector		vWorldPos_Once = mul(vWorldPos, g_matLightView_Static);
 
-	vUVPos = mul(vWorldPos_Once, g_matLightProj);
+	vUVPos = mul(vWorldPos_Once, g_StaticShadowProj);
 	vNewUV.x = (vUVPos.x / vUVPos.w) * 0.5f + 0.5f;
 	vNewUV.y = (vUVPos.y / vUVPos.w) * -0.5f + 0.5f;
 

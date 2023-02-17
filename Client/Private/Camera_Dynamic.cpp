@@ -46,12 +46,21 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_FovAngle = XMConvertToRadians(60.f);
 	//m_bStory = true;
 	m_eTurn = CAM_END;
+
+	if (FAILED(Bind_OnPipeLine()))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 void CCamera_Dynamic::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	if (false == m_bInit)
+	{
+		m_bInit = true;
+		return;
+	}
 
 	static _bool	bCamAttach = true;
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);

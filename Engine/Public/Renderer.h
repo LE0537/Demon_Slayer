@@ -82,6 +82,8 @@ private:/* For.PostProcessing Value */
 	_float		m_fMapGrayScaleTime = 0.f;
 	_float		m_fMapGrayScalePower = 0.f;
 
+private:/* For.Shadow */
+	_float4x4	m_FirstProjmatrix;
 
 
 

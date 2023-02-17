@@ -116,6 +116,8 @@ private:
 	_bool  m_bTargetTurn = false;
 	_float m_fTurnCol = 0.f;
 	CAMTURN m_eTurn = CAM_END;
+
+	_bool	m_bInit = false;
 private:/* For.Check_Clockwise */
 	_bool			m_bClockwise = false;
 

@@ -556,6 +556,10 @@ HRESULT CRenderer::Render_StaticShadowDepth()
 	if (0 == iIndex)
 		return S_OK;
 
+	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+	m_FirstProjmatrix = pPipeLine->Get_TransformFloat4x4(CPipeLine::D3DTS_PROJ);
+	RELEASE_INSTANCE(CPipeLine);
+
 	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_Static_LightDepth"))))
 		return E_FAIL;
 	for (auto& pGameObject : m_GameObjects[RENDER_STATIC_SHADOWDEPTH])
@@ -787,6 +791,8 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 
+		if (FAILED(m_pShader->Set_RawValue("g_StaticShadowProj", &XMMatrixTranspose(XMLoadFloat4x4(&m_FirstProjmatrix)), sizeof(_float4x4))))
+			return E_FAIL;
 		if (FAILED(m_pShader->Set_RawValue("g_matLightView_Static", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 			return E_FAIL;
 	}
