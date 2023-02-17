@@ -55,7 +55,7 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 	_float fFovy = XMConvertToRadians(25.0f);
 	_float fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	_float fNear = 0.2f;
-	_float fFar = 1500.f;
+	_float fFar = 1800.f;
 
 	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 
@@ -73,13 +73,12 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 	//_float4 vEye = _float4(-10.f, 150.f, -10.f, 1.f);			//	eye
 	//_float4 vAt = _float4(60.f, -20.f, 60.f, 1.f);			//	at
 	//_vector vLook = XMLoadFloat4(&vAt) - XMLoadFloat4(&vEye);
-	////XMStoreFloat4(&vAt, XMVectorSetW(XMLoadFloat4(&vEye) + XMVector3Normalize(vLook), 1.f));
+	//XMStoreFloat4(&vAt, XMVectorSetW(XMLoadFloat4(&vEye) + XMVector3Normalize(vLook), 1.f));
 	//pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW, vEye, vAt);
 
-	//vEye = _float4(-220.f, 600.f, -200.f, 1.f);
+	//vEye = _float4(-1020.f, 1250.f, -570.f, 1.f);
 	//XMStoreFloat4(&vAt, XMVectorSetW(XMLoadFloat4(&vEye) + XMVector3Normalize(vLook), 1.f));
 	//pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, vEye, vAt);
-
 
 	//	맵마다 Shader값 조정
 /*	
@@ -406,7 +405,7 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2083: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Moon"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
 	case 2084: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_MoonLight"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
 	case 2085: lstrcpy(pPrototypeTag_Model, L"Hut"); m_fFrustumRadiusRatio = 20.f; break;
-	case 2086:lstrcpy(pPrototypeTag_Model, L"RuiMap"); m_fFrustumRadiusRatio = 5000.f; break;
+	case 2086:lstrcpy(pPrototypeTag_Model, L"RuiMap"); m_fFrustumRadiusRatio = 5000.f; m_bRenderShadow = false; break;
 	}
 
 

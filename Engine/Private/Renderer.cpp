@@ -27,6 +27,8 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fValue[VALUE_FOGCOLOR_B] = 0.4f;
 	m_fValue[VALUE_FOGDISTANCE] = 40.f;
 	m_fValue[VALUE_FOGRANGE] = 450.f;
+	m_fValue[VALUE_FOGMINPOWER] = 0.3f;
+	m_fValue[VALUE_CUBEMAPFOG] = 0.5f;
 
 	m_fValue[VALUE_AO] = 1.36f;
 	m_fValue[VALUE_AORADIUS] = 0.4f;
@@ -49,14 +51,14 @@ HRESULT CRenderer::Initialize_Prototype()
 	_uint		iNumViewports = 1;
 
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-	m_fFar = 1500.f;//ViewportDesc.MaxDepth;
+	m_fFar = 1800.f;//ViewportDesc.MaxDepth;
 
 
 	//	Origin Cam Set
 	_float fFovy = XMConvertToRadians(25.0f);
 	_float fAspect = (_float)ViewportDesc.Width / ViewportDesc.Height;
 	_float fNear = 0.2f;
-	_float fFar = 1500.f;
+	_float fFar = 1800.f;
 
 	XMStoreFloat4x4(&m_FirstProjmatrix, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 
@@ -300,7 +302,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_ShadowDepth"), ViewportDesc.Width - (0.5f * fVIBufferRadius), 2.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Static_LightDepth"), ViewportDesc.Width - (0.5f * fVIBufferRadius), 3.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Static_LightDepth"), ViewportDesc.Width - (0.5f * fVIBufferRadius), 10.f + (3.5f * fVIBufferRadius), fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
 
 
@@ -756,6 +758,10 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 	if (FAILED(m_pShader->Set_RawValue("g_fFogDistance", &m_fValue[VALUE_FOGDISTANCE], sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_fFogRange", &m_fValue[VALUE_FOGRANGE], sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fFogMin", &m_fValue[VALUE_FOGMINPOWER], sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fCubemapFog", &m_fValue[VALUE_CUBEMAPFOG], sizeof(_float))))
 		return E_FAIL;
 
 	CLevel_Manager*		pLevelMgr = GET_INSTANCE(CLevel_Manager);

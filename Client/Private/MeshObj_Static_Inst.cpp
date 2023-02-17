@@ -58,7 +58,7 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	_float fFovy = XMConvertToRadians(25.0f);
 	_float fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	_float fNear = 0.2f;
-	_float fFar = 1500.f;
+	_float fFar = 1800.f;
 
 	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 	
@@ -71,10 +71,12 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 
 	if (false == m_bInit)
+	{
 		m_pModelCom->Update_Instancing(m_vecMatrix, 300000, fTimeDelta);
+		m_bInit = true;
+	}
 	else
 		m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
-	//	m_pModelCom->Update_Instancing(m_vecMatrix, 30000, 1.f / 60.f);
 }
 
 void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
