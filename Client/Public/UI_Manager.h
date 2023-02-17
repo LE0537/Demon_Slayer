@@ -46,6 +46,7 @@ public:
 	void Add_P2_Combo();
 	void Add_Adc_Menu();
 	void Add_Quiest();
+	void Add_AdvBattleUI();
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectMapUI(CUI::THROWUIINFO iter);
@@ -219,6 +220,9 @@ public:
 	_bool	Get_LevelMenuOn() { return m_bLevelMenu; }
 	void	Set_LevelMenuOn(_bool bCheck) { m_bLevelMenu = bCheck; }
 
+	_bool	Get_BattleTypeCheck() { return m_bBattleTypeCheck; }
+	void	Set_BattleTypeCheck(_bool bCheck) { m_bBattleTypeCheck = bCheck; }
+
 	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }
 	void Set_Result_Info(CUI::RESULTINFO ResultInfo) { m_ResultInfo = ResultInfo; }
 
@@ -247,6 +251,7 @@ private:
 	list<CUI::LOADUIINFO>				ADC_MENU_LOADDATALIST;
 	list<CUI::LOADUIINFO>				SELECTMAP_LOADDATALIST;
 	list<CUI::LOADUIINFO>				QUIEST_LOADDATALIST;
+	list<CUI::LOADUIINFO>				ADVBATTLEUI_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
@@ -263,6 +268,7 @@ private:
 	list<CUI::THROWUIINFO>				ADC_MENU_DATALIST;
 	list<CUI::THROWUIINFO>				SELECTMAP_DATALIST;
 	list<CUI::THROWUIINFO>				QUIEST_DATALIST;
+	list<CUI::THROWUIINFO>				ADV_BATTLEUI_DATALIST;
 
 	string							m_sFilePath;
 	CCharacters*					m_p1P;
@@ -341,6 +347,8 @@ private:
 
 	_bool							m_bLevelResultOn = false;
 	_bool							m_bLevelMenu = false;
+
+	_bool							m_bBattleTypeCheck = false;
 
 	_bool							m_bMsgOnoff = false;
 	wstring							m_szMsg = TEXT("신현수 바보");
