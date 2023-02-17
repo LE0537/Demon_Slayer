@@ -10,7 +10,7 @@
 #include "Terrain.h"
 #include "MeshObj_Smell.h"
 #include "MeshObj_Smell_Inst.h"
-
+#include "Tanjiro.h"
 #include "Characters.h"
 CLevel_AdvRui::CLevel_AdvRui(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -85,10 +85,25 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	if (pGameInstance->Key_Down(DIK_F8))
 		++m_iQuestIndex;
 
+	if (dynamic_cast<CTanjiro*>(m_pPlayer)->Get_Quest2MSG())
+	{
+		_float4 vPos;
+		XMStoreFloat4(&vPos, m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		pUIManager->Set_Sel1P(0);
+		pUIManager->Set_Sel1P_2(4);
+		pUIManager->Set_Sel2P(6);
+		pUIManager->Set_Sel2P_2(99);
+		pUIManager->Set_PlayerPos(vPos);
+		XMStoreFloat4(&vPos, pUIManager->Get_NPC()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		pUIManager->Set_TargetPos(vPos);
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
+			return;
+	}
+	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 	if(!m_bQuest[0] || !m_bQuest[1] || !m_bQuest[2])
 		Check_Smell();

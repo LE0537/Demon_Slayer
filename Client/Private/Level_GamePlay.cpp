@@ -319,8 +319,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		break;
 	case 2:
 		tCharacterDesc2p.bSub = false;
-		//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
-		//	return E_FAIL;
+		tCharacterDesc2p.i1P2P = 11;
+		/*if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
+			return E_FAIL;*/
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_GAMEPLAY, TEXT("Layer_RuiDad"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
@@ -337,6 +338,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	case 5:
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Shinobu"), LEVEL_GAMEPLAY, TEXT("Layer_Shinobu"), &tCharacterDesc2p)))
+			return E_FAIL;
+		break;
+	case 6:
+		tCharacterDesc2p.i1P2P = 11;
+		tCharacterDesc2p.bSub = false;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_GAMEPLAY, TEXT("Layer_RuiDad"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	default:
