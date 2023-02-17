@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RuiDadState.h"
-
+#include "BaseAtk.h"
 
 BEGIN(Client)
 BEGIN(RuiDad)
@@ -19,7 +19,7 @@ public:
 	virtual void Exit(CRuiDad* pRuiDad) override;
 
 private:
-
+	CBaseAtk*	m_pCollBox = nullptr;
 	_float m_fTime = 0.f;
 	_float m_fHitTime = 0.f;
 	_float m_fDelay = 0.f;

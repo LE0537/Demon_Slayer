@@ -311,7 +311,16 @@ CNezukoState * CAtk_3_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	RELEASE_INSTANCE(CGameInstance);
 
 	pNezuko->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_ATK3_1, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_ATK3_2, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_ATK3_3, pNezuko);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 	return nullptr;
 }
 

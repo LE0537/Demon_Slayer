@@ -396,7 +396,8 @@ CShinobuState * CSkill_CommonState::Late_Tick(CShinobu* pShinobu, _float fTimeDe
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_3, pShinobu);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_4, pShinobu);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_5, pShinobu);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_FINAL, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_FINAL_FOL, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_COM_FINAL_NONFOL, pShinobu);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;

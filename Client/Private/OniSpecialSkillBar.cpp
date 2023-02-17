@@ -130,7 +130,13 @@ HRESULT COniSpecialSkillBar::Render()
 
 	m_pShaderCom->Begin(24);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (pUI_Manager->Get_BattleTypeCheck())
+		m_pVIBufferCom->Render();
+
+	RELEASE_INSTANCE(CUI_Manager);
+
 
 	return S_OK;
 }

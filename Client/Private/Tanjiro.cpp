@@ -673,6 +673,8 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 			m_bQuest1 = true;
 			m_bStop = true;
 			pUIManager->Set_MsgOn();
+			pUIManager->Set_QuestStartCheck(true);
+			pUIManager->Set_QuestCount(1);
 			pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 			pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
 		}

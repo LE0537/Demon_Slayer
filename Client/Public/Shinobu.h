@@ -177,6 +177,7 @@ public:
 	_int Get_SkillHit() { return m_iSkillHit; }
 	void Set_SkillHit() { ++m_iSkillHit; }
 	void Reset_SkillHit() { m_iSkillHit = 0; }
+	void Set_Render(_bool _bRender) { m_bRender = _bRender; }
 
 	void Set_KaguraMode(_bool bKagura) { m_bIsKagura = bKagura; }
 	_bool Get_KaguraMode() const { return m_bIsKagura; }
@@ -204,6 +205,8 @@ private:
 	_int					m_iWaterMillHit = 0;
 	_int					m_iWindMillHit = 0;
 	_float					m_fEffectTime = 0.f;
+
+	_bool					m_bRender = true;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

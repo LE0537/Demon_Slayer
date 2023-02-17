@@ -21,7 +21,7 @@ CSkill_MoveState::CSkill_MoveState(STATE_TYPE eType)
 	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
 	m_eStateType = eType;
-	
+
 
 	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
 		return;
@@ -169,8 +169,8 @@ CShinobuState * CSkill_MoveState::HandleInput(CShinobu* pShinobu)
 
 CShinobuState * CSkill_MoveState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
-	
-	
+
+
 
 	if (m_eStateType == TYPE_LOOP)
 	{
@@ -188,10 +188,10 @@ CShinobuState * CSkill_MoveState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 			//pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 			return new CSkill_MoveState(STATE_TYPE::TYPE_LOOP);
 			break;
-		//case Client::CShinobuState::TYPE_LOOP:
-		//	pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-		//	return new CSkill_MoveState(STATE_TYPE::TYPE_LOOP);
-		//	break;
+			//case Client::CShinobuState::TYPE_LOOP:
+			//	pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			//	return new CSkill_MoveState(STATE_TYPE::TYPE_LOOP);
+			//	break;
 		case Client::CShinobuState::TYPE_END:
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
 			if (pShinobu->Get_SubSkill() != 0)
@@ -332,13 +332,76 @@ CShinobuState * CSkill_MoveState::Late_Tick(CShinobu* pShinobu, _float fTimeDelt
 
 	if (m_bNextAnim == true)
 	{
-	//	if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
-	//	{
-	//		pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-			//pShinobu->Get_Model()->Reset_Anim(pShinobu->Get_AnimIndex());
-			return new CSkill_MoveState(STATE_TYPE::TYPE_END);
-	//	}
+		//	if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
+		//	{
+		//		pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+				//pShinobu->Get_Model()->Reset_Anim(pShinobu->Get_AnimIndex());
+		return new CSkill_MoveState(STATE_TYPE::TYPE_END);
+		//	}
 	}
+
+	CModel* pModel = pShinobu->Get_Model();
+	_uint	iIndex = pShinobu->Get_AnimIndex();
+	_float fCurrentAnimTimeRatio = pModel->Get_CurrentTime_Index(iIndex) /
+		pModel->Get_Duration_Index(iIndex);
+
+
+	if (m_eStateType == TYPE_LOOP)
+	{
+		if (fCurrentAnimTimeRatio < 0.2f)	//	0.08段 / 0.4段
+			pShinobu->Set_Render(false);
+		else if (fCurrentAnimTimeRatio < 0.5f)	//	0.18段 / 0.4段
+			pShinobu->Set_Render(true);
+		else if (fCurrentAnimTimeRatio < 0.7f)	//	0.28段 / 0.4段
+			pShinobu->Set_Render(false);
+		else if (fCurrentAnimTimeRatio < 1.f)	//	0.38段 / 0.4段
+			pShinobu->Set_Render(true);
+		else									//	0.38 ~ 0.4
+			pShinobu->Set_Render(false);
+	}
+
+
+	if (!m_bEffect &&
+		m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_MOVE_START, pShinobu);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+	else if (!m_bEffect &&
+		m_eStateType == TYPE_LOOP)
+	{
+		if (0.5f > fCurrentAnimTimeRatio)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_MAIN_1R, pShinobu);
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+			m_bEffect2_ForLoopAtk = false;
+		}
+	}
+	else if (!m_bEffect2_ForLoopAtk &&
+		m_eStateType == TYPE_LOOP)
+	{
+		if (0.5f < fCurrentAnimTimeRatio)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_MAIN_2L, pShinobu);
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect2_ForLoopAtk = true;
+			m_bEffect = false;
+		}
+	}
+	else if (!m_bEffect &&
+		m_eStateType == TYPE_END)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_FINAL_NONFOL, pShinobu);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+
 
 	return nullptr;
 }
@@ -367,16 +430,18 @@ void CSkill_MoveState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_SKILL_MOVE_2);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SKILL_MOVE_2, 0.01f);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_SKILL_MOVE_2);
-		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex(),false);
+		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex(), false);
 		break;
 	}
 
-	
+
 
 }
 
 void CSkill_MoveState::Exit(CShinobu* pShinobu)
 {
+	pShinobu->Set_Render(true);
+
 	m_pCollBox->Set_Dead();
 }
 
@@ -394,7 +459,7 @@ void CSkill_MoveState::Move(CShinobu * pShinobu, _float fTimeDelta)
 	}
 	else
 	{
-		pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 2.0f, pShinobu->Get_NavigationCom());
+		pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 4.0f, pShinobu->Get_NavigationCom());
 	}
 
 }

@@ -65,20 +65,36 @@ void CCharIcon::Tick(_float fTimeDelta)
 
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
 	{
-		if (!m_ThrowUIinfo.bPlyCheck)
+		if (pUI_Manager->Get_BattleTypeCheck())
 		{
-			if (m_ThrowUIinfo.iLayerNum == 0)
-				Icon_Selected_GamePlay(pUI_Manager->Get_1P()->Get_PlayerInfo().strName);
-			else
-				Icon_Selected_GamePlay(pUI_Manager->Get_1P_2()->Get_PlayerInfo().strName);
+			if (!m_ThrowUIinfo.bPlyCheck)
+			{
+				if (m_ThrowUIinfo.iLayerNum == 0)
+					Icon_Selected_GamePlay(pUI_Manager->Get_1P()->Get_PlayerInfo().strName);
+				else
+					Icon_Selected_GamePlay(pUI_Manager->Get_1P_2()->Get_PlayerInfo().strName);
+			}
+			if (m_ThrowUIinfo.bPlyCheck)
+			{
+				if (m_ThrowUIinfo.iLayerNum == 0)
+					Icon_Selected_GamePlay(pUI_Manager->Get_2P()->Get_PlayerInfo().strName);
+				else
+					Icon_Selected_GamePlay(pUI_Manager->Get_2P_2()->Get_PlayerInfo().strName);
+			}
 		}
-		if (m_ThrowUIinfo.bPlyCheck)
+		else
 		{
-			if (m_ThrowUIinfo.iLayerNum == 0)
+			if (!m_ThrowUIinfo.bPlyCheck)
+			{
+				if (m_ThrowUIinfo.iLayerNum == 0)
+					Icon_Selected_GamePlay(pUI_Manager->Get_1P()->Get_PlayerInfo().strName);
+				else
+					Icon_Selected_GamePlay(pUI_Manager->Get_1P_2()->Get_PlayerInfo().strName);
+			}
+			else
 				Icon_Selected_GamePlay(pUI_Manager->Get_2P()->Get_PlayerInfo().strName);
-			else
-				Icon_Selected_GamePlay(pUI_Manager->Get_2P_2()->Get_PlayerInfo().strName);
 		}
+		
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 	}
 
@@ -128,6 +144,8 @@ void CCharIcon::Icon_Selected_GamePlay(wstring strName)
 		m_iImgNum = 25;
 	else if (strName == TEXT("시노부"))
 		m_iImgNum = 30;
+	else if(strName == TEXT("아빠 거미"))
+		m_iImgNum = 2;
 	
 }
 

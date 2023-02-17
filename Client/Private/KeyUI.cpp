@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "KeyUI.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CKeyUI::CKeyUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -72,8 +73,13 @@ HRESULT CKeyUI::Render()
 		m_pShaderCom->Begin();
 	else
 		m_pShaderCom->Begin(1);
+	
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	m_pVIBufferCom->Render();
+	if(pUI_Manager->Get_BattleTypeCheck())
+		m_pVIBufferCom->Render();
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }

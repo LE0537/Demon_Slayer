@@ -170,7 +170,16 @@ CNezukoState * CJumpAttackState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	else
 		pNezuko->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (!m_bEffect && m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_JUMPATK1, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_JUMPATK2, pNezuko);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }

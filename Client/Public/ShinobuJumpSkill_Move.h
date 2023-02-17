@@ -37,6 +37,8 @@ private:
 	_float m_fMove = 0.f;
 	_bool  m_bHit = false;
 	_bool  m_bEffect = false;
+	_bool  m_bEffect_ForLoop1Fin = false;
+	_bool  m_bEffect_ForLoop2Atk = false;
 
 };
 
