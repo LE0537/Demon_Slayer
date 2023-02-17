@@ -125,14 +125,22 @@ HRESULT CUltGaugeFrame::Render()
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (!m_ThrowUIinfo.bPlyCheck)
+	if (pUI_Manager->Get_BattleTypeCheck())
+	{
+		if (!m_ThrowUIinfo.bPlyCheck)
+		{
+			if (pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex > 0)
+				m_pVIBufferCom->Render();
+		}
+		else
+		{
+			if (pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex > 0)
+				m_pVIBufferCom->Render();
+		}
+	}
+	else if (!m_ThrowUIinfo.bPlyCheck)
 	{
 		if (pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex > 0)
-			m_pVIBufferCom->Render();
-	}
-	else
-	{
-		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex > 0)
 			m_pVIBufferCom->Render();
 	}
 

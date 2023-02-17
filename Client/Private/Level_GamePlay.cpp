@@ -105,30 +105,53 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 
 	if (!m_bCreateUI)
 	{
-		_bool bOniCheck = CUI_Manager::Get_Instance()->P1_Oni_Check();
-		if(!bOniCheck)
-			CUI_Manager::Get_Instance()->Add_P1_PersonHpUI();
+		if (pUIManager->Get_BattleTypeCheck())
+		{
+			_bool bOniCheck = pUIManager->P1_Oni_Check();
+			if (!bOniCheck)
+				pUIManager->Add_P1_PersonHpUI();
+			else
+				pUIManager->Add_P1_OniHpUI();
+
+			bOniCheck = pUIManager->P2_Oni_Check();
+			if (!bOniCheck)
+				pUIManager->Add_P2_PersonHpUI();
+			else
+				pUIManager->Add_P2_OniHpUI();
+
+			pUIManager->Add_BattleUI();
+			pUIManager->Add_P1_Combo();
+			pUIManager->Add_P2_Combo();
+		}
 		else
-			CUI_Manager::Get_Instance()->Add_P1_OniHpUI();
-
-		bOniCheck = CUI_Manager::Get_Instance()->P2_Oni_Check();
-		if (!bOniCheck)
-			CUI_Manager::Get_Instance()->Add_P2_PersonHpUI();
-		else
-			CUI_Manager::Get_Instance()->Add_P2_OniHpUI();
-
-		CUI_Manager::Get_Instance()->Add_BattleUI();
-		CUI_Manager::Get_Instance()->Add_P1_Combo();
-		CUI_Manager::Get_Instance()->Add_P2_Combo();
-
+		{
+			pUIManager->Add_P1_PersonHpUI();
+			pUIManager->Add_P2_OniHpUI();
+			pUIManager->Add_P1_Combo();
+			pUIManager->Add_AdvBattleUI();
+		}
+	
 		m_bCreateUI = true;
 	}
 
-	if (pUIManager->Get_LevelResultOn())
+	if (pUIManager->Get_BattleTypeCheck())
 	{
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMERESULT))))
-			return;
+		if (pUIManager->Get_LevelResultOn())
+		{
+			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMERESULT))))
+				return;
+		}
 	}
+	else
+	{
+		if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
+		{
+			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_ADVRUI))))
+				return;
+		}
+		
+	}
+	
 		
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);

@@ -46,6 +46,7 @@ public:
 	void Add_P2_Combo();
 	void Add_Adc_Menu();
 	void Add_Quiest();
+	void Add_AdvBattleUI();
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectMapUI(CUI::THROWUIINFO iter);
@@ -201,7 +202,7 @@ public:
 	void	Reset_MsgCount() { m_iMsgCount = 0; }
 
 	_uint   Get_QuestCount() { return m_iQuestCount; }
-	void	Set_QuestCount(_uint _iNum) { m_iQuestCount = _iNum; }
+	void	Set_QuestCount(_uint _iNum) { m_iQuestCount += _iNum; }
 
 	_bool   Get_MsgOnOff() { return m_bMsgOnoff; }
 	void	Set_MsgOn() { m_bMsgOnoff = true; }
@@ -209,6 +210,9 @@ public:
 
 
 	void	Set_CharNameUIZero() { m_iCharNameLayerNum = 0; }
+
+	_bool	Get_QuestStartCheck() { return m_bQuestStartCheck; }
+	void	Set_QuestStartCheck(_bool bCheck) { m_bQuestStartCheck = bCheck; }
 
 	_bool	Get_AdvMenuSelCheck() { return m_bAdvMenuSelCheck; }
 	void	Set_AdvMenuSelCheck(_bool bCheck) { m_bAdvMenuSelCheck = bCheck; }
@@ -218,6 +222,9 @@ public:
 
 	_bool	Get_LevelMenuOn() { return m_bLevelMenu; }
 	void	Set_LevelMenuOn(_bool bCheck) { m_bLevelMenu = bCheck; }
+
+	_bool	Get_BattleTypeCheck() { return m_bBattleTypeCheck; }
+	void	Set_BattleTypeCheck(_bool bCheck) { m_bBattleTypeCheck = bCheck; }
 
 	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }
 	void Set_Result_Info(CUI::RESULTINFO ResultInfo) { m_ResultInfo = ResultInfo; }
@@ -247,6 +254,7 @@ private:
 	list<CUI::LOADUIINFO>				ADC_MENU_LOADDATALIST;
 	list<CUI::LOADUIINFO>				SELECTMAP_LOADDATALIST;
 	list<CUI::LOADUIINFO>				QUIEST_LOADDATALIST;
+	list<CUI::LOADUIINFO>				ADVBATTLEUI_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
@@ -263,6 +271,7 @@ private:
 	list<CUI::THROWUIINFO>				ADC_MENU_DATALIST;
 	list<CUI::THROWUIINFO>				SELECTMAP_DATALIST;
 	list<CUI::THROWUIINFO>				QUIEST_DATALIST;
+	list<CUI::THROWUIINFO>				ADV_BATTLEUI_DATALIST;
 
 	string							m_sFilePath;
 	CCharacters*					m_p1P;
@@ -342,6 +351,9 @@ private:
 	_bool							m_bLevelResultOn = false;
 	_bool							m_bLevelMenu = false;
 
+	_bool							m_bBattleTypeCheck = false;
+
+	_bool							m_bQuestStartCheck = false;
 	_bool							m_bMsgOnoff = false;
 	wstring							m_szMsg = TEXT("신현수 바보");
 	wstring							m_szMsgName = TEXT("카마도 탄지로");

@@ -120,6 +120,8 @@ void CUI_Manager::Load_Data(string sLoadName)
 			SELECTMAP_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "Quiest")
 			QUIEST_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
+		else if (sLoadName == "Adv_BattleUI")
+			ADVBATTLEUI_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -505,6 +507,31 @@ void CUI_Manager::Add_Quiest()
 
 	m_iSubBaseNum = 0;
 	m_iSubIconLayerNum = 0;
+}
+
+void CUI_Manager::Add_AdvBattleUI()
+{
+	for (auto iter : ADVBATTLEUI_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.pTarget = m_p1P;
+		m_ThrowInfo.pTargetSecond = m_p2P;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+
+		ADV_BATTLEUI_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : ADV_BATTLEUI_DATALIST)
+		Add_Btl_PlayerUI(iter);
+
+	ADV_BATTLEUI_DATALIST.clear();
+
+	m_iTimerLayerNum = 0;
+	m_iRoundIconLayerNum = 0;
 }
 
 HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
