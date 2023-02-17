@@ -146,8 +146,13 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 	{
 		if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
 		{
-			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_ADVRUI))))
-				return;
+			m_fNextLevelTime += fTimeDelta;
+			if (m_fNextLevelTime > 5.f)
+			{
+				pUIManager->Set_SaveStory(true);
+				if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_ADVRUI))))
+					return;
+			}
 		}
 		
 	}
@@ -307,8 +312,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		tCharacterDesc1p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc1p)))
 			return E_FAIL;
-		//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_GAMEPLAY, TEXT("Layer_RuiDad"), &tCharacterDesc1p)))
-		//	return E_FAIL;
 		break;
 	case 3:
 		tCharacterDesc1p.bSub = false;
@@ -342,10 +345,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		break;
 	case 2:
 		tCharacterDesc2p.bSub = false;
-		tCharacterDesc2p.i1P2P = 11;
-		/*if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
-			return E_FAIL;*/
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_GAMEPLAY, TEXT("Layer_RuiDad"), &tCharacterDesc2p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	case 3:
@@ -367,6 +367,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		tCharacterDesc2p.i1P2P = 11;
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_GAMEPLAY, TEXT("Layer_RuiDad"), &tCharacterDesc2p)))
+			return E_FAIL;
+		break;
+	case 7:
+		tCharacterDesc2p.i1P2P = 11;
+		tCharacterDesc2p.bSub = false;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	default:

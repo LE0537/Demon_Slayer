@@ -458,46 +458,6 @@ void CIdleState::Update_NearAttack()
 
 void CIdleState::Update_NearMove()
 {
-	//std::random_device RandomDevice;
-	//std::mt19937 gen(RandomDevice());
-	//std::uniform_int_distribution<int> RandomPattern(1, 10);
-	//int iRandom = RandomPattern(gen);
-
-	//switch (iRandom)
-	//{
-	//case 1:
-	//	m_eState = AI_STATE::AI_ATTACK;
-	//	break;
-	//case 2:
-	//	m_eState = AI_STATE::AI_ATTACK;
-	//	break;
-	//case 3:
-	//	m_eState = AI_STATE::AI_ATTACK;
-	//	break;
-	//case 4:
-	//	m_eState = AI_STATE::AI_SKILL;
-	//	break;
-	//case 5:
-	//	m_eState = AI_STATE::AI_SKILL;
-	//	break;
-	//case 6:
-	//	m_eState = AI_STATE::AI_SKILL;
-	//	break;
-	//case 7:
-	//	m_eState = AI_STATE::AI_JUMPATK;
-	//	break;
-	//case 8:
-	//	m_eState = AI_STATE::AI_DASH;
-	//	break;
-	//case 9:
-	//	m_eState = AI_STATE::AI_DASH;
-	//	break;
-	//case 10:
-	//	m_eState = AI_STATE::AI_DASH;
-	//	break;
-
-	//}
-
 	std::random_device RandomDevice;
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 10);
@@ -506,37 +466,38 @@ void CIdleState::Update_NearMove()
 	switch (iRandom)
 	{
 	case 1:
-		m_eState = AI_STATE::AI_SKILL_1;
+		m_eState = AI_STATE::AI_ATTACK;
 		break;
 	case 2:
-		m_eState = AI_STATE::AI_SKILL_1;
+		m_eState = AI_STATE::AI_ATTACK;
 		break;
 	case 3:
-		m_eState = AI_STATE::AI_SKILL_1;
+		m_eState = AI_STATE::AI_ATTACK;
 		break;
 	case 4:
-		m_eState = AI_STATE::AI_SKILL_1;
+		m_eState = AI_STATE::AI_SKILL;
 		break;
 	case 5:
-		m_eState = AI_STATE::AI_SKILL_1;
+		m_eState = AI_STATE::AI_SKILL;
 		break;
 	case 6:
-		m_eState = AI_STATE::AI_SKILL_1;
+		m_eState = AI_STATE::AI_SKILL;
 		break;
 	case 7:
-		m_eState = AI_STATE::AI_SKILL_1;
+		m_eState = AI_STATE::AI_JUMPATK;
 		break;
 	case 8:
-		m_eState = AI_STATE::AI_SKILL_1;
+		m_eState = AI_STATE::AI_DASH;
 		break;
 	case 9:
-		m_eState = AI_STATE::AI_SKILL_1;
+		m_eState = AI_STATE::AI_DASH;
 		break;
 	case 10:
-		m_eState = AI_STATE::AI_SKILL_1;
+		m_eState = AI_STATE::AI_DASH;
 		break;
 
 	}
+
 }
 
 void CIdleState::Update_NearGuard()

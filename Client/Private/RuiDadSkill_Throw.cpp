@@ -67,7 +67,7 @@ CRuiDadState * CSkill_ThrowState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 		tInfo.iIndex = 0;
 		CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
-		if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiDadBigStone"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+		if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiDadBigStone"), LEVEL_GAMEPLAY, TEXT("Layer_CollBox"), &tInfo)))
 			return nullptr;
 
 		RELEASE_INSTANCE(CGameInstance);

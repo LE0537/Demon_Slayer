@@ -35,17 +35,28 @@ HRESULT CMurata::Initialize(void * pArg)
 		return E_FAIL;
 	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
 	m_pTransformCom->Set_Scale(XMVectorSet(1.f, 1.f, 1.f, 0.f));
-	_vector vPos = { -323.555f,42.254f,-321.173f,1.f };
+	_vector vPos;
+	if (CUI_Manager::Get_Instance()->Get_SaveStory())
+	{
+		vPos = XMLoadFloat4(&CUI_Manager::Get_Instance()->Get_TargetPos());
+		m_bClearQuest = true;
+		m_pModelCom->Set_CurrentAnimIndex(2);
+	}
+	else
+	{
+		vPos = { -323.555f,42.254f,-321.173f,1.f };
+		m_pModelCom->Set_CurrentAnimIndex(0);
+	}
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pNavigationCom->Find_CurrentCellIndex(vPos);
 	m_pBattleTarget = tCharacterDesc.pSubChar;
-	m_pModelCom->Set_CurrentAnimIndex(0);
+	
 	return S_OK;
 }
 
 void CMurata::Tick(_float fTimeDelta)
 {
-	if (dynamic_cast<CTanjiro*>(m_pBattleTarget)->Get_Quest2())
+	if (!m_bClearQuest && dynamic_cast<CTanjiro*>(m_pBattleTarget)->Get_Quest2())
 	{
 		if (!m_bQuestStart)
 		{
@@ -59,7 +70,13 @@ void CMurata::Tick(_float fTimeDelta)
 		{
 	
 			CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-			pUIManager->Set_NPC(this);
+			if (!m_bSetPos)
+			{
+				_float4 vPos;
+				XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+				pUIManager->Set_TargetPos(vPos);
+				m_bSetPos = true;
+			}
 				m_bQuestStop = true;
 				dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
 				m_pModelCom->Set_CurrentAnimIndex(3);
@@ -81,6 +98,16 @@ void CMurata::Tick(_float fTimeDelta)
 		{
 			m_pTransformCom->Go_Straight(fTimeDelta, m_pNavigationCom);
 		}
+	}
+	else
+	{
+		//퀘스트 클리어후
+		if (!m_bQuestStop2)
+		{
+			m_pTransformCom->LookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+			m_bQuestStop2 = true;
+		}
+		Check_Event();
 	}
 }
 
@@ -243,6 +270,73 @@ HRESULT CMurata::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CMurata::Check_Event()
+{
+	_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+	_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - vPos));
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	if (fDist < 5.f)
+	{
+		if (!m_bMsgEnd)
+		{
+			//여기에 상호작용 F 유아이 띄우기
+		}
+		if (!m_bMsgStart && !m_bMsgEnd && pGameInstance->Key_Down(DIK_F))
+		{
+			m_bMsgStart = true;
+			if (!m_MsgReset)
+			{
+				pUIManager->Reset_MsgCount();
+				m_MsgReset = true;
+			}
+		}
+		if (!m_bMsgEnd && m_bMsgStart)
+		{
+			switch (pUIManager->Get_MsgCount())
+			{
+			case 0:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+				pUIManager->Set_Msg(TEXT("너 정말 '계'급 맞아? 엄청 강하자나!"));
+				break;
+			case 1:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+				pUIManager->Set_Msg(TEXT("뭐 아무튼...덕분에 살았어. 구해줘서 고마워."));
+				break;
+			case 2:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+				pUIManager->Set_Msg(TEXT("미안하지만 안쪽에 아직 도망치지 못한 대원들이 있어"));
+				break;
+			case 3:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+				pUIManager->Set_Msg(TEXT("너가 좀 구해줘! 나...? 나는 지원 요청을 하러 가볼게!..."));
+				break;
+			case 4:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+				pUIManager->Set_Msg(TEXT("아참! 안쪽에 아주 강력한 혈귀가 있어 아까 놈하곤 비교도 안될정도로..."));
+				break;
+			case 5:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+				pUIManager->Set_Msg(TEXT("그녀석을 마주친다면 무조건 도망쳐.'주'급이 오기전까진 절대 상대하지마!"));
+				m_bMsgEnd = true;
+				break;
+			default:
+				break;
+			}
+		}
+		
+	}
+	RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CMurata::Take_Damage(_float _fPow, _bool _bJumpHit)
