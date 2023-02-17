@@ -1411,6 +1411,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpMove_1Loop_NonFol"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpMove_1LoopEnd_Main"));
 
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Special_NonFol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Special_Fol"));
 
 		//Nezuko
 		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack1"));
