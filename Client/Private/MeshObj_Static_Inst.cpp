@@ -52,8 +52,16 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 		m_vecMatrix.push_back(VtxMatrix);
 	}
 
-	m_pModelCom->Update_Instancing(m_vecMatrix, 30000, 1.f / 60.f);
-	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
+	if(true == m_bRenderShadow)
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
+
+	_float fFovy = XMConvertToRadians(25.0f);
+	_float fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
+	_float fNear = 0.2f;
+	_float fFar = 1500.f;
+
+	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
+	
 
 	return S_OK;
 }
@@ -62,7 +70,11 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
+	if (false == m_bInit)
+		m_pModelCom->Update_Instancing(m_vecMatrix, 300000, fTimeDelta);
+	else
+		m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
+	//	m_pModelCom->Update_Instancing(m_vecMatrix, 30000, 1.f / 60.f);
 }
 
 void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
@@ -128,9 +140,8 @@ HRESULT CMeshObj_Static_Inst::Render_ShadowDepth()
 		if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 			return E_FAIL;
 	}
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &XMMatrixTranspose(XMLoadFloat4x4(&m_matProjOrigin)), sizeof(_float4x4))))
 		return E_FAIL;
-
 
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
