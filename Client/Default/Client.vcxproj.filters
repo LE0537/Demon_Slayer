@@ -1228,6 +1228,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState">
       <UniqueIdentifier>{eaf8b557-46ad-4746-80ca-2b2b96f6e6c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\13.RuiDadJump">
+      <UniqueIdentifier>{e9212999-48e1-4103-b04d-82d8f159a8ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2436,6 +2439,9 @@
     <ClInclude Include="..\Public\HinoCami_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RuiDadJump.h">
+      <Filter>05.CollBox\13.RuiDadJump</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3616,6 +3622,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\HinoCami_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiDadJump.cpp">
+      <Filter>05.CollBox\13.RuiDadJump</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

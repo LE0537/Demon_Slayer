@@ -107,8 +107,6 @@ void CEffect_Mesh::Late_Tick(_float fTimeDelta)
 	}
 
 	if (m_fTime > m_MeshInfo.fStartTime && m_fTime < m_MeshInfo.fLifeTime + m_MeshInfo.fStartTime) {
-		
-
 		if (nullptr != m_pRendererCom) {
 			switch (m_MeshInfo.iShader)
 			{

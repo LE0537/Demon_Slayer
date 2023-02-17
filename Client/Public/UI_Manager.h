@@ -198,6 +198,7 @@ public:
 
 	_uint   Get_MsgCount() { return m_iMsgCount; }
 	void	Set_MsgCount(_uint _iNum) { m_iMsgCount += _iNum; }
+	void	Reset_MsgCount() { m_iMsgCount = 0; }
 
 	_uint   Get_QuestCount() { return m_iQuestCount; }
 	void	Set_QuestCount(_uint _iNum) { m_iQuestCount = _iNum; }
@@ -221,6 +222,13 @@ public:
 	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }
 	void Set_Result_Info(CUI::RESULTINFO ResultInfo) { m_ResultInfo = ResultInfo; }
 
+	//스토리 데이터 함수
+	_float4 Get_PlayerPos() { return m_vPlayerPos; }
+	_float4 Get_TargetPos() { return m_vTargetPos; }
+	CCharacters* Get_NPC() { return m_pNPC; }
+	void Set_PlayerPos(_float4 _vPos) { m_vPlayerPos = _vPos; }
+	void Set_TargetPos(_float4 _vPos) { m_vTargetPos = _vPos; }
+	void Set_NPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
 private:
 	ID3D11Device*					m_pDevice = nullptr;
 	ID3D11DeviceContext*			m_pContext = nullptr;
@@ -338,7 +346,9 @@ private:
 	wstring							m_szMsg = TEXT("신현수 바보");
 	wstring							m_szMsgName = TEXT("카마도 탄지로");
 
-
+	//스토리 데이터 저장
+	_float4							m_vPlayerPos, m_vTargetPos;
+	CCharacters*					m_pNPC = nullptr;
 public:
 	virtual void Free() override;
 };

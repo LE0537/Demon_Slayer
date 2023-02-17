@@ -171,6 +171,7 @@
 #include "RuiBall.h"
 #include "RuiBigBall.h"
 #include "RuiMoveSkill.h"
+#include "RuiDadJump.h"
 //Ani
 #include "Butterfly.h"
 #include "Deer.h"
@@ -1630,6 +1631,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiMoveSkill"),
 		CRuiMoveSkill::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiDadJump"),
+		CRuiDadJump::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	//Map
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BattleField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);

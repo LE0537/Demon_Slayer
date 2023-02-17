@@ -19,8 +19,12 @@
 #include "Effect_Manager.h"
 #include "TanjiroTakeDownState.h"
 #include "TanjiroUpperHitState.h"
+
 #include "HinoCami_CinemaState.h"
 
+
+
+#include "Level_Loading.h"
 
 using namespace Tanjiro;
 
@@ -663,14 +667,29 @@ void CTanjiro::Set_Shadow()
 
 void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 {
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	if (!m_bQuest1)
 	{
 		_vector vQuest1 = { -232.878f,37.521f,-338.528f,1.f };
 		_float fDist1 = XMVectorGetX(XMVector3Length(vQuest1 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
 		
 		if (fDist1 < 10.f)
+		{
 			m_bQuest1 = true;
-		// 1차 대사UI
+			m_bStop = true;
+			pUIManager->Set_MsgOn();
+			pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+			pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
+		}
+	}
+	else if (!m_bQuest1MSG && m_bQuest1)
+	{
+		if (!pUIManager->Get_MsgOnOff())
+		{
+			m_bStop = false;
+			m_bQuest1MSG = true;
+		}
 	}
 	else if (!m_bQuest2)
 	{
@@ -681,10 +700,66 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 		{
 			m_bQuest2 = true;
 			m_bStop = true;
+			pUIManager->Set_MsgOn();
+			pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+			pUIManager->Set_Msg(TEXT("흐갸아아악~타스케테~"));
 		}
-
-		// 2차 무라타 조우
 	}
+	else if (!m_bQuest2MSG && m_bQuest1)
+	{
+		if (m_bQuest2_2MSG && !m_bQuest2_1MSG)
+		{
+			switch (pUIManager->Get_MsgCount())
+			{
+			case 0:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("귀살대원 계급 탄지로 입니다.지원 왔습니다."));
+				break;
+			case 1:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+				pUIManager->Set_Msg(TEXT("앗! 지원군이 왔구나! 엥? 뭐라고? 계급이라고?"));
+				break;
+			case 2:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+				pUIManager->Set_Msg(TEXT("주급정도는 와야한다고!!계급은 몇명이 오든 의미가 없어!"));
+				break;
+			case 3:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+				pUIManager->Set_Msg(TEXT("너도 도망쳐!!"));
+				break;
+			case 4:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("아빠 거미"));
+				pUIManager->Set_Msg(TEXT("으캬아야아 뭔 잡담들이냐!!"));
+				break;
+			case 5:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("아빠 거미"));
+				pUIManager->Set_Msg(TEXT("이 산에 들어온 이상 모두 죽은 목숨이다!!"));
+				m_bQuest2_1MSG = true;
+				break;
+			default:
+				break;
+			}
+		}
+		if (m_bQuest2_2MSG && m_bQuest2_1MSG && !pUIManager->Get_MsgOnOff())
+		{
+			m_bStop = false;
+			m_bQuest2MSG = true;
+
+		}
+		if (!m_bQuest2_2MSG && !pUIManager->Get_MsgOnOff())
+		{
+			pUIManager->Reset_MsgCount();
+			m_bQuest2_2MSG = true;
+		}
+	}
+	RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 
