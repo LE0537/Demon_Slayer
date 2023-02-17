@@ -506,34 +506,34 @@ void CIdleState::Update_NearMove()
 	switch (iRandom)
 	{
 	case 1:
-		m_eState = AI_STATE::AI_SKILL_0;
+		m_eState = AI_STATE::AI_SKILL_1;
 		break;
 	case 2:
-		m_eState = AI_STATE::AI_SKILL_0;
+		m_eState = AI_STATE::AI_SKILL_1;
 		break;
 	case 3:
-		m_eState = AI_STATE::AI_SKILL_0;
+		m_eState = AI_STATE::AI_SKILL_1;
 		break;
 	case 4:
-		m_eState = AI_STATE::AI_SKILL_0;
+		m_eState = AI_STATE::AI_SKILL_1;
 		break;
 	case 5:
-		m_eState = AI_STATE::AI_SKILL_0;
+		m_eState = AI_STATE::AI_SKILL_1;
 		break;
 	case 6:
-		m_eState = AI_STATE::AI_SKILL_0;
+		m_eState = AI_STATE::AI_SKILL_1;
 		break;
 	case 7:
-		m_eState = AI_STATE::AI_SKILL_0;
+		m_eState = AI_STATE::AI_SKILL_1;
 		break;
 	case 8:
-		m_eState = AI_STATE::AI_SKILL_0;
+		m_eState = AI_STATE::AI_SKILL_1;
 		break;
 	case 9:
-		m_eState = AI_STATE::AI_SKILL_0;
+		m_eState = AI_STATE::AI_SKILL_1;
 		break;
 	case 10:
-		m_eState = AI_STATE::AI_SKILL_0;
+		m_eState = AI_STATE::AI_SKILL_1;
 		break;
 
 	}
