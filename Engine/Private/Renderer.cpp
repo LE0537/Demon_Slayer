@@ -51,6 +51,18 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
 	m_fFar = 1500.f;//ViewportDesc.MaxDepth;
 
+
+	//	Origin Cam Set
+	_float fFovy = XMConvertToRadians(25.0f);
+	_float fAspect = (_float)ViewportDesc.Width / ViewportDesc.Height;
+	_float fNear = 0.2f;
+	_float fFar = 1500.f;
+
+	XMStoreFloat4x4(&m_FirstProjmatrix, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
+
+
+
+
 	/* ·»´õÅ¸°ÙµéÀ» Ãß°¡ÇÑ´Ù. */
 
 	_uint		iShadowMapCX = (_uint)ViewportDesc.Width * 5;
@@ -555,10 +567,6 @@ HRESULT CRenderer::Render_StaticShadowDepth()
 	_int iIndex = m_GameObjects[RENDER_STATIC_SHADOWDEPTH].size();
 	if (0 == iIndex)
 		return S_OK;
-
-	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
-	m_FirstProjmatrix = pPipeLine->Get_TransformFloat4x4(CPipeLine::D3DTS_PROJ);
-	RELEASE_INSTANCE(CPipeLine);
 
 	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_Static_LightDepth"))))
 		return E_FAIL;

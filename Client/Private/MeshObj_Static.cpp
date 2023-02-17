@@ -48,13 +48,24 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	if(true == m_bRenderShadow)
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
+
+
+	_float fFovy = XMConvertToRadians(25.0f);
+	_float fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
+	_float fNear = 0.2f;
+	_float fFar = 1500.f;
+
+	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
+
+
 	return S_OK;
 }
 
 void CMeshObj_Static::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
@@ -200,7 +211,7 @@ HRESULT CMeshObj_Static::Render_ShadowDepth()
 			return E_FAIL;
 	}
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &XMMatrixTranspose(XMLoadFloat4x4(&m_matProjOrigin)), sizeof(_float4x4))))
 		return E_FAIL;
 
 
