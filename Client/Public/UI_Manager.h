@@ -338,6 +338,7 @@ private:
 	_uint							m_iSelMapNum = 0;
 	_uint							m_iSubBaseNum = 0;
 	_uint							m_iSubIconLayerNum = 0;
+	_uint							m_iSubStampIconLayerNum = 0;
 	_uint                           m_i1p = 0;
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;

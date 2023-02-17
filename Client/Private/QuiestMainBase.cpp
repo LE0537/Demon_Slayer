@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "QuiestMainBase.h"
 #include "GameInstance.h"
-#include  "UI_Manager.h"
+#include "UI_Manager.h"
+
 
 CQuiestMainBase::CQuiestMainBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -53,7 +54,8 @@ void CQuiestMainBase::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (m_iBeforeCount != pUI_Manager->Get_QuestCount())
+
+	if (pUI_Manager->Get_MsgOnOff())
 		m_bQuestOn = true;
 	
 	if (m_bQuestOn)
@@ -92,7 +94,6 @@ void CQuiestMainBase::Tick(_float fTimeDelta)
 	} 
 
 	
-
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CUI_Manager);
@@ -118,7 +119,7 @@ HRESULT CQuiestMainBase::Render()
 	m_pVIBufferCom->Render();
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	
+
 	pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szMainQuest.c_str(), XMVectorSet(m_fX - 110.f, m_fY - 16.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);

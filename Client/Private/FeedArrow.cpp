@@ -74,12 +74,12 @@ void CFeedArrow::Tick(_float fTimeDelta)
 	if (!m_bMoveCheck)
 	{
 		m_iMoveCount += 1;
-		m_fY += 1.f;
+		m_fY += 0.2f;
 	}
 	else if (m_iMoveCount >= 0)
 	{
 		m_iMoveCount -= 1;
-		m_fY -= 1.f;
+		m_fY -= 0.2f;
 	}
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
