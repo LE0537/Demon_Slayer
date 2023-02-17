@@ -109,7 +109,31 @@ HRESULT CQuiestSubBase::Render()
 
 	m_pShaderCom->Begin(12);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (m_ThrowUIinfo.iLayerNum == 0)
+		m_szQuest = TEXT("Ç÷±Í ³¿»õ µû¶ó°¡±â");
+	else if (m_ThrowUIinfo.iLayerNum == 1)
+		m_szQuest = TEXT("±Í»ì´ë¿ø ±¸Ãâ(0/2)");
+	else if (m_ThrowUIinfo.iLayerNum == 2)
+		m_szQuest = TEXT("ÇÏÇö Ç÷±Í Ã³Ä¡");
+	else if (m_ThrowUIinfo.iLayerNum == 3)
+		m_szQuest = TEXT("");
+	else if (m_ThrowUIinfo.iLayerNum == 4)
+		m_szQuest = TEXT("");
+
+
+	if (pUI_Manager->Get_QuestCount() >= m_ThrowUIinfo.iLayerNum)
+	{
+		m_pVIBufferCom->Render();
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szQuest.c_str(), XMVectorSet(m_fX - 120.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+	}
+
+	
+
+	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
