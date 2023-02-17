@@ -379,7 +379,7 @@ void CJumpCommonSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 	m_vPosition.z = XMVectorGetZ(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
 	m_vVelocity.x += fGravity * fTimeDelta;
-	m_vVelocity.y = fGravity / 2.5f;
+	m_vVelocity.y = fGravity * fTimeDelta * 22.f;
 	m_vVelocity.z += fGravity * fTimeDelta;
 	 
 
