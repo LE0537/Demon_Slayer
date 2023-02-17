@@ -116,10 +116,13 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 		pUIManager->Set_Sel2P(6);
 		pUIManager->Set_Sel2P_2(99);
 		pUIManager->Set_PlayerPos(vPos);
-		XMStoreFloat4(&vPos, pUIManager->Get_NPC()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		pUIManager->Set_TargetPos(vPos);
+		
 		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
 			return;
+
+		RELEASE_INSTANCE(CUI_Manager);
+		RELEASE_INSTANCE(CGameInstance);
+		return;
 	}
 	if (dynamic_cast<CTanjiro*>(m_pPlayer)->Get_Quest3MSG())
 	{
@@ -130,6 +133,10 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 	
 		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
 			return;
+
+		RELEASE_INSTANCE(CUI_Manager);
+		RELEASE_INSTANCE(CGameInstance);
+		return;
 	}
 
 	RELEASE_INSTANCE(CUI_Manager);

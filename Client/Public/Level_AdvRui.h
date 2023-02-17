@@ -43,6 +43,7 @@ private:
 	_int			m_iQuestIndex = 0;
 	_bool           m_bQuest[3] = { false };
 	_bool			m_bRescue[2] = { false };
+
 private:
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
 	CLevel_GamePlay::CHARACTERDESC	      tCharacterDesc;

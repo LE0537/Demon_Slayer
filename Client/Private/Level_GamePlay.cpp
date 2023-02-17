@@ -147,7 +147,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 		if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
 		{
 			m_fNextLevelTime += fTimeDelta;
-			if (m_fNextLevelTime > 3.f)
+			if (m_fNextLevelTime > 5.f)
 			{
 				pUIManager->Set_SaveStory(true);
 				if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_ADVRUI))))

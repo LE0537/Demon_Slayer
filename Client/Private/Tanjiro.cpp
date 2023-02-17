@@ -110,7 +110,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 			m_pTransformCom->Set_Rotation(_float3(0.f, 180.f, 0.f));
 		}
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		
+
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
 		CUI_Manager::Get_Instance()->Set_1P(this);
@@ -125,7 +125,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
-	
+
 
 	return S_OK;
 }
@@ -142,7 +142,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 			m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 			m_bBattleStart = false;
 		}
-	
+
 
 		m_fDelta = fTimeDelta;
 		if (m_tInfo.fHitTime > 0.f)
@@ -165,33 +165,33 @@ void CTanjiro::Tick(_float fTimeDelta)
 			m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
 		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub && !m_bStop)
 			HandleInput(fTimeDelta);
-		
+
 		TickState(fTimeDelta);
 
-	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
-	if (nullptr == pSocket)
-		return;
-	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+		if (nullptr == pSocket)
+			return;
+		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
 
 
-	m_pSphereCom->Update(matColl);
+		m_pSphereCom->Update(matColl);
 
-	if (g_iLevel == 2)
-	{
-		Set_Shadow();
-		Check_QuestEvent(fTimeDelta);
-	}
+		if (g_iLevel == 2)
+		{
+			Set_Shadow();
+			Check_QuestEvent(fTimeDelta);
+		}
 	}
 
 	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
- 		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE || 
+		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE ||
 		m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP_ATTACK)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;
 
-	if(m_pTransformCom->Get_Jump() == true)
+	if (m_pTransformCom->Get_Jump() == true)
 		m_tInfo.bJump = true;
 
 
@@ -227,11 +227,11 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
 		}
 
-			if (g_bCollBox)
-			{
-				m_pRendererCom->Add_Debug(m_pSphereCom);
-			}
-		
+		if (g_bCollBox)
+		{
+			m_pRendererCom->Add_Debug(m_pSphereCom);
+		}
+
 
 	}
 }
@@ -272,12 +272,12 @@ HRESULT CTanjiro::Render()
 	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y)
 	{
-	
+
 		_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vPos.m128_f32[1] += 15.f;
 		_vector vLastPos = vPos;
-	//	vPos -= XMVector3Normalize(vLook) * 5.f;
+		//	vPos -= XMVector3Normalize(vLook) * 5.f;
 		vPos -= XMVector3Normalize(vRight) * 5.f;
 		switch (m_i1p)
 		{
@@ -293,9 +293,9 @@ HRESULT CTanjiro::Render()
 					m_fChangeDelay = 3.f;
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Set_ChangeInfo(true);
-					if(m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
 						m_pSubChar->Set_Change(false, vPos);
-					else 
+					else
 					{
 						vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 						vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
@@ -659,7 +659,7 @@ void CTanjiro::Set_Shadow()
 	_float4 vPos;
 	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
 	_float4 vAt = vPos;
-	
+
 	vPos.x -= 20.f;
 	vPos.y += 40.f;
 	vPos.z -= 40.f;
@@ -673,165 +673,162 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 {
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	if (pUIManager->Get_SaveStory())
+	if (!pUIManager->Get_SaveStory())
 	{
-		m_bQuest1 = true;
-		m_bQuest1MSG = true;
-		m_bQuest2 = true;
-		m_bQuest2MSG = true;
-		m_bQuest2_1MSG = true;
-		m_bQuest2_2MSG = true;
-	}
-	if (!m_bQuest1)
-	{
-		_vector vQuest1 = { -232.878f,37.521f,-338.528f,1.f };
-		_float fDist1 = XMVectorGetX(XMVector3Length(vQuest1 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
-		
-		if (fDist1 < 10.f)
+		if (!m_bQuest1)
 		{
-			m_bQuest1 = true;
-			m_bStop = true;
-			pUIManager->Set_MsgOn();
-			pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-			pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
-			pUIManager->Get_SubBase(0)->Set_ClearCheck(true);
-		}
-	}
-	else if (!m_bQuest1MSG && m_bQuest1)
-	{
-		if (!pUIManager->Get_MsgOnOff())
-		{
-			m_bStop = false;
-			m_bQuest1MSG = true;
-		}
-	}
-	else if (!m_bQuest2)
-	{
-		_vector vQuest2 = { -287.899f,39.223f,-322.629f,1.f };
-		_float fDist2 = XMVectorGetX(XMVector3Length(vQuest2 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+			_vector vQuest1 = { -232.878f,37.521f,-338.528f,1.f };
+			_float fDist1 = XMVectorGetX(XMVector3Length(vQuest1 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
 
-		if (fDist2 < 10.f)
-		{
-			m_bQuest2 = true;
-			m_bStop = true;
-			pUIManager->Set_MsgOn();
-			pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-			pUIManager->Set_Msg(TEXT("흐갸아아악~타스케테~"));
-		}
-	}
-	else if (!m_bQuest2MSG && m_bQuest1)
-	{
-		if (m_bQuest2_2MSG && !m_bQuest2_1MSG)
-		{
-			switch (pUIManager->Get_MsgCount())
+			if (fDist1 < 10.f)
 			{
-			case 0:
+				m_bQuest1 = true;
+				m_bStop = true;
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("귀살대원 '계'급 탄지로 입니다.지원 왔습니다."));
-				break;
-			case 1:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-				pUIManager->Set_Msg(TEXT("앗! 지원군이 왔구나! 엥? 뭐라고? '계'급이라고?"));
-				break;
-			case 2:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-				pUIManager->Set_Msg(TEXT("'주'급 정도는 와야한다고!!계급은 몇명이 오든 의미가 없어!"));
-				break;
-			case 3:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-				pUIManager->Set_Msg(TEXT("너도 도망쳐!!"));
-				break;
-			case 4:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("아빠 거미"));
-				pUIManager->Set_Msg(TEXT("으캬아야아 뭔 잡담들이냐!!"));
-				break;
-			case 5:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("아빠 거미"));
-				pUIManager->Set_Msg(TEXT("이 산에 들어온 이상 모두 죽은 목숨이다!!"));
-				m_bQuest2_1MSG = true;
-				break;
-			default:
-				break;
+				pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
+				pUIManager->Get_SubBase(0)->Set_ClearCheck(true);
 			}
 		}
-		if (m_bQuest2_2MSG && m_bQuest2_1MSG && !pUIManager->Get_MsgOnOff())
+		else if (!m_bQuest1MSG && m_bQuest1)
 		{
-			m_bStop = false;
-			m_bQuest2MSG = true;
-
-		}
-		if (!m_bQuest2_2MSG && !pUIManager->Get_MsgOnOff())
-		{
-			pUIManager->Reset_MsgCount();
-			m_bQuest2_2MSG = true;
-		}
-	}
-	else if (!m_bQuest3)
-	{
-		_vector vQuest = { -834.618f,92.528f,-61.440f,1.f };
-		_float fDist1 = XMVectorGetX(XMVector3Length(vQuest - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
-
-		if (fDist1 < 10.f)
-		{
-			m_bQuest3 = true;
-			m_bStop = true;
-			pUIManager->Set_MsgOn();
-			pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-			pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
-		}
-	}
-	else if (!m_bQuest3MSG && m_bQuest1 && m_bQuest2 && m_bQuest3)
-	{
-		if (m_bQuest3_2MSG && !m_bQuest3_1MSG)
-		{
-			switch (pUIManager->Get_MsgCount())
+			if (!pUIManager->Get_MsgOnOff())
 			{
-			case 0:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("루이"));
-				pUIManager->Set_Msg(TEXT("우리가족의 조용한 생활을 방해하지 마라"));
-				break;
-			case 1:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("왜 죄없는 대원들을 죽인거야...용서 할 수 없어!!"));
-				break;
-			case 2:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("루이"));
-				pUIManager->Set_Msg(TEXT("지금...뭐라고 했어?"));
-				break;
-			case 3:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("지옥 끝까지 쫒아가서!반드시 네 목에 칼을 휘두르겠다!"));
-				break;
-			case 4:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("루이"));
-				pUIManager->Set_Msg(TEXT("성가시군.큰 소리 내지 말아줄래? 너하고는 맞지가 않네."));
-				m_bQuest3_1MSG = true;
-				break;
-			default:
-				break;
+				m_bStop = false;
+				m_bQuest1MSG = true;
 			}
 		}
-		if (m_bQuest3_2MSG && m_bQuest3_1MSG && !pUIManager->Get_MsgOnOff())
+		else if (!m_bQuest2)
 		{
-			m_bStop = false;
-			m_bQuest3MSG = true;
+			_vector vQuest2 = { -287.899f,39.223f,-322.629f,1.f };
+			_float fDist2 = XMVectorGetX(XMVector3Length(vQuest2 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
 
+			if (fDist2 < 10.f)
+			{
+				m_bQuest2 = true;
+				m_bStop = true;
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+				pUIManager->Set_Msg(TEXT("흐갸아아악~타스케테~"));
+			}
 		}
-		if (!m_bQuest3_2MSG && !pUIManager->Get_MsgOnOff())
+		else if (!m_bQuest2MSG && m_bQuest1)
 		{
-			pUIManager->Reset_MsgCount();
-			m_bQuest3_2MSG = true;
+			if (m_bQuest2_2MSG && !m_bQuest2_1MSG)
+			{
+				switch (pUIManager->Get_MsgCount())
+				{
+				case 0:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("귀살대원 '계'급 탄지로 입니다.지원 왔습니다."));
+					break;
+				case 1:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+					pUIManager->Set_Msg(TEXT("앗! 지원군이 왔구나! 엥? 뭐라고? '계'급이라고?"));
+					break;
+				case 2:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+					pUIManager->Set_Msg(TEXT("'주'급 정도는 와야한다고!!계급은 몇명이 오든 의미가 없어!"));
+					break;
+				case 3:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
+					pUIManager->Set_Msg(TEXT("너도 도망쳐!!"));
+					break;
+				case 4:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("아빠 거미"));
+					pUIManager->Set_Msg(TEXT("으캬아야아 뭔 잡담들이냐!!"));
+					break;
+				case 5:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("아빠 거미"));
+					pUIManager->Set_Msg(TEXT("이 산에 들어온 이상 모두 죽은 목숨이다!!"));
+					m_bQuest2_1MSG = true;
+					break;
+				default:
+					break;
+				}
+			}
+			if (m_bQuest2_2MSG && m_bQuest2_1MSG && !pUIManager->Get_MsgOnOff())
+			{
+				m_bStop = false;
+				m_bQuest2MSG = true;
+
+			}
+			if (!m_bQuest2_2MSG && !pUIManager->Get_MsgOnOff())
+			{
+				pUIManager->Reset_MsgCount();
+				m_bQuest2_2MSG = true;
+			}
+		}
+	}
+	else
+	{
+		if (!m_bQuest3)
+		{
+			_vector vQuest = { -834.618f,92.528f,-61.440f,1.f };
+			_float fDist1 = XMVectorGetX(XMVector3Length(vQuest - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+
+			if (fDist1 < 10.f)
+			{
+				m_bQuest3 = true;
+				m_bStop = true;
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
+			}
+		}
+		else if (!m_bQuest3MSG && m_bQuest1 && m_bQuest2 && m_bQuest3)
+		{
+			if (m_bQuest3_2MSG && !m_bQuest3_1MSG)
+			{
+				switch (pUIManager->Get_MsgCount())
+				{
+				case 0:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("루이"));
+					pUIManager->Set_Msg(TEXT("우리가족의 조용한 생활을 방해하지 마라"));
+					break;
+				case 1:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("왜 죄없는 대원들을 죽인거야...용서 할 수 없어!!"));
+					break;
+				case 2:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("루이"));
+					pUIManager->Set_Msg(TEXT("지금...뭐라고 했어?"));
+					break;
+				case 3:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("지옥 끝까지 쫒아가서!반드시 네 목에 칼을 휘두르겠다!"));
+					break;
+				case 4:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("루이"));
+					pUIManager->Set_Msg(TEXT("성가시군.큰 소리 내지 말아줄래? 너하고는 맞지가 않네."));
+					m_bQuest3_1MSG = true;
+					break;
+				default:
+					break;
+				}
+			}
+			if (m_bQuest3_2MSG && m_bQuest3_1MSG && !pUIManager->Get_MsgOnOff())
+			{
+				m_bStop = false;
+				m_bQuest3MSG = true;
+
+			}
+			if (!m_bQuest3_2MSG && !pUIManager->Get_MsgOnOff())
+			{
+				pUIManager->Reset_MsgCount();
+				m_bQuest3_2MSG = true;
+			}
 		}
 	}
 	RELEASE_INSTANCE(CUI_Manager);
@@ -863,7 +860,7 @@ void CTanjiro::LateTickState(_float fTimeDelta)
 	if (pNewState)
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pNewState);
 
-	if(m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_MOVE)
+	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_MOVE)
 		m_fEffectTime += fTimeDelta;
 	if (m_fEffectTime > 0.3f)
 	{

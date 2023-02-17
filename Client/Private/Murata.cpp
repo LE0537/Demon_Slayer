@@ -70,7 +70,13 @@ void CMurata::Tick(_float fTimeDelta)
 		{
 	
 			CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-			pUIManager->Set_NPC(this);
+			if (!m_bSetPos)
+			{
+				_float4 vPos;
+				XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+				pUIManager->Set_TargetPos(vPos);
+				m_bSetPos = true;
+			}
 				m_bQuestStop = true;
 				dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
 				m_pModelCom->Set_CurrentAnimIndex(3);
