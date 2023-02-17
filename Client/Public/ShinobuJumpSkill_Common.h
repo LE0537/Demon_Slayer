@@ -34,6 +34,7 @@ private:
 	_float4 m_vLook;
 	_bool   m_bLook = false;
 	_bool  m_bEffect = false;
+	_bool	m_bEffect_ForLoopEnd = false;
 	_int   m_iHit = 0;
 
 };

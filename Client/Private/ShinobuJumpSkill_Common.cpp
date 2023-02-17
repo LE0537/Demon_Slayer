@@ -292,6 +292,9 @@ CShinobuState * CJumpCommonSkillState::Late_Tick(CShinobu* pShinobu, _float fTim
 	else
 		pShinobu->Get_Model()->Play_Animation(fTimeDelta);
 
+	_float fGroundHeight = pShinobu->Get_NavigationHeight().y;
+	_float fMyHeight = XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	
 	if (!m_bEffect &&
 		m_eStateType == TYPE_START)
 	{
@@ -309,11 +312,19 @@ CShinobuState * CJumpCommonSkillState::Late_Tick(CShinobu* pShinobu, _float fTim
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_JUMPCOM_LOOP_FOL, pShinobu);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_JUMPCOM_LOOP_NONFOL, pShinobu);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_JUMPCOM_LOOPFIN_YZERO, pShinobu);
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
 	}
+	else if (!m_bEffect_ForLoopEnd &&
+		m_eStateType == TYPE_LOOP &&
+		1.5f > fMyHeight - fGroundHeight)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_JUMPCOM_LOOPFIN_YZERO, pShinobu);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect_ForLoopEnd = true;
 
+	}
 
 	return nullptr;
 }
@@ -368,7 +379,7 @@ void CJumpCommonSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 	m_vPosition.z = XMVectorGetZ(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
 	m_vVelocity.x += fGravity * fTimeDelta;
-	m_vVelocity.y += fGravity * fTimeDelta;
+	m_vVelocity.y = fGravity / 2.5f;
 	m_vVelocity.z += fGravity * fTimeDelta;
 	 
 
