@@ -41,8 +41,9 @@ private:
 	_float4		   m_vTargetLook;
 	_float		   m_fY = 0.f;
 	_bool		   m_bReady = false;
-
-	
+	_float		   m_fCurrentDuration = 0.f;
+	_bool          m_bLook = false;
+	_bool		   m_bThrow = false;
 public:
 	static CRuiDadBigStone* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
