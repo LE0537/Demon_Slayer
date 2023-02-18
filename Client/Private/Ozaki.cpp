@@ -260,6 +260,8 @@ void COzaki::Check_Event()
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUIManager->Set_Msg(TEXT("걱정마세요.아직 도망치지 못한 대원들이 있나 찾아보고 따라갈게요."));
+				pUIManager->Set_QuestCount(1);
+				pUIManager->Set_ClearCheck(true, 1);
 				pUIManager->Set_RescueCount(2);
 				m_bMsgEnd = true;
 				break;

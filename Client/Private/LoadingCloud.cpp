@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "LoadingCloud.h"
 #include "GameInstance.h"
-
+#include "UI_Manager.h"
 CLoadingCloud::CLoadingCloud(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
@@ -48,6 +48,10 @@ HRESULT CLoadingCloud::Initialize(void * pArg)
 		m_iImgNum = 0;
 	else if (m_ThrowUIinfo.iTextureNum == 2)
 		m_iImgNum = 1;
+
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	pUIManager->Get_LoadingList()->push_back(this);
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }

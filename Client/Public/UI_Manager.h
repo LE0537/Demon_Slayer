@@ -233,6 +233,9 @@ public:
 	_bool	Get_BattleTypeCheck() { return m_bBattleTypeCheck; }
 	void	Set_BattleTypeCheck(_bool bCheck) { m_bBattleTypeCheck = bCheck; }
 
+	_bool	Get_ClearCheck(_uint iNum) { return m_bClearCheck[iNum]; }
+	void	Set_ClearCheck(_bool bCheck, _uint iNum) { m_bClearCheck[iNum] = bCheck; }
+
 	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }
 	void Set_Result_Info(CUI::RESULTINFO ResultInfo) { m_ResultInfo = ResultInfo; }
 
@@ -247,7 +250,14 @@ public:
 	void Set_TargetPos(_float4 _vPos) { m_vTargetPos = _vPos; }
 	void Set_NPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
 	void Set_SaveStory(_bool _bSave) { m_bSaveCheck = _bSave; }
+	//로딩
+	void Tick_Loading(_float fTimeDelta);
+	void Set_LoadingDead();
+	list<CUI*>* Get_LoadingList() { return &m_listLoading; }
+
 private:
+	//로딩리스트
+	list<CUI*>   m_listLoading;
 	ID3D11Device*					m_pDevice = nullptr;
 	ID3D11DeviceContext*			m_pContext = nullptr;
 	list<CUI::LOADUIINFO>				P1_P_LOADDATALIST;
@@ -305,7 +315,7 @@ private:
 	CUI*							m_pComboNum[2];
 	CUI*							m_pAdvMenuFrame[2];
 	CUI*							m_pSelMapIconFrame[2];
-	CUI*							m_pWindow[4];
+	CUI*							m_pWindow[2];
 	CUI*							m_pSubBase[5];
 	CUI*							m_pRankIcon = nullptr;
 	CUI*							m_pSelMapCursor = nullptr;
@@ -368,6 +378,7 @@ private:
 	_bool							m_bBattleTypeCheck = false;
 
 	_bool							m_bInteractionUIOnOff = false;
+	_bool							m_bClearCheck[5] = { false };
 	_bool							m_bMainQuestOnOff = false;
 	_bool							m_bQuestStartCheck = false;
 	_bool							m_bMsgOnoff = false;

@@ -17,6 +17,11 @@ public:
 		m_LightDesc.vDirection = vPos;
 		m_LightDesc.vDiffuse = vAt;
 	}
+	HRESULT Set_LightDesc(LIGHTDESC tLightDesc)
+	{
+		memcpy(&m_LightDesc, &tLightDesc, sizeof(LIGHTDESC));
+		return S_OK;
+	}
 public:
 	HRESULT Initialize(const LIGHTDESC& LightDesc);
 

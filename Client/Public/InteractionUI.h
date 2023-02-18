@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "UI.h"
 
+
 BEGIN(Client)
 
 class CInteractionUI final : public CUI
@@ -18,6 +19,9 @@ public:
 	virtual void Tick(_float fTimeDelta);
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
+
+public:
+	void   OnBillboard();
 
 private:
 	HRESULT Ready_Components();

@@ -134,7 +134,7 @@ void CMenuModel::Late_Tick(_float fTimeDelta)
 		{
 		//	m_pModelCom[m_iModelIndex]->Reset_Anim(1);
 			m_pModelCom[m_iModelIndex]->Set_Loop(1);
-			m_pModelCom[m_iModelIndex]->Set_LinearTime(1.f, 0.01f);
+			m_pModelCom[m_iModelIndex]->Set_LinearTime(1, 0.01f);
 			m_iCurrentModelIndex = m_iModelIndex;
 			m_pModelCom[m_iModelIndex]->Set_CurrentAnimIndex(1);
 		}

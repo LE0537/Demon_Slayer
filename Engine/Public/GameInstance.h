@@ -80,6 +80,7 @@ public: /* For.PipeLine */
 
 public: /* For.Light_Manager */
 	const LIGHTDESC* Get_LightDesc(_uint iIndex);
+	HRESULT Set_LightDesc(_uint iIndex, LIGHTDESC tLightDesc);
 	const LIGHTDESC* Get_ShadowLightDesc(_uint iIndex);
 	void Set_ShadowLightDesc(_uint iIndex,_float4 vPos,_float4 vAt);
 	HRESULT Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc);

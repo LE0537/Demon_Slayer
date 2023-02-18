@@ -22,6 +22,8 @@ struct VS_OUT
 	float4		vNormal : NORMAL;
 	float2		vTexUV : TEXCOORD0;
 	float4		vProjPos : TEXCOORD1;
+
+	float4		vWorld : TEXCOORD2;
 };
 
 
@@ -54,6 +56,7 @@ VS_OUT VS_MAIN(VS_IN In)
 	Out.vNormal = vNormal;
 	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
+	Out.vWorld = vPosition;
 
 	return Out;
 }
@@ -64,6 +67,8 @@ struct PS_IN
 	float4		vNormal : NORMAL;
 	float2		vTexUV : TEXCOORD0;
 	float4		vProjPos : TEXCOORD1;
+
+	float4		vWorld : TEXCOORD2;
 };
 
 struct PS_OUT
@@ -73,6 +78,7 @@ struct PS_OUT
 	float4		vDepth : SV_TARGET2;
 
 	float4		vDrawPlayer : SV_TARGET4;	//	Player, AnimMode 혹은 Effect 를 따로 그려둠.
+	float4		vWorld : SV_TARGET5;
 };
 struct PS_OUT_SHADOW
 {
@@ -91,6 +97,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.1f);
 	Out.vDrawPlayer = Out.vDiffuse;
+	Out.vWorld = In.vWorld;
 
 	if (Out.vDiffuse.a <= 0.3f)
 		discard;
@@ -117,6 +124,7 @@ PS_OUT PS_MASK(PS_IN In)
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.1f);
 	Out.vDrawPlayer = Out.vDiffuse;
+	Out.vWorld = In.vWorld;
 
 	if (vMask.r == 0.f)
 		Out.vDiffuse.rgb = 1.f;

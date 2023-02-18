@@ -29,6 +29,7 @@ private:
 private:
 	OBJDIR	m_eDirection = OBJDIR::DIR_END;
 
+	_float m_fShakeTime = 0.f;
 };
 END
 END

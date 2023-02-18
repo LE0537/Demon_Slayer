@@ -6,6 +6,7 @@
 #include "Characters.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
+#include "Camera_Dynamic.h"
 using namespace RuiDad;
 
 
@@ -44,7 +45,15 @@ CRuiDadState * CMoveState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 	{
 		if (pRuiDad->Get_QuestStop() == false)
 		{
+			CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+			m_fShakeTime += fTimeDelta;
+			if (m_fShakeTime > 0.4f)
+			{
+				m_fShakeTime = 0.f;
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+			}
 			pRuiDad->Get_Transform()->Go_Straight(fTimeDelta, pRuiDad->Get_NavigationCom());
+			RELEASE_INSTANCE(CGameInstance);
 			return nullptr;
 		}
 		else

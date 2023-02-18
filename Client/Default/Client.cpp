@@ -64,7 +64,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_60"))))
 		return FALSE;
-
+	if (FAILED(pGameInstance->Add_Timer(TEXT("ThreadTimer_Default"))))
+		return FALSE;
+	if (FAILED(pGameInstance->Add_Timer(TEXT("ThreadTimer_60"))))
+		return FALSE;
 	_float			fTimeAcc = 0.f;
 	srand(unsigned(time(NULL)));
     // 기본 메시지 루프입니다.

@@ -234,7 +234,7 @@ CTanjiroState * CAtk_3_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-40 * pTanjiro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-40 * pTanjiro->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -246,7 +246,7 @@ CTanjiroState * CAtk_3_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 				}
 				else if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-					m_pTarget->Set_Hp(-15 * pTanjiro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-15 * pTanjiro->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.3f, false);
 					pTanjiro->Set_Combo(1);
 					pTanjiro->Set_ComboTime(0.f);

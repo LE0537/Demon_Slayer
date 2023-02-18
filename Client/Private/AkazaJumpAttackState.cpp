@@ -88,7 +88,7 @@ CAkazaState * CJumpAttackState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-30 * pAkaza->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-30 * pAkaza->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -100,7 +100,7 @@ CAkazaState * CJumpAttackState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				}
 				else
 				{
-					m_pTarget->Set_Hp(-pAkaza->Get_PlayerInfo().iDmg * pAkaza->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-pAkaza->Get_PlayerInfo().iDmg * pAkaza->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.5f, true);
 					pAkaza->Set_Combo(1);
 					pAkaza->Set_ComboTime(0.f);

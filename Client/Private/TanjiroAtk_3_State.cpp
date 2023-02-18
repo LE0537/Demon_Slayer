@@ -272,7 +272,7 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-50 * pTanjiro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-50 * pTanjiro->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -284,7 +284,7 @@ CTanjiroState * CAtk_3_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				}
 				else if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * 2 * pTanjiro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-pTanjiro->Get_PlayerInfo().iDmg * 2 * pTanjiro->Get_PlayerInfo().fPowerUp));
 					if (m_bIsCreate == false)
 					{
 						m_pTarget->Take_Damage(0.6f, false);

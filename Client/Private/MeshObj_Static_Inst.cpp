@@ -62,6 +62,7 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 
 	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 	
+	m_bInit = false;
 
 	return S_OK;
 }

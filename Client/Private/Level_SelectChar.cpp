@@ -9,6 +9,8 @@
 #include "WindowLeft.h"
 #include "WindowRight.h"
 #include "SoundMgr.h"
+#include "Level_SelectMap.h"
+#include "Level_Menu.h"
 
 CLevel_SelectChar::CLevel_SelectChar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -39,38 +41,42 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 
 	CSelP1Cursor* pSel_P1Cursor = dynamic_cast<CSelP1Cursor*>(pUIManager->Get_1PCursor());
 	CSelP2Cursor* pSel_P2Cursor = dynamic_cast<CSelP2Cursor*>(pUIManager->Get_2PCursor());
-	CWindowLeft* pWindowLeft = dynamic_cast<CWindowLeft*>(pUIManager->Get_Window(2));
-	CWindowRight* pWindowRight = dynamic_cast<CWindowRight*>(pUIManager->Get_Window(3));
+	CWindowLeft* pWindowLeft = dynamic_cast<CWindowLeft*>(pUIManager->Get_Window(0));
+	CWindowRight* pWindowRight = dynamic_cast<CWindowRight*>(pUIManager->Get_Window(1));
 
-	if (pWindowLeft->Get_CloseCheck() || pWindowRight->Get_CloseCheck())
+	if (pWindowLeft->Get_CloseCheck() && pWindowRight->Get_CloseCheck())
 	{
-		_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
-		_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
-		_uint i1p_2 = pUIManager->Get_1P_2Char()->Get_ImgNum();
-		_uint i2p_2 = pUIManager->Get_2P_2Char()->Get_ImgNum();
+		m_fDelayTime += fTimeDelta;
+		if (m_fDelayTime >= 3.f)
+		{
+			_uint i1p = pUIManager->Get_1PChar()->Get_ImgNum();
+			_uint i2p = pUIManager->Get_2PChar()->Get_ImgNum();
+			_uint i1p_2 = pUIManager->Get_1P_2Char()->Get_ImgNum();
+			_uint i2p_2 = pUIManager->Get_2P_2Char()->Get_ImgNum();
 
-		pUIManager->Set_Sel1P(i1p);
-		pUIManager->Set_Sel2P(i2p);
+			pUIManager->Set_Sel1P(i1p);
+			pUIManager->Set_Sel2P(i2p);
 
-		if (!pUIManager->Get_1PCursor()->Get_SelectUIInfo().bOni)
-			pUIManager->Set_Sel1P_2(i1p_2);
-		else
-			pUIManager->Set_Sel1P_2(99);
+			if (!pUIManager->Get_1PCursor()->Get_SelectUIInfo().bOni)
+				pUIManager->Set_Sel1P_2(i1p_2);
+			else
+				pUIManager->Set_Sel1P_2(99);
 
-		if (!pUIManager->Get_2PCursor()->Get_SelectUIInfo().bOni)
-			pUIManager->Set_Sel2P_2(i2p_2);
-		else
-			pUIManager->Set_Sel2P_2(99);
+			if (!pUIManager->Get_2PCursor()->Get_SelectUIInfo().bOni)
+				pUIManager->Set_Sel2P_2(i2p_2);
+			else
+				pUIManager->Set_Sel2P_2(99);
 
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTMAP))))
-			return;
-		CSoundMgr::Get_Instance()->BGM_Stop();
-		m_fDelayTime = 0.f;
+			if (FAILED(pGameInstance->Open_Level(LEVEL_SELECTMAP, CLevel_SelectMap::Create(m_pDevice, m_pContext))))
+				return;
+			CSoundMgr::Get_Instance()->BGM_Stop();
+			m_fDelayTime = 0.f;
+		}
 	}
 
 	if (pGameInstance->Key_Down(DIK_Q) && !pSel_P1Cursor->Get_FirstSelCheck())
 	{
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_MENU))))
+		if (FAILED(pGameInstance->Open_Level(LEVEL_MENU, CLevel_Menu::Create(m_pDevice, m_pContext))))
 			return;
 	}
 	

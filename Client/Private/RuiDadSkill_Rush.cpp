@@ -87,7 +87,7 @@ CRuiDadState * CSkill_RushState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 					{
 						m_pTarget->Get_GuardHit(0);
-						m_pTarget->Set_GuardHp(-100 * pRuiDad->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_GuardHp(_int(-100 * pRuiDad->Get_PlayerInfo().fPowerUp));
 						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 						{
 							CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -99,7 +99,7 @@ CRuiDadState * CSkill_RushState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 					}
 					else if (pRuiDad->Get_BattleTarget()->Get_GodMode() == false)
 					{
-						m_pTarget->Set_Hp(-70 * pRuiDad->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_Hp(_int(-70 * pRuiDad->Get_PlayerInfo().fPowerUp));
 						m_pTarget->Take_Damage(0.3f, true);
 						pRuiDad->Set_Combo(1);
 						pRuiDad->Set_ComboTime(0.f);

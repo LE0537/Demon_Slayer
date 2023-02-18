@@ -265,7 +265,7 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 					{
 						m_pTarget->Get_GuardHit(0);
-						m_pTarget->Set_GuardHp(-50 * pAkaza->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_GuardHp(_int(-50 * pAkaza->Get_PlayerInfo().fPowerUp));
 						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 						{
 							CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -280,7 +280,7 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 						RELEASE_INSTANCE(CGameInstance);
-						m_pTarget->Set_Hp(-20 * pAkaza->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_Hp(_int(-20 * pAkaza->Get_PlayerInfo().fPowerUp));
 						m_pTarget->Take_Damage(0.1f, false);
 						pAkaza->Set_Combo(1);
 						pAkaza->Set_ComboTime(0.f);
@@ -375,7 +375,7 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 					{
 						m_pTarget->Get_GuardHit(0);
-						m_pTarget->Set_GuardHp(-50 * pAkaza->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_GuardHp(_int(-50 * pAkaza->Get_PlayerInfo().fPowerUp));
 						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 						{
 							CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -390,12 +390,13 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.2f);
 						RELEASE_INSTANCE(CGameInstance);
-						m_pTarget->Set_Hp(-30 * pAkaza->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_Hp(_int(-30 * pAkaza->Get_PlayerInfo().fPowerUp));
 
 						m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER, 20.f, 30.f, 2.f);
 
 						CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pAkaza->Get_Renderer());
 						RELEASE_INSTANCE(CGameInstance);
 
 						pAkaza->Set_Combo(1);

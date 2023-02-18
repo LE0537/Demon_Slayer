@@ -234,7 +234,7 @@ CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 					{
 						m_pTarget->Get_GuardHit(0);
-						m_pTarget->Set_GuardHp(-140 * pShinobu->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_GuardHp(_int(-140 * pShinobu->Get_PlayerInfo().fPowerUp));
 						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 						{
 							CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -249,10 +249,11 @@ CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 						RELEASE_INSTANCE(CGameInstance);
-						m_pTarget->Set_Hp(-70 * pShinobu->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_Hp(_int(-70 * pShinobu->Get_PlayerInfo().fPowerUp));
 						m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER_2, 20.f, 30.f, 2.f);
 						CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pShinobu->Get_Renderer());
 						RELEASE_INSTANCE(CGameInstance);
 
 						//m_pTarget->Take_Damage(0.6f, true);

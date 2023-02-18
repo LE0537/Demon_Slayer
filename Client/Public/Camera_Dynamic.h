@@ -43,6 +43,7 @@ private:
 	_bool	CheckSubChar();
 	void	Set_StartPos(_float fTimeDelta);
 	void	Set_BattleStart(_float fTimeDelta);
+	_vector Get_CameraPos() {}
 public:
 	void Set_Player(CCharacters* _pPlayer) { m_pPlayer = _pPlayer; }
 	void Set_Target(CCharacters* _pTarget) { m_pTarget = _pTarget; }
@@ -51,6 +52,9 @@ public:
 	void Set_Zoom(ZOOM eZoom) { m_ZoomInfo = eZoom, m_bZoom = true; }
 	void Set_CamType(_bool _bStory) { m_bStory = _bStory; }
 	void	Key_Input(_float fTimeDelta);
+	//Blur
+	void Blur_Low(CRenderer* _pRenderer);
+	void Blur_High(CRenderer* _pRenderer);
 private:
 	//Shake
 	void Check_Shake(_float fTimeDelta);
@@ -66,11 +70,13 @@ private:
 	void Check_Trun(_float fTimeDelta);
 	void Check_TargetTrun(_float fTimeDelta);
 
+	
+
 	void Check_StoryCam();
 private:
 	CCharacters*				m_pPlayer = nullptr;
 	CCharacters*				m_pTarget = nullptr;
-
+	_float					m_fDist = 0.f;
 	_float4					m_vPlayerPos, m_vTargetPos;
 	_float					m_f1pX, m_f1pY = 0.f;
 	_float					m_f2pX, m_f2pY = 0.f;
@@ -88,6 +94,7 @@ private:
 	_float					m_fLookAtY = 0.f;
 	_bool					m_bStartBattle = false;
 	_bool					m_bEffect = false;
+	_float3 				m_vAtPos;
 	//Start
 	_bool  m_bStart = false;
 	_bool  m_bLerp = false;
