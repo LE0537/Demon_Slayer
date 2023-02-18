@@ -308,7 +308,7 @@ CRuiState * CIdleState::Late_Tick(CRui * pRui, _float fTimeDelta)
 	_vector vPlayerY = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 	pRui->Set_NavigationHeight(vPlayerY);
-	if (vPlayerY.m128_f32[1] > pRui->Get_NavigationHeight().y)
+	if (vPlayerY.m128_f32[1] > pRui->Get_NavigationHeight().y && pRui->Get_BattleTarget()->Get_SplSkl() == false)
 	{
 		pRui->Set_PlayerOriginPosY(fTimeDelta);
 	}

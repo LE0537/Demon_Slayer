@@ -103,7 +103,7 @@ void CIdleState::Enter(CRuiDad* pRuiDad)
 	pRuiDad->Set_AnimIndex(CRuiDad::ANIM_IDLE);
 	pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex(),true);
 	pRuiDad->Get_Model()->Set_LinearTime(pRuiDad->Get_AnimIndex(), 0.05f);
-
+	pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSetY(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION), 0.f));
 	pRuiDad->Set_RuiDadHit(false);
 }
 

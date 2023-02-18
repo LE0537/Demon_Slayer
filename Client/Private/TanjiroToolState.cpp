@@ -21,6 +21,26 @@ CTanjiroState * CToolState::HandleInput(CTanjiro * pTanjiro)
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	
+	_vector v1 = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector v2 = pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	_float4 v3; XMStoreFloat4(&v3, v1); // ¤·Åº
+	_float4 v4; XMStoreFloat4(&v4, v2); // »ó´ë
+
+	if (pGameInstance->Mouse_Down(DIMK_RBUTTON))
+	{
+		_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vPosition.m128_f32[1] += 0.5f;
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	}
+
+	if (pGameInstance->Mouse_Down(DIMK_WHEEL))
+	{
+		_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vPosition.m128_f32[1] -= 0.5f;
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	}
+
 
 	return nullptr;
 }

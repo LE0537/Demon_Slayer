@@ -182,7 +182,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
  		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE || 
-		m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP_ATTACK)
+		m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP_ATTACK || m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_SKILL_KAGURA_COMMON)
 		m_tInfo.bJump = true;
 	else
 		m_tInfo.bJump = false;

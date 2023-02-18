@@ -124,6 +124,9 @@ CRuiState * CHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 	//	Jump(pRui, m_fJumpTime);
 	//}
 
+	if (pRui->Get_BattleTarget()->Get_SplSkl() == true)
+		fTimeDelta *= 0.3f;
+
 	if (pRui->Get_AnimIndex() == CRui::ANIMID::ANIM_HIT_DMG2_G)
 		pRui->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else

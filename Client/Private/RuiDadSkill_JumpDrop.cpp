@@ -102,6 +102,8 @@ CRuiDadState * CSkill_JumpDropState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 		{
 			pRuiDad->Set_ShadowAlphaIncrease(false);
 			pRuiDad->Set_ShadowAlphaDecrease(true);
+
+			m_bIncreaseHeight = false;
 			Fall_Height(pRuiDad, fTimeDelta);
 		}
 
@@ -145,7 +147,7 @@ CRuiDadState * CSkill_JumpDropState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 					else if (pRuiDad->Get_BattleTarget()->Get_GodMode() == false)
 					{
 						m_pTarget->Set_Hp(-150 * pRuiDad->Get_PlayerInfo().fPowerUp);
-						m_pTarget->Take_Damage(0.7f, true);
+						m_pTarget->Player_UpperDown(CCharacters::HIT_KNOCKBACK, 20.f, 30.f, 5.f);
 						pRuiDad->Set_Combo(1);
 						pRuiDad->Set_ComboTime(0.f);
 					}
@@ -246,6 +248,7 @@ void CSkill_JumpDropState::Enter(CRuiDad* pRuiDad)
 		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_SKILL3_0, 0.01f);
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_SKILL3_0);
 		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_SKILL3_0);
+	//	m_fOriginPosY = pRuiDad->Get_BattleTarget()->Get_NavigationHeight().y;
 		m_vVelocity.x = 0.f;
 		m_vVelocity.y = 30.f;
 		m_vVelocity.z = 0.f;
@@ -263,9 +266,10 @@ void CSkill_JumpDropState::Enter(CRuiDad* pRuiDad)
 		m_vVelocity.y = 0.f;
 		m_vVelocity.z = 0.f;
 		Create_TargetCircle(pRuiDad, 0.f);
-		pRuiDad->Get_BattleTarget()->Set_NavigationHeight(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		m_fOriginPosY = pRuiDad->Get_BattleTarget()->Get_NavigationHeight().y;
+		m_fOriginPosY = 0.f;
+		m_vPosition.x = XMVectorGetX(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		m_vPosition.y = XMVectorGetY(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		m_vPosition.z = XMVectorGetZ(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		break;
 	case Client::CRuiDadState::TYPE_END:
 
@@ -290,8 +294,8 @@ void CSkill_JumpDropState::Exit(CRuiDad* pRuiDad)
 
 CRuiDadState * CSkill_JumpDropState::Increase_Height(CRuiDad * pRuiDad, _float fTimeDelta)
 {
-	pRuiDad->Set_NavigationHeight(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-	m_fOriginPosY = pRuiDad->Get_NavigationHeight().y;
+	//pRuiDad->Set_NavigationHeight(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	//m_fOriginPosY = pRuiDad->Get_NavigationHeight().y;
 	pRuiDad->Get_Transform()->Set_Jump(true);
 
 	static _float fJump_Velocity = 10.f;
@@ -310,7 +314,7 @@ CRuiDadState * CSkill_JumpDropState::Increase_Height(CRuiDad * pRuiDad, _float f
 	if (XMVectorGetY(vCurrentPos) > 15.f)
 	{
 
-		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	//	pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		
 		m_bNextAnim = true;
 	}
@@ -334,23 +338,25 @@ CRuiDadState * CSkill_JumpDropState::Fall_Height(CRuiDad * pRuiDad, _float fTime
 	fVelocity += fGravity *fTimeDelta;
 	m_vPosition.y += fVelocity * fTimeDelta;
 
-	_vector vecPos = pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vecPos = XMVectorSetY(vecPos, m_vPosition.y);
+
+
+
+	_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
 
 	if (m_vPosition.y <= m_fOriginPosY)
 	{
 		m_vPosition.y = m_fOriginPosY;
 		fVelocity = m_fOriginPosY;
 
-		_vector vecPos = pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		vecPos = XMVectorSetY(vecPos, m_vPosition.y);
+		_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
+		
 
-		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		pRuiDad->Get_Transform()->Set_Jump(false);
 		m_bNextAnim = true;
 	}
 	else
-		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
 
 	return nullptr;

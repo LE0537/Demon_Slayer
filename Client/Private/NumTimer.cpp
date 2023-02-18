@@ -175,8 +175,8 @@ HRESULT CNumTimer::SetUp_ShaderResources()
 	else if (m_ThrowUIinfo.iLayerNum == 1)
 		m_iImgNum = m_iSecondNum;
 	
-	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
-		return E_FAIL;
+	//if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(m_iImgNum))))
+	//	return E_FAIL;
 
 	return S_OK;
 }

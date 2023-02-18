@@ -44,6 +44,7 @@ public:
 	CTanjiroState* Scene_6(CTanjiro* pTanjiro, _float fTimeDelta);
 
 
+	void Increase_Height(CTanjiro* pTanjiro, _float fTimeDelta);
 
 
 
@@ -53,6 +54,11 @@ private:
 	_bool		m_bAnimStop = false;
 	_bool		m_bNextAnim = false;
 	_bool		m_bIsHitMotion = false;
+	_bool		m_bControlMotion = false;
+	_vector		m_vMyPosition;
+	_vector		m_vTargetPosition;
+	_vector		m_vDirection;
+	_float		m_fTime = 0.f;
 };
 
 END
