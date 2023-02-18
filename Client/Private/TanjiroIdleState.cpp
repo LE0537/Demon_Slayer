@@ -30,7 +30,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pTanjiro->Set_bGuard(false);
 
-	if (pGameInstance->Key_Pressing(DIK_E))
+	if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
 	{
 		return new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
 	}

@@ -35,42 +35,6 @@ HRESULT CRuiDad::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-
-	//if (m_i1p == 10)
-	//{
-	//	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
-	//	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
-
-	//	m_tInfo.bSub = tCharacterDesc.bSub;
-	//	m_bChange = tCharacterDesc.bSub;
-	//	if (!m_tInfo.bSub)
-	//	{
-	//		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	//		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
-	//		if (m_i1p == 1)
-	//		{
-	//			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
-
-	//			CUI_Manager::Get_Instance()->Set_1P(this);
-	//		}
-	//		else if (m_i1p == 2)
-	//		{
-	//			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-
-	//			CUI_Manager::Get_Instance()->Set_2P(this);
-	//		}
-
-	//		RELEASE_INSTANCE(CGameInstance);
-
-	//	}
-	//	else
-	//	{
-	//		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
-	//		m_pSubChar->Set_SubChar(this);
-
-
-	//	}
-	//}
 	if (m_i1p == 10)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
@@ -87,8 +51,6 @@ HRESULT CRuiDad::Initialize(void * pArg)
 		m_bChange = false;
 		//CUI_Manager::Get_Instance()->Set_2P(this);
 	}
-
-
 	else if (m_i1p == 11)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
@@ -168,7 +130,7 @@ void CRuiDad::Late_Tick(_float fTimeDelta)
 		{
 			if (fDist < 45.f)
 			{
-
+ 
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 			}
