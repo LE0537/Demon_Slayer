@@ -67,11 +67,11 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 			else
 				pUIManager->Set_Sel2P_2(99);
 
-		if (FAILED(pGameInstance->Open_Level(LEVEL_SELECTMAP, CLevel_SelectMap::Create(m_pDevice, m_pContext))))
-			return;
-		CSoundMgr::Get_Instance()->BGM_Stop();
-		m_fDelayTime = 0.f;
-
+			if (FAILED(pGameInstance->Open_Level(LEVEL_SELECTMAP, CLevel_SelectMap::Create(m_pDevice, m_pContext))))
+				return;
+			CSoundMgr::Get_Instance()->BGM_Stop();
+			m_fDelayTime = 0.f;
+		}
 	}
 
 	if (pGameInstance->Key_Down(DIK_Q) && !pSel_P1Cursor->Get_FirstSelCheck())
