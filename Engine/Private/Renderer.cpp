@@ -62,7 +62,9 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	XMStoreFloat4x4(&m_FirstProjmatrix, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 
-	m_fMotionBlurTime = 0.f;
+	//	m_fMotionBlurTime = 0.f;
+	m_iMotionBlurCountX = 0;
+	m_iMotionBlurCountY = 0;
 	m_fBlurTime = 0.f;
 	m_fBlurTimeMax = 1.f;
 	m_fBlurMinRatio = 0.f;
@@ -1401,7 +1403,7 @@ HRESULT CRenderer::Render_PointBlur(const _tchar * pTexName, const _tchar * pMRT
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
-	m_pShader->Begin(17);	//	임시
+	m_pShader->Begin(17);
 	m_pVIBuffer->Render();
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -1411,14 +1413,24 @@ HRESULT CRenderer::Render_PointBlur(const _tchar * pTexName, const _tchar * pMRT
 
 HRESULT CRenderer::Render_MotionBlur(const _tchar * pTexName, const _tchar * pMRTName)
 {
+	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+	_float4x4 CamViewMatrix = pPipeLine->Get_TransformFloat4x4(CPipeLine::D3DTS_VIEW);
+	static _float3 vCurrentRotAngle = Get_AnglebyMatrix(CamViewMatrix);
+	static 	_float3 vPreRotAngle = Get_AnglebyMatrix(m_PreViewMatrix);
+	vCurrentRotAngle = Get_AnglebyMatrix(CamViewMatrix);
+	vPreRotAngle = Get_AnglebyMatrix(m_PreViewMatrix);
+	m_PreViewMatrix = CamViewMatrix;
+	RELEASE_INSTANCE(CPipeLine);
 
-
-
+	_float	fRotationX = fabs(vCurrentRotAngle.y - vPreRotAngle.y) * 60.f;
+	if (FAILED(m_pShader->Set_RawValue("g_fMotionBlurPowerX", &fRotationX, sizeof(_float))))
+		return E_FAIL;
+	
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
-	m_pShader->Begin(0);	//	임시
+	m_pShader->Begin(18);
 	m_pVIBuffer->Render();
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -1664,6 +1676,15 @@ HRESULT CRenderer::Render_Debug(_bool _bDebug)
 			return E_FAIL;
 	}
 	return S_OK;
+}
+
+_float3 CRenderer::Get_AnglebyMatrix(_float4x4 matrix)
+{
+	return _float3{
+		atan2(matrix._23, matrix._33),
+		atan2(-matrix._13, sqrt(pow(matrix._23, 2) + pow(matrix._33, 2))),
+		atan2(matrix._12, matrix._11)
+	};
 }
 
 CRenderer * CRenderer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

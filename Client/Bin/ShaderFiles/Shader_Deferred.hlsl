@@ -68,6 +68,12 @@ float			g_fPointBlurPower;
 float			g_fPointBlurTime;
 float			g_fPointBlur_MinRatio;
 
+int			g_iMotionBlurX;
+int			g_iMotionBlurY;
+
+float			g_fMotionBlurPowerX;
+float			g_fMotionBlurPowerY;
+
 const float		g_fWeight[13] =
 {
 	0.0561f, 0.1353f, 0.278f, 0.4868f, 0.7261f, 0.9231f, 1.0f,
@@ -780,7 +786,35 @@ PS_OUT PS_MOTIONBLUR(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector	vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector	vDepth = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
+
+	int		iBlurCount = max(min(g_fMotionBlurPowerX * (vDepth.y * g_fFar), 30), 0);
+	
+
+	Out.vColor = vDiffuse;
+
+	//	BlurX Left
+	float	fBlurTotal = 1.f;
+	for (int i = 1; i < iBlurCount / 2; ++i)
+	{
+		float2 vBlurTexUV = In.vTexUV + float2(-i / g_fWinSizeX, 0.f);
+		vector vAddColor = g_DiffuseTexture.Sample(LinearSampler, vBlurTexUV) / (i + 1);
+
+		Out.vColor += vAddColor;
+		fBlurTotal += (1.f / (i + 1));
+	}
+
+	//	BlurX Right
+	for (int i = 1; i < iBlurCount / 2; ++i)
+	{
+		float2 vBlurTexUV = In.vTexUV + float2(i / g_fWinSizeX, 0.f);
+		vector vAddColor = g_DiffuseTexture.Sample(LinearSampler, vBlurTexUV) / (i + 1);
+
+		Out.vColor += vAddColor;
+		fBlurTotal += (1.f / (i + 1));
+	}
+	Out.vColor /= fBlurTotal;
 
 	return Out;
 }

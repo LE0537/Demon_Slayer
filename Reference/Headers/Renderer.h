@@ -44,7 +44,7 @@ public:
 public:/* Motion Blur */
 	//	BlurMinRatio는 지정한 위치에서 어디부터 블러를 시키고싶은지를 지정합니다. 1 = 해당 위치가 Min, 0.5 = 해당위치에서 WinSize * 0.5의 위치가 Min
 	void	Set_PointBlur(_float3 vBlurPointPos, _float fBlurPower, _float fDuration, _float fBlurMinRatio = 1.f);
-	void	Set_MotionBlurTime(_float fMotionBlurTime) { m_fMotionBlurTime = fMotionBlurTime; }		//	Motion Blur
+	void	MotionBlur(_int iCountX, _int iCountY) { m_iMotionBlurCountX = iCountX; m_iMotionBlurCountY = iCountY; }		//	Motion Blur
 
 
 
@@ -92,7 +92,11 @@ private:/* For.Shadow */
 	_float4x4	m_FirstProjmatrix;
 
 private:/* For.MotionBlur*/
-	_float		m_fMotionBlurTime = 0.f;
+	_int		m_iMotionBlurCountX;
+	_int		m_iMotionBlurCountY;
+
+	_float4x4	m_PreViewMatrix;
+
 private:/*For.PointBlur*/
 	_float		m_fBlurTime = 0.f;
 	_float		m_fBlurTimeMax = 0.f;
@@ -135,6 +139,11 @@ private:
 	HRESULT Render_UIMaster();
 
 	HRESULT Render_Debug(_bool _bDebug);
+
+private:
+	_float3	Get_AnglebyMatrix(_float4x4 matrix);
+
+
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CComponent* Clone(void* pArg = nullptr)override;
