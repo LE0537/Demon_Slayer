@@ -919,7 +919,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 72))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 80))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -1190,6 +1190,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_NeWind3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/NeWind3.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_PlaneClose1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/PlaneClose1.fbx", PivotMatrix)))) return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_GroundStone1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/GroundStone1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_GroundStone2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/GroundStone2.fbx", PivotMatrix)))) return E_FAIL;
 
 #pragma endregion Effect Model
 
@@ -1429,6 +1431,28 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Attack2"));
 		pEffect_Manager->Load_Effect(TEXT("Nezuko_JumpMoveAttack"));
 		pEffect_Manager->Load_Effect(TEXT("Nezuko_JumpMoveAttack2"));
+
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Skill_Claw1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Skill_Claw2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Skill_Claw3"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Skill_Claw4"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Skill_Claw5"));
+
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_JumpKick_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_JumpKick1"));
+
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw3"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw4"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw5"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw_Ground"));
+
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_FootFire"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_Turn"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_UPFire1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_Wind"));
 
 
 		RELEASE_INSTANCE(CEffect_Manager);
