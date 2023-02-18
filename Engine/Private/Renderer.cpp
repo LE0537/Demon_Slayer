@@ -62,7 +62,11 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	XMStoreFloat4x4(&m_FirstProjmatrix, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 
-	m_bAutoBlur = 0.f;
+	m_fMotionBlurTime = 0.f;
+	m_fBlurTime = 0.f;
+	m_fBlurMinRatio = 0.f;
+	m_fPointBlurX = ViewportDesc.Height * 0.5f;
+	m_fPointBlurY = ViewportDesc.Width * 0.5f;
 
 
 
@@ -78,8 +82,8 @@ HRESULT CRenderer::Initialize_Prototype()
 		DXGI_FORMAT_R32G32B32A32_FLOAT, &_float4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
-	_uint		iStaticObj_ShadowMapCX = (_uint)ViewportDesc.Width * 12;
-	_uint		iStaticObj_ShadowMapCY = (_uint)ViewportDesc.Height * 12;
+	_uint		iStaticObj_ShadowMapCX = (_uint)ViewportDesc.Width * 5;
+	_uint		iStaticObj_ShadowMapCY = (_uint)ViewportDesc.Height * 5;
 	// For.Target_Static_LightDepth
 	if (FAILED(m_pTarget_Manager->Ready_ShadowDepthStencilRenderTargetView(m_pDevice, L"DSV_StaticShadow", iStaticObj_ShadowMapCX, iStaticObj_ShadowMapCY)))
 		return E_FAIL;
@@ -512,9 +516,7 @@ HRESULT CRenderer::Add_Debug(CComponent* pDebugCom)
 
 	return S_OK;
 }
-void CRenderer::PointBlur(_float fX, _float fY, _float fBlurPower, _float fDuration, _float fBlurMinRatio)
-{
-}
+
 HRESULT CRenderer::Ready_GlowDSV(_float fWinCX, _float fWinCY)
 {
 	ID3D11Texture2D*		pDepthStencilTexture = nullptr;
@@ -594,7 +596,7 @@ HRESULT CRenderer::Render_StaticShadowDepth()
 	if (0 == iIndex)
 		return S_OK;
 
-	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_Static_LightDepth"), L"DSV_StaticShadow", 1280 * 12, 720 * 12)))
+	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_Static_LightDepth"), L"DSV_StaticShadow", 1280 * 5, 720 * 5)))
 		return E_FAIL;
 	for (auto& pGameObject : m_GameObjects[RENDER_STATIC_SHADOWDEPTH])
 	{

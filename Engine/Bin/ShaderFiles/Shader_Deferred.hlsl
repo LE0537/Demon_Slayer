@@ -63,6 +63,11 @@ float			g_fMapGrayScaleTimeRatio;
 float			g_fMapGrayScaleFogRange;
 float			g_fMapGrayScalePower;
 
+float3			g_vBlurPoint;
+float			g_fPointBlurPower;
+float			g_fPointBlurTime;
+float			g_fPointBlur_MinRatio;
+
 const float		g_fWeight[13] =
 {
 	0.0561f, 0.1353f, 0.278f, 0.4868f, 0.7261f, 0.9231f, 1.0f,
@@ -734,14 +739,38 @@ PS_OUT PS_MUL(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
-	vector vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	vector vAddColor = g_AddTexture.Sample(LinearSampler, In.vTexUV);
 
-	Out.vColor = vColor + (vColor * (vAddColor * g_fAddValue));
-	Out.vColor.a = vColor.a;
+	Out.vColor = vDiffuse;
+	Out.vColor.a = vDiffuse.a;
 
 	return Out;
 }
+
+PS_OUT PS_POINTBLUR(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+	vector	vBlur;
+
+	Out.vColor = vDiffuse;
+	Out.vColor.a = vDiffuse.a;
+
+	return Out;
+}
+
+PS_OUT PS_MOTIONBLUR(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+	return Out;
+}
+
 
 
 
@@ -978,7 +1007,7 @@ technique11 DefaultTechnique
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_MUL();
+		PixelShader = compile ps_5_0 PS_POINTBLUR();
 	}
 
 	pass MotionBlur		//	18
@@ -989,7 +1018,7 @@ technique11 DefaultTechnique
 
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_MUL();
+		PixelShader = compile ps_5_0 PS_MOTIONBLUR();
 	}
 
 }
