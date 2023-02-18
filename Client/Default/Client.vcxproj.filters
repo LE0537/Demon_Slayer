@@ -178,9 +178,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_4">
       <UniqueIdentifier>{3835a0cf-ddb5-4483-b147-79be7efeda33}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move\MoveJump">
-      <UniqueIdentifier>{2376ccd0-c537-4988-9656-8cffe7e38cd4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move\MoveJump">
       <UniqueIdentifier>{276d0c91-978d-4ed6-b859-f4463be410bb}</UniqueIdentifier>
     </Filter>
@@ -1239,6 +1236,9 @@
     </Filter>
     <Filter Include="03.UI\96.MsgUI\Story\Interaction">
       <UniqueIdentifier>{4d9a7ddb-be8c-4538-9dee-adabc6cc66d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move\MoveJump">
+      <UniqueIdentifier>{2376ccd0-c537-4988-9656-8cffe7e38cd4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

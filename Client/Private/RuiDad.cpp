@@ -8,6 +8,8 @@
 #include "RuiDadIdleState.h"
 #include "ImGuiManager.h"
 #include "Tanjiro.h"
+#include "RuiDadHitState.h"
+#include "RuiDadGuardHitState.h"
 using namespace RuiDad;
 
 CRuiDad::CRuiDad(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -31,7 +33,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
 	m_i1p = tCharacterDesc.i1P2P;
-
+	m_i1p = 11;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -153,6 +155,9 @@ void CRuiDad::Tick(_float fTimeDelta)
 			TickState(fTimeDelta);
 		}
 	}
+
+	m_iState = m_pRuiDadState->Get_RuiDadState();
+
 }
 
 void CRuiDad::Late_Tick(_float fTimeDelta)
@@ -430,18 +435,35 @@ void CRuiDad::Set_Info()
 
 void CRuiDad::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+	CRuiDadState* pState = new CHitState(_fPow, _bJumpHit);
+	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
 }
 
 void CRuiDad::Get_GuardHit(_int eType)
 {
+	CRuiDadState* pState;
+	if (eType == CRuiDadState::STATE_TYPE::TYPE_START)
+	{
+		m_pModelCom->Reset_Anim(CRuiDad::ANIMID::ANIM_GUARDHIT_0);
+		pState = new CGuardHitState(CRuiDadState::STATE_TYPE::TYPE_START);
+	}
+	else
+	{
+		m_pModelCom->Reset_Anim(CRuiDad::ANIMID::ANIM_GUARDHIT_0);
+		pState = new CGuardHitState(CRuiDadState::STATE_TYPE::TYPE_LOOP);
+	}
+	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
 }
 
 void CRuiDad::Player_TakeDown(_float _fPow, _bool _bJump)
 {
+
+
 }
 
 void CRuiDad::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
+
 }
 
 CRuiDad * CRuiDad::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

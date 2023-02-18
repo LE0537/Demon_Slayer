@@ -341,7 +341,7 @@ CRuiDadState * CSkill_JumpDropState::Fall_Height(CRuiDad * pRuiDad, _float fTime
 
 
 
-	_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
+	_vector vPosition = XMVectorSet(m_vPosition.x + 0.1f, m_vPosition.y, m_vPosition.z + 0.1f, 1.f);
 
 	if (m_vPosition.y <= m_fOriginPosY)
 	{
