@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Level_GameResult.h"
-
+#include "Level_Menu.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "UI_Manager.h"
@@ -89,7 +89,7 @@ void CLevel_GameResult::Tick(_float fTimeDelta)
 	{
 		pUIManager->RankInfo_ZeroMemory(0);
 		pUIManager->RankInfo_ZeroMemory(1);
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_MENU))))
+		if (FAILED(pGameInstance->Open_Level(LEVEL_MENU, CLevel_Menu::Create(m_pDevice, m_pContext))))
 			return;
 	}
 

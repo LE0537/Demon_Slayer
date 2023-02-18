@@ -48,7 +48,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
-
+		 
 		m_tInfo.bSub = false;
 		m_bChange = false;
 		//CUI_Manager::Get_Instance()->Set_2P(this);

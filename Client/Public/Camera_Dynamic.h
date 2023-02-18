@@ -71,7 +71,7 @@ private:
 private:
 	CCharacters*				m_pPlayer = nullptr;
 	CCharacters*				m_pTarget = nullptr;
-
+	_float					m_fDist = 0.f;
 	_float4					m_vPlayerPos, m_vTargetPos;
 	_float					m_f1pX, m_f1pY = 0.f;
 	_float					m_f2pX, m_f2pY = 0.f;

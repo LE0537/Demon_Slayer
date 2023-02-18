@@ -250,7 +250,14 @@ public:
 	void Set_TargetPos(_float4 _vPos) { m_vTargetPos = _vPos; }
 	void Set_NPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
 	void Set_SaveStory(_bool _bSave) { m_bSaveCheck = _bSave; }
+	//로딩
+	void Tick_Loading(_float fTimeDelta);
+	void Set_LoadingDead();
+	list<CUI*>* Get_LoadingList() { return &m_listLoading; }
+
 private:
+	//로딩리스트
+	list<CUI*>   m_listLoading;
 	ID3D11Device*					m_pDevice = nullptr;
 	ID3D11DeviceContext*			m_pContext = nullptr;
 	list<CUI::LOADUIINFO>				P1_P_LOADDATALIST;

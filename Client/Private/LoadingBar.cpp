@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "LoadingBar.h"
 #include "GameInstance.h"
-
+#include "UI_Manager.h"
 CLoadingBar::CLoadingBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
@@ -41,7 +41,10 @@ HRESULT CLoadingBar::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	pUIManager->Get_LoadingList()->push_back(this);
+	RELEASE_INSTANCE(CUI_Manager);
+	\
 	return S_OK;
 }
 

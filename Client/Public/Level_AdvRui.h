@@ -18,6 +18,13 @@ public:
 	virtual void Tick(_float fTimeDelta);
 	virtual void Late_Tick(_float fTimeDelta);
 
+	CRITICAL_SECTION Get_CriticalSection() {
+		return m_CriticalSection;
+	}
+	void Set_Finished() { m_isFinished = true; }
+	_bool Get_Finished() const {
+		return m_isFinished;
+	}
 private:
 	HRESULT Ready_Lights();
 	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
@@ -44,7 +51,11 @@ private:
 	_int			m_iQuestIndex = 0;
 	_bool           m_bQuest[3] = { false };
 	_bool			m_bRescue[2] = { false };
-
+private:
+	HANDLE					m_hThread = 0;
+	CRITICAL_SECTION		m_CriticalSection;
+	_bool					m_isFinished = false;
+	_bool					m_bTread = false;
 private:
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
 	CLevel_GamePlay::CHARACTERDESC	      tCharacterDesc;

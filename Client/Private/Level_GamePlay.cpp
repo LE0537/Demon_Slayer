@@ -6,7 +6,8 @@
 #include "SoundMgr.h"
 #include "UI_Manager.h"
 #include "Level_Loading.h"
-
+#include "Level_GameResult.h"
+#include "Level_AdvRui.h"
 #include "GameObj.h"
 #include "MeshObj_Static.h"
 #include "MeshObj_Static_Inst.h"
@@ -14,7 +15,45 @@
 
 #include "Effect_Manager.h"
 
+unsigned int APIENTRY Thread_GamePlay(void* pArg)
+{
+	CLevel_GamePlay*		pLoader = (CLevel_GamePlay*)pArg;
 
+	EnterCriticalSection(&pLoader->Get_CriticalSection());
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	pUIManager->Add_Loading();
+
+	_float ThreadTime = 0.f;
+	_float ThreadDelay = 0.f;
+	_bool  m_bTreadStop = true;
+	while (m_bTreadStop)
+	{
+		pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
+		ThreadTime += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_Default"));
+
+		if (ThreadTime >= 1.0f / 60.0f)
+		{
+			ThreadTime = 0.f;
+			pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
+			ThreadDelay += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60"));
+
+			pUIManager->Tick_Loading(pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60")));
+			if (ThreadDelay > 3.f)
+			{
+				m_bTreadStop = false;
+				break;
+			}
+		}
+	}
+	pUIManager->Set_LoadingDead();
+	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
+	LeaveCriticalSection(&pLoader->Get_CriticalSection());
+	pLoader->Set_Finished();
+	g_bThread = false;
+	return 0;
+}
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -22,12 +61,25 @@ CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pCo
 
 HRESULT CLevel_GamePlay::Initialize()
 {
-	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	
-	pUIManager->Set_CharNameUIZero();
-
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
+
+	g_bThread = true;
+
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	CoInitializeEx(nullptr, 0);
+
+	InitializeCriticalSection(&m_CriticalSection);
+
+	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
+	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
+
+	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, Thread_GamePlay, this, 0, nullptr);
+	if (0 == m_hThread)
+		return E_FAIL;
+
+	pUIManager->Set_CharNameUIZero();
 
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
@@ -46,13 +98,11 @@ HRESULT CLevel_GamePlay::Initialize()
 		if (FAILED(Load_Map(L"Layer_BackGround", "11_Map_Rui")))
 			return E_FAIL;
 	}
-	else if(pUIManager->Get_SelMapNum() == 1)
+	else if (pUIManager->Get_SelMapNum() == 1)
 	{
 		//무한열차 맵 로드맵에서 바꾸거나 여기서 만들거나하면될듯요
 	}
 
-//	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-//		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
@@ -60,9 +110,6 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Load_StaticObjects("11_Rui")))
 		return E_FAIL;
 
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
-
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
 	m_pRendererCom = (CRenderer*)pOut;
 
@@ -91,6 +138,8 @@ HRESULT CLevel_GamePlay::Initialize()
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
+
 	g_iLevel = 1;
 
 	return S_OK;
@@ -100,66 +149,78 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-
-	if (!m_bCreateUI)
+	if (m_isFinished)
 	{
+		if (!m_bTread)
+		{
+			WaitForSingleObject(m_hThread, INFINITE);
+
+			CloseHandle(m_hThread);
+
+			DeleteCriticalSection(&m_CriticalSection);
+			m_bTread = true;
+		}
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+
+		if (!m_bCreateUI)
+		{
+			if (pUIManager->Get_BattleTypeCheck())
+			{
+				_bool bOniCheck = pUIManager->P1_Oni_Check();
+				if (!bOniCheck)
+					pUIManager->Add_P1_PersonHpUI();
+				else
+					pUIManager->Add_P1_OniHpUI();
+
+				bOniCheck = pUIManager->P2_Oni_Check();
+				if (!bOniCheck)
+					pUIManager->Add_P2_PersonHpUI();
+				else
+					pUIManager->Add_P2_OniHpUI();
+
+				pUIManager->Add_BattleUI();
+				pUIManager->Add_P1_Combo();
+				pUIManager->Add_P2_Combo();
+			}
+			else
+			{
+				pUIManager->Add_P1_PersonHpUI();
+				pUIManager->Add_P2_OniHpUI();
+				pUIManager->Add_P1_Combo();
+				pUIManager->Add_AdvBattleUI();
+			}
+
+			m_bCreateUI = true;
+		}
+
 		if (pUIManager->Get_BattleTypeCheck())
 		{
-			_bool bOniCheck = pUIManager->P1_Oni_Check();
-			if (!bOniCheck)
-				pUIManager->Add_P1_PersonHpUI();
-			else
-				pUIManager->Add_P1_OniHpUI();
-
-			bOniCheck = pUIManager->P2_Oni_Check();
-			if (!bOniCheck)
-				pUIManager->Add_P2_PersonHpUI();
-			else
-				pUIManager->Add_P2_OniHpUI();
-
-			pUIManager->Add_BattleUI();
-			pUIManager->Add_P1_Combo();
-			pUIManager->Add_P2_Combo();
-		}
-		else
-		{
-			pUIManager->Add_P1_PersonHpUI();
-			pUIManager->Add_P2_OniHpUI();
-			pUIManager->Add_P1_Combo();
-			pUIManager->Add_AdvBattleUI();
-		}
-	
-		m_bCreateUI = true;
-	}
-
-	if (pUIManager->Get_BattleTypeCheck())
-	{
-		if (pUIManager->Get_LevelResultOn())
-		{
-			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMERESULT))))
-				return;
-		}
-	}
-	else
-	{
-		if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
-		{
-			m_fNextLevelTime += fTimeDelta;
-			if (m_fNextLevelTime > 5.f)
+			if (pUIManager->Get_LevelResultOn())
 			{
-				pUIManager->Set_SaveStory(true);
-				if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_ADVRUI))))
+				if (FAILED(pGameInstance->Open_Level(LEVEL_GAMERESULT, CLevel_GameResult::Create(m_pDevice, m_pContext))))
 					return;
 			}
 		}
-		
+		else
+		{
+			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
+			{
+				m_fNextLevelTime += fTimeDelta;
+				if (m_fNextLevelTime > 5.f)
+				{
+					pUIManager->Set_SaveStory(true);
+					if (FAILED(pGameInstance->Open_Level(LEVEL_ADVRUI, CLevel_AdvRui::Create(m_pDevice, m_pContext))))
+						return;
+				}
+			}
+
+		}
+
+
+		RELEASE_INSTANCE(CUI_Manager);
+		RELEASE_INSTANCE(CGameInstance);
 	}
-	
-		
-	RELEASE_INSTANCE(CUI_Manager);
-	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CLevel_GamePlay::Late_Tick(_float fTimeDelta)
@@ -174,7 +235,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	LIGHTDESC			LightDesc;
-	
+
 
 	/* For.Point */
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
@@ -201,7 +262,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
 	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
-	XMStoreFloat4(&LightDesc.vDirection,XMVector3Normalize(vLook));
+	XMStoreFloat4(&LightDesc.vDirection, XMVector3Normalize(vLook));
 	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
 	LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
@@ -216,7 +277,8 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 		pGameInstance->Set_LightDesc(LIGHTDESC::TYPE_FIELDSHADOW, LightDesc);
 	}
 
-
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
 
 	/* For.Directional*/
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
@@ -637,18 +699,18 @@ HRESULT CLevel_GamePlay::Load_StaticObjects(char * pFileName)
 		}
 
 
-/*
-		CMeshObj_Static::MESHOBJ_STATIC_DESC tMeshObj_StaticDesc;
-		tMeshObj_StaticDesc.matWorld = *pWorld;
-		tMeshObj_StaticDesc.iCurrentLevel = LEVEL_GAMEPLAY;
-		tMeshObj_StaticDesc.iModelIndex = *pMeshIndex;
+		/*
+				CMeshObj_Static::MESHOBJ_STATIC_DESC tMeshObj_StaticDesc;
+				tMeshObj_StaticDesc.matWorld = *pWorld;
+				tMeshObj_StaticDesc.iCurrentLevel = LEVEL_GAMEPLAY;
+				tMeshObj_StaticDesc.iModelIndex = *pMeshIndex;
 
-		if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static", LEVEL_GAMEPLAY, L"Layer_MeshObj_Static", &tMeshObj_StaticDesc)))
-		{
-			ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects");
-			break;
-		}
-*/
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static", LEVEL_GAMEPLAY, L"Layer_MeshObj_Static", &tMeshObj_StaticDesc)))
+				{
+					ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects");
+					break;
+				}
+		*/
 	}
 
 	for (auto & Pair : map_MeshIdx_Num)
@@ -755,6 +817,6 @@ CLevel_GamePlay * CLevel_GamePlay::Create(ID3D11Device* pDevice, ID3D11DeviceCon
 void CLevel_GamePlay::Free()
 {
 	__super::Free();
-	
+
 	Safe_Release(m_pRendererCom);
 }
