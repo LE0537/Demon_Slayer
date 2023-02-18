@@ -33,7 +33,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
 	m_i1p = tCharacterDesc.i1P2P;
-	m_i1p = 11;
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -48,7 +48,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
-
+		 
 		m_tInfo.bSub = false;
 		m_bChange = false;
 		//CUI_Manager::Get_Instance()->Set_2P(this);

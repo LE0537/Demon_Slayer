@@ -24,6 +24,7 @@
 bool			g_bDebug = false;
 bool			g_bCollBox = false;
 int		    	g_iLevel = 0;
+bool         g_bThread = false;
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())
 	, m_pImGuiManager(CImGuiManager::Get_Instance())
@@ -84,13 +85,15 @@ void CMainApp::Tick(_float fTimeDelta)
 {
 	if (nullptr == m_pGameInstance)
 		return;
+	if (!g_bThread)
+	{
+		m_pImGuiManager->Tick(fTimeDelta);
 
-	m_pImGuiManager->Tick(fTimeDelta);
+		m_pGameInstance->Tick_Engine(fTimeDelta);
 
-	m_pGameInstance->Tick_Engine(fTimeDelta);
-
-	m_fTimeAcc += fTimeDelta;
-	m_fTimeDelta = fTimeDelta;
+		m_fTimeAcc += fTimeDelta;
+		m_fTimeDelta = fTimeDelta;
+	}
 }
 
 HRESULT CMainApp::Render()

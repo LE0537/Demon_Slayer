@@ -1547,7 +1547,7 @@ HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
-
+	
 	switch (iter.iTextureNum)
 	{
 	case 0:
@@ -1621,6 +1621,33 @@ _bool CUI_Manager::P1_Oni_Check()
 _bool CUI_Manager::P2_Oni_Check()
 {
 	return  m_p2P->Get_PlayerInfo().bOni;
+}
+
+void CUI_Manager::Tick_Loading(_float fTimeDelta)
+{
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	for (auto& iter : m_listLoading)
+	{
+		iter->Tick(fTimeDelta);
+	}
+	for (auto& iter : m_listLoading)
+	{
+		iter->Late_Tick(fTimeDelta);
+	}
+	//for (auto& iter : m_listLoading)
+	//{
+	//	iter->Render();
+	//}
+	RELEASE_INSTANCE(CGameInstance);
+}
+
+void CUI_Manager::Set_LoadingDead()
+{
+	for (auto& iter : m_listLoading)
+	{
+		iter->Set_Dead();
+	}
+	m_listLoading.clear();
 }
 
 void CUI_Manager::Free()

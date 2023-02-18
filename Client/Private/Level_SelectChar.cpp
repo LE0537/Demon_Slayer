@@ -9,6 +9,8 @@
 #include "WindowLeft.h"
 #include "WindowRight.h"
 #include "SoundMgr.h"
+#include "Level_SelectMap.h"
+#include "Level_Menu.h"
 
 CLevel_SelectChar::CLevel_SelectChar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -62,7 +64,7 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 		else
 			pUIManager->Set_Sel2P_2(99);
 
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTMAP))))
+		if (FAILED(pGameInstance->Open_Level(LEVEL_SELECTMAP, CLevel_SelectMap::Create(m_pDevice, m_pContext))))
 			return;
 		CSoundMgr::Get_Instance()->BGM_Stop();
 		m_fDelayTime = 0.f;
@@ -70,7 +72,7 @@ void CLevel_SelectChar::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_Q) && !pSel_P1Cursor->Get_FirstSelCheck())
 	{
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_MENU))))
+		if (FAILED(pGameInstance->Open_Level(LEVEL_MENU, CLevel_Menu::Create(m_pDevice, m_pContext))))
 			return;
 	}
 	

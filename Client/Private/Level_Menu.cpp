@@ -5,7 +5,8 @@
 #include "Level_Loading.h"
 #include "UI_Manager.h"
 #include "SoundMgr.h"
-
+#include "Level_SelectChar.h"
+#include "Level_StroyMenu.h"
 
 CLevel_Menu::CLevel_Menu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -44,14 +45,14 @@ void CLevel_Menu::Tick(_float fTimeDelta)
 		if (pUI_Manager->Get_MenuCursor()->Get_SelectVS())
 		{
 			pUI_Manager->Set_BattleTypeCheck(true);
-			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_SELECTCHAR))))
+			if (FAILED(pGameInstance->Open_Level(LEVEL_SELECTCHAR, CLevel_SelectChar::Create(m_pDevice, m_pContext))))
 				return;
 			CSoundMgr::Get_Instance()->BGM_Stop();
 		}
 		else if (pUI_Manager->Get_MenuCursor()->Get_SelectStoryMenu())
 		{
 			pUI_Manager->Set_BattleTypeCheck(false);
-			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_STORYMENU))))
+			if (FAILED(pGameInstance->Open_Level(LEVEL_STORYMENU, CLevel_StoryMenu::Create(m_pDevice, m_pContext))))
 				return;
 			CSoundMgr::Get_Instance()->BGM_Stop();
 		}

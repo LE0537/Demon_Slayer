@@ -149,7 +149,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	else if (m_bStory && bCamAttach)
 	{
 		Key_Input(fTimeDelta);
-
+		Check_Shake(fTimeDelta);
 		//Check_StoryCam();
 	}
 	RELEASE_INSTANCE(CGameInstance);
@@ -251,9 +251,9 @@ void CCamera_Dynamic::Set_CamPos()
 	_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTarget = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vLook2 = vPos - vTarget;
-
+	
 	_float fDist = XMVectorGetX(XMVector3Length(vLook2));
-
+	m_fDist = fDist;
 	//맵의 임시 반지름
 	_float fDiameter = 85.f;
 	m_fCamDist = fDist / fDiameter;
@@ -376,12 +376,12 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 	}
 	if (m_fTurnCol > 0.f)
 		m_fTurnCol -= fTimeDelta;
-	if (m_eTurn == CAM_END && m_p1P->Get_PlayerInfo().iCombo > 1)
+	if (m_fDist < 8.f && m_eTurn == CAM_END && m_p1P->Get_PlayerInfo().iCombo > 1)
 	{
 		if (m_fTurnCol <= 0.f)
 			m_bTurn = true;
 	}
-	else if (m_eTurn == CAM_END && m_p2P->Get_PlayerInfo().iCombo > 1)
+	else if (m_fDist < 8.f && m_eTurn == CAM_END && m_p2P->Get_PlayerInfo().iCombo > 1)
 	{
 		if (m_fTurnCol <= 0.f)
 			m_bTargetTurn = true;

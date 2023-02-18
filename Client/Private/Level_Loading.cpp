@@ -26,15 +26,14 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevel)
 
 	m_eNextLevel = eNextLevel;
 
-	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	if(eNextLevel != LEVEL_MENU && eNextLevel != LEVEL_SELECTMAP)
-		pUIManager->Add_Loading();
 
-	RELEASE_INSTANCE(CUI_Manager);
-	
-	m_pLoader = CLoader::Create(m_pDevice, m_pContext, eNextLevel);
-	if (nullptr == m_pLoader)
-		return E_FAIL;
+	if (m_eNextLevel == LEVEL_LOGO)
+	{
+		m_pLoader = CLoader::Create(m_pDevice, m_pContext, eNextLevel);
+		if (nullptr == m_pLoader)
+			return E_FAIL;
+	}
+
 
 	CSoundMgr::Get_Instance()->BGM_Stop();
 	CSoundMgr::Get_Instance()->Effect_Stop();
@@ -47,7 +46,7 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);	
 
-	if (true == m_pLoader->Get_Finished())
+	if (m_eNextLevel == LEVEL_LOGO && true == m_pLoader->Get_Finished())
 	{
 	
 		/* 넥스트레벨에 대한 준비가 끝나면 실제 넥스트레벨을 할당한다. */
@@ -94,6 +93,48 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 
 		Safe_Release(pGameInstance);
 				
+	}
+	else
+	{
+		CLevel*			pNewLevel = nullptr;
+
+		switch (m_eNextLevel)
+		{
+		case LEVEL_SELECTCHAR:
+			pNewLevel = CLevel_SelectChar::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_GAMEPLAY:
+			pNewLevel = CLevel_GamePlay::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_GAMERESULT:
+			pNewLevel = CLevel_GameResult::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_MENU:
+			pNewLevel = CLevel_Menu::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_STORYMENU:
+			pNewLevel = CLevel_StoryMenu::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_ADVRUI:
+			pNewLevel = CLevel_AdvRui::Create(m_pDevice, m_pContext);
+			break;
+		case LEVEL_SELECTMAP:
+			pNewLevel = CLevel_SelectMap::Create(m_pDevice, m_pContext);
+			break;
+		}
+
+		if (nullptr == pNewLevel)
+			return;
+
+		CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+		if (nullptr == pGameInstance)
+			return;
+		Safe_AddRef(pGameInstance);
+
+		if (FAILED(pGameInstance->Open_Level(m_eNextLevel, pNewLevel)))
+			return;
+
+		Safe_Release(pGameInstance);
 	}
 }
 
