@@ -336,6 +336,31 @@ CNezukoState * CSkill_FallCutState::Late_Tick(CNezuko* pNezuko, _float fTimeDelt
 	else
 		pNezuko->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (m_eStateType == STATE_TYPE::TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_JUMP_KICK, pNezuko);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
+	if (m_eStateType == STATE_TYPE::TYPE_END)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_JUMP_KICK_GROUND, pNezuko);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
+
 	return nullptr;
 }
 

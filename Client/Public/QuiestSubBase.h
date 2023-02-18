@@ -30,6 +30,7 @@ private:
 	_bool						m_bBaseOn = false;
 	_float						m_fFadeTime = 0.f;
 	wstring						m_szQuest = TEXT("");
+	_tchar						m_szQuest2[MAX_PATH] = TEXT("");
 
 public:
 	static CQuiestSubBase* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

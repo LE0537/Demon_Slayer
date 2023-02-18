@@ -283,8 +283,10 @@ void CMurata::Check_Event()
 	{
 		if (!m_bMsgEnd)
 		{
-			//여기에 상호작용 F 유아이 띄우기
+			pUIManager->Set_InteractionOn();
 		}
+		else
+			pUIManager->Set_InteractionOff();
 		if (!m_bMsgStart && !m_bMsgEnd && pGameInstance->Key_Down(DIK_F))
 		{
 			m_bMsgStart = true;
@@ -327,6 +329,8 @@ void CMurata::Check_Event()
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 				pUIManager->Set_Msg(TEXT("그녀석을 마주친다면 무조건 도망쳐.'주'급이 오기전까진 절대 상대하지마!"));
+				pUIManager->Set_QuestCount(1);
+				pUIManager->Set_MainQuestOn();
 				m_bMsgEnd = true;
 				break;
 			default:

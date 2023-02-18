@@ -56,6 +56,11 @@ void CQuiestMainIcon::Tick(_float fTimeDelta)
 	if (pUI_Manager->Get_MsgOnOff())
 		m_bQuestOn = true;
 
+	if (pUI_Manager->Get_MainQuestOnOff())
+		m_bQuestOn = true;
+	else
+		m_bQuestOn = false;
+
 	if (m_bQuestOn)
 	{
 		if (pUI_Manager->Get_QuestStartCheck())

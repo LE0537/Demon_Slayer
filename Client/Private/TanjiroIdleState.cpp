@@ -15,6 +15,7 @@
 #include "TanjiroKaguraSkill_Sphere.h"
 #include "TanjiroChangeState.h"
 #include "TanjiroTargetRushState.h"
+#include "HinoCami_CinemaState.h"
 using namespace Tanjiro;
 
 
@@ -28,6 +29,12 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pTanjiro->Set_bGuard(false);
+
+	if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
+	{
+		return new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
+	}
+
 	if (!pTanjiro->Get_PlayerInfo().bChange)
 	{
 		switch (pTanjiro->Get_i1P())

@@ -178,9 +178,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_4">
       <UniqueIdentifier>{3835a0cf-ddb5-4483-b147-79be7efeda33}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move\MoveJump">
-      <UniqueIdentifier>{2376ccd0-c537-4988-9656-8cffe7e38cd4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move\MoveJump">
       <UniqueIdentifier>{276d0c91-978d-4ed6-b859-f4463be410bb}</UniqueIdentifier>
     </Filter>
@@ -1225,8 +1222,8 @@
     <Filter Include="03.UI\96.MsgUI\Story\MapName">
       <UniqueIdentifier>{d789d760-6408-44df-8d10-f0509ff985a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="94.CinemaMgr">
-      <UniqueIdentifier>{1872b07d-cdb7-4e8e-937f-cfaad9578085}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState">
+      <UniqueIdentifier>{eaf8b557-46ad-4746-80ca-2b2b96f6e6c1}</UniqueIdentifier>
     </Filter>
     <Filter Include="05.CollBox\13.RuiDadJump">
       <UniqueIdentifier>{e9212999-48e1-4103-b04d-82d8f159a8ea}</UniqueIdentifier>
@@ -1236,6 +1233,12 @@
     </Filter>
     <Filter Include="05.CollBox\15.RuiDadSmallStone">
       <UniqueIdentifier>{eb0913c2-0008-4b99-a877-9a2f635db0ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\96.MsgUI\Story\Interaction">
+      <UniqueIdentifier>{4d9a7ddb-be8c-4538-9dee-adabc6cc66d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move\MoveJump">
+      <UniqueIdentifier>{2376ccd0-c537-4988-9656-8cffe7e38cd4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2442,8 +2445,8 @@
     <ClInclude Include="..\Public\MapNameBar.h">
       <Filter>03.UI\96.MsgUI\Story\MapName</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Cinema_Manager.h">
-      <Filter>94.CinemaMgr</Filter>
+    <ClInclude Include="..\Public\HinoCami_CinemaState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RuiDadJump.h">
       <Filter>05.CollBox\13.RuiDadJump</Filter>
@@ -2453,6 +2456,9 @@
     </ClInclude>
     <ClInclude Include="..\public\RuiDadSmallStone.h">
       <Filter>05.CollBox\15.RuiDadSmallStone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\InteractionUI.h">
+      <Filter>03.UI\96.MsgUI\Story\Interaction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3632,8 +3638,8 @@
     <ClCompile Include="..\Private\MapNameBar.cpp">
       <Filter>03.UI\96.MsgUI\Story\MapName</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Cinema_Manager.cpp">
-      <Filter>94.CinemaMgr</Filter>
+    <ClCompile Include="..\Private\HinoCami_CinemaState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RuiDadJump.cpp">
       <Filter>05.CollBox\13.RuiDadJump</Filter>
@@ -3643,6 +3649,9 @@
     </ClCompile>
     <ClCompile Include="..\private\RuiDadSmallStone.cpp">
       <Filter>05.CollBox\15.RuiDadSmallStone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\InteractionUI.cpp">
+      <Filter>03.UI\96.MsgUI\Story\Interaction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

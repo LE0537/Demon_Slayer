@@ -124,6 +124,9 @@ CAkazaState * CHitState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	//	Jump(pAkaza, m_fJumpTime);
 	//}
 
+	if (pAkaza->Get_BattleTarget()->Get_SplSkl() == true)
+		fTimeDelta *= 0.3f;
+
 	if (pAkaza->Get_AnimIndex() == CAkaza::ANIMID::ANIM_HIT_DMG2_G)
 		pAkaza->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else
@@ -378,7 +381,7 @@ void CHitState::Set_JumpHitState(CAkaza* pAkaza)
 void CHitState::Exit(CAkaza* pAkaza)
 {
 	pAkaza->Set_HitTime(0.3f);
-	//pAkaza->Get_Model()->Reset_Anim(pAkaza->Get_AnimIndex());
+	pAkaza->Get_Model()->Reset_Anim(pAkaza->Get_AnimIndex());
 }
 
 

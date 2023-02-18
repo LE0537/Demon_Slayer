@@ -21,6 +21,7 @@ using namespace Shinobu;
 CIdleState::CIdleState(STATE_ID eState)
 	: ePreState(eState)
 {
+	m_ePreState = eState;
 }
 
 CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)

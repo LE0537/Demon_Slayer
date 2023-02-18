@@ -319,5 +319,6 @@ void CMainApp::Free()
 	CData_Manager::Destroy_Instance();	// Ãß°¡
 	CUI_Manager::Destroy_Instance();
 	CEffect_Manager::Destroy_Instance();
+
 }
 

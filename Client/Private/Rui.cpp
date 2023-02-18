@@ -44,7 +44,7 @@ HRESULT CRui::Initialize(void * pArg)
 	m_i1p = tCharacterDesc.i1P2P;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	
+
 	if (m_i1p != 10 && m_i1p != 11)
 	{
 		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
@@ -82,8 +82,6 @@ HRESULT CRui::Initialize(void * pArg)
 		{
 			m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
 			m_pSubChar->Set_SubChar(this);
-
-
 		}
 	}
 	else if (m_i1p == 10)

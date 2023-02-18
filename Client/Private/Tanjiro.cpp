@@ -19,7 +19,13 @@
 #include "Effect_Manager.h"
 #include "TanjiroTakeDownState.h"
 #include "TanjiroUpperHitState.h"
+
+#include "HinoCami_CinemaState.h"
+
+
+
 #include "Level_Loading.h"
+
 using namespace Tanjiro;
 
 
@@ -186,10 +192,14 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
 		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE ||
-		m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP_ATTACK)
+		m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP_ATTACK || m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_SKILL_KAGURA_COMMON)
+	{
 		m_tInfo.bJump = true;
+	}
 	else
+	{ 
 		m_tInfo.bJump = false;
+	}
 
 	if (m_pTransformCom->Get_Jump() == true)
 		m_tInfo.bJump = true;
@@ -747,6 +757,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("아빠 거미"));
 					pUIManager->Set_Msg(TEXT("이 산에 들어온 이상 모두 죽은 목숨이다!!"));
+					pUIManager->Set_MainQuestOff();
 					m_bQuest2_1MSG = true;
 					break;
 				default:
