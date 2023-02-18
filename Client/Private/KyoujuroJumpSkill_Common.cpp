@@ -92,6 +92,7 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_MIDDLE);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pKyojuro->Get_Renderer());
 						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(_int(-20 * pKyojuro->Get_PlayerInfo().fPowerUp));
 						m_pTarget->Player_TakeDown(0.2f);

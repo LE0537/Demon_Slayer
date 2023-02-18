@@ -307,6 +307,7 @@ CShinobuState * CAtk_4_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 					CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
 					dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pShinobu->Get_Renderer());
 					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Take_Damage(0.6f, false);
 					pShinobu->Set_Combo(1);

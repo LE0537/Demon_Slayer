@@ -52,6 +52,9 @@ public:
 	void Set_Zoom(ZOOM eZoom) { m_ZoomInfo = eZoom, m_bZoom = true; }
 	void Set_CamType(_bool _bStory) { m_bStory = _bStory; }
 	void	Key_Input(_float fTimeDelta);
+	//Blur
+	void Blur_Low(CRenderer* _pRenderer);
+	void Blur_High(CRenderer* _pRenderer);
 private:
 	//Shake
 	void Check_Shake(_float fTimeDelta);
@@ -66,6 +69,8 @@ private:
 	//Turn
 	void Check_Trun(_float fTimeDelta);
 	void Check_TargetTrun(_float fTimeDelta);
+
+	
 
 	void Check_StoryCam();
 private:
@@ -89,6 +94,7 @@ private:
 	_float					m_fLookAtY = 0.f;
 	_bool					m_bStartBattle = false;
 	_bool					m_bEffect = false;
+	_float3 				m_vAtPos;
 	//Start
 	_bool  m_bStart = false;
 	_bool  m_bLerp = false;

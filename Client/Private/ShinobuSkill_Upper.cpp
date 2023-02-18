@@ -253,6 +253,7 @@ CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 						m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER_2, 20.f, 30.f, 2.f);
 						CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pShinobu->Get_Renderer());
 						RELEASE_INSTANCE(CGameInstance);
 
 						//m_pTarget->Take_Damage(0.6f, true);

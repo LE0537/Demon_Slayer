@@ -248,8 +248,11 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 			
 			if (m_fHitTime > 0.1f && iHit < 3 && pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 			{
-				if(iHit == 0)
+				if (iHit == 0)
+				{
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pTanjiro->Get_Renderer());
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+				}
 				if (nullptr == pTargetCollider)
 					return nullptr;
 
