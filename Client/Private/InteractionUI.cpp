@@ -35,19 +35,21 @@ HRESULT CInteractionUI::Initialize(void * pArg)
 void CInteractionUI::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	_float4 vPos; 
 	XMStoreFloat4(&vPos, pUI_Manager->Get_1P()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(vPos.x, vPos.y + 2.f, vPos.z, vPos.w));
 
-	CCamera_Dynamic* pCamera = CObject_Mgr::Get_Instance()->Get_Camera();
+	//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"));
+	/*dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->
+	
 
-	_vector vCarmeraPos = pCamera->Get_TransformCom()->Get_State(CTransform::STATE_TRANSLATION);
-
-	m_pTransformCom->LookAt(vCarmeraPos);
+	m_pTransformCom->LookAt(vCarmeraPos);*/
 
 	RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CInteractionUI::Late_Tick(_float fTimeDelta)
