@@ -308,7 +308,7 @@ private:
 	CUI*							m_pComboNum[2];
 	CUI*							m_pAdvMenuFrame[2];
 	CUI*							m_pSelMapIconFrame[2];
-	CUI*							m_pWindow[4];
+	CUI*							m_pWindow[2];
 	CUI*							m_pSubBase[5];
 	CUI*							m_pRankIcon = nullptr;
 	CUI*							m_pSelMapCursor = nullptr;
