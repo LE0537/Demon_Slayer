@@ -66,13 +66,10 @@ void CMsgNameBase::Tick(_float fTimeDelta)
 		m_fY -= 2.f;
 		if (m_iMoveCount >= 5)
 		{
-			m_iMoveCount = 10;
+			m_iMoveCount = 5;
 			m_fFadeTime = 1.f;
 			m_fY = m_ThrowUIinfo.vPos.y;
 		}
-
-		if (pGameInstance->Key_Down(DIK_RETURN))
-			pUI_Manager->Set_MsgCount(1);
 	}
 	else
 	{

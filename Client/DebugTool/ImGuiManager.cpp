@@ -34,7 +34,7 @@ HRESULT CImGuiManager::Initialize(ID3D11Device * pDevice, ID3D11DeviceContext * 
 
 
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-	m_bImguiEnable = true;
+	m_bImguiEnable = false;
 
 	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
 	m_pRendererCom = (CRenderer*)pOut; 
@@ -63,8 +63,7 @@ void CImGuiManager::Tick(_float fTimeDelta)
 			m_bImguiEnable = !m_bImguiEnable;
 
 
-	if (m_bImguiEnable && 
-		true == g_bDebug)
+	if (m_bImguiEnable/* && true == g_bDebug*/)
 	{
 		ShowGui(fTimeDelta);
 	}
@@ -128,7 +127,7 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->AO_OnOff(bAO_OnOff);
 
-	static float fAOValue[CRenderer::VALUE_END] = { 0.15f, 0.15f, 0.4f, 40.f, 450.f, 1.36f, 0.4f, 1.f, 20.f, 300.f, 0.05f, 1.79f, 0.2f, 0.85f, 1.f, 15.f };
+	static float fAOValue[CRenderer::VALUE_END] = { 0.15f, 0.15f, 0.4f, 40.f, 450.f, 0.3f, 0.5f, 1.36f, 0.4f, 1.f, 20.f, 300.f, 0.05f, 1.79f, 0.2f, 0.85f, 1.f, 15.f };
 	static float vFogColor[3] = { 0.15f, 0.15f, 0.4f };
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
@@ -142,6 +141,12 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
 	ImGui::DragFloat("Fog Range", &fAOValue[CRenderer::VALUE_FOGRANGE], 1.f, 1.f, 2000.f);
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("Fog Min Power", &fAOValue[CRenderer::VALUE_FOGMINPOWER], 0.001f, 0.f, 1.f, "%.3f");
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("Fog Cubemap Power", &fAOValue[CRenderer::VALUE_CUBEMAPFOG], 0.001f, 0.f, 1.f, "%.3f");
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
 	ImGui::DragFloat("AO Value", &fAOValue[CRenderer::VALUE_AO], 0.02f, 0.f);
@@ -171,7 +176,7 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	ImGui::DragFloat("LightPower", &fAOValue[CRenderer::VALUE_LIGHTPOWER], 0.001f, -3.f, 10.f, "%.3f");
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("LightPower", &fAOValue[CRenderer::VALUE_SHADOWTESTLENGTH], 0.001f, -3.f, 3.f, "%.3f");
+	ImGui::DragFloat("Shadow Test Length", &fAOValue[CRenderer::VALUE_SHADOWTESTLENGTH], 0.001f, -3.f, 3.f, "%.3f");
 	
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
 	ImGui::DragFloat("MapGrayScaleMaxTime", &fAOValue[CRenderer::VALUE_MAPGRAYSCALETIME], 0.1f, 0.f, 100.f, "%.1f");

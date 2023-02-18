@@ -5,6 +5,7 @@ matrix			g_ViewMatrixInv, g_ProjMatrixInv;
 matrix		    g_matLightView;
 matrix		    g_matLightView_Static;
 matrix			g_matLightProj;
+matrix			g_StaticShadowProj;
 
 vector			g_vCamPosition;
 
@@ -49,6 +50,8 @@ float			g_fOutLineValue;
 float			g_fInnerLineValue;
 float			g_fFogDistance;
 float			g_fFogRange;
+float			g_fFogMin;
+float			g_fCubemapFog;
 float3			g_vFogColor;
 float			g_fEnvLightValue = 1.f;
 float			g_fLightPower = 1.f;
@@ -406,7 +409,7 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	vector		vWorldPos_Once = mul(vWorldPos, g_matLightView_Static);
 
-	vUVPos = mul(vWorldPos_Once, g_matLightProj);
+	vUVPos = mul(vWorldPos_Once, g_StaticShadowProj);
 	vNewUV.x = (vUVPos.x / vUVPos.w) * 0.5f + 0.5f;
 	vNewUV.y = (vUVPos.y / vUVPos.w) * -0.5f + 0.5f;
 
@@ -416,15 +419,19 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 		step(vShadowDepthInfo.x * g_fFar, vWorldPos_Every.z - g_fShadowTestLength) * vector(0.2f, 0.2f, 0.2f, 0.f));
 
 
-
 	//=============================  Fog  =============================
-	float		fFogValue = saturate(min((max((vDepth.y * g_fFar) - g_fFogDistance, 0.f) / g_fFogRange), 0.3f));
+	float		fFogValue = saturate(min((max((vDepth.y * g_fFar) - g_fFogDistance, 0.f) / g_fFogRange), g_fFogMin));
 	//	g_vFogColor에 근접하는 Value입니다.
 	//	Depth에 의해 차이가 나타납니다.
 
 	vector		vFog_Final = 0;
 	Out.vColor.rgb += ((g_vFogColor.rgb - Out.vColor.rgb) * fFogValue);
 	//	위에서 구한 FogValue를 통해 카메라에 가까워질 수록 g_vFogColor 에 근접합니다.
+
+	//	CubeMap Fog
+	if (vDepth.x <= 0.f)
+		Out.vColor.rgb += (g_vFogColor.rgb - Out.vColor.rgb) * g_fCubemapFog;
+
 	//===========================  Fog End  =============================
 
 	if (Out.vColor.a == 0.f)

@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "Effect_Manager.h"
 #include "Layer.h"
+#include "RuiDadBigStone.h"
 
 using namespace RuiDad;
 
@@ -58,9 +59,22 @@ CRuiDadState * CSkill_ThrowState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 CRuiDadState * CSkill_ThrowState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
+	if (m_iHit == 0)
+	{
+		CRuiDadBigStone::RUIDADBIGSTONE	tInfo;
+		tInfo.pPlayer = pRuiDad;
+		tInfo.pTarget = pRuiDad->Get_BattleTarget();
+		tInfo.iIndex = 0;
+		CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+		if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiDadBigStone"), LEVEL_GAMEPLAY, TEXT("Layer_CollBox"), &tInfo)))
+			return nullptr;
+
+		RELEASE_INSTANCE(CGameInstance);
+		++m_iHit;
+	}
 	pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
 
-	
 	return nullptr;
 }
 

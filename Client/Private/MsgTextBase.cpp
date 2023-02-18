@@ -2,6 +2,7 @@
 #include "MsgTextBase.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "MapNameBar.h"
 
 CMsgTextBase::CMsgTextBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -61,8 +62,29 @@ void CMsgTextBase::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_PGUP))
 		pUI_Manager->Set_MsgOn();
-	if (pGameInstance->Key_Down(DIK_PGDN))
+	else if (pGameInstance->Key_Down(DIK_PGDN))
 		pUI_Manager->Set_MsgOff();
+
+	/*if(!m_bFirstMsgCheck)
+		m_fFirstMsg += fTimeDelta;
+	if (m_fFirstMsg >= 5.f)
+		m_bFirstMsgCheck = true;
+	if (m_bFirstMsgCheck && m_fFirstMsg >= 5.f)
+	{
+		m_iMoveCount += 1;
+		m_fFadeTime += 0.2f;
+		m_fY -= 2.f;
+		if (m_iMoveCount >= 5)
+		{
+			m_iMoveCount = 5;
+			m_fFadeTime = 1.f;
+			m_fY = m_ThrowUIinfo.vPos.y;
+			pUI_Manager->Set_MsgOff();
+		}
+
+		m_fFirstMsg = 0.f;
+	}
+*/
 
 	if (pUI_Manager->Get_MsgOnOff())
 		m_bMoveCheck = true;
@@ -76,7 +98,7 @@ void CMsgTextBase::Tick(_float fTimeDelta)
 		m_fY -= 2.f;
 		if (m_iMoveCount >= 5)
 		{
-			m_iMoveCount = 10;
+			m_iMoveCount = 5;
 			m_fFadeTime = 1.f;
 			m_fY = m_ThrowUIinfo.vPos.y;
 		}
@@ -84,6 +106,7 @@ void CMsgTextBase::Tick(_float fTimeDelta)
 		if (pGameInstance->Key_Down(DIK_RETURN))
 		{
 			pUI_Manager->Set_MsgCount(1);
+
 			pUI_Manager->Set_MsgOff();
 		}
 	}

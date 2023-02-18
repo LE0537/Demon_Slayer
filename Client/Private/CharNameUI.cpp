@@ -268,6 +268,15 @@ void CCharNameUI::Name_Selected(wstring strName)
 		else if (m_ThrowUIinfo.bPlyCheck)//2p
 			m_fX = 1065.f;
 	}
+	else if (strName == TEXT("아빠 거미"))
+	{
+		m_iImgNum = 6;
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.5f;
+		if (!m_ThrowUIinfo.bPlyCheck)//1p	
+			m_fX = 215.f;
+		else if (m_ThrowUIinfo.bPlyCheck)//2p
+			m_fX = 1065.f;
+	}
 	RELEASE_INSTANCE(CUI_Manager);
 }
 

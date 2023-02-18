@@ -1231,6 +1231,12 @@
     <Filter Include="05.CollBox\13.RuiDadJump">
       <UniqueIdentifier>{e9212999-48e1-4103-b04d-82d8f159a8ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\14.RuiDadBigStone">
+      <UniqueIdentifier>{93bcbd93-15b8-438e-bad9-553615722ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.CollBox\15.RuiDadSmallStone">
+      <UniqueIdentifier>{eb0913c2-0008-4b99-a877-9a2f635db0ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2442,6 +2448,12 @@
     <ClInclude Include="..\public\RuiDadJump.h">
       <Filter>05.CollBox\13.RuiDadJump</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RuiDadBigStone.h">
+      <Filter>05.CollBox\14.RuiDadBigStone</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RuiDadSmallStone.h">
+      <Filter>05.CollBox\15.RuiDadSmallStone</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3625,6 +3637,12 @@
     </ClCompile>
     <ClCompile Include="..\private\RuiDadJump.cpp">
       <Filter>05.CollBox\13.RuiDadJump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiDadBigStone.cpp">
+      <Filter>05.CollBox\14.RuiDadBigStone</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiDadSmallStone.cpp">
+      <Filter>05.CollBox\15.RuiDadSmallStone</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

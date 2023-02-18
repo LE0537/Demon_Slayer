@@ -46,6 +46,10 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_FovAngle = XMConvertToRadians(60.f);
 	//m_bStory = true;
 	m_eTurn = CAM_END;
+
+	if (FAILED(Bind_OnPipeLine()))
+		return E_FAIL;
+
 	return S_OK;
 }
 

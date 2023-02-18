@@ -326,6 +326,71 @@ CShinobuState * CJumpMoveSkillState::Late_Tick(CShinobu* pShinobu, _float fTimeD
 	else
 		pShinobu->Get_Model()->Play_Animation(fTimeDelta);
 
+	_float fGroundHeight = pShinobu->Get_NavigationHeight().y;
+	_float fMyHeight = XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	CModel* pModel = pShinobu->Get_Model();
+	_uint	iIndex = pShinobu->Get_AnimIndex();
+	_float fCurrentAnimTimeRatio = pModel->Get_CurrentTime_Index(iIndex) /
+		pModel->Get_Duration_Index(iIndex);
+
+
+	if (m_eStateType == TYPE_DEFAULT)	//	지상에서 와리가리
+	{
+		if (fCurrentAnimTimeRatio < 0.2f)	//	0.08초 / 0.4초
+			pShinobu->Set_Render(false);
+		else if (fCurrentAnimTimeRatio < 0.5f)	//	0.18초 / 0.4초
+			pShinobu->Set_Render(true);
+		else if (fCurrentAnimTimeRatio < 0.7f)	//	0.28초 / 0.4초
+			pShinobu->Set_Render(false);
+		else if (fCurrentAnimTimeRatio < 1.f)	//	0.38초 / 0.4초
+			pShinobu->Set_Render(true);
+		else									//	0.38 ~ 0.4
+			pShinobu->Set_Render(false);
+	}
+
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	if (!m_bEffect &&
+		m_eStateType == TYPE_LOOP)	//	공중 Loop
+	{
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_JUMPMOVE_1LOOP_FOL, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_JUMPMOVE_1LOOP_NONFOL, pShinobu);
+		m_bEffect = true;
+	}
+	else if (!m_bEffect_ForLoop1Fin &&
+		m_eStateType == TYPE_LOOP &&
+		1.5f > fMyHeight - fGroundHeight)	//	지상 착지 1.5 전
+	{
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_JUMPMOVE_1LOOPEND_MAIN, pShinobu);
+		m_bEffect_ForLoop1Fin = true;
+	}
+	else if (!m_bEffect &&
+		m_eStateType == TYPE_DEFAULT)	//	지상에서 와리가리
+	{
+		if (0.5f > fCurrentAnimTimeRatio)
+		{
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_MAIN_1R, pShinobu);
+			m_bEffect = true;
+			m_bEffect_ForLoop2Atk = false;
+		}
+	}
+	else if (!m_bEffect_ForLoop2Atk &&
+		m_eStateType == TYPE_DEFAULT)	//	지상에서 와리가리
+	{
+		if (0.5f < fCurrentAnimTimeRatio)
+		{
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_MAIN_2L, pShinobu);
+			m_bEffect_ForLoop2Atk = true;
+			m_bEffect = false;
+		}
+	}
+	else if (!m_bEffect &&
+		m_eStateType == TYPE_CHANGE)
+	{
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_FINAL_NONFOL, pShinobu);
+		m_bEffect = true;
+	}
+	RELEASE_INSTANCE(CEffect_Manager);
 
 
 	return nullptr;
@@ -382,9 +447,9 @@ void CJumpMoveSkillState::Enter(CShinobu* pShinobu)
 
 void CJumpMoveSkillState::Exit(CShinobu* pShinobu)
 {
+	pShinobu->Set_Render(true);
 
 	m_pCollBox->Set_Dead();
-
 }
 
 void CJumpMoveSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)
@@ -401,9 +466,9 @@ void CJumpMoveSkillState::Jump(CShinobu* pShinobu, _float fTimeDelta)
 	m_vPosition.y = XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 	m_vPosition.z = XMVectorGetZ(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-	m_vVelocity.x += fGravity * fTimeDelta;
-	m_vVelocity.y += fGravity * fTimeDelta;
-	m_vVelocity.z += fGravity * fTimeDelta;
+	m_vVelocity.x = fGravity * fTimeDelta * 22.f;
+	m_vVelocity.y = fGravity * fTimeDelta * 22.f;
+	m_vVelocity.z = fGravity * fTimeDelta * 22.f;
 
 
 

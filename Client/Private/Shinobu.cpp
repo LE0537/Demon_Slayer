@@ -96,6 +96,7 @@ HRESULT CShinobu::Initialize(void * pArg)
 	CShinobuState* pState = new CIdleState();
 	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 
+	m_bRender = true;
 
 	return S_OK;
 }
@@ -182,20 +183,22 @@ void CShinobu::Late_Tick(_float fTimeDelta)
 		m_pSheath->Tick(fTimeDelta);
 
 
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+		if (true == m_bRender)
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 
 
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
-
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+		}
 		
-			if (g_bCollBox)
-			{
-				m_pRendererCom->Add_Debug(m_pSphereCom);
-			}
+		if (g_bCollBox)
+		{
+			m_pRendererCom->Add_Debug(m_pSphereCom);
+		}
 		
 	}
 

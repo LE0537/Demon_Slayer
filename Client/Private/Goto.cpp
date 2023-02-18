@@ -41,7 +41,7 @@ HRESULT CGoto::Initialize(void * pArg)
 
 void CGoto::Tick(_float fTimeDelta)
 {
-
+	
 }
 
 void CGoto::Late_Tick(_float fTimeDelta)
@@ -56,6 +56,8 @@ void CGoto::Late_Tick(_float fTimeDelta)
 	{
 		if (fDist < 30.f)
 		{
+			Check_Event();
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 			m_pModelCom->Play_Animation(fTimeDelta);
 		}
@@ -150,7 +152,68 @@ HRESULT CGoto::Render_ShadowDepth()
 
 	return S_OK;
 }
+void CGoto::Check_Event()
+{
+	_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+	_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - vPos));
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	if (fDist < 5.f)
+	{
+		if (!m_bMsgEnd)
+		{
+			//여기에 상호작용 F 유아이 띄우기
+		}
+		if (!m_bMsgStart && !m_bMsgEnd && pGameInstance->Key_Down(DIK_F))
+		{
+			m_bMsgStart = true;
+			if (!m_MsgReset)
+			{
+				pUIManager->Reset_MsgCount();
+				m_MsgReset = true;
+			}
+		}
+		if (!m_bMsgEnd && m_bMsgStart)
+		{
+			switch (pUIManager->Get_MsgCount())
+			{
+			case 0:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 고토"));
+				pUIManager->Set_Msg(TEXT("크흙...너...너는?"));
+				break;
+			case 1:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("무라타씨가 알려줘서 도와주러왔습니다. 괜찮으세요?"));
+				break;
+			case 2:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 고토"));
+				pUIManager->Set_Msg(TEXT("휴...산건가...나는..."));
+				break;
+			case 3:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 고토"));
+				pUIManager->Set_Msg(TEXT("고마워. 난 이제 본부로 돌아가 볼게."));
+				break;
+			case 4:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 고토"));
+				pUIManager->Set_Msg(TEXT("하얀녀석을 조심해..."));
+				pUIManager->Set_RescueCount(1);
+				m_bMsgEnd = true;
+				break;
+			default:
+				break;
+			}
+		}
 
+	}
+	RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CGameInstance);
+}
 
 
 HRESULT CGoto::SetUp_ShaderResources()

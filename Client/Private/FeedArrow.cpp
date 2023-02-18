@@ -66,7 +66,7 @@ void CFeedArrow::Tick(_float fTimeDelta)
 			m_fFadeTime = 0.f;
 	}
 
-	if (m_iMoveCount >= 20)
+	if (m_iMoveCount >= 50)
 		m_bMoveCheck = true;
 	else if(m_iMoveCount <= 0)
 		m_bMoveCheck = false;
@@ -74,12 +74,12 @@ void CFeedArrow::Tick(_float fTimeDelta)
 	if (!m_bMoveCheck)
 	{
 		m_iMoveCount += 1;
-		m_fY += 0.5f;
+		m_fY += 0.2f;
 	}
 	else if (m_iMoveCount >= 0)
 	{
 		m_iMoveCount -= 1;
-		m_fY -= 0.5f;
+		m_fY -= 0.2f;
 	}
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));

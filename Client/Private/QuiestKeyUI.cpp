@@ -87,7 +87,6 @@ HRESULT CQuiestKeyUI::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	
 	m_pShaderCom->Begin(12);
 	
 	m_pVIBufferCom->Render();

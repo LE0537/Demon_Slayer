@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "QuiestMainBase.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
+
 
 CQuiestMainBase::CQuiestMainBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,7 +52,51 @@ HRESULT CQuiestMainBase::Initialize(void * pArg)
 
 void CQuiestMainBase::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+
+	if (pUI_Manager->Get_MsgOnOff())
+		m_bQuestOn = true;
+	
+	if (m_bQuestOn)
+	{
+		if (pUI_Manager->Get_QuestStartCheck())
+		{
+			m_fFadeTime += 0.1f;
+			if (m_fFadeTime >= 1.f)
+				m_fFadeTime = 1.0f;
+		}
+		else
+		{
+			m_fFadeTime -= 0.1f;
+			if (m_fFadeTime <= 0.f)
+				m_fFadeTime = 0.0f;
+		}
+	}
+
+
+	m_iBeforeCount = pUI_Manager->Get_QuestCount();
+
+	switch (pUI_Manager->Get_QuestCount())
+	{
+	case 0: m_szMainQuest = TEXT("냄새를 따라가보자");
+		break;
+	case 1: m_szMainQuest = TEXT("귀살대 대원들을 구출하자");
+		break;
+	case 2: m_szMainQuest = TEXT("");
+		break;
+	case 3: m_szMainQuest = TEXT("");
+		break;
+	case 4: m_szMainQuest = TEXT("");
+		break;
+	default:
+		break;
+	} 
+
+	
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CQuiestMainBase::Late_Tick(_float fTimeDelta)
@@ -68,12 +114,15 @@ HRESULT CQuiestMainBase::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(12);
 
 	m_pVIBufferCom->Render();
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szMainQuest.c_str(), XMVectorSet(m_fX - 110.f, m_fY - 16.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
@@ -113,6 +162,9 @@ HRESULT CQuiestMainBase::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "QuiestMainIcon.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CQuiestMainIcon::CQuiestMainIcon(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -50,7 +51,30 @@ HRESULT CQuiestMainIcon::Initialize(void * pArg)
 
 void CQuiestMainIcon::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (pUI_Manager->Get_MsgOnOff())
+		m_bQuestOn = true;
+
+	if (m_bQuestOn)
+	{
+		if (pUI_Manager->Get_QuestStartCheck())
+		{
+			m_fFadeTime += 0.1f;
+			if (m_fFadeTime >= 1.f)
+				m_fFadeTime = 1.0f;
+		}
+		else
+		{
+			m_fFadeTime -= 0.1f;
+			if (m_fFadeTime <= 0.f)
+				m_fFadeTime = 0.0f;
+		}
+	}
+
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CQuiestMainIcon::Late_Tick(_float fTimeDelta)
@@ -68,10 +92,7 @@ HRESULT CQuiestMainIcon::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(12);
 
 	m_pVIBufferCom->Render();
 
@@ -113,6 +134,9 @@ HRESULT CQuiestMainIcon::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

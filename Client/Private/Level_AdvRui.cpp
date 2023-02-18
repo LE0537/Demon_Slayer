@@ -58,21 +58,23 @@ HRESULT CLevel_AdvRui::Initialize()
 		return E_FAIL;
 	}
 
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.15f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.15f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 40.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 450.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.07f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.12f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.1f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 55.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 80.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.83f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.7f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 300.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.6f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 2.2f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.1f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.85f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 0.0001f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -86,8 +88,26 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	if (pGameInstance->Key_Down(DIK_F8))
-		++m_iQuestIndex;
+	
+	switch (pUIManager->Get_RescueCount())
+	{
+	case 1:
+		if (!m_bRescue[0])
+		{
+			++m_iQuestIndex;
+			m_bRescue[0] = true;
+		}
+		break;
+	case 2:
+		if (!m_bRescue[1])
+		{
+			++m_iQuestIndex;
+			m_bRescue[1] = true;
+		}
+		break;
+	default:
+		break;
+	}
 
 	if (dynamic_cast<CTanjiro*>(m_pPlayer)->Get_Quest2MSG())
 	{
@@ -98,11 +118,29 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 		pUIManager->Set_Sel2P(6);
 		pUIManager->Set_Sel2P_2(99);
 		pUIManager->Set_PlayerPos(vPos);
-		XMStoreFloat4(&vPos, pUIManager->Get_NPC()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		pUIManager->Set_TargetPos(vPos);
+		
 		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
 			return;
+
+		RELEASE_INSTANCE(CUI_Manager);
+		RELEASE_INSTANCE(CGameInstance);
+		return;
 	}
+	if (dynamic_cast<CTanjiro*>(m_pPlayer)->Get_Quest3MSG())
+	{
+		pUIManager->Set_Sel1P(0);
+		pUIManager->Set_Sel1P_2(4);
+		pUIManager->Set_Sel2P(7);
+		pUIManager->Set_Sel2P_2(99);
+	
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
+			return;
+
+		RELEASE_INSTANCE(CUI_Manager);
+		RELEASE_INSTANCE(CGameInstance);
+		return;
+	}
+
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 	if(!m_bQuest[0] || !m_bQuest[1] || !m_bQuest[2])
@@ -126,8 +164,11 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
 	LightDesc.eType = LIGHTDESC::TYPE_RUISHADOW;
-	LightDesc.vDirection = _float4(-50.f, 150.f, -100.f, 1.f);
-	LightDesc.vDiffuse = _float4(-45.f, 0.f, 0.f, 1.f);
+	//LightDesc.vDirection = _float4(-50.f, 150.f, -100.f, 1.f);
+	//LightDesc.vDiffuse = _float4(-45.f, 0.f, 0.f, 1.f);
+	LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);
+	LightDesc.vDiffuse = _float4(60.f, -20.f, 60.f, 1.f);
+
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
 	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
@@ -149,16 +190,14 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 
 
 
-	//ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
-	//LightDesc.eType = LIGHTDESC::TYPE_BATTLESHADOW;
-	//LightDesc.vDirection = _float4(-50.f, 150.f, -100.f, 1.f);		//	eye
-	//XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&LightDesc.vDirection) + XMVector3Normalize(vLook), 1.f));
-	////	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
-	////	LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);		//	eye
-	//LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+	LightDesc.eType = LIGHTDESC::TYPE_BATTLESHADOW;
+	LightDesc.vDirection = _float4(-1020.f, 1250.f, -570.f, 1.f);		//	eye
+	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&LightDesc.vDirection) + XMVector3Normalize(vLook), 1.f));
+	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
-	//if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
-	//	return E_FAIL;
+	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -178,10 +217,19 @@ HRESULT CLevel_AdvRui::Ready_Layer_Player(const _tchar * pLayerTag)
 		return E_FAIL;
 	tCharacterDesc1p.pSubChar = tCharacterDesc.pSubChar;
 	m_pPlayer = tCharacterDesc.pSubChar;
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_ADVRUI, TEXT("Layer_RuiDad"), &tCharacterDesc1p)))
-		return E_FAIL;
-	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_ADVRUI, TEXT("Layer_Rui"), &tCharacterDesc1p)))
-	//	return E_FAIL;
+
+	if (!CUI_Manager::Get_Instance()->Get_SaveStory())
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_ADVRUI, TEXT("Layer_RuiDad"), &tCharacterDesc1p)))
+			return E_FAIL;
+	}
+	else
+	{ 
+		++m_iQuestIndex;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_ADVRUI, TEXT("Layer_Rui"), &tCharacterDesc1p)))
+			return E_FAIL;
+	}
+
 	//tCharacterDesc1p.bSub = true;
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Nezuko"), LEVEL_ADVRUI, TEXT("Layer_Nezuko"), &tCharacterDesc1p)))
 	//	return E_FAIL;
@@ -209,7 +257,7 @@ HRESULT CLevel_AdvRui::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CameraDesc.CameraDesc.fFovy = XMConvertToRadians(25.0f);
 	CameraDesc.CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	CameraDesc.CameraDesc.fNear = 0.2f;
-	CameraDesc.CameraDesc.fFar = 1500.f;
+	CameraDesc.CameraDesc.fFar = 1800.f;
 
 	CameraDesc.CameraDesc.TransformDesc.fSpeedPerSec = 10.f;
 	CameraDesc.CameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
@@ -591,7 +639,7 @@ HRESULT CLevel_AdvRui::Load_Weed(char * pFileName)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
-		ERR_MSG(L"Failed to GamePlay : Load StaticObjs");
+		ERR_MSG(L"Failed to GamePlay : Load Weed");
 
 		return E_FAIL;
 	}
@@ -751,7 +799,7 @@ HRESULT CLevel_AdvRui::Load_Smell_1(char * pFileName)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
-		ERR_MSG(L"Failed to GamePlay : Load StaticObjs");
+		ERR_MSG(L"Failed to GamePlay : Load Smell");
 
 		return E_FAIL;
 	}
@@ -928,12 +976,12 @@ HRESULT CLevel_AdvRui::Load_Smell_1(char * pFileName)
 
 		}
 
-		CloseHandle(hFile);
+		
 
 		Safe_Delete(pWorld);
 		Safe_Delete(pMeshIndex);
 	}
-
+	CloseHandle(hFile);
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
@@ -1588,7 +1636,6 @@ HRESULT CLevel_AdvRui::Check_Smell()
 
 	return S_OK;
 }
-
 
 CLevel_AdvRui * CLevel_AdvRui::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

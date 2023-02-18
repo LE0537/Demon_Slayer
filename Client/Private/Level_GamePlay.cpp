@@ -105,30 +105,58 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 
 	if (!m_bCreateUI)
 	{
-		_bool bOniCheck = CUI_Manager::Get_Instance()->P1_Oni_Check();
-		if(!bOniCheck)
-			CUI_Manager::Get_Instance()->Add_P1_PersonHpUI();
+		if (pUIManager->Get_BattleTypeCheck())
+		{
+			_bool bOniCheck = pUIManager->P1_Oni_Check();
+			if (!bOniCheck)
+				pUIManager->Add_P1_PersonHpUI();
+			else
+				pUIManager->Add_P1_OniHpUI();
+
+			bOniCheck = pUIManager->P2_Oni_Check();
+			if (!bOniCheck)
+				pUIManager->Add_P2_PersonHpUI();
+			else
+				pUIManager->Add_P2_OniHpUI();
+
+			pUIManager->Add_BattleUI();
+			pUIManager->Add_P1_Combo();
+			pUIManager->Add_P2_Combo();
+		}
 		else
-			CUI_Manager::Get_Instance()->Add_P1_OniHpUI();
-
-		bOniCheck = CUI_Manager::Get_Instance()->P2_Oni_Check();
-		if (!bOniCheck)
-			CUI_Manager::Get_Instance()->Add_P2_PersonHpUI();
-		else
-			CUI_Manager::Get_Instance()->Add_P2_OniHpUI();
-
-		CUI_Manager::Get_Instance()->Add_BattleUI();
-		CUI_Manager::Get_Instance()->Add_P1_Combo();
-		CUI_Manager::Get_Instance()->Add_P2_Combo();
-
+		{
+			pUIManager->Add_P1_PersonHpUI();
+			pUIManager->Add_P2_OniHpUI();
+			pUIManager->Add_P1_Combo();
+			pUIManager->Add_AdvBattleUI();
+		}
+	
 		m_bCreateUI = true;
 	}
 
-	if (pUIManager->Get_LevelResultOn())
+	if (pUIManager->Get_BattleTypeCheck())
 	{
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMERESULT))))
-			return;
+		if (pUIManager->Get_LevelResultOn())
+		{
+			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMERESULT))))
+				return;
+		}
 	}
+	else
+	{
+		if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
+		{
+			m_fNextLevelTime += fTimeDelta;
+			if (m_fNextLevelTime > 5.f)
+			{
+				pUIManager->Set_SaveStory(true);
+				if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_ADVRUI))))
+					return;
+			}
+		}
+		
+	}
+	
 		
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
@@ -284,8 +312,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		tCharacterDesc1p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc1p)))
 			return E_FAIL;
-		//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_GAMEPLAY, TEXT("Layer_RuiDad"), &tCharacterDesc1p)))
-		//	return E_FAIL;
 		break;
 	case 3:
 		tCharacterDesc1p.bSub = false;
@@ -319,11 +345,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		break;
 	case 2:
 		tCharacterDesc2p.bSub = false;
-		tCharacterDesc2p.i1P2P = 11;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
 			return E_FAIL;
-		//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_GAMEPLAY, TEXT("Layer_RuiDad"), &tCharacterDesc2p)))
-		//	return E_FAIL;
 		break;
 	case 3:
 		tCharacterDesc2p.bSub = false;
@@ -344,6 +367,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		tCharacterDesc2p.i1P2P = 11;
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_GAMEPLAY, TEXT("Layer_RuiDad"), &tCharacterDesc2p)))
+			return E_FAIL;
+		break;
+	case 7:
+		tCharacterDesc2p.i1P2P = 11;
+		tCharacterDesc2p.bSub = false;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	default:
@@ -460,7 +489,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CameraDesc.CameraDesc.fFovy = XMConvertToRadians(25.0f);
 	CameraDesc.CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	CameraDesc.CameraDesc.fNear = 0.2f;
-	CameraDesc.CameraDesc.fFar = 1500.f;
+	CameraDesc.CameraDesc.fFar = 1800.f;
 
 	CameraDesc.CameraDesc.TransformDesc.fSpeedPerSec = 10.f;
 	CameraDesc.CameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);

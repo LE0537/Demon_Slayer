@@ -172,6 +172,8 @@
 #include "RuiBigBall.h"
 #include "RuiMoveSkill.h"
 #include "RuiDadJump.h"
+#include "RuiDadBigStone.h"
+#include "RuiDadSmallStone.h"
 //Ani
 #include "Butterfly.h"
 #include "Deer.h"
@@ -343,6 +345,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_NumTimer"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Num_Timer/Num_Timer%d.png"), 10))))
 			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_AdvNumTimer"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Num_Timer/Num_Timer_Inf.png"), 1))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_RoundIcon"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Icon_Round_%d.png"), 2))))
 			return E_FAIL;
@@ -410,7 +415,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Char_Icon/C_Icon_%d.png"), 52))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharNameUI"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Char_Name/Name_%d.png"), 6))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Char_Name/Name_%d.png"), 7))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkillBar"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Gauge_Bar/Bar_Skill_%d.png"), 1))))
@@ -914,7 +919,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 67))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 80))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -947,6 +952,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Bullet", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Hinokami", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Shinobu", "../Bin/Resources/Effect/Mesh/MeshTexture/");
+		Load_Texture("Nezuko", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 
 	
 #pragma endregion Eeffect Texture
@@ -1173,7 +1179,19 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Spiral2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Spiral2.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Slash"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Slash.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_LongCross"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_LongCross.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Wind2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Wind2.fbx", PivotMatrix)))) return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_NeClaw1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/NeClaw1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_NeGroundRock1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/NeGroundRock1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_NeRock1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/NeRock1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_NeShock1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/NeShock1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_NeWind1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/NeWind1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_NeWind2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/NeWind2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_NeWind3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/NeWind3.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_PlaneClose1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/PlaneClose1.fbx", PivotMatrix)))) return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_GroundStone1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/GroundStone1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_GroundStone2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/GroundStone2.fbx", PivotMatrix)))) return E_FAIL;
 
 #pragma endregion Effect Model
 
@@ -1378,7 +1396,63 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Main_3"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Main_4"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Main_5"));
-		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Final"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Final_NonFol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Com_Final_Fol"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Move_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Move_Main_1R"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Move_Main_2L"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Move_Final_NonFol"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Start_1"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Start_2"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Start_3"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Start_4"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Loop_Fol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Loop_NonFol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpCom_Loop_FinalYZero"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpMove_1Loop_Fol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpMove_1Loop_NonFol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_JumpMove_1LoopEnd_Main"));
+
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Special_NonFol"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Skl_Special_Fol"));
+
+		//Nezuko
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack3_1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack3_2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack3_3"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack4_1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Attack4_2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Attack1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Attack2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_JumpMoveAttack"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_JumpMoveAttack2"));
+
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Skill_Claw1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Skill_Claw2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Skill_Claw3"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Skill_Claw4"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Jump_Skill_Claw5"));
+
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_JumpKick_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_JumpKick1"));
+
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw2"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw3"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw4"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw5"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_Claw_Ground"));
+
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_FootFire"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_Turn"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_UPFire1"));
+		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_Wind"));
 
 
 		RELEASE_INSTANCE(CEffect_Manager);
@@ -1634,6 +1708,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiDadJump"),
 		CRuiDadJump::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiDadBigStone"),
+		CRuiDadBigStone::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiDadSmallStone"),
+		CRuiDadSmallStone::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	//Map
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BattleField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);

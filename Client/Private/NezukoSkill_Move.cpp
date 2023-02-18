@@ -427,7 +427,32 @@ CNezukoState * CSkill_MoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	//}
 	
 		pNezuko->Get_Model()->Play_Animation(fTimeDelta * 2.f);
+		if (m_eStateType == STATE_TYPE::TYPE_START)
+		{
+			if (!m_bEffect)
+			{
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_KICKDOWN_FOOTFIRE, pNezuko);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_KICKDOWN_TURN, pNezuko);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_KICKDOWN_UPFIRE, pNezuko);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_KICKDOWN_WIND, pNezuko);
+				RELEASE_INSTANCE(CEffect_Manager);
+				m_bEffect = true;
+			}
+		}
+		if (m_eStateType == STATE_TYPE::TYPE_END)
+		{
+			if (!m_bEffect)
+			{
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_KICKDOWN_GROUND, pNezuko);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+				m_bEffect = true;
+			}
+		}
 	return nullptr;
 }
 

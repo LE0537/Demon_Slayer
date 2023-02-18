@@ -56,6 +56,8 @@ void COzaki::Late_Tick(_float fTimeDelta)
 	{
 		if (fDist < 30.f)
 		{
+			Check_Event();
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 			m_pModelCom->Play_Animation(fTimeDelta);
 		}
@@ -201,7 +203,73 @@ HRESULT COzaki::Ready_Components()
 
 	return S_OK;
 }
+void COzaki::Check_Event()
+{
+	_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+	_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - vPos));
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	if (fDist < 5.f)
+	{
+		if (!m_bMsgEnd)
+		{
+			//여기에 상호작용 F 유아이 띄우기
+		}
+		if (!m_bMsgStart && !m_bMsgEnd && pGameInstance->Key_Down(DIK_F))
+		{
+			m_bMsgStart = true;
+			if (!m_MsgReset)
+			{
+				pUIManager->Reset_MsgCount();
+				m_MsgReset = true;
+			}
+		}
+		if (!m_bMsgEnd && m_bMsgStart)
+		{
+			switch (pUIManager->Get_MsgCount())
+			{
+			case 0:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
+				pUIManager->Set_Msg(TEXT("누...누구냐!!"));
+				break;
+			case 1:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("구해 드리러 왔어요. 얼른 돌아가서 치료 받으세요."));
+				break;
+			case 2:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
+				pUIManager->Set_Msg(TEXT("으으...내가 그녀석의 눈을 봤어...그녀석..."));
+				break;
+			case 3:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
+				pUIManager->Set_Msg(TEXT("십이귀월의 하현이였어...최소 '주'급이 와야 감당 가능할거야."));	
+				break;
+			case 4:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
+				pUIManager->Set_Msg(TEXT("너는 내려가지 않는거야?? 너무 위험해! 우선은 같이 내려가자."));
+				break;
+			case 5:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("걱정마세요.아직 도망치지 못한 대원들이 있나 찾아보고 따라갈게요."));
+				pUIManager->Set_RescueCount(2);
+				m_bMsgEnd = true;
+				break;
+			default:
+				break;
+			}
+		}
 
+	}
+	RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CGameInstance);
+}
 void COzaki::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
 }

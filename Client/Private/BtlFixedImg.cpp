@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BtlFixedImg.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CBtlFixedImg::CBtlFixedImg(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -85,7 +86,22 @@ HRESULT CBtlFixedImg::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if(pUI_Manager->Get_BattleTypeCheck())
+		m_pVIBufferCom->Render();
+	else
+	{
+		if (!m_ThrowUIinfo.bPlyCheck)
+			m_pVIBufferCom->Render();
+		else if(m_ThrowUIinfo.bPlyCheck)
+		{
+			if(m_ThrowUIinfo.iTextureNum != 23 && m_ThrowUIinfo.iTextureNum != 36)
+				m_pVIBufferCom->Render();
+		}
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }

@@ -229,8 +229,9 @@ void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleRed
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
 }
 
+
 void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLifeTime, _float* fSpeed, _float2* vTexScale, _uint iParticleType,
-	_float fAngle, _float fRadius, _float3 vSize, _float3* vRotation, _float4 vColor, _float fDuration, _float fShotTime, _uint iOneParticleNumber)
+	_float fAngle, _float fRadius, _float3 vSize, _float3* vRotation, _float4 vColor, _float fDuration, _float fShotTime, _uint iOneParticleNumber, _float fCircleY, _float fCircleAngle)
 {
 	m_iMaxParticleNum = iMaxParticleNumber;
 	m_fDuration = fDuration;
@@ -251,6 +252,8 @@ void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLi
 	m_vParticleRotation[1] = vRotation[1];
 	m_vColor = vColor;
 	m_iShape = iParticleType;
+	m_fCircleAngle = fCircleAngle;
+	m_fCircleY = fCircleY;
 
 	random_device rd;
 	mt19937 Seed(rd());
@@ -259,6 +262,8 @@ void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLi
 	uniform_real_distribution<float> Dgree20(0, 5);
 	uniform_real_distribution<float> LifeTimeRand(fLifeTime[0], fLifeTime[1]);
 	uniform_real_distribution<float> SpeedRand(fSpeed[0], fSpeed[1]);
+	uniform_real_distribution<float> CircleAngleRand(0, m_fCircleAngle);
+	uniform_real_distribution<float> CircleYRand(0, m_fCircleY);
 	uniform_real_distribution<float> TexSizeXRand(vTexScale[0].x, vTexScale[1].x);
 	uniform_real_distribution<float> TexSizeYRand(vTexScale[0].y, vTexScale[1].y);
 	uniform_real_distribution<float> AngleRand(-1.f * (fAngle / 2.f), (fAngle / 2.f));
@@ -302,7 +307,7 @@ void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLi
 				XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vLook), XMConvertToRadians(z));
 		}
 		else if (iParticleType == 1) { // 원
-			_float Revolvez = Dgree360(Seed);
+			_float Revolvez = CircleAngleRand(Seed);
 
 			_float x = RotationXRand(Seed);
 			_float y = RotationYRand(Seed);
@@ -313,7 +318,7 @@ void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLi
 				XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vLook), XMConvertToRadians(z));
 
 			RevolveMatrix = XMMatrixRotationZ(XMConvertToRadians(Revolvez));
-			PositionMatrix = XMMatrixTranslation(0.f, fRadius, 0.f);
+			PositionMatrix = XMMatrixTranslation(0.f, fRadius, CircleYRand(Seed));
 		}
 		else if (iParticleType == 2) { // 상자
 			_float fSizeX = BoxSizeXRand(Seed);
@@ -406,6 +411,8 @@ void CVIBuffer_NewParticle_Instance::Reset_One(_uint iNum)
 	uniform_real_distribution<float> BoxSizeXRand(0, m_vSize.x);
 	uniform_real_distribution<float> BoxSizeYRand(0, m_vSize.y);
 	uniform_real_distribution<float> BoxSizeZRand(0, m_vSize.z);
+	uniform_real_distribution<float> CircleAngleRand(0, m_fCircleAngle);
+	uniform_real_distribution<float> CircleYRand(0, m_fCircleY);
 	uniform_real_distribution<float> RotationXRand(m_vParticleRotation[0].x, m_vParticleRotation[1].x);
 	uniform_real_distribution<float> RotationYRand(m_vParticleRotation[0].y, m_vParticleRotation[1].y);
 	uniform_real_distribution<float> RotationZRand(m_vParticleRotation[0].z, m_vParticleRotation[1].z);
@@ -440,7 +447,7 @@ void CVIBuffer_NewParticle_Instance::Reset_One(_uint iNum)
 			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vLook), XMConvertToRadians(z));
 	}
 	else if (m_iShape == 1) { // 원
-		_float Revolvez = Dgree360(Seed);
+		_float Revolvez = CircleAngleRand(Seed);
 
 		_float x = RotationXRand(Seed);
 		_float y = RotationYRand(Seed);
@@ -451,7 +458,7 @@ void CVIBuffer_NewParticle_Instance::Reset_One(_uint iNum)
 			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vLook), XMConvertToRadians(z));
 
 		RevolveMatrix = XMMatrixRotationZ(XMConvertToRadians(Revolvez));
-		PositionMatrix = XMMatrixTranslation(0.f, m_fRadius, 0.f);
+		PositionMatrix = XMMatrixTranslation(0.f, m_fRadius, CircleYRand(Seed));
 	}
 	else if (m_iShape == 2) { // 상자
 		_float fSizeX = BoxSizeXRand(Seed);

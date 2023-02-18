@@ -456,6 +456,24 @@ CNezukoState * CSkill_CommonState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta
 	else
 		pNezuko->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
 
+	if (m_eStateType == STATE_TYPE::TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_CLAW1, pNezuko);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_CLAW2, pNezuko);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_CLAW3, pNezuko);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_CLAW4, pNezuko);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_CLAW5, pNezuko);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_CLAW_GROUND, pNezuko);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
+
 	return nullptr;
 }
 

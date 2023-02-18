@@ -43,7 +43,7 @@ public:
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
-
+	void Check_Event();
 
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
@@ -59,6 +59,14 @@ private:
 	_bool					m_bQuestStop = false;
 
 	_bool					m_bChangeAnim = false;
+
+	_bool					m_bClearQuest = false;
+	_bool					m_bQuestStop2 = false;
+	_bool					m_MsgReset = false;
+	_bool					m_bMsgStart = false;
+	_bool					m_bMsgEnd = false;
+
+	_bool                   m_bSetPos = false;
 public:
 	static CMurata* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

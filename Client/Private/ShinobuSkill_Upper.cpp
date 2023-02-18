@@ -340,7 +340,16 @@ CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 		break;
 	}
 
-	
+
+	if (!m_bEffect &&
+		m_eStateType == TYPE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_SPECIAL_NONFOL, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SHINOBU_SKL_SPECIAL_FOL, pShinobu);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }
@@ -353,10 +362,10 @@ void CSkill_UpperState::Enter(CShinobu* pShinobu)
 	{
 	case Client::CShinobuState::TYPE_START:
 		pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_SKILL_UPPER_0);
-		pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_SKILL_UPPER_1);
+		pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_JUMP_LOOP);		// ANIM_SKILL_UPPER_1 에서 수정
 		pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_SKILL_UPPER_2);
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_SKILL_UPPER_0);
-		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SKILL_UPPER_0, 0.01f);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SKILL_UPPER_0, 0.2f);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_SKILL_UPPER_0);
 		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_SKILL_UPPER_0, false);
 		m_vPosition.x = XMVectorGetX(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
@@ -370,10 +379,10 @@ void CSkill_UpperState::Enter(CShinobu* pShinobu)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Upper.wav"), fEFFECT);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
-		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_SKILL_UPPER_1);
-		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SKILL_UPPER_1, 0.01f);
-		pShinobu->Set_AnimIndex(CShinobu::ANIM_SKILL_UPPER_1);
-		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_SKILL_UPPER_1, true);
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_JUMP_LOOP);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_JUMP_LOOP, 0.01f);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_LOOP);
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_JUMP_LOOP, true);
 		m_vPosition.x = XMVectorGetX(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		m_vPosition.y = XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		m_vPosition.z = XMVectorGetZ(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
@@ -420,7 +429,7 @@ void CSkill_UpperState::Move(CShinobu * pShinobu, _float fTimeDelta)
 	}
 	else
 	{
-		pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 1.2f, pShinobu->Get_NavigationCom());
+		pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 2.f, pShinobu->Get_NavigationCom());
 	}
 }
 

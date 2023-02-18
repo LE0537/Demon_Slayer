@@ -13,7 +13,7 @@ CSkill_RushState::CSkill_RushState(STATE_TYPE eType)
 	m_eStateType = eType;
 	CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_STATIC, TEXT("Layer_CollBox"), &m_pCollBox)))
+	if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_BaseAtk"), LEVEL_GAMEPLAY, TEXT("Layer_CollBox"), &m_pCollBox)))
 		return;
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -21,13 +21,6 @@ CSkill_RushState::CSkill_RushState(STATE_TYPE eType)
 
 CRuiDadState * CSkill_RushState::HandleInput(CRuiDad* pRuiDad)
 {
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
-
-	
-
-	
-
 
 	return nullptr;
 }
@@ -229,7 +222,7 @@ void CSkill_RushState::Enter(CRuiDad* pRuiDad)
 
 void CSkill_RushState::Exit(CRuiDad* pRuiDad)
 {
-
+	m_pCollBox->Set_Dead();
 }
 
 void CSkill_RushState::Move(CRuiDad * pRuiDad, _float fTimeDelta)

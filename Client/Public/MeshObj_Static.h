@@ -44,8 +44,8 @@ private:
 
 private:
 	MESHOBJ_STATIC_DESC			m_tMyDesc;
-	_int		m_iInit = 2;
 	_bool		m_bRenderShadow = true;
+	_float4x4	m_matProjOrigin;
 
 	_float		m_fFrustumRadiusRatio = 1.f;
 

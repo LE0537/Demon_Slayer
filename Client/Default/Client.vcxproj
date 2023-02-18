@@ -292,6 +292,7 @@
     <ClInclude Include="..\public\RuiBigBall.h" />
     <ClInclude Include="..\Public\RuiDad.h" />
     <ClInclude Include="..\Public\RuiDadAtk_1_State.h" />
+    <ClInclude Include="..\public\RuiDadBigStone.h" />
     <ClInclude Include="..\Public\RuiDadDashState.h" />
     <ClInclude Include="..\Public\RuiDadGuardHitState.h" />
     <ClInclude Include="..\Public\RuiDadGuardState.h" />
@@ -304,6 +305,7 @@
     <ClInclude Include="..\Public\RuiDadSkill_Punch.h" />
     <ClInclude Include="..\Public\RuiDadSkill_Rush.h" />
     <ClInclude Include="..\Public\RuiDadSkill_Throw.h" />
+    <ClInclude Include="..\public\RuiDadSmallStone.h" />
     <ClInclude Include="..\Public\RuiDadTargetRushState.h" />
     <ClInclude Include="..\Public\RuiJumpAttackState.h" />
     <ClInclude Include="..\Public\RuiJumpMoveAttackState.h" />
@@ -697,6 +699,7 @@
     <ClCompile Include="..\private\RuiBigBall.cpp" />
     <ClCompile Include="..\Private\RuiDad.cpp" />
     <ClCompile Include="..\Private\RuiDadAtk_1_State.cpp" />
+    <ClCompile Include="..\private\RuiDadBigStone.cpp" />
     <ClCompile Include="..\Private\RuiDadDashState.cpp" />
     <ClCompile Include="..\Private\RuiDadGuardHitState.cpp" />
     <ClCompile Include="..\Private\RuiDadGuardState.cpp" />
@@ -709,6 +712,7 @@
     <ClCompile Include="..\Private\RuiDadSkill_Punch.cpp" />
     <ClCompile Include="..\Private\RuiDadSkill_Rush.cpp" />
     <ClCompile Include="..\Private\RuiDadSkill_Throw.cpp" />
+    <ClCompile Include="..\private\RuiDadSmallStone.cpp" />
     <ClCompile Include="..\Private\RuiDadTargetRushState.cpp" />
     <ClCompile Include="..\Private\RuiJumpAttackState.cpp" />
     <ClCompile Include="..\Private\RuiJumpMoveAttackState.cpp" />
