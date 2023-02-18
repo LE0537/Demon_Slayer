@@ -247,6 +247,7 @@
     <ClInclude Include="..\public\Goto.h" />
     <ClInclude Include="..\Public\HinoCami_CinemaState.h" />
     <ClInclude Include="..\public\Hoke.h" />
+    <ClInclude Include="..\Public\InteractionUI.h" />
     <ClInclude Include="..\public\KaguraSkill.h" />
     <ClInclude Include="..\Public\KyoujuroBattleSTState.h" />
     <ClInclude Include="..\Public\KyoujuroJumpAttackState.h" />
@@ -654,6 +655,7 @@
     <ClCompile Include="..\private\Goto.cpp" />
     <ClCompile Include="..\Private\HinoCami_CinemaState.cpp" />
     <ClCompile Include="..\private\Hoke.cpp" />
+    <ClCompile Include="..\Private\InteractionUI.cpp" />
     <ClCompile Include="..\private\KaguraSkill.cpp" />
     <ClCompile Include="..\Private\KyoujuroBattleSTState.cpp" />
     <ClCompile Include="..\Private\KyoujuroJumpAttackState.cpp" />

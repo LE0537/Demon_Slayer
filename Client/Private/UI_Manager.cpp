@@ -508,6 +508,8 @@ void CUI_Manager::Add_Quiest()
 	m_iSubBaseNum = 0;
 	m_iSubIconLayerNum = 0;
 	m_iSubStampIconLayerNum = 0;
+	m_iGuideKeyLayerNum = 0;
+	m_iGuideBaseLayerNum = 0;
 }
 
 void CUI_Manager::Add_AdvBattleUI()
@@ -1575,12 +1577,16 @@ HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
 		++m_iSubStampIconLayerNum;
 		break;
 	case 5:
+		iter.iLayerNum = m_iGuideBaseLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestGuideBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iGuideBaseLayerNum;
 		break;
 	case 6:
+		iter.iLayerNum = m_iGuideKeyLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestKeyUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iGuideKeyLayerNum;
 		break;
 	case 7:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MsgNameBase"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))

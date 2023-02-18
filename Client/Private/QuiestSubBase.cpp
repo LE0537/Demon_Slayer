@@ -115,7 +115,7 @@ HRESULT CQuiestSubBase::Render()
 	if (m_ThrowUIinfo.iLayerNum == 0)
 		m_szQuest = TEXT("Ç÷±Í ³¿»õ µû¶ó°¡±â");
 	else if (m_ThrowUIinfo.iLayerNum == 1)
-		m_szQuest = TEXT("±Í»ì´ë¿ø ±¸Ãâ(0/2)");
+		wsprintf(m_szQuest2, TEXT("±Í»ì´ë¿ø ±¸Ãâ(%d/2)"), pUI_Manager->Get_RescueCount());
 	else if (m_ThrowUIinfo.iLayerNum == 2)
 		m_szQuest = TEXT("ÇÏÇö Ç÷±Í Ã³Ä¡");
 	else if (m_ThrowUIinfo.iLayerNum == 3)
@@ -127,7 +127,10 @@ HRESULT CQuiestSubBase::Render()
 	if (pUI_Manager->Get_QuestCount() >= m_ThrowUIinfo.iLayerNum)
 	{
 		m_pVIBufferCom->Render();
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szQuest.c_str(), XMVectorSet(m_fX - 120.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+		if(m_ThrowUIinfo.iLayerNum != 1)
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szQuest.c_str(), XMVectorSet(m_fX - 120.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+		else
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szQuest2, XMVectorSet(m_fX - 120.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
 	}
 
 	

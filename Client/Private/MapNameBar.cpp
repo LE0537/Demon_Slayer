@@ -53,44 +53,49 @@ void CMapNameBar::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (m_fFadeTime <= 0.f)
-		m_bFadeCheck = true;
-	else if (m_fFadeTime >= 0.8f)
+	if (!pUI_Manager->Get_SaveStory())
 	{
-		m_fStopTime += fTimeDelta;
-		if(m_fStopTime >= 1.f)
-			m_bFadeCheck = false;
-	}
+		if (m_fFadeTime <= 0.f)
+			m_bFadeCheck = true;
+		else if (m_fFadeTime >= 0.8f)
+		{
+			m_fStopTime += fTimeDelta;
+			if (m_fStopTime >= 1.f)
+				m_bFadeCheck = false;
+		}
 
-	if (m_bFadeCheck && !m_bOnCheck)
-	{
-		m_iMoveCount += 1;
-		m_fFadeTime += 0.01f;
-		if (m_iMoveCount >= 80)
+		if (m_bFadeCheck && !m_bOnCheck)
 		{
-			m_iMoveCount = 80;
-			m_fFadeTime = 1.f;
-		}
-	}
-	else
-	{
-		m_iMoveCount -= 1;
-		m_fFadeTime -= 0.01f;
-		if (m_iMoveCount <= 0)
-		{
-			m_iMoveCount = 0;
-			m_fFadeTime = 0.f;
-			m_bOnCheck = true;
-			if (!m_bMsgOnCheck)
+			m_iMoveCount += 1;
+			m_fFadeTime += 0.01f;
+			if (m_iMoveCount >= 80)
 			{
-				pUI_Manager->Set_MsgOn();
-				pUI_Manager->Set_Msg(TEXT("(»ê ±íÀº °÷¿¡¼­ Ç÷±Í ³¿»õ°¡ Èê·¯µé¾î¿À°í ÀÖ¾î...)"));
-				pUI_Manager->Set_QuestStartCheck(true);
-				m_bMsgOnCheck = true;
+				m_iMoveCount = 80;
+				m_fFadeTime = 1.f;
 			}
-			
+		}
+		else
+		{
+			m_iMoveCount -= 1;
+			m_fFadeTime -= 0.01f;
+			if (m_iMoveCount <= 0)
+			{
+				m_iMoveCount = 0;
+				m_fFadeTime = 0.f;
+				m_bOnCheck = true;
+				if (!m_bMsgOnCheck)
+				{
+					pUI_Manager->Set_MsgOn();
+					pUI_Manager->Set_Msg(TEXT("(»ê ±íÀº °÷¿¡¼­ Ç÷±Í ³¿»õ°¡ Èê·¯µé¾î¿À°í ÀÖ¾î...)"));
+					pUI_Manager->Set_QuestStartCheck(true);
+					pUI_Manager->Set_MainQuestOn();
+					m_bMsgOnCheck = true;
+				}
+
+			}
 		}
 	}
+	
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 

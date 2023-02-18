@@ -5,15 +5,12 @@
 
 BEGIN(Client)
 
-class CQuiestSubBase final : public CUI
+class CInteractionUI final : public CUI
 {
 private:
-	CQuiestSubBase(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CQuiestSubBase(const CQuiestSubBase& rhs);
-	virtual ~CQuiestSubBase() = default;
-
-public:
-	_bool Get_BaseOn() { return m_bBaseOn; }
+	CInteractionUI(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CInteractionUI(const CInteractionUI& rhs);
+	virtual ~CInteractionUI() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -26,14 +23,9 @@ private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
-private:
-	_bool						m_bBaseOn = false;
-	_float						m_fFadeTime = 0.f;
-	wstring						m_szQuest = TEXT("");
-	_tchar						m_szQuest2[MAX_PATH] = TEXT("");
 
 public:
-	static CQuiestSubBase* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CInteractionUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };
