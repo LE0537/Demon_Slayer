@@ -64,7 +64,7 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	m_fMotionBlurTime = 0.f;
 	m_fBlurTime = 0.f;
-	m_fBlurTimeMax = 0.f;
+	m_fBlurTimeMax = 1.f;
 	m_fBlurMinRatio = 0.f;
 	m_vBlurPoint_Viewport = _float2(0.f, 0.f);
 
@@ -415,6 +415,7 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 	if (true == pGameInstance->Key_Down(DIK_F8))
 	{
 		m_fBlurTime = 1.f;
+		m_fBlurTimeMax = 1.f;
 		m_fValue[VALUE_POINTBLURPOWER] = 100.f;
 		m_vBlurPoint_Viewport = _float2(0.5f, 0.5f);
 	}
@@ -534,7 +535,8 @@ HRESULT CRenderer::Add_Debug(CComponent* pDebugCom)
 
 void CRenderer::Set_PointBlur(_float3 vBlurPointPos, _float fBlurPower, _float fDuration, _float fBlurMinRatio)
 {
-	if (0.f < m_fBlurTime)
+	if (0.f < m_fBlurTime ||
+		0.f >= fDuration)
 		return;
 
 	m_fValue[VALUE_POINTBLURPOWER] = fBlurPower;
