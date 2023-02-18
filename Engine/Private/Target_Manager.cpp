@@ -138,10 +138,14 @@ HRESULT CTarget_Manager::Begin_MRT_NonClear(ID3D11DeviceContext * pContext, cons
 
 	return S_OK;
 }
-HRESULT CTarget_Manager::Begin_ShadowMRT(ID3D11DeviceContext * pContext, const _tchar * pMRTTag)
+HRESULT CTarget_Manager::Begin_ShadowMRT(ID3D11DeviceContext * pContext, const _tchar * pMRTTag, const _tchar* pDSVTag, _uint iWinCX, _uint iWinCY)
 {
 	list<CRenderTarget*>*		pMRTList = Find_MRT(pMRTTag);
 	if (nullptr == pMRTList)
+		return E_FAIL;
+
+	ID3D11DepthStencilView*		pDSV = Find_DSV(pDSVTag);
+	if (nullptr == pDSV)
 		return E_FAIL;
 
 
@@ -160,16 +164,16 @@ HRESULT CTarget_Manager::Begin_ShadowMRT(ID3D11DeviceContext * pContext, const _
 	}
 
 
-	pContext->ClearDepthStencilView(m_pShadowDeptheStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
-	pContext->OMSetRenderTargets(iNumRTVs, RTVs, m_pShadowDeptheStencil);
+	pContext->ClearDepthStencilView(pDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	pContext->OMSetRenderTargets(iNumRTVs, RTVs, pDSV);
 
 
 	D3D11_VIEWPORT			ViewPortDesc;
 	ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
 	ViewPortDesc.TopLeftX = 0;
 	ViewPortDesc.TopLeftY = 0;
-	ViewPortDesc.Width = 1280.f * 5.f;
-	ViewPortDesc.Height = 720.f * 5.f;
+	ViewPortDesc.Width = iWinCX;
+	ViewPortDesc.Height = iWinCY;
 	ViewPortDesc.MinDepth = 0.f;
 	ViewPortDesc.MaxDepth = 1.f;
 
@@ -177,14 +181,15 @@ HRESULT CTarget_Manager::Begin_ShadowMRT(ID3D11DeviceContext * pContext, const _
 	return S_OK;
 }
 
-HRESULT CTarget_Manager::Begin_ShadowMRT_NonClear(ID3D11DeviceContext * pContext, const _tchar * pMRTTag)
+HRESULT CTarget_Manager::Begin_ShadowMRT_NonClear(ID3D11DeviceContext * pContext, const _tchar * pMRTTag, const _tchar* pDSVTag, _uint iWinCX, _uint iWinCY)
 {
 	list<CRenderTarget*>*		pMRTList = Find_MRT(pMRTTag);
 	if (nullptr == pMRTList)
 		return E_FAIL;
 
-
-	// 끼워져 있는 8개의 랜더 타겟와 스텐실 하나를 보관한다.
+	ID3D11DepthStencilView*		pDSV = Find_DSV(pDSVTag);
+	if (nullptr == pDSV)
+		return E_FAIL;
 
 	pContext->OMGetRenderTargets(1, &m_pOldRTV, &m_pOldDSV);
 
@@ -198,16 +203,16 @@ HRESULT CTarget_Manager::Begin_ShadowMRT_NonClear(ID3D11DeviceContext * pContext
 	}
 
 
-	pContext->ClearDepthStencilView(m_pShadowDeptheStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
-	pContext->OMSetRenderTargets(iNumRTVs, RTVs, m_pShadowDeptheStencil);
+	pContext->ClearDepthStencilView(pDSV, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.f, 0);
+	pContext->OMSetRenderTargets(iNumRTVs, RTVs, pDSV);
 
 
 	D3D11_VIEWPORT			ViewPortDesc;
 	ZeroMemory(&ViewPortDesc, sizeof(D3D11_VIEWPORT));
 	ViewPortDesc.TopLeftX = 0;
 	ViewPortDesc.TopLeftY = 0;
-	ViewPortDesc.Width = 1280.f * 5.f;
-	ViewPortDesc.Height = 720.f * 5.f;
+	ViewPortDesc.Width = iWinCX;
+	ViewPortDesc.Height = iWinCY;
 	ViewPortDesc.MinDepth = 0.f;
 	ViewPortDesc.MaxDepth = 1.f;
 
@@ -265,7 +270,7 @@ HRESULT CTarget_Manager::Bind_ShaderResource(const _tchar * pTargetTag, CShader 
 	return pRenderTarget->Bind_ShaderResource(pShader, pConstantName);
 }
 
-HRESULT CTarget_Manager::Ready_ShadowDepthStencilRenderTargetView(ID3D11Device * pDevice, _uint iWinCX, _uint iWinCY)
+HRESULT CTarget_Manager::Ready_ShadowDepthStencilRenderTargetView(ID3D11Device * pDevice, const _tchar* pDSVTag, _uint iWinCX, _uint iWinCY)
 {
 	if (nullptr == pDevice)
 		return E_FAIL;
@@ -292,9 +297,12 @@ HRESULT CTarget_Manager::Ready_ShadowDepthStencilRenderTargetView(ID3D11Device *
 	if (FAILED(pDevice->CreateTexture2D(&TextureDesc, nullptr, &pDepthStencilTexture)))
 		return E_FAIL;
 
+	ID3D11DepthStencilView* pDSV = nullptr;
 
-	if (FAILED(pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &m_pShadowDeptheStencil)))
+	if (FAILED(pDevice->CreateDepthStencilView(pDepthStencilTexture, nullptr, &pDSV)))
 		return E_FAIL;
+
+	m_DSVs.emplace(pDSVTag, pDSV);
 
 	Safe_Release(pDepthStencilTexture);
 
@@ -356,6 +364,16 @@ list<class CRenderTarget*>* CTarget_Manager::Find_MRT(const _tchar * pMRTTag)
 	return &iter->second;
 }
 
+ID3D11DepthStencilView * CTarget_Manager::Find_DSV(const _tchar * pDSVTag)
+{
+	auto	iter = find_if(m_DSVs.begin(), m_DSVs.end(), CTag_Finder(pDSVTag));
+
+	if (iter == m_DSVs.end())
+		return nullptr;
+
+	return iter->second;
+}
+
 void CTarget_Manager::Free()
 {
 	for (auto& Pair : m_MRTs)
@@ -370,10 +388,12 @@ void CTarget_Manager::Free()
 
 	for (auto& Pair : m_RenderTargets)
 		Safe_Release(Pair.second);
-
 	m_RenderTargets.clear();
 
-	Safe_Release(m_pShadowDeptheStencil);
+	for (auto& Pair : m_DSVs)
+		Safe_Release(Pair.second);
+	m_DSVs.clear();
+
 	Safe_Release(m_pOldRTV);
 	Safe_Release(m_pOldDSV);
 }
