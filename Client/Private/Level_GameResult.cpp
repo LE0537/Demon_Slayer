@@ -258,11 +258,11 @@ HRESULT CLevel_GameResult::Load_StaticObjects(char * pFileName)
 
 			tMeshObj_Static_InstDesc.pWorld = arrWorld;
 			tMeshObj_Static_InstDesc.pGlowPower = arrGlowPower;
-			tMeshObj_Static_InstDesc.iCurrentLevel = LEVEL_SELECTCHAR;
+			tMeshObj_Static_InstDesc.iCurrentLevel = LEVEL_GAMERESULT;
 			tMeshObj_Static_InstDesc.iModelIndex = Pair.first;
 			tMeshObj_Static_InstDesc.iNumInstancing = iNumInstancing;
 
-			if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static_Instancing", LEVEL_SELECTCHAR, L"Layer_MeshObj_Static_Inst", &tMeshObj_Static_InstDesc)))
+			if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static_Instancing", LEVEL_GAMERESULT, L"Layer_MeshObj_Static_Inst", &tMeshObj_Static_InstDesc)))
 			{
 				ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects_Instancing");
 				continue;
@@ -287,13 +287,13 @@ HRESULT CLevel_GameResult::Load_StaticObjects(char * pFileName)
 
 
 				CMeshObj_Static::MESHOBJ_STATIC_DESC tMeshObj_StaticDesc;
-				tMeshObj_StaticDesc.iCurrentLevel = LEVEL_SELECTCHAR;
+				tMeshObj_StaticDesc.iCurrentLevel = LEVEL_GAMERESULT;
 				tMeshObj_StaticDesc.iModelIndex = Pair.first;
 				tMeshObj_StaticDesc.matWorld = tMapObjDesc.matWorld;
 				tMeshObj_StaticDesc.fGlowPower = tMapObjDesc.fGlowPower;
 				tMeshObj_StaticDesc.bAlphaBlend = tMapObjDesc.bAlphaBlend;
 
-				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static", LEVEL_SELECTCHAR, L"Layer_MeshObj_Static", &tMeshObj_StaticDesc)))
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static", LEVEL_GAMERESULT, L"Layer_MeshObj_Static", &tMeshObj_StaticDesc)))
 				{
 					ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects");
 					continue;
