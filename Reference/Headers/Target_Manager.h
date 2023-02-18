@@ -22,15 +22,15 @@ public:
 
 	HRESULT Begin_MRT_NonClear(ID3D11DeviceContext* pContext, const _tchar* pMRTTag);
 	HRESULT Begin_MRT_NonClear(ID3D11DeviceContext* pContext, const _tchar* pMRTTag, ID3D11DepthStencilView* pDSV);
-	HRESULT Begin_ShadowMRT(ID3D11DeviceContext* pContext, const _tchar* pMRTTag);
-	HRESULT Begin_ShadowMRT_NonClear(ID3D11DeviceContext* pContext, const _tchar* pMRTTag);
+	HRESULT Begin_ShadowMRT(ID3D11DeviceContext* pContext, const _tchar* pMRTTag, const _tchar* pDSVTag, _uint iWinCX, _uint iWinCY);
+	HRESULT Begin_ShadowMRT_NonClear(ID3D11DeviceContext* pContext, const _tchar* pMRTTag, const _tchar* pDSVTag, _uint iWinCX, _uint iWinCY);
 	HRESULT End_MRT(ID3D11DeviceContext* pContext);
 
 	HRESULT	MRT_Clear(ID3D11DeviceContext* pContext, const _tchar* pMRTTag);
 
 public:
 	HRESULT Bind_ShaderResource(const _tchar* pTargetTag, class CShader* pShader, const char* pConstantName);
-	HRESULT Ready_ShadowDepthStencilRenderTargetView(ID3D11Device * pDevice, _uint iWinCX, _uint iWinCY);
+	HRESULT Ready_ShadowDepthStencilRenderTargetView(ID3D11Device * pDevice, const _tchar* pDSVTag, _uint iWinCX, _uint iWinCY);
 
 public:
 	HRESULT Ready_Debug(const _tchar* pTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
@@ -47,16 +47,20 @@ private:
 	typedef map<const _tchar*, list<class CRenderTarget*>>	MRTS;
 
 private:
+	map<const _tchar*, ID3D11DepthStencilView*>			m_DSVs;
+	typedef map<const _tchar*, ID3D11DepthStencilView*>	DSVS;
+
+private:
 	ID3D11RenderTargetView*				m_pOldRTV = nullptr;
 	ID3D11DepthStencilView*				m_pOldDSV = nullptr;
 
-	ID3D11DepthStencilView*				m_pShadowDeptheStencil = nullptr;
 
 
 
 private:
 	class CRenderTarget* Find_RenderTarget(const _tchar* pTargetTag);
 	list<class CRenderTarget*>* Find_MRT(const _tchar* pMRTTag);
+	ID3D11DepthStencilView* Find_DSV(const _tchar* pDSVTag);
 
 public:
 	virtual void Free() override;

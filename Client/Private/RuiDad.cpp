@@ -33,7 +33,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
 	m_i1p = tCharacterDesc.i1P2P;
-	
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 

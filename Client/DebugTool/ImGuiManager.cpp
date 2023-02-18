@@ -127,7 +127,8 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->AO_OnOff(bAO_OnOff);
 
-	static float fAOValue[CRenderer::VALUE_END] = { 0.15f, 0.15f, 0.4f, 40.f, 450.f, 0.3f, 0.5f, 1.36f, 0.4f, 1.f, 20.f, 300.f, 0.05f, 1.79f, 0.2f, 0.85f, 1.f, 15.f };
+	//	20
+	static float fAOValue[CRenderer::VALUE_END] = { 0.15f, 0.15f, 0.4f, 40.f, 450.f, 0.3f, 0.5f, 1.36f, 0.4f, 1.f, 20.f, 300.f, 0.05f, 1.79f, 0.2f, 0.85f, 1.f, 15.f, 1.f, 1.f};
 	static float vFogColor[3] = { 0.15f, 0.15f, 0.4f };
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);

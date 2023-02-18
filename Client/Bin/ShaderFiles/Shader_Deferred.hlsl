@@ -25,6 +25,7 @@ bool			g_bRenderAO;
 texture2D		g_DiffuseTexture;
 texture2D		g_NormalTexture;
 texture2D		g_DepthTexture;
+texture2D		g_WorldTexture;
 texture2D		g_ShadeTexture;
 texture2D		g_SpecularTexture;
 texture2D       g_ShadowDepthTexture;
@@ -61,6 +62,11 @@ float			g_fAddValue;
 float			g_fMapGrayScaleTimeRatio;
 float			g_fMapGrayScaleFogRange;
 float			g_fMapGrayScalePower;
+
+float3			g_vBlurPoint;
+float			g_fPointBlurPower;
+float			g_fPointBlurTime;
+float			g_fPointBlur_MinRatio;
 
 const float		g_fWeight[13] =
 {
@@ -370,6 +376,7 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 	vector			vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vDepth = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
+	vector			vWorld = g_WorldTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vAO = 0.1f * g_AOTexture.Sample(LinearSampler, In.vTexUV) * g_bRenderAO;
 
 	Out.vColor = ((vDiffuse - vAO) * vShade + vSpecular);
@@ -381,16 +388,7 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 	float			fViewZ = vDepthDesc.y * g_fFar;
 
 	vector			vWorldPos = (vector)0.f;
-
-	vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
-	vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
-	vWorldPos.z = vDepthDesc.r;
-	vWorldPos.w = 1.0f;
-
-	vWorldPos *= fViewZ;
-
-	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
-	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+	vWorldPos = vWorld;
 
 
 
@@ -737,6 +735,43 @@ PS_OUT PS_MAPGRAYSCALE(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_MUL(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector vAddColor = g_AddTexture.Sample(LinearSampler, In.vTexUV);
+
+	Out.vColor = vDiffuse;
+	Out.vColor.a = vDiffuse.a;
+
+	return Out;
+}
+
+PS_OUT PS_POINTBLUR(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+	vector	vBlur;
+
+	Out.vColor = vDiffuse;
+	Out.vColor.a = vDiffuse.a;
+
+	return Out;
+}
+
+PS_OUT PS_MOTIONBLUR(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+
+	return Out;
+}
+
+
 
 
 
@@ -951,6 +986,39 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAPGRAYSCALE();
+	}
+
+	pass Diffuse_Mul		//	16
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MUL();
+	}
+
+	pass PointBlur		//	17
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_POINTBLUR();
+	}
+
+	pass MotionBlur		//	18
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MOTIONBLUR();
 	}
 
 }

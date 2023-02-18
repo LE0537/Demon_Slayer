@@ -46,6 +46,7 @@ struct VS_OUT
 
 	float3		vTangent : TANGENT;
 	float3		vBinormal : BINORMAL;
+	float4		vWorld : TEXCOORD2;
 };
 
 VS_OUT VS_MAIN(VS_IN In)
@@ -67,6 +68,7 @@ VS_OUT VS_MAIN(VS_IN In)
 	Out.vNormal = vNormal;
 	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
+	Out.vWorld = vPosition;
 
 	Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), g_WorldMatrix)).xyz;
 	Out.vBinormal = cross(Out.vNormal, Out.vTangent);
@@ -82,6 +84,7 @@ struct VS_FLOWMAP_OUT
 	float4		vProjPos : TEXCOORD1;
 
 	float2		vTexCoord1 : TEXCOORD2;		//	플로우맵 정보를 저장합니다.
+	float4		vWorld : TEXCOORD3;
 };
 
 VS_FLOWMAP_OUT VS_FLOWMAP(VS_IN In)
@@ -102,6 +105,7 @@ VS_FLOWMAP_OUT VS_FLOWMAP(VS_IN In)
 	Out.vPosition = mul(vPosition, matWVP);
 	Out.vNormal = vNormal;
 	Out.vProjPos = Out.vPosition;
+	Out.vWorld = vPosition;
 
 	Out.vTexUV = In.vTexUV;
 	Out.vTexCoord1.x = In.vTexUV.x + (frac(g_fCurrentTime) + 0.1f);
@@ -124,6 +128,7 @@ struct PS_IN
 
 	float3		vTangent : TANGENT;
 	float3		vBinormal : BINORMAL;
+	float4		vWorld : TEXCOORD2;
 };
 
 struct PS_OUT
@@ -131,6 +136,8 @@ struct PS_OUT
 	float4		vColor : SV_TARGET0;
 	float4		vNormal : SV_TARGET1;
 	float4		vDepth : SV_TARGET2;
+
+	float4		vWorld : SV_TARGET5;
 };
 
 struct PS_EFFECT_OUT
@@ -160,7 +167,8 @@ PS_OUT PS_MAIN(PS_IN In)
 	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(vNormal * 0.5f + 0.5f, 0.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.f);
-		
+	Out.vWorld = In.vWorld;
+
 	if (Out.vColor.a < 0.5f)
 		discard;
 
@@ -187,9 +195,10 @@ struct PS_FLOWMAP_IN
 	float4		vProjPos : TEXCOORD1;
 
 	float2		vTexCoord1 : TEXCOORD2;
+	float4		vWorld : TEXCOORD3;
 };
 
-PS_OUT PS_SMELL(PS_FLOWMAP_IN In)
+PS_EFFECT_OUT PS_SMELL(PS_FLOWMAP_IN In)
 {
 	PS_EFFECT_OUT		Out = (PS_EFFECT_OUT)0;
 
@@ -222,6 +231,7 @@ PS_OUT PS_SMELL(PS_FLOWMAP_IN In)
 	vector		vMaskTexture = g_MaskTexture.Sample(LinearSampler, noiseCoords);
 
 	Out.vDrawEffect = Out.vColor;
+
 	if (Out.vColor.a < 0.3f)
 		discard;
 
