@@ -6,6 +6,8 @@
 #include "UI_Manager.h"
 #include"SoundMgr.h"
 #include "SelMapCursor.h"
+#include "WindowLeft.h"
+#include "WindowRight.h"
 
 CLevel_SelectMap::CLevel_SelectMap(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -34,13 +36,16 @@ void CLevel_SelectMap::Tick(_float fTimeDelta)
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
 
-	_bool bCheck = dynamic_cast<CSelMapCursor*>(pUIManager->Get_SelMapCursor())->Get_MapSelectEnd();
+	CWindowLeft* pWindowLeft = dynamic_cast<CWindowLeft*>(pUIManager->Get_Window(0));
+	CWindowRight* pWindowRight = dynamic_cast<CWindowRight*>(pUIManager->Get_Window(1));
 
-	if (bCheck)
-	{
+
+	if (pWindowLeft->Get_CloseCheck() && pWindowRight->Get_CloseCheck())
+	{	
 		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
-			return;
+			return;	
 	}
+	
 
 	if (pGameInstance->Key_Down(DIK_Q))
 	{

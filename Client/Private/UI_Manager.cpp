@@ -1055,6 +1055,14 @@ HRESULT CUI_Manager::Add_SelectMapUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		++m_iSelMapCursorEff2LayerNum;
 		break;
+	case 24:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WindowLeft"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 25:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_WindowRight"), LEVEL_SELECTMAP, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
 	default:
 		break;
 	}
