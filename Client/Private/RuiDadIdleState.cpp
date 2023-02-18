@@ -23,10 +23,6 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 	
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-
-
-
-
 	if (pRuiDad->Get_RuiDadAiMode() == true)
 	{
 		Update_TargetState(pRuiDad);
