@@ -697,7 +697,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
-				pUIManager->Get_SubBase(0)->Set_ClearCheck(true);
+				pUIManager->Set_ClearCheck(true, 0);
 			}
 		}
 		else if (!m_bQuest1MSG && m_bQuest1)

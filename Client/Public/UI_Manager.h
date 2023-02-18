@@ -233,6 +233,9 @@ public:
 	_bool	Get_BattleTypeCheck() { return m_bBattleTypeCheck; }
 	void	Set_BattleTypeCheck(_bool bCheck) { m_bBattleTypeCheck = bCheck; }
 
+	_bool	Get_ClearCheck(_uint iNum) { return m_bClearCheck[iNum]; }
+	void	Set_ClearCheck(_bool bCheck, _uint iNum) { m_bClearCheck[iNum] = bCheck; }
+
 	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }
 	void Set_Result_Info(CUI::RESULTINFO ResultInfo) { m_ResultInfo = ResultInfo; }
 
@@ -368,6 +371,7 @@ private:
 	_bool							m_bBattleTypeCheck = false;
 
 	_bool							m_bInteractionUIOnOff = false;
+	_bool							m_bClearCheck[5] = { false };
 	_bool							m_bMainQuestOnOff = false;
 	_bool							m_bQuestStartCheck = false;
 	_bool							m_bMsgOnoff = false;

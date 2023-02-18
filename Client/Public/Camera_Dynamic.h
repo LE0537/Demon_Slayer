@@ -43,6 +43,7 @@ private:
 	_bool	CheckSubChar();
 	void	Set_StartPos(_float fTimeDelta);
 	void	Set_BattleStart(_float fTimeDelta);
+	_vector Get_CameraPos() {}
 public:
 	void Set_Player(CCharacters* _pPlayer) { m_pPlayer = _pPlayer; }
 	void Set_Target(CCharacters* _pTarget) { m_pTarget = _pTarget; }
