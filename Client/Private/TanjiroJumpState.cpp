@@ -213,6 +213,9 @@ CTanjiroState* CJumpstate::Jump(CTanjiro* pTanjiro, _float fTimeDelta)
 	static _float fVelocity = 20.f;
 	static _float fGravity = 30.f;
 
+	pTanjiro->Set_NavigationHeight(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	fStartHeight = pTanjiro->Get_NavigationHeight().y;
+	fEndHeight = pTanjiro->Get_NavigationHeight().y;
 
 
 	_vector      vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

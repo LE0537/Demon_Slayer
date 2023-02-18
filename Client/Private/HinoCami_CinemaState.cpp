@@ -129,6 +129,11 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Set_AnimIndex(static_cast<CTanjiro::ANIMID>(CHinoCami_CinemaState::ANIM_SCENE_3));
 		pTanjiro->Get_Model()->Set_Loop(CHinoCami_CinemaState::ANIM_SCENE_3);
 		pTanjiro->Get_Model()->Set_LinearTime(CHinoCami_CinemaState::ANIM_SCENE_3, 0.01f);
+
+		m_vMyPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		m_vTargetPosition = pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		m_vTargetPosition.m128_f32[1] += 2.f;
+		m_vDirection = XMVector3Normalize(m_vTargetPosition - m_vMyPosition);
 		break;
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_4:
 		pTanjiro->Get_Model()->Reset_Anim(CHinoCami_CinemaState::ANIM_SCENE_4);
@@ -307,6 +312,8 @@ CTanjiroState * CHinoCami_CinemaState::Scene_2(CTanjiro * pTanjiro, _float fTime
 			//pTanjiro->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER_2, 20.f, 20.f, 0.f);
 			m_bNextAnim = true;
 			m_fTime = 0.f;
+			pTanjiro->Get_BattleTarget()->Get_Transform()->Set_RotationY(180.f);
+
 		}
 
 		if(m_fTime >= 0.1f)
@@ -323,21 +330,17 @@ CTanjiroState * CHinoCami_CinemaState::Scene_2(CTanjiro * pTanjiro, _float fTime
 CTanjiroState * CHinoCami_CinemaState::Scene_3(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 
-
-	m_vMyPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	m_vTargetPosition = pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	m_vDirection = XMVector3Normalize(m_vTargetPosition - m_vMyPosition);
-
-	pTanjiro->Get_Transform()->LookAt(m_vTargetPosition);
-	m_vMyPosition += m_vDirection * 0.85f;
-	pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, m_vMyPosition);
-
-	
 	if (pTanjiro->Get_Model()->Get_CurrentTime_Index(pTanjiro->Get_AnimIndex()) >= 22.f && m_bIsHitMotion == false)
 	{
 		m_bNextAnim = true;
+		pTanjiro->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 	}
-
+	else
+	{
+		pTanjiro->Get_Transform()->LookAt(m_vTargetPosition);
+		m_vMyPosition += m_vDirection * 0.3f;
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, m_vMyPosition);
+	}
 
 	return nullptr;
 }
@@ -356,8 +359,14 @@ CTanjiroState * CHinoCami_CinemaState::Scene_5(CTanjiro * pTanjiro, _float fTime
 	{
 		// ÅºÁö·Î 57.932f, 1.f, 43.087f
 		// »ó´ë 59.838f, 0.f, 45.601f
-		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(57.932f, 11.f, 43.087f, 1.f));
+		//pTanjiro->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		//pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(57.932f, 11.f, 43.087f, 1.f));
+		//pTanjiro->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(59.838f, 10.f, 45.601f, 1.f));
+
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(59.838f, 13.f, 45.601f, 1.f));
 		pTanjiro->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(59.838f, 10.f, 45.601f, 1.f));
+		//pTanjiro->Get_Transform()->LookAt(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
 		pTanjiro->Get_Model()->Set_CurrentTime(pTanjiro->Get_AnimIndex(), 13.5f);
 		m_bAnimStop = true;
 		m_bIsHitMotion = true;
@@ -382,6 +391,9 @@ CTanjiroState * CHinoCami_CinemaState::Scene_5(CTanjiro * pTanjiro, _float fTime
 
 CTanjiroState * CHinoCami_CinemaState::Scene_6(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+
+
+
 	return nullptr;
 }
 

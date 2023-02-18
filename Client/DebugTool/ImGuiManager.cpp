@@ -328,7 +328,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				}
 				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"쿄주로")
 				{
-					strName.erase(strName.begin(), strName.begin() + 53);
+					strName.erase(strName.begin(), strName.begin() + 33);
 				}
 				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"루이")
 				{

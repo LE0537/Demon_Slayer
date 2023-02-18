@@ -5,56 +5,69 @@
 
 using namespace RuiDad;
 
-CHitState::CHitState(_float _fPow, _bool _bJump)
+CHitState::CHitState(_float _fPow, STATE_TYPE eTYPE, _bool _bJump)
 	:m_fPow(_fPow), m_bJumpHit(_bJump)
 {
+	m_eStateType = eTYPE;
 }
 
 CRuiDadState * CHitState::HandleInput(CRuiDad* pRuiDad)
 {
 
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	if (pGameInstance->Key_Down(DIK_F3))
-		return new CHitState(0.f);
 
 	return nullptr;
 }
 
 CRuiDadState * CHitState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
-	fHitTime += fTimeDelta * 60.f;
-
-	if (!m_bJumpHit)
+	if (pRuiDad->Get_PlayerInfo().iAccDamage >= 250)
 	{
-		if (fHitTime <= 20.f)
-			pRuiDad->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pRuiDad->Get_NavigationCom());
+
+		if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
+		{
+			switch (m_eStateType)
+			{
+			case Client::CRuiDadState::TYPE_START:
+				pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+				return new CHitState(0.f,TYPE_LOOP);
+				break;
+			case Client::CRuiDadState::TYPE_LOOP:
+				pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+				return new CHitState(0.f, TYPE_END);
+				break;
+			case Client::CRuiDadState::TYPE_END:
+				pRuiDad->Set_AccDmg();
+				pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+				pRuiDad->Set_RuiDadHit(false);
+				return new CIdleState();
+				break;
+
+			}
+			pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+	
+		}
 
 	}
-
-
-
-	if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
+	else
 	{
-		pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
 		return new CIdleState();
 	}
-
 
 	return nullptr;
 }
 
 CRuiDadState * CHitState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
+	//_vector vPosition = XMVector3TransformCoord(XMVectorSet(0.f, -3.f, 0.f, 1.f), pRuiDad->Get_Transform()->Get_WorldMatrix());
+	//pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
-	m_fJumpTime += 0.035f;
-	if (m_bJumpHit && !m_bJump)
-	{
-		Jump(pRuiDad, m_fJumpTime);
-	}
+	//m_fJumpTime += 0.035f;
+	//if (m_bJumpHit && !m_bJump)
+	//{
+	//	Jump(pRuiDad, m_fJumpTime);
+	//}
 
-
-
-	pRuiDad->Get_Model()->Play_Animation(fTimeDelta, false);
+	pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
 
 
 
@@ -67,23 +80,35 @@ void CHitState::Enter(CRuiDad* pRuiDad)
 {
 	m_eStateId = STATE_ID::STATE_HIT;
 
-
-	pRuiDad->Get_Model()->Reset_Anim(CRuiDad::ANIM_HIT);
-	pRuiDad->Get_Model()->Reset_Anim(CRuiDad::ANIM_HIT_FULL);
+	//CHierarchyNode*		pSocket = pRuiDad->Get_Model()->Get_BonePtr("C_Spine_3");
 
 	//pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
 	//pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.0f);
+	
 
-	if (m_bJumpHit == false)
+
+	switch (m_eStateType)
 	{
-		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT);
-		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT);
+	case Client::CRuiDadState::TYPE_START:
+		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FREE_0);
+		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FREE_0);
+		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_HIT_FREE_0, false);
+		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_HIT_FREE_0, 0.01f);
+		break;
+	case Client::CRuiDadState::TYPE_LOOP:
+		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FREE_1);
+		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FREE_1);
+		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_HIT_FREE_1, false);
+		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_HIT_FREE_1, 0.01f);
+		break;
+	case Client::CRuiDadState::TYPE_END:
+		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FREE_2);
+		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FREE_2);
+		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_HIT_FREE_2, false);
+		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_HIT_FREE_2, 0.01f);
+		break;
 	}
-	else
-	{
-		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FULL);
-		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FULL);
-	}
+ 
 
 	pRuiDad->Set_RuiDadHit(true);
 
@@ -122,7 +147,7 @@ CRuiDadState * CHitState::Jump(CRuiDad* pRuiDad, _float fTimeDelta)
 void CHitState::Exit(CRuiDad* pRuiDad)
 {
 
-	pRuiDad->Set_HitTime(0.5f);
+	//pRuiDad->Set_HitTime(0.5f);
 	//pRuiDad->Set_RuiHit(false);
 }
 

@@ -351,35 +351,65 @@ void CMoveJumpState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 	_float fCamAngle = pTanjiro->Get_CamAngle();
 
-	switch (m_eDirection)
-	{
-	case Client::DIR_STRAIGHT:
-		pTanjiro->Get_Transform()->Set_RotationY(0.f + fCamAngle);
-		break;
-	case Client::DIR_LEFT:
-		pTanjiro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
-		break;
-	case Client::DIR_RIGHT:
-		pTanjiro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
-		break;
-	case Client::DIR_BACK:
-		pTanjiro->Get_Transform()->Set_RotationY(180.f + fCamAngle);
-		break;
-	case Client::DIR_LF:
-		pTanjiro->Get_Transform()->Set_RotationY(305.f + fCamAngle);
-		break;
-	case Client::DIR_RF:
-		pTanjiro->Get_Transform()->Set_RotationY(45.f + fCamAngle);
-		break;
-	case Client::DIR_LB:
-		pTanjiro->Get_Transform()->Set_RotationY(225.f + fCamAngle);
-		break;
-	case Client::DIR_RB:
-		pTanjiro->Get_Transform()->Set_RotationY(135.f + fCamAngle);
-		break;
-	case Client::DIR_STOP:
-		break;
-	}
+	//switch (m_eDirection)
+	//{
+	//case Client::DIR_STRAIGHT:
+	//	pTanjiro->Get_Transform()->Set_RotationY(0.f + fCamAngle);
+	//	break;
+	//case Client::DIR_LEFT:
+	//	pTanjiro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
+	//	break;
+	//case Client::DIR_RIGHT:
+	//	pTanjiro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
+	//	break;
+	//case Client::DIR_BACK:
+	//	pTanjiro->Get_Transform()->Set_RotationY(180.f + fCamAngle);
+	//	break;
+	//case Client::DIR_LF:
+	//	pTanjiro->Get_Transform()->Set_RotationY(305.f + fCamAngle);
+	//	break;
+	//case Client::DIR_RF:
+	//	pTanjiro->Get_Transform()->Set_RotationY(45.f + fCamAngle);
+	//	break;
+	//case Client::DIR_LB:
+	//	pTanjiro->Get_Transform()->Set_RotationY(225.f + fCamAngle);
+	//	break;
+	//case Client::DIR_RB:
+	//	pTanjiro->Get_Transform()->Set_RotationY(135.f + fCamAngle);
+	//	break;
+	//case Client::DIR_STOP:
+	//	break;
+	//}
+
+	//switch (m_eDirection)
+	//{
+	//case Client::DIR_STRAIGHT:
+	//	pTanjiro->Get_Transform()->Set_RotationY(0.f);
+	//	break;
+	//case Client::DIR_LEFT:
+	//	pTanjiro->Get_Transform()->Set_RotationY(270.f);
+	//	break;
+	//case Client::DIR_RIGHT:
+	//	pTanjiro->Get_Transform()->Set_RotationY(90.f);
+	//	break;
+	//case Client::DIR_BACK:
+	//	pTanjiro->Get_Transform()->Set_RotationY(180.f);
+	//	break;
+	//case Client::DIR_LF:
+	//	pTanjiro->Get_Transform()->Set_RotationY(305.f);
+	//	break;
+	//case Client::DIR_RF:
+	//	pTanjiro->Get_Transform()->Set_RotationY(45.f);
+	//	break;
+	//case Client::DIR_LB:
+	//	pTanjiro->Get_Transform()->Set_RotationY(225.f);
+	//	break;
+	//case Client::DIR_RB:
+	//	pTanjiro->Get_Transform()->Set_RotationY(135.f);
+	//	break;
+	//case Client::DIR_STOP:
+	//	break;
+	//}
 
 	if (m_eDirection != DIR_STOP && m_bMove == true)
 	{
@@ -435,7 +465,9 @@ CTanjiroState*  CMoveJumpState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 	static _float fVelocity = 20.f;
 	static _float fGravity = 30.f;
 
-
+	pTanjiro->Set_NavigationHeight(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	fStartHeight = pTanjiro->Get_NavigationHeight().y;
+	fEndHeight = pTanjiro->Get_NavigationHeight().y;
 
 
 	_vector      vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -476,8 +508,8 @@ CTanjiroState*  CMoveJumpState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 			m_bEffect = true;
 		}
 	}
-
-	pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	else
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
 
 	return nullptr;

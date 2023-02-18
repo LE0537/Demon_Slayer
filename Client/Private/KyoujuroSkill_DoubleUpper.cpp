@@ -38,146 +38,173 @@ CKyoujuroState * CSkill_DoubleUpperState::HandleInput(CKyoujuro * pKyojuro)
 
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 
-	if (fRatio >= 0.6f)
+	if (pKyojuro->Get_AnimIndex() == 38)
 	{
-		switch (pKyojuro->Get_i1P())
+		if (fRatio >= 0.7f)
 		{
-		case 1:
-			if (pGameInstance->Key_Pressing(DIK_W)) // 菊
+			switch (pKyojuro->Get_i1P())
 			{
-				if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+			case 1:
+				if (pGameInstance->Key_Pressing(DIK_W)) // 菊
 				{
+					if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+					{
+						if (pGameInstance->Key_Pressing(DIK_L))
+							return new CDashState(DIR_LF);
+					}
+					else if (pGameInstance->Key_Pressing(DIK_D)) // 快
+					{
+						if (pGameInstance->Key_Pressing(DIK_L))
+							return new CDashState(DIR_RF);
+					}
+					else
+					{
+						if (pGameInstance->Key_Pressing(DIK_L))
+							return new CDashState(DIR_STRAIGHT);
+					}
+				}
+
+				else if (pGameInstance->Key_Pressing(DIK_S)) // 第
+				{
+					if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+					{
+						if (pGameInstance->Key_Pressing(DIK_L))
+							return new CDashState(DIR_LB);
+					}
+					else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
+					{
+
+						if (pGameInstance->Key_Pressing(DIK_L))
+							return new CDashState(DIR_RB);
+
+					}
+					else
+					{
+						if (pGameInstance->Key_Pressing(DIK_L))
+							return new CDashState(DIR_BACK);
+					}
+				}
+
+
+				else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+				{
+
 					if (pGameInstance->Key_Pressing(DIK_L))
-						return new CDashState(DIR_LF);
+						return new CDashState(DIR_LEFT);
+
 				}
 				else if (pGameInstance->Key_Pressing(DIK_D)) // 快
 				{
 					if (pGameInstance->Key_Pressing(DIK_L))
-						return new CDashState(DIR_RF);
+						return new CDashState(DIR_RIGHT);
 				}
-				else
+				break;
+			case 2:
+
+
+				if (pGameInstance->Key_Pressing(DIK_UP)) // 菊
 				{
-					if (pGameInstance->Key_Pressing(DIK_L))
-						return new CDashState(DIR_STRAIGHT);
+					if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+					{
+
+						if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+							return new CDashState(DIR_LF);
+					}
+					else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
+					{
+
+						if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+							return new CDashState(DIR_RF);
+
+
+					}
+					else
+					{
+						if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+							return new CDashState(DIR_STRAIGHT);
+					}
 				}
-			}
 
-			else if (pGameInstance->Key_Pressing(DIK_S)) // 第
-			{
-				if (pGameInstance->Key_Pressing(DIK_A)) // 谅
+				else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 第
 				{
-					if (pGameInstance->Key_Pressing(DIK_L))
-						return new CDashState(DIR_LB);
+					if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
+					{
+
+						if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+							return new CDashState(DIR_LB);
+
+
+					}
+					else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
+					{
+
+						if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+							return new CDashState(DIR_RB);
+
+					}
+					else
+					{
+						if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+							return new CDashState(DIR_BACK);
+
+					}
 				}
-				else if (pGameInstance->Key_Pressing(DIK_D)) // 快 
+
+
+				else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
 				{
-
-					if (pGameInstance->Key_Pressing(DIK_L))
-						return new CDashState(DIR_RB);
-
-				}
-				else
-				{
-					if (pGameInstance->Key_Pressing(DIK_L))
-						return new CDashState(DIR_BACK);
-				}
-			}
-
-
-			else if (pGameInstance->Key_Pressing(DIK_A)) // 谅
-			{
-
-				if (pGameInstance->Key_Pressing(DIK_L))
-					return new CDashState(DIR_LEFT);
-
-			}
-			else if (pGameInstance->Key_Pressing(DIK_D)) // 快
-			{
-				if (pGameInstance->Key_Pressing(DIK_L))
-					return new CDashState(DIR_RIGHT);
-			}
-			break;
-		case 2:
-		
-
-			if (pGameInstance->Key_Pressing(DIK_UP)) // 菊
-			{
-				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
-				{
-
 					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-						return new CDashState(DIR_LF);
+						return new CDashState(DIR_LEFT);
+
 				}
 				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
 				{
-
 					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-						return new CDashState(DIR_RF);
-
+						return new CDashState(DIR_RIGHT);
 
 				}
-				else
-				{
-					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-						return new CDashState(DIR_STRAIGHT);
-				}
+				break;
 			}
-
-			else if (pGameInstance->Key_Pressing(DIK_DOWN)) // 第
-			{
-				if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
-				{
-
-					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-						return new CDashState(DIR_LB);
-
-
-				}
-				else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快 
-				{
-
-					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-						return new CDashState(DIR_RB);
-
-				}
-				else
-				{
-					if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-						return new CDashState(DIR_BACK);
-
-				}
-			}
-
-
-			else if (pGameInstance->Key_Pressing(DIK_LEFT)) // 谅
-			{
-				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-					return new CDashState(DIR_LEFT);
-
-			}
-			else if (pGameInstance->Key_Pressing(DIK_RIGHT)) // 快
-			{
-				if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-					return new CDashState(DIR_RIGHT);
-
-			}
-			break;
 		}
 	}
-
 
 	return CommandCheck(pKyojuro);
 }
 
 CKyoujuroState * CSkill_DoubleUpperState::Tick(CKyoujuro * pKyojuro, _float fTimeDelta)
 {
-	pKyojuro->Get_Model()->Set_Loop(pKyojuro->Get_AnimIndex());
+	//pKyojuro->Get_Model()->Set_Loop(pKyojuro->Get_AnimIndex());
 
-	if (pKyojuro->Get_Model()->Get_End(pKyojuro->Get_AnimIndex()))
+	if (pKyojuro->Get_Model()->Get_End(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER))
 	{
-		pKyojuro->Get_Model()->Set_End(pKyojuro->Get_AnimIndex());
+		pKyojuro->Get_Model()->Set_CurrentAnimIndex(37);
+		pKyojuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(37));
+		pKyojuro->Get_Model()->Set_Loop(37, true);
+		pKyojuro->Get_Model()->Set_LinearTime(37, 0.01f);
+		pKyojuro->Get_Model()->Set_End(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER);
+	}
+
+
+	if (m_bJump == true)
+	{
+		//pKyojuro->Get_Model()->Set_CurrentAnimIndex(38);
+		//pKyojuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(38));
+		//pKyojuro->Get_Model()->Set_Loop(38);
+		//pKyojuro->Get_Model()->Set_LinearTime(38, 0.01f);
 		return new CIdleState();
 	}
+
+
+	
+
+	//if (pKyojuro->Get_Model()->Get_End(37))
+	//{
+
+	//	pKyojuro->Get_Model()->Set_End(37);
+	//	return new CIdleState();
+	//}
+
+
 
 
 	return nullptr;
@@ -242,7 +269,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 
 
 					//if (!m_bHit)
-						m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER, 10.f, 15.f, 2.f);
+					m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER, 10.f, 15.f, 2.f);
 
 					//m_pTarget->Take_Damage(0.8f, true);
 					pKyojuro->Set_Combo(1);
@@ -319,7 +346,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 	}
 	else if (m_fTime >= 0.4f)
 	{
-		if(m_fTime < 0.9f)
+		if (m_fTime < 0.9f)
 			pKyojuro->Get_Transform()->Go_Straight(fTimeDelta * 0.7f, pKyojuro->Get_NavigationCom());
 		m_fHitTime += fTimeDelta;
 		if (m_iHit < 1 && m_fHitTime > 0.1f)
@@ -364,8 +391,8 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 					pKyojuro->Set_ComboTime(0.f);
 					m_pTarget->Set_Hp(-50 * pKyojuro->Get_PlayerInfo().fPowerUp);
 					//if (!m_bHit)
-						m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER, 22.f, 20.f, 9.f);
-						//m_pTarget->Take_Damage(0.5f, true);
+					m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER, 22.f, 20.f, 9.f);
+					//m_pTarget->Take_Damage(0.5f, true);
 				}
 
 				_matrix vTagetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
@@ -481,6 +508,8 @@ CKyoujuroState* CSkill_DoubleUpperState::Jump(CKyoujuro* pKyoujuro, _float fTime
 	static _float fVelocity = 20.f;
 	static _float fGravity = 30.f;
 
+	fStartHeight = pKyoujuro->Get_NavigationHeight().y;
+	fEndHeight = pKyoujuro->Get_NavigationHeight().y;
 
 	_vector      vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_float fSpeed = 0.f;
@@ -497,9 +526,8 @@ CKyoujuroState* CSkill_DoubleUpperState::Jump(CKyoujuro* pKyoujuro, _float fTime
 		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		m_bJump = true;
 	}
-
-
-	pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	else
+		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
 
 	return nullptr;
@@ -514,8 +542,8 @@ CKyoujuroState * CSkill_DoubleUpperState::CommandCheck(CKyoujuro * pKyoujuro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	m_fDuration = pKyoujuro->Get_Model()->Get_Duration_Index(CKyoujuro::ANIM_SKILL_COMMON);
-	m_fCurrentDuration = pKyoujuro->Get_Model()->Get_CurrentTime_Index(CKyoujuro::ANIM_SKILL_COMMON);
+	m_fDuration = pKyoujuro->Get_Model()->Get_Duration_Index(38);
+	m_fCurrentDuration = pKyoujuro->Get_Model()->Get_CurrentTime_Index(38);
 
 	_float fRatio = m_fCurrentDuration / m_fDuration;
 

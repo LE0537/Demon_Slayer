@@ -313,7 +313,7 @@ CRuiDadState * CSkill_JumpDropState::Increase_Height(CRuiDad * pRuiDad, _float f
 
 	if (XMVectorGetY(vCurrentPos) > 15.f)
 	{
-
+		pRuiDad->Set_Render(false);
 	//	pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		
 		m_bNextAnim = true;
@@ -326,7 +326,7 @@ CRuiDadState * CSkill_JumpDropState::Increase_Height(CRuiDad * pRuiDad, _float f
 
 CRuiDadState * CSkill_JumpDropState::Fall_Height(CRuiDad * pRuiDad, _float fTimeDelta)
 {
-
+	pRuiDad->Set_Render(true);
 	static _float fGravity = -200.f;
 	static _float fVelocity = 0.f;
 

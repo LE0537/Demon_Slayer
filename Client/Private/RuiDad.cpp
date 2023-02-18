@@ -33,7 +33,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
 	m_i1p = tCharacterDesc.i1P2P;
-	m_i1p = 11;
+//	m_i1p = 11;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -187,9 +187,12 @@ void CRuiDad::Late_Tick(_float fTimeDelta)
 
 			LateTickState(fTimeDelta);
 
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
+			if (m_bRender == true)
+			{
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			}
+			
 			if (g_bCollBox)
 			{
 				m_pRendererCom->Add_Debug(m_pSphereCom);
@@ -430,13 +433,17 @@ void CRuiDad::Set_Info()
 	m_tInfo.bGuard = false;
 	m_tInfo.bChange = false;
 	m_tInfo.iMaxGuard = 500;
+	m_tInfo.iAccDamage = 0;
 	m_tInfo.iGuard = m_tInfo.iMaxGuard;
 }
 
 void CRuiDad::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
-	CRuiDadState* pState = new CHitState(_fPow, _bJumpHit);
-	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
+	if (m_bRuiDadHit == false)
+	{
+		CRuiDadState* pState = new CHitState(_fPow, CRuiDadState::TYPE_START, _bJumpHit);
+		m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
+	}
 }
 
 void CRuiDad::Get_GuardHit(_int eType)
@@ -457,13 +464,21 @@ void CRuiDad::Get_GuardHit(_int eType)
 
 void CRuiDad::Player_TakeDown(_float _fPow, _bool _bJump)
 {
-
+	if (m_bRuiDadHit == false)
+	{
+		CRuiDadState* pState = new CHitState(_fPow, CRuiDadState::TYPE_START, false);
+		m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
+	}
 
 }
 
 void CRuiDad::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
-
+	if (m_bRuiDadHit == false)
+	{
+		CRuiDadState* pState = new CHitState(0.f, CRuiDadState::TYPE_START, false);
+		m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
+	}
 }
 
 CRuiDad * CRuiDad::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

@@ -418,7 +418,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_L))
 		{
-			return new CTargetRushState(TYPE_START);
+			//return new CTargetRushState(TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_SPACE))
 		{

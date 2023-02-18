@@ -80,6 +80,40 @@ void CHierarchyNode::Invalidate_CombinedTransformationmatrix(_bool bRemoveTransl
 		m_CombinedTransformationMatrix = m_TransformationMatrix;
 }
 
+void CHierarchyNode::RuiDad_Invalidate_CombinedTransformationmatrix(_bool bRemoveTranslation)
+{
+	//if (!strcmp(m_szName, "C_Hips_1"))
+	//{
+	//	//m_MoveTransformationMatrix = m_TransformationMatrix;
+
+	//	_matrix OriginMatrixTranslation = XMLoadFloat4x4(&m_TransformationMatrix);
+
+	//	OriginMatrixTranslation.r[3] = XMVectorSet(0.f, 0.f, 0.f, 1.f);
+
+	//	XMStoreFloat4x4(&m_TransformationMatrix, OriginMatrixTranslation);
+	//}
+
+	if (!strcmp(m_szName, "Root"))
+	{
+		//m_MoveTransformationMatrix = m_TransformationMatrix;
+
+		_matrix OriginMatrixTranslation = XMLoadFloat4x4(&m_TransformationMatrix);
+
+		OriginMatrixTranslation.r[3] = XMVectorSet(0.f, 0.f, 0.f, 1.f);
+
+		XMStoreFloat4x4(&m_TransformationMatrix, OriginMatrixTranslation);
+	}
+
+	if (nullptr != m_pParent)
+		XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix) * XMLoadFloat4x4(&m_pParent->m_CombinedTransformationMatrix));
+	else
+		m_CombinedTransformationMatrix = m_TransformationMatrix;
+
+
+
+
+}
+
 void CHierarchyNode::Invalidate_CombinedTransformationmatrix(_bool bRemoveTranslation, _fvector vPosition)
 {
 	if (bRemoveTranslation == true)

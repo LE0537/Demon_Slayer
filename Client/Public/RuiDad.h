@@ -75,6 +75,13 @@ public:
 		ANIM_HIT = 52,
 		ANIM_HIT_FULL = 53,
 
+
+		ANIM_HIT_FREE_0 = 42,
+		ANIM_HIT_FREE_1 = 43,
+		ANIM_HIT_FREE_2 = 44,
+		// 42 43 44
+		//변태변태
+
 		ANIM_END = 54
 	};
 
@@ -106,6 +113,9 @@ public:
 	void   Set_RuiDadAiMode(_bool bAIMode) { m_bAiMode = bAIMode; }
 	_bool  Get_RuiDadAiMode() const { return m_bAiMode; }
 	_bool  Get_QuestStop() const { return m_bQuestStop; }
+	_bool  Get_Start() const { return m_bStart; }
+	void   Set_Start(_bool bStart) { m_bStart = bStart; }
+	void   Set_Render(_bool bRender) { m_bRender = bRender; }
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
@@ -141,6 +151,7 @@ private:
 	_bool   m_bRuiDadHit = false;
 	_bool	m_bStart = false;
 	_bool   m_bAiMode = false;
+	_bool   m_bRender = true;
 
 
 	_bool					m_bQuestStart = false;
