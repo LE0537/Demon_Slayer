@@ -82,8 +82,6 @@ HRESULT CRui::Initialize(void * pArg)
 		{
 			m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
 			m_pSubChar->Set_SubChar(this);
-
-
 		}
 	}
 	else if (m_i1p == 10)

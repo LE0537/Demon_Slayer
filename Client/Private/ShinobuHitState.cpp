@@ -51,56 +51,7 @@ CShinobuState * CHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 	}
 
 
-	//	_vector vPlayerY = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	//
-	//	vPlayerY.m128_f32[1] -= fTimeDelta * 3.f;
-	//	if (vPlayerY.m128_f32[1] < 0)
-	//		vPlayerY.m128_f32[1] = 0;
-
-	//	pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPlayerY);
-	//	if (fHitTime >= 35.f)
-	//		return new CIdleState();
-	//}
-	//else if (m_bJumpHit)
-	//{
-	//	if (fHitTime <= 35.f)
-	//	{
-	//		if (!m_bTrun)
-	//		{
-	//			_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	//			_vector vLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK);
-	//			vPos += XMVector3Normalize(vLook) * 15.f * fTimeDelta * m_fPow;
-	//			if (pShinobu->Get_NavigationCom()->Cheak_Cell(vPos))
-	//				pShinobu->Get_Transform()->Go_Backward(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
-	//			else
-	//			{
-	//				m_bTrun = true;
-	//			}
-	//		}
-	//		if (m_bTrun)
-	//		{
-	//			pShinobu->Get_Transform()->Go_Straight(fTimeDelta * m_fPow, pShinobu->Get_NavigationCom());
-	//		}
-	//	}
-	//	if (pShinobu->Get_Model()->Get_End(CShinobu::ANIM_HIT))
-	//	{
-	//		pShinobu->Get_Model()->Set_End(CShinobu::ANIM_HIT);
-	//		//pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_HIT);
-
-	//		pShinobu->Get_Model()->Set_CurrentAnimIndex(58);
-	//		pShinobu->Get_Model()->Set_Loop(58);
-	//		pShinobu->Get_Model()->Set_LinearTime(58, 0.01f);
-	//		pShinobu->Set_bGuard(true);
-	//	}
-
-	//	if (pShinobu->Get_Model()->Get_End(58))
-	//	{
-	//		pShinobu->Get_Model()->Reset_Anim(58);
-	//		pShinobu->Get_Model()->Set_End(58);
-	//		pShinobu->Set_bGuard(false);
-	//		return new CIdleState();
-	//	}
-	//}
+	
 
 
 	if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))

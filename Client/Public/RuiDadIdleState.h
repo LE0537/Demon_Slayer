@@ -66,7 +66,7 @@ private:
 	void Dash_Setting(CRuiDad* pRuiDad);
 	void DashDir_Calcul(CRuiDad* pRuiDad);
 	void Compare_OriginPoint(CRuiDad* pRuiDad);
-
+	CRuiDadState* Attack_Setting(CRuiDad* pRuiDad);
 
 private:
 	TARGET_STATE m_eTargetState = STATE_END;
