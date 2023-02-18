@@ -266,7 +266,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
 	LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
-	pLightDesc = pGameInstance->Get_LightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
+	pLightDesc = pGameInstance->Get_LightDesc(LIGHTDESC::TYPE_DIRECTIONAL);
 	if (nullptr == pLightDesc)
 	{
 		if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
@@ -274,7 +274,7 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	}
 	else
 	{
-		pGameInstance->Set_LightDesc(LIGHTDESC::TYPE_FIELDSHADOW, LightDesc);
+		pGameInstance->Set_LightDesc(LIGHTDESC::TYPE_DIRECTIONAL, LightDesc);
 	}
 
 	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
@@ -383,7 +383,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	_uint i2p = pUIManager->Get_Sel2P();
 	_uint i1p_2 = pUIManager->Get_Sel1P_2();
 	_uint i2p_2 = pUIManager->Get_Sel2P_2();
-	switch (i1p)
+ 	switch (i1p)
 	{
 	case 0:
 		tCharacterDesc1p.bSub = false;
