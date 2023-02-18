@@ -397,7 +397,7 @@ void CRuiDad::Set_Info()
 
 void CRuiDad::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
-	CRuiDadState* pState = new CHitState(_fPow, _bJumpHit);
+	CRuiDadState* pState = new CHitState(_fPow, CRuiDadState::STATE_TYPE::TYPE_START, false);
 	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
 }
 
@@ -419,12 +419,15 @@ void CRuiDad::Get_GuardHit(_int eType)
 
 void CRuiDad::Player_TakeDown(_float _fPow, _bool _bJump)
 {
-
+	CRuiDadState* pState = new CHitState(0.f, CRuiDadState::STATE_TYPE::TYPE_START, false);
+	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
 
 }
 
 void CRuiDad::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
+	CRuiDadState* pState = new CHitState(0.f, CRuiDadState::STATE_TYPE::TYPE_START, false);
+	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
 
 }
 
