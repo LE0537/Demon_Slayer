@@ -23,10 +23,6 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 	
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-
-
-
-
 	if (pRuiDad->Get_RuiDadAiMode() == true)
 	{
 		Update_TargetState(pRuiDad);
@@ -103,7 +99,8 @@ void CIdleState::Enter(CRuiDad* pRuiDad)
 	pRuiDad->Set_AnimIndex(CRuiDad::ANIM_IDLE);
 	pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex(),true);
 	pRuiDad->Get_Model()->Set_LinearTime(pRuiDad->Get_AnimIndex(), 0.05f);
-	pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSetY(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION), 0.f));
+	if(!pRuiDad->Get_StoryKey())
+		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSetY(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION), 0.f));
 	pRuiDad->Set_RuiDadHit(false);
 }
 
@@ -347,6 +344,7 @@ CRuiDadState * CIdleState::Return_AIState(CRuiDad * pRuiDad)
 	else if (m_eState == AI_STATE::AI_SKILL && m_eRange == RuiDad::CIdleState::RANGE_NEAR)
 		Near_Skill_Setting(pRuiDad);
 
+
 	switch (m_eState)
 	{
 	case Client::RuiDad::CIdleState::AI_IDLE:
@@ -361,7 +359,7 @@ CRuiDadState * CIdleState::Return_AIState(CRuiDad * pRuiDad)
 		return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 		break;
 	case Client::RuiDad::CIdleState::AI_ATTACK:
-		return new CAtk_1_State(TYPE_START);
+		return Attack_Setting(pRuiDad);
 		break;
 	case Client::RuiDad::CIdleState::AI_GUARD:
 		return new CGuardState(STATE_TYPE::TYPE_START);
@@ -378,7 +376,11 @@ CRuiDadState * CIdleState::Return_AIState(CRuiDad * pRuiDad)
 		return new CSkill_RushState(TYPE_START);
 		break;
 	case Client::RuiDad::CIdleState::AI_SKILL_3:
-		return new CSkill_JumpDropState(TYPE_START);
+		if (pRuiDad->Get_iTargetIndex() == 2)
+			return new CSkill_JumpDropState(TYPE_START);
+		else
+			return new  CSkill_RushState(TYPE_START);
+
 		break;
 	case Client::RuiDad::CIdleState::AI_DASH:
 		break;
@@ -402,7 +404,13 @@ CRuiDadState * CIdleState::Return_AIState(CRuiDad * pRuiDad)
 		if (iRandom == 0)
 			return new CSkill_RushState(TYPE_START);
 		else
-			return new CSkill_JumpDropState(TYPE_START);
+		{
+			if(pRuiDad->Get_iTargetIndex() == 2)
+				return new CSkill_JumpDropState(TYPE_START);
+			else
+				return new CSkill_RushState(TYPE_START);
+		}
+			
 		break;
 	case Client::RuiDad::CIdleState::AI_HIT:
 		break;
@@ -1226,4 +1234,25 @@ void CIdleState::DashDir_Calcul(CRuiDad * pRuiDad)
 
 void CIdleState::Compare_OriginPoint(CRuiDad * pRuiDad)
 {
+}
+
+CRuiDadState* CIdleState::Attack_Setting(CRuiDad * pRuiDad)
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 3);
+	int iRandom = RandomPattern(gen);
+
+	switch (iRandom)
+	{
+	case 1:
+		return new CAtk_1_State(TYPE_START);
+		break;
+	case 2:
+		return new CAtk_1_State(TYPE_LOOP);
+		break;
+	case 3:
+		return new CAtk_1_State(TYPE_END);
+		break;
+	}
 }

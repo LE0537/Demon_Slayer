@@ -39,11 +39,13 @@ CRuiDadState * CAtk_1_State::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 		{
 		case Client::CRuiDadState::TYPE_START: // 1Ÿ
 			if(m_bNextAnim)
-				return new CAtk_1_State(TYPE_LOOP);
+				return new CIdleState();
+				//return new CAtk_1_State(TYPE_LOOP);
 			break;
 		case Client::CRuiDadState::TYPE_LOOP: // 2Ÿ
 			if (m_bNextAnim)
-				return new CAtk_1_State(TYPE_END);
+				return new CIdleState();
+				//return new CAtk_1_State(TYPE_END);
 			break;
 		case Client::CRuiDadState::TYPE_END: // 3Ÿ
 			if (pRuiDad->Get_Model()->Get_End(CRuiDad::ANIMID::ANIM_ATTACK_2))
@@ -430,6 +432,8 @@ CRuiDadState * CAtk_1_State::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 void CAtk_1_State::Enter(CRuiDad* pRuiDad)
 {
+	 
+
 	switch (m_eStateType)
 	{
 	case Client::CRuiDadState::TYPE_START:

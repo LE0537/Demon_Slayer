@@ -208,7 +208,15 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 			return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_LOOP);
 		}
 		else
-			return new CIdleState(STATE_MOVE);
+			if (pTanjiro->Get_StoryKey() == true)
+			{
+				if (m_eDirection != DIR_STRAIGHT)
+					return new CIdleState();
+				else
+					return new CIdleState(STATE_MOVE);
+			}
+			else
+				return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -434,7 +442,7 @@ CTanjiroState * CMoveState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 CTanjiroState * CMoveState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	if(m_eStateType != TYPE_END)
+	if (m_eStateType != TYPE_END)
 		Move(pTanjiro, fTimeDelta);
 
 	if (m_eStateType == TYPE_END)
