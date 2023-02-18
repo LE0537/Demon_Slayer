@@ -83,7 +83,7 @@ CNezukoState * CJumpSkill_MoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDel
 
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLooAt.m128_f32[1] = 0.f;
-	pNezuko->Get_Transform()->LookAt(vLooAt);
+	pNezuko->Get_Transform()->Set_PlayerLookAt(vLooAt);
 	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 	CCollider*	pMyCollider2 = pNezuko->Get_SphereCollider();
 	m_fMove += fTimeDelta;
