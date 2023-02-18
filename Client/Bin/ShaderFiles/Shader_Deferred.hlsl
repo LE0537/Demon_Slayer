@@ -63,7 +63,7 @@ float			g_fMapGrayScaleTimeRatio;
 float			g_fMapGrayScaleFogRange;
 float			g_fMapGrayScalePower;
 
-float3			g_vBlurPoint;
+float2			g_vBlurPoint_Viewport;
 float			g_fPointBlurPower;
 float			g_fPointBlurTime;
 float			g_fPointBlur_MinRatio;
@@ -753,10 +753,24 @@ PS_OUT PS_POINTBLUR(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	float2 vBlurDir = In.vTexUV - g_vBlurPoint_Viewport;
+	float fBlurDirPower = abs(vBlurDir.x) + abs(vBlurDir.y);	//	Dir의 전체 크기.
+	float2 vBlurDir_Normalize = vBlurDir / fBlurDirPower;		//	정규화. (크기 / 전체 크기)
 
-	vector	vBlur;
-
+	
+	int		iBlurCount = max(min(g_fPointBlurPower * fBlurDirPower * g_fPointBlurTime, 100), 0);
+	float	fBlurTotal = 1.f;
 	Out.vColor = vDiffuse;
+	for (int i = 0; i < iBlurCount; ++i)
+	{
+		float2 vBlurTexUV = In.vTexUV + ((vBlurDir_Normalize * i) / 300.f);
+		vector vAddColor = g_DiffuseTexture.Sample(LinearSampler, vBlurTexUV) / (i + 1);
+		Out.vColor += vAddColor;
+		fBlurTotal += (1.f / (i + 1));
+	}
+	Out.vColor /= fBlurTotal;
+
+	//	Out.vColor = vDiffuse;
 	Out.vColor.a = vDiffuse.a;
 
 	return Out;

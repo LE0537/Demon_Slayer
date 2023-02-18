@@ -64,9 +64,9 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	m_fMotionBlurTime = 0.f;
 	m_fBlurTime = 0.f;
+	m_fBlurTimeMax = 0.f;
 	m_fBlurMinRatio = 0.f;
-	m_fPointBlurX = ViewportDesc.Height * 0.5f;
-	m_fPointBlurY = ViewportDesc.Width * 0.5f;
+	m_vBlurPoint_Viewport = _float2(0.f, 0.f);
 
 
 
@@ -406,6 +406,21 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 	if (false == m_bMapGrayScale)
 		m_fMapGrayScalePower /= (fTimeDelta * 65.f);	//	(1.2f)
 
+
+	m_fBlurTime -= fTimeDelta;
+	if (0.f > m_fBlurTime)
+		m_fBlurTime = 0.f;
+
+	//	Test
+	if (true == pGameInstance->Key_Down(DIK_F8))
+	{
+		m_fBlurTime = 1.f;
+		m_fValue[VALUE_POINTBLURPOWER] = 100.f;
+		m_vBlurPoint_Viewport = _float2(0.5f, 0.5f);
+	}
+	//	Test End
+
+
 	RELEASE_INSTANCE(CGameInstance);
 
 
@@ -515,6 +530,36 @@ HRESULT CRenderer::Add_Debug(CComponent* pDebugCom)
 	Safe_AddRef(pDebugCom);
 
 	return S_OK;
+}
+
+void CRenderer::Set_PointBlur(_float3 vBlurPointPos, _float fBlurPower, _float fDuration, _float fBlurMinRatio)
+{
+	if (0.f < m_fBlurTime)
+		return;
+
+	m_fValue[VALUE_POINTBLURPOWER] = fBlurPower;
+	m_fBlurTime = fDuration;
+	m_fBlurTimeMax = fDuration;
+	m_fBlurMinRatio = fBlurMinRatio;
+
+	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+	_matrix matWorld = XMMatrixTranslation(vBlurPointPos.x, vBlurPointPos.y, vBlurPointPos.z);
+	_matrix matView = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
+	_matrix matProj = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
+	_matrix matWVP = matWorld * matView * matProj;
+	_float  m_fScalingbyDepth = XMVectorGetW(matWVP.r[3]);
+	matWVP.r[3] /= m_fScalingbyDepth;
+	_float3		vPos;
+	XMStoreFloat3(&vPos, matWVP.r[3]);
+	vPos.x += 1.f;
+	vPos.x *= 1280 / 2.f;
+
+	vPos.y += 1.f;
+	vPos.y *= 720 / 2.f;
+	vPos.y = 720.f - vPos.y;
+
+	m_vBlurPoint_Viewport = _float2(vPos.x / 1280.f, vPos.y / 720.f);
+	RELEASE_INSTANCE(CPipeLine);
 }
 
 HRESULT CRenderer::Ready_GlowDSV(_float fWinCX, _float fWinCY)
@@ -1339,14 +1384,22 @@ HRESULT CRenderer::Render_GrayScale(const _tchar * pTexName, const _tchar * pMRT
 
 HRESULT CRenderer::Render_PointBlur(const _tchar * pTexName, const _tchar * pMRTName)
 {
-
-
+	if (FAILED(m_pShader->Set_RawValue("g_fPointBlurPower", &m_fValue[VALUE_POINTBLURPOWER], sizeof(_float))))
+		return E_FAIL;
+	_float fTimeRatio = m_fBlurTime / m_fBlurTimeMax;
+	if (FAILED(m_pShader->Set_RawValue("g_fPointBlurTime", &fTimeRatio, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fPointBlur_MinRatio", &m_fBlurMinRatio, sizeof(_float))))
+		return E_FAIL;
+	
+	if (FAILED(m_pShader->Set_RawValue("g_vBlurPoint_Viewport", &m_vBlurPoint_Viewport, sizeof(_float2))))
+		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
-	m_pShader->Begin(0);	//	임시
+	m_pShader->Begin(17);	//	임시
 	m_pVIBuffer->Render();
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
