@@ -34,6 +34,7 @@ private:
 	_float4 m_vLook;
 	_bool   m_bLook = false;
 	_bool   m_bLookPos = false;
+	_bool	m_bEffect = false;
 private:
 	_float3 m_vPosition;
 	_float3 m_vVelocity;

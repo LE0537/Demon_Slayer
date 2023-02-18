@@ -416,6 +416,23 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 		}
 	pNezuko->Get_Model()->Play_Animation(fTimeDelta);
 	
+	if (m_eStateType == STATE_TYPE::TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_JUMP_CLAW1, pNezuko);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_JUMP_CLAW2, pNezuko);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_JUMP_CLAW3, pNezuko);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_JUMP_CLAW4, pNezuko);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_NEZUKO_JUMP_CLAW5, pNezuko);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
+
 	return nullptr;
 }
 
