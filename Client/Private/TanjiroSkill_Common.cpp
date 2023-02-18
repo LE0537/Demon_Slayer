@@ -237,7 +237,7 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 					{
 						m_pTarget->Get_GuardHit(0);
-						m_pTarget->Set_GuardHp(-40 * pTanjiro->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_GuardHp(_int(-40 * pTanjiro->Get_PlayerInfo().fPowerUp));
 						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 						{
 							CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -252,7 +252,7 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.4f);
 						RELEASE_INSTANCE(CGameInstance);
-						m_pTarget->Set_Hp(-15 * pTanjiro->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_Hp(_int(-15 * pTanjiro->Get_PlayerInfo().fPowerUp));
 
 						if(iHit < 3)
 							m_pTarget->Take_Damage(0.1f, false);

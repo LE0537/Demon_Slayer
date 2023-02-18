@@ -232,7 +232,7 @@ CShinobuState * CAtk_2_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-30 * pShinobu->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-30 * pShinobu->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -244,7 +244,7 @@ CShinobuState * CAtk_2_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 				}
 				else
 				{
-					m_pTarget->Set_Hp(-pShinobu->Get_PlayerInfo().iDmg * pShinobu->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-pShinobu->Get_PlayerInfo().iDmg * pShinobu->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.1f, false);
 					pShinobu->Set_Combo(1);
 					pShinobu->Set_ComboTime(0.f);

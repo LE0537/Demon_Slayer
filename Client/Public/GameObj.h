@@ -42,6 +42,7 @@ protected:
 	
 public:
 	CTransform* Get_Transform() { return m_pTransformCom; }
+	CRenderer* Get_Renderer() { return m_pRendererCom; }
 	void	Set_CamAngle(_float _fCamAngle) { m_fCamAngle = _fCamAngle; }
 	_float  Get_CamAngle() { return m_fCamAngle; }
 public:

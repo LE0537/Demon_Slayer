@@ -245,7 +245,7 @@ CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(1);
-					m_pTarget->Set_GuardHp(-50 * pKyoujuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-50 * pKyoujuro->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -261,7 +261,7 @@ CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
 					RELEASE_INSTANCE(CGameInstance);
-					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg * 2 * pKyoujuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-pKyoujuro->Get_PlayerInfo().iDmg * 2 * pKyoujuro->Get_PlayerInfo().fPowerUp));
 
 					if (m_bIsCreate == false)
 					{

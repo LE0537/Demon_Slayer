@@ -117,7 +117,7 @@ CKyoujuroState * CJumpSkill_MoveState::Late_Tick(CKyoujuro * pKyojuro, _float fT
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-30 * pKyojuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-30 * pKyojuro->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -129,7 +129,7 @@ CKyoujuroState * CJumpSkill_MoveState::Late_Tick(CKyoujuro * pKyojuro, _float fT
 				}
 				else if (pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-					m_pTarget->Set_Hp(-pKyojuro->Get_PlayerInfo().iDmg * pKyojuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-pKyojuro->Get_PlayerInfo().iDmg * pKyojuro->Get_PlayerInfo().fPowerUp));
 
 					if (m_iHit == 3)
 					{

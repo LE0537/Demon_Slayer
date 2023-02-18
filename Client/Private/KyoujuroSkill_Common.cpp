@@ -242,7 +242,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-40 * pKyojuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-40 * pKyojuro->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -254,7 +254,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 				}
 				else if(pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-					m_pTarget->Set_Hp(-15 * pKyojuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-15 * pKyojuro->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.2f, false);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(1.f);
@@ -359,7 +359,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-40 * pKyojuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-40 * pKyojuro->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -374,7 +374,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.1f);
 					RELEASE_INSTANCE(CGameInstance);
-					m_pTarget->Set_Hp(-15 * pKyojuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-15 * pKyojuro->Get_PlayerInfo().fPowerUp));
 
 					
 					m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_KNOCKBACK, 20.f, 30.f, 5.f);

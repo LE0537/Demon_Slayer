@@ -261,7 +261,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 					{
 						m_pTarget->Get_GuardHit(0);
-						m_pTarget->Set_GuardHp(-50 * pTanjiro->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_GuardHp(_int(-50 * pTanjiro->Get_PlayerInfo().fPowerUp));
 						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 						{
 							CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -273,7 +273,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 					}
 					else if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 					{
-						m_pTarget->Set_Hp(-30 * pTanjiro->Get_PlayerInfo().fPowerUp);
+						m_pTarget->Set_Hp(_int(-30 * pTanjiro->Get_PlayerInfo().fPowerUp));
 						m_pTarget->Take_Damage(0.3f,false);
 						pTanjiro->Set_Combo(1);
 						pTanjiro->Set_ComboTime(0.f);
