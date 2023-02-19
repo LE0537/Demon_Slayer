@@ -697,6 +697,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_00.wav"), fEFFECT);
 				pUIManager->Set_ClearCheck(true, 0);
 			}
 		}
@@ -721,6 +722,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 				pUIManager->Set_Msg(TEXT("흐갸아아악~타스케테~"));
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_00.wav"), fEFFECT);
 			}
 		}
 		else if (!m_bQuest2MSG && m_bQuest1)
@@ -733,31 +735,51 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 					pUIManager->Set_Msg(TEXT("귀살대원 '계'급 탄지로 입니다.지원 왔습니다."));
+					if (!m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_01.wav"), fEFFECT);
+						m_bSoundCheck = true;
+					}
 					break;
 				case 1:
 					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 					pUIManager->Set_Msg(TEXT("앗! 지원군이 왔구나! 엥? 뭐라고? '계'급이라고?"));
+					if (m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_01.wav"), fEFFECT);
+						m_bSoundCheck = false;
+					}
 					break;
 				case 2:
 					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-					pUIManager->Set_Msg(TEXT("'주'급 정도는 와야한다고!!계급은 몇명이 오든 의미가 없어!"));
+					pUIManager->Set_Msg(TEXT("왜 '주'가 아닌 거야?"));
+					if (!m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_02.wav"), fEFFECT);
+						m_bSoundCheck = true;
+					}
 					break;
 				case 3:
 					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-					pUIManager->Set_Msg(TEXT("너도 도망쳐!!"));
+					pUIManager->Set_Msg(TEXT("계 같은 건 몇 명이 와도 똑같아!! 무의미해!!"));
 					break;
 				case 4:
 					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("아빠 거미"));
-					pUIManager->Set_Msg(TEXT("으캬아야아 뭔 잡담들이냐!!"));
+					pUIManager->Set_Msg(TEXT("으캬아야아"));
+					if (m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_Dialog_00.wav"), fEFFECT);
+						m_bSoundCheck = false;
+					}
 					break;
 				case 5:
 					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("아빠 거미"));
-					pUIManager->Set_Msg(TEXT("이 산에 들어온 이상 모두 죽은 목숨이다!!"));
+					pUIManager->Set_Msg(TEXT("내 가족에게 접근하지 마라!!"));
 					pUIManager->Set_MainQuestOff();
 					m_bQuest2_1MSG = true;
 				//	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_High(m_pRendererCom);
