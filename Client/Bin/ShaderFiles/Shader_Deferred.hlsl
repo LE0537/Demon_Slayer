@@ -263,7 +263,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 		Out.vShade = g_vLightDiffuse * g_fEnvLightValue * (saturate(dot(normalize(g_vLightDir2) * -1.f, normalize(vNormal))) + (g_vLightAmbient * g_vMtrlAmbient));
 	}
 
-	//Out.vShade *= g_fLightPower;
+	Out.vShade *= g_fLightPower;
 	Out.vShade.a = 1.f;
 
 	vector			vWorld = g_WorldTexture.Sample(LinearSampler, In.vTexUV);
