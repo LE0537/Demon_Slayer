@@ -760,6 +760,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("이 산에 들어온 이상 모두 죽은 목숨이다!!"));
 					pUIManager->Set_MainQuestOff();
 					m_bQuest2_1MSG = true;
+				//	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_High(m_pRendererCom);
 					break;
 				default:
 					break;

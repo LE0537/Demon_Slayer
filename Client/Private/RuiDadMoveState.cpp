@@ -51,6 +51,7 @@ CRuiDadState * CMoveState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 			{
 				m_fShakeTime = 0.f;
 				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pRuiDad->Get_Renderer());
 			}
 			pRuiDad->Get_Transform()->Go_Straight(fTimeDelta, pRuiDad->Get_NavigationCom());
 			RELEASE_INSTANCE(CGameInstance);

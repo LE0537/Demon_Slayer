@@ -88,8 +88,6 @@ private:
 
 	_vector m_vOriginPosition = _vector({ 64.f, 0.f, 38.5f,1.f });
 
-
-
 };
 END
 END

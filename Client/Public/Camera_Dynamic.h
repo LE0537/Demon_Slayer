@@ -53,12 +53,14 @@ public:
 	void Set_CamType(_bool _bStory) { m_bStory = _bStory; }
 	void	Key_Input(_float fTimeDelta);
 	//Blur
+	void Blur_VeryLow(CRenderer* _pRenderer);
 	void Blur_Low(CRenderer* _pRenderer);
 	void Blur_High(CRenderer* _pRenderer);
 	//Quest
 	void Set_QusetCam() { m_bQuestCam = true; }
 	_bool Get_QuestCam() { return m_bQuestCam; }
 	void Set_QuestNPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
+	_bool Get_QuestBattleCam() { return m_bQuestBattleCam; }
 private:
 	//Shake
 	void Check_Shake(_float fTimeDelta);
@@ -75,6 +77,8 @@ private:
 	void Check_TargetTrun(_float fTimeDelta);
 	//Quest
 	void QuestCam(_float fTimeDelta);
+	void QuestBattleCam(_float fTimeDelta);
+
 
 	void Check_StoryCam();
 private:
@@ -135,8 +139,10 @@ private:
 	_float m_fQuestFov = 0.f;
 	_float m_fCamY = 0.f;
 	_bool  m_bCamTurn = false;
-	//Test QuestCam
-	_bool m_bEventStart = false;
+	_bool  m_bQuestBattleCam = false;
+	_float m_fBattleAngle = 0.f;
+	_float m_fBattleCamY = 0.f;
+	_float m_fBattleCamZ = 0.f;
 
 	_bool	m_bInit = false;
 private:/* For.Check_Clockwise */

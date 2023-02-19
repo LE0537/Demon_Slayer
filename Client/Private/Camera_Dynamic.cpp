@@ -5,7 +5,7 @@
 #include "UI_Manager.h"
 #include "Effect_Manager.h"
 #include "SoundMgr.h" 
-
+#include "Tanjiro.h"
 CCamera_Dynamic::CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CCamera(pDevice, pContext)
 {
@@ -45,6 +45,8 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_fZoomAngle = 25.f;
 	m_fQuestFov = 50.f;
 	m_fCamY = 10.f;
+	m_fBattleCamY = 5.f;
+	m_fBattleCamZ = 30.f;
 	m_FovAngle = XMConvertToRadians(60.f);
 	//m_bStory = true;
 	m_eTurn = CAM_END;
@@ -60,6 +62,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 
 	static _bool	bCamAttach = true;
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	if (pGameInstance->Key_Down(DIK_F10))
 		bCamAttach = !bCamAttach;
@@ -90,11 +93,50 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 				m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), fTimeDelta * MouseMove * 0.1f);
 		}
 	}
-	if(!m_bStory)
+	if (pUIManager->Get_RuiDadBattle())
+	{
+		if (!m_bBattle)
+		{
+			Set_BattleTarget(fTimeDelta);
+			m_bBattle = true;
+		}
+		if (!m_bStartBattle)
+		{
+			m_pTarget->Set_BattleStart(true);
+			m_bStartBattle = true;
+		}
+
+		if (!m_bQuestBattleCam && !m_bLerp)
+			QuestBattleCam(fTimeDelta);
+		else if (m_bLerp && !m_bQuestBattleCam)
+		{
+			_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
+			
+			if (m_fLerpTime > 1.f)
+			{
+				m_bQuestBattleCam = true;
+			}
+
+			m_fLerpTime += fTimeDelta;
+			m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
+			m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		}
+
+		if (true == bCamAttach && m_bQuestBattleCam)
+			Set_CamPos();
+
+		if (m_pPlayer->Get_PlayerInfo().bSub)
+			m_pPlayer = m_pPlayer->Get_SubChar();
+		if (m_pTarget->Get_PlayerInfo().bSub)
+			m_pTarget = m_pTarget->Get_SubChar();
+
+		if (true == bCamAttach && m_bQuestBattleCam)
+			Move_CamPos(fTimeDelta);
+	}
+	else if(!m_bStory && !pUIManager->Get_RuiDadBattle())
 	{
 		m_fStartTime += fTimeDelta;
 
-	
 #ifdef _DEBUG
 		if (!m_bLerp && m_fStartTime > 5.9f)
 		{
@@ -161,19 +203,21 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 
 	}
 	RELEASE_INSTANCE(CGameInstance);
-
+	RELEASE_INSTANCE(CUI_Manager);
 
 	if (FAILED(Bind_OnPipeLine()))
 		return;
+
+	
 }
 
 void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 {
 	__super::Late_Tick(fTimeDelta);
-
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
 #ifdef _DEBUG
-	if (!m_bStory)
+	if (!m_bStory && !pUIManager->Get_RuiDadBattle())
 	{
 		if (!m_bEffect)
 		{
@@ -205,7 +249,7 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 		}
 	}
 #else
-		if (!m_bStory)
+		if (!m_bStory && !pUIManager->Get_RuiDadBattle())
 		{
 			if (!m_bEffect)
 			{
@@ -238,7 +282,7 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 			}
 	}
 #endif
-	
+		RELEASE_INSTANCE(CUI_Manager);
 }
 
 HRESULT CCamera_Dynamic::Render()
@@ -987,55 +1031,103 @@ void CCamera_Dynamic::Check_TargetTrun(_float fTimeDelta)
 
 void CCamera_Dynamic::QuestCam(_float fTimeDelta)
 {
-	//¹öÀü1
-	//_vector vLookAt = m_pNPC->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	//vLookAt.m128_f32[1] += 3.f;
+	_vector vLookAt = m_pNPC->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLookAt.m128_f32[1] += 3.f;
 
 
-	//_vector vLookPos = { 0.f,m_fCamY,15.f,1.f };
-	//m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vLookPos);
-	//
-	//_matrix matRotY = XMMatrixRotationY(XMConvertToRadians(m_fQuestAngle));
-	//_matrix matTarget = m_pNPC->Get_Transform()->Get_WorldMatrix();
-	//_matrix matWorld = m_pTransform->Get_WorldMatrix() * matRotY * matTarget;
+	_vector vLookPos = { 0.f,m_fCamY,15.f,1.f };
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vLookPos);
+	
+	_matrix matRotY = XMMatrixRotationY(XMConvertToRadians(m_fQuestAngle));
+	_matrix matTarget = m_pNPC->Get_Transform()->Get_WorldMatrix();
+	_matrix matWorld = m_pTransform->Get_WorldMatrix() * matRotY * matTarget;
 
-	//m_pTransform->Set_WorldMatrix(matWorld);
-	//m_pTransform->LookAt(vLookAt);
+	m_pTransform->Set_WorldMatrix(matWorld);
+	m_pTransform->LookAt(vLookAt);
 
-	//if (m_fQuestAngle < 120.f)
-	//{
-	//	m_fQuestAngle += 2.f;
-	//	m_fCamY -= 0.1f;
-	//	if (m_fCamY < 2.f)
-	//		m_fCamY = 2.f;
-	//	m_fQuestFov -= 1.f;
-	//	if (m_fQuestFov < 30.f)
-	//		m_fQuestFov = 30.f;
-	//}
-	//else if (m_fQuestAngle >= 120.f && m_fQuestAngle < 400.f)
-	//{
-	//	m_fQuestAngle += 2.f;
-	//	m_fCamY += 0.1f;
-	//	if (m_fCamY > 7.f)
-	//		m_fCamY = 7.f;
-	//	if(!m_bCamTurn)
-	//		m_fQuestFov += 1.f;
-	//	if (m_fQuestFov > 60.f)
-	//	{
-	//		m_fQuestFov = 60.f;
-	//		m_bCamTurn = true;
-	//	}
-	//	
-	//}
-	//if (m_bCamTurn)
-	//{
-	//	m_fQuestFov -= 1.f;
-	//	if (m_fQuestFov < 25.f)
-	//		m_fQuestFov = 25.f;
-	//}
+	if (m_fQuestAngle < 120.f)
+	{
+		m_fQuestAngle += 2.f;
+		m_fCamY -= 0.1f;
+		if (m_fCamY < 2.f)
+			m_fCamY = 2.f;
+		m_fQuestFov -= 1.f;
+		if (m_fQuestFov < 30.f)
+			m_fQuestFov = 30.f;
+	}
+	else if (m_fQuestAngle >= 120.f && m_fQuestAngle < 400.f)
+	{
+		m_fQuestAngle += 2.f;
+		m_fCamY += 0.1f;
+		if (m_fCamY > 7.f)
+			m_fCamY = 7.f;
+		if(!m_bCamTurn)
+			m_fQuestFov += 1.f;
+		if (m_fQuestFov > 60.f)
+		{
+			m_fQuestFov = 60.f;
+			m_bCamTurn = true;
+		}
+		
+	}
+	if (m_bCamTurn)
+	{
+		m_fQuestFov -= 1.f;
+		if (m_fQuestFov < 25.f)
+			m_fQuestFov = 25.f;
+	}
 
-	//m_CameraDesc.fFovy = XMConvertToRadians(m_fQuestFov);
+	m_CameraDesc.fFovy = XMConvertToRadians(m_fQuestFov);
 
+}
+
+void CCamera_Dynamic::QuestBattleCam(_float fTimeDelta)
+{
+	dynamic_cast<CTanjiro*>(m_pPlayer)->Set_Render(true);
+	_vector vLookAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vLookAt.m128_f32[1] += 2.5f;
+
+	_vector vLookPos = { 0.f,m_fBattleCamY,m_fBattleCamZ,1.f };
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vLookPos);
+
+	_matrix matRotX = XMMatrixRotationX(XMConvertToRadians(m_fBattleAngle));
+	_matrix matTarget = m_pTarget->Get_Transform()->Get_WorldMatrix();
+	_matrix matWorld = m_pTransform->Get_WorldMatrix() * matRotX * matTarget;
+
+	m_pTransform->Set_WorldMatrix(matWorld);
+	m_pTransform->LookAt(vLookAt);
+
+	if (m_fBattleAngle < 20.f)
+	{
+		m_fBattleAngle += 0.1f;
+		m_fBattleCamZ -= 0.3f;
+		m_fBattleCamY -= 0.02f;
+		if (m_fBattleCamY < 6.5f)
+			m_fBattleCamY = 6.5f;
+
+		if (m_fBattleCamZ < 13.f)
+			m_fBattleCamZ = 13.f;
+	}
+	else if (m_fBattleAngle >= 20.f)
+	{
+		_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vTarget = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vLook2 = vPos - vTarget;
+
+		_float fDist = XMVectorGetX(XMVector3Length(vLook2));
+
+		vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
+		vPos.m128_f32[1] = m_fLookAtY;
+		XMStoreFloat4(&m_vLerpLook, vPos);
+		XMStoreFloat4(&m_vCamPos, m_pTransform->Get_State(CTransform::STATE_TRANSLATION));
+		m_bLerp = true;
+		dynamic_cast<CTanjiro*>(m_pPlayer)->Set_Render(false);
+	}
+}
+
+void CCamera_Dynamic::Blur_VeryLow(CRenderer* _pRenderer)
+{
+	_pRenderer->Set_PointBlur(m_vAtPos, 30.f, 0.3f, 0.3f);
 }
 
 void CCamera_Dynamic::Blur_Low(CRenderer* _pRenderer)
