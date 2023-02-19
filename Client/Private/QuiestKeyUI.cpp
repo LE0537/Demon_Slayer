@@ -54,17 +54,35 @@ void CQuiestKeyUI::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (!pUI_Manager->Get_MsgOnOff())
+	if (m_ThrowUIinfo.iLayerNum == 0 || m_ThrowUIinfo.iLayerNum == 1)
 	{
-		m_fFadeTime += 0.2f;
-		if (m_fFadeTime >= 1.f)
-			m_fFadeTime = 1.f;
+		if (!pUI_Manager->Get_MsgOnOff())
+		{
+			m_fFadeTime += 0.2f;
+			if (m_fFadeTime >= 1.f)
+				m_fFadeTime = 1.f;
+		}
+		else
+		{
+			m_fFadeTime -= 0.2f;
+			if (m_fFadeTime <= 0.f)
+				m_fFadeTime = 0.f;
+		}
 	}
 	else
 	{
-		m_fFadeTime -= 0.2f;
-		if (m_fFadeTime <= 0.f)
-			m_fFadeTime = 0.f;
+		if (pUI_Manager->Get_InteractionOnOff())
+		{
+			m_fFadeTime += 0.2f;
+			if (m_fFadeTime >= 1.f)
+				m_fFadeTime = 1.f;
+		}
+		else
+		{
+			m_fFadeTime -= 0.2f;
+			if (m_fFadeTime <= 0.f)
+				m_fFadeTime = 0.f;
+		}
 	}
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
@@ -152,7 +170,6 @@ CQuiestKeyUI * CQuiestKeyUI::Create(ID3D11Device * pDevice, ID3D11DeviceContext 
 
 	return pInstance;
 }
-
 
 CGameObject * CQuiestKeyUI::Clone(void * pArg)
 {

@@ -45,6 +45,7 @@ private:
 	_float		   m_fCurrentDuration = 0.f;
 	_bool          m_bLook = false;
 	_bool		   m_bThrow = false;
+	_bool		   m_bDeadTick = false;
 	//Jump
 	_float m_fJumpPower = 15.f;
 	_float m_fJumpTime = 0.f;

@@ -1609,7 +1609,11 @@ HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		break;
 	case 10:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MapNameBar"), LEVEL_ADVRUI, TEXT("Layer_NameBarUI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MapNameBar"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 11:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InteractionUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	default:

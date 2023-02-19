@@ -41,6 +41,11 @@ HRESULT CRuiDadBigStone::Initialize(void * pArg)
 
 void CRuiDadBigStone::Tick(_float fTimeDelta)
 {
+	if (m_bDeadTick)
+	{
+		Set_Dead();
+		return;
+	}
 	if (!m_bThrow)
 	{
 		m_fCurrentDuration = dynamic_cast<CRuiDad*>(m_ShootInfo.pPlayer)->Get_Model()->Get_CurrentTime_Index(10);
@@ -175,7 +180,7 @@ void CRuiDadBigStone::Throw(_float fTimeDelta)
 				return;
 		}
 		RELEASE_INSTANCE(CGameInstance);
-		Set_Dead();
+		m_bDeadTick = true;
 	}
 
 	CCollider*	pMyCollider = m_pOBBCom;

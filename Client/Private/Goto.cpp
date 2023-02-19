@@ -163,12 +163,15 @@ void CGoto::Check_Event()
 	{
 		if (!m_bMsgEnd)
 		{
-			pUIManager->Set_InteractionOn();
+			if (!m_MsgReset)
+				pUIManager->Set_InteractionOn();
 		}
 		else
 			pUIManager->Set_InteractionOff();
+
 		if (!m_bMsgStart && !m_bMsgEnd && pGameInstance->Key_Down(DIK_F))
 		{
+			pUIManager->Set_InteractionOff();
 			m_bMsgStart = true;
 			if (!m_MsgReset)
 			{
@@ -212,6 +215,11 @@ void CGoto::Check_Event()
 			}
 		}
 
+	}
+	else
+	{
+		if(!m_bMsgEnd)
+			pUIManager->Set_InteractionOff();
 	}
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
