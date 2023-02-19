@@ -33,7 +33,8 @@ struct VS_OUT
 	float4		vPosition : SV_POSITION;
 	float4		vNormal : NORMAL;
 	float2		vTexUV : TEXCOORD0;
-	float4		vWorldPos : TEXCOORD1;
+	float4		vProjPos : TEXCOORD1;
+	float4		vWorldPos : TEXCOORD2;
 };
 
 struct VS_SHADOW_OUT
@@ -51,7 +52,8 @@ struct VS_DIRECTIONAL_OUT
 	float		fShade : COLOR0;
 	float		fSpecular : COLOR1;
 	float2		vTexUV : TEXCOORD0;
-	float4		vWorldPos : TEXCOORD1;
+	float4		vProjPos : TEXCOORD1;
+	float4		vWorldPos : TEXCOORD2;
 };
 
 VS_OUT VS_MAIN(VS_IN In)
@@ -68,7 +70,10 @@ VS_OUT VS_MAIN(VS_IN In)
 	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
 	Out.vNormal = normalize(vWorldNormal);
 	Out.vTexUV = In.vTexUV;
-	Out.vWorldPos = Out.vPosition;
+	Out.vProjPos = Out.vPosition;
+
+	vector	vWorld = mul(vector(In.vPosition, 1.f), g_WorldMatrix);
+	Out.vWorldPos = vWorld;
 
 	return Out;
 }
@@ -97,7 +102,8 @@ struct PS_IN
 	float4		vPosition : SV_POSITION;
 	float4		vNormal : NORMAL;
 	float2		vTexUV : TEXCOORD0;
-	float4		vWorldPos : TEXCOORD1;
+	float4		vProjPos : TEXCOORD1;
+	float4		vWorldPos : TEXCOORD2;
 };
 
 struct PS_SHADOW_IN
@@ -105,7 +111,8 @@ struct PS_SHADOW_IN
 	float4		vPosition : SV_POSITION;
 	float4		vNormal : NORMAL;
 	float2		vTexUV : TEXCOORD0;
-	float4		vWorldPos : TEXCOORD1;
+	float4		vProjPos : TEXCOORD1;
+	float4		vWorldPos : TEXCOORD2;
 };
 
 struct PS_OUT
@@ -113,6 +120,8 @@ struct PS_OUT
 	float4		vDiffuse : SV_TARGET0;
 	float4		vNormal : SV_TARGET1;
 	float4		vDepth : SV_TARGET2;
+
+	float4		vWorldPos : SV_TARGET5;
 };
 
 struct PS_OUT_SHADOW
@@ -120,24 +129,6 @@ struct PS_OUT_SHADOW
 	float4			vLightDepth :  SV_TARGET0;
 };
 
-
-
-struct PS_DIRECTIONAL_IN
-{
-	float4		vPosition : SV_POSITION;
-	float3		vNormal : NORMAL;
-	float		fShade : COLOR0;
-	float		fSpecular : COLOR1;
-	float2		vTexUV : TEXCOORD0;
-	float4		vWorldPos : TEXCOORD1;
-};
-
-struct PS_DIRECTIONAL_OUT
-{
-	float4		vDiffuse : SV_TARGET0;
-	float4		vNormal : SV_TARGET1;
-	float4		vDepth : SV_TARGET2;
-};
 
 PS_OUT PS_MAIN(PS_IN In)
 {
@@ -149,13 +140,13 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	vector		vBrush = vector(0.f, 0.f, 0.f, 0.f);
 
-	if (g_vBrushPos.x - g_fBrushRange < In.vWorldPos.x && In.vWorldPos.x < g_vBrushPos.x + g_fBrushRange &&
-		g_vBrushPos.z - g_fBrushRange < In.vWorldPos.z && In.vWorldPos.z < g_vBrushPos.z + g_fBrushRange)
+	if (g_vBrushPos.x - g_fBrushRange < In.vProjPos.x && In.vProjPos.x < g_vBrushPos.x + g_fBrushRange &&
+		g_vBrushPos.z - g_fBrushRange < In.vProjPos.z && In.vProjPos.z < g_vBrushPos.z + g_fBrushRange)
 	{
 		float2		fNewUV;
 
-		fNewUV.x = (In.vWorldPos.x - (g_vBrushPos.x - g_fBrushRange)) / (2.f * g_fBrushRange);
-		fNewUV.y = ((g_vBrushPos.z + g_fBrushRange) - In.vWorldPos.z) / (2.f * g_fBrushRange);
+		fNewUV.x = (In.vProjPos.x - (g_vBrushPos.x - g_fBrushRange)) / (2.f * g_fBrushRange);
+		fNewUV.y = ((g_vBrushPos.z + g_fBrushRange) - In.vProjPos.z) / (2.f * g_fBrushRange);
 
 		vBrush = g_BrushTexture.Sample(LinearSampler, fNewUV);
 	}
@@ -170,6 +161,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	/* -1 ~ 1 => 0 ~ 1*/
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
+	Out.vWorldPos = In.vWorldPos;
 
 	return Out;
 }
@@ -206,7 +198,8 @@ PS_OUT PS_FILTER(PS_IN In)
 
 	Out.vNormal = vNormal;
 
-	Out.vDepth = vector(In.vWorldPos.z / In.vWorldPos.w, In.vWorldPos.w / 1800.f, 0.f, 0.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.f);
+	Out.vWorldPos = In.vWorldPos;
 
 	if (Out.vDiffuse.a < 0.5f)
 		discard;

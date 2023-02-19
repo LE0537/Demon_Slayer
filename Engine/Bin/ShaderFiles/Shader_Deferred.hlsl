@@ -266,24 +266,9 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	Out.vShade *= g_fLightPower;
 	Out.vShade.a = 1.f;
 
+	vector			vWorld = g_WorldTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vWorldPos = (vector)0.f;
-
-	/* 투영 공간상의 위치를 구했다. */
-	/* 투영 공간 == 로컬점의위치 * 월드행렬 * 뷰행렬 * 투영행렬 / w */
-	vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
-	vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
-	vWorldPos.z = vDepthDesc.r;
-	vWorldPos.w = 1.0f;
-
-	/* 로컬점의위치 * 월드행렬 * 뷰행렬 * 투영행렬 */
-	vWorldPos *= fViewZ;
-
-	/* 뷰 공간상의 위치르 ㄹ구한다. */
-	/* 로컬점의위치 * 월드행렬 * 뷰행렬  */
-	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
-
-	/* 로컬점의위치 * 월드행렬   */
-	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+	vWorldPos = vWorld;
 
 	vector			vReflect;
 	if (vNormalDesc.w == 1.f)
@@ -419,7 +404,7 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	vector		vShadowDepthInfo_Once = g_ShadowDepthTexture_Once.Sample(DepthSampler, vNewUV);
 
-	Out.vColor -= max(step(vShadowDepthInfo_Once.x * g_fFar, vWorldPos_Once.z - g_fShadowTestLength) * vector(0.2f, 0.2f, 0.2f, 0.f),
+	Out.vColor -= max(step(vShadowDepthInfo_Once.x * g_fFar, vWorldPos_Once.z - 0.1f) * vector(0.2f, 0.2f, 0.2f, 0.f),
 		step(vShadowDepthInfo.x * g_fFar, vWorldPos_Every.z - g_fShadowTestLength) * vector(0.2f, 0.2f, 0.2f, 0.f));
 
 
