@@ -197,6 +197,10 @@ public:
 	_uint   Get_AdvStageNum() { return m_iAdvStageNum; }
 	void	Set_AdvStageNum(_uint _iNum) { m_iAdvStageNum = _iNum; }
 
+	_uint   Get_TipMsgCount() { return m_iTipMsgCount; }
+	void	Set_TipMsgCount(_uint _iNum) { m_iTipMsgCount += _iNum; }
+	void	Set_TipMsgCountZero() { m_iTipMsgCount = 0; }
+
 	_uint   Get_MsgCount() { return m_iMsgCount; }
 	void	Set_MsgCount(_uint _iNum) { m_iMsgCount += _iNum; }
 	void	Reset_MsgCount() { m_iMsgCount = 0; }
@@ -374,6 +378,8 @@ private:
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;
 	_uint                           m_i2p_2 = 0;
+
+	_uint							m_iTipMsgCount = 0;
 	
 	_uint							m_iMsgCount = 0;
 	_uint							m_iQuestCount = 0;

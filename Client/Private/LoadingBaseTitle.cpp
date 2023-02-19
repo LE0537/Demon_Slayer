@@ -46,6 +46,8 @@ HRESULT CLoadingBaseTitle::Initialize(void * pArg)
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	pUIManager->Get_LoadingList()->push_back(this);
+
+	Tip();
 	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
@@ -78,7 +80,33 @@ HRESULT CLoadingBaseTitle::Render()
 
 	m_pVIBufferCom->Render();
 
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+
+	pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szTitle.c_str(), XMVectorSet(m_fX - 110.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(1.f, 0.9f, 0.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
+}
+
+void CLoadingBaseTitle::Tip()
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	switch (pUI_Manager->Get_TipMsgCount())
+	{
+	case 0: m_szTitle = TEXT("배틀 화면에 대해서1");
+		break;
+	case 1: m_szTitle = TEXT("배틀 화면에 대해서2");
+		break;
+	case 2:	m_szTitle = TEXT("스토리 화면에 대해서");
+		break;
+	case 3:	m_szTitle = TEXT("점심 메뉴 추천");
+		break;
+	default:
+		break;
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 HRESULT CLoadingBaseTitle::Ready_Components()

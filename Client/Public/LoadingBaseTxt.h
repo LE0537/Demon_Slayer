@@ -19,10 +19,15 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 
+public:
+	void Tip();
+
 private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
+private:
+	wstring								m_szTitle = TEXT("");
 
 public:
 	static CLoadingBaseTxt* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
