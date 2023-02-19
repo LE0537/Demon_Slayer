@@ -921,7 +921,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 80))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 84))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -949,6 +949,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Fire", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Line", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Rui", "../Bin/Resources/Effect/Mesh/MeshTexture/");
+		Load_Texture("RuiDad", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Else", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Akaza", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Bullet", "../Bin/Resources/Effect/Mesh/MeshTexture/");
@@ -1194,6 +1195,20 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_GroundStone1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/GroundStone1.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_GroundStone2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/GroundStone2.fbx", PivotMatrix)))) return E_FAIL;
+
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Circle1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Circle1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Cylinder1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Cylinder1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Rock1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Rock1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Rock2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Rock2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Stone1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Stone1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Thorn1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Thorn1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Torus1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Torus1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Wind1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Wind1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Wind2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Wind2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Wind3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Wind3.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Wind4"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Wind4.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Wind5"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Wind5.fbx", PivotMatrix)))) return E_FAIL;
 
 #pragma endregion Effect Model
 
@@ -1455,6 +1470,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_Turn"));
 		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_UPFire1"));
 		pEffect_Manager->Load_Effect(TEXT("Nezuko_Skill_KickDown_Wind"));
+
+		//RuiDad
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Throwing_BigStone"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Throwing_SmallStone"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Throwing_Ground1"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Throwing_Ground2"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Throwing_Ground3"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Throwing_Ground4"));
 
 
 		RELEASE_INSTANCE(CEffect_Manager);
