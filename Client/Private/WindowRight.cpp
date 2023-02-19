@@ -28,9 +28,19 @@ HRESULT CWindowRight::Initialize(void * pArg)
 
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
-	m_fSizeX = m_ThrowUIinfo.vScale.x;
-	m_fSizeY = m_ThrowUIinfo.vScale.y;
-	m_fX = m_ThrowUIinfo.vPos.x;
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x;
+		m_fSizeY = m_ThrowUIinfo.vScale.y;
+		m_fX = m_ThrowUIinfo.vPos.x;
+	}
+	else
+	{
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 1.2f;
+		m_fSizeY = m_ThrowUIinfo.vScale.y * 1.2f;
+		m_fX = m_ThrowUIinfo.vPos.x + 60.f;
+	}
+	
 	m_fY = m_ThrowUIinfo.vPos.y;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));

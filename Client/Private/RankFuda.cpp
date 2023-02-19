@@ -52,15 +52,15 @@ HRESULT CRankFuda::Initialize(void * pArg)
 	else
 		m_iRankScore = pUI_Manager->Get_RankInfo(1).iRankScore;
 
-	if (m_iRankScore >= 0 && m_iRankScore < 2000)
+	if (m_iRankScore >= 0 && m_iRankScore < 1000)
 		m_iImgNum = 0;
-	else if (m_iRankScore >= 2000 && m_iRankScore < 4000)
+	else if (m_iRankScore >= 1000 && m_iRankScore < 2000)
 		m_iImgNum = 1;
-	else if (m_iRankScore >= 4000 && m_iRankScore < 6000)
+	else if (m_iRankScore >= 2000 && m_iRankScore < 3000)
 		m_iImgNum = 2;
-	else if (m_iRankScore >= 6000 && m_iRankScore < 8000)
+	else if (m_iRankScore >= 3000 && m_iRankScore < 4000)
 		m_iImgNum = 3;
-	else if (m_iRankScore >= 8000)
+	else if (m_iRankScore >= 5000)
 		m_iImgNum = 4;
 
 	RELEASE_INSTANCE(CUI_Manager);
