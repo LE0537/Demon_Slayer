@@ -221,6 +221,7 @@
     <ClInclude Include="..\Public\AkazaTargetRushState.h" />
     <ClInclude Include="..\Public\AkazaToolState.h" />
     <ClInclude Include="..\Public\AkazaUpperHitState.h" />
+    <ClInclude Include="..\Public\AngryState.h" />
     <ClInclude Include="..\public\BaseAtk.h" />
     <ClInclude Include="..\public\BigBird.h" />
     <ClInclude Include="..\public\Bird.h" />
@@ -628,6 +629,7 @@
     <ClCompile Include="..\Private\AkazaTargetRushState.cpp" />
     <ClCompile Include="..\Private\AkazaToolState.cpp" />
     <ClCompile Include="..\Private\AkazaUpperHitState.cpp" />
+    <ClCompile Include="..\Private\AngryState.cpp" />
     <ClCompile Include="..\private\BaseAtk.cpp" />
     <ClCompile Include="..\private\BigBird.cpp" />
     <ClCompile Include="..\private\Bird.cpp" />

@@ -45,7 +45,8 @@ public:
 
 
 	void Increase_Height(CTanjiro* pTanjiro, _float fTimeDelta);
-
+	void Fall_Height(CTanjiro* pTanjiro, _float fTimeDelta);
+	void Fall_Height_Player(CTanjiro* pTanjiro, _float fTimeDelta);
 
 
 
@@ -59,6 +60,12 @@ private:
 	_vector		m_vTargetPosition;
 	_vector		m_vDirection;
 	_float		m_fTime = 0.f;
+
+	_bool       m_bOnGround = false;
+
+	_float m_fPositionY;
+	_float3 m_vPosition;
+	_float3 m_vVelocity;
 };
 
 END
