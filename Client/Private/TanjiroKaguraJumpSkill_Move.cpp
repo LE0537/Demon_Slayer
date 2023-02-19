@@ -257,6 +257,8 @@ void CKaguraJumpSkill_MoveState::Enter(CTanjiro * pTanjiro)
 
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_MOVE);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_KAGURA_MOVE);
+	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_SKILL_KAGURA_MOVE);
+	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_SKILL_KAGURA_MOVE, 0.01f);
 	Initialize_value(pTanjiro);
 }
 

@@ -3,7 +3,8 @@
 #include "TanjiroIdleState.h"
 #include "GameInstance.h"
 #include "TanjiroUpperHitState.h"
-
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Tanjiro;
 
 CHitState::CHitState(_float _fPow, _bool _bJump)
@@ -103,10 +104,43 @@ CTanjiroState * CHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	//}
 
 
-	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
+	//m_fCurrentDuration += (1.f / 60.f);
+	//if (m_fCurrentDuration >= 2.f)
+	//	g_bDeathTime = false;
+
+	m_fCurrentDuration += (1.f / 60.f);
+	if (m_fCurrentDuration >= 2.f)
 	{
-		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
+	}
+
+	if (pTanjiro->Get_AnimIndex() == CTanjiro::ANIM_DEAD)
+	{
+		if (pTanjiro->Get_Model()->Get_End(CTanjiro::ANIM_DEAD))
+		{
+			//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_DEAD);
+			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_HIT_DMG_RETURN_1);
+			pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
+			pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_DEAD);
+		}
+	}
+	else if (pTanjiro->Get_Model()->Get_End(CTanjiro::ANIM_HIT_DMG_RETURN_1))
+	{
+		//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_HIT_DMG_RETURN_1); 
+		pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_HIT_DMG_RETURN_1);
 		return new CIdleState(STATE_HIT);
+	}
+
+	else
+	{
+		if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
+		{
+			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+			return new CIdleState(STATE_HIT);
+		}
 	}
 
 
@@ -140,16 +174,33 @@ void CHitState::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_ID::STATE_HIT;
 
-
-	if (pTanjiro->Get_NavigationHeight().y < XMVectorGetY(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+	if (pTanjiro->Get_PlayerInfo().iHp <= 0)
 	{
-		m_bHitPlayerJump = true;
-		Set_JumpHitState(pTanjiro);
+		pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_DEAD);
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_DEAD);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_DEAD);
+		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
+		pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.05f);
+		pTanjiro->Set_GodMode(true);
+		CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pTanjiro->Get_Renderer());
+		RELEASE_INSTANCE(CGameInstance);
+		g_bDeathTime = true;
 	}
+
 	else
 	{
-		m_bHitPlayerJump = false;
-		Set_HitState(pTanjiro);
+		if (pTanjiro->Get_NavigationHeight().y < XMVectorGetY(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		{
+			m_bHitPlayerJump = true;
+			Set_JumpHitState(pTanjiro);
+		}
+		else
+		{
+			m_bHitPlayerJump = false;
+			Set_HitState(pTanjiro);
+		}
 	}
 
 

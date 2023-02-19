@@ -148,6 +148,9 @@ public:
 
 		ANIM_HIT_DMG_RETURN_0 = 57,
 		ANIM_HIT_DMG_RETURN_1 = 58,
+
+		ANIM_DEAD = 131,
+
 		ANIM_END = 114
 	};
 

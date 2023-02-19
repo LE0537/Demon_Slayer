@@ -3,6 +3,8 @@
 #include "RuiIdleState.h"
 #include "GameInstance.h"
 #include "RuiUpperHitState.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 
 using namespace Rui;
 
@@ -102,14 +104,39 @@ CRuiState * CHitState::Tick(CRui* pRui, _float fTimeDelta)
 	//	}
 	//}
 
-
-	if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+	m_fCurrentDuration += (1.f / 60.f);
+	if (m_fCurrentDuration >= 2.f)
 	{
-		pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
+	}
+
+	if (pRui->Get_AnimIndex() == CRui::ANIM_DEAD)
+	{
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pRui->Set_AnimIndex(CRui::ANIM_HIT_DMG_RETURN_1);
+			pRui->Get_Model()->Set_Loop(CRui::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+		}
+	}
+	else if (pRui->Get_Model()->Get_End(CRui::ANIM_HIT_DMG_RETURN_1))
+	{
+		pRui->Get_Model()->Set_End(CRui::ANIM_HIT_DMG_RETURN_1);
 		return new CIdleState(STATE_HIT);
 	}
 
+	else
+	{
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CIdleState(STATE_HIT);
+		}
 
+	}
 
 
 
@@ -144,17 +171,33 @@ void CHitState::Enter(CRui* pRui)
 	m_eStateId = STATE_ID::STATE_HIT;
 
 
-	if (pRui->Get_NavigationHeight().y < XMVectorGetY(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+	if (pRui->Get_PlayerInfo().iHp <= 0)
 	{
-		m_bHitPlayerJump = true;
-		Set_JumpHitState(pRui);
+		pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_DEAD);
+		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DEAD);
+		pRui->Set_AnimIndex(CRui::ANIM_DEAD);
+		pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex());
+		pRui->Get_Model()->Set_LinearTime(pRui->Get_AnimIndex(), 0.05f);
+		pRui->Set_GodMode(true);
+		CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pRui->Get_Renderer());
+		RELEASE_INSTANCE(CGameInstance);
+		g_bDeathTime = true;
 	}
 	else
 	{
-		m_bHitPlayerJump = false;
-		Set_HitState(pRui);
+		if (pRui->Get_NavigationHeight().y < XMVectorGetY(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		{
+			m_bHitPlayerJump = true;
+			Set_JumpHitState(pRui);
+		}
+		else
+		{
+			m_bHitPlayerJump = false;
+			Set_HitState(pRui);
+		}
 	}
-
 
 	pRui->Set_RuiHit(true);
 

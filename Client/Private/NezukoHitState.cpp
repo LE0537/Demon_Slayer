@@ -3,6 +3,8 @@
 #include "NezukoIdleState.h"
 #include "GameInstance.h"
 #include "NezukoUpperHitState.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 
 using namespace Nezuko;
 
@@ -101,15 +103,38 @@ CNezukoState * CHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 	//		return new CIdleState();
 	//	}
 	//}
-
-
-	if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
+	m_fCurrentDuration += (1.f / 60.f);
+	if (m_fCurrentDuration >= 2.f)
 	{
-		pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
+	}
+	if (pNezuko->Get_AnimIndex() == CNezuko::ANIM_DEAD)
+	{
+		if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
+		{
+			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_RETURN_1);
+			pNezuko->Get_Model()->Set_Loop(CNezuko::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
+			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+		}
+	}
+	else if (pNezuko->Get_Model()->Get_End(CNezuko::ANIM_HIT_DMG_RETURN_1))
+	{
+		pNezuko->Get_Model()->Set_End(CNezuko::ANIM_HIT_DMG_RETURN_1);
 		return new CIdleState(STATE_HIT);
 	}
 
+	else
+	{
+		if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
+		{
+			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+			return new CIdleState(STATE_HIT);
+		}
 
+	}
 
 
 
@@ -141,18 +166,35 @@ void CHitState::Enter(CNezuko* pNezuko)
 	m_eStateId = STATE_ID::STATE_HIT;
 
 
-	if (pNezuko->Get_NavigationHeight().y < XMVectorGetY(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+	if (pNezuko->Get_PlayerInfo().iHp <= 0)
 	{
-		m_bHitPlayerJump = true;
-		Set_JumpHitState(pNezuko);
+		pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIMID::ANIM_DEAD);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DEAD);
+		pNezuko->Set_AnimIndex(CNezuko::ANIM_DEAD);
+		pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.05f);
+		pNezuko->Set_GodMode(true);
+		CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pNezuko->Get_Renderer());
+		RELEASE_INSTANCE(CGameInstance);
+		g_bDeathTime = true;
 	}
 	else
 	{
-		m_bHitPlayerJump = false;
-		Set_HitState(pNezuko);
+
+		if (pNezuko->Get_NavigationHeight().y < XMVectorGetY(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		{
+			m_bHitPlayerJump = true;
+			Set_JumpHitState(pNezuko);
+		}
+		else
+		{
+			m_bHitPlayerJump = false;
+			Set_HitState(pNezuko);
+		}
+
 	}
-
-
 
 
 	_uint iRand = rand() % 4;
