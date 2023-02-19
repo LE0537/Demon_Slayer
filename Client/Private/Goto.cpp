@@ -198,26 +198,41 @@ void CGoto::Check_Event()
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUIManager->Set_Msg(TEXT("괜찮아?"));
-				if (!m_bSoundCheck)
+				if (m_bSoundCheck)
 				{
 					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_05.wav"), fEFFECT);
-					m_bSoundCheck = true;
+					m_bSoundCheck = false;
 				}
 				break;
 			case 2:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 고토"));
-				pUIManager->Set_Msg(TEXT("휴...산건가...나는..."));
+				pUIManager->Set_Msg(TEXT("엄청 강한 혈귀한테 당했어..."));
+				if (!m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_00.wav"), fEFFECT);
+					m_bSoundCheck = true;
+				}
 				break;
 			case 3:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 고토"));
-				pUIManager->Set_Msg(TEXT("고마워. 난 이제 본부로 돌아가 볼게."));
+				pUIManager->Set_Msg(TEXT("그 혈귀가 너무 쌘 나머지 내 일륜도도 부러졌어..."));
 				break;
 			case 4:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 고토"));
-				pUIManager->Set_Msg(TEXT("하얀녀석을 조심해..."));
+				pUIManager->Set_Msg(TEXT("그 녀석을 조심해야 해... 으윽..."));
+				if (m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_00.wav"), fEFFECT);
+					m_bSoundCheck = false;
+				}
+				break;
+			case 5:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("(정신을 잃은것 같다...)"));
 				pUIManager->Set_RescueCount(1);
 				m_bMsgEnd = true;
 				break;

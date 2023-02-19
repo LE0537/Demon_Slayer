@@ -46,6 +46,12 @@ HRESULT CLoadingBaseTxt::Initialize(void * pArg)
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	pUIManager->Get_LoadingList()->push_back(this);
+	pUIManager->Set_TipMsgCount(1);
+
+	if (pUIManager->Get_TipMsgCount() >= 4)
+		pUIManager->Set_TipMsgCountZero();
+
+	Tip();
 	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
@@ -77,8 +83,34 @@ HRESULT CLoadingBaseTxt::Render()
 		m_pShaderCom->Begin(1);
 
 	m_pVIBufferCom->Render();
+	
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szTitle.c_str(), XMVectorSet(m_fX - 240.f, m_fY - 180.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
+}
+
+void CLoadingBaseTxt::Tip()
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	switch (pUI_Manager->Get_TipMsgCount())
+	{
+	case 0: m_szTitle = TEXT("조작 캐릭터의 이름 밑에는 2개의 게이지가\n있어. 녹색 바가 체력 게이지, 파란색 바가\n 기술게이지야. 상대의 체력 게이지를 0으로\n 만들면 승리하고, 반대로 조작 캐릭터의\n체력 게이지가 0이 되면 패배해.\n\n기술 게이지는 '기술'을 사용할 때 소비되지만\n시간이 지나면 회복될 거야.");
+		break;
+	case 1: m_szTitle = TEXT("화면 하단에 있는 것은 오의 개방 게이지야\n\n상대를 공격하거나 반대로 상대의 공격을\n받거나 하면 쌓여. 게이지가 쌓이면 최대\n3개까지 저장돼.\n\n오의 개방 게이지를 소비하면, '오의',\n'개방'을 발동할 수 있어.");
+		break;
+	case 2:	m_szTitle = TEXT("Tab키를 누르면 퀘스트창을 확인할 수 있어.\nY키를 누르면 혈귀 냄새를 맡을수도 있지.\n\n스토리 모드에서 확인해 봐!!");
+		break;
+	case 3:	m_szTitle = TEXT("청해, 맥도날드, 윤쉐프, 강촌식당, 량, 장터\n파파이스, 브라운 테이블, 미분당, 보승회관,\n구로돈가, 스시메이진, 은보카츠, 타마,\n한사리, 더진국, 란궁, 소용궁, 롯데리아,\n밥도둑, 동남집, KFC, 명륜진사갈비");
+		break;
+	default:
+		break;
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 HRESULT CLoadingBaseTxt::Ready_Components()
