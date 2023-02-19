@@ -57,7 +57,7 @@ void CMapNameBar::Tick(_float fTimeDelta)
 	{
 		if (m_fFadeTime <= 0.f)
 			m_bFadeCheck = true;
-		else if (m_fFadeTime >= 0.8f)
+		else if (m_fFadeTime >= 1.f)
 		{
 			m_fStopTime += fTimeDelta;
 			if (m_fStopTime >= 1.f)

@@ -95,9 +95,6 @@ HRESULT CLevel_AdvRui::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_InteractionUI(TEXT("Layer_InteractionUI"))))
-		return E_FAIL;
-
 	if (FAILED(Load_StaticObjects("RuiStory")))
 		return E_FAIL;
 	if (FAILED(Load_Weed("Weed")))
@@ -381,19 +378,7 @@ HRESULT CLevel_AdvRui::Ready_Layer_BackGround(const _tchar * pLayerTag)
 
 	return S_OK;
 }
-HRESULT CLevel_AdvRui::Ready_Layer_InteractionUI(const _tchar * pLayerTag)
-{
-	CGameInstance*			pGameInstance = CGameInstance::Get_Instance();
-	Safe_AddRef(pGameInstance);
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InteractionUI"), LEVEL_ADVRUI, pLayerTag)))
-		return E_FAIL;
-
-	Safe_Release(pGameInstance);
-
-
-	return S_OK;
-}
 HRESULT CLevel_AdvRui::Load_StaticObjects(char * pFileName)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
