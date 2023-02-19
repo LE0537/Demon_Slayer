@@ -723,6 +723,8 @@ HRESULT CRenderer::Render_Lights()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_World"), m_pShader, "g_WorldTexture")))
+		return E_FAIL;
 
 	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
 		return E_FAIL;
@@ -1415,14 +1417,12 @@ HRESULT CRenderer::Render_MotionBlur(const _tchar * pTexName, const _tchar * pMR
 {
 	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
 	_float4x4 CamViewMatrix = pPipeLine->Get_TransformFloat4x4(CPipeLine::D3DTS_VIEW);
-	static _float3 vCurrentRotAngle = Get_AnglebyMatrix(CamViewMatrix);
-	static 	_float3 vPreRotAngle = Get_AnglebyMatrix(m_PreViewMatrix);
-	vCurrentRotAngle = Get_AnglebyMatrix(CamViewMatrix);
-	vPreRotAngle = Get_AnglebyMatrix(m_PreViewMatrix);
+	_float3 vCurrentRotAngle = Get_AnglebyMatrix(CamViewMatrix);
+	_float3 vPreRotAngle = Get_AnglebyMatrix(m_PreViewMatrix);
 	m_PreViewMatrix = CamViewMatrix;
 	RELEASE_INSTANCE(CPipeLine);
 
-	_float	fRotationX = fabs(vCurrentRotAngle.y - vPreRotAngle.y) * 60.f;
+	_float	fRotationX = fabs(vCurrentRotAngle.y - vPreRotAngle.y) * m_iMotionBlurCountX;
 	if (FAILED(m_pShader->Set_RawValue("g_fMotionBlurPowerX", &fRotationX, sizeof(_float))))
 		return E_FAIL;
 	
