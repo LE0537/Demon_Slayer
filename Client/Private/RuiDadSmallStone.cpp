@@ -64,6 +64,11 @@ HRESULT CRuiDadSmallStone::Initialize(void * pArg)
 
 void CRuiDadSmallStone::Tick(_float fTimeDelta)
 {
+	if (m_bDeadTick)
+	{
+		Set_Dead();
+		return;
+	}
 	Throw(fTimeDelta);
 	
 	m_fJumpTime += 0.04f;
@@ -201,7 +206,7 @@ void CRuiDadSmallStone::Jump(_float fTimeDelta)
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
 		m_pEffect->Set_Dead();
-		Set_Dead();
+		m_bDeadTick = true;
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_THROWING_GROUND4, this);
