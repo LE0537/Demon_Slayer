@@ -43,7 +43,7 @@ private:
 	_bool	CheckSubChar();
 	void	Set_StartPos(_float fTimeDelta);
 	void	Set_BattleStart(_float fTimeDelta);
-	_vector Get_CameraPos() {}
+
 public:
 	void Set_Player(CCharacters* _pPlayer) { m_pPlayer = _pPlayer; }
 	void Set_Target(CCharacters* _pTarget) { m_pTarget = _pTarget; }
@@ -55,6 +55,10 @@ public:
 	//Blur
 	void Blur_Low(CRenderer* _pRenderer);
 	void Blur_High(CRenderer* _pRenderer);
+	//Quest
+	void Set_QusetCam() { m_bQuestCam = true; }
+	_bool Get_QuestCam() { return m_bQuestCam; }
+	void Set_QuestNPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
 private:
 	//Shake
 	void Check_Shake(_float fTimeDelta);
@@ -69,8 +73,8 @@ private:
 	//Turn
 	void Check_Trun(_float fTimeDelta);
 	void Check_TargetTrun(_float fTimeDelta);
-
-	
+	//Quest
+	void QuestCam(_float fTimeDelta);
 
 	void Check_StoryCam();
 private:
@@ -123,6 +127,16 @@ private:
 	_bool  m_bTargetTurn = false;
 	_float m_fTurnCol = 0.f;
 	CAMTURN m_eTurn = CAM_END;
+
+	//Quest Cam
+	_bool m_bQuestCam = false;
+	CCharacters* m_pNPC = nullptr;
+	_float m_fQuestAngle = 0.f;
+	_float m_fQuestFov = 0.f;
+	_float m_fCamY = 0.f;
+	_bool  m_bCamTurn = false;
+	//Test QuestCam
+	_bool m_bEventStart = false;
 
 	_bool	m_bInit = false;
 private:/* For.Check_Clockwise */

@@ -50,7 +50,9 @@ HRESULT CMurata::Initialize(void * pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pNavigationCom->Find_CurrentCellIndex(vPos);
 	m_pBattleTarget = tCharacterDesc.pSubChar;
-	
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestNPC(this);
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 

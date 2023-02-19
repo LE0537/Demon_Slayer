@@ -43,6 +43,8 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_fLookAtY = 4.f;
 	m_fAngle = 45.f;
 	m_fZoomAngle = 25.f;
+	m_fQuestFov = 50.f;
+	m_fCamY = 10.f;
 	m_FovAngle = XMConvertToRadians(60.f);
 	//m_bStory = true;
 	m_eTurn = CAM_END;
@@ -148,9 +150,15 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	}
 	else if (m_bStory && bCamAttach)
 	{
-		Key_Input(fTimeDelta);
+		if(!m_bQuestCam)
+			Key_Input(fTimeDelta);
+		else
+			QuestCam(fTimeDelta);
+
+
 		Check_Shake(fTimeDelta);
 		//Check_StoryCam();
+
 	}
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -975,6 +983,59 @@ void CCamera_Dynamic::Check_TargetTrun(_float fTimeDelta)
 		else
 			m_bTargetTurn = false;
 	}
+}
+
+void CCamera_Dynamic::QuestCam(_float fTimeDelta)
+{
+	//¹öÀü1
+	//_vector vLookAt = m_pNPC->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	//vLookAt.m128_f32[1] += 3.f;
+
+
+	//_vector vLookPos = { 0.f,m_fCamY,15.f,1.f };
+	//m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vLookPos);
+	//
+	//_matrix matRotY = XMMatrixRotationY(XMConvertToRadians(m_fQuestAngle));
+	//_matrix matTarget = m_pNPC->Get_Transform()->Get_WorldMatrix();
+	//_matrix matWorld = m_pTransform->Get_WorldMatrix() * matRotY * matTarget;
+
+	//m_pTransform->Set_WorldMatrix(matWorld);
+	//m_pTransform->LookAt(vLookAt);
+
+	//if (m_fQuestAngle < 120.f)
+	//{
+	//	m_fQuestAngle += 2.f;
+	//	m_fCamY -= 0.1f;
+	//	if (m_fCamY < 2.f)
+	//		m_fCamY = 2.f;
+	//	m_fQuestFov -= 1.f;
+	//	if (m_fQuestFov < 30.f)
+	//		m_fQuestFov = 30.f;
+	//}
+	//else if (m_fQuestAngle >= 120.f && m_fQuestAngle < 400.f)
+	//{
+	//	m_fQuestAngle += 2.f;
+	//	m_fCamY += 0.1f;
+	//	if (m_fCamY > 7.f)
+	//		m_fCamY = 7.f;
+	//	if(!m_bCamTurn)
+	//		m_fQuestFov += 1.f;
+	//	if (m_fQuestFov > 60.f)
+	//	{
+	//		m_fQuestFov = 60.f;
+	//		m_bCamTurn = true;
+	//	}
+	//	
+	//}
+	//if (m_bCamTurn)
+	//{
+	//	m_fQuestFov -= 1.f;
+	//	if (m_fQuestFov < 25.f)
+	//		m_fQuestFov = 25.f;
+	//}
+
+	//m_CameraDesc.fFovy = XMConvertToRadians(m_fQuestFov);
+
 }
 
 void CCamera_Dynamic::Blur_Low(CRenderer* _pRenderer)

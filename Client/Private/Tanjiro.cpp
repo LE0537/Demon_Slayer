@@ -715,6 +715,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 
 			if (fDist2 < 10.f)
 			{
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QusetCam();
 				m_bQuest2 = true;
 				m_bStop = true;
 				pUIManager->Set_MsgOn();
