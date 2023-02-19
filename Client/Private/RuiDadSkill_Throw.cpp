@@ -74,7 +74,19 @@ CRuiDadState * CSkill_ThrowState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 		++m_iHit;
 	}
 	pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
+	if (m_eStateType == TYPE_START)
+	{
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_THROWING_GROUND1, pRuiDad);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_THROWING_GROUND2, pRuiDad);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+	}
 	return nullptr;
 }
 

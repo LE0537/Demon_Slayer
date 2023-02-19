@@ -53,6 +53,12 @@ HRESULT CRuiDadSmallStone::Initialize(void * pArg)
 		break;
 	}
 
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_THROWING_SMALLSTONE, this);
+
+	RELEASE_INSTANCE(CEffect_Manager);
+
 	return S_OK;
 }
 
@@ -194,8 +200,13 @@ void CRuiDadSmallStone::Jump(_float fTimeDelta)
 		m_fJumpTime = 0.f;
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
-		//ÀÌÆåÆ® »èÁ¦
+		m_pEffect->Set_Dead();
 		Set_Dead();
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_THROWING_GROUND4, this);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 	}
 	else
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPosition);

@@ -29,12 +29,13 @@ HRESULT CRuiDadBigStone::Initialize(void * pArg)
 	memcpy(&m_ShootInfo, pArg, sizeof(RUIDADBIGSTONE));
 
 
-
 	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-//	pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_SHOTNET_MAIN, this);
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_THROWING_BIGSTONE,this );
+	
 	RELEASE_INSTANCE(CEffect_Manager);
 
+	
 	return S_OK;
 }
 
@@ -153,7 +154,14 @@ void CRuiDadBigStone::Throw(_float fTimeDelta)
 //	_float fDist = XMVectorGetX(XMVector3Length(vLook));
 	if (vPos.m128_f32[1] < 0.1f)
 	{
-		// 돌이펙트 삭제
+		m_pEffect->Set_Dead();
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_THROWING_GROUND3, this);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
+
 		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 		CRuiDadSmallStone::RUIDADSMALLSTONE	tInfo;
