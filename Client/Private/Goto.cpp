@@ -7,6 +7,7 @@
 #include "Layer.h"
 #include "Level_GamePlay.h"
 #include "Data_Manager.h"
+#include "SoundMgr.h"
 
 CGoto::CGoto(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -186,12 +187,22 @@ void CGoto::Check_Event()
 			case 0:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("±Í»ì´ë¿ø °íÅä"));
-				pUIManager->Set_Msg(TEXT("Å©Èë...³Ê...³Ê´Â?"));
+				pUIManager->Set_Msg(TEXT("À¸À¸...À¸À¹...µµ,µµ¿ÍÁà...."));
+				if (!m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_00.wav"), fEFFECT);
+					m_bSoundCheck = true;
+				}
 				break;
 			case 1:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("Ä«¸¶µµ ÅºÁö·Î"));
-				pUIManager->Set_Msg(TEXT("¹«¶óÅ¸¾¾°¡ ¾Ë·ÁÁà¼­ µµ¿ÍÁÖ·¯¿Ô½À´Ï´Ù. ±¦ÂúÀ¸¼¼¿ä?"));
+				pUIManager->Set_Msg(TEXT("±¦Âú¾Æ?"));
+				if (!m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_05.wav"), fEFFECT);
+					m_bSoundCheck = true;
+				}
 				break;
 			case 2:
 				pUIManager->Set_MsgOn();

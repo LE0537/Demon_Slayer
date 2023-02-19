@@ -204,15 +204,21 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 		}
 		else
 		{
-			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
+			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && !pUIManager->Get_StroyEventEnd() && !pUIManager->Get_StroyEvent(0))
 			{
 				m_fNextLevelTime += fTimeDelta;
 				if (m_fNextLevelTime > 5.f)
 				{
 					pUIManager->Set_SaveStory(true);
+					pUIManager->Set_RuiDadBattle(false);
 					if (FAILED(pGameInstance->Open_Level(LEVEL_ADVRUI, CLevel_AdvRui::Create(m_pDevice, m_pContext))))
 						return;
 				}
+			}
+			else if(pUIManager->Get_StroyEventEnd())
+			{
+				if (FAILED(pGameInstance->Open_Level(LEVEL_MENU, CLevel_AdvRui::Create(m_pDevice, m_pContext))))
+					return;
 			}
 
 		}

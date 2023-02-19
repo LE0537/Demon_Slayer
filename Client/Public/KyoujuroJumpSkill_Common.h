@@ -38,6 +38,7 @@ private:
 	_bool m_bOnGround = false;
 
 	_bool	m_bEffect = false;
+	_bool	m_bEffect_Ground = false;
 
 	_float fTest = 0.f;
 

@@ -193,18 +193,31 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 
 
 	pKyojuro->Get_Model()->Play_Animation(fTimeDelta);
+
+
+	_float fGroundHeight = pKyojuro->Get_NavigationHeight().y;
+	_float fMyHeight = XMVectorGetY(pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
 	if (!m_bEffect)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_5TIGER_CHARGE, pKyojuro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_5TIGER_MAIN, pKyojuro);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_5TIGER_AFTER, pKyojuro);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
 	}
 
+	if (!m_bEffect_Ground &&
+		0.1f >= fMyHeight - fGroundHeight)	//	ÂøÁö
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_5TIGER_AFTER, pKyojuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_5TIGER_END, pKyojuro);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect_Ground = true;
+	}
 
 	return nullptr;
 }

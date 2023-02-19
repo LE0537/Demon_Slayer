@@ -236,6 +236,12 @@ public:
 	_bool	Get_ClearCheck(_uint iNum) { return m_bClearCheck[iNum]; }
 	void	Set_ClearCheck(_bool bCheck, _uint iNum) { m_bClearCheck[iNum] = bCheck; }
 
+	_bool	Get_StroyEvent(_uint iNum) { return m_bStroyEvent[iNum]; }
+	void	Set_StroyEvent(_bool bCheck, _uint iNum) { m_bStroyEvent[iNum] = bCheck; }
+
+	_bool	Get_StroyEventEnd() { return 	m_bStroyEventend; }
+	void	Set_StroyEventEnd(_bool bCheck) { m_bStroyEventend = bCheck; }
+	
 	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }
 	void Set_Result_Info(CUI::RESULTINFO ResultInfo) { m_ResultInfo = ResultInfo; }
 
@@ -250,6 +256,8 @@ public:
 	void Set_TargetPos(_float4 _vPos) { m_vTargetPos = _vPos; }
 	void Set_NPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
 	void Set_SaveStory(_bool _bSave) { m_bSaveCheck = _bSave; }
+	void Set_RuiDadBattle(_bool _bBattle) { m_bRuiDadBattle = _bBattle; }
+	_bool Get_RuiDadBattle() { return m_bRuiDadBattle; }
 	//·Îµù
 	void Tick_Loading(_float fTimeDelta);
 	void Set_LoadingDead();
@@ -389,6 +397,9 @@ private:
 	_bool							m_bSaveCheck = false;
 	_float4							m_vPlayerPos, m_vTargetPos;
 	CCharacters*					m_pNPC = nullptr;
+	_bool							m_bRuiDadBattle = false;
+	_bool							m_bStroyEvent[2] = { false };
+	_bool							m_bStroyEventend = false;
 public:
 	virtual void Free() override;
 };
