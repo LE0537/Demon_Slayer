@@ -258,6 +258,7 @@ void CKaguraJumpSkill_CommonState::Enter(CTanjiro * pTanjiro)
 
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_COMMON);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_KAGURA_COMMON);
+	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_SKILL_KAGURA_COMMON);
 	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_SKILL_KAGURA_COMMON, 0.01f);
 	pTanjiro->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 	Initialize_value(pTanjiro);

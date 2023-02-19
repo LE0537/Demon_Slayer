@@ -26,9 +26,14 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 
 
 
-
 	if (pRuiDad->Get_RuiDadAiMode() == true && g_iLevel == 1 && pRuiDad->Get_AnimIndex() != 0)
 	{
+		if (pRuiDad->Get_Tick() == false)
+		{
+			pRuiDad->Set_Tick(true);
+			return nullptr;
+		}
+
 		Update_TargetState(pRuiDad);
 
 
@@ -67,7 +72,7 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 		else
 			return  Return_AIState(pRuiDad);
 	}
-	else
+	else if(pRuiDad->Get_RuiDadAiMode() != true)
 	{
 		if (pRuiDad->Get_QuestStop() == false && dynamic_cast<CTanjiro*>(pRuiDad->Get_BattleTarget())->Get_Quest2())
 			return new CMoveState(OBJDIR::DIR_STRAIGHT, TYPE_START);
@@ -84,10 +89,11 @@ CRuiDadState * CIdleState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 	if (pRuiDad->Get_Start() == true && g_iLevel == 1 && pRuiDad->Get_AnimIndex() == 0)
 	{
-		if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
+		if (pRuiDad->Get_Model()->Get_End(0))
 		{
 
-			pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+			pRuiDad->Get_Model()->Set_End(0);
+			pRuiDad->Set_Tick(true);
 			return new CIdleState();
 		}
 		

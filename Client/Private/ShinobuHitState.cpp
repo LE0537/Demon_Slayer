@@ -3,6 +3,8 @@
 #include "ShinobuIdleState.h"
 #include "GameInstance.h"
 #include "ShinobuUpperHitState.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 
 using namespace Shinobu;
 
@@ -50,16 +52,39 @@ CShinobuState * CHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 	}
 
-
-	
-
-
-	if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
+	m_fCurrentDuration += (1.f / 60.f);
+	if (m_fCurrentDuration >= 2.f)
 	{
-		pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
+	}
+	
+	if (pShinobu->Get_AnimIndex() == CShinobu::ANIM_DEAD)
+	{
+		if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
+		{
+			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_RETURN_1);
+			pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
+			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+		}
+	}
+	else if (pShinobu->Get_Model()->Get_End(CShinobu::ANIM_HIT_DMG_RETURN_1))
+	{
+		pShinobu->Get_Model()->Set_End(CShinobu::ANIM_HIT_DMG_RETURN_1);
 		return new CIdleState(STATE_HIT);
 	}
 
+	else
+	{
+
+		if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
+		{
+			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			return new CIdleState(STATE_HIT);
+		}
+	}
 
 
 
@@ -91,19 +116,35 @@ void CHitState::Enter(CShinobu* pShinobu)
 {
 	m_eStateId = STATE_ID::STATE_HIT;
 
-
-	if (pShinobu->Get_NavigationHeight().y < XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+	if (pShinobu->Get_PlayerInfo().iHp <= 0)
 	{
-		m_bHitPlayerJump = true;
-		Set_JumpHitState(pShinobu);
+		pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIMID::ANIM_DEAD);
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_DEAD);
+		pShinobu->Set_AnimIndex(CShinobu::ANIM_DEAD);
+		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+		pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.05f);
+		pShinobu->Set_GodMode(true);
+		CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pShinobu->Get_Renderer());
+		RELEASE_INSTANCE(CGameInstance);
+		g_bDeathTime = true;
 	}
 	else
 	{
-		m_bHitPlayerJump = false;
-		Set_HitState(pShinobu);
+
+		if (pShinobu->Get_NavigationHeight().y < XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		{
+			m_bHitPlayerJump = true;
+			Set_JumpHitState(pShinobu);
+		}
+		else
+		{
+			m_bHitPlayerJump = false;
+			Set_HitState(pShinobu);
+		}
+
 	}
-
-
 
 
 	_uint iRand = rand() % 4;

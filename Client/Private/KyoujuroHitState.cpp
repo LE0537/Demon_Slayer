@@ -3,6 +3,8 @@
 #include "KyoujuroIdleState.h"
 #include "GameInstance.h"
 #include "KyoujuroUpperHitState.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 
 using namespace Kyoujuro;
 
@@ -102,14 +104,40 @@ CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	//	}
 	//}
 
-
-	if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
+	m_fCurrentDuration += (1.f / 60.f);
+	if (m_fCurrentDuration >= 2.f)
 	{
-		pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-		return new CIdleState(STATE_HIT);
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
 	}
 
 
+	if (pKyoujuro->Get_AnimIndex() == CKyoujuro::ANIM_DEAD)
+	{
+		if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
+		{
+			pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_HIT_DMG_RETURN_1);
+			pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
+			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+		}
+	}
+	else if (pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_HIT_DMG_RETURN_1))
+	{
+		pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_HIT_DMG_RETURN_1);
+		return new CIdleState(STATE_HIT);
+	}
+
+	else
+	{
+		if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
+		{
+			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+			return new CIdleState(STATE_HIT);
+		}
+
+	}
 
 
 
@@ -140,16 +168,32 @@ void CHitState::Enter(CKyoujuro* pKyoujuro)
 {
 	m_eStateId = STATE_ID::STATE_HIT;
 
-
-	if (pKyoujuro->Get_NavigationHeight().y < XMVectorGetY(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+	if (pKyoujuro->Get_PlayerInfo().iHp <= 0)
 	{
-		m_bHitPlayerJump = true;
-		Set_JumpHitState(pKyoujuro);
+		pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro::ANIMID::ANIM_DEAD);
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_DEAD);
+		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_DEAD);
+		pKyoujuro->Get_Model()->Set_Loop(pKyoujuro->Get_AnimIndex());
+		pKyoujuro->Get_Model()->Set_LinearTime(pKyoujuro->Get_AnimIndex(), 0.05f);
+		pKyoujuro->Set_GodMode(true);
+		CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pKyoujuro->Get_Renderer());
+		RELEASE_INSTANCE(CGameInstance);
+		g_bDeathTime = true;
 	}
 	else
 	{
-		m_bHitPlayerJump = false;
-		Set_HitState(pKyoujuro);
+		if (pKyoujuro->Get_NavigationHeight().y < XMVectorGetY(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		{
+			m_bHitPlayerJump = true;
+			Set_JumpHitState(pKyoujuro);
+		}
+		else
+		{
+			m_bHitPlayerJump = false;
+			Set_HitState(pKyoujuro);
+		}
 	}
 
 

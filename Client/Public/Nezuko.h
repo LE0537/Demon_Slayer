@@ -137,7 +137,9 @@ public:
 		ANIM_HIT_DMG_RETURN_0 = 80,
 		ANIM_HIT_DMG_RETURN_1 = 82,
 
-		ANIM_END = 100
+
+		ANIM_DEAD = 108,
+		ANIM_END = 109
 	};
 private:
 	CNezuko(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

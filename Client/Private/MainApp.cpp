@@ -24,7 +24,9 @@
 bool			g_bDebug = false;
 bool			g_bCollBox = false;
 int		    	g_iLevel = 0;
-bool         g_bThread = false;
+bool			g_bThread = false;
+bool			g_bDeathTime = false;
+
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())
 	, m_pImGuiManager(CImGuiManager::Get_Instance())
@@ -85,6 +87,10 @@ void CMainApp::Tick(_float fTimeDelta)
 {
 	if (nullptr == m_pGameInstance)
 		return;
+
+	if(g_bDeathTime == true)
+		fTimeDelta *= 0.2f;
+
 	if (!g_bThread)
 	{
 		m_pImGuiManager->Tick(fTimeDelta);
