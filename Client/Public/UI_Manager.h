@@ -250,6 +250,8 @@ public:
 	void Set_TargetPos(_float4 _vPos) { m_vTargetPos = _vPos; }
 	void Set_NPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
 	void Set_SaveStory(_bool _bSave) { m_bSaveCheck = _bSave; }
+	void Set_RuiDadBattle(_bool _bBattle) { m_bRuiDadBattle = _bBattle; }
+	_bool Get_RuiDadBattle() { return m_bRuiDadBattle; }
 	//·Îµù
 	void Tick_Loading(_float fTimeDelta);
 	void Set_LoadingDead();
@@ -389,6 +391,7 @@ private:
 	_bool							m_bSaveCheck = false;
 	_float4							m_vPlayerPos, m_vTargetPos;
 	CCharacters*					m_pNPC = nullptr;
+	_bool							m_bRuiDadBattle = false;
 public:
 	virtual void Free() override;
 };

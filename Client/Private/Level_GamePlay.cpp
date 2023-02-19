@@ -210,6 +210,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 				if (m_fNextLevelTime > 5.f)
 				{
 					pUIManager->Set_SaveStory(true);
+					pUIManager->Set_RuiDadBattle(false);
 					if (FAILED(pGameInstance->Open_Level(LEVEL_ADVRUI, CLevel_AdvRui::Create(m_pDevice, m_pContext))))
 						return;
 				}

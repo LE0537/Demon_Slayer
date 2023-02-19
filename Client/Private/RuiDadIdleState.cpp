@@ -12,6 +12,8 @@
 #include "RuiDadSkill_Punch.h"
 #include "RuiDadDashState.h"
 #include "Tanjiro.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace RuiDad;
 
 CIdleState::CIdleState()
@@ -24,10 +26,9 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 
-
-
 	if (pRuiDad->Get_RuiDadAiMode() == true && g_iLevel == 1 && pRuiDad->Get_AnimIndex() != 0)
 	{
+
 		if (pRuiDad->Get_Tick() == false)
 		{
 			pRuiDad->Set_Tick(true);
@@ -35,7 +36,6 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 		}
 
 		Update_TargetState(pRuiDad);
-
 
 		switch (m_eRange)
 		{
@@ -71,8 +71,9 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 		}
 		else
 			return  Return_AIState(pRuiDad);
+
 	}
-	else if(pRuiDad->Get_RuiDadAiMode() != true)
+	else if (pRuiDad->Get_RuiDadAiMode() != true)
 	{
 		if (pRuiDad->Get_QuestStop() == false && dynamic_cast<CTanjiro*>(pRuiDad->Get_BattleTarget())->Get_Quest2())
 			return new CMoveState(OBJDIR::DIR_STRAIGHT, TYPE_START);
@@ -96,7 +97,7 @@ CRuiDadState * CIdleState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 			pRuiDad->Set_Tick(true);
 			return new CIdleState();
 		}
-		
+
 	}
 
 
