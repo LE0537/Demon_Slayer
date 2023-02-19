@@ -921,7 +921,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 86))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 90))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -1338,6 +1338,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Move_StartEff"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Move_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Move_ColEveryTime"));
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Jump_Start"));	
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Jump_Main"));
