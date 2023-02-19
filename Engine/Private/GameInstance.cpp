@@ -93,6 +93,7 @@ void CGameInstance::Clear(_uint iLevelIndex)
 
 	m_pComponent_Manager->Clear(iLevelIndex);
 	m_pObject_Manager->Clear(iLevelIndex);
+	//	m_pLight_Manager->Clear();
 }
 
 HRESULT CGameInstance::Clear_BackBuffer_View(_float4 vClearColor)
@@ -371,6 +372,13 @@ const LIGHTDESC * CGameInstance::Get_LightDesc(_uint iIndex)
 		return nullptr;
 
 	return m_pLight_Manager->Get_LightDesc(iIndex);
+}
+HRESULT CGameInstance::Set_LightDesc(_uint iIndex, LIGHTDESC tLightDesc)
+{
+	if (nullptr == m_pLight_Manager)
+		return E_FAIL;
+
+	return m_pLight_Manager->Set_LightDesc(iIndex, tLightDesc);
 }
 const LIGHTDESC * CGameInstance::Get_ShadowLightDesc(_uint iIndex)
 {

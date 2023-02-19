@@ -239,6 +239,40 @@ HRESULT CModel::Play_Animation3(_float fTimeDelta)
 
 	return S_OK;
 }
+HRESULT CModel::Play_RuiDadHitAnim(_float fTimeDelta)
+{
+
+	if (m_iCurrentAnimIndex != m_iPrevAnimIndex)
+	{
+		if (m_bAnimReset)
+		{
+			m_Animations[m_iCurrentAnimIndex]->Reset2();
+			m_bAnimReset = false;
+		}
+		if (!m_Animations[m_iCurrentAnimIndex]->Get_AnimEnd())
+			m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix2(fTimeDelta, m_Animations[m_iPrevAnimIndex]->Get_Channel());
+		if (m_Animations[m_iCurrentAnimIndex]->Get_AnimEnd())
+		{
+			m_Animations[m_iCurrentAnimIndex]->Set_AnimEnd();
+			m_Animations[m_iPrevAnimIndex]->Reset3();
+			m_iCurrentAnimIndex = m_iPrevAnimIndex;
+			m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta);
+		}
+	}
+	else
+	{
+		m_Animations[m_iCurrentAnimIndex]->Invalidate_TransformationMatrix(fTimeDelta);
+	}
+	for (auto& pBoneNode : m_Bones)
+	{
+		/* 뼈의 m_CombinedTransformationMatrix행렬을 갱신한다. */
+		pBoneNode->RuiDad_Invalidate_CombinedTransformationmatrix(false);
+	}
+
+	return S_OK;
+
+
+}
 HRESULT CModel::Play_Animation_ReMoveTranslation(_float fTimeDelta, _fvector vPosition, _bool bRemoveTranslation)
 {
 	if (m_iCurrentAnimIndex != m_iPrevAnimIndex)

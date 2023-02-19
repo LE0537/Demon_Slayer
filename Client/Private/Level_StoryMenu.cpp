@@ -4,7 +4,8 @@
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "UI_Manager.h"
-
+#include "Level_AdvRui.h"
+#include "Level_Menu.h"
 
 CLevel_StoryMenu::CLevel_StoryMenu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -44,7 +45,7 @@ void CLevel_StoryMenu::Tick(_float fTimeDelta)
 		switch (iStageNum)
 		{
 		case 0:
-			if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_ADVRUI))))
+			if (FAILED(pGameInstance->Open_Level(LEVEL_ADVRUI, CLevel_AdvRui::Create(m_pDevice, m_pContext))))
 				return;
 			break;
 		case 1:
@@ -58,7 +59,7 @@ void CLevel_StoryMenu::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_Q))
 	{
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_MENU))))
+		if (FAILED(pGameInstance->Open_Level(LEVEL_MENU, CLevel_Menu::Create(m_pDevice, m_pContext))))
 			return;
 	}
 

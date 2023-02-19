@@ -62,6 +62,13 @@ HRESULT CRenderer::Initialize_Prototype()
 
 	XMStoreFloat4x4(&m_FirstProjmatrix, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 
+	//	m_fMotionBlurTime = 0.f;
+	m_iMotionBlurCountX = 0;
+	m_iMotionBlurCountY = 0;
+	m_fBlurTime = 0.f;
+	m_fBlurTimeMax = 1.f;
+	m_fBlurMinRatio = 0.f;
+	m_vBlurPoint_Viewport = _float2(0.f, 0.f);
 
 
 
@@ -71,14 +78,18 @@ HRESULT CRenderer::Initialize_Prototype()
 	_uint		iShadowMapCY = (_uint)ViewportDesc.Height * 5;
 
 	// For.Target_ShadowDepth
-	if (FAILED(m_pTarget_Manager->Ready_ShadowDepthStencilRenderTargetView(m_pDevice, iShadowMapCX, iShadowMapCY)))
+	if (FAILED(m_pTarget_Manager->Ready_ShadowDepthStencilRenderTargetView(m_pDevice, L"DSV_Shadow", iShadowMapCX, iShadowMapCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_ShadowDepth"), iShadowMapCX, iShadowMapCY,
 		DXGI_FORMAT_R32G32B32A32_FLOAT, &_float4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
+	_uint		iStaticObj_ShadowMapCX = (_uint)ViewportDesc.Width * 5;
+	_uint		iStaticObj_ShadowMapCY = (_uint)ViewportDesc.Height * 5;
 	// For.Target_Static_LightDepth
-	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Static_LightDepth"), iShadowMapCX, iShadowMapCY,
+	if (FAILED(m_pTarget_Manager->Ready_ShadowDepthStencilRenderTargetView(m_pDevice, L"DSV_StaticShadow", iStaticObj_ShadowMapCX, iStaticObj_ShadowMapCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Static_LightDepth"), iStaticObj_ShadowMapCX, iStaticObj_ShadowMapCY,
 		DXGI_FORMAT_R32G32B32A32_FLOAT, &_float4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
@@ -88,6 +99,8 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Normal"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R16G16B16A16_FLOAT, &_float4(1.f, 1.f, 1.f, 1.f)))) return E_FAIL;
 	/* For.Target_Depth */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Depth"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
+	/* For.Target_World */
+	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_World"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R32G32B32A32_FLOAT, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 	/* For.Target_Shade */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Shade"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.f, 0.f, 0.f, 1.f)))) return E_FAIL;
 	/* For.Target_Specular */
@@ -159,6 +172,8 @@ HRESULT CRenderer::Initialize_Prototype()
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Glow"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Player"))))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_World"))))
 		return E_FAIL;
 
 	/* For.MRT_LightAcc */
@@ -304,10 +319,16 @@ HRESULT CRenderer::Initialize_Prototype()
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Static_LightDepth"), ViewportDesc.Width - (0.5f * fVIBufferRadius), 10.f + (3.5f * fVIBufferRadius), fVIBufferRadius, fVIBufferRadius)))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_World"), ViewportDesc.Width - (0.5f * fVIBufferRadius), 10.f + (4.5f * fVIBufferRadius), fVIBufferRadius, fVIBufferRadius)))
+		return E_FAIL;
 
 
 	//	렌더타겟 초기화
-	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_Static_LightDepth"))))
+	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_LightDepth"), L"DSV_Shadow", iShadowMapCX, iShadowMapCY)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_Static_LightDepth"), L"DSV_StaticShadow", iStaticObj_ShadowMapCX, iStaticObj_ShadowMapCY)))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
@@ -387,6 +408,22 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 	if (false == m_bMapGrayScale)
 		m_fMapGrayScalePower /= (fTimeDelta * 65.f);	//	(1.2f)
 
+
+	m_fBlurTime -= fTimeDelta;
+	if (0.f > m_fBlurTime)
+		m_fBlurTime = 0.f;
+
+	//	Test
+	if (true == pGameInstance->Key_Down(DIK_F8))
+	{
+		m_fBlurTime = 1.f;
+		m_fBlurTimeMax = 1.f;
+		m_fValue[VALUE_POINTBLURPOWER] = 100.f;
+		m_vBlurPoint_Viewport = _float2(0.5f, 0.5f);
+	}
+	//	Test End
+
+
 	RELEASE_INSTANCE(CGameInstance);
 
 
@@ -446,6 +483,12 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 		case ORDER_LIGHTSHAFT:
 			if (FAILED(Render_LightShaft(pRTName, pMRTName))) return E_FAIL;
 			break;
+		case ORDER_POINTBLUR:
+			if (FAILED(Render_PointBlur(pRTName, pMRTName))) return E_FAIL;
+			break;
+		case ORDER_MOTIONBLUR:
+			if (FAILED(Render_MotionBlur(pRTName, pMRTName))) return E_FAIL;
+			break;
 		case ORDER_DISTORTION:
 			if (FAILED(Render_Distortion(pRTName, pMRTName))) return E_FAIL;
 			break;
@@ -491,6 +534,38 @@ HRESULT CRenderer::Add_Debug(CComponent* pDebugCom)
 
 	return S_OK;
 }
+
+void CRenderer::Set_PointBlur(_float3 vBlurPointPos, _float fBlurPower, _float fDuration, _float fBlurMinRatio)
+{
+	if (0.f < m_fBlurTime ||
+		0.f >= fDuration)
+		return;
+
+	m_fValue[VALUE_POINTBLURPOWER] = fBlurPower;
+	m_fBlurTime = fDuration;
+	m_fBlurTimeMax = fDuration;
+	m_fBlurMinRatio = fBlurMinRatio;
+
+	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+	_matrix matWorld = XMMatrixTranslation(vBlurPointPos.x, vBlurPointPos.y, vBlurPointPos.z);
+	_matrix matView = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_VIEW);
+	_matrix matProj = pPipeLine->Get_TransformMatrix(CPipeLine::D3DTS_PROJ);
+	_matrix matWVP = matWorld * matView * matProj;
+	_float  m_fScalingbyDepth = XMVectorGetW(matWVP.r[3]);
+	matWVP.r[3] /= m_fScalingbyDepth;
+	_float3		vPos;
+	XMStoreFloat3(&vPos, matWVP.r[3]);
+	vPos.x += 1.f;
+	vPos.x *= 1280 / 2.f;
+
+	vPos.y += 1.f;
+	vPos.y *= 720 / 2.f;
+	vPos.y = 720.f - vPos.y;
+
+	m_vBlurPoint_Viewport = _float2(vPos.x / 1280.f, vPos.y / 720.f);
+	RELEASE_INSTANCE(CPipeLine);
+}
+
 HRESULT CRenderer::Ready_GlowDSV(_float fWinCX, _float fWinCY)
 {
 	ID3D11Texture2D*		pDepthStencilTexture = nullptr;
@@ -570,7 +645,7 @@ HRESULT CRenderer::Render_StaticShadowDepth()
 	if (0 == iIndex)
 		return S_OK;
 
-	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_Static_LightDepth"))))
+	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_Static_LightDepth"), L"DSV_StaticShadow", 1280 * 5, 720 * 5)))
 		return E_FAIL;
 	for (auto& pGameObject : m_GameObjects[RENDER_STATIC_SHADOWDEPTH])
 	{
@@ -588,7 +663,7 @@ HRESULT CRenderer::Render_StaticShadowDepth()
 
 HRESULT CRenderer::Render_ShadowDepth()
 {
-	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_LightDepth"))))
+	if (FAILED(m_pTarget_Manager->Begin_ShadowMRT(m_pContext, TEXT("MRT_LightDepth"), L"DSV_Shadow", 1280 * 5, 720 * 5)))
 		return E_FAIL;
 
 	for (auto& pGameObject : m_GameObjects[RENDER_SHADOWDEPTH])
@@ -736,6 +811,8 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Specular"), m_pShader, "g_SpecularTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_World"), m_pShader, "g_WorldTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_AO"), m_pShader, "g_AOTexture")))
 		return E_FAIL;
@@ -1009,6 +1086,15 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW);
 	if (nullptr == pLightDesc)
 	{
+		if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
+			return E_FAIL;
+		m_pShader->Begin(0);
+		m_pVIBuffer->Render();
+		if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+			return E_FAIL;
+
 		RELEASE_INSTANCE(CGameInstance);
 		return S_OK;
 	}
@@ -1035,19 +1121,22 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
 		return E_FAIL;
 
-	_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDirection);
-	_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW)->vDiffuse);
-	_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
-	_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
-	if (FAILED(m_pShader->Set_RawValue("g_vLightPos", &vLightEye, sizeof(_float4))))
-		return E_FAIL;
-	if (FAILED(m_pShader->Set_RawValue("g_matLightView", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
-		return E_FAIL;
-	if (FAILED(m_pShader->Set_RawValue("g_matLightProj", &pPipeLine->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
-		return E_FAIL;
-	if (FAILED(m_pShader->Set_RawValue("g_vCamPosition", &pPipeLine->Get_CamPosition(), sizeof(_float4))))
-		return E_FAIL;
 
+	if (nullptr != pLightDesc)
+	{
+		_vector			vLightEye = XMLoadFloat4(&pLightDesc->vDirection);
+		_vector			vLightAt = XMLoadFloat4(&pLightDesc->vDiffuse);
+		_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
+		_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+		if (FAILED(m_pShader->Set_RawValue("g_vLightPos", &vLightEye, sizeof(_float4))))
+			return E_FAIL;
+		if (FAILED(m_pShader->Set_RawValue("g_matLightView", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
+			return E_FAIL;
+		if (FAILED(m_pShader->Set_RawValue("g_matLightProj", &pPipeLine->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+			return E_FAIL;
+		if (FAILED(m_pShader->Set_RawValue("g_vCamPosition", &pPipeLine->Get_CamPosition(), sizeof(_float4))))
+			return E_FAIL;
+	}
 
 
 	RELEASE_INSTANCE(CPipeLine);
@@ -1079,7 +1168,8 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
 		return E_FAIL;
 
-	//m_pShader->Begin(0);
+	//	m_pShader->Begin(0);
+	//	m_pShader->Begin(16);		//	비율만큼 Diffuse에서 Mul해서 더함.
 	m_pShader->Begin(13);
 	m_pVIBuffer->Render();
 
@@ -1292,6 +1382,59 @@ HRESULT CRenderer::Render_GrayScale(const _tchar * pTexName, const _tchar * pMRT
 
 	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_PointBlur(const _tchar * pTexName, const _tchar * pMRTName)
+{
+	if (FAILED(m_pShader->Set_RawValue("g_fPointBlurPower", &m_fValue[VALUE_POINTBLURPOWER], sizeof(_float))))
+		return E_FAIL;
+	_float fTimeRatio = m_fBlurTime / m_fBlurTimeMax;
+	if (FAILED(m_pShader->Set_RawValue("g_fPointBlurTime", &fTimeRatio, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fPointBlur_MinRatio", &m_fBlurMinRatio, sizeof(_float))))
+		return E_FAIL;
+	
+	if (FAILED(m_pShader->Set_RawValue("g_vBlurPoint_Viewport", &m_vBlurPoint_Viewport, sizeof(_float2))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
+		return E_FAIL;
+	m_pShader->Begin(17);
+	m_pVIBuffer->Render();
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_MotionBlur(const _tchar * pTexName, const _tchar * pMRTName)
+{
+	CPipeLine* pPipeLine = GET_INSTANCE(CPipeLine);
+	_float4x4 CamViewMatrix = pPipeLine->Get_TransformFloat4x4(CPipeLine::D3DTS_VIEW);
+	static _float3 vCurrentRotAngle = Get_AnglebyMatrix(CamViewMatrix);
+	static 	_float3 vPreRotAngle = Get_AnglebyMatrix(m_PreViewMatrix);
+	vCurrentRotAngle = Get_AnglebyMatrix(CamViewMatrix);
+	vPreRotAngle = Get_AnglebyMatrix(m_PreViewMatrix);
+	m_PreViewMatrix = CamViewMatrix;
+	RELEASE_INSTANCE(CPipeLine);
+
+	_float	fRotationX = fabs(vCurrentRotAngle.y - vPreRotAngle.y) * 60.f;
+	if (FAILED(m_pShader->Set_RawValue("g_fMotionBlurPowerX", &fRotationX, sizeof(_float))))
+		return E_FAIL;
+	
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, pMRTName)))
+		return E_FAIL;
+	m_pShader->Begin(18);
+	m_pVIBuffer->Render();
+	if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -1529,8 +1672,19 @@ HRESULT CRenderer::Render_Debug(_bool _bDebug)
 			return E_FAIL;
 		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_Effect"), m_pShader, m_pVIBuffer)))
 			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_World"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
 	}
 	return S_OK;
+}
+
+_float3 CRenderer::Get_AnglebyMatrix(_float4x4 matrix)
+{
+	return _float3{
+		atan2(matrix._23, matrix._33),
+		atan2(-matrix._13, sqrt(pow(matrix._23, 2) + pow(matrix._33, 2))),
+		atan2(matrix._12, matrix._11)
+	};
 }
 
 CRenderer * CRenderer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

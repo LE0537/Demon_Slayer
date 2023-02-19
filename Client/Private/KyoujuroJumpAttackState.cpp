@@ -87,7 +87,7 @@ CKyoujuroState * CJumpAttackState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeD
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-30 * pKyoujuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-30 * pKyoujuro->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -99,7 +99,7 @@ CKyoujuroState * CJumpAttackState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeD
 				}
 				else
 				{
-					m_pTarget->Set_Hp(-pKyoujuro->Get_PlayerInfo().iDmg * pKyoujuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-pKyoujuro->Get_PlayerInfo().iDmg * pKyoujuro->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.5f, true);
 					pKyoujuro->Set_Combo(1);
 					pKyoujuro->Set_ComboTime(0.f);

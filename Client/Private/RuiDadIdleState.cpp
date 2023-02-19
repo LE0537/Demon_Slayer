@@ -20,10 +20,14 @@ CIdleState::CIdleState()
 
 CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 {
-	
+
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	if (pRuiDad->Get_RuiDadAiMode() == true)
+
+
+
+
+	if (pRuiDad->Get_RuiDadAiMode() == true && g_iLevel == 1 && pRuiDad->Get_AnimIndex() != 0)
 	{
 		Update_TargetState(pRuiDad);
 
@@ -78,6 +82,17 @@ CRuiDadState * CIdleState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 	if (m_ePreState == AI_HIT)
 		m_fDelay += fTimeDelta;
 
+	if (pRuiDad->Get_Start() == true && g_iLevel == 1 && pRuiDad->Get_AnimIndex() == 0)
+	{
+		if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
+		{
+
+			pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+			return new CIdleState();
+		}
+		
+	}
+
 
 	return nullptr;
 }
@@ -94,14 +109,27 @@ CRuiDadState * CIdleState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 void CIdleState::Enter(CRuiDad* pRuiDad)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
-	pRuiDad->Set_bGuard(false);
-	pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_IDLE);
-	pRuiDad->Set_AnimIndex(CRuiDad::ANIM_IDLE);
-	pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex(),true);
-	pRuiDad->Get_Model()->Set_LinearTime(pRuiDad->Get_AnimIndex(), 0.05f);
-	if(!pRuiDad->Get_StoryKey())
-		pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSetY(pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION), 0.f));
-	pRuiDad->Set_RuiDadHit(false);
+
+	if (pRuiDad->Get_Start() == false && g_iLevel == 1)
+	{
+		pRuiDad->Set_bGuard(false);
+		pRuiDad->Get_Model()->Set_CurrentAnimIndex(0);
+		pRuiDad->Set_AnimIndex(static_cast<CRuiDad::ANIMID>(0));
+		pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex(), false);
+		pRuiDad->Get_Model()->Set_LinearTime(pRuiDad->Get_AnimIndex(), 0.05f);
+		pRuiDad->Set_RuiDadHit(false);
+		pRuiDad->Set_Start(true);
+	}
+	else
+	{
+		pRuiDad->Set_bGuard(false);
+		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_IDLE);
+		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_IDLE);
+		pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex(), true);
+		pRuiDad->Get_Model()->Set_LinearTime(pRuiDad->Get_AnimIndex(), 0.05f);
+		pRuiDad->Set_RuiDadHit(false);
+	}
+
 }
 
 void CIdleState::Exit(CRuiDad* pRuiDad)
@@ -354,7 +382,7 @@ CRuiDadState * CIdleState::Return_AIState(CRuiDad * pRuiDad)
 	case Client::RuiDad::CIdleState::AI_BACKMOVE:
 		return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
 		break;
-	
+
 	case Client::RuiDad::CIdleState::AI_FRONTMOVE:
 		return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 		break;
@@ -405,12 +433,12 @@ CRuiDadState * CIdleState::Return_AIState(CRuiDad * pRuiDad)
 			return new CSkill_RushState(TYPE_START);
 		else
 		{
-			if(pRuiDad->Get_iTargetIndex() == 2)
+			if (pRuiDad->Get_iTargetIndex() == 2)
 				return new CSkill_JumpDropState(TYPE_START);
 			else
 				return new CSkill_RushState(TYPE_START);
 		}
-			
+
 		break;
 	case Client::RuiDad::CIdleState::AI_HIT:
 		break;

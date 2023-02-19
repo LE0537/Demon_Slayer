@@ -82,11 +82,11 @@ void CChangeBar::Tick(_float fTimeDelta)
 			{
 				_float fPerCurBar = (m_fFriendBar * 0.002f) * 100.f;
 				m_fTime = 500.f;
-				m_fTime -= 30.83 * (fPerCurBar * 0.01f);
+				m_fTime -= 30.83f * (fPerCurBar * 0.01f);
 				m_bCurPerBarCheck = true;
 			}
 
-			m_fTime -= 0.12332;
+			m_fTime -= 0.12332f;
 			if(!m_ThrowUIinfo.bPlyCheck)
 				pUI_Manager->Get_1P()->Set_FriendSkillBar(2.f);
 			else 
@@ -110,14 +110,14 @@ void CChangeBar::Tick(_float fTimeDelta)
 			if (!m_bCurPerBarCheck)
 			{
 				_float fPerCurBar = ((m_fFriendBar - 500.f) * 0.002f) * 100.f;
-				m_fTime -= 30.83 * (fPerCurBar * 0.01f);
+				m_fTime -= 30.83f * (fPerCurBar * 0.01f);
 				m_bCurPerBarCheck = true;
 			}
 			if (m_fFriendBar <= 500.f)
 				m_fTime = 500.f;
 			if (m_fFriendBar < 1000)
 			{
-				m_fTime -= 0.12332;
+				m_fTime -= 0.12332f;
 
 				if (!m_ThrowUIinfo.bPlyCheck)
 					pUI_Manager->Get_1P()->Set_FriendSkillBar(2.f);

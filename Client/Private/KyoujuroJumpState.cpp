@@ -179,6 +179,10 @@ CKyoujuroState * CJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	static _float fGravity = 30.f;
 
 
+	pKyoujuro->Set_NavigationHeight(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	fStartHeight = pKyoujuro->Get_NavigationHeight().y;
+	fEndHeight = pKyoujuro->Get_NavigationHeight().y;
+
 	_vector      vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_float fSpeed = 0.f;
 	fSpeed = fStartHeight + fVelocity * fTimeDelta - (0.5f * fGravity * fTimeDelta * fTimeDelta);

@@ -104,7 +104,7 @@ void CRuiShoot::Late_Tick(_float fTimeDelta)
 		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard && m_ShootInfo.pTarget->Get_PlayerInfo().iGuard > 0)
 		{
 			m_ShootInfo.pTarget->Get_GuardHit(0);
-			m_ShootInfo.pTarget->Set_GuardHp(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp);
+			m_ShootInfo.pTarget->Set_GuardHp(_int(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
 			if (m_ShootInfo.pTarget->Get_PlayerInfo().iGuard <= 0)
 			{
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -116,7 +116,7 @@ void CRuiShoot::Late_Tick(_float fTimeDelta)
 		}
 		else
 		{
-			m_ShootInfo.pTarget->Set_Hp(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp);
+			m_ShootInfo.pTarget->Set_Hp(_int(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
 			m_ShootInfo.pTarget->Take_Damage(0.1f, false);
 			m_ShootInfo.pTarget->Get_BattleTarget()->Set_Combo(1);
 			m_ShootInfo.pTarget->Get_BattleTarget()->Set_ComboTime(0.f);

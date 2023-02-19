@@ -357,37 +357,37 @@ void CMoveJumpState::Exit(CKyoujuro * pKyoujuro)
 
 void CMoveJumpState::Move(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
-	_float fCamAngle = pKyoujuro->Get_CamAngle();
+	//_float fCamAngle = pKyoujuro->Get_CamAngle();
 
-	switch (m_eDirection)
-	{
-	case Client::DIR_STRAIGHT:
-		pKyoujuro->Get_Transform()->Set_RotationY(0.f + fCamAngle);
-		break;
-	case Client::DIR_LEFT:
-		pKyoujuro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
-		break;
-	case Client::DIR_RIGHT:
-		pKyoujuro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
-		break;
-	case Client::DIR_BACK:
-		pKyoujuro->Get_Transform()->Set_RotationY(180.f + fCamAngle);
-		break;
-	case Client::DIR_LF:
-		pKyoujuro->Get_Transform()->Set_RotationY(305.f + fCamAngle);
-		break;
-	case Client::DIR_RF:
-		pKyoujuro->Get_Transform()->Set_RotationY(45.f + fCamAngle);
-		break;
-	case Client::DIR_LB:
-		pKyoujuro->Get_Transform()->Set_RotationY(225.f + fCamAngle);
-		break;
-	case Client::DIR_RB:
-		pKyoujuro->Get_Transform()->Set_RotationY(135.f + fCamAngle);
-		break;
-	case Client::DIR_STOP:
-		break;
-	}
+	//switch (m_eDirection)
+	//{
+	//case Client::DIR_STRAIGHT:
+	//	pKyoujuro->Get_Transform()->Set_RotationY(0.f + fCamAngle);
+	//	break;
+	//case Client::DIR_LEFT:
+	//	pKyoujuro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
+	//	break;
+	//case Client::DIR_RIGHT:
+	//	pKyoujuro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
+	//	break;
+	//case Client::DIR_BACK:
+	//	pKyoujuro->Get_Transform()->Set_RotationY(180.f + fCamAngle);
+	//	break;
+	//case Client::DIR_LF:
+	//	pKyoujuro->Get_Transform()->Set_RotationY(305.f + fCamAngle);
+	//	break;
+	//case Client::DIR_RF:
+	//	pKyoujuro->Get_Transform()->Set_RotationY(45.f + fCamAngle);
+	//	break;
+	//case Client::DIR_LB:
+	//	pKyoujuro->Get_Transform()->Set_RotationY(225.f + fCamAngle);
+	//	break;
+	//case Client::DIR_RB:
+	//	pKyoujuro->Get_Transform()->Set_RotationY(135.f + fCamAngle);
+	//	break;
+	//case Client::DIR_STOP:
+	//	break;
+	//}
 
 	if (m_eDirection != DIR_STOP && m_bMove == true)
 	{
@@ -442,6 +442,11 @@ CKyoujuroState*  CMoveJumpState::Jump(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	static _float fEndHeight = m_fCurrentPosY;
 	static _float fVelocity = 20.f;
 	static _float fGravity = 30.f;
+
+
+	pKyoujuro->Set_NavigationHeight(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	fStartHeight = pKyoujuro->Get_NavigationHeight().y;
+	fEndHeight = pKyoujuro->Get_NavigationHeight().y;
 
 
 	_vector      vPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

@@ -95,7 +95,7 @@ CTanjiroState * CKaguraSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _float fT
 			if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 			{
 				m_pTarget->Get_GuardHit(0);
-				m_pTarget->Set_GuardHp(-50 * pTanjiro->Get_PlayerInfo().fPowerUp);
+				m_pTarget->Set_GuardHp(_int(-50 * pTanjiro->Get_PlayerInfo().fPowerUp));
 				if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 				{
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -107,7 +107,7 @@ CTanjiroState * CKaguraSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _float fT
 			}
 			else  if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 			{
-				m_pTarget->Set_Hp(-20 * pTanjiro->Get_PlayerInfo().fPowerUp);
+				m_pTarget->Set_Hp(_int(-20 * pTanjiro->Get_PlayerInfo().fPowerUp));
 				m_pTarget->Take_Damage(0.3f, false);
 				pTanjiro->Set_Combo(1);
 				pTanjiro->Set_ComboTime(0.f);
@@ -165,7 +165,7 @@ CTanjiroState * CKaguraSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _float fT
 			if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 			{
 				m_pTarget->Get_GuardHit(0);
-				m_pTarget->Set_GuardHp(-50 * pTanjiro->Get_PlayerInfo().fPowerUp);
+				m_pTarget->Set_GuardHp(_int(-50 * pTanjiro->Get_PlayerInfo().fPowerUp));
 				if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 				{
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -177,7 +177,7 @@ CTanjiroState * CKaguraSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _float fT
 			}
 			else  if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 			{
-				m_pTarget->Set_Hp(-20 * pTanjiro->Get_PlayerInfo().fPowerUp);
+				m_pTarget->Set_Hp(_int(-20 * pTanjiro->Get_PlayerInfo().fPowerUp));
 				m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 2.f);
 				pTanjiro->Set_Combo(1);
 				pTanjiro->Set_ComboTime(0.f);

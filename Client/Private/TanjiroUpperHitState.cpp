@@ -244,7 +244,7 @@ void CUpperHitState::Fall_Height(CTanjiro * pTanjiro, _float fTimeDelta)
 
 
 	m_vVelocity.y = 10.f;
-	m_vPosition.y = fStartHeight + m_vVelocity.y * m_fJumpTime - (0.5 * 15.f * m_fJumpTime * m_fJumpTime);
+	m_vPosition.y = fStartHeight + m_vVelocity.y * m_fJumpTime - (0.5f * 15.f * m_fJumpTime * m_fJumpTime);
 
 	//_vector vCurrentPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
@@ -312,7 +312,7 @@ void CUpperHitState::KnockBack_Player(CTanjiro * pTanjiro, _float fTimeDelta)
 	m_vPosition.x += XMVectorGetX(vLookAt) * m_fKnockBackPower * fTimeDelta * 1.1f;
 	m_vPosition.z += XMVectorGetZ(vLookAt) * m_fKnockBackPower * fTimeDelta * 1.1f;
 
-	m_vPosition.y = fStartHeight + m_fBoundPower * m_fJumpTime - (0.5 * m_fJumpPower * m_fJumpTime * m_fJumpTime);
+	m_vPosition.y = fStartHeight + m_fBoundPower * m_fJumpTime - (0.5f * m_fJumpPower * m_fJumpTime * m_fJumpTime);
 
 	m_vPosition.y -= 3.f;
 
@@ -388,7 +388,7 @@ void CUpperHitState::Bound_Player(CTanjiro * pTanjiro, _float fTimeDelta)
 
 
 
-	m_vPosition.y = fStartHeight + m_fBoundPower * m_fJumpTime - (0.5 * m_fJumpPower * m_fJumpTime * m_fJumpTime);
+	m_vPosition.y = fStartHeight + m_fBoundPower * m_fJumpTime - (0.5f * m_fJumpPower * m_fJumpTime * m_fJumpTime);
 
 #ifdef _DEBUG
 	printf("PosY : %f, knockbackPower : %f, BoundPower : %f, jumpTime : %f, jumpPower : %f \n", m_vPosition.y, m_fKnockBackPower, m_fBoundPower, m_fJumpTime, m_fJumpPower);
@@ -462,7 +462,7 @@ void CUpperHitState::Upper_Player(CTanjiro * pTanjiro, _float fTimeDelta)
 	m_vPosition.x += XMVectorGetX(vLookAt) * m_fKnockBackPower * fTimeDelta * 1.1f;
 	m_vPosition.z += XMVectorGetZ(vLookAt) * m_fKnockBackPower * fTimeDelta * 1.1f;
 
-	m_vPosition.y = fStartHeight + m_fBoundPower * m_fJumpTime - (0.5 * m_fJumpPower * m_fJumpTime * m_fJumpTime);
+	m_vPosition.y = fStartHeight + m_fBoundPower * m_fJumpTime - (0.5f * m_fJumpPower * m_fJumpTime * m_fJumpTime);
 
 #ifdef _DEBUG
 	printf("PosY : %f, knockbackPower : %f, BoundPower : %f, jumpTime : %f, jumpPower : %f \n", m_vPosition.y, m_fKnockBackPower, m_fBoundPower, m_fJumpTime, m_fJumpPower);

@@ -114,7 +114,7 @@ CAkazaState * CJumpSkill_MoveState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-40 * pAkaza->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-40 * pAkaza->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -129,7 +129,7 @@ CAkazaState * CJumpSkill_MoveState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 					RELEASE_INSTANCE(CGameInstance);
-					m_pTarget->Set_Hp(-15 * pAkaza->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-15 * pAkaza->Get_PlayerInfo().fPowerUp));
 
 					if(m_iHit >=5)
 						 m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 15.f, 20.f, 0.3f);

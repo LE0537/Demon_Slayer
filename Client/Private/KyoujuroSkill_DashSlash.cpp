@@ -232,7 +232,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-50 * pKyojuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-50 * pKyojuro->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -244,7 +244,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 				}
 				else if (pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-					m_pTarget->Set_Hp(-25 * pKyojuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-25 * pKyojuro->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.2f, false);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);
@@ -344,7 +344,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
 				{
 					m_pTarget->Get_GuardHit(0);
-					m_pTarget->Set_GuardHp(-50 * pKyojuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_GuardHp(_int(-50 * pKyojuro->Get_PlayerInfo().fPowerUp));
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -357,9 +357,10 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 				} 
 				else if (pKyojuro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-					m_pTarget->Set_Hp(-25 * pKyojuro->Get_PlayerInfo().fPowerUp);
+					m_pTarget->Set_Hp(_int(-25 * pKyojuro->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 10.f, 15.f, 3.f);
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pKyojuro->Get_Renderer());
 					//m_pTarget->Take_Damage(0.25f, false);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);

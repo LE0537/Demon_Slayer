@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Level_AdvRui.h"
-
+#include "Level_GamePlay.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "UI_Manager.h"
@@ -12,6 +12,46 @@
 #include "MeshObj_Smell_Inst.h"
 #include "Tanjiro.h"
 #include "Characters.h"
+
+unsigned int APIENTRY Thread_AdvRui(void* pArg)
+{
+	CLevel_AdvRui*		pLoader = (CLevel_AdvRui*)pArg;
+
+	EnterCriticalSection(&pLoader->Get_CriticalSection());
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	pUIManager->Add_Loading();
+
+	_float ThreadTime = 0.f;
+	_float ThreadDelay = 0.f;
+	_bool  m_bTreadStop = true;
+	while (m_bTreadStop)
+	{
+		pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
+		ThreadTime += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_Default"));
+
+		if (ThreadTime >= 1.0f / 60.0f)
+		{
+			ThreadTime = 0.f;
+			pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
+			ThreadDelay += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60"));
+
+			pUIManager->Tick_Loading(pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60")));
+			if (ThreadDelay > 3.f)
+			{
+				m_bTreadStop = false;
+				break;
+			}
+		}
+	}
+	pUIManager->Set_LoadingDead();
+	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
+	LeaveCriticalSection(&pLoader->Get_CriticalSection());
+	pLoader->Set_Finished();
+	g_bThread = false;
+	return 0;
+}
 CLevel_AdvRui::CLevel_AdvRui(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -22,7 +62,21 @@ HRESULT CLevel_AdvRui::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
+	g_bThread = true;
+
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	CoInitializeEx(nullptr, 0);
+
+	InitializeCriticalSection(&m_CriticalSection);
+
+	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
+	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
+
+	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, Thread_AdvRui, this, 0, nullptr);
+	if (0 == m_hThread)
+		return E_FAIL;
+
 	pUI_Manager->Add_Quiest();
 	RELEASE_INSTANCE(CUI_Manager);
 
@@ -51,7 +105,7 @@ HRESULT CLevel_AdvRui::Initialize()
 	if (FAILED(Load_Smell_1("RuiSmell1")))
 		return E_FAIL;
 
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	
 	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
 	m_pRendererCom = (CRenderer*)pOut;
 
@@ -59,7 +113,7 @@ HRESULT CLevel_AdvRui::Initialize()
 	{
 		RELEASE_INSTANCE(CGameInstance);
 		return E_FAIL;
-	}
+	} 
 
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.07f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.12f);
@@ -89,65 +143,77 @@ HRESULT CLevel_AdvRui::Initialize()
 void CLevel_AdvRui::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	
-	switch (pUIManager->Get_RescueCount())
+	if (m_isFinished)
 	{
-	case 1:
-		if (!m_bRescue[0])
+		if (!m_bTread)
 		{
-			++m_iQuestIndex;
-			m_bRescue[0] = true;
-		}
-		break;
-	case 2:
-		if (!m_bRescue[1])
-		{
-			++m_iQuestIndex;
-			m_bRescue[1] = true;
-		}
-		break;
-	default:
-		break;
-	}
+			WaitForSingleObject(m_hThread, INFINITE);
 
-	if (dynamic_cast<CTanjiro*>(m_pPlayer)->Get_Quest2MSG())
-	{
-		_float4 vPos;
-		XMStoreFloat4(&vPos, m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		pUIManager->Set_Sel1P(0);
-		pUIManager->Set_Sel1P_2(4);
-		pUIManager->Set_Sel2P(6);
-		pUIManager->Set_Sel2P_2(99);
-		pUIManager->Set_PlayerPos(vPos);
-		
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
+			CloseHandle(m_hThread);
+
+			DeleteCriticalSection(&m_CriticalSection);
+			m_bTread = true;
+		}
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+
+		switch (pUIManager->Get_RescueCount())
+		{
+		case 1:
+			if (!m_bRescue[0])
+			{
+				++m_iQuestIndex;
+				m_bRescue[0] = true;
+			}
+			break;
+		case 2:
+			if (!m_bRescue[1])
+			{
+				++m_iQuestIndex;
+				m_bRescue[1] = true;
+			}
+			break;
+		default:
+			break;
+		}
+
+		if (dynamic_cast<CTanjiro*>(m_pPlayer)->Get_Quest2MSG())
+		{
+			_float4 vPos;
+			XMStoreFloat4(&vPos, m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+			pUIManager->Set_Sel1P(0);
+			pUIManager->Set_Sel1P_2(4);
+			pUIManager->Set_Sel2P(6);
+			pUIManager->Set_Sel2P_2(99);
+			pUIManager->Set_PlayerPos(vPos);
+
+			if (FAILED(pGameInstance->Open_Level(LEVEL_GAMEPLAY, CLevel_GamePlay::Create(m_pDevice, m_pContext))))
+				return;
+
+			RELEASE_INSTANCE(CUI_Manager);
+			RELEASE_INSTANCE(CGameInstance);
 			return;
+		}
+		if (dynamic_cast<CTanjiro*>(m_pPlayer)->Get_Quest3MSG())
+		{
+			pUIManager->Set_Sel1P(0);
+			pUIManager->Set_Sel1P_2(4);
+			pUIManager->Set_Sel2P(7);
+			pUIManager->Set_Sel2P_2(99);
+
+			if (FAILED(pGameInstance->Open_Level(LEVEL_GAMEPLAY, CLevel_GamePlay::Create(m_pDevice, m_pContext))))
+				return;
+
+			RELEASE_INSTANCE(CUI_Manager);
+			RELEASE_INSTANCE(CGameInstance);
+			return;
+		}
 
 		RELEASE_INSTANCE(CUI_Manager);
 		RELEASE_INSTANCE(CGameInstance);
-		return;
+		if (!m_bQuest[0] || !m_bQuest[1] || !m_bQuest[2])
+			Check_Smell();
 	}
-	if (dynamic_cast<CTanjiro*>(m_pPlayer)->Get_Quest3MSG())
-	{
-		pUIManager->Set_Sel1P(0);
-		pUIManager->Set_Sel1P_2(4);
-		pUIManager->Set_Sel2P(7);
-		pUIManager->Set_Sel2P_2(99);
-	
-		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pContext, LEVEL_GAMEPLAY))))
-			return;
-
-		RELEASE_INSTANCE(CUI_Manager);
-		RELEASE_INSTANCE(CGameInstance);
-		return;
-	}
-
-	RELEASE_INSTANCE(CUI_Manager);
-	RELEASE_INSTANCE(CGameInstance);
-	if(!m_bQuest[0] || !m_bQuest[1] || !m_bQuest[2])
-		Check_Smell();
 }
 
 void CLevel_AdvRui::Late_Tick(_float fTimeDelta)
@@ -174,8 +240,17 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
-	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
-		return E_FAIL;
+	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
+	if (nullptr == pLightDesc)
+	{
+		if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
+			return E_FAIL;
+	}
+	else
+	{
+		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW, LightDesc.vDirection, LightDesc.vDiffuse);
+	}
+
 
 	_vector vLook = XMLoadFloat4(&LightDesc.vDiffuse) - XMLoadFloat4(&LightDesc.vDirection);
 
@@ -188,8 +263,16 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 	LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
 
-	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
-		return E_FAIL;
+	pLightDesc = pGameInstance->Get_LightDesc(LIGHTDESC::TYPE_DIRECTIONAL);
+	if (nullptr == pLightDesc)
+	{
+		if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+			return E_FAIL;
+	}
+	else
+	{
+		pGameInstance->Set_LightDesc(LIGHTDESC::TYPE_DIRECTIONAL, LightDesc);
+	}
 
 
 
@@ -199,8 +282,16 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&LightDesc.vDirection) + XMVector3Normalize(vLook), 1.f));
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
-	if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
-		return E_FAIL;
+	pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW);
+	if (nullptr == pLightDesc)
+	{
+		if (FAILED(pGameInstance->Add_ShadowLight(m_pDevice, m_pContext, LightDesc)))
+			return E_FAIL;
+	}
+	else
+	{
+		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, LightDesc.vDirection, LightDesc.vDiffuse);
+	}
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -430,7 +521,7 @@ HRESULT CLevel_AdvRui::Load_StaticObjects(char * pFileName)
 			switch (tMeshObj_Static_InstDesc.iModelIndex)
 			{
 			case 2019:
-				for (_int i = 0; i < Pair.second; ++i)
+				for (_uint i = 0; i < Pair.second; ++i)
 				{
 					tCharacterDesc1p.i1P2P = 10;
 					tCharacterDesc1p.matWorld = arrWorld[i];
@@ -443,7 +534,7 @@ HRESULT CLevel_AdvRui::Load_StaticObjects(char * pFileName)
 				continue;
 				break;
 			case 2020:
-				for (_int i = 0; i < Pair.second; ++i)
+				for (_uint i = 0; i < Pair.second; ++i)
 				{
 					tCharacterDesc1p.i1P2P = 10;
 					tCharacterDesc1p.matWorld = arrWorld[i];
@@ -456,7 +547,7 @@ HRESULT CLevel_AdvRui::Load_StaticObjects(char * pFileName)
 				continue;
 				break;
 			case 2021:
-				for (_int i = 0; i < Pair.second; ++i)
+				for (_uint i = 0; i < Pair.second; ++i)
 				{
 					if (i == 0)
 						continue;
@@ -471,7 +562,7 @@ HRESULT CLevel_AdvRui::Load_StaticObjects(char * pFileName)
 				continue;
 				break;
 			case 2022:
-				for (_int i = 0; i < Pair.second; ++i)
+				for (_uint i = 0; i < Pair.second; ++i)
 				{
 					tCharacterDesc1p.i1P2P = 10;
 					tCharacterDesc1p.matWorld = arrWorld[i];
@@ -484,7 +575,7 @@ HRESULT CLevel_AdvRui::Load_StaticObjects(char * pFileName)
 				continue;
 				break;
 			case 2026:
-				for (_int i = 0; i < Pair.second; ++i)
+				for (_uint i = 0; i < Pair.second; ++i)
 				{
 					tCharacterDesc1p.i1P2P = 10;
 					tCharacterDesc1p.matWorld = arrWorld[i];
@@ -497,7 +588,7 @@ HRESULT CLevel_AdvRui::Load_StaticObjects(char * pFileName)
 				continue;
 				break;
 			case 2031:
-				for (_int i = 0; i < Pair.second; ++i)
+				for (_uint i = 0; i < Pair.second; ++i)
 				{
 					tCharacterDesc1p.i1P2P = 10;
 					tCharacterDesc1p.matWorld = arrWorld[i];

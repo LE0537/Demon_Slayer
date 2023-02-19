@@ -329,6 +329,7 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pTanjiro->Get_Renderer());
 			RELEASE_INSTANCE(CGameInstance);
 		}
 	}
@@ -418,7 +419,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_L))
 		{
-			return new CTargetRushState(TYPE_START);
+			//return new CTargetRushState(TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_SPACE))
 		{

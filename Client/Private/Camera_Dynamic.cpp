@@ -149,7 +149,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	else if (m_bStory && bCamAttach)
 	{
 		Key_Input(fTimeDelta);
-
+		Check_Shake(fTimeDelta);
 		//Check_StoryCam();
 	}
 	RELEASE_INSTANCE(CGameInstance);
@@ -251,9 +251,9 @@ void CCamera_Dynamic::Set_CamPos()
 	_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTarget = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vLook2 = vPos - vTarget;
-
+	
 	_float fDist = XMVectorGetX(XMVector3Length(vLook2));
-
+	m_fDist = fDist;
 	//맵의 임시 반지름
 	_float fDiameter = 85.f;
 	m_fCamDist = fDist / fDiameter;
@@ -376,12 +376,12 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 	}
 	if (m_fTurnCol > 0.f)
 		m_fTurnCol -= fTimeDelta;
-	if (m_eTurn == CAM_END && m_p1P->Get_PlayerInfo().iCombo > 1)
+	if (m_fDist < 8.f && m_eTurn == CAM_END && m_p1P->Get_PlayerInfo().iCombo > 1)
 	{
 		if (m_fTurnCol <= 0.f)
 			m_bTurn = true;
 	}
-	else if (m_eTurn == CAM_END && m_p2P->Get_PlayerInfo().iCombo > 1)
+	else if (m_fDist < 8.f && m_eTurn == CAM_END && m_p2P->Get_PlayerInfo().iCombo > 1)
 	{
 		if (m_fTurnCol <= 0.f)
 			m_bTargetTurn = true;
@@ -402,6 +402,7 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 
 	if (m_bZoom)
 		Check_Zoom(fTimeDelta);
+	
 
 }
 void CCamera_Dynamic::Key_Input(_float fTimeDelta)
@@ -479,6 +480,10 @@ void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 	RELEASE_INSTANCE(CGameInstance);
 
 }
+void CCamera_Dynamic::Blur_High(CRenderer * _pRenderer)
+{
+	_pRenderer->Set_PointBlur(m_vAtPos, 100.f, 0.5f, 0.6f);
+}
 void CCamera_Dynamic::Lerp_SubCam(_float fTimeDelta)
 {
 	_float	fWeight = 1.f;
@@ -512,7 +517,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 	_vector vAtPos = XMVectorLerp(vPlayerPos, vTargetPos, 0.5f);
 	vAtPos.m128_f32[1] = 3.f;
 	m_pTransform->LookAt(vAtPos);
-
+	XMStoreFloat3(&m_vAtPos, vAtPos);
 	_float fPlayerDist = XMVectorGetX(XMVector3Length(vPlayerLook));
 	_float fTargetDist = XMVectorGetX(XMVector3Length(vTargetLook));
 	/////////////////////////////////////////////////////////////////////////////위에가 소트
@@ -800,13 +805,13 @@ void CCamera_Dynamic::Zoom_Low(_float fTimeDelta)
 {
 	if (!m_bZoomIn)
 	{
-		m_fZoomAngle -= fTimeDelta * 20.f;
-		if (m_fZoomAngle < 20.f)
+		m_fZoomAngle -= fTimeDelta * 25.f;
+		if (m_fZoomAngle < 18.f)
 			m_bZoomIn = true;
 	}
 	else if (m_bZoomIn)
 	{
-		m_fZoomAngle += fTimeDelta * 10.f;
+		m_fZoomAngle += fTimeDelta * 15.f;
 		if (m_fZoomAngle >= 25.f)
 		{
 			m_bZoomIn = false;
@@ -970,6 +975,11 @@ void CCamera_Dynamic::Check_TargetTrun(_float fTimeDelta)
 		else
 			m_bTargetTurn = false;
 	}
+}
+
+void CCamera_Dynamic::Blur_Low(CRenderer* _pRenderer)
+{
+	_pRenderer->Set_PointBlur(m_vAtPos,60.f,1.f,0.4f);
 }
 
 void CCamera_Dynamic::Check_StoryCam()

@@ -89,7 +89,7 @@ void CRuiSphere::Late_Tick(_float fTimeDelta)
 			if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard && m_ShootInfo.pTarget->Get_PlayerInfo().iGuard > 0)
 			{
 				m_ShootInfo.pTarget->Get_GuardHit(0);
-				m_ShootInfo.pTarget->Set_GuardHp(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp);
+				m_ShootInfo.pTarget->Set_GuardHp(_int(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
 				if (m_ShootInfo.pTarget->Get_PlayerInfo().iGuard <= 0)
 				{
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -104,7 +104,7 @@ void CRuiSphere::Late_Tick(_float fTimeDelta)
 				CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 				dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.1f);
 				RELEASE_INSTANCE(CGameInstance);
-				m_ShootInfo.pTarget->Set_Hp(-15 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp);
+				m_ShootInfo.pTarget->Set_Hp(_int(-15 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
 				m_ShootInfo.pTarget->Take_Damage(0.1f, false);
 				m_ShootInfo.pPlayer->Set_Combo(1);
 				m_ShootInfo.pPlayer->Set_ComboTime(1.f);
@@ -137,7 +137,7 @@ void CRuiSphere::Late_Tick(_float fTimeDelta)
 			if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard && m_ShootInfo.pTarget->Get_PlayerInfo().iGuard > 0)
 			{
 				m_ShootInfo.pTarget->Get_GuardHit(0);
-				m_ShootInfo.pTarget->Set_GuardHp(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp);
+				m_ShootInfo.pTarget->Set_GuardHp(_int(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
 				if (m_ShootInfo.pTarget->Get_PlayerInfo().iGuard <= 0)
 				{
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -152,7 +152,7 @@ void CRuiSphere::Late_Tick(_float fTimeDelta)
 				CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 				dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.2f);
 				RELEASE_INSTANCE(CGameInstance);
-				m_ShootInfo.pTarget->Set_Hp(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp);
+				m_ShootInfo.pTarget->Set_Hp(_int(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
 				m_ShootInfo.pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 15.f, 20.f, 5.f);
 				m_ShootInfo.pPlayer->Set_Combo(1);
 				m_ShootInfo.pPlayer->Set_ComboTime(1.f);

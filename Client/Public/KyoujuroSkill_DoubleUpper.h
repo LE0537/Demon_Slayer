@@ -37,6 +37,8 @@ private:
 	_float4 m_vLook;
 	_bool   m_bLook = false;
 
+
+
 };
 END
 END

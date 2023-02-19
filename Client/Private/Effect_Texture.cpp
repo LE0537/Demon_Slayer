@@ -383,7 +383,7 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 	_float		fAccTime = m_fTime - m_TextureInfo.fStartTime;
 	_float		fAllLifeTime = m_TextureInfo.fLifeTime;
 	_float		fAliveTimeRatio = max(fAccTime / fAllLifeTime, 0.f);
-	_int		iTexFrame = fAliveTimeRatio * (m_TextureInfo.iNumUV_U * m_TextureInfo.iNumUV_V);
+	_int		iTexFrame = _int(fAliveTimeRatio * (m_TextureInfo.iNumUV_U * m_TextureInfo.iNumUV_V));
 	if (m_TextureInfo.iNumUV_U * m_TextureInfo.iNumUV_V == iTexFrame)
 		iTexFrame = m_TextureInfo.iNumUV_U * m_TextureInfo.iNumUV_V - 1;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_iFrame", &iTexFrame, sizeof(_int))))

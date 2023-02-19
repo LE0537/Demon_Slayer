@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "InteractionUI.h"
 #include "GameInstance.h"
-#include "UI_Manager.h"
 #include "Camera_Dynamic.h"
+#include "UI_Manager.h"
 
 CInteractionUI::CInteractionUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -24,10 +24,10 @@ HRESULT CInteractionUI::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_fSizeX = 4.f;
-	m_fSizeY = 0.5f;
+	m_fSizeX = 5.f;
+	m_fSizeY = 0.7f;
 
-	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
+	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 1.f, 1.f));
 
 	return S_OK;
 }
@@ -40,13 +40,8 @@ void CInteractionUI::Tick(_float fTimeDelta)
 	_float4 vPos; 
 	XMStoreFloat4(&vPos, pUI_Manager->Get_1P()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(vPos.x, vPos.y + 2.f, vPos.z, vPos.w));
-
-	//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"));
-	/*dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(vPos.x, vPos.y + 4.5f, vPos.z, vPos.w));
 	
-
-	m_pTransformCom->LookAt(vCarmeraPos);*/
 
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
@@ -54,8 +49,10 @@ void CInteractionUI::Tick(_float fTimeDelta)
 
 void CInteractionUI::Late_Tick(_float fTimeDelta)
 {
+	OnBillboard();
+
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
 }
 
 HRESULT CInteractionUI::Render()
@@ -67,17 +64,32 @@ HRESULT CInteractionUI::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(0);
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	m_pVIBufferCom->Render();
+	if(pUI_Manager->Get_InteractionOnOff())
+		m_pVIBufferCom->Render();
 
 	RELEASE_INSTANCE(CUI_Manager);
 	return S_OK;
+}
+
+void CInteractionUI::OnBillboard()
+{
+	 CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
+
+	_matrix      ViewMatrix = XMMatrixInverse(nullptr, pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW));
+
+	_float3 vScale = m_pTransformCom->Get_Scale();
+
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, ViewMatrix.r[0] * vScale.x);
+
+	m_pTransformCom->Set_State(CTransform::STATE_UP, ViewMatrix.r[1] * vScale.y);
+
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK, ViewMatrix.r[2] * vScale.z);
+
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 HRESULT CInteractionUI::Ready_Components()
@@ -112,10 +124,16 @@ HRESULT CInteractionUI::SetUp_ShaderResources()
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
 		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
 		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;

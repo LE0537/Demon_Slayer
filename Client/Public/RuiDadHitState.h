@@ -7,7 +7,7 @@ BEGIN(RuiDad)
 class CHitState : public CRuiDadState
 {
 public:
-	CHitState(_float _fPow,_bool _bJump = 0);
+	CHitState(_float _fPow, STATE_TYPE eTYPE, _bool _bJump = 0);
 
 	virtual CRuiDadState* HandleInput(CRuiDad* pRuiDad) override;
 	virtual CRuiDadState* Tick(CRuiDad* pRuiDad, _float fTimeDelta) override;
