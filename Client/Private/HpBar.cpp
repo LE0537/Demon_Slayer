@@ -113,9 +113,10 @@ void CHpBar::Tick(_float fTimeDelta)
 					pUI_Manager->Get_2P()->Set_Hp(iMaxHp - iHp);
 				}
 			}
-			if (pGameInstance->Key_Down(DIK_PGDN) && pUI_Manager->Get_StroyEvent(1) && pUI_Manager->Get_StroyEvent(0))
+			if (pGameInstance->Key_Down(DIK_PGDN))
 			{
-				pUI_Manager->Set_StroyEventEnd(true);
+				if(pUI_Manager->Get_StroyEvent(1) && pUI_Manager->Get_StroyEvent(0))
+					pUI_Manager->Set_StroyEventEnd(true);
 			}
 		}
 	}
