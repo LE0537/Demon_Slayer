@@ -113,13 +113,13 @@ CRuiState * CHitState::Tick(CRui* pRui, _float fTimeDelta)
 
 	if (pRui->Get_AnimIndex() == CRui::ANIM_DEAD)
 	{
-		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		if (pRui->Get_Model()->Get_End(CRui::ANIM_DEAD))
 		{
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_HIT_DMG_RETURN_1);
 			pRui->Set_AnimIndex(CRui::ANIM_HIT_DMG_RETURN_1);
 			pRui->Get_Model()->Set_Loop(CRui::ANIMID::ANIM_HIT_DMG_RETURN_1);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
-			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			pRui->Get_Model()->Set_End(CRui::ANIM_DEAD);
 		}
 	}
 	else if (pRui->Get_Model()->Get_End(CRui::ANIM_HIT_DMG_RETURN_1))

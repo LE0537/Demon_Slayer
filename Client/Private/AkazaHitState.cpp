@@ -110,13 +110,13 @@ CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	}
 	if (pAkaza->Get_AnimIndex() == CAkaza::ANIM_DEAD)
 	{
-		if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+		if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_DEAD))
 		{
 			pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_HIT_DMG_RETURN_1);
 			pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT_DMG_RETURN_1);
 			pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_HIT_DMG_RETURN_1);
 			pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
-			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+			pAkaza->Get_Model()->Set_End(CAkaza::ANIM_DEAD);
 		}
 	}
 	else if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_HIT_DMG_RETURN_1))

@@ -2,7 +2,8 @@
 #include "RuiUpperHitState.h"
 #include "RuiIdleState.h"
 #include "GameInstance.h"
-
+#include "Layer.h"
+#include "Camera_Dynamic.h"
 using namespace Rui;
 
 CUpperHitState::CUpperHitState(CRui::HIT_TYPE eHitType, STATE_TYPE eType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower, _float fJumpTime)
@@ -40,6 +41,12 @@ CRuiState * CUpperHitState::Tick(CRui* pRui, _float fTimeDelta)
 	}
 
 
+	m_fCurrentDuration += (1.f / 60.f);
+	if (m_fCurrentDuration >= 2.f)
+	{
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
+	}
 
 	switch (m_eHitType)
 	{
@@ -60,6 +67,7 @@ CRuiState * CUpperHitState::Tick(CRui* pRui, _float fTimeDelta)
 	default:
 		break;
 	}
+
 
 
 	return nullptr;
@@ -88,6 +96,15 @@ void CUpperHitState::Enter(CRui* pRui)
 		pRui->Set_AnimIndex(CRui::ANIM_HIT_DMG_UPPER_0);
 		pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex());
 		pRui->Get_Model()->Set_LinearTime(pRui->Get_AnimIndex(), 0.01f);
+
+		if (pRui->Get_PlayerInfo().iHp <= 0)
+		{
+			CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pRui->Get_Renderer());
+			RELEASE_INSTANCE(CGameInstance);
+			g_bDeathTime = true;
+		}
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_HIT_DMG_UPPER_1);

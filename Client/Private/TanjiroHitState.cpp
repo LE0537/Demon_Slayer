@@ -115,6 +115,7 @@ CTanjiroState * CHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		m_fCurrentDuration = 0.f;
 	}
 
+
 	if (pTanjiro->Get_AnimIndex() == CTanjiro::ANIM_DEAD)
 	{
 		if (pTanjiro->Get_Model()->Get_End(CTanjiro::ANIM_DEAD))

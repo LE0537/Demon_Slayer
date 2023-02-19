@@ -29,7 +29,7 @@ CRuiDadState * CHitState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 	if (pRuiDad->Get_AnimIndex() == CRuiDad::ANIM_HIT_FULL)
 	{
-		if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
+		if (pRuiDad->Get_Model()->Get_End(CRuiDad::ANIM_HIT_FULL))
 		{
 			m_bRuiDadDead = true;
 			pRuiDad->Get_Model()->Set_End(CRuiDad::ANIM_HIT_FULL);

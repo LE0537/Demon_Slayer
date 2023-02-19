@@ -114,13 +114,13 @@ CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 
 	if (pKyoujuro->Get_AnimIndex() == CKyoujuro::ANIM_DEAD)
 	{
-		if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
+		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_DEAD))
 		{
 			pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_HIT_DMG_RETURN_1);
 			pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_HIT_DMG_RETURN_1);
 			pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_HIT_DMG_RETURN_1);
 			pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
-			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+			pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_DEAD);
 		}
 	}
 	else if (pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_HIT_DMG_RETURN_1))

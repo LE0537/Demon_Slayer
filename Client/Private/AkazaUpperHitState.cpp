@@ -2,6 +2,8 @@
 #include "AkazaUpperHitState.h"
 #include "AkazaIdleState.h"
 #include "GameInstance.h"
+#include "Layer.h"
+#include "Camera_Dynamic.h"
 
 using namespace Akaza;
 
@@ -40,6 +42,13 @@ CAkazaState * CUpperHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	}
 
 
+	m_fCurrentDuration += (1.f / 60.f);
+	if (m_fCurrentDuration >= 2.f)
+	{
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
+	}
+
 
 	switch (m_eHitType)
 	{
@@ -59,6 +68,11 @@ CAkazaState * CUpperHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	default:
 		break;
 	}
+
+
+
+
+
 
 
 	return nullptr;
@@ -87,6 +101,15 @@ void CUpperHitState::Enter(CAkaza* pAkaza)
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT_DMG_UPPER_0);
 		pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
+
+		if (pAkaza->Get_PlayerInfo().iHp <= 0)
+		{
+			CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pAkaza->Get_Renderer());
+			RELEASE_INSTANCE(CGameInstance);
+			g_bDeathTime = true;
+		}
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_HIT_DMG_UPPER_1);

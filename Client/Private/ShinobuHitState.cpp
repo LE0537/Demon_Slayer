@@ -61,13 +61,13 @@ CShinobuState * CHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 	
 	if (pShinobu->Get_AnimIndex() == CShinobu::ANIM_DEAD)
 	{
-		if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
+		if (pShinobu->Get_Model()->Get_End(CShinobu::ANIM_DEAD))
 		{
 			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_RETURN_1);
 			pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_RETURN_1);
 			pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_HIT_DMG_RETURN_1);
 			pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
-			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			pShinobu->Get_Model()->Set_End(CShinobu::ANIM_DEAD);
 		}
 	}
 	else if (pShinobu->Get_Model()->Get_End(CShinobu::ANIM_HIT_DMG_RETURN_1))

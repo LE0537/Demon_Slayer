@@ -111,13 +111,13 @@ CNezukoState * CHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 	}
 	if (pNezuko->Get_AnimIndex() == CNezuko::ANIM_DEAD)
 	{
-		if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
+		if (pNezuko->Get_Model()->Get_End(CNezuko::ANIM_DEAD))
 		{
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_RETURN_1);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_RETURN_1);
 			pNezuko->Get_Model()->Set_Loop(CNezuko::ANIMID::ANIM_HIT_DMG_RETURN_1);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
-			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+			pNezuko->Get_Model()->Set_End(CNezuko::ANIM_DEAD);
 		}
 	}
 	else if (pNezuko->Get_Model()->Get_End(CNezuko::ANIM_HIT_DMG_RETURN_1))

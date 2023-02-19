@@ -2,6 +2,8 @@
 #include "NezukoUpperHitState.h"
 #include "NezukoIdleState.h"
 #include "GameInstance.h"
+#include "Layer.h"
+#include "Camera_Dynamic.h"
 
 using namespace Nezuko;
 
@@ -39,6 +41,11 @@ CNezukoState * CUpperHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 		m_bReset = true;
 	}
 
+	if (m_fCurrentDuration >= 2.f)
+	{
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
+	}
 
 
 	switch (m_eHitType)
@@ -88,6 +95,15 @@ void CUpperHitState::Enter(CNezuko* pNezuko)
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_UPPER_0);
 		pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
 		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.01f);
+
+		if (pNezuko->Get_PlayerInfo().iHp <= 0)
+		{
+			CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pNezuko->Get_Renderer());
+			RELEASE_INSTANCE(CGameInstance);
+			g_bDeathTime = true;
+		}
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_UPPER_1);
