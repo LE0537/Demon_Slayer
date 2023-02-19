@@ -80,6 +80,24 @@ HRESULT CEffect::Initialize(void * pArg)
 
 void CEffect::Tick(_float fTimeDelta)
 {
+	if (m_bDead) {
+		Set_Dead();
+
+		for (auto& pTex : m_Textures)
+			pTex->Set_Dead();
+
+		for (auto& pMesh : m_Meshes)
+			pMesh->Set_Dead();
+
+		for (auto& pParticle : m_Particle)
+			pParticle->Set_Dead();
+
+		for (auto& pParticle : m_NewParticle)
+			pParticle->Set_Dead();
+
+		return;
+	}
+
 	m_fEffectTime += fTimeDelta;
 
 	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
@@ -98,12 +116,10 @@ void CEffect::Tick(_float fTimeDelta)
 		}
 		else { 
 			if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO) {
-				if(!m_bDead){
-					_matrix vTargetPos = m_pTarget->Get_Transform()->Get_WorldMatrix();
-					_matrix vPos = m_pTransformCom->Get_WorldMatrix();
+				_matrix vTargetPos = m_pTarget->Get_Transform()->Get_WorldMatrix();
+				_matrix vPos = m_pTransformCom->Get_WorldMatrix();
 					
-					XMStoreFloat4x4(&m_CombinedWorldMatrix, vPos * vTargetPos);
-				}
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, vPos * vTargetPos);
 			}
 		}
 
@@ -139,6 +155,10 @@ void CEffect::Tick(_float fTimeDelta)
 
 void CEffect::Late_Tick(_float fTimeDelta)
 {
+	if (m_bDead) {
+		return;
+	}
+
 	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 		for (auto& pTex : m_Textures)
 			pTex->Late_Tick(fTimeDelta);
