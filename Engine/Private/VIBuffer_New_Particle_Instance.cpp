@@ -36,7 +36,7 @@ HRESULT CVIBuffer_NewParticle_Instance::Initialize_Prototype(_uint iNumInstance)
 
 	pVertices->vPosition = _float3(0.0f, 0.f, 0.f);
 	pVertices->vPSize = _float2(1.f, 1.f);
-	
+
 	ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
 	m_SubResourceData.pSysMem = pVertices;
 
@@ -127,7 +127,7 @@ HRESULT CVIBuffer_NewParticle_Instance::Initialize(void * pArg)
 	return S_OK;
 }
 
-void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleReduction, _float4x4 ParentMtr, _float fSpeedReduction, _float fGravity, 
+void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleReduction, _float4x4 ParentMtr, _float fSpeedReduction, _float fGravity,
 	_bool bSpeedKill)
 {
 	random_device rd;
@@ -159,7 +159,7 @@ void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleRed
 	}
 
 	for (_uint i = 0; i < m_iMaxParticleNum; ++i) {
-		if(m_pParticleData[i].fLifeTime != 0.f){
+		if (m_pParticleData[i].fLifeTime != 0.f) {
 			m_pParticleData[i].fTime += fTimeDelta;
 
 			_vector		vPosition = XMLoadFloat4(&m_pParticleData[i].vPosition);
@@ -180,7 +180,7 @@ void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleRed
 
 			XMStoreFloat4(&m_pParticleData[i].vPosition, vPosition);
 
-			if (m_pParticleData[i].fTime > m_pParticleData[i].fLifeTime || 
+			if (m_pParticleData[i].fTime > m_pParticleData[i].fLifeTime ||
 				(bSpeedKill && m_pParticleData[i].fSpeed < 0.5f)) {
 				Reset_One(i);
 			}
@@ -229,7 +229,6 @@ void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleRed
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
 }
 
-
 void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLifeTime, _float* fSpeed, _float2* vTexScale, _uint iParticleType,
 	_float fAngle, _float fRadius, _float3 vSize, _float3* vRotation, _float4 vColor, _float fDuration, _float fShotTime, _uint iOneParticleNumber, _float fCircleY, _float fCircleAngle)
 {
@@ -273,7 +272,7 @@ void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLi
 	uniform_real_distribution<float> RotationXRand(vRotation[0].x, vRotation[1].x);
 	uniform_real_distribution<float> RotationYRand(vRotation[0].y, vRotation[1].y);
 	uniform_real_distribution<float> RotationZRand(vRotation[0].z, vRotation[1].z);
-	
+
 	for (_uint i = 0; i < m_iMaxParticleNum; ++i)
 	{
 		m_pParticleData[i].vRight = _float4(1.f, 0.f, 0.f, 0.f);
@@ -411,8 +410,6 @@ void CVIBuffer_NewParticle_Instance::Reset_One(_uint iNum)
 	uniform_real_distribution<float> BoxSizeXRand(0, m_vSize.x);
 	uniform_real_distribution<float> BoxSizeYRand(0, m_vSize.y);
 	uniform_real_distribution<float> BoxSizeZRand(0, m_vSize.z);
-	uniform_real_distribution<float> CircleAngleRand(0, m_fCircleAngle);
-	uniform_real_distribution<float> CircleYRand(0, m_fCircleY);
 	uniform_real_distribution<float> RotationXRand(m_vParticleRotation[0].x, m_vParticleRotation[1].x);
 	uniform_real_distribution<float> RotationYRand(m_vParticleRotation[0].y, m_vParticleRotation[1].y);
 	uniform_real_distribution<float> RotationZRand(m_vParticleRotation[0].z, m_vParticleRotation[1].z);
@@ -447,7 +444,7 @@ void CVIBuffer_NewParticle_Instance::Reset_One(_uint iNum)
 			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vLook), XMConvertToRadians(z));
 	}
 	else if (m_iShape == 1) { // ¿ø
-		_float Revolvez = CircleAngleRand(Seed);
+		_float Revolvez = Dgree360(Seed);
 
 		_float x = RotationXRand(Seed);
 		_float y = RotationYRand(Seed);
@@ -458,7 +455,7 @@ void CVIBuffer_NewParticle_Instance::Reset_One(_uint iNum)
 			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vLook), XMConvertToRadians(z));
 
 		RevolveMatrix = XMMatrixRotationZ(XMConvertToRadians(Revolvez));
-		PositionMatrix = XMMatrixTranslation(0.f, m_fRadius, CircleYRand(Seed));
+		PositionMatrix = XMMatrixTranslation(0.f, m_fRadius, 0.f);
 	}
 	else if (m_iShape == 2) { // »óÀÚ
 		_float fSizeX = BoxSizeXRand(Seed);
@@ -491,8 +488,8 @@ void CVIBuffer_NewParticle_Instance::Reset_One(_uint iNum)
 	XMStoreFloat4(&m_pParticleData[iNum].vUp, WorldMatrix.r[1]);
 	XMStoreFloat4(&m_pParticleData[iNum].vLook, WorldMatrix.r[2]);
 	XMStoreFloat4(&m_pParticleData[iNum].vPosition, WorldMatrix.r[3]);
-	
-}	   
+
+}
 
 CVIBuffer_NewParticle_Instance * CVIBuffer_NewParticle_Instance::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, _uint iNumInstance)
 {
