@@ -541,7 +541,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestSubBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/Mission_Base.png"), 1)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestMainBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/Mission_Main_Base.png"), 1)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestGuideBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/MiniTitle_Base2.png"), 1)))) return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestKeyUI"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/Key_%d.png"), 2)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_QuiestKeyUI"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Quiest/Key_%d.png"), 3)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MsgNameBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/Msg_Name_Base02.png"), 1)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MsgTextBase"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/Msg_Text_Base.png"), 1)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FeedArrow"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MsgUI/LineFeed_Arrow.png"), 1)))) return E_FAIL;
@@ -921,7 +921,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 84))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 90))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -1338,6 +1338,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Move_StartEff"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Move_Main"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Move_ColEveryTime"));
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Jump_Start"));	
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Jump_Main"));

@@ -9,6 +9,8 @@
 #include "Data_Manager.h"
 #include "Tanjiro.h"
 #include "Level_Loading.h"
+#include "SoundMgr.h"
+
 CMurata::CMurata(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
 {
@@ -50,7 +52,9 @@ HRESULT CMurata::Initialize(void * pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pNavigationCom->Find_CurrentCellIndex(vPos);
 	m_pBattleTarget = tCharacterDesc.pSubChar;
-	
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestNPC(this);
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
@@ -283,12 +287,15 @@ void CMurata::Check_Event()
 	{
 		if (!m_bMsgEnd)
 		{
-			pUIManager->Set_InteractionOn();
+			if(!m_MsgReset)
+				pUIManager->Set_InteractionOn();
 		}
 		else
 			pUIManager->Set_InteractionOff();
+
 		if (!m_bMsgStart && !m_bMsgEnd && pGameInstance->Key_Down(DIK_F))
 		{
+			pUIManager->Set_InteractionOff();
 			m_bMsgStart = true;
 			if (!m_MsgReset)
 			{
@@ -302,33 +309,63 @@ void CMurata::Check_Event()
 			{
 			case 0:
 				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-				pUIManager->Set_Msg(TEXT("너 정말 '계'급 맞아? 엄청 강하자나!"));
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("무슨일이 있었던거에요?"));
+				if (!m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_02.wav"), fEFFECT);
+					m_bSoundCheck = true;
+				}
 				break;
 			case 1:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-				pUIManager->Set_Msg(TEXT("뭐 아무튼...덕분에 살았어. 구해줘서 고마워."));
+				pUIManager->Set_Msg(TEXT("까, 까마귀한테 지령을 전달받고....!"));
+				if (m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_03.wav"), fEFFECT);
+					m_bSoundCheck = false;
+				}
 				break;
 			case 2:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-				pUIManager->Set_Msg(TEXT("미안하지만 안쪽에 아직 도망치지 못한 대원들이 있어"));
+				pUIManager->Set_Msg(TEXT("대원 열 명이 이곳에 왔어"));
+				if (!m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_04.wav"), fEFFECT);
+					m_bSoundCheck = true;
+				}
 				break;
 			case 3:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-				pUIManager->Set_Msg(TEXT("너가 좀 구해줘! 나...? 나는 지원 요청을 하러 가볼게!..."));
+				pUIManager->Set_Msg(TEXT("산에 들어온 지 얼마 지나지 않았는데... 대원들... 대원들끼리...."));
+				if (m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_05.wav"), fEFFECT);
+					m_bSoundCheck = false;
+				}
 				break;
 			case 4:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-				pUIManager->Set_Msg(TEXT("아참! 안쪽에 아주 강력한 혈귀가 있어 아까 놈하곤 비교도 안될정도로..."));
+				pUIManager->Set_Msg(TEXT("칼부림이 시작돼서...!!"));
+				if (!m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_06.wav"), fEFFECT);
+					m_bSoundCheck = true;
+				}
 				break;
 			case 5:
 				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
-				pUIManager->Set_Msg(TEXT("그녀석을 마주친다면 무조건 도망쳐.'주'급이 오기전까진 절대 상대하지마!"));
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("진정하세요. 남은 대원들은 제가 빨리 찾아볼게요"));
+				if (m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_03.wav"), fEFFECT);
+					m_bSoundCheck = false;
+				}
 				pUIManager->Set_QuestCount(1);
 				pUIManager->Set_MainQuestOn();
 				m_bMsgEnd = true;
@@ -338,6 +375,11 @@ void CMurata::Check_Event()
 			}
 		}
 		
+	}
+	else
+	{
+		if (!m_bMsgEnd)
+			pUIManager->Set_InteractionOff();
 	}
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);

@@ -20,37 +20,57 @@ CRuiDadState * CHitState::HandleInput(CRuiDad* pRuiDad)
 
 CRuiDadState * CHitState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
-	if (pRuiDad->Get_PlayerInfo().iAccDamage >= 250)
+	m_fCurrentDuration += (1.f / 60.f);
+	if (m_fCurrentDuration >= 3.f)
 	{
-
-		if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
-		{
-			switch (m_eStateType)
-			{
-			case Client::CRuiDadState::TYPE_START:
-				pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
-				return new CHitState(0.f,TYPE_LOOP);
-				break;
-			case Client::CRuiDadState::TYPE_LOOP:
-				pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
-				return new CHitState(0.f, TYPE_END);
-				break;
-			case Client::CRuiDadState::TYPE_END:
-				pRuiDad->Set_AccDmg();
-				pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
-				pRuiDad->Set_RuiDadHit(false);
-				return new CIdleState();
-				break;
-
-			}
-			pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
-	
-		}
-
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
 	}
+
+	if (pRuiDad->Get_AnimIndex() == CRuiDad::ANIM_HIT_FULL)
+	{
+		if (pRuiDad->Get_Model()->Get_End(CRuiDad::ANIM_HIT_FULL))
+		{
+			m_bRuiDadDead = true;
+			pRuiDad->Get_Model()->Set_End(CRuiDad::ANIM_HIT_FULL);
+		}
+	}
+
 	else
 	{
-		return new CIdleState();
+
+		if (pRuiDad->Get_PlayerInfo().iAccDamage >= 250)
+		{
+
+			if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
+			{
+				switch (m_eStateType)
+				{
+				case Client::CRuiDadState::TYPE_START:
+					pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+					return new CHitState(0.f, TYPE_LOOP);
+					break;
+				case Client::CRuiDadState::TYPE_LOOP:
+					pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+					return new CHitState(0.f, TYPE_END);
+					break;
+				case Client::CRuiDadState::TYPE_END:
+					pRuiDad->Set_AccDmg();
+					pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+					pRuiDad->Set_RuiDadHit(false);
+					return new CIdleState();
+					break;
+
+				}
+				pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+
+			}
+
+		}
+		else
+		{
+			return new CIdleState();
+		}
 	}
 
 	return nullptr;
@@ -67,7 +87,8 @@ CRuiDadState * CHitState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 	//	Jump(pRuiDad, m_fJumpTime);
 	//}
 
-	pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
+	if(m_bRuiDadDead== false)
+		pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
 
 
 
@@ -87,28 +108,39 @@ void CHitState::Enter(CRuiDad* pRuiDad)
 	
 
 
-	switch (m_eStateType)
+	if (pRuiDad->Get_PlayerInfo().iHp <= 0)
 	{
-	case Client::CRuiDadState::TYPE_START:
-		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FREE_0);
-		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FREE_0);
-		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_HIT_FREE_0, false);
-		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_HIT_FREE_0, 0.01f);
-		break;
-	case Client::CRuiDadState::TYPE_LOOP:
-		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FREE_1);
-		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FREE_1);
-		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_HIT_FREE_1, false);
-		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_HIT_FREE_1, 0.01f);
-		break;
-	case Client::CRuiDadState::TYPE_END:
-		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FREE_2);
-		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FREE_2);
-		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_HIT_FREE_2, false);
-		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_HIT_FREE_2, 0.01f);
-		break;
+		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FULL);
+		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FULL);
+		pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex());
+		pRuiDad->Get_Model()->Set_LinearTime(pRuiDad->Get_AnimIndex(), 0.2f);
+		pRuiDad->Set_GodMode(true);
+		g_bDeathTime = true;
 	}
- 
+	else
+	{
+		switch (m_eStateType)
+		{
+		case Client::CRuiDadState::TYPE_START:
+			pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FREE_0);
+			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FREE_0);
+			pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_HIT_FREE_0, false);
+			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_HIT_FREE_0, 0.01f);
+			break;
+		case Client::CRuiDadState::TYPE_LOOP:
+			pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FREE_1);
+			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FREE_1);
+			pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_HIT_FREE_1, false);
+			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_HIT_FREE_1, 0.01f);
+			break;
+		case Client::CRuiDadState::TYPE_END:
+			pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FREE_2);
+			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FREE_2);
+			pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_HIT_FREE_2, false);
+			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_HIT_FREE_2, 0.01f);
+			break;
+		}
+	}
 
 	pRuiDad->Set_RuiDadHit(true);
 

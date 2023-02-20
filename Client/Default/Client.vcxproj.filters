@@ -1240,6 +1240,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move\MoveJump">
       <UniqueIdentifier>{2376ccd0-c537-4988-9656-8cffe7e38cd4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState">
+      <UniqueIdentifier>{d9ffca7e-630f-4a4f-97c8-d5f2a7f0b869}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2460,6 +2463,9 @@
     <ClInclude Include="..\Public\InteractionUI.h">
       <Filter>03.UI\96.MsgUI\Story\Interaction</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\AngryState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3652,6 +3658,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\InteractionUI.cpp">
       <Filter>03.UI\96.MsgUI\Story\Interaction</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AngryState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

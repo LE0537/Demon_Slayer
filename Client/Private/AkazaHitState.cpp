@@ -3,7 +3,8 @@
 #include "AkazaIdleState.h"
 #include "GameInstance.h"
 #include "AkazaUpperHitState.h"
-
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Akaza;
 
 CHitState::CHitState(_float _fPow, _bool _bJump)
@@ -101,14 +102,37 @@ CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	//		return new CIdleState();
 	//	}
 	//}
-
-
-	if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+	m_fCurrentDuration += (1.f / 60.f);
+	if (m_fCurrentDuration >= 2.f)
 	{
-		pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
+	}
+	if (pAkaza->Get_AnimIndex() == CAkaza::ANIM_DEAD)
+	{
+		if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_DEAD))
+		{
+			pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT_DMG_RETURN_1);
+			pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
+			pAkaza->Get_Model()->Set_End(CAkaza::ANIM_DEAD);
+		}
+	}
+	else if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_HIT_DMG_RETURN_1))
+	{
+		pAkaza->Get_Model()->Set_End(CAkaza::ANIM_HIT_DMG_RETURN_1);
 		return new CIdleState(STATE_HIT);
 	}
 
+	else
+	{
+		if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+		{
+			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+			return new CIdleState(STATE_HIT);
+		}
+	}
 
 
 
@@ -143,18 +167,33 @@ void CHitState::Enter(CAkaza* pAkaza)
 {
 	m_eStateId = STATE_ID::STATE_HIT;
 
-
-	if (pAkaza->Get_NavigationHeight().y < XMVectorGetY(pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+	if (pAkaza->Get_PlayerInfo().iHp <= 0)
 	{
-		m_bHitPlayerJump = true;
-		Set_JumpHitState(pAkaza);
+		pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIMID::ANIM_DEAD);
+		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_DEAD);
+		pAkaza->Set_AnimIndex(CAkaza::ANIM_DEAD);
+		pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
+		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.05f);
+		pAkaza->Set_GodMode(true);
+		CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pAkaza->Get_Renderer());
+		RELEASE_INSTANCE(CGameInstance);
+		g_bDeathTime = true;
 	}
 	else
 	{
-		m_bHitPlayerJump = false;
-		Set_HitState(pAkaza);
+		if (pAkaza->Get_NavigationHeight().y < XMVectorGetY(pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		{
+			m_bHitPlayerJump = true;
+			Set_JumpHitState(pAkaza);
+		}
+		else
+		{
+			m_bHitPlayerJump = false;
+			Set_HitState(pAkaza);
+		}
 	}
-
 
 
 

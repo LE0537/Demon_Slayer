@@ -197,6 +197,10 @@ public:
 	_uint   Get_AdvStageNum() { return m_iAdvStageNum; }
 	void	Set_AdvStageNum(_uint _iNum) { m_iAdvStageNum = _iNum; }
 
+	_uint   Get_TipMsgCount() { return m_iTipMsgCount; }
+	void	Set_TipMsgCount(_uint _iNum) { m_iTipMsgCount += _iNum; }
+	void	Set_TipMsgCountZero() { m_iTipMsgCount = 0; }
+
 	_uint   Get_MsgCount() { return m_iMsgCount; }
 	void	Set_MsgCount(_uint _iNum) { m_iMsgCount += _iNum; }
 	void	Reset_MsgCount() { m_iMsgCount = 0; }
@@ -236,6 +240,12 @@ public:
 	_bool	Get_ClearCheck(_uint iNum) { return m_bClearCheck[iNum]; }
 	void	Set_ClearCheck(_bool bCheck, _uint iNum) { m_bClearCheck[iNum] = bCheck; }
 
+	_bool	Get_StroyEvent(_uint iNum) { return m_bStroyEvent[iNum]; }
+	void	Set_StroyEvent(_bool bCheck, _uint iNum) { m_bStroyEvent[iNum] = bCheck; }
+
+	_bool	Get_StroyEventEnd() { return 	m_bStroyEventend; }
+	void	Set_StroyEventEnd(_bool bCheck) { m_bStroyEventend = bCheck; }
+	
 	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }
 	void Set_Result_Info(CUI::RESULTINFO ResultInfo) { m_ResultInfo = ResultInfo; }
 
@@ -250,6 +260,8 @@ public:
 	void Set_TargetPos(_float4 _vPos) { m_vTargetPos = _vPos; }
 	void Set_NPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
 	void Set_SaveStory(_bool _bSave) { m_bSaveCheck = _bSave; }
+	void Set_RuiDadBattle(_bool _bBattle) { m_bRuiDadBattle = _bBattle; }
+	_bool Get_RuiDadBattle() { return m_bRuiDadBattle; }
 	//·Îµù
 	void Tick_Loading(_float fTimeDelta);
 	void Set_LoadingDead();
@@ -366,6 +378,8 @@ private:
 	_uint                           m_i2p = 0;
 	_uint                           m_i1p_2 = 0;
 	_uint                           m_i2p_2 = 0;
+
+	_uint							m_iTipMsgCount = 0;
 	
 	_uint							m_iMsgCount = 0;
 	_uint							m_iQuestCount = 0;
@@ -389,6 +403,9 @@ private:
 	_bool							m_bSaveCheck = false;
 	_float4							m_vPlayerPos, m_vTargetPos;
 	CCharacters*					m_pNPC = nullptr;
+	_bool							m_bRuiDadBattle = false;
+	_bool							m_bStroyEvent[2] = { false };
+	_bool							m_bStroyEventend = false;
 public:
 	virtual void Free() override;
 };

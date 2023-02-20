@@ -10,6 +10,7 @@
 #include "Tanjiro.h"
 #include "RuiDadHitState.h"
 #include "RuiDadGuardHitState.h"
+#include "AngryState.h"
 using namespace RuiDad;
 
 CRuiDad::CRuiDad(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -66,10 +67,9 @@ HRESULT CRuiDad::Initialize(void * pArg)
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
 		CUI_Manager::Get_Instance()->Set_2P(this);
-		m_bAiMode = true;
 	}
 
-	CRuiDadState* pState = new CIdleState();
+	CRuiDadState* pState = new CAngryState();
 	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
 
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
@@ -115,6 +115,8 @@ void CRuiDad::Tick(_float fTimeDelta)
 
 			HandleInput();
 			TickState(fTimeDelta);
+
+			m_bAiMode = true;
 		}
 	}
 

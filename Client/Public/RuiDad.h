@@ -116,6 +116,9 @@ public:
 	_bool  Get_Start() const { return m_bStart; }
 	void   Set_Start(_bool bStart) { m_bStart = bStart; }
 	void   Set_Render(_bool bRender) { m_bRender = bRender; }
+	_bool  Get_Tick() const { return m_bTick; }
+	void   Set_Tick(_bool bTick) { m_bTick = bTick; }
+
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
@@ -153,6 +156,7 @@ private:
 	_bool   m_bAiMode = false;
 	_bool   m_bRender = true;
 
+	_bool   m_bTick = false;
 
 	_bool					m_bQuestStart = false;
 	_bool					m_bQuestStop = false;

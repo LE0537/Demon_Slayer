@@ -7,6 +7,7 @@
 #include "Layer.h"
 #include "Level_GamePlay.h"
 #include "Data_Manager.h"
+#include "SoundMgr.h"
 
 CGoto::CGoto(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -163,12 +164,15 @@ void CGoto::Check_Event()
 	{
 		if (!m_bMsgEnd)
 		{
-			pUIManager->Set_InteractionOn();
+			if (!m_MsgReset)
+				pUIManager->Set_InteractionOn();
 		}
 		else
 			pUIManager->Set_InteractionOff();
+
 		if (!m_bMsgStart && !m_bMsgEnd && pGameInstance->Key_Down(DIK_F))
 		{
+			pUIManager->Set_InteractionOff();
 			m_bMsgStart = true;
 			if (!m_MsgReset)
 			{
@@ -183,27 +187,52 @@ void CGoto::Check_Event()
 			case 0:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 고토"));
-				pUIManager->Set_Msg(TEXT("크흙...너...너는?"));
+				pUIManager->Set_Msg(TEXT("으으...으윽...도,도와줘...."));
+				if (!m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_00.wav"), fEFFECT);
+					m_bSoundCheck = true;
+				}
 				break;
 			case 1:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("무라타씨가 알려줘서 도와주러왔습니다. 괜찮으세요?"));
+				pUIManager->Set_Msg(TEXT("괜찮아?"));
+				if (m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_05.wav"), fEFFECT);
+					m_bSoundCheck = false;
+				}
 				break;
 			case 2:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 고토"));
-				pUIManager->Set_Msg(TEXT("휴...산건가...나는..."));
+				pUIManager->Set_Msg(TEXT("엄청 강한 혈귀한테 당했어..."));
+				if (!m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_00.wav"), fEFFECT);
+					m_bSoundCheck = true;
+				}
 				break;
 			case 3:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 고토"));
-				pUIManager->Set_Msg(TEXT("고마워. 난 이제 본부로 돌아가 볼게."));
+				pUIManager->Set_Msg(TEXT("그 혈귀가 너무 쌘 나머지 내 일륜도도 부러졌어..."));
 				break;
 			case 4:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 고토"));
-				pUIManager->Set_Msg(TEXT("하얀녀석을 조심해..."));
+				pUIManager->Set_Msg(TEXT("그 녀석을 조심해야 해... 으윽..."));
+				if (m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_00.wav"), fEFFECT);
+					m_bSoundCheck = false;
+				}
+				break;
+			case 5:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("(정신을 잃은것 같다...)"));
 				pUIManager->Set_RescueCount(1);
 				m_bMsgEnd = true;
 				break;
@@ -212,6 +241,11 @@ void CGoto::Check_Event()
 			}
 		}
 
+	}
+	else
+	{
+		if(!m_bMsgEnd)
+			pUIManager->Set_InteractionOff();
 	}
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);

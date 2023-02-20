@@ -30,6 +30,8 @@ private:
 	_float m_fCurrentPosY = 0.f;
 	_bool  m_bTrun = false;
 
+	_bool  m_bRuiDadDead = false;
+
 };
 END
 END

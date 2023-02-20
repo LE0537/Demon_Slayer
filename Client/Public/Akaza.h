@@ -150,6 +150,8 @@ public:
 		ANIM_HIT_DMG_UPPER_2 = 82,
 		ANIM_HIT_DMG_DEATH = 83,
 
+
+		ANIM_DEAD = 83,
 		ANIM_END = 100
 	};
 private:

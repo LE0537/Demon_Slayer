@@ -95,9 +95,6 @@ HRESULT CLevel_AdvRui::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_InteractionUI(TEXT("Layer_InteractionUI"))))
-		return E_FAIL;
-
 	if (FAILED(Load_StaticObjects("RuiStory")))
 		return E_FAIL;
 	if (FAILED(Load_Weed("Weed")))
@@ -186,7 +183,7 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 			pUIManager->Set_Sel2P(6);
 			pUIManager->Set_Sel2P_2(99);
 			pUIManager->Set_PlayerPos(vPos);
-
+			pUIManager->Set_RuiDadBattle(true);
 			if (FAILED(pGameInstance->Open_Level(LEVEL_GAMEPLAY, CLevel_GamePlay::Create(m_pDevice, m_pContext))))
 				return;
 
@@ -381,19 +378,7 @@ HRESULT CLevel_AdvRui::Ready_Layer_BackGround(const _tchar * pLayerTag)
 
 	return S_OK;
 }
-HRESULT CLevel_AdvRui::Ready_Layer_InteractionUI(const _tchar * pLayerTag)
-{
-	CGameInstance*			pGameInstance = CGameInstance::Get_Instance();
-	Safe_AddRef(pGameInstance);
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InteractionUI"), LEVEL_ADVRUI, pLayerTag)))
-		return E_FAIL;
-
-	Safe_Release(pGameInstance);
-
-
-	return S_OK;
-}
 HRESULT CLevel_AdvRui::Load_StaticObjects(char * pFileName)
 {
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);

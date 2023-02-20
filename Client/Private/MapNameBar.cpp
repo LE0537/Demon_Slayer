@@ -2,6 +2,7 @@
 #include "MapNameBar.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "SoundMgr.h"
 
 CMapNameBar::CMapNameBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -57,7 +58,7 @@ void CMapNameBar::Tick(_float fTimeDelta)
 	{
 		if (m_fFadeTime <= 0.f)
 			m_bFadeCheck = true;
-		else if (m_fFadeTime >= 0.8f)
+		else if (m_fFadeTime >= 1.f)
 		{
 			m_fStopTime += fTimeDelta;
 			if (m_fStopTime >= 1.f)
@@ -86,7 +87,8 @@ void CMapNameBar::Tick(_float fTimeDelta)
 				if (!m_bMsgOnCheck)
 				{
 					pUI_Manager->Set_MsgOn();
-					pUI_Manager->Set_Msg(TEXT("(»ê ±íÀº °÷¿¡¼­ Ç÷±Í ³¿»õ°¡ Èê·¯µé¾î¿À°í ÀÖ¾î...)"));
+					pUI_Manager->Set_Msg(TEXT("(Å¯Å¯.. ÀÌ..³¿»õ´Â... ¹¹Áö..?)"));
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_04.wav"), fEFFECT);
 					pUI_Manager->Set_QuestStartCheck(true);
 					pUI_Manager->Set_MainQuestOn();
 					m_bMsgOnCheck = true;

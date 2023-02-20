@@ -26,9 +26,14 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 
 
 
-
 	if (pRuiDad->Get_RuiDadAiMode() == true && g_iLevel == 1 && pRuiDad->Get_AnimIndex() != 0)
 	{
+		if (pRuiDad->Get_Tick() == false)
+		{
+			pRuiDad->Set_Tick(true);
+			return nullptr;
+		}
+
 		Update_TargetState(pRuiDad);
 
 
@@ -67,7 +72,7 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 		else
 			return  Return_AIState(pRuiDad);
 	}
-	else
+	else if(pRuiDad->Get_RuiDadAiMode() != true)
 	{
 		if (pRuiDad->Get_QuestStop() == false && dynamic_cast<CTanjiro*>(pRuiDad->Get_BattleTarget())->Get_Quest2())
 			return new CMoveState(OBJDIR::DIR_STRAIGHT, TYPE_START);
@@ -82,16 +87,17 @@ CRuiDadState * CIdleState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 	if (m_ePreState == AI_HIT)
 		m_fDelay += fTimeDelta;
 
-	if (pRuiDad->Get_Start() == true && g_iLevel == 1 && pRuiDad->Get_AnimIndex() == 0)
-	{
-		if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
-		{
+	//if (pRuiDad->Get_Start() == true && g_iLevel == 1 && pRuiDad->Get_AnimIndex() == 0)
+	//{
+	//	if (pRuiDad->Get_Model()->Get_End(0))
+	//	{
 
-			pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
-			return new CIdleState();
-		}
-		
-	}
+	//		pRuiDad->Get_Model()->Set_End(0);
+	//		pRuiDad->Set_Tick(true);
+	//		return new CIdleState();
+	//	}
+	//	
+	//}
 
 
 	return nullptr;
@@ -110,17 +116,17 @@ void CIdleState::Enter(CRuiDad* pRuiDad)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
-	if (pRuiDad->Get_Start() == false && g_iLevel == 1)
-	{
-		pRuiDad->Set_bGuard(false);
-		pRuiDad->Get_Model()->Set_CurrentAnimIndex(0);
-		pRuiDad->Set_AnimIndex(static_cast<CRuiDad::ANIMID>(0));
-		pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex(), false);
-		pRuiDad->Get_Model()->Set_LinearTime(pRuiDad->Get_AnimIndex(), 0.05f);
-		pRuiDad->Set_RuiDadHit(false);
-		pRuiDad->Set_Start(true);
-	}
-	else
+	//if (pRuiDad->Get_Start() == false && g_iLevel == 1)
+	//{
+	//	pRuiDad->Set_bGuard(false);
+	//	pRuiDad->Get_Model()->Set_CurrentAnimIndex(0);
+	//	pRuiDad->Set_AnimIndex(static_cast<CRuiDad::ANIMID>(0));
+	//	pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex(), false);
+	//	pRuiDad->Get_Model()->Set_LinearTime(pRuiDad->Get_AnimIndex(), 0.05f);
+	//	pRuiDad->Set_RuiDadHit(false);
+	//	pRuiDad->Set_Start(true);
+	//}
+	//else
 	{
 		pRuiDad->Set_bGuard(false);
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_IDLE);

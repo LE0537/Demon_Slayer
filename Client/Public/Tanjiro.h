@@ -148,6 +148,9 @@ public:
 
 		ANIM_HIT_DMG_RETURN_0 = 57,
 		ANIM_HIT_DMG_RETURN_1 = 58,
+
+		ANIM_DEAD = 131,
+
 		ANIM_END = 114
 	};
 
@@ -233,6 +236,7 @@ private:
 	_bool					m_bQuest3MSG = false;
 	_bool					m_bQuest3_1MSG = false;
 	_bool					m_bQuest3_2MSG = false;
+	_bool					m_bSoundCheck = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

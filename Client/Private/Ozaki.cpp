@@ -7,6 +7,7 @@
 #include "Layer.h"
 #include "Level_GamePlay.h"
 #include "Data_Manager.h"
+#include "SoundMgr.h"
 
 COzaki::COzaki(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -214,12 +215,15 @@ void COzaki::Check_Event()
 	{
 		if (!m_bMsgEnd)
 		{
-			pUIManager->Set_InteractionOn();
+			if (!m_MsgReset)
+				pUIManager->Set_InteractionOn();
 		}
 		else
 			pUIManager->Set_InteractionOff();
+
 		if (!m_bMsgStart && !m_bMsgEnd && pGameInstance->Key_Down(DIK_F))
 		{
+			pUIManager->Set_InteractionOff();
 			m_bMsgStart = true;
 			if (!m_MsgReset)
 			{
@@ -234,32 +238,37 @@ void COzaki::Check_Event()
 			case 0:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
-				pUIManager->Set_Msg(TEXT("누...누구냐!!"));
+				pUIManager->Set_Msg(TEXT("어,얼른 게급이 높은 사람을 데려와 줘..."));
+				if (!m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Ozaki_Dialog_00.wav"), fEFFECT);
+					m_bSoundCheck = true;
+				}
 				break;
 			case 1:
 				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("구해 드리러 왔어요. 얼른 돌아가서 치료 받으세요."));
+				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
+				pUIManager->Set_Msg(TEXT("안 그러면 전부 죽여버리게 될 거야!"));
+				if (m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Ozaki_Dialog_01.wav"), fEFFECT);
+					m_bSoundCheck = false;
+				}
 				break;
 			case 2:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
-				pUIManager->Set_Msg(TEXT("으으...내가 그녀석의 눈을 봤어...그녀석..."));
-				break;
-			case 3:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
-				pUIManager->Set_Msg(TEXT("십이귀월의 하현이였어...최소 '주'급이 와야 감당 가능할거야."));	
-				break;
-			case 4:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
-				pUIManager->Set_Msg(TEXT("너는 내려가지 않는거야?? 너무 위험해! 우선은 같이 내려가자."));
+				pUIManager->Set_Msg(TEXT("부탁이야...."));
+				if (!m_bSoundCheck)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Ozaki_Dialog_02.wav"), fEFFECT);
+					m_bSoundCheck = true;
+				}
 				break;
 			case 5:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("걱정마세요.아직 도망치지 못한 대원들이 있나 찾아보고 따라갈게요."));
+				pUIManager->Set_Msg(TEXT("지원 요청을 하고 제가 주변을 살피고 올게요!"));
 				pUIManager->Set_QuestCount(1);
 				pUIManager->Set_ClearCheck(true, 1);
 				pUIManager->Set_RescueCount(2);
@@ -271,6 +280,12 @@ void COzaki::Check_Event()
 		}
 
 	}
+	else
+	{
+		if (!m_bMsgEnd)
+			pUIManager->Set_InteractionOff();
+	}
+
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 }

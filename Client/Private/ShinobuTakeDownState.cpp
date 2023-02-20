@@ -2,7 +2,8 @@
 #include "ShinobuTakeDownState.h"
 #include "ShinobuIdleState.h"
 #include "GameInstance.h"
-
+#include "Layer.h"
+#include "Camera_Dynamic.h"
 using namespace Shinobu;
 
 CTakeDownState::CTakeDownState(_float _fPow, _bool _bJump ,STATE_TYPE eType)
@@ -79,6 +80,14 @@ CShinobuState * CTakeDownState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 		break;
 	}
 
+
+	if (m_fCurrentDuration >= 2.f)
+	{
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
+	}
+
+
 	return nullptr;
 }
 
@@ -106,6 +115,15 @@ void CTakeDownState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
 		pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
 		pShinobu->Set_GodMode(true);
+
+		if (pShinobu->Get_PlayerInfo().iHp <= 0)
+		{
+			CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pShinobu->Get_Renderer());
+			RELEASE_INSTANCE(CGameInstance);
+			g_bDeathTime = true;
+		}
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_RETURN_1);

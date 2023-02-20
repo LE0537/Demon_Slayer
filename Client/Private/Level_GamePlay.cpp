@@ -8,6 +8,7 @@
 #include "Level_Loading.h"
 #include "Level_GameResult.h"
 #include "Level_AdvRui.h"
+#include "Level_StroyMenu.h"
 #include "GameObj.h"
 #include "MeshObj_Static.h"
 #include "MeshObj_Static_Inst.h"
@@ -204,15 +205,21 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 		}
 		else
 		{
-			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
+			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && !pUIManager->Get_StroyEventEnd())
 			{
 				m_fNextLevelTime += fTimeDelta;
 				if (m_fNextLevelTime > 5.f)
 				{
 					pUIManager->Set_SaveStory(true);
+					pUIManager->Set_RuiDadBattle(false);
 					if (FAILED(pGameInstance->Open_Level(LEVEL_ADVRUI, CLevel_AdvRui::Create(m_pDevice, m_pContext))))
 						return;
 				}
+			}
+			else if(pUIManager->Get_StroyEventEnd())
+			{
+				if (FAILED(pGameInstance->Open_Level(LEVEL_STORYMENU, CLevel_StoryMenu::Create(m_pDevice, m_pContext))))
+					return;
 			}
 
 		}
@@ -276,9 +283,6 @@ HRESULT CLevel_GamePlay::Ready_Lights()
 	{
 		pGameInstance->Set_LightDesc(LIGHTDESC::TYPE_DIRECTIONAL, LightDesc);
 	}
-
-	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
-		return E_FAIL;
 
 	/* For.Directional*/
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));

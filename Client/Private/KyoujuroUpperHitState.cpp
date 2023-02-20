@@ -2,6 +2,8 @@
 #include "KyoujuroUpperHitState.h"
 #include "KyoujuroIdleState.h"
 #include "GameInstance.h"
+#include "Layer.h"
+#include "Camera_Dynamic.h"
 
 using namespace Kyoujuro;
 
@@ -39,7 +41,12 @@ CKyoujuroState * CUpperHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		m_bReset = true;
 	}
 
-
+	m_fCurrentDuration += (1.f / 60.f);
+	if (m_fCurrentDuration >= 2.f)
+	{
+		g_bDeathTime = false;
+		m_fCurrentDuration = 0.f;
+	}
 
 	switch (m_eHitType)
 	{
@@ -60,6 +67,9 @@ CKyoujuroState * CUpperHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	default:
 		break;
 	}
+
+
+
 
 
 	return nullptr;
@@ -88,6 +98,15 @@ void CUpperHitState::Enter(CKyoujuro* pKyoujuro)
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_HIT_DMG_UPPER_0);
 		pKyoujuro->Get_Model()->Set_Loop(pKyoujuro->Get_AnimIndex());
 		pKyoujuro->Get_Model()->Set_LinearTime(pKyoujuro->Get_AnimIndex(), 0.01f);
+
+		if (pKyoujuro->Get_PlayerInfo().iHp <= 0)
+		{
+			CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pKyoujuro->Get_Renderer());
+			RELEASE_INSTANCE(CGameInstance);
+			g_bDeathTime = true;
+		}
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_HIT_DMG_UPPER_1);

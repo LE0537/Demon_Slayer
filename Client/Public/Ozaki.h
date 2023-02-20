@@ -59,6 +59,7 @@ private:
 	_bool					m_MsgReset = false;
 	_bool					m_bMsgStart = false;
 	_bool					m_bMsgEnd = false;
+	_bool					m_bSoundCheck = false;
 public:
 	static COzaki* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
