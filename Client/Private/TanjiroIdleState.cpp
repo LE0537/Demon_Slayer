@@ -38,16 +38,18 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 	//	pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos);
 	//}
 
-	if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
-	{
-		return new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
-	}
 
 	if (!pTanjiro->Get_PlayerInfo().bChange)
 	{
 		switch (pTanjiro->Get_i1P())
 		{
 		case 1:
+			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
+			{
+				return new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
+			}
+
+
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_A)) // аб

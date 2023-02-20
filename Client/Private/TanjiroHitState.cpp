@@ -159,6 +159,10 @@ CTanjiroState * CHitState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	//	Jump(pTanjiro, m_fJumpTime);
 	//}
 
+
+	if (pTanjiro->Get_BattleTarget()->Get_SplSkl() == true)
+		fTimeDelta *= 0.3f;
+
 	if (pTanjiro->Get_AnimIndex() == CTanjiro::ANIMID::ANIM_HIT_DMG2_G)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else

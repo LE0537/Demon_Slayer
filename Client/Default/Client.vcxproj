@@ -256,6 +256,7 @@
     <ClInclude Include="..\Public\KyoujuroTakeDownState.h" />
     <ClInclude Include="..\Public\KyoujuroTargetRushState.h" />
     <ClInclude Include="..\Public\KyoujuroUpperHitState.h" />
+    <ClInclude Include="..\Public\Kyoujuro_CinemaState.h" />
     <ClInclude Include="..\Public\Level_AdvRui.h" />
     <ClInclude Include="..\Public\Level_GameResult.h" />
     <ClInclude Include="..\Public\Level_Menu.h" />
@@ -317,6 +318,7 @@
     <ClInclude Include="..\Public\RuiTakeDownState.h" />
     <ClInclude Include="..\Public\RuiTargetRushState.h" />
     <ClInclude Include="..\Public\RuiUpperHitState.h" />
+    <ClInclude Include="..\Public\Rui_CinemaState.h" />
     <ClInclude Include="..\Public\SelMapCursor.h" />
     <ClInclude Include="..\Public\SelMapEff.h" />
     <ClInclude Include="..\Public\SelMapFixedImg.h" />
@@ -333,6 +335,7 @@
     <ClInclude Include="..\Public\ShinobuTakeDownState.h" />
     <ClInclude Include="..\Public\ShinobuTargetRushState.h" />
     <ClInclude Include="..\Public\ShinobuUpperHitState.h" />
+    <ClInclude Include="..\Public\Shinobu_CinemaState.h" />
     <ClInclude Include="..\Public\TanjiroBattleSTState.h" />
     <ClInclude Include="..\public\TanjiroJumpAttackState.h" />
     <ClInclude Include="..\public\KyoujuroJumpSkill.h" />
@@ -665,6 +668,7 @@
     <ClCompile Include="..\Private\KyoujuroTakeDownState.cpp" />
     <ClCompile Include="..\Private\KyoujuroTargetRushState.cpp" />
     <ClCompile Include="..\Private\KyoujuroUpperHitState.cpp" />
+    <ClCompile Include="..\Private\Kyoujuro_CinemaState.cpp" />
     <ClCompile Include="..\Private\Level_AdvRui.cpp" />
     <ClCompile Include="..\Private\Level_GameResult.cpp" />
     <ClCompile Include="..\Private\Level_Menu.cpp" />
@@ -726,6 +730,7 @@
     <ClCompile Include="..\Private\RuiTakeDownState.cpp" />
     <ClCompile Include="..\Private\RuiTargetRushState.cpp" />
     <ClCompile Include="..\Private\RuiUpperHitState.cpp" />
+    <ClCompile Include="..\Private\Rui_CinemaState.cpp" />
     <ClCompile Include="..\Private\SelMapCursor.cpp" />
     <ClCompile Include="..\Private\SelMapEff.cpp" />
     <ClCompile Include="..\Private\SelMapFixedImg.cpp" />
@@ -739,6 +744,7 @@
     <ClCompile Include="..\Private\ShinobuTakeDownState.cpp" />
     <ClCompile Include="..\Private\ShinobuTargetRushState.cpp" />
     <ClCompile Include="..\Private\ShinobuUpperHitState.cpp" />
+    <ClCompile Include="..\Private\Shinobu_CinemaState.cpp" />
     <ClCompile Include="..\Private\ShionbuJumpMoveAttackState.cpp" />
     <ClCompile Include="..\Private\ShinobuJumpSkill_Common.cpp" />
     <ClCompile Include="..\Private\ShinobuJumpSkill_Move.cpp" />

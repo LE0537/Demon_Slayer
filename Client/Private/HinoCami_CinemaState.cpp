@@ -150,16 +150,16 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		break;
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_6:
 
-		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_LOOP_END);
-		pTanjiro->Set_AnimIndex(static_cast<CTanjiro::ANIMID>(CTanjiro::ANIM_JUMP_LOOP_END));
-		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_LOOP_END, true);
-		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_LOOP_END, 0.01f);
+		//pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_LOOP_END);
+		//pTanjiro->Set_AnimIndex(static_cast<CTanjiro::ANIMID>(CTanjiro::ANIM_JUMP_LOOP_END));
+		//pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_LOOP_END, true);
+		//pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_LOOP_END, 0.01f);
 
-		//pTanjiro->Get_Model()->Reset_Anim(CHinoCami_CinemaState::ANIM_SECNE_6);
-		//pTanjiro->Get_Model()->Set_CurrentAnimIndex(CHinoCami_CinemaState::ANIM_SECNE_6);
-		//pTanjiro->Set_AnimIndex(static_cast<CTanjiro::ANIMID>(CHinoCami_CinemaState::ANIM_SECNE_6));
-		//pTanjiro->Get_Model()->Set_Loop(CHinoCami_CinemaState::ANIM_SECNE_6);
-		//pTanjiro->Get_Model()->Set_LinearTime(CHinoCami_CinemaState::ANIM_SECNE_6, 0.01f);
+		pTanjiro->Get_Model()->Reset_Anim(CHinoCami_CinemaState::ANIM_SECNE_6);
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CHinoCami_CinemaState::ANIM_SECNE_6);
+		pTanjiro->Set_AnimIndex(static_cast<CTanjiro::ANIMID>(CHinoCami_CinemaState::ANIM_SECNE_6));
+		pTanjiro->Get_Model()->Set_Loop(CHinoCami_CinemaState::ANIM_SECNE_6);
+		pTanjiro->Get_Model()->Set_LinearTime(CHinoCami_CinemaState::ANIM_SECNE_6, 0.01f);
 		break;
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_END:
 		break;
@@ -176,15 +176,26 @@ void CHinoCami_CinemaState::Exit(CTanjiro * pTanjiro)
 
 CTanjiroState * CHinoCami_CinemaState::Scene_Start(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	if (pTanjiro->Get_Model()->Get_End(CHinoCami_CinemaState::ANIM_SCENE_START))
+	//if (pTanjiro->Get_Model()->Get_End(CHinoCami_CinemaState::ANIM_SCENE_START))
+	//{
+	//	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_LOOP);
+	//	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_LOOP);
+	//	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_MOVE_LOOP, true);
+	//	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_MOVE_LOOP, 0.01f);
+
+	//	pTanjiro->Get_Model()->Set_End(CHinoCami_CinemaState::ANIM_SCENE_START);
+	//}
+
+	if (pTanjiro->Get_Model()->Get_CurrentTime_Index(CHinoCami_CinemaState::ANIM_SCENE_START) >= 40.f)
 	{
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_LOOP);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_LOOP);
 		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_MOVE_LOOP, true);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_MOVE_LOOP, 0.01f);
 
-		pTanjiro->Get_Model()->Set_End(CHinoCami_CinemaState::ANIM_SCENE_START);
+		pTanjiro->Get_Model()->Reset_Anim(CHinoCami_CinemaState::ANIM_SCENE_START);
 	}
+
 
 	if (pTanjiro->Get_AnimIndex() == CTanjiro::ANIMID::ANIM_MOVE_LOOP)
 	{
@@ -464,6 +475,7 @@ CTanjiroState * CHinoCami_CinemaState::Scene_6(CTanjiro * pTanjiro, _float fTime
 		if (pTanjiro->Get_Model()->Get_End(CHinoCami_CinemaState::ANIM_SECNE_6))
 		{
 			pTanjiro->Get_Model()->Set_End(CHinoCami_CinemaState::ANIM_SECNE_6);
+			g_bDeathTime = false;
 			m_bNextAnim = true;
 		}
 	}

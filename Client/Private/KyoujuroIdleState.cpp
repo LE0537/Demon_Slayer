@@ -11,6 +11,7 @@
 #include "KyoujuroChangeState.h"
 #include "KyoujuroTargetRushState.h"
 #include "Effect_Manager.h"
+#include "Kyoujuro_CinemaState.h"
 using namespace Kyoujuro;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -27,6 +28,12 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 		switch (pKyoujuro->Get_i1P())
 		{
 		case 1:
+
+			if (pGameInstance->Key_Pressing(DIK_E))
+			{
+				return new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_START);
+			}
+
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_A)) // аб

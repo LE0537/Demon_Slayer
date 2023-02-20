@@ -11,7 +11,7 @@
 #include "RuiTargetRushState.h"
 #include "AiState.h"
 #include "Effect_Manager.h"
-
+#include "Rui_CinemaState.h"
 
 using namespace Rui;
 
@@ -24,9 +24,18 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pRui->Set_bGuard(false);
+
+
+
+
 	switch (pRui->Get_i1P())
 	{
 	case 1:
+		if (pGameInstance->Key_Pressing(DIK_E))
+		{
+			return new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
+		}
+
 		if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 		{
 			if (pGameInstance->Key_Pressing(DIK_A)) // аб

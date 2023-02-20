@@ -100,6 +100,10 @@ CShinobuState * CHitState::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 	//	Jump(pShinobu, m_fJumpTime);
 	//}
 
+
+	if (pShinobu->Get_BattleTarget()->Get_SplSkl() == true)
+		fTimeDelta *= 0.3f;
+
 	if (pShinobu->Get_AnimIndex() == CShinobu::ANIMID::ANIM_HIT_DMG2_G)
 		pShinobu->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else
