@@ -189,7 +189,7 @@ void CRuiDadSmallStone::Jump(_float fTimeDelta)
 
 	static _float fStartHeight = m_fCurrentPosY;
 	static _float fEndHeight = m_fCurrentPosY;
-	static _float fVelocity = 20.f;
+	static _float fVelocity = 25.f;
 	static _float fGravity = 40.f;
 
 	_vector      vPosition = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);

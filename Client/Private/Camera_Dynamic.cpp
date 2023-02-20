@@ -110,7 +110,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			QuestBattleCam(fTimeDelta);
 		else if (m_bLerp && !m_bQuestBattleCam)
 		{
-			_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
+			_vector vPos = XMVectorLerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
 			
 			if (m_fLerpTime > 1.f)
 			{
