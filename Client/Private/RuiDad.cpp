@@ -150,9 +150,11 @@ void CRuiDad::Late_Tick(_float fTimeDelta)
 		{
 
 			LateTickState(fTimeDelta);
-
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			if (m_bRender)
+			{
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			}
 
 			if (g_bCollBox)
 			{
@@ -399,6 +401,12 @@ void CRuiDad::Set_Info()
 
 void CRuiDad::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+	if (m_pRuiDadState->Get_RuiDadState() == 18)
+	{
+		return;
+	}
+
+
 	CRuiDadState* pState = new CHitState(_fPow, CRuiDadState::STATE_TYPE::TYPE_START, false);
 	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
 }
@@ -421,6 +429,11 @@ void CRuiDad::Get_GuardHit(_int eType)
 
 void CRuiDad::Player_TakeDown(_float _fPow, _bool _bJump)
 {
+	if (m_pRuiDadState->Get_RuiDadState() == 18)
+	{
+		return;
+	}
+
 	CRuiDadState* pState = new CHitState(0.f, CRuiDadState::STATE_TYPE::TYPE_START, false);
 	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
 
@@ -428,6 +441,11 @@ void CRuiDad::Player_TakeDown(_float _fPow, _bool _bJump)
 
 void CRuiDad::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
+	if (m_pRuiDadState->Get_RuiDadState() == 18)
+	{
+		return;
+	}
+
 	CRuiDadState* pState = new CHitState(0.f, CRuiDadState::STATE_TYPE::TYPE_START, false);
 	m_pRuiDadState = m_pRuiDadState->ChangeState(this, m_pRuiDadState, pState);
 

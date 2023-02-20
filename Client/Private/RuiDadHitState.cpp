@@ -87,8 +87,31 @@ CRuiDadState * CHitState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 	//	Jump(pRuiDad, m_fJumpTime);
 	//}
 
-	if(m_bRuiDadDead== false)
-		pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
+
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	if (pGameInstance->Key_Down(DIK_1))
+	{
+		_float fCurrentDuration = pRuiDad->Get_Model()->Get_CurrentTime_Index(CRuiDad::ANIM_HIT_FULL);
+		int a = 0;
+	}
+
+
+	if (m_bRuiDadDead == false && pRuiDad->Get_AnimIndex() == CRuiDad::ANIM_HIT_FULL)
+	{
+		if (m_bReset == false)
+		{
+			_float4 vPos; XMStoreFloat4(&vPos, pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+			vPos.z -= 5.f;
+			pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMLoadFloat4(&vPos));
+			m_bReset = true;
+		}
+		pRuiDad->Get_Model()->Play_RuiDadHitAnim(fTimeDelta, true);
+	}
+	else if (m_bRuiDadDead == false)
+	{
+		pRuiDad->Get_Model()->Play_RuiDadHitAnim(fTimeDelta, false);
+	}
+		
 
 
 

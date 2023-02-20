@@ -30,6 +30,14 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pTanjiro->Set_bGuard(false);
 
+	if (pGameInstance->Key_Down(DIK_2) && pTanjiro->Get_StoryKey())
+	{
+		_vector vPos = { -335.479f,42.501f,-328.243f,1.f };
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		pTanjiro->Set_NavigationHeight(vPos);
+		pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos);
+	}
+
 	if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
 	{
 		return new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);

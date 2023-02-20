@@ -311,7 +311,7 @@ CRuiDadState * CSkill_JumpDropState::Increase_Height(CRuiDad * pRuiDad, _float f
 
 	_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
 
-	if (XMVectorGetY(vCurrentPos) > 15.f)
+	if (XMVectorGetY(vCurrentPos) > 20.f)
 	{
 		pRuiDad->Set_Render(false);
 	//	pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);

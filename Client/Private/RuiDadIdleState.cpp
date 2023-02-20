@@ -26,13 +26,10 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 
 
 
-	if (pRuiDad->Get_RuiDadAiMode() == true && g_iLevel == 1 && pRuiDad->Get_AnimIndex() != 0)
+
+	if (pRuiDad->Get_RuiDadAiMode() == true && g_iLevel == 1 && pRuiDad->Get_AnimIndex() != 0 && pRuiDad->Get_Tick() == true)
 	{
-		if (pRuiDad->Get_Tick() == false)
-		{
-			pRuiDad->Set_Tick(true);
-			return nullptr;
-		}
+	
 
 		Update_TargetState(pRuiDad);
 
@@ -98,7 +95,20 @@ CRuiDadState * CIdleState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 	//	}
 	//	
 	//}
+	
 
+	if (pRuiDad->Get_Tick() == false)
+	{
+		m_fTime += fTimeDelta;
+
+		if (m_fTime >= 3.f)
+		{
+			pRuiDad->Set_Tick(true);
+		}
+
+
+		return nullptr;
+	}
 
 	return nullptr;
 }

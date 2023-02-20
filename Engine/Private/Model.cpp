@@ -239,7 +239,7 @@ HRESULT CModel::Play_Animation3(_float fTimeDelta)
 
 	return S_OK;
 }
-HRESULT CModel::Play_RuiDadHitAnim(_float fTimeDelta)
+HRESULT CModel::Play_RuiDadHitAnim(_float fTimeDelta, _bool bRemoveTranslation)
 {
 
 	if (m_iCurrentAnimIndex != m_iPrevAnimIndex)
@@ -266,7 +266,7 @@ HRESULT CModel::Play_RuiDadHitAnim(_float fTimeDelta)
 	for (auto& pBoneNode : m_Bones)
 	{
 		/* 뼈의 m_CombinedTransformationMatrix행렬을 갱신한다. */
-		pBoneNode->RuiDad_Invalidate_CombinedTransformationmatrix(false);
+		pBoneNode->RuiDad_Invalidate_CombinedTransformationmatrix(bRemoveTranslation);
 	}
 
 	return S_OK;
