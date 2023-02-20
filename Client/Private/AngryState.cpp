@@ -24,6 +24,7 @@ CRuiDadState * CAngryState::Tick(CRuiDad * pRuiDad, _float fTimeDelta)
 
 	{
 		pRuiDad->Get_Model()->Set_End(0);
+		
 		return new CIdleState();
 	}
 
