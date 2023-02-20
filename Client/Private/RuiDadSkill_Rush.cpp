@@ -67,11 +67,11 @@ CRuiDadState * CSkill_RushState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 	case Client::CRuiDadState::TYPE_LOOP:
 		Move(pRuiDad, fTimeDelta);
 		EffectTime += fTimeDelta;
-		if (EffectTime > 0.5f)
+		if (EffectTime > 0.2f)
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-			//pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_DASH_PLAYER, pRuiDad);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_DASH_PLAYER, pRuiDad);
 			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_DASH_GROUND, pRuiDad);
 
 			RELEASE_INSTANCE(CEffect_Manager);
