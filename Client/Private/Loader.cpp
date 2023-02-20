@@ -828,10 +828,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar2_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TreeFar3_Instancing"), LEVEL_STATIC, CData_Manager::DATA_NONANIM_INSTANCING);
 
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Moon", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Rect/Moon/Moon.fbx", PivotMatrix))))
-			return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_MoonLight", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Rect/Moon/MoonLight.fbx", PivotMatrix))))
-			return E_FAIL;
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Moon"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("MoonLight"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Moon_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/rui_new/Ground.fbx", PivotMatrix))))
 			return E_FAIL;
 		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hut"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
@@ -867,6 +866,53 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Smell2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/Smell/Smell2.fbx", PivotMatrix))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Smell3_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/Smell/Smell3.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		//AkazaMap
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BrokenTrain1", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/BrokenTrain1.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BrokenTrain2", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/BrokenTrain2.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BrokenTrain3", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/BrokenTrain3.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BrokenTrain4", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/BrokenTrain4.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_BrokenTrain5", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/BrokenTrain5.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Enmu_Neck0", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/Enmu_Neck0.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Enmu_Neck1", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/Enmu_Neck1.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Enmu_Neck2", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/Enmu_Neck2.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Rail1", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/Rail1.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Rail2", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/Rail2.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Train1", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/Train1.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Train2", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/Train2.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Train3", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/Train3.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Trainbottom1", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/Trainbottom1.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Trainbottom2", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/Trainbottom2.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_TrainChiar1", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/TrainChiar1.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_TrainChiar2", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/TrainChiar2.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_TrainDoor", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/TrainDoor.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_TrainMap", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/TrainMap.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_TrainChiar1_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/TrainChiar1.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_TrainChiar2_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/TrainChiar2.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_TrainDoor_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/TrainMap/TrainDoor.fbx", PivotMatrix))))
 			return E_FAIL;
 
 		/*For.Prototype_GameObject_MeshObj_Smell */
@@ -1781,6 +1827,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"),
 		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/RuiStory.nav")))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainNavi"),
+		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/TrainNavi.nav")))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainBattle"),
+		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/TrainBattle.nav")))))
 		return E_FAIL;
 #pragma region UI°´Ã¼
 	//UI

@@ -1243,6 +1243,15 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState">
       <UniqueIdentifier>{d9ffca7e-630f-4a4f-97c8-d5f2a7f0b869}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\09.Adv_Akaza">
+      <UniqueIdentifier>{dd0d114b-d586-469d-83f1-6586560cb28f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\10.Battle_Enmu">
+      <UniqueIdentifier>{3fb48467-bbe9-49e0-88c4-4a02f0356a06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\11.Battle_Akaza">
+      <UniqueIdentifier>{0f29d584-e042-4cd3-99c7-0de1059be1c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2466,6 +2475,15 @@
     <ClInclude Include="..\Public\AngryState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_AdvAkaza.h">
+      <Filter>01.Levels\09.Adv_Akaza</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_BattleAkaza.h">
+      <Filter>01.Levels\11.Battle_Akaza</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_BattleEnmu.h">
+      <Filter>01.Levels\10.Battle_Enmu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3661,6 +3679,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\AngryState.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_AdvAkaza.cpp">
+      <Filter>01.Levels\09.Adv_Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_BattleAkaza.cpp">
+      <Filter>01.Levels\11.Battle_Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_BattleEnmu.cpp">
+      <Filter>01.Levels\10.Battle_Enmu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
