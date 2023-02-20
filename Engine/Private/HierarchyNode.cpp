@@ -99,18 +99,57 @@ void CHierarchyNode::RuiDad_Invalidate_CombinedTransformationmatrix(_bool bRemov
 
 		_matrix OriginMatrixTranslation = XMLoadFloat4x4(&m_TransformationMatrix);
 
-		OriginMatrixTranslation.r[3] = XMVectorSet(0.f, 0.f, 0.f, 1.f);
+		
+
+		if (bRemoveTranslation == true)
+		{
+			OriginMatrixTranslation.r[3] = XMVectorSet(0.f, 0.f, 10.f, 1.f);
+		}
+	
 
 		XMStoreFloat4x4(&m_TransformationMatrix, OriginMatrixTranslation);
 	}
 
+	//if (!strcmp(m_szName, "Root"))
+	//{
+	//	//m_MoveTransformationMatrix = m_TransformationMatrix;
+
+	//	_matrix OriginMatrixTranslation = XMLoadFloat4x4(&m_TransformationMatrix);
+
+
+	//	_float4 vTemp = *(_float4*)&OriginMatrixTranslation.r[3];
+	//	vTemp.x += 5.f;
+	//	vTemp.y += 5.f;
+	//	vTemp.z += 5.f;
+	//	*(_float4*)&OriginMatrixTranslation.r[3] = vTemp;
+
+	//	XMStoreFloat4x4(&m_TransformationMatrix, OriginMatrixTranslation);
+	//}
+
+
 	if (nullptr != m_pParent)
 		XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix) * XMLoadFloat4x4(&m_pParent->m_CombinedTransformationMatrix));
 	else
+	{
+		if (bRemoveTranslation == true)
+		{
+			_matrix OriginMatrixTranslation = XMLoadFloat4x4(&m_TransformationMatrix);
+
+
+			_float4 vTemp = *(_float4*)&OriginMatrixTranslation.r[3];
+			//vTemp.x += 5.f;
+			//vTemp.y += 5.f;
+			vTemp.z += 5.f;
+			*(_float4*)&OriginMatrixTranslation.r[3] = vTemp;
+
+			XMStoreFloat4x4(&m_TransformationMatrix, OriginMatrixTranslation);
+		}
+
 		m_CombinedTransformationMatrix = m_TransformationMatrix;
+	}
 
 
-
+	 
 
 }
 
