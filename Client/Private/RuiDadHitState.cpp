@@ -2,7 +2,7 @@
 #include "RuiDadHitState.h"
 #include "RuiDadIdleState.h"
 #include "GameInstance.h"
-
+#include "Effect_Manager.h"
 using namespace RuiDad;
 
 CHitState::CHitState(_float _fPow, STATE_TYPE eTYPE, _bool _bJump)
@@ -48,6 +48,15 @@ CRuiDadState * CHitState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 				{
 				case Client::CRuiDadState::TYPE_START:
 					pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+					if (!m_bEffect)
+					{
+						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_FREE, pRuiDad);
+
+						RELEASE_INSTANCE(CEffect_Manager);
+						m_bEffect = true;
+					}
 					return new CHitState(0.f, TYPE_LOOP);
 					break;
 				case Client::CRuiDadState::TYPE_LOOP:

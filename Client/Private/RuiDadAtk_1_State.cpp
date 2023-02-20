@@ -182,6 +182,16 @@ CRuiDadState * CAtk_1_State::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 					pRuiDad->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pRuiDad->Get_NavigationCom());
 			}
 		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_ATK1_1, pRuiDad);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_ATK1_2, pRuiDad);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		break;
 	case Client::CRuiDadState::TYPE_LOOP: // 2Ÿ
 		if (m_fMove < 1.f)
@@ -287,6 +297,16 @@ CRuiDadState * CAtk_1_State::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 				else
 					pRuiDad->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pRuiDad->Get_NavigationCom());
 			}
+		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_ATK2_GROUND, pRuiDad);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_ATK2_SLASH, pRuiDad);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
 		}
 		break;
 	case Client::CRuiDadState::TYPE_END: // 3Ÿ
@@ -394,6 +414,16 @@ CRuiDadState * CAtk_1_State::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 				else
 					pRuiDad->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pRuiDad->Get_NavigationCom());
 			}
+		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_ATK3_END, pRuiDad);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_ATK3_SLASH, pRuiDad);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_ATK3_START, pRuiDad);
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
 		}
 		break;
 	}

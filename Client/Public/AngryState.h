@@ -17,7 +17,8 @@ public:
 	virtual void Enter(CRuiDad* pRuiDad) override;
 	virtual void Exit(CRuiDad* pRuiDad) override;
 
-
+private:
+	_bool m_bEffect = false;
 };
 
 END

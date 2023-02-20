@@ -2,7 +2,7 @@
 #include "..\Public\AngryState.h"
 #include "GameInstance.h"
 #include "RuiDadIdleState.h"
-
+#include "Effect_Manager.h"
 using namespace RuiDad;
 
 CAngryState::CAngryState()
@@ -33,7 +33,15 @@ CRuiDadState * CAngryState::Tick(CRuiDad * pRuiDad, _float fTimeDelta)
 CRuiDadState * CAngryState::Late_Tick(CRuiDad * pRuiDad, _float fTimeDelta)
 {
 	pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_ANGRY, pRuiDad);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 	return nullptr;
 }
 

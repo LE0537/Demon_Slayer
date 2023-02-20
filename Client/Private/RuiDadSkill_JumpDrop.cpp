@@ -84,6 +84,16 @@ CRuiDadState * CSkill_JumpDropState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 		 if(m_bNextAnim == true)
 			 return new CSkill_JumpDropState(CRuiDadState::TYPE_LOOP);
 
+		 if (!m_bEffect)
+		 {
+			 CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			 pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_JUMP_PLAYERUP, pRuiDad);
+			 pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_JUMP_UP, pRuiDad);
+
+			 RELEASE_INSTANCE(CEffect_Manager);
+			 m_bEffect = true;
+		 }
 		break;
 	case Client::CRuiDadState::TYPE_LOOP:
 
@@ -106,7 +116,15 @@ CRuiDadState * CSkill_JumpDropState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 			m_bIncreaseHeight = false;
 			Fall_Height(pRuiDad, fTimeDelta);
 		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_JUMP_PLAYERDOWN, pRuiDad);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		if (m_bNextAnim == true)
 			return new CSkill_JumpDropState(STATE_TYPE::TYPE_END);
 		break;
@@ -212,6 +230,15 @@ CRuiDadState * CSkill_JumpDropState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 					pRuiDad->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pRuiDad->Get_NavigationCom());
 			}
 		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_DASH_ENDGROUND, pRuiDad);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		break;
 	case Client::CRuiDadState::TYPE_DEFAULT:
 		break;
@@ -281,7 +308,9 @@ void CSkill_JumpDropState::Enter(CRuiDad* pRuiDad)
 
 		CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.4f);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pRuiDad->Get_Renderer());
 		RELEASE_INSTANCE(CGameInstance);
+
 		break;
 	}
 
@@ -368,24 +397,22 @@ void CSkill_JumpDropState::Create_TargetCircle(CRuiDad* pRuiDad, _float fTimeDel
 	ZeroMemory(&tInfo, sizeof(tInfo));
 
 	_float3 vTargetPosition; XMStoreFloat3(&vTargetPosition, pRuiDad->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-	
+
 	vTargetPosition.y = pRuiDad->Get_BattleTarget()->Get_NavigationHeight().y + 0.1f;
 
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
 	tInfo.vPosition = vTargetPosition;
-	
 
-	pGameInstance->Add_GameObject(L"Prototype_GameObject_TargetCircle", LEVEL_GAMEPLAY, L"Layer_TargetCircle", &tInfo);
-		
 	m_bCreateTargetCircle = true;
 
 	vTargetPosition.y += 20.f;
 
 	m_vTempPosition = vTargetPosition;
 
-	RELEASE_INSTANCE(CGameInstance);
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_JUMP_GROUNDMARK, pRuiDad->Get_BattleTarget());
+
+	RELEASE_INSTANCE(CEffect_Manager);
 
 }
 

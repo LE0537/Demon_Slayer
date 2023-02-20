@@ -31,7 +31,7 @@ private:
 	_bool  m_bTrun = false;
 
 	_bool  m_bRuiDadDead = false;
-
+	_bool  m_bEffect = false;
 };
 END
 END
