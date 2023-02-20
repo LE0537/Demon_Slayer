@@ -21,44 +21,59 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 	_uint iSize = vecPositions.size();
 
 	if (iSize < 4 ||
-		(iSize != vecLookAts.size() || iSize != vecUseTime.size()))
+		(iSize != vecLookAts.size() || iSize != vecUseTime.size() + 1))
 		return false;
 
 	static _float fCullTime = 0.f;
-	_int	iFrame = _int(fCullTime);				//	현재 프레임
-	if (iFrame == vecUseTime.size() - 1)			//	다음 프레임이 없다.
+	_float	fUsedTime = fCullTime;
+	_int	iFrame = 0;				//	현재 프레임
+	std::vector<_float>::iterator iter = vecUseTime.begin();
+	for (; iter != vecUseTime.end(); ++iter)
+	{
+		fUsedTime -= (*iter);
+		if (0.f > fUsedTime)
+			break;
+
+		++iFrame;
+	}
+	if (vecUseTime.end() == iter)		//	끝 Check
+	{
+		fCullTime = *pOut = 0.f;
+		return false;
+	}
+
+	//	해당 프레임의 초반부다 = fUsedTime의 절댓값이 크다. = Ratio가 작다. ->작을수록 이전프레임의 영향을 더 받음.
+	_float fRatio = fabs((*iter) + fUsedTime) / (*iter);		//	다음 프레임의 할당 비율
+	if (iFrame + 1 == vecUseTime.size())			//	다음 프레임이 없다.
+	{
 		*pOut += fTimeDelta / (vecUseTime[iFrame]);		// 보간 X
+	}
 	else
 	{
-		_float fDecimal = fCullTime - iFrame;		//	다음 프레임의 할당 비율
-		*pOut += fTimeDelta / ((vecUseTime[iFrame] * (1.f - fDecimal)) + (vecUseTime[iFrame + 1]) * fDecimal);
+		_float fValue = ((vecUseTime[iFrame] * (1.f - fRatio)) + (vecUseTime[iFrame + 1]) * fRatio);
+		*pOut += fTimeDelta / fValue;
 	}
 	fCullTime = *pOut;
 
-	if (fCullTime > _float(iSize) - 3.f)
-	{
-		fCullTime = *pOut = 0.f;
-		return false;				//	끝
-	}
 
-
-	iFrame = _int(fCullTime);
-	_float	fRatioTime = fCullTime - (_float)iFrame;
 	_vector vCamPos, vCamAt;
 	_vector vAt[4];
-	if (iSize - 4 > iFrame)
+	//if (iSize - 4 > iFrame)
+	//{
+	_vector vPos[4];
+
+	for (_int j = 0; j < 4; ++j)
 	{
-		_vector vPos1 = XMLoadFloat4(&vecPositions[iFrame]);
-		_vector vPos2 = XMLoadFloat4(&vecPositions[iFrame + 1]);
-		_vector vPos3 = XMLoadFloat4(&vecPositions[iFrame + 2]);
-		_vector vPos4 = XMLoadFloat4(&vecPositions[iFrame + 3]);
-
-		for (_int i = 0; i < 4; ++i)
-			vAt[i] = XMLoadFloat4(&vecLookAts[iFrame + i]);
-
-		vCamPos = XMVectorCatmullRom(vPos1, vPos2, vPos3, vPos4, fRatioTime);
-		vCamAt = XMVectorCatmullRom(vAt[0], vAt[1], vAt[2], vAt[3], fRatioTime);
+		_int	iIndex = max(min(iFrame + j - 1, iSize - 1), 0);		//	최소 = 0, 최대 = Size
+		vPos[j] = XMLoadFloat4(&vecPositions[iIndex]);
+		vAt[j] = XMLoadFloat4(&vecLookAts[iIndex]);
 	}
+
+
+
+	vCamPos = XMVectorCatmullRom(vPos[0], vPos[1], vPos[2], vPos[3], fRatio);
+	vCamAt = XMVectorCatmullRom(vAt[0], vAt[1], vAt[2], vAt[3], fRatio);
+	/*}
 	else
 	{
 		_vector vPos1 = XMLoadFloat4(&vecPositions[iSize - 4]);
@@ -69,9 +84,9 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 		for (_int i = 0; i < 4; ++i)
 			vAt[i] = XMLoadFloat4(&vecLookAts[iSize - (4 - i)]);
 
-		vCamPos = XMVectorCatmullRom(vPos1, vPos2, vPos3, vPos4, fRatioTime);
-		vCamAt = XMVectorCatmullRom(vAt[0], vAt[1], vAt[2], vAt[3], fRatioTime);
-	}
+		vCamPos = XMVectorCatmullRom(vPos1, vPos2, vPos3, vPos4, fRatio);
+		vCamAt = XMVectorCatmullRom(vAt[0], vAt[1], vAt[2], vAt[3], fRatio);
+	}*/
 
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vCamPos);
 	m_pTransform->LookAt(vCamAt);
@@ -174,7 +189,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 		else if (m_bLerp && !m_bQuestBattleCam)
 		{
 			_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
-			
+
 			if (m_fLerpTime > 1.f)
 			{
 				m_bQuestBattleCam = true;
@@ -196,7 +211,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 		if (true == bCamAttach && m_bQuestBattleCam)
 			Move_CamPos(fTimeDelta);
 	}
-	else if(!m_bStory && !pUIManager->Get_RuiDadBattle())
+	else if (!m_bStory && !pUIManager->Get_RuiDadBattle())
 	{
 		m_fStartTime += fTimeDelta;
 
@@ -206,12 +221,12 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			m_CameraDesc.fFovy = XMConvertToRadians(25.f);
 			m_bStart = true;
 			_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
-	
+
 			if (m_fLerpTime > 1.f)
 			{
 				m_bLerp = true;
 			}
-	
+
 			m_fLerpTime += fTimeDelta;
 			m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
 			m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
@@ -223,12 +238,12 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			//m_bStart = true;
 			//75.343f, 5.5f, 19.231f
 			_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
-			
+
 			if (m_fLerpTime > 1.f)
 			{
 				m_bLerp = true;
 			}
-	
+
 			m_fLerpTime += fTimeDelta;
 			m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
 			m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
@@ -236,10 +251,10 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 		if (m_fStartTime > 1.f)
 			m_bStart = true;
 #endif
-	
+
 		if (!m_bStart)
 			Set_StartPos(fTimeDelta);
-	
+
 		if (true == bCamAttach && m_bLerp)
 			Set_CamPos();
 
@@ -248,14 +263,14 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			m_pPlayer = m_pPlayer->Get_SubChar();
 		if (m_pTarget->Get_PlayerInfo().bSub)
 			m_pTarget = m_pTarget->Get_SubChar();
-	
+
 
 		if (true == bCamAttach && m_bLerp)
 			Move_CamPos(fTimeDelta);
 	}
 	else if (m_bStory && bCamAttach)
 	{
-		if(!m_bQuestCam)
+		if (!m_bQuestCam)
 			Key_Input(fTimeDelta);
 		else
 			QuestCam(fTimeDelta);
@@ -271,7 +286,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	if (FAILED(Bind_OnPipeLine()))
 		return;
 
-	
+
 }
 
 void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
@@ -312,40 +327,40 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 		}
 	}
 #else
-		if (!m_bStory && !pUIManager->Get_RuiDadBattle())
+	if (!m_bStory && !pUIManager->Get_RuiDadBattle())
+	{
+		if (!m_bEffect)
 		{
-			if (!m_bEffect)
-			{
-				Check_Model();
-			}
-			if (m_fStartTime > 0.2f && !m_bEffect && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 25.f)
-			{
+			Check_Model();
+		}
+		if (m_fStartTime > 0.2f && !m_bEffect && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 25.f)
+		{
 
-				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_GAMESTART, m_pPlayer);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_GAMESTART, m_pPlayer);
 
-				RELEASE_INSTANCE(CEffect_Manager);
-				m_bEffect = true;
-			}
-			if (m_fStartTime > 0.2f && !m_bBattleSound && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 22.f)
-			{
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("BattleStart.wav"), fEFFECT);
-				m_bBattleSound = true;
-			}
-			if (!m_bBattle)
-			{
-				Set_BattleTarget(fTimeDelta);
-				m_bBattle = true;
-			}
-			if (!m_bStartBattle && m_fStartTime > 0.1f)
-			{
-				Set_BattleStart(fTimeDelta);
-				m_bStartBattle = true;
-			}
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+		if (m_fStartTime > 0.2f && !m_bBattleSound && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 22.f)
+		{
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("BattleStart.wav"), fEFFECT);
+			m_bBattleSound = true;
+		}
+		if (!m_bBattle)
+		{
+			Set_BattleTarget(fTimeDelta);
+			m_bBattle = true;
+		}
+		if (!m_bStartBattle && m_fStartTime > 0.1f)
+		{
+			Set_BattleStart(fTimeDelta);
+			m_bStartBattle = true;
+		}
 	}
 #endif
-		RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 HRESULT CCamera_Dynamic::Render()
@@ -366,7 +381,7 @@ void CCamera_Dynamic::Set_CamPos()
 	_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTarget = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vLook2 = vPos - vTarget;
-	
+
 	_float fDist = XMVectorGetX(XMVector3Length(vLook2));
 	m_fDist = fDist;
 	//맵의 임시 반지름
@@ -402,19 +417,19 @@ void CCamera_Dynamic::Set_CamPos()
 			m_fTurnCol = 1.f;
 		}
 	}
-	
+
 
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransform->Set_Rotation(_float3(0.f, m_fAngle - fAngleDot, 0.f));
 	_vector vLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
- 	_float fTime = 1.f;
+	_float fTime = 1.f;
 	vPos -= vLook * (fTime + m_fLookY) * (fDiameter * 0.5f) * m_fCamDist;
 	vPos.m128_f32[0] -= 3.f;
 	vPos.m128_f32[1] = 0.f;
 	vPos.m128_f32[1] += 5.5f;
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 }
- 
+
 void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 {
 	ConvertToViewPort(fTimeDelta);
@@ -501,9 +516,9 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 		if (m_fTurnCol <= 0.f)
 			m_bTargetTurn = true;
 	}
-	if(m_bTurn)
+	if (m_bTurn)
 		Check_Trun(fTimeDelta);
-	else if(m_bTargetTurn)
+	else if (m_bTargetTurn)
 		Check_TargetTrun(fTimeDelta);
 
 	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
@@ -517,7 +532,7 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 
 	if (m_bZoom)
 		Check_Zoom(fTimeDelta);
-	
+
 
 }
 void CCamera_Dynamic::Key_Input(_float fTimeDelta)
@@ -649,7 +664,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 
 
 	XMStoreFloat4(&m_vPlayerPos, matWVP.r[3]);
-	
+
 	m_vPlayerPos.x += 1.f;
 	m_vPlayerPos.x *= g_iWinSizeX / 2.f;
 
@@ -747,7 +762,7 @@ _bool CCamera_Dynamic::CheckSubChar()
 			!m_pTarget->Get_SubChar()->Get_PlayerInfo().bChange)
 			return true;
 	}
-	else if(!bPlayerSub && bTargetSub)
+	else if (!bPlayerSub && bTargetSub)
 	{
 		if (!m_pPlayer->Get_PlayerInfo().bChange && !m_pTarget->Get_PlayerInfo().bChange &&
 			!m_pPlayer->Get_SubChar()->Get_PlayerInfo().bChange)
@@ -781,10 +796,10 @@ void CCamera_Dynamic::Set_StartPos(_float fTimeDelta)
 	m_pTransform->LookAt(vPos);
 	XMStoreFloat4(&m_vLerpLook, vPos);
 	vPos.m128_f32[1] = 0.f;
-	
+
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-//	m_pTransform->
-//	m_pTransform->Set_Rotation(_float3(0.f, 30.f, 0.f));
+	//	m_pTransform->
+	//	m_pTransform->Set_Rotation(_float3(0.f, 30.f, 0.f));
 
 	_vector vLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
 
@@ -816,7 +831,7 @@ void CCamera_Dynamic::Set_StartPos(_float fTimeDelta)
 	else if (m_fFovTime < 9.3f && m_fFovTime > 1.f)
 	{
 		m_fFov += 0.15f;
-	//	m_fLookAtY += 0.3f;
+		//	m_fLookAtY += 0.3f;
 	}
 #endif
 	if (m_fLookAtY < 3.f)
@@ -828,7 +843,7 @@ void CCamera_Dynamic::Set_StartPos(_float fTimeDelta)
 	else if (m_fFov > 25.f)
 		m_fFov = 25.f;
 
-	
+
 	XMStoreFloat4(&m_vCamPos, m_pTransform->Get_State(CTransform::STATE_TRANSLATION));
 }
 
@@ -855,7 +870,7 @@ void CCamera_Dynamic::Check_Shake(_float fTimeDelta)
 		}
 		m_ShakeTime -= fTimeDelta;
 	}
-	
+
 }
 
 void CCamera_Dynamic::Camera_ShakeDown(_float fTimeDelta)
@@ -991,7 +1006,7 @@ void CCamera_Dynamic::Check_Trun(_float fTimeDelta)
 	_vector vLook2 = vPos - vTarget;
 
 	_float fDist = XMVectorGetX(XMVector3Length(vLook2));
-	
+
 	vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
 
 	_vector vTurnLook = m_p1P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION) - vPos;
@@ -1100,7 +1115,7 @@ void CCamera_Dynamic::QuestCam(_float fTimeDelta)
 
 	_vector vLookPos = { 0.f,m_fCamY,15.f,1.f };
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vLookPos);
-	
+
 	_matrix matRotY = XMMatrixRotationY(XMConvertToRadians(m_fQuestAngle));
 	_matrix matTarget = m_pNPC->Get_Transform()->Get_WorldMatrix();
 	_matrix matWorld = m_pTransform->Get_WorldMatrix() * matRotY * matTarget;
@@ -1124,14 +1139,14 @@ void CCamera_Dynamic::QuestCam(_float fTimeDelta)
 		m_fCamY += 0.1f;
 		if (m_fCamY > 7.f)
 			m_fCamY = 7.f;
-		if(!m_bCamTurn)
+		if (!m_bCamTurn)
 			m_fQuestFov += 1.f;
 		if (m_fQuestFov > 60.f)
 		{
 			m_fQuestFov = 60.f;
 			m_bCamTurn = true;
 		}
-		
+
 	}
 	if (m_bCamTurn)
 	{
@@ -1195,7 +1210,7 @@ void CCamera_Dynamic::Blur_VeryLow(CRenderer* _pRenderer)
 
 void CCamera_Dynamic::Blur_Low(CRenderer* _pRenderer)
 {
-	_pRenderer->Set_PointBlur(m_vAtPos,60.f,1.f,0.4f);
+	_pRenderer->Set_PointBlur(m_vAtPos, 60.f, 1.f, 0.4f);
 }
 
 void CCamera_Dynamic::Check_StoryCam()

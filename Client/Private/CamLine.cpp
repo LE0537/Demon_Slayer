@@ -16,7 +16,7 @@ CCamLine::CCamLine(const CCamLine & rhs)
 
 void CCamLine::Set_Pos(_float fX, _float fY, _float fZ)
 {
-	m_vPos[1] = _float3(fX, fY, fZ);
+	m_vPos[2] = _float3(fX, fY, fZ);
 	m_pVIBuffer_LineCom->Update(m_vPos[1], m_vPos[2]);
 }
 
@@ -86,7 +86,7 @@ HRESULT CCamLine::Render()
 
 
 	//	Cube Cluster
-	_matrix matWorld = XMMatrixTranslation(m_vPos[3].x, m_vPos[3].y, m_vPos[3].z);
+	_matrix matWorld = XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixTranslation(m_vPos[3].x, m_vPos[3].y, m_vPos[3].z);
 
 	if (FAILED(m_pShader_ModelCom->Set_RawValue("g_WorldMatrix", &XMMatrixTranspose(matWorld), sizeof(_float4x4))))
 		return E_FAIL;
@@ -104,7 +104,7 @@ HRESULT CCamLine::Render()
 	{
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShader_ModelCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
-		if (FAILED(m_pModelCom->Render(m_pShader_ModelCom, i, 0)))
+		if (FAILED(m_pModelCom->Render(m_pShader_ModelCom, i, 5)))
 			return E_FAIL;
 
 	}

@@ -38,6 +38,7 @@ private:
 private:/* For.CamAction */
 	void		Camera_Action(_float fTimeDelta);
 	void		Sort_CamNodes(CAMTYPE eCamType);
+	void		Sort_CamNodes(_int iIndex, CAMTYPE eCamType);
 
 	_bool			Window_LoadCams(_bool* bOpen);
 	_bool			Window_SaveCams(_bool* bOpen);
@@ -52,6 +53,8 @@ private:
 
 	CRenderer*			m_pRendererCom = nullptr;
 
+	_int				m_iLevel = LEVEL_GAMEPLAY;
+
 private:/* For.PostProcessing */
 	_float				m_fPostProcessingValue[CRenderer::VALUE_END] = {1.f, };
 
@@ -63,11 +66,10 @@ private:/*For.CamAction*/
 	_int						m_iNumCam[CAM_END] = { 0, };
 
 	vector<_float4>				m_vecCam[CAM_END];
-	vector<_float>				m_vecCamTime;
 	vector<class CCamLine*>		m_vecCamObjects[CAM_END];
 
-
-
+	vector<_float>				m_vecCamTime;
+	_int						m_iNumCamTime = 0;
 
 
 

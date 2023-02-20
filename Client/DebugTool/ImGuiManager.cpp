@@ -10,6 +10,7 @@
 #include "Shinobu.h"
 #include "Camera_Dynamic.h"
 #include "CamLine.h"
+#include "Layer.h"
 
 IMPLEMENT_SINGLETON(CImGuiManager)
 
@@ -50,6 +51,14 @@ HRESULT CImGuiManager::Initialize(ID3D11Device * pDevice, ID3D11DeviceContext * 
 
 	RELEASE_INSTANCE(CGameInstance);
 
+
+
+	for (_uint i = 0; i < 40; ++i)
+	{
+		m_strCamFiles[i] = new char[MAX_PATH];
+	}
+	Read_CamActionFiles();
+
 	return S_OK;
 }
 
@@ -80,6 +89,24 @@ void CImGuiManager::ShowGui(_float fTimeDelta)
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	if (m_iLevel != g_iLevel)
+	{
+		LEVEL eLevel = LEVEL_STATIC;
+		switch (g_iLevel)
+		{
+		case 1: eLevel = LEVEL_GAMEPLAY; break;
+		case 2: eLevel = LEVEL_ADVRUI; break;
+			//	case 3: eLevel = LEVEL_ 아카자
+		}
+		CGameObject* pGameObject = pGameInstance->Find_Layer(eLevel, L"Layer_Camera")->Get_LayerFront();
+		if (nullptr != pGameObject)
+		{
+			Safe_Release(m_pCamera);
+			m_pCamera = pGameObject;
+			Safe_AddRef(m_pCamera);
+		}
+		m_iLevel = g_iLevel;
+	}
 
 	if (ImGui::BeginTabBar("##tabs", ImGuiTabBarFlags_None))
 	{
@@ -95,7 +122,11 @@ void CImGuiManager::ShowGui(_float fTimeDelta)
 		}
 		if (ImGui::BeginTabItem("Cam_Action"))
 		{
-			Camera_Action(fTimeDelta);
+			if (nullptr != m_pCamera)
+			{
+				Camera_Action(fTimeDelta);
+			}
+
 			ImGui::EndTabItem();
 		}
 
@@ -212,8 +243,13 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	_int		iObjSize[CAM_END] = { (_int)m_vecCamObjects[CAM_EYE].size(), (_int)m_vecCamObjects[CAM_AT].size() };
 	static _int iFixCamIndex[CAM_END] = { 0, 0 };
 
+	static _int		iCamTimeIndex = 0;
+	static _int		iPreCamTimeIndex = 0;
+	static _float	fCamTime = 1.f;
+
 	m_iNumCam[CAM_EYE] = (_int)m_vecCam[CAM_EYE].size();
 	m_iNumCam[CAM_AT] = (_int)m_vecCam[CAM_AT].size();
+	m_iNumCamTime = (_int)m_vecCamTime.size();
 
 
 	//	Camera Action Pos
@@ -250,6 +286,8 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	{
 		m_vecCamObjects[eChoice][(iCamIndex[eChoice] - 1)]->Set_Pos(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2]);
 		XMStoreFloat4(&m_vecCam[eChoice][iCamIndex[eChoice]], XMVectorSet(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2], 1.f));
+
+		Sort_CamNodes(iCamIndex[eChoice], (CAMTYPE)eChoice);
 	}
 
 
@@ -258,23 +296,27 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	static _bool bInputCamName = false;
 	static char strEyeName[150][6] = { "" };
 	static char strAtName[150][6] = { "" };
+	static char strCamTimeName[150][6] = { "" };
 	if (false == bInputCamName)
 	{
 		strcpy_s(strEyeName[0], "None");
 		strcpy_s(strAtName[0], "None");
+		char cZero[6] = "0";
+		strcpy_s(strCamTimeName[0], sizeof(cZero), cZero);
 		for (_uint i = 1; i < 150; ++i)
 		{
 			char cTemp[6] = "";
 			_itoa_s(i, cTemp, sizeof(cTemp), 10);
 			strcpy_s(strEyeName[i], sizeof(cTemp), cTemp);
 			strcpy_s(strAtName[i], sizeof(cTemp), cTemp);
+			strcpy_s(strCamTimeName[i], sizeof(cTemp), cTemp);
 		}
 
 		bInputCamName = true;
 	}
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar;
 	ImGui::PushItemWidth(160);
-	ImGui::BeginChild("ChildL", ImVec2(ImGui::GetWindowWidth() * 0.45f, 130), true, window_flags);
+	ImGui::BeginChild("Eye", ImVec2(ImGui::GetWindowWidth() * 0.3f, 130), true, window_flags);
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("Eye"))
@@ -296,7 +338,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	}
 	ImGui::EndChild();
 	ImGui::SameLine();
-	ImGui::BeginChild("ChildR", ImVec2(ImGui::GetWindowWidth() * 0.45f, 130), true, window_flags);
+	ImGui::BeginChild("At", ImVec2(ImGui::GetWindowWidth() * 0.3f, 130), true, window_flags);
 	if (ImGui::BeginMenuBar())
 	{
 		if (ImGui::BeginMenu("At"))
@@ -348,12 +390,12 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 			}
 		}
 	}
+
 	if (0 != iCamIndex[CAM_EYE])
 		iFixCamIndex[CAM_EYE] = iCamIndex[CAM_EYE] - 1;		//	vector에 사용되는 인덱스.
 	else if (0 != iCamIndex[CAM_AT])
 		iFixCamIndex[CAM_AT] = iCamIndex[CAM_AT] - 1;		//	vector에 사용되는 인덱스.
-
-
+	
 
 
 	//	Push, Pop
@@ -367,9 +409,8 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		{
 			if (iCamIndex[eChoice] + 1 != m_iNumCam[eChoice])		//	사이에 집어넣기
 			{
-				//	std::vector<_float4>::iterator iter_Dest = m_vecCam[eChoice].begin() + (iCamIndex[eChoice] - 1);
 				_float4	vPosTemp = *(m_vecCam[eChoice].end() - 1);
-				for (std::vector<_float4>::iterator iter = m_vecCam[eChoice].begin() + (iCamIndex[eChoice]);
+				for (std::vector<_float4>::iterator iter = m_vecCam[eChoice].begin() + (iCamIndex[eChoice] + 1);
 					iter != m_vecCam[eChoice].end(); ++iter)
 				{
 					swap(*iter, vPosTemp);
@@ -419,8 +460,8 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		Safe_Release(*iter_Obj);
 		iter_Obj = m_vecCamObjects[eChoice].erase(iter_Obj);
 
-		auto iter_Eye = m_vecCam[eChoice].begin() + iFixCamIndex[eChoice];
-		m_vecCam[eChoice].erase(iter_Eye);
+		auto iter_EyeAt = m_vecCam[eChoice].begin() + iFixCamIndex[eChoice];
+		m_vecCam[eChoice].erase(iter_EyeAt);
 
 		Sort_CamNodes((CAMTYPE)eChoice);
 
@@ -434,8 +475,6 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 
 
-
-
 	if (ImGui::Button("Sort", ImVec2(ImGui::GetWindowWidth() * 0.12f, 20.f)))
 	{
 		for (_int CamType = 0; CamType < CAM_END; ++CamType)
@@ -446,8 +485,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	ImGui::SameLine();
 	if (ImGui::Button("Clear", ImVec2(ImGui::GetWindowWidth() * 0.12f, 20.f)))
 	{
-		m_vecCam[CAM_EYE].clear();
-		m_vecCam[CAM_AT].clear();
+		m_vecCam[eChoice].clear();
 
 		for (auto & iter : m_vecCamObjects[eChoice])
 		{
@@ -456,14 +494,91 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		}
 		m_vecCamObjects[eChoice].clear();
 
-		iCamIndex[CAM_EYE] = 0;
-		iPreCamIndex[CAM_EYE] = 0;
-		iCamIndex[CAM_AT] = 0;
-		iPreCamIndex[CAM_AT] = 0;
+		iCamIndex[eChoice] = 0;
+		iPreCamIndex[eChoice] = 0;
 
 		iObjSize[eChoice] = (_int)m_vecCamObjects[eChoice].size();
-		m_iNumCam[CAM_EYE] = (_int)m_vecCam[CAM_EYE].size();
-		m_iNumCam[CAM_AT] = (_int)m_vecCam[CAM_AT].size();
+		m_iNumCam[eChoice] = (_int)m_vecCam[eChoice].size();
+	}
+
+
+
+
+	//	Time
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.5f);
+	ImGui::DragFloat("Time", &fCamTime, 0.01f, 0.f, 7.f, "%.2f");
+	if (0.f > fCamTime)
+		fCamTime = 0.f;
+	if (m_iNumCamTime > iCamTimeIndex)
+		m_vecCamTime[iCamTimeIndex] = fCamTime;
+
+
+
+	ImGui::BeginChild("Time List", ImVec2(ImGui::GetWindowWidth() * 0.3f, 130), true, window_flags);
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Time"))
+		{
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+	for (_int i = 0; i < m_iNumCamTime; i++)
+	{
+		if (ImGui::Selectable(strCamTimeName[i], iCamTimeIndex == i))
+			iCamTimeIndex = i;
+	}
+	ImGui::EndChild();
+	if(m_iNumCamTime > iCamTimeIndex)
+		fCamTime = m_vecCamTime[iCamTimeIndex];
+
+
+	if (ImGui::Button("Time Push", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)))
+	{
+		m_vecCamTime.push_back(1.f);
+		m_iNumCamTime = m_vecCamTime.size();
+		if (1 != m_iNumCamTime)
+		{
+			if (iCamTimeIndex + 1 != m_iNumCamTime)		//	사이에 집어넣기
+			{
+				_float	fTimeTemp = *(m_vecCamTime.end() - 1);
+				for (std::vector<_float>::iterator iter = m_vecCamTime.begin() + (iCamIndex[eChoice] + 1);
+					iter != m_vecCamTime.end(); ++iter)
+				{
+					swap(*iter, fTimeTemp);
+				}
+			}
+		}
+		
+		++iCamTimeIndex;
+
+		fCamTime = 1.f;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Time Pop", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)) &&
+		0 < iCamTimeIndex)
+	{
+		auto iter = m_vecCamTime.begin() + iCamTimeIndex - 1;
+		iter = m_vecCamTime.erase(iter);
+
+		--iCamTimeIndex;
+
+		if(iter != m_vecCamTime.end())
+			fCamTime = *iter;
+	}
+
+
+
+
+	if (ImGui::Button("Time Clear", ImVec2(ImGui::GetWindowWidth() * 0.12f, 20.f)))
+	{
+		m_vecCamTime.clear();
+
+		iCamTimeIndex = 0;
+		iPreCamTimeIndex = 0;
+		fCamTime = 1.f;
+
+		m_iNumCamTime = 0;
 	}
 
 
@@ -473,21 +588,19 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	if (ImGui::CollapsingHeader("Setting Actions"))
 	{
 		//	Play Time
+		_float fTime = 0.f;
+		for (auto & iter : m_vecCamTime)
+			fTime += iter;
 		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.68f);
-		ImGui::SliderFloat("Time", &fSettingTime, 0.f, (_float)(m_iNumCam[CAM_EYE] - 3), "%f");
-
-		//	Test
-		vector<_float>	vTemp;
-		for (size_t i = 0; i < m_iNumCam[CAM_EYE]; ++i)
-			vTemp.push_back(1.f);
-		//	TestEnd
+		ImGui::SliderFloat("Full Time", &fSettingTime, 0.f, fTime, "%f");
 
 		//	Play CutScene
 		if (ImGui::Button("Play", ImVec2(ImGui::GetWindowWidth() * 0.15f, 20.f)))
 			bActionPlaying = true;
 		if (m_iNumCam[CAM_EYE] == m_iNumCam[CAM_AT] &&
+			m_iNumCam[CAM_EYE] == m_iNumCamTime +1 &&
 			true == bActionPlaying)
-			bActionPlaying = ((CCamera_Dynamic*)m_pCamera)->Play_CutScene(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], vTemp, &fSettingTime, fTimeDelta * (_float)bActionPlaying);
+			bActionPlaying = ((CCamera_Dynamic*)m_pCamera)->Play_CutScene(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, &fSettingTime, fTimeDelta * (_float)bActionPlaying);
 
 
 
@@ -514,7 +627,32 @@ void CImGuiManager::Sort_CamNodes(CAMTYPE eCamType)
 		_float3 vPos[4];
 		for (_int j = 0; j < 4; ++j)
 		{
-			_int	iIndex = max(min(i + j - 1, iObjSize), 0);		//	최소 = 0, 최대 = Size
+			_int	iIndex = max(min(i + j - 1, iObjSize - 1), 0);		//	최소 = 0, 최대 = Size
+			XMStoreFloat3(&vPos[j], XMLoadFloat4(&m_vecCam[eCamType][iIndex]));
+		}
+
+		m_vecCamObjects[eCamType][i]->Set_Pos(vPos);
+	}
+}
+
+void CImGuiManager::Sort_CamNodes(_int iIndex, CAMTYPE eCamType)
+{
+	if (0 > iIndex)
+		return;
+
+	_float3 vPos[4];
+	_int	iObjSize = (_int)m_vecCamObjects[eCamType].size();
+	if (2 > iObjSize)
+		return;
+
+	_int	iSortIndex = max(min(iIndex - 2, iObjSize - 1), 0);
+	_int	iSortFinal = max(min(iIndex + 2, iObjSize - 1), 0);
+	for (_int i = iSortIndex; i < iSortFinal; ++i)
+	{
+		_float3 vPos[4];
+		for (_int j = 0; j < 4; ++j)
+		{
+			_int	iIndex = max(min(i + j - 1, iObjSize - 1), 0);		//	최소 = 0, 최대 = Size
 			XMStoreFloat3(&vPos[j], XMLoadFloat4(&m_vecCam[eCamType][iIndex]));
 		}
 
@@ -584,32 +722,37 @@ _bool CImGuiManager::Window_LoadCams(_bool * bOpen)
 
 
 		_vector		vPos[4];
-		for (size_t iType = 0; iType < CAM_END; ++iType)
+		for (_int iType = 0; iType < CAM_END; ++iType)
 		{
 			_int		iCamSize = m_iNumCam[iType];
 
-			for (size_t i = 0; i < m_iNumCam[iType]; ++i)
+			for (_int i = 0; i < m_iNumCam[iType]; ++i)
 			{
 				if (3 < m_iNumCam[iType])
 				{
 					for (_int j = 0; j < 4; ++j)
 					{
-						_int	iIndex = max(min(i + j - 2, iCamSize), 0);		//	최소 = 0, 최대 = Size
+						_int	iIndex = max(min(i + j - 1, iCamSize - 1), 0);		//	최소 = 0, 최대 = Size
 						vPos[j] = XMLoadFloat4(&m_vecCam[iType][iIndex]);
 					}
 
-					CCamLine* pGameObject = nullptr;
-					CCamLine::CAMLINEDESC tCamLineDesc;
+					CGameObj* pGameObject = nullptr;
+					CCamLine::tagCamLineDesc tCamLineDesc;
 					tCamLineDesc.vColor = iType == CAM_EYE ? _float3(1.f, 0.f, 0.f) : _float3(0.f, 1.f, 0.f);
-
 					for (_int j = 0; j < 4; ++j)
 						XMStoreFloat3(&tCamLineDesc.vPos[j], vPos[j]);
-
 					pGameInstance->Add_GameObject(L"Prototype_GameObject_CamLine", LEVEL_STATIC, L"Layer_CamLine", &tCamLineDesc);
-					if (nullptr == pGameObject)
-						break;
+					if (nullptr == tCamLineDesc.pMe)
+					{
+						ERR_MSG(L"Failed to Create : CamLine");
+					}
+					else
+					{
+						m_vecCamObjects[iType].push_back(tCamLineDesc.pMe);
+						Safe_AddRef(tCamLineDesc.pMe);
+					}
 
-					m_vecCamObjects[iType].push_back(pGameObject);
+					Sort_CamNodes((CAMTYPE)iType);
 				}
 			}
 		}
@@ -1693,6 +1836,8 @@ void CImGuiManager::Free()
 	Safe_Release(m_pDevice);
 	Safe_Release(m_pContext);
 
+	Safe_Release(m_pCamera);
+
 	for (_int j = 0; j < CAM_END; ++j)
 	{
 		for (auto & iter : m_vecCamObjects[j])
@@ -1700,6 +1845,11 @@ void CImGuiManager::Free()
 			Safe_Release(iter);
 		}
 		m_vecCamObjects[j].clear();
+	}
+
+	for (_uint i = 0; i < 40; ++i)
+	{
+		Safe_Delete_Array(m_strCamFiles[i]);
 	}
 
 	//	Clear_CharacterList();
