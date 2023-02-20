@@ -58,7 +58,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts2()))
 		return E_FAIL;
 
-	if (m_i1p != 10)
+	if (m_i1p != 10 && m_i1p != 20)
 	{
 		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
 		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
@@ -115,6 +115,26 @@ HRESULT CTanjiro::Initialize(void * pArg)
 			vPos = { -100.f,3.204f,8.337f,1.f };
 			m_pTransformCom->Set_Rotation(_float3(0.f, 180.f, 0.f));
 		}
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+
+		m_pNavigationCom->Find_CurrentCellIndex(vPos);
+		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
+		CUI_Manager::Get_Instance()->Set_1P(this);
+		m_bStoryKey = true;
+		RELEASE_INSTANCE(CGameInstance);
+		m_i1p = 1;
+	}
+	else if (m_i1p == 20)
+	{
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVAKAZA, TEXT("Layer_Camera"))->Get_LayerFront())->Set_CamType(true);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVAKAZA, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		
+		_vector vPos = { 3.533f,5.701f,403.538f,1.f };
+	
+		m_pTransformCom->Set_Rotation(_float3(0.f, 180.f, 0.f));
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
@@ -188,6 +208,8 @@ void CTanjiro::Tick(_float fTimeDelta)
 			Set_Shadow();
 			Check_QuestEvent(fTimeDelta);
 		}
+		else if (g_iLevel == 3)
+			Set_Shadow();
 	}
 
 	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
@@ -515,7 +537,7 @@ HRESULT CTanjiro::Render_ShadowDepth()
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 	}
-	else if (g_iLevel == 2)
+	else if (g_iLevel == 2 || g_iLevel == 3)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);
@@ -651,6 +673,11 @@ HRESULT CTanjiro::Ready_Components()
 	if (m_i1p == 10)
 	{
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
+	else if(m_i1p == 20)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainNavi"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
 	else
