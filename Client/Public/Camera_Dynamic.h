@@ -25,6 +25,9 @@ private:
 	virtual ~CCamera_Dynamic() = default;
 
 public:
+	_bool 	Play_CutScene(vector<_float4> vecPositions, vector<_float4> vecLookAts, vector<_float> vecUseTime, _float* pOut, _float fTimeDelta);
+
+public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg)override;
 	virtual void Tick(_float fTimeDelta)override;

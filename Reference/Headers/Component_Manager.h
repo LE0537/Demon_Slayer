@@ -18,6 +18,7 @@
 #include "VIBuffer_Point_Instance.h"
 #include "VIBuffer_Particle_Instance.h"
 #include "VIBuffer_New_Particle_Instance.h"
+#include "VIBuffer_Line.h"
 
 
 BEGIN(Engine)

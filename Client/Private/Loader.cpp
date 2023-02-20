@@ -188,6 +188,8 @@
 #include "Murata.h"
 #include "Goto.h"
 #include "Ozaki.h"
+//CamAction
+#include "CamLine.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -1747,6 +1749,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	//	CBattleField::Create(m_pDevice, m_pContext))))
 	//	return E_FAIL;
 
+	//	CamAction
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CamLine"),
+		CCamLine::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 
 	// Navi
@@ -1756,6 +1762,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"),
 		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/RuiStory.nav")))))
 		return E_FAIL;
+
+
 #pragma region UI°´Ã¼
 	//UI
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_InteractionUI"),

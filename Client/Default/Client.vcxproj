@@ -228,6 +228,7 @@
     <ClInclude Include="..\Public\BtlFixedImg.h" />
     <ClInclude Include="..\public\Butterfly.h" />
     <ClInclude Include="..\Public\ButtonEff.h" />
+    <ClInclude Include="..\Public\CamLine.h" />
     <ClInclude Include="..\Public\CharSelMsg.h" />
     <ClInclude Include="..\public\CollBox.h" />
     <ClInclude Include="..\Public\1PIcon.h" />
@@ -637,6 +638,7 @@
     <ClCompile Include="..\private\Butterfly.cpp" />
     <ClCompile Include="..\Private\ButtonEff.cpp" />
     <ClCompile Include="..\Private\Camera_Dynamic.cpp" />
+    <ClCompile Include="..\Private\CamLine.cpp" />
     <ClCompile Include="..\Private\CharSelMsg.cpp" />
     <ClCompile Include="..\private\CollBox.cpp" />
     <ClCompile Include="..\Private\1PIcon.cpp" />
@@ -994,6 +996,7 @@
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxEffModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxEffPointInstance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxEffTex.hlsl" />
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxLine.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModel.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxModelInstance.hlsl" />
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxNorTex.hlsl" />

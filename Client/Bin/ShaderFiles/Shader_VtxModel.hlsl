@@ -24,6 +24,8 @@ float			g_iMulUV_V;
 
 float			g_fCurrentTime;
 
+float3			g_vColor;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -214,6 +216,24 @@ PS_ALPHAOUT PS_ALPHABLEND(PS_IN In)
 }
 
 
+
+struct PS_FINAL
+{
+	float4		vDiffuse : SV_TARGET0;
+};
+PS_FINAL PS_CAMCLUSTER(PS_IN In)
+{
+	PS_FINAL		Out = (PS_FINAL)0;
+
+	Out.vDiffuse.rgb = g_vColor;
+	Out.vDiffuse.a = 1.f;
+
+	return Out;
+}
+
+
+
+
 struct PS_FLOWMAP_IN
 {
 	float4		vPosition : SV_POSITION;
@@ -330,4 +350,16 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_FLOWMAP();
 	}
+
+	pass CamCluster		//	5
+	{
+		SetRasterizerState(RS_WireframeNonCull);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_CAMCLUSTER();
+	}
+
 }

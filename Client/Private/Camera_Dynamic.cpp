@@ -16,6 +16,69 @@ CCamera_Dynamic::CCamera_Dynamic(const CCamera_Dynamic & rhs)
 {
 }
 
+_bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float4> vecLookAts, vector<_float> vecUseTime, _float * pOut, _float fTimeDelta)
+{
+	_uint iSize = vecPositions.size();
+
+	if (iSize < 4 ||
+		(iSize != vecLookAts.size() || iSize != vecUseTime.size()))
+		return false;
+
+	static _float fCullTime = 0.f;
+	_int	iFrame = _int(fCullTime);				//	현재 프레임
+	if (iFrame == vecUseTime.size() - 1)			//	다음 프레임이 없다.
+		*pOut += fTimeDelta / (vecUseTime[iFrame]);		// 보간 X
+	else
+	{
+		_float fDecimal = fCullTime - iFrame;		//	다음 프레임의 할당 비율
+		*pOut += fTimeDelta / ((vecUseTime[iFrame] * (1.f - fDecimal)) + (vecUseTime[iFrame + 1]) * fDecimal);
+	}
+	fCullTime = *pOut;
+
+	if (fCullTime > _float(iSize) - 3.f)
+	{
+		fCullTime = *pOut = 0.f;
+		return false;				//	끝
+	}
+
+
+	iFrame = _int(fCullTime);
+	_float	fRatioTime = fCullTime - (_float)iFrame;
+	_vector vCamPos, vCamAt;
+	_vector vAt[4];
+	if (iSize - 4 > iFrame)
+	{
+		_vector vPos1 = XMLoadFloat4(&vecPositions[iFrame]);
+		_vector vPos2 = XMLoadFloat4(&vecPositions[iFrame + 1]);
+		_vector vPos3 = XMLoadFloat4(&vecPositions[iFrame + 2]);
+		_vector vPos4 = XMLoadFloat4(&vecPositions[iFrame + 3]);
+
+		for (_int i = 0; i < 4; ++i)
+			vAt[i] = XMLoadFloat4(&vecLookAts[iFrame + i]);
+
+		vCamPos = XMVectorCatmullRom(vPos1, vPos2, vPos3, vPos4, fRatioTime);
+		vCamAt = XMVectorCatmullRom(vAt[0], vAt[1], vAt[2], vAt[3], fRatioTime);
+	}
+	else
+	{
+		_vector vPos1 = XMLoadFloat4(&vecPositions[iSize - 4]);
+		_vector vPos2 = XMLoadFloat4(&vecPositions[iSize - 3]);
+		_vector vPos3 = XMLoadFloat4(&vecPositions[iSize - 2]);
+		_vector vPos4 = XMLoadFloat4(&vecPositions[iSize - 1]);
+
+		for (_int i = 0; i < 4; ++i)
+			vAt[i] = XMLoadFloat4(&vecLookAts[iSize - (4 - i)]);
+
+		vCamPos = XMVectorCatmullRom(vPos1, vPos2, vPos3, vPos4, fRatioTime);
+		vCamAt = XMVectorCatmullRom(vAt[0], vAt[1], vAt[2], vAt[3], fRatioTime);
+	}
+
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vCamPos);
+	m_pTransform->LookAt(vCamAt);
+
+	return true;
+}
+
 HRESULT CCamera_Dynamic::Initialize_Prototype()
 {
 	if (FAILED(__super::Initialize_Prototype()))
@@ -73,13 +136,13 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			fSpeed *= 10.f;
 
-		if (pGameInstance->Key_Pressing(DIK_1))
+		if (pGameInstance->Key_Pressing(DIK_UP))
 			m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-		if (pGameInstance->Key_Pressing(DIK_2))
+		if (pGameInstance->Key_Pressing(DIK_DOWN))
 			m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-		if (pGameInstance->Key_Pressing(DIK_3))
+		if (pGameInstance->Key_Pressing(DIK_LEFT))
 			m_pTransform->Go_Left(fTimeDelta * fSpeed);
-		if (pGameInstance->Key_Pressing(DIK_4))
+		if (pGameInstance->Key_Pressing(DIK_RIGHT))
 			m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 		if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))

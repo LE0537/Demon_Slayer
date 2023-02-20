@@ -1243,6 +1243,12 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState">
       <UniqueIdentifier>{d9ffca7e-630f-4a4f-97c8-d5f2a7f0b869}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\99.Cam">
+      <UniqueIdentifier>{12b748c4-dfc4-458f-a71c-a9c4c6a25874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\99.Cam\CamLine">
+      <UniqueIdentifier>{dc9e44c2-8145-4e2d-ba88-9250ce03c7c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2466,6 +2472,9 @@
     <ClInclude Include="..\Public\AngryState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CamLine.h">
+      <Filter>02.GameObjects\99.GameObj\99.Cam\CamLine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3662,6 +3671,9 @@
     <ClCompile Include="..\Private\AngryState.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\CamLine.cpp">
+      <Filter>02.GameObjects\99.GameObj\99.Cam\CamLine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -3717,6 +3729,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance_New.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxLine.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>
