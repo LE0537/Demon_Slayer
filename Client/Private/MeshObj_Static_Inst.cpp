@@ -2,7 +2,7 @@
 #include "..\Public\MeshObj_Static_Inst.h"
 
 #include "GameInstance.h"
-
+#include "Data_Manager.h"
 CMeshObj_Static_Inst::CMeshObj_Static_Inst(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObj(pDevice, pContext)
 {
@@ -70,7 +70,35 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
+	//if (pGameInstance->Key_Down(DIK_F6))
+	//{
+
+	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
+	//	char cName[MAX_PATH];
+	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
+	//	if (2106 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("TrainChiar1_Instancing"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2107 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("TrainChiar2_Instancing"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2108 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("TrainDoor_Instancing"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_NONANIM_INSTANCING);
+	//	RELEASE_INSTANCE(CData_Manager);
+
+	//}
+
+	//RELEASE_INSTANCE(CGameInstance);
 	if (false == m_bInit)
 	{
 		m_pModelCom->Update_Instancing(m_vecMatrix, 300000, fTimeDelta);
@@ -332,6 +360,9 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
 
 	case 2083: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Moon_Instancing"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
+	case 2106: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar1_Instancing"); m_fFrustumRadiusRatio = 5.f; break;
+	case 2107:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar2_Instancing"); m_fFrustumRadiusRatio = 5.f;  break;
+	case 2108:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainDoor_Instancing"); m_fFrustumRadiusRatio = 5.f;  break;
 
 	}
 

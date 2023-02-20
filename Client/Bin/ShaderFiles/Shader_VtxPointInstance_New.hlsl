@@ -132,7 +132,7 @@ void GS_MAIN(point GS_IN In[1], inout TriangleStream<GS_OUT> DataStream)
 		+ (In[0].vRight * (1 - g_bBillboard) * (1 - g_bYBillboard) * (1 - g_bBillboardTurn));
 
 	float3 vUp = ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y)) * g_bBillboard)
-		+ (float3(0.f, 1.f, 0.f) * g_bYBillboard)
+		+ (float3(0.f, 1.f, 0.f) * (In[0].vPSize.y) * g_bYBillboard)
 		+ ((normalize(cross(vLook, vRight)) * (In[0].vPSize.y)) * g_bBillboardTurn)
 		+ (In[0].vUp * (1 - g_bBillboard) * (1 - g_bYBillboard) * (1 - g_bBillboardTurn));
 

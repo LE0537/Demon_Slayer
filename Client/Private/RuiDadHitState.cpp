@@ -2,7 +2,7 @@
 #include "RuiDadHitState.h"
 #include "RuiDadIdleState.h"
 #include "GameInstance.h"
-
+#include "Effect_Manager.h"
 using namespace RuiDad;
 
 CHitState::CHitState(_float _fPow, STATE_TYPE eTYPE, _bool _bJump)
@@ -48,6 +48,15 @@ CRuiDadState * CHitState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 				{
 				case Client::CRuiDadState::TYPE_START:
 					pRuiDad->Get_Model()->Set_End(pRuiDad->Get_AnimIndex());
+					if (!m_bEffect)
+					{
+						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_FREE, pRuiDad);
+
+						RELEASE_INSTANCE(CEffect_Manager);
+						m_bEffect = true;
+					}
 					return new CHitState(0.f, TYPE_LOOP);
 					break;
 				case Client::CRuiDadState::TYPE_LOOP:
@@ -87,8 +96,31 @@ CRuiDadState * CHitState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 	//	Jump(pRuiDad, m_fJumpTime);
 	//}
 
-	if(m_bRuiDadDead== false)
-		pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
+
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	if (pGameInstance->Key_Down(DIK_1))
+	{
+		_float fCurrentDuration = pRuiDad->Get_Model()->Get_CurrentTime_Index(CRuiDad::ANIM_HIT_FULL);
+		int a = 0;
+	}
+
+
+	if (m_bRuiDadDead == false && pRuiDad->Get_AnimIndex() == CRuiDad::ANIM_HIT_FULL)
+	{
+		if (m_bReset == false)
+		{
+			_float4 vPos; XMStoreFloat4(&vPos, pRuiDad->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+			vPos.z -= 5.f;
+			pRuiDad->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMLoadFloat4(&vPos));
+			m_bReset = true;
+		}
+		pRuiDad->Get_Model()->Play_RuiDadHitAnim(fTimeDelta, true);
+	}
+	else if (m_bRuiDadDead == false)
+	{
+		pRuiDad->Get_Model()->Play_RuiDadHitAnim(fTimeDelta, false);
+	}
+		
 
 
 

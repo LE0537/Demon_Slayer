@@ -37,6 +37,7 @@ private:
 	_float m_fOriginPosY;
 	_bool m_bNextAnim = false;
 	_bool m_bRange = false;
+	_float EffectTime = 0.2f;
 };
 END
 END

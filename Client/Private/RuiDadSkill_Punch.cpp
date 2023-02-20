@@ -158,6 +158,17 @@ CRuiDadState * CSkill_PunchState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 	pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_SWING_GROUND, pRuiDad);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_SWING_SLASH, pRuiDad);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
+
 	return nullptr;
 }
 

@@ -54,10 +54,29 @@ CRuiDadState * CSkill_RushState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CRuiDadState::TYPE_START:
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_DASH_STARTGROUND, pRuiDad);
+	
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 		break;
 	case Client::CRuiDadState::TYPE_LOOP:
 		Move(pRuiDad, fTimeDelta);
+		EffectTime += fTimeDelta;
+		if (EffectTime > 0.2f)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_DASH_PLAYER, pRuiDad);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_DASH_GROUND, pRuiDad);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			EffectTime = 0.f;
+		}
 		if (m_bNextAnim == true)
 		{
 			return new CSkill_RushState(CRuiDadState::TYPE_END);
@@ -164,6 +183,15 @@ CRuiDadState * CSkill_RushState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 				else
 					pRuiDad->Get_Transform()->Go_Backward(fTimeDelta / 2.f, pRuiDad->Get_NavigationCom());
 			}
+		}
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_RUIDAD_DASH_ENDGROUND, pRuiDad);
+		
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
 		}
 		break;
 	case Client::CRuiDadState::TYPE_DEFAULT:

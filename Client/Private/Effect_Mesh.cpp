@@ -68,19 +68,36 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 		}
 		m_pTransformCom->Set_Scale(vSize);
 
-		m_fTurnSpeed += m_MeshInfo.fTurnFalloff;
-		if (m_fTurnSpeed < 0 && m_MeshInfo.fTurn > 0)
-			m_fTurnSpeed = 0.f;
+		if (!g_bDeathTime) {
+			m_fTurnSpeed += m_MeshInfo.fTurnFalloff;
+			if (m_fTurnSpeed < 0 && m_MeshInfo.fTurn > 0)
+				m_fTurnSpeed = 0.f;
 
-		if (m_fTurnSpeed > 0 && m_MeshInfo.fTurn < 0)
-			m_fTurnSpeed = 0.f;
+			if (m_fTurnSpeed > 0 && m_MeshInfo.fTurn < 0)
+				m_fTurnSpeed = 0.f;
 
-		if (m_MeshInfo.vTurnDirection.x == 1)
-			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), m_fTurnSpeed);
-		if (m_MeshInfo.vTurnDirection.y == 1)
-			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_fTurnSpeed);
-		if (m_MeshInfo.vTurnDirection.z == 1)
-			m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), m_fTurnSpeed);
+			if (m_MeshInfo.vTurnDirection.x == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), m_fTurnSpeed);
+			if (m_MeshInfo.vTurnDirection.y == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_fTurnSpeed);
+			if (m_MeshInfo.vTurnDirection.z == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), m_fTurnSpeed);
+		}
+		else if (g_bDeathTime) {
+			m_fTurnSpeed += m_MeshInfo.fTurnFalloff * 0.2f;
+			if (m_fTurnSpeed < 0 && m_MeshInfo.fTurn > 0)
+				m_fTurnSpeed = 0.f;
+
+			if (m_fTurnSpeed > 0 && m_MeshInfo.fTurn < 0)
+				m_fTurnSpeed = 0.f;
+
+			if (m_MeshInfo.vTurnDirection.x == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), m_fTurnSpeed * 0.2f);
+			if (m_MeshInfo.vTurnDirection.y == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_fTurnSpeed * 0.2f);
+			if (m_MeshInfo.vTurnDirection.z == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), m_fTurnSpeed * 0.2f);
+		}
 
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 
@@ -221,15 +238,6 @@ void CEffect_Mesh::Set_MeshInfo(MESH_INFO MeshInfo)
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, szRealPath, (CComponent**)&m_pModelCom)))
 		return;
 
-	if (strcmp("", m_MeshInfo.szMeshDissolve) != 0) {
-		char szDissolveName[MAX_PATH] = "Prototype_Component_Texture_";
-		strcat_s(szDissolveName, m_MeshInfo.szMeshDissolve);
-		_tchar			szDissolveRealPath[MAX_PATH] = TEXT("");
-		MultiByteToWideChar(CP_ACP, 0, szDissolveName, (_int)strlen(szDissolveName), szDissolveRealPath, MAX_PATH);
-
-		if (FAILED(__super::Add_Components(TEXT("Com_DissolveTexture"), LEVEL_STATIC, szDissolveRealPath, (CComponent**)&m_pDissolveTextureCom)))
-			return;
-	}
 
 	if (strcmp("", m_MeshInfo.szMeshDiffuse) != 0) {
 		char szDiffuseName[MAX_PATH] = "Prototype_Component_Texture_";
@@ -239,6 +247,16 @@ void CEffect_Mesh::Set_MeshInfo(MESH_INFO MeshInfo)
 		MultiByteToWideChar(CP_ACP, 0, szDiffuseName, (_int)strlen(szDiffuseName), szDiffuseRealPath, MAX_PATH);
 
 		if (FAILED(__super::Add_Components(TEXT("Com_DiffuseTexture"), LEVEL_STATIC, szDiffuseRealPath, (CComponent**)&m_pDiffuseTextureCom)))
+			return;
+	}
+
+	if (strcmp("", m_MeshInfo.szMeshDissolve) != 0) {
+		char szDissolveName[MAX_PATH] = "Prototype_Component_Texture_";
+		strcat_s(szDissolveName, m_MeshInfo.szMeshDissolve);
+		_tchar			szDissolveRealPath[MAX_PATH] = TEXT("");
+		MultiByteToWideChar(CP_ACP, 0, szDissolveName, (_int)strlen(szDissolveName), szDissolveRealPath, MAX_PATH);
+
+		if (FAILED(__super::Add_Components(TEXT("Com_DissolveTexture"), LEVEL_STATIC, szDissolveRealPath, (CComponent**)&m_pDissolveTextureCom)))
 			return;
 	}
 

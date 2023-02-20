@@ -44,9 +44,9 @@ private:
 
 	_float3				m_vSize;
 	_float3				m_vParticleRotation[2];
-						
+
 	_float4				m_vColor;
-						
+
 	VTXNEWPARTICLE*		m_pParticleData = nullptr;
 
 public:

@@ -2,7 +2,7 @@
 #include "..\Public\MeshObj_Smell_Inst.h"
 
 #include "GameInstance.h"
-
+#include "Data_Manager.h"
 CMeshObj_Smell_Inst::CMeshObj_Smell_Inst(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObj(pDevice, pContext)
 {
@@ -50,6 +50,36 @@ HRESULT CMeshObj_Smell_Inst::Initialize(void * pArg)
 void CMeshObj_Smell_Inst::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+
+	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	//if (pGameInstance->Key_Down(DIK_F6))
+	//{
+
+	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
+	//	char cName[MAX_PATH];
+	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
+	//	if (2087 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Smell1_Instancing"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2088 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Smell2_Instancing"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2089 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Smell3_Instancing"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_NONANIM_INSTANCING);
+	//	RELEASE_INSTANCE(CData_Manager);
+
+	//}
+
+	//RELEASE_INSTANCE(CGameInstance);
 
 	m_fAliveTime += fTimeDelta;
 

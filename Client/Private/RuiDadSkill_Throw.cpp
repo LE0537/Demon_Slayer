@@ -92,7 +92,7 @@ CRuiDadState * CSkill_ThrowState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 void CSkill_ThrowState::Enter(CRuiDad* pRuiDad)
 {
-	m_eStateId = STATE_ID::STATE_SKILL_COMMON;
+	m_eStateId = STATE_ID::STATE_SKILL_THROW;
 
 	pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIM_SKILL0);
 	pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_SKILL0, 0.01f);

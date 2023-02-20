@@ -388,7 +388,7 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 		return E_FAIL;
 
 	m_fMapGrayScaleTime += fTimeDelta;
-	if (10.f < m_fMapGrayScaleTime)
+	if (7.f < m_fMapGrayScaleTime)
 	{
 		m_bMapGrayScale = false;
 		m_fMapGrayScalePower = 0.f;
