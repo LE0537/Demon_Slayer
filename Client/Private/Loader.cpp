@@ -921,7 +921,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 90))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 91))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -1479,6 +1479,32 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("RuiDad_Throwing_Ground2"));
 		pEffect_Manager->Load_Effect(TEXT("RuiDad_Throwing_Ground3"));
 		pEffect_Manager->Load_Effect(TEXT("RuiDad_Throwing_Ground4"));
+
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Angry"));
+
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Attack1_1"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Attack1_2"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Attack2_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Attack2_Slash"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Attack3_End"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Attack3_Slash"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Attack3_Start"));
+
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Dash_EndGround"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Dash_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Dash_Player"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Dash_StartGround"));
+
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Free"));
+
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Jump_EndGround"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Jump_Ground_Mark"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Jump_Player_Down"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Jump_Player_Up"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Jump_Up"));
+
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Swing_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("RuiDad_Swing_Slash"));
 
 
 		RELEASE_INSTANCE(CEffect_Manager);
