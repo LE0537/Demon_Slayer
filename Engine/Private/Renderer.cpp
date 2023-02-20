@@ -391,6 +391,7 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 	if (10.f < m_fMapGrayScaleTime)
 	{
 		m_bMapGrayScale = false;
+		m_fMapGrayScalePower = 0.f;
 	}
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
