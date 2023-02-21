@@ -94,22 +94,25 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
+	if (FAILED(Load_Map(L"Layer_BackGround", "11_Map_Rui")))
+		return E_FAIL;
+
 	if (pUIManager->Get_SelMapNum() == 0)
 	{
-		if (FAILED(Load_Map(L"Layer_BackGround", "11_Map_Rui")))
+		if (FAILED(Load_StaticObjects("11_Rui")))
 			return E_FAIL;
 	}
 	else if (pUIManager->Get_SelMapNum() == 1)
 	{
-		//무한열차 맵 로드맵에서 바꾸거나 여기서 만들거나하면될듯요
+		if (FAILED(Load_StaticObjects("TrainBattle")))
+			return E_FAIL;
 	}
 
 
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
 
-	if (FAILED(Load_StaticObjects("11_Rui")))
-		return E_FAIL;
+	
 
 	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
 	m_pRendererCom = (CRenderer*)pOut;

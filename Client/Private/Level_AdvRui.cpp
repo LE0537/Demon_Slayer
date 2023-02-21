@@ -182,6 +182,7 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 			pUIManager->Set_Sel1P_2(4);
 			pUIManager->Set_Sel2P(6);
 			pUIManager->Set_Sel2P_2(99);
+			pUIManager->Set_SelMapNum(0);
 			pUIManager->Set_PlayerPos(vPos);
 			pUIManager->Set_RuiDadBattle(true);
 			if (FAILED(pGameInstance->Open_Level(LEVEL_GAMEPLAY, CLevel_GamePlay::Create(m_pDevice, m_pContext))))
@@ -197,7 +198,7 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 			pUIManager->Set_Sel1P_2(4);
 			pUIManager->Set_Sel2P(7);
 			pUIManager->Set_Sel2P_2(99);
-
+			pUIManager->Set_SelMapNum(0);
 			if (FAILED(pGameInstance->Open_Level(LEVEL_GAMEPLAY, CLevel_GamePlay::Create(m_pDevice, m_pContext))))
 				return;
 
