@@ -1380,9 +1380,6 @@
     <ClInclude Include="..\Public\TanjiroWeapon.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\UI_Manager.h">
-      <Filter>03.UI\99.Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\UI.h">
       <Filter>03.UI</Filter>
     </ClInclude>
@@ -2510,6 +2507,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Level_BattleEnmu.h">
       <Filter>01.Levels\10.Battle_Enmu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI_Manager.h">
+      <Filter>03.UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
