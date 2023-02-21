@@ -59,6 +59,23 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 
 	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 
+	if (g_iLevel == 3)
+	{
+		switch (m_tMyDesc.iTypeNum)
+		{
+		case 0:
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
+			break;
+		case 1:
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -500.f, 1.f));
+			break;
+		case 2:
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 500.f, 1.f));
+			break;
+		default:
+			break;
+		}
+	}
 
 	return S_OK;
 }
@@ -208,8 +225,8 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 	//}
 
 	//RELEASE_INSTANCE(CGameInstance);
-
-
+	if(g_iLevel == 3)
+		Move_Mesh(fTimeDelta);
 }
 
 void CMeshObj_Static::Late_Tick(_float fTimeDelta)
@@ -342,7 +359,7 @@ HRESULT CMeshObj_Static::Ready_Components()
 	CTransform::TRANSFORMDESC tTransformDesc;
 	ZeroMemory(&tTransformDesc, sizeof(CTransform::TRANSFORMDESC));
 	tTransformDesc.fRotationPerSec = XMConvertToRadians(90.f);
-	tTransformDesc.fSpeedPerSec = 5.f;
+	tTransformDesc.fSpeedPerSec = 20.f;
 
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &tTransformDesc)))
@@ -519,6 +536,22 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CMeshObj_Static::Move_Mesh(_float fTimeDelta)
+{
+	switch (m_tMyDesc.iModelIndex)
+	{
+	case 2097:
+		m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
+	
+		if (550.f < XMVectorGetZ(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)))
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -800.f, 1.f));
+
+		break;
+	default:
+		break;
+	}
 }
 
 CMeshObj_Static * CMeshObj_Static::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
