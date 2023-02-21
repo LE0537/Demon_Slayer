@@ -309,11 +309,11 @@ void CJumpSkill_MoveState::Enter(CNezuko* pNezuko)
 		m_fOriginPosY = pNezuko->Get_NavigationHeight().y;
 
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_MoveSkill1.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill1.wav"), fVOICE);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_MoveSkill2.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill2.wav"), fVOICE);
 		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_MoveSkill3.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill3.wav"), fVOICE);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_SKILL_MOVE_1);

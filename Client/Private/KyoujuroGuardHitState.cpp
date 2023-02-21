@@ -115,6 +115,7 @@ void CGuardHitState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_GUARD_HIT_0);
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_GUARD_HIT_0);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_GUARD_HIT_0, 0.01f);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_GuardHit.wav"), fEFFECT);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_GUARD_HIT_1);

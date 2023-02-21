@@ -133,6 +133,7 @@ void CJumpstate::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_JUMP_START);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_JUMP_START, 0.01f);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_START);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), fEFFECT);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_JUMP_LOOP);
@@ -143,6 +144,7 @@ void CJumpstate::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_JUMP_END);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_JUMP_END, 0.01f);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMP_END);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), fEFFECT);
 		break;
 	}
 

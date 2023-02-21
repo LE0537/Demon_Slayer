@@ -124,6 +124,7 @@ void CTakeDownState::Enter(CShinobu* pShinobu)
 			RELEASE_INSTANCE(CGameInstance);
 			g_bDeathTime = true;
 		}
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Hit_4.wav"), fVOICE);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_RETURN_1);
@@ -142,24 +143,6 @@ void CTakeDownState::Enter(CShinobu* pShinobu)
 	default:
 		break;
 	}
-
-
-
-	//_uint iRand = rand() % 4;
-
-	//if (iRand == 0)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_1.wav"), fEFFECT);
-	//else if (iRand == 1)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_2.wav"), fEFFECT);
-	//else if (iRand == 2)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_3.wav"), fEFFECT);
-	//else if (iRand == 3)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_4.wav"), fEFFECT);
-
-	//if (iRand == 0)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
-	//else if (iRand == 1)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
 
 
