@@ -372,6 +372,65 @@ HRESULT CCamera_Dynamic::Render()
 	return S_OK;
 }
 
+void CCamera_Dynamic::Set_TrainCamPos()
+{
+	if (nullptr == m_pPlayer ||
+		nullptr == m_pTarget)
+	{
+		return;
+	}
+	_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTarget = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vLook2 = vPos - vTarget;
+
+	_float fDist = XMVectorGetX(XMVector3Length(vLook2));
+	m_fDist = fDist;
+	//맵의 임시 반지름
+	_float fDiameter = 85.f;
+	m_fCamDist = fDist / fDiameter;
+	if (m_fCamDist > 1.f)
+		m_fCamDist = 1.f;
+	else if (m_fCamDist < 0.33f)
+		m_fCamDist = 0.33f;
+	vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
+
+	if (m_eTurn == CAM_RIGHT || m_eTurn == CAM_TARGETLEFT)
+	{
+		fAngleDot -= 3.f;
+		if (fAngleDot <= -360.f)
+			fAngleDot = 0.f;
+		fTurnAngle -= 3.f;
+		if (fTurnAngle <= 0.f)
+		{
+			m_eTurn = CAM_END;
+			m_fTurnCol = 1.f;
+		}
+	}
+	else if (m_eTurn == CAM_LEFT || m_eTurn == CAM_TARGETRIGHT)
+	{
+		fAngleDot += 3.f;
+		if (fAngleDot >= 360.f)
+			fAngleDot = 0.f;
+		fTurnAngle -= 3.f;
+		if (fTurnAngle <= 0.f)
+		{
+			m_eTurn = CAM_END;
+			m_fTurnCol = 1.f;
+		}
+	}
+
+
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	m_pTransform->Set_Rotation(_float3(0.f, m_fAngle - fAngleDot, 0.f));
+	_vector vLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
+	_float fTime = 1.f;
+	vPos -= vLook * (fTime + m_fLookY) * (fDiameter * 0.5f) * m_fCamDist;
+	vPos.m128_f32[0] -= 3.f;
+	vPos.m128_f32[1] = 16.f;
+	vPos.m128_f32[1] += 5.5f;
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+}
+
 void CCamera_Dynamic::Set_CamPos()
 {
 	if (nullptr == m_pPlayer ||
@@ -426,7 +485,12 @@ void CCamera_Dynamic::Set_CamPos()
 	_float fTime = 1.f;
 	vPos -= vLook * (fTime + m_fLookY) * (fDiameter * 0.5f) * m_fCamDist;
 	vPos.m128_f32[0] -= 3.f;
-	vPos.m128_f32[1] = 0.f;
+
+	if(g_iLevel == LEVEL_BATTLEENMU)
+		vPos.m128_f32[1] = 16.f;
+	else
+		vPos.m128_f32[1] = 0.f;
+
 	vPos.m128_f32[1] += 5.5f;
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 }
@@ -646,7 +710,10 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 
 
 	_vector vAtPos = XMVectorLerp(vPlayerPos, vTargetPos, 0.5f);
-	vAtPos.m128_f32[1] = 3.f;
+	if(g_iLevel == LEVEL_BATTLEENMU)
+		vAtPos.m128_f32[1] = 19.f;
+	else
+		vAtPos.m128_f32[1] = 3.f;
 	m_pTransform->LookAt(vAtPos);
 	XMStoreFloat3(&m_vAtPos, vAtPos);
 	_float fPlayerDist = XMVectorGetX(XMVector3Length(vPlayerLook));
