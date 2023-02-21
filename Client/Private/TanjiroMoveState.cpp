@@ -408,7 +408,6 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CMoveState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-
 	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	{
 		switch (m_eStateType)

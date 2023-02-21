@@ -146,7 +146,6 @@ void CCharIcon::Icon_Selected_GamePlay(wstring strName)
 		m_iImgNum = 30;
 	else if(strName == TEXT("아빠 거미"))
 		m_iImgNum = 2;
-	
 }
 
 void CCharIcon::Icon_Selected_SelectChar(_uint iLayerNum)

@@ -381,17 +381,13 @@ void CAtk_2_State::Enter(CKyoujuro * pKyoujuro)
 	_uint iRand = rand() % 3;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_Attack2_1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Attack2_1.wav"), fVOICE);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_Attack2_2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Attack2_2.wav"), fVOICE);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_Attack2_3.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Attack2_3.wav"), fVOICE);
 
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff1.wav"), fEFFECT);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff2.wav"), fEFFECT);
-
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Attack2.wav"), fEFFECT);
 }
 
 void CAtk_2_State::Exit(CKyoujuro * pKyoujuro)

@@ -126,6 +126,7 @@ void CJumpState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_JUMP_START);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_JUMP_START, 0.01f);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_JUMP_START);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), fEFFECT);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_JUMP_LOOP);
@@ -136,6 +137,7 @@ void CJumpState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_JUMP_END);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_JUMP_END, 0.01f);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_JUMP_END);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), fEFFECT);
 		break;
 	}
 }

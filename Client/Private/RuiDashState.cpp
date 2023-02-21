@@ -279,6 +279,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_F);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_F, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_F);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_0.wav"), fEFFECT);
 		}
 		else if (iIndex == 2)
 		{
@@ -286,6 +287,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_B);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_B, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_B);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_1.wav"), fEFFECT);
 		}
 		break;
 	case Client::DIR_LEFT:
@@ -295,6 +297,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_L_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_L_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_0.wav"), fEFFECT);
 		}
 		else if (iIndex == 2)
 		{
@@ -302,6 +305,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_R_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_R_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_1.wav"), fEFFECT);
 		}
 		break;
 	case Client::DIR_RIGHT:
@@ -311,6 +315,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_R_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_R_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_0.wav"), fEFFECT);
 		}
 		else if (iIndex == 2)
 		{
@@ -318,6 +323,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_L_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_L_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_1.wav"), fEFFECT);
 		}
 		break;
 	case Client::DIR_BACK:
@@ -327,6 +333,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_B);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_B, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_B);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_0.wav"), fEFFECT);
 		}
 		else if (iIndex == 2)
 		{
@@ -334,6 +341,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_F);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_F, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_F);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_1.wav"), fEFFECT);
 		}
 		break;
 	case Client::DIR_LF:
@@ -343,6 +351,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_L_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_L_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_0.wav"), fEFFECT);
 		}
 		else if (iIndex == 2)
 		{
@@ -350,6 +359,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_R_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_R_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_1.wav"), fEFFECT);
 		}
 		break;
 	case Client::DIR_RF:
@@ -359,6 +369,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_R_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_R_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_0.wav"), fEFFECT);
 		}
 		else if (iIndex == 2)
 		{
@@ -366,6 +377,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_L_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_L_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_1.wav"), fEFFECT);
 		}
 		break;
 	case Client::DIR_LB:
@@ -375,6 +387,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_L_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_L_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_0.wav"), fEFFECT);
 		}
 		else if (iIndex == 2)
 		{
@@ -382,6 +395,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_R_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_R_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_1.wav"), fEFFECT);
 		}
 		break;
 	case Client::DIR_RB:
@@ -391,6 +405,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_R_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_R_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_0.wav"), fEFFECT);
 		}
 		else if (iIndex == 2)
 		{
@@ -398,6 +413,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_L_01);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_L_01);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_1.wav"), fEFFECT);
 		}
 		break;
 	case Client::DIR_LEFT_DASH:
@@ -407,6 +423,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_L_02);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_L_02, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_L_02);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_0.wav"), fEFFECT);
 		}
 		else if (iIndex == 2)
 		{
@@ -414,6 +431,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_R_02);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_R_02, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_R_02);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_1.wav"), fEFFECT);
 		}
 		break;
 	case Client::DIR_RIGHT_DASH:
@@ -423,6 +441,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_R_02);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_R_02, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_R_02);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_0.wav"), fEFFECT);
 		}
 		else if (iIndex == 2)
 		{
@@ -430,6 +449,7 @@ void CDashState::Enter(CRui* pRui)
 			pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_DASH_L_02);
 			pRui->Get_Model()->Set_LinearTime(CRui::ANIMID::ANIM_DASH_L_02, 0.01f);
 			pRui->Set_AnimIndex(CRui::ANIM_DASH_L_02);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Dash_1.wav"), fEFFECT);
 		}
 		break;
 	case Client::DIR_STOP:
@@ -440,7 +460,7 @@ void CDashState::Enter(CRui* pRui)
 		break;
 	}
 
-
+	
 
 }
 

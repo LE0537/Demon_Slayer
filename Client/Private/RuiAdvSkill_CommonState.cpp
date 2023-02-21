@@ -70,7 +70,12 @@ void CAdvSkill_CommonState::Enter(CRui * pRui)
 	pRui->Get_Model()->Set_Loop(CRui::ANIM_ADVSKILL_COMMON);
 	pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_FriendAdvCommon.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_FriendAdvCommon.wav"), fVOICE);
+
+	if (pRui->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_SpCommonSkill.wav"), fEFFECT);
+	else
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpCommonSkill.wav"), fEFFECT);
 }
 
 void CAdvSkill_CommonState::Exit(CRui * pRui)

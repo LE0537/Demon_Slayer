@@ -197,12 +197,22 @@ void CJumpAttackState::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_JUMP_ATTACK;
 
+	_uint iRand = rand() % 3;
+
 	switch (m_eStateType)
 	{
 	case Client::CTanjiroState::TYPE_START:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_JUMPATTACK);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMPATTACK);
 		pTanjiro->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		if (iRand == 0)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack1_1.wav"), fVOICE);
+		else if (iRand == 1)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack1_2.wav"), fVOICE);
+		else if (iRand == 2)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack1_3.wav"), fVOICE);
+
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_JumpAttack.wav"), fEFFECT);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_JUMP_LOOP_END);

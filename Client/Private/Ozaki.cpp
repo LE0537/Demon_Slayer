@@ -241,7 +241,7 @@ void COzaki::Check_Event()
 				pUIManager->Set_Msg(TEXT("어,얼른 게급이 높은 사람을 데려와 줘..."));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Ozaki_Dialog_00.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Ozaki_Dialog_00.wav"), fVOICE);
 					m_bSoundCheck = true;
 				}
 				break;
@@ -251,7 +251,7 @@ void COzaki::Check_Event()
 				pUIManager->Set_Msg(TEXT("안 그러면 전부 죽여버리게 될 거야!"));
 				if (m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Ozaki_Dialog_01.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Ozaki_Dialog_01.wav"), fVOICE);
 					m_bSoundCheck = false;
 				}
 				break;
@@ -261,7 +261,7 @@ void COzaki::Check_Event()
 				pUIManager->Set_Msg(TEXT("부탁이야...."));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Ozaki_Dialog_02.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Ozaki_Dialog_02.wav"), fVOICE);
 					m_bSoundCheck = true;
 				}
 				break;

@@ -162,6 +162,7 @@ void CJumpstate::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = CTanjiroState::STATE_JUMP;
 
+	_uint iRand = rand() % 3;
 
 	switch (m_eStateType)
 	{
@@ -170,6 +171,13 @@ void CJumpstate::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_START, 0.01f);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_START);
 		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_START);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), fEFFECT);
+		if (iRand == 0)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_0.wav"), fVOICE);
+		else if (iRand == 1)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_1.wav"), fVOICE);
+		else if (iRand == 2)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_2.wav"), fVOICE);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_LOOP_START);
@@ -187,6 +195,7 @@ void CJumpstate::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_END);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_END);
 		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_END);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), fEFFECT);
 		break;
 	}
 

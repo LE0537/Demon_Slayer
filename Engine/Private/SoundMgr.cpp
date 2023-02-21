@@ -28,7 +28,8 @@ void CSoundMgr::Initialize()
 	if (Result != FMOD_OK)
 		return;
 
-	LoadSoundFile();
+	LoadEffectFile();
+	LoadVoiceFile();
 	LoadBGMFile();
 }
 void CSoundMgr::Free()
@@ -66,15 +67,33 @@ void CSoundMgr::PlayEffect(TCHAR * pSoundKey, float fVolume)
 	m_System->update();
 }
 
+void CSoundMgr::PlayVoice(TCHAR * pSoundKey, float fVolume)
+{
+	map<TCHAR*, FMOD::Sound*>::iterator iter;
+
+	iter = find_if(m_mapSound.begin(), m_mapSound.end(), [&](auto& iter)->bool
+	{
+		return !lstrcmp(pSoundKey, iter.first);
+	});
+
+	if (iter == m_mapSound.end())
+		return;
+
+	m_System->playSound(iter->second, 0, false, &m_Channel[SOUND_VOICE]);
+	m_Channel[SOUND_VOICE]->setVolume(fVolume);
+	m_System->update();
+}
+
 void CSoundMgr::BGM_Stop()
 {
 	m_Channel[SOUND_BGM]->stop();
 	m_Channel[SOUND_EFFECT]->stop();
+	m_Channel[SOUND_VOICE]->stop();
 }
 
-void CSoundMgr::Effect_Stop()
+void CSoundMgr::Effect_Stop(CHANNELID eType)
 {
-	m_Channel[SOUND_EFFECT]->stop();
+	m_Channel[eType]->stop();
 }
 
 void CSoundMgr::PlayBGM(TCHAR * pSoundKey, float fVolume)
@@ -129,7 +148,40 @@ void CSoundMgr::LoadBGMFile()
 	m_System->update();
 
 }
-void CSoundMgr::LoadSoundFile()
+void CSoundMgr::LoadVoiceFile()
+{
+	_finddatai64_t fd;
+	intptr_t hFile;
+
+	char szCurPath[128] = "../../Client/Sound/Voice/";
+	char szFullPath[128] = "";
+	hFile = _findfirsti64("../../Client/Sound/Voice/*.*", &fd);
+
+	do {
+		strcpy_s(szFullPath, szCurPath);
+
+		strcat_s(szFullPath, fd.name);
+
+		FMOD::Sound*     m_Sound = nullptr;
+
+		Result = m_System->createSound(szFullPath, FMOD_LOOP_OFF, 0, &m_Sound);
+
+		int iLength = (_int)strlen(fd.name) + 1;
+
+		TCHAR* pSoundKey = new TCHAR[iLength];
+		ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
+
+		MultiByteToWideChar(CP_ACP, 0, fd.name, iLength, pSoundKey, iLength);
+
+		m_mapSound.emplace(pSoundKey, m_Sound);
+
+	} while (_findnexti64(hFile, &fd) == 0);
+	_findclose(hFile);
+
+	m_System->update();
+
+}
+void CSoundMgr::LoadEffectFile()
 {
 
 	_finddatai64_t fd;

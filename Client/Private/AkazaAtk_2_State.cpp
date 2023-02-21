@@ -345,18 +345,18 @@ void CAtk_2_State::Enter(CAkaza* pAkaza)
 	_uint iRand = rand() % 4;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Attack2_1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Attack2_1.wav"), fVOICE);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Attack2_2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Attack2_2.wav"), fVOICE);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Attack2_3.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Attack2_3.wav"), fVOICE);
 	else if (iRand == 3)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Attack2_4.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Attack2_4.wav"), fVOICE);
 	
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
+	if (pAkaza->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_Attack_1.wav"), fEFFECT);
+	else
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Attack_1.wav"), fEFFECT);
 
 }
 

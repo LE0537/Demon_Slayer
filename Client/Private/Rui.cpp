@@ -443,6 +443,8 @@ void CRui::LateTickState(_float fTimeDelta)
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
 
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), fEFFECT);
+
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_fEffectTime = 0.f;
 	}

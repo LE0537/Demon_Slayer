@@ -350,18 +350,31 @@ void CAtk_1_State::Enter(CTanjiro * pTanjiro)
 
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_ATTACK_1);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_ATTACK_1);
-
+	
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Attack1_1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack1_1.wav"), fVOICE);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Attack1_2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack1_2.wav"), fVOICE);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Attack1_3.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack1_3.wav"), fVOICE);
 
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff1.wav"), fEFFECT);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff2.wav"), fEFFECT);
+	if (pTanjiro->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+	{
+		_uint iRand2 = rand() % 5;
+
+		if (iRand2 == 0)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_0.wav"), fEFFECT);
+		else if (iRand2 == 1)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_1.wav"), fEFFECT);
+		else if (iRand2 == 2)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_2.wav"), fEFFECT);
+		else if (iRand2 == 3)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_3.wav"), fEFFECT);
+		else if (iRand2 == 4)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_4.wav"), fEFFECT);
+	}
+	else
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_Attack_1.wav"), fEFFECT);
 
 }
 
