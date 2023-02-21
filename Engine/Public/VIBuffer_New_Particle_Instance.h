@@ -16,15 +16,18 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 
 public:
-	void Update(_float fTimeDelta, _float2 fScaleReduction, _float4x4 ParentMtr, _float iSpeedReduction, _float fGravity, _bool bSpeedKill);
+	void Update(_float fTimeDelta, _float2 fScaleReduction, _float4x4 ParentMtr, _float iSpeedReduction, _float fGravity, _bool bSpeedKill, _matrix matParent);
 
 	void Reset(_uint iMaxParticleNumber, _float* fLifeTime, _float* fSpeed, _float2* vTexScale, _uint iParticleType,
 		_float fAngle, _float fRadius, _float3 vSize, _float3* vRotation, _float4 vColor, _float fDuration, _float fShotTime,
-		_uint iOneParticleNumber, _float fCircleY, _float fCircleAngle);
+		_uint iOneParticleNumber, _float fCircleY, _float fCircleAngle, _bool bFollow, _bool bGravityTurn, _matrix matParent);
 
-	void Reset_One(_uint iNum);
+	void Reset_One(_uint iNum, _matrix matParent);
 
 private:
+	_bool				m_bFollow;
+	_bool				m_bGravityTurn;
+
 	_uint				m_iMaxParticleNum;
 	_uint				m_iParticleNum;
 	_uint				m_iShape;
@@ -48,6 +51,8 @@ private:
 	_float4				m_vColor;
 
 	VTXNEWPARTICLE*		m_pParticleData = nullptr;
+	_float4x4*			m_matWorld = nullptr;
+	_float4*			m_vGo = nullptr;
 
 public:
 	static CVIBuffer_NewParticle_Instance* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uint iNumInstance);

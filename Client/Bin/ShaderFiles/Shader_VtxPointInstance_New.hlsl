@@ -13,6 +13,8 @@ float			g_fTime;
 bool			g_bGlow;			//	글로우를 사용합니다.
 bool			g_bUseRGB;			//	텍스쳐의 RGB를 사용합니다. false == a 사요
 bool			g_bUseColor;		//	g_vColor를 사용합니다.. false == g_DiffuseTexture 사용
+bool			g_bAlphaDissolve;
+bool			g_bFollow;
 
 bool			g_bBillboard;
 bool			g_bYBillboard;
@@ -63,15 +65,20 @@ VS_OUT VS_MAIN(VS_IN In)
 
 	float4x4	TransformMatrix = float4x4(In.vRight, In.vUp, In.vLook, In.vTranslation);
 
-	vector		vPosition = mul(vector(In.vPosition, 1.f), mul(TransformMatrix, g_WorldMatrix));
+	vector		vPosition = mul(vector(In.vPosition, 1.f),
+		(1 - g_bFollow) * mul(TransformMatrix, g_WorldMatrix) + g_bFollow * TransformMatrix);
 
 	Out.vPosition = vPosition.xyz;
 	Out.vPSize.x = In.vPSize.x * length(In.vRight.xyz);
 	Out.vPSize.y = In.vPSize.y * length(In.vUp.xyz);
 
-	Out.vRight = mul(In.vRight, g_WorldMatrix);
+	/*Out.vRight = mul(In.vRight, g_WorldMatrix);
 	Out.vUp = mul(In.vUp, g_WorldMatrix);
-	Out.vLook = mul(In.vLook, g_WorldMatrix);
+	Out.vLook = mul(In.vLook, g_WorldMatrix);*/
+
+	Out.vRight = (1 - g_bFollow) * mul(In.vRight, g_WorldMatrix) + g_bFollow * In.vRight;
+	Out.vUp = (1 - g_bFollow) * mul(In.vUp, g_WorldMatrix) + g_bFollow * In.vUp;
+	Out.vLook = (1 - g_bFollow) * mul(In.vLook, g_WorldMatrix) + g_bFollow * In.vLook;
 
 	Out.vColor = In.vColor;
 	Out.vSize = In.vSize;
@@ -331,9 +338,11 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 	float fTexAlpha = saturate((1 - g_bUseRGB) * vTexture.a) + saturate(g_bUseRGB * vTexture.r);
 
 	float fTimeRatio = In.fTime / fFullTime;
-	saturate(In.fTime - fFullTime) / (fFullTime);
+	//saturate(In.fTime - fFullTime) / (fFullTime);
 
-	Out.vColor.a = saturate(saturate(g_bUseColor * (In.vColor.a * fTexAlpha)) + saturate((1 - g_bUseColor) * (fTexAlpha)));
+	float4 ColorAlpha = saturate(saturate(g_bUseColor * (In.vColor.a * fTexAlpha)) + saturate((1 - g_bUseColor) * (fTexAlpha)));
+
+	Out.vColor.a = saturate(ColorAlpha - g_bAlphaDissolve * fTimeRatio);
 	//Out.vColor.a = saturate(Out.vColor.a - ((g_fTime - In.fStartTime - fFullTime * g_fAlphaRatio) / (fFullTime * (1 - g_fAlphaRatio))));
 
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
