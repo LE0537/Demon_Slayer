@@ -62,7 +62,7 @@ HRESULT CLevel_AdvAkaza::Initialize()
 {
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
-
+	g_iLevel = 3;
 	g_bThread = true;
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
@@ -129,7 +129,7 @@ HRESULT CLevel_AdvAkaza::Initialize()
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	g_iLevel = 3;
+	
 
 	return S_OK;
 }
@@ -436,29 +436,30 @@ HRESULT CLevel_AdvAkaza::Load_StaticObjects(char * pFileName)
 
 			switch (tMeshObj_Static_InstDesc.iModelIndex)
 			{
-			case 2019:
-				//for (_uint i = 0; i < Pair.second; ++i)
-				//{
-				//	tCharacterDesc1p.i1P2P = 10;
-				//	tCharacterDesc1p.matWorld = arrWorld[i];
-				//	tCharacterDesc1p.pSubChar = tCharacterDesc.pSubChar;
-				//	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Butterfly"), LEVEL_ADVAKAZA, TEXT("Layer_Ani"), &tCharacterDesc1p)))
-				//		return E_FAIL;
-				//}
-				//Safe_Delete_Array(arrWorld);
-				//Safe_Delete_Array(arrGlowPower);
-				//continue;
+			case 2001:
+			case 2002:
+			case 2003:
+			case 2046:
+			case 2081:
+				for (_int i = 0; i < 3; ++i)
+				{
+					tMeshObj_Static_InstDesc.iTypeNum = i;
+					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static_Instancing", LEVEL_ADVAKAZA, L"Layer_MeshObj_Static_Inst", &tMeshObj_Static_InstDesc)))
+					{
+						ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects_Instancing");
+						continue;
+					}
+				}
 				break;
 			default:
 				break;
 			}
-
+			tMeshObj_Static_InstDesc.iTypeNum = 4;
 			if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static_Instancing", LEVEL_ADVAKAZA, L"Layer_MeshObj_Static_Inst", &tMeshObj_Static_InstDesc)))
 			{
 				ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects_Instancing");
 				continue;
 			}
-
 			Safe_Delete_Array(arrWorld);
 			Safe_Delete_Array(arrGlowPower);
 		}
@@ -491,15 +492,22 @@ HRESULT CLevel_AdvAkaza::Load_StaticObjects(char * pFileName)
 				tCharacterDesc1p.pSubChar = tCharacterDesc.pSubChar;
 				switch (tMeshObj_StaticDesc.iModelIndex)
 				{
-				case 2019:
-					//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Butterfly"), LEVEL_ADVAKAZA, TEXT("Layer_Ani"), &tCharacterDesc1p)))
-					//	return E_FAIL;
-					//continue;
+				case 2097:
+					for (_int i = 0; i < 3; ++i)
+					{
+						tMeshObj_StaticDesc.iTypeNum = i;
+						if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static", LEVEL_ADVAKAZA, L"Layer_MeshObj_Static", &tMeshObj_StaticDesc)))
+						{
+							ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects");
+							continue;
+						}
+					}
+					continue;
 					break;
 				default:
 					break;
 				}
-
+				tMeshObj_StaticDesc.iTypeNum = 4;
 				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Static", LEVEL_ADVAKAZA, L"Layer_MeshObj_Static", &tMeshObj_StaticDesc)))
 				{
 					ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects");
