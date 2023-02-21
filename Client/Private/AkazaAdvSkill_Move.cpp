@@ -331,6 +331,7 @@ void CAdvSkill_MoveState::Enter(CAkaza* pAkaza)
 		m_vTargetPosition = XMVector3Normalize(vTargetPosition - vMyPosition);
 		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_FriendMove.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SpMoveAttack.wav"), fEFFECT);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_ADVSKILL_MOVE_1);
@@ -344,6 +345,8 @@ void CAdvSkill_MoveState::Enter(CAkaza* pAkaza)
 		m_vVelocity.x = 1.f;
 		m_vVelocity.y = 0.f;
 		m_vVelocity.z = 1.f;
+		if (pAkaza->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_SpMoveAttack.wav"), fEFFECT);
 		break;
 	case Client::CAkazaState::TYPE_END:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_ADVSKILL_MOVE_2);

@@ -2509,7 +2509,7 @@
       <Filter>01.Levels\10.Battle_Enmu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Manager.h">
-      <Filter>03.UI</Filter>
+      <Filter>03.UI\99.Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

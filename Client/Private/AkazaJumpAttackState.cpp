@@ -196,6 +196,10 @@ void CJumpAttackState::Enter(CAkaza* pAkaza)
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_JUMPATTACK);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_JUMPATTACK, false);
 		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		if (pAkaza->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_JumpAttack.wav"), fEFFECT);
+		else
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_JumpAttack.wav"), fEFFECT);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_JUMP_LOOP_END);
