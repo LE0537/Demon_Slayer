@@ -224,7 +224,7 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 
 	//}
 
-	//RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CGameInstance);
 	if(g_iLevel == 3)
 		Move_Mesh(fTimeDelta);
 }

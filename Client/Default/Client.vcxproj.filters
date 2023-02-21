@@ -1249,6 +1249,9 @@
     <Filter Include="01.Levels\10.Battle_Enmu">
       <UniqueIdentifier>{3fb48467-bbe9-49e0-88c4-4a02f0356a06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\02.Map\05.Door">
+      <UniqueIdentifier>{a4a956d4-2dc3-4c51-a306-0e3e407495c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2478,6 +2481,9 @@
     <ClInclude Include="..\public\Level_BattleEnmu.h">
       <Filter>01.Levels\10.Battle_Enmu</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Door.h">
+      <Filter>02.GameObjects\02.Map\05.Door</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3679,6 +3685,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_BattleEnmu.cpp">
       <Filter>01.Levels\10.Battle_Enmu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Door.cpp">
+      <Filter>02.GameObjects\02.Map\05.Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

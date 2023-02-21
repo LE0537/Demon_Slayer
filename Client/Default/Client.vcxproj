@@ -241,6 +241,7 @@
     <ClInclude Include="..\Public\ComboHitDeco.h" />
     <ClInclude Include="..\Public\ComboHitTxt.h" />
     <ClInclude Include="..\Public\ComboNum.h" />
+    <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\Public\Effect_Particle_New.h" />
     <ClInclude Include="..\public\Deer.h" />
     <ClInclude Include="..\public\Deer2.h" />
@@ -652,6 +653,7 @@
     <ClCompile Include="..\Private\ComboHitDeco.cpp" />
     <ClCompile Include="..\Private\ComboHitTxt.cpp" />
     <ClCompile Include="..\Private\ComboNum.cpp" />
+    <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\Private\Effect_Particle_New.cpp" />
     <ClCompile Include="..\private\Deer.cpp" />
     <ClCompile Include="..\private\Deer2.cpp" />

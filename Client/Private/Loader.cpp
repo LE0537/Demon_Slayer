@@ -15,7 +15,7 @@
 #include "MeshObj_Static_Inst.h"
 #include "MeshObj_Smell.h"
 #include "MeshObj_Smell_Inst.h"
-
+#include "Door.h"
 //Player 
 #include "Player.h"
 //char
@@ -850,7 +850,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MeshObj_Static_Instancing"),
 			CMeshObj_Static_Inst::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
-
+		//Door
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Door"),
+			CDoor::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
 
 		//	Smell
@@ -933,6 +936,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region Map
 	{
+
 	//	Skybox
 		/*For.Prototype_Component_Texture_SkyBox */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkyBox"), CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/SkyBox/SkyBox_11.dds", 1)))) return E_FAIL;
