@@ -176,7 +176,7 @@ void CHinoCami_CinemaState::Exit(CTanjiro * pTanjiro)
 
 CTanjiroState * CHinoCami_CinemaState::Scene_Start(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	if (pTanjiro->Get_Model()->Get_End(CHinoCami_CinemaState::ANIM_SCENE_START))
+	/*if (pTanjiro->Get_Model()->Get_End(CHinoCami_CinemaState::ANIM_SCENE_START))
 	{
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_LOOP);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_LOOP);
@@ -184,6 +184,16 @@ CTanjiroState * CHinoCami_CinemaState::Scene_Start(CTanjiro * pTanjiro, _float f
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_MOVE_LOOP, 0.01f);
 
 		pTanjiro->Get_Model()->Set_End(CHinoCami_CinemaState::ANIM_SCENE_START);
+	}*/
+
+	if (pTanjiro->Get_Model()->Get_CurrentTime_Index(CHinoCami_CinemaState::ANIM_SCENE_START) >= 40.f)
+	{
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_LOOP);
+		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_LOOP);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_MOVE_LOOP, true);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_MOVE_LOOP, 0.01f);
+
+		pTanjiro->Get_Model()->Reset_Anim(CHinoCami_CinemaState::ANIM_SCENE_START);
 	}
 
 	if (pTanjiro->Get_AnimIndex() == CTanjiro::ANIMID::ANIM_MOVE_LOOP)
