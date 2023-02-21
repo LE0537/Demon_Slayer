@@ -13,7 +13,8 @@
 #include "MeshObj_Smell_Inst.h"
 #include "Tanjiro.h"
 #include "Characters.h"
-
+#include  "Door.h"
+#include "Level_BattleEnmu.h"
 unsigned int APIENTRY Thread_AdvAkaza(void* pArg)
 {
 	CLevel_AdvAkaza*		pLoader = (CLevel_AdvAkaza*)pArg;
@@ -148,6 +149,20 @@ void CLevel_AdvAkaza::Tick(_float fTimeDelta)
 			DeleteCriticalSection(&m_CriticalSection);
 			m_bTread = true;
 		}
+		CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+		if (pUIManager->Get_EnmuBattle())
+		{
+			pUIManager->Set_Sel1P(0);
+			pUIManager->Set_Sel1P_2(4);
+			pUIManager->Set_Sel2P(8);
+			pUIManager->Set_Sel2P_2(99);
+			
+			if (FAILED(pGameInstance->Open_Level(LEVEL_BATTLEENMU, CLevel_BattleEnmu::Create(m_pDevice, m_pContext))))
+				return;
+		}
+		RELEASE_INSTANCE(CUI_Manager);
+		RELEASE_INSTANCE(CGameInstance);
 	}
 }
 
@@ -432,7 +447,8 @@ HRESULT CLevel_AdvAkaza::Load_StaticObjects(char * pFileName)
 			tMeshObj_Static_InstDesc.iModelIndex = Pair.first;
 			tMeshObj_Static_InstDesc.iNumInstancing = iNumInstancing;
 
-			CLevel_GamePlay::CHARACTERDESC	tCharacterDesc1p;
+			CDoor::DOOR_DESC	tCharacterDesc1p;
+			tCharacterDesc1p.m_pPlayer = m_pPlayer;
 
 			switch (tMeshObj_Static_InstDesc.iModelIndex)
 			{
@@ -450,6 +466,16 @@ HRESULT CLevel_AdvAkaza::Load_StaticObjects(char * pFileName)
 						continue;
 					}
 				}
+				break;
+			case 2108:
+				for (_uint i = 0; i < Pair.second; ++i)
+				{
+					tCharacterDesc1p.iModelIndex = i;
+					tCharacterDesc1p.matWorld = tMeshObj_Static_InstDesc.pWorld[i];
+					if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Door"), LEVEL_ADVAKAZA, TEXT("Layer_Door"), &tCharacterDesc1p)))
+						return E_FAIL;
+				}
+				continue;
 				break;
 			default:
 				break;

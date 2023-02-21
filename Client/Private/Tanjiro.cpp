@@ -60,9 +60,16 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	if (m_i1p != 10 && m_i1p != 20)
 	{
-		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
-		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
-
+		if (g_iLevel == 4)
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-0.435f,16.413f,208.616f,1.f));
+			m_pNavigationCom->Find_CurrentCellIndex(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+		}
+		else
+		{
+			m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
+			m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
+		}
 
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
@@ -72,7 +79,10 @@ HRESULT CTanjiro::Initialize(void * pArg)
 			*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
 			if (m_i1p == 1)
 			{
-				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+				if (g_iLevel == 4)
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+				else
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
 				CUI_Manager::Get_Instance()->Set_1P(this);
 			}
@@ -680,11 +690,17 @@ HRESULT CTanjiro::Ready_Components()
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainNavi"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
+	else if (g_iLevel == 4)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainBattle"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
 	else
 	{
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
+	
 	return S_OK;
 }
 
