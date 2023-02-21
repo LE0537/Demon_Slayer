@@ -13,8 +13,9 @@ public:
 	enum SCENE_ANIM
 	{
 		ANIM_SCENE_START = 30,
-
-
+		ANIM_SCENE_0_START = 14,
+		ANIM_SCENE_0_LOOP = 15,
+		ANIM_SCENE_0_END = 16,
 
 	};
 public:
@@ -29,7 +30,12 @@ public:
 	virtual void Exit(CShinobu* pShinobu) override;
 
 	CShinobuState* Scene_Start(CShinobu* pShinobu, _float fTimeDelta);
+	CShinobuState* Scene_0(CShinobu* pShinobu, _float fTimeDelta);
 
+
+	void Increase_Height(CShinobu* pShinobu, _float fTimeDelta);
+	void Decrease_Height(CShinobu* pShinobu, _float fTimeDelta);
+	void Initialize_Value(CShinobu* pShinobu, _float fTimeDelta);
 
 private:
 	CINEMASCENE m_eScene = SCENE_END;

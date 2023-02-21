@@ -278,6 +278,7 @@
     <ClInclude Include="..\Public\NezukoTargetRushState.h" />
     <ClInclude Include="..\public\ChangeBar.h" />
     <ClInclude Include="..\Public\NezukoUpperHitState.h" />
+    <ClInclude Include="..\Public\Nezuko_CinemaState.h" />
     <ClInclude Include="..\Public\OniSpecialSkillBar.h" />
     <ClInclude Include="..\Public\QuiestGuideBase.h" />
     <ClInclude Include="..\Public\QuiestKeyUI.h" />
@@ -690,6 +691,7 @@
     <ClCompile Include="..\Private\NezukoTargetRushState.cpp" />
     <ClCompile Include="..\private\ChangeBar.cpp" />
     <ClCompile Include="..\Private\NezukoUpperHitState.cpp" />
+    <ClCompile Include="..\Private\Nezuko_CinemaState.cpp" />
     <ClCompile Include="..\Private\OniSpecialSkillBar.cpp" />
     <ClCompile Include="..\Private\QuiestGuideBase.cpp" />
     <ClCompile Include="..\Private\QuiestKeyUI.cpp" />

@@ -1252,6 +1252,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState">
       <UniqueIdentifier>{51f8089c-eb29-4602-95c5-68415ae68043}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState">
+      <UniqueIdentifier>{f5dec784-ebc4-4eba-bdd8-eb8a5f86951c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2484,6 +2487,9 @@
     <ClInclude Include="..\Public\Shinobu_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Nezuko_CinemaState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3688,6 +3694,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Shinobu_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Nezuko_CinemaState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

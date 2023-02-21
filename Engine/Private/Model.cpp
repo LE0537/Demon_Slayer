@@ -241,6 +241,7 @@ HRESULT CModel::Play_Animation3(_float fTimeDelta)
 }
 HRESULT CModel::Play_RuiDadHitAnim(_float fTimeDelta, _bool bRemoveTranslation)
 {
+	//dd
 
 	if (m_iCurrentAnimIndex != m_iPrevAnimIndex)
 	{

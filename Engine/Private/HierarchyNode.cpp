@@ -139,7 +139,7 @@ void CHierarchyNode::RuiDad_Invalidate_CombinedTransformationmatrix(_bool bRemov
 			_float4 vTemp = *(_float4*)&OriginMatrixTranslation.r[3];
 			//vTemp.x += 5.f;
 			//vTemp.y += 5.f;
-			vTemp.z += 5.f;
+			vTemp.z += 7.f;
 			*(_float4*)&OriginMatrixTranslation.r[3] = vTemp;
 
 			XMStoreFloat4x4(&m_TransformationMatrix, OriginMatrixTranslation);
