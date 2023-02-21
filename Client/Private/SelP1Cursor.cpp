@@ -121,7 +121,7 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 	{
 		if (pGameInstance->Key_Down(DIK_Q))
 		{
-			CSoundMgr::Get_Instance()->Effect_Stop();
+			CSoundMgr::Get_Instance()->Effect_Stop(SOUND_VOICE);
 			if (m_SelectInfo.bOni)
 			{
 				m_iSelCount = 0;
@@ -263,22 +263,22 @@ void CSelP1Cursor::PlayVoiceSound()
 	switch (m_iFrameLayerNum)
 	{
 	case 0:
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("TanjiroSelect.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("TanjiroSelect.wav"), fVOICE);
 		break;
 	case 1:
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KyojuroSelect.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("KyojuroSelect.wav"), fVOICE);
 		break;
 	case 2:
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiSelect.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiSelect.wav"), fVOICE);
 		break;
 	case 3:
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("AkazaSelect.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("AkazaSelect.wav"), fVOICE);
 		break;
 	case 4:
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("NezukoSelect.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("NezukoSelect.wav"), fVOICE);
 		break;
 	case 5:
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("ShinobuSelect.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("ShinobuSelect.wav"), fVOICE);
 		break;
 	default:
 		break;

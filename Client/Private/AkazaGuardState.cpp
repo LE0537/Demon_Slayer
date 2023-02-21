@@ -114,6 +114,7 @@ void CGuardState::Enter(CAkaza* pAkaza)
 	case Client::CAkazaState::TYPE_START:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_GUARD_0);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_GUARD_0);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Guard.wav"), fEFFECT);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_GUARD_1);

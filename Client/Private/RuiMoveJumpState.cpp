@@ -272,6 +272,7 @@ void CMoveJumpState::Enter(CRui* pRui)
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_JUMP_START);
 		pRui->Get_Model()->Set_LinearTime(CRui::ANIM_JUMP_START, 0.01f);
 		pRui->Set_AnimIndex(CRui::ANIM_JUMP_START);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), fEFFECT);
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_JUMP_LOOP);
@@ -282,6 +283,7 @@ void CMoveJumpState::Enter(CRui* pRui)
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_JUMP_END);
 		pRui->Get_Model()->Set_LinearTime(CRui::ANIM_JUMP_END, 0.01f);
 		pRui->Set_AnimIndex(CRui::ANIM_JUMP_END);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), fEFFECT);
 		break;
 	}
 

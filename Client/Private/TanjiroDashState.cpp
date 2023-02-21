@@ -421,6 +421,18 @@ void CDashState::Enter(CTanjiro * pTanjiro)
 		break;
 	}
 
+	_uint iRand = rand() % 3;
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_0.wav"), fVOICE);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_1.wav"), fVOICE);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_2.wav"), fVOICE);
+
+	if(iIndex == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_DashFirst.wav"), fEFFECT);
+	else if(iIndex == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_DashSecond.wav"), fEFFECT);
 }
 
 void CDashState::Exit(CTanjiro * pTanjiro)

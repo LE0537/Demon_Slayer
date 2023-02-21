@@ -32,12 +32,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevel)
 		m_pLoader = CLoader::Create(m_pDevice, m_pContext, eNextLevel);
 		if (nullptr == m_pLoader)
 			return E_FAIL;
-	}
-
-
-	CSoundMgr::Get_Instance()->BGM_Stop();
-	CSoundMgr::Get_Instance()->Effect_Stop();
-	
+	}	
 
 	return S_OK;
 }

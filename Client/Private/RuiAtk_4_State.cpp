@@ -339,14 +339,14 @@ void CAtk_4_State::Enter(CRui* pRui)
 	_uint iRand = rand() % 2;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Attack4_1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack4_1.wav"), fVOICE);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Attack4_2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack4_2.wav"), fVOICE);
 
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff1.wav"), fEFFECT);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff2.wav"), fEFFECT);
+	if (pRui->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_Attack_3.wav"), fEFFECT);
+	else
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Attack_3.wav"), fEFFECT);
 }
 
 void CAtk_4_State::Exit(CRui* pRui)

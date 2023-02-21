@@ -112,6 +112,7 @@ void CGuardState::Enter(CTanjiro * pTanjiro)
 	case Client::CTanjiroState::TYPE_START:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_GUARD_0);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_GUARD_0);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_Guard.wav"), fEFFECT);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_GUARD_1);

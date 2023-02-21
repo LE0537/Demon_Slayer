@@ -149,7 +149,12 @@ void CAdvSkill_MoveState::Enter(CRui * pRui)
 	pRui->Get_Model()->Set_Loop(CRui::ANIM_ADVSKILL_MOVE);
 	pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_FriendAdvMove.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_FriendAdvMove.wav"), fVOICE);
+
+	if (pRui->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_SpMoveSkill.wav"), fEFFECT);
+	else
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), fEFFECT);
 }
 
 void CAdvSkill_MoveState::Exit(CRui * pRui)

@@ -130,6 +130,7 @@ void CGuardAdvState::Enter(CAkaza* pAkaza)
 	pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_GUARD_ADV);
 	pAkaza->Set_AnimIndex(CAkaza::ANIM_GUARD_ADV);
 
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_GuardAdv.wav"), fEFFECT);
 }
 
 void CGuardAdvState::Exit(CAkaza* pAkaza)

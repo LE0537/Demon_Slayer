@@ -17,6 +17,7 @@ namespace Client
 // Client_Defines.h
 #define fBGM	0.7f
 #define fEFFECT 1.0f
+#define fVOICE 0.f
 extern HWND			g_hWnd;
 extern HINSTANCE	g_hInst;
 extern bool			g_bDebug;

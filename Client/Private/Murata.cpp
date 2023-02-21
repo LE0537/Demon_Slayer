@@ -313,7 +313,7 @@ void CMurata::Check_Event()
 				pUIManager->Set_Msg(TEXT("무슨일이 있었던거에요?"));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_02.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_02.wav"), fVOICE);
 					m_bSoundCheck = true;
 				}
 				break;
@@ -323,7 +323,7 @@ void CMurata::Check_Event()
 				pUIManager->Set_Msg(TEXT("까, 까마귀한테 지령을 전달받고....!"));
 				if (m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_03.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_03.wav"), fVOICE);
 					m_bSoundCheck = false;
 				}
 				break;
@@ -333,7 +333,7 @@ void CMurata::Check_Event()
 				pUIManager->Set_Msg(TEXT("대원 열 명이 이곳에 왔어"));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_04.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_04.wav"), fVOICE);
 					m_bSoundCheck = true;
 				}
 				break;
@@ -343,7 +343,7 @@ void CMurata::Check_Event()
 				pUIManager->Set_Msg(TEXT("산에 들어온 지 얼마 지나지 않았는데... 대원들... 대원들끼리...."));
 				if (m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_05.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_05.wav"), fVOICE);
 					m_bSoundCheck = false;
 				}
 				break;
@@ -353,7 +353,7 @@ void CMurata::Check_Event()
 				pUIManager->Set_Msg(TEXT("칼부림이 시작돼서...!!"));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_06.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_06.wav"), fVOICE);
 					m_bSoundCheck = true;
 				}
 				break;
@@ -363,7 +363,7 @@ void CMurata::Check_Event()
 				pUIManager->Set_Msg(TEXT("진정하세요. 남은 대원들은 제가 빨리 찾아볼게요"));
 				if (m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_03.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_03.wav"), fVOICE);
 					m_bSoundCheck = false;
 				}
 				pUIManager->Set_QuestCount(1);

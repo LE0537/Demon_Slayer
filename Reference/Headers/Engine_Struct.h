@@ -2,7 +2,7 @@
 
 namespace Engine
 {
-	enum CHANNELID { SOUND_EFFECT, SOUND_BGM, MAXCHANNEL };
+	enum CHANNELID { SOUND_EFFECT, SOUND_BGM, SOUND_VOICE, MAXCHANNEL };
 
 	typedef struct tagKeyframe
 	{

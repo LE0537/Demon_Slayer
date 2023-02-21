@@ -108,6 +108,7 @@ void CGuardHitState::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_ID::STATE_GUARD_HIT;
 
+	_uint iRand = rand() % 3;
 
 	switch (m_eStateType)
 	{
@@ -116,6 +117,15 @@ void CGuardHitState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_GUARD_HIT_0);
 		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_GUARD_HIT_0);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_GUARD_HIT_0, 0.01f);
+
+		if (iRand == 0)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_1.wav"), fVOICE);
+		else if (iRand == 1)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_2.wav"), fVOICE);
+		else if (iRand == 2)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_3.wav"), fVOICE);
+
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_GuardHit.wav"), fEFFECT);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_GUARD_HIT_1);

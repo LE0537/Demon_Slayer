@@ -139,7 +139,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
+	//CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
 
 	g_iLevel = 1;
 
