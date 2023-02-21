@@ -147,9 +147,6 @@ private:
 	_float m_fBattleCamY = 0.f;
 	_float m_fBattleCamZ = 0.f;
 
-	_bool	m_bInit = false;
-private:/* For.Check_Clockwise */
-	_bool			m_bClockwise = false;
 
 public:
 	static CCamera_Dynamic* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

@@ -26,8 +26,8 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 
 	static _float fCullTime = 0.f;
 	_float	fUsedTime = fCullTime;
-	_int	iFrame = 0;				//	현재 프레임
-	std::vector<_float>::iterator iter = vecUseTime.begin();
+	_int	iFrame = 1;				//	현재 프레임
+	std::vector<_float>::iterator iter = (vecUseTime.begin() + 1);	//	첫 번째는 읽지않음.(None)
 	for (; iter != vecUseTime.end(); ++iter)
 	{
 		fUsedTime -= (*iter);
@@ -44,6 +44,8 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 
 	//	해당 프레임의 초반부다 = fUsedTime의 절댓값이 크다. = Ratio가 작다. ->작을수록 이전프레임의 영향을 더 받음.
 	_float fRatio = fabs((*iter) + fUsedTime) / (*iter);		//	다음 프레임의 할당 비율
+	if (0.f == fRatio)
+		fRatio = 1.f;
 	if (iFrame + 1 == vecUseTime.size())			//	다음 프레임이 없다.
 	{
 		*pOut += fTimeDelta / (vecUseTime[iFrame]);		// 보간 X
@@ -64,7 +66,7 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 
 	for (_int j = 0; j < 4; ++j)
 	{
-		_int	iIndex = max(min(iFrame + j - 1, iSize - 1), 0);		//	최소 = 0, 최대 = Size
+		_int	iIndex = max(min(iFrame + j - 1, iSize - 1), 1);		//	최소 = 0, 최대 = Size, 첫번째는 읽지 않음.
 		vPos[j] = XMLoadFloat4(&vecPositions[iIndex]);
 		vAt[j] = XMLoadFloat4(&vecLookAts[iIndex]);
 	}

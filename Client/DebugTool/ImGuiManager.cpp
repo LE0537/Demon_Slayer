@@ -301,8 +301,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	{
 		strcpy_s(strEyeName[0], "None");
 		strcpy_s(strAtName[0], "None");
-		char cZero[6] = "0";
-		strcpy_s(strCamTimeName[0], sizeof(cZero), cZero);
+		strcpy_s(strCamTimeName[0], "None");
 		for (_uint i = 1; i < 150; ++i)
 		{
 			char cTemp[6] = "";
@@ -460,17 +459,17 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		Safe_Release(*iter_Obj);
 		iter_Obj = m_vecCamObjects[eChoice].erase(iter_Obj);
 
-		auto iter_EyeAt = m_vecCam[eChoice].begin() + iFixCamIndex[eChoice];
+		auto iter_EyeAt = m_vecCam[eChoice].begin() + (iFixCamIndex[eChoice] + 1);
 		m_vecCam[eChoice].erase(iter_EyeAt);
 
 		Sort_CamNodes((CAMTYPE)eChoice);
 
+		f3Movement_Pos[0] = m_vecCam[eChoice][iCamIndex[eChoice] - 1].x;
+		f3Movement_Pos[1] = m_vecCam[eChoice][iCamIndex[eChoice] - 1].y;
+		f3Movement_Pos[2] = m_vecCam[eChoice][iCamIndex[eChoice] - 1].z;
+
 		--iCamIndex[eChoice];
 		--iFixCamIndex[eChoice];
-
-		f3Movement_Pos[0] = m_vecCam[eChoice][iCamIndex[eChoice]].x;
-		f3Movement_Pos[1] = m_vecCam[eChoice][iCamIndex[eChoice]].y;
-		f3Movement_Pos[2] = m_vecCam[eChoice][iCamIndex[eChoice]].z;
 	}
 
 
@@ -535,14 +534,16 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 	if (ImGui::Button("Time Push", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)))
 	{
+		if (0 == m_vecCamTime.size())
+			m_vecCamTime.push_back(0.f);
 		m_vecCamTime.push_back(1.f);
 		m_iNumCamTime = m_vecCamTime.size();
-		if (1 != m_iNumCamTime)
+		if (2 < m_iNumCamTime)
 		{
 			if (iCamTimeIndex + 1 != m_iNumCamTime)		//	사이에 집어넣기
 			{
 				_float	fTimeTemp = *(m_vecCamTime.end() - 1);
-				for (std::vector<_float>::iterator iter = m_vecCamTime.begin() + (iCamIndex[eChoice] + 1);
+				for (std::vector<_float>::iterator iter = m_vecCamTime.begin() + (iCamTimeIndex + 1);
 					iter != m_vecCamTime.end(); ++iter)
 				{
 					swap(*iter, fTimeTemp);
@@ -570,7 +571,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 
 
-	if (ImGui::Button("Time Clear", ImVec2(ImGui::GetWindowWidth() * 0.12f, 20.f)))
+	if (ImGui::Button("Time Clear", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
 	{
 		m_vecCamTime.clear();
 
@@ -595,17 +596,17 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		ImGui::SliderFloat("Full Time", &fSettingTime, 0.f, fTime, "%f");
 
 		//	Play CutScene
-		if (ImGui::Button("Play", ImVec2(ImGui::GetWindowWidth() * 0.15f, 20.f)))
+		if (ImGui::Button("Play", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
 			bActionPlaying = true;
 		if (m_iNumCam[CAM_EYE] == m_iNumCam[CAM_AT] &&
-			m_iNumCam[CAM_EYE] == m_iNumCamTime +1 &&
+			m_iNumCam[CAM_EYE] == m_iNumCamTime + 1 &&
 			true == bActionPlaying)
 			bActionPlaying = ((CCamera_Dynamic*)m_pCamera)->Play_CutScene(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, &fSettingTime, fTimeDelta * (_float)bActionPlaying);
 
 
 
 		ImGui::SameLine();
-		if (ImGui::Button("Stop", ImVec2(ImGui::GetWindowWidth() * 0.15f, 20.f)))
+		if (ImGui::Button("Stop", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
 			bActionPlaying = false;
 
 	}
@@ -627,7 +628,7 @@ void CImGuiManager::Sort_CamNodes(CAMTYPE eCamType)
 		_float3 vPos[4];
 		for (_int j = 0; j < 4; ++j)
 		{
-			_int	iIndex = max(min(i + j - 1, iObjSize - 1), 0);		//	최소 = 0, 최대 = Size
+			_int	iIndex = max(min(i + j - 1, iObjSize), 0);		//	최소 = 0, 최대 = Size
 			XMStoreFloat3(&vPos[j], XMLoadFloat4(&m_vecCam[eCamType][iIndex]));
 		}
 
@@ -645,14 +646,14 @@ void CImGuiManager::Sort_CamNodes(_int iIndex, CAMTYPE eCamType)
 	if (2 > iObjSize)
 		return;
 
-	_int	iSortIndex = max(min(iIndex - 2, iObjSize - 1), 0);
-	_int	iSortFinal = max(min(iIndex + 2, iObjSize - 1), 0);
+	_int	iSortIndex = max(min(iIndex - 2, iObjSize), 0);
+	_int	iSortFinal = max(min(iIndex + 2, iObjSize), 0);
 	for (_int i = iSortIndex; i < iSortFinal; ++i)
 	{
 		_float3 vPos[4];
 		for (_int j = 0; j < 4; ++j)
 		{
-			_int	iIndex = max(min(i + j - 1, iObjSize - 1), 0);		//	최소 = 0, 최대 = Size
+			_int	iIndex = max(min(i + j - 1, iObjSize), 0);		//	최소 = 0, 최대 = Size
 			XMStoreFloat3(&vPos[j], XMLoadFloat4(&m_vecCam[eCamType][iIndex]));
 		}
 
@@ -698,24 +699,35 @@ _bool CImGuiManager::Window_LoadCams(_bool * bOpen)
 		DWORD	dwByte = 0;
 		_float4*	pCamEye = new _float4;
 		_float4*	pCamAt = new _float4;
+		_float*		pCamTime = new _float;
 		while (true)
 		{
 			ReadFile(hFile, pCamEye, sizeof(_float4), &dwByte, nullptr);
 			ReadFile(hFile, pCamAt, sizeof(_float4), &dwByte, nullptr);
+			ReadFile(hFile, pCamTime, sizeof(_float), &dwByte, nullptr);
 
 			if (0 == dwByte)
 			{
 				Safe_Delete(pCamEye);
 				Safe_Delete(pCamAt);
+				Safe_Delete(pCamTime);
+
+				//	std::vector<_float>::iterator iter = m_vecCamTime.end();
+				m_vecCamTime.erase(m_vecCamTime.end() -1);
+				--m_iNumCamTime;
 				break;
 			}
+
 			_float4		vCamEye = *pCamEye;
 			_float4		vCamAt = *pCamAt;
+			_float		fCamTime = *pCamTime;
 
 			m_vecCam[CAM_EYE].push_back(vCamEye);
 			++m_iNumCam[CAM_EYE];
 			m_vecCam[CAM_AT].push_back(vCamAt);
 			++m_iNumCam[CAM_AT];
+			m_vecCamTime.push_back(fCamTime);
+			++m_iNumCamTime;
 		}
 		CloseHandle(hFile);
 
@@ -730,6 +742,9 @@ _bool CImGuiManager::Window_LoadCams(_bool * bOpen)
 			{
 				if (3 < m_iNumCam[iType])
 				{
+					if (0 == i)		//	None은 오브젝트를 만들지않음.
+						continue;
+
 					for (_int j = 0; j < 4; ++j)
 					{
 						_int	iIndex = max(min(i + j - 1, iCamSize - 1), 0);		//	최소 = 0, 최대 = Size
@@ -751,10 +766,9 @@ _bool CImGuiManager::Window_LoadCams(_bool * bOpen)
 						m_vecCamObjects[iType].push_back(tCamLineDesc.pMe);
 						Safe_AddRef(tCamLineDesc.pMe);
 					}
-
-					Sort_CamNodes((CAMTYPE)iType);
 				}
 			}
+			Sort_CamNodes((CAMTYPE)iType);
 		}
 
 		Read_CamActionFiles();
@@ -788,9 +802,10 @@ _bool CImGuiManager::Window_SaveCams(_bool * bOpen)
 	ImGui::InputText("File Name", InputBuf, IM_ARRAYSIZE(InputBuf));
 	if (ImGui::Button("Save", ImVec2(50.f, 20.f)))
 	{
-		if (m_vecCam[CAM_EYE].size() != m_vecCam[CAM_AT].size())
+		if (m_vecCam[CAM_EYE].size() != m_vecCam[CAM_AT].size() ||
+			m_vecCam[CAM_EYE].size() != m_vecCamTime.size() + 1)
 		{
-			ERR_MSG(L"Eye Size != At Size");
+			ERR_MSG(L"Eye Size != At Size != CamTime Size");
 
 			strcpy_s(InputBuf, "");
 			ImGui::End();
@@ -810,11 +825,17 @@ _bool CImGuiManager::Window_SaveCams(_bool * bOpen)
 			{
 				_float4 vEyePos;
 				_float4 vAtPos;
+				_float	fUseTime;
 				XMStoreFloat4(&vEyePos, XMLoadFloat4(&m_vecCam[CAM_EYE][i]));
 				XMStoreFloat4(&vAtPos, XMLoadFloat4(&m_vecCam[CAM_AT][i]));
+				if(i != iSize)
+					fUseTime = m_vecCamTime[i];
 
 				fwrite(&(vEyePos), sizeof(_float4), 1, fp);
 				fwrite(&(vAtPos), sizeof(_float4), 1, fp);
+
+				if (i != iSize)
+					fwrite(&(fUseTime), sizeof(_float), 1, fp);
 			}
 
 			ERR_MSG(L"Success to Save : Cam Action");
