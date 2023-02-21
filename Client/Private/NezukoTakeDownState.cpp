@@ -119,6 +119,7 @@ void CTakeDownState::Enter(CNezuko* pNezuko)
 			RELEASE_INSTANCE(CGameInstance);
 			g_bDeathTime = true;
 		}
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Hit_3.wav"), fVOICE);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_RETURN_1);

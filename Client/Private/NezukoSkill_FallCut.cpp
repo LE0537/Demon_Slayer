@@ -272,6 +272,7 @@ CNezukoState * CSkill_FallCutState::Late_Tick(CNezuko* pNezuko, _float fTimeDelt
 					dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pNezuko->Get_Renderer());
 					RELEASE_INSTANCE(CGameInstance);
 
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_JumpMoveAttack_0.wav"), fEFFECT);
 					pNezuko->Set_Combo(1);
 					pNezuko->Set_ComboTime(0.f);
 				}
@@ -389,6 +390,7 @@ void CSkill_FallCutState::Enter(CNezuko* pNezuko)
 		m_vVelocity.y = 10.f;
 		m_vVelocity.z = 0.f;
 		m_fGravity = 0.f;
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_JumpMoveAttack.wav"), fEFFECT);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_SKILL_FALLCUT_1);

@@ -112,6 +112,7 @@ void CGuardState::Enter(CShinobu* pShinobu)
 	case Client::CShinobuState::TYPE_START:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_GUARD_0);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_GUARD_0);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Guard.wav"), fEFFECT);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_GUARD_1);

@@ -130,6 +130,7 @@ void CGuardAdvState::Enter(CNezuko* pNezuko)
 	pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_GUARD_ADV);
 	pNezuko->Set_AnimIndex(CNezuko::ANIM_GUARD_ADV);
 
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_GuardAdv.wav"), fEFFECT);
 }
 
 void CGuardAdvState::Exit(CNezuko* pNezuko)

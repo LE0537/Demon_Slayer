@@ -141,7 +141,7 @@ CKyoujuroState * CJumpSkill_MoveState::Late_Tick(CKyoujuro * pKyojuro, _float fT
 					}
 					else
 						m_pTarget->Take_Damage(0.3f, false);
-
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), fEFFECT);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);
 				}
@@ -252,7 +252,8 @@ void CJumpSkill_MoveState::Enter(CKyoujuro * pKyojuro)
 	m_vVelocity.z = 0.f;
 	m_vPosition.y = XMVectorGetY(pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_DashSlash.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_DashSlash.wav"), fVOICE);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_MoveSkill.wav"), fEFFECT);
 }
 
 void CJumpSkill_MoveState::Exit(CKyoujuro * pKyojuro)

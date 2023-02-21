@@ -105,6 +105,8 @@ CKyoujuroState * CJumpAttackState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeD
 					pKyoujuro->Set_ComboTime(0.f);
 				}
 
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_JumpAttack.wav"), fEFFECT);
+
 				_int iDest = rand() % 5;
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				switch (iDest)
@@ -193,6 +195,7 @@ void CJumpAttackState::Enter(CKyoujuro* pKyoujuro)
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_JUMPATTACK);
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_JUMPATTACK, false);
 		pKyoujuro->Get_Transform()->Set_PlayerLookAt(pKyoujuro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_JumpAttack.wav"), fEFFECT);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_JUMP_LOOP_END);
