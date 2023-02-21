@@ -128,9 +128,9 @@ public:
 	_bool	   Get_GodMode() const { return m_bGodMode; }
 
 	void	   Set_SplSkl(_bool bSkpSkl) { m_bSplSkl = bSkpSkl; }
-	_bool Get_SplSkl() const { return m_bSplSkl; }
+	_bool	   Get_SplSkl() const { return m_bSplSkl; }
 
-
+	void			Set_Effect(CGameObj* _Effect) { m_pEffect = _Effect; }
 	
 
 
@@ -163,6 +163,9 @@ protected:
 
 	queue<_uint>			m_SplSklIndex;
 	queue<_uint>			m_SplSklHitIndex;
+
+	//Effect
+	CGameObj*				 m_pEffect = nullptr;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

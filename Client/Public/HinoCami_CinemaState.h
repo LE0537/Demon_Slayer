@@ -61,11 +61,15 @@ private:
 	_vector		m_vDirection;
 	_float		m_fTime = 0.f;
 
+
+	_bool       m_bFrameControl = false;
 	_bool       m_bOnGround = false;
 
 	_float m_fPositionY;
 	_float3 m_vPosition;
 	_float3 m_vVelocity;
+
+	_bool      m_bEffect = false;
 };
 
 END

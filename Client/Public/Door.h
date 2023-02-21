@@ -42,6 +42,7 @@ private:
 
 	_bool     m_bTurn = false;
 	_float    m_fTurnAngle = 0.f;
+	_bool     m_bNonAlpha = false;
 private:
 	HRESULT Delete_Component(const _tchar* pComponentTag);
 

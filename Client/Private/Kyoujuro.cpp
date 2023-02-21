@@ -240,7 +240,8 @@ HRESULT CKyoujuro::Render()
 		}
 	}
 	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y)
+	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y
+		&& -50000.f == XMVectorGetX(m_pSubChar->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
 	{
 		_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
@@ -259,7 +260,7 @@ HRESULT CKyoujuro::Render()
 					pUI_Manager->Set_FriendUseCount(1, 0);
 					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
-					m_fChangeDelay = 3.f;
+					m_fChangeDelay = 4.f;
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Set_ChangeInfo(true);
 					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -287,7 +288,7 @@ HRESULT CKyoujuro::Render()
 				pUI_Manager->Set_FriendUseCount(1, 0);
 				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
-				m_fChangeDelay = 3.f;
+				m_fChangeDelay = 4.f;
 				m_pSubChar->Set_Sub(false);
 				m_pSubChar->Set_ChangeInfo(true);
 				if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -356,7 +357,7 @@ HRESULT CKyoujuro::Render()
 					pUI_Manager->Set_FriendUseCount(1, 1);
 					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
-					m_fChangeDelay = 3.f;
+					m_fChangeDelay = 4.f;
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Set_ChangeInfo(true);
 					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -384,7 +385,7 @@ HRESULT CKyoujuro::Render()
 				pUI_Manager->Set_FriendUseCount(1, 1);
 				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
-				m_fChangeDelay = 3.f;
+				m_fChangeDelay = 4.f;
 				m_pSubChar->Set_Sub(false);
 				m_pSubChar->Set_ChangeInfo(true);
 				if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))

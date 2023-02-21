@@ -4,6 +4,7 @@
 #include "TanjiroIdleState.h"
 #include "Layer.h"
 #include "Camera_Dynamic.h"
+#include "Effect_Manager.h"
 
 using namespace Tanjiro;
 
@@ -74,6 +75,15 @@ CTanjiroState * CHinoCami_CinemaState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 
 	if(m_bAnimStop == false)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+
+
+	if (!m_bEffect && m_eScene == CHinoCami_CinemaState::SCENE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINO_SPECIAL_SLASH, pTanjiro);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }
@@ -198,16 +208,6 @@ void CHinoCami_CinemaState::Exit(CTanjiro * pTanjiro)
 
 CTanjiroState * CHinoCami_CinemaState::Scene_Start(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	//if (pTanjiro->Get_Model()->Get_End(CHinoCami_CinemaState::ANIM_SCENE_START))
-	//{
-	//	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_LOOP);
-	//	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_LOOP);
-	//	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_MOVE_LOOP, true);
-	//	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_MOVE_LOOP, 0.01f);
-
-	//	pTanjiro->Get_Model()->Set_End(CHinoCami_CinemaState::ANIM_SCENE_START);
-	//}
-
 	if (pTanjiro->Get_Model()->Get_CurrentTime_Index(CHinoCami_CinemaState::ANIM_SCENE_START) >= 40.f)
 	{
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_LOOP);
@@ -230,7 +230,7 @@ CTanjiroState * CHinoCami_CinemaState::Scene_Start(CTanjiro * pTanjiro, _float f
 
 		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 
-		if (fDistance < 20.f)
+		if (fDistance < 18.f)
 			m_bNextAnim = true;
 
 	}
@@ -250,7 +250,7 @@ CTanjiroState * CHinoCami_CinemaState::Scene_0(CTanjiro * pTanjiro, _float fTime
 	_vector vTargetPosition = pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_float fDistance = XMVectorGetX(XMVector3Length(vTargetPosition - vMyPosition));
 
-	if (fDistance > 10.f)
+	if (fDistance > 7.f)
 	{
 		if (m_bAnimStop == false)
 		{
@@ -423,34 +423,49 @@ CTanjiroState * CHinoCami_CinemaState::Scene_5(CTanjiro * pTanjiro, _float fTime
 	if(m_bAnimStop == true && m_bControlMotion == false)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 0.05f);
 
-	if (pTanjiro->Get_Model()->Get_CurrentTime_Index(pTanjiro->Get_AnimIndex()) >= 15.f)
+
+	if (pTanjiro->Get_Model()->Get_CurrentTime_Index(pTanjiro->Get_AnimIndex()) >= 15.f && m_bFrameControl == false)
 	{
 		m_bControlMotion = true;
 		m_fTime += fTimeDelta;
 
-		if (m_fTime >= 1.f)
+		if (m_fTime >= 1.5f)
 		{
 			m_bAnimStop = false;
 			g_bDeathTime = true;
-
-
-
+			m_fTime = 0.f;
+			
 		}
-		else
-			pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 0.02f);
-		
 	}
 	
+	if (pTanjiro->Get_Model()->Get_CurrentTime_Index(pTanjiro->Get_AnimIndex()) >= 18.f)
+	{
+		m_bFrameControl = true;
+		m_bAnimStop = true;
+
+		m_fTime += fTimeDelta;
+
+		if (m_fTime < 2.f)
+		{
+			pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 0.05f);
+		}
+		else
+		{
+			if (m_bOnGround == true)
+			{
+				m_bNextAnim = true;
+				pTanjiro->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 4.f);
+			}
+		}
+
+
+	}
+
+
 
 	if (g_bDeathTime == true)
 	{
 		Fall_Height(pTanjiro, fTimeDelta);
-	}
-
-	if (m_bOnGround == true)
-	{
-		m_bNextAnim = true;
-		pTanjiro->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 4.f);
 	}
 
 

@@ -86,11 +86,11 @@ void CChangeBar::Tick(_float fTimeDelta)
 				m_bCurPerBarCheck = true;
 			}
 
-			m_fTime -= 0.12332f;
+			m_fTime -= 0.06166f;
 			if(!m_ThrowUIinfo.bPlyCheck)
-				pUI_Manager->Get_1P()->Set_FriendSkillBar(2.f);
+				pUI_Manager->Get_1P()->Set_FriendSkillBar(1.f);
 			else 
-				pUI_Manager->Get_2P()->Set_FriendSkillBar(2.f);
+				pUI_Manager->Get_2P()->Set_FriendSkillBar(1.f);
 
 			if (m_fTime <= 469.17f)
 			{
@@ -117,12 +117,12 @@ void CChangeBar::Tick(_float fTimeDelta)
 				m_fTime = 500.f;
 			if (m_fFriendBar < 1000)
 			{
-				m_fTime -= 0.12332f;
+				m_fTime -= 0.06166f;
 
 				if (!m_ThrowUIinfo.bPlyCheck)
-					pUI_Manager->Get_1P()->Set_FriendSkillBar(2.f);
+					pUI_Manager->Get_1P()->Set_FriendSkillBar(1.f);
 				else
-					pUI_Manager->Get_2P()->Set_FriendSkillBar(2.f);
+					pUI_Manager->Get_2P()->Set_FriendSkillBar(1.f);
 			}
 			else if (m_fFriendBar >= 1000.f)
 			{

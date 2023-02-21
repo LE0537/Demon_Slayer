@@ -31,7 +31,8 @@ void CEffect_Particle_New::Tick(_float fTimeDelta)
 	m_fTime += fTimeDelta;
 
 	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime + m_ParticleInfo.fDuration) {
-		m_pVIBufferCom->Update(fTimeDelta, m_ParticleInfo.vSizeReduction, m_CombinedWorldMatrix, m_ParticleInfo.fSpeedReduction, m_ParticleInfo.fGravity, m_ParticleInfo.bSpeedkill);
+		m_pVIBufferCom->Update(fTimeDelta, m_ParticleInfo.vSizeReduction, m_CombinedWorldMatrix, m_ParticleInfo.fSpeedReduction, m_ParticleInfo.fGravity, m_ParticleInfo.bSpeedkill,
+			XMLoadFloat4x4(&m_CombinedWorldMatrix));
 	}
 }
 
@@ -172,6 +173,7 @@ HRESULT CEffect_Particle_New::SetUp_ShaderResources()
 	m_pShaderCom->Set_RawValue("g_bBillboard", &m_ParticleInfo.bBillboard, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bYBillboard", &m_ParticleInfo.bYBillboard, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bBillboardTurn", &m_ParticleInfo.bBillboardTurn, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_bFollow", &m_ParticleInfo.bFollow, sizeof(_bool));
 
 	return S_OK;
 }
@@ -180,21 +182,22 @@ void CEffect_Particle_New::Set_ParticleInfo(PARTICLE_INFO ParticleInfo)
 {
 	m_ParticleInfo = ParticleInfo;
 
-	m_pVIBufferCom->Reset(m_ParticleInfo.iMaxParticleNumber, m_ParticleInfo.fLifeTime, m_ParticleInfo.fSpeed, m_ParticleInfo.vParticleSize, m_ParticleInfo.iShape, m_ParticleInfo.fAngle,
-		m_ParticleInfo.fRadius, m_ParticleInfo.vSize, m_ParticleInfo.vParticleRotation, m_ParticleInfo.vColor, m_ParticleInfo.fDuration, m_ParticleInfo.fShotTime, m_ParticleInfo.iOneParticleNumber
-		, m_ParticleInfo.fCircleY, m_ParticleInfo.fCircleAngle);
 	m_fTime = 0.f;
-
-	_matrix mtrParents = XMLoadFloat4x4(&m_pParents->Get_CombinedWorldMatrix());
-	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
-
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_ParticleInfo.vPosition.x, m_ParticleInfo.vPosition.y, m_ParticleInfo.vPosition.z, 1.f));
 
 	_float3		vRotation = m_ParticleInfo.vRotation;
 	vRotation.x = XMConvertToRadians(vRotation.x);
 	vRotation.y = XMConvertToRadians(vRotation.y);
 	vRotation.z = XMConvertToRadians(vRotation.z);
 	m_pTransformCom->RotationAll(vRotation);
+
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_ParticleInfo.vPosition.x, m_ParticleInfo.vPosition.y, m_ParticleInfo.vPosition.z, 1.f));
+
+	_matrix mtrParents = XMLoadFloat4x4(&m_pParents->Get_CombinedWorldMatrix());
+	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+
+	m_pVIBufferCom->Reset(m_ParticleInfo.iMaxParticleNumber, m_ParticleInfo.fLifeTime, m_ParticleInfo.fSpeed, m_ParticleInfo.vParticleSize, m_ParticleInfo.iShape, m_ParticleInfo.fAngle,
+		m_ParticleInfo.fRadius, m_ParticleInfo.vSize, m_ParticleInfo.vParticleRotation, m_ParticleInfo.vColor, m_ParticleInfo.fDuration, m_ParticleInfo.fShotTime, m_ParticleInfo.iOneParticleNumber
+		, m_ParticleInfo.fCircleY, m_ParticleInfo.fCircleAngle, m_ParticleInfo.bFollow, m_ParticleInfo.bGravityTurn, XMLoadFloat4x4(&m_CombinedWorldMatrix));
 }
 
 CEffect_Particle_New * CEffect_Particle_New::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
