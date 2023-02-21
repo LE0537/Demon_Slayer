@@ -2,6 +2,7 @@
 #include "..\Public\HinoCami_CinemaState.h"
 #include "GameInstance.h"
 #include "TanjiroIdleState.h"
+#include "Effect_Manager.h"
 
 using namespace Tanjiro;
 
@@ -72,6 +73,15 @@ CTanjiroState * CHinoCami_CinemaState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 
 	if(m_bAnimStop == false)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+
+
+	if (!m_bEffect && m_eScene == CHinoCami_CinemaState::SCENE_START)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINO_SPECIAL_SLASH, pTanjiro);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }

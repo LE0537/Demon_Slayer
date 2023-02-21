@@ -93,9 +93,7 @@ void CMurata::Tick(_float fTimeDelta)
 					m_pModelCom->Set_CurrentTime_Index(3, 35.f);
 				}
 			
-		
-
-				RELEASE_INSTANCE(CUI_Manager);
+			RELEASE_INSTANCE(CUI_Manager);
 	
 		}
 		else if(!m_bQuestStop)
