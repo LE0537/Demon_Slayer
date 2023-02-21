@@ -25,6 +25,9 @@ private:
 	virtual ~CCamera_Dynamic() = default;
 
 public:
+	_bool 	Play_CutScene(vector<_float4> vecPositions, vector<_float4> vecLookAts, vector<_float> vecUseTime, _float* pOut, _float fTimeDelta);
+
+public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg)override;
 	virtual void Tick(_float fTimeDelta)override;
@@ -144,9 +147,6 @@ private:
 	_float m_fBattleCamY = 0.f;
 	_float m_fBattleCamZ = 0.f;
 
-	_bool	m_bInit = false;
-private:/* For.Check_Clockwise */
-	_bool			m_bClockwise = false;
 
 public:
 	static CCamera_Dynamic* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

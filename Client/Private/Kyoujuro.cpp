@@ -38,6 +38,9 @@ HRESULT CKyoujuro::Initialize_Prototype()
 
 HRESULT CKyoujuro::Initialize(void * pArg)
 {
+	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
+	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
+	m_i1p = tCharacterDesc.i1P2P;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -46,49 +49,63 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts2()))
 		return E_FAIL;
 
-	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
-	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
+	
+	if (m_i1p != 20)
+	{
+		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
+		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
-	m_i1p = tCharacterDesc.i1P2P;
-	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
-	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
+		Set_Info();
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		if (!m_tInfo.bSub)
+		{
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
+			if (m_i1p == 1)
+			{
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
-	Set_Info();
-	m_tInfo.bSub = tCharacterDesc.bSub;
-	m_bChange = tCharacterDesc.bSub;
-	if (!m_tInfo.bSub)
+				CUI_Manager::Get_Instance()->Set_1P(this);
+			}
+			else if (m_i1p == 2)
+			{
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+				CUI_Manager::Get_Instance()->Set_2P(this);
+			}
+			RELEASE_INSTANCE(CGameInstance);
+
+		}
+		else
+		{
+			m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
+			m_pSubChar->Set_SubChar(this);
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
+			m_bChange = true;
+			if (m_i1p == 1)
+				CUI_Manager::Get_Instance()->Set_1P_2(this);
+			else if (m_i1p == 2)
+				CUI_Manager::Get_Instance()->Set_2P_2(this);
+
+
+		}
+	}
+	if (m_i1p == 20)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
-		if (m_i1p == 1)
-		{
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
-
-			CUI_Manager::Get_Instance()->Set_1P(this);
-		}
-		else if (m_i1p == 2)
-		{
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-
-			CUI_Manager::Get_Instance()->Set_2P(this);
-		}
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVAKAZA, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
 
+		_vector vPos = { 4.862,5.747f,283.194f,1.f };
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+
+		m_pNavigationCom->Find_CurrentCellIndex(vPos);
+
+		m_tInfo.bSub = false;
+		m_bChange = false;
+		//CUI_Manager::Get_Instance()->Set_2P(this);
 	}
-	else
-	{
-		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
-		m_pSubChar->Set_SubChar(this);
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-50000.f, -50000.f, -50000.f, 1.f));
-		m_bChange = true;
-		if(m_i1p == 1)
-			CUI_Manager::Get_Instance()->Set_1P_2(this);
-		else if(m_i1p == 2)
-			CUI_Manager::Get_Instance()->Set_2P_2(this);
-
-
-	}
-
 	CKyoujuroState* pState = new CIdleState();
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 
@@ -448,11 +465,23 @@ HRESULT CKyoujuro::Render_ShadowDepth()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
 		return E_FAIL;
 
+	_vector vLightEye, vLightAt, vLightUp;
+	_matrix matLightView;
+	if (g_iLevel == 1)
+	{
+		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
+		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
+		vLightUp = { 0.f, 1.f, 0.f ,0.f };
+		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+	}
+	else if (g_iLevel == 2 || g_iLevel == 3)
+	{
+		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
+		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);
+		vLightUp = { 0.f, 1.f, 0.f ,0.f };
+		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+	}
 
-	_vector			vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
-	_vector			vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
-	_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
-	_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 		return E_FAIL;
@@ -536,8 +565,17 @@ HRESULT CKyoujuro::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
-		return E_FAIL;
+
+	if (m_i1p == 20)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainNavi"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
 
 
 	return S_OK;

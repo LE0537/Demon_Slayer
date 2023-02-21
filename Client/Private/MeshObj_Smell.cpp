@@ -49,26 +49,31 @@ void CMeshObj_Smell::Tick(_float fTimeDelta)
 
 	m_pTransformCom->Turn(XMVectorSet(1.f, 0.f, 0.f, 0.f), fTimeDelta * 1.f / 83.f);
 
-	//if (pGameInstance->Key_Down(DIK_F4))
-	//{
+	/*if (pGameInstance->Key_Down(DIK_F5))
+	{
 
-	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
-	//	char cName[MAX_PATH];
-	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
-	//	if (2085 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("Hut"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2086 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("RuiMap"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_NONANIM);
-	//	RELEASE_INSTANCE(CData_Manager);
+		CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
+		char cName[MAX_PATH];
+		ZeroMemory(cName, sizeof(char) * MAX_PATH);
+		if (2087 == m_tMyDesc.iModelIndex)
+		{
+			pData_Manager->TCtoC(TEXT("Smell1"), cName);
+			ERR_MSG(L"Clear1");
+		}
+		if (2088 == m_tMyDesc.iModelIndex)
+		{
+			pData_Manager->TCtoC(TEXT("Smell2"), cName);
+			ERR_MSG(L"Clear1");
+		}
+		if (2089 == m_tMyDesc.iModelIndex)
+		{
+			pData_Manager->TCtoC(TEXT("Smell3"), cName);
+			ERR_MSG(L"Clear1");
+		}
+		pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_NONANIM);
+		RELEASE_INSTANCE(CData_Manager);
 
-	//}
+	}*/
 
 	RELEASE_INSTANCE(CGameInstance);
 

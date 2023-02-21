@@ -20,7 +20,7 @@ public:
 		_uint		iModelIndex;
 
 		_bool		bAlphaBlend;
-
+		_uint       iTypeNum;
 	}MESHOBJ_STATIC_DESC;
 
 private:
@@ -57,7 +57,7 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 	HRESULT Ready_ModelComponent();
-
+	void	Move_Mesh(_float fTimeDelta);
 public:
 	static CMeshObj_Static* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

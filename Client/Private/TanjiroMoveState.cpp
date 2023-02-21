@@ -478,7 +478,6 @@ void CMoveState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_START);
 		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_MOVE_START);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_MOVE_START, 0.01f);
-
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_LOOP);
@@ -524,13 +523,13 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (!pTanjiro->Get_StoryKey())
 			pTanjiro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
 		else
-			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-6.f));
+			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-3.f));
 		break;
 	case Client::DIR_RIGHT:
 		if (!pTanjiro->Get_StoryKey())
 			pTanjiro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
 		else
-			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(6.f));
+			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(3.f));
 		break;
 	case Client::DIR_BACK:
 		if (!pTanjiro->Get_StoryKey())
@@ -542,7 +541,7 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		else
 		{
 			pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
-			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-6.f));
+			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-3.f));
 		}
 		break;
 	case Client::DIR_RF:
@@ -551,7 +550,7 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		else
 		{
 			pTanjiro->Get_Transform()->Go_Straight(fTimeDelta, pTanjiro->Get_NavigationCom());
-			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(6.f));
+			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(3.f));
 		}
 		break;
 	case Client::DIR_LB:

@@ -1255,6 +1255,18 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState">
       <UniqueIdentifier>{f5dec784-ebc4-4eba-bdd8-eb8a5f86951c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\99.Cam">
+      <UniqueIdentifier>{12b748c4-dfc4-458f-a71c-a9c4c6a25874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\99.Cam\CamLine">
+      <UniqueIdentifier>{dc9e44c2-8145-4e2d-ba88-9250ce03c7c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\09.Adv_Akaza">
+      <UniqueIdentifier>{dd0d114b-d586-469d-83f1-6586560cb28f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\10.Battle_Enmu">
+      <UniqueIdentifier>{3fb48467-bbe9-49e0-88c4-4a02f0356a06}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2490,6 +2502,15 @@
     <ClInclude Include="..\Public\Nezuko_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\CamLine.h">
+      <Filter>02.GameObjects\99.GameObj\99.Cam\CamLine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_AdvAkaza.h">
+      <Filter>01.Levels\09.Adv_Akaza</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_BattleEnmu.h">
+      <Filter>01.Levels\10.Battle_Enmu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3698,6 +3719,15 @@
     <ClCompile Include="..\Private\Nezuko_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\CamLine.cpp">
+      <Filter>02.GameObjects\99.GameObj\99.Cam\CamLine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_AdvAkaza.cpp">
+      <Filter>01.Levels\09.Adv_Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_BattleEnmu.cpp">
+      <Filter>01.Levels\10.Battle_Enmu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -3753,6 +3783,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance_New.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxLine.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

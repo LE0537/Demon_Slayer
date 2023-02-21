@@ -57,6 +57,12 @@ RasterizerState RS_SkyBox
 	FrontCounterClockwise = false;
 };
 
+RasterizerState RS_WireframeNonCull
+{
+	FillMode = wireframe;
+	CullMode = none;
+	FrontCounterClockwise = false;
+};
 //BOOL BlendEnable;
 //D3D11_BLEND SrcBlend;
 //D3D11_BLEND DestBlend;

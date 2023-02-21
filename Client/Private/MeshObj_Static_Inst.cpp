@@ -2,7 +2,7 @@
 #include "..\Public\MeshObj_Static_Inst.h"
 
 #include "GameInstance.h"
-
+#include "Data_Manager.h"
 CMeshObj_Static_Inst::CMeshObj_Static_Inst(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObj(pDevice, pContext)
 {
@@ -64,13 +64,59 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	
 	m_bInit = false;
 
+	if (g_iLevel == 3)
+	{
+		switch (m_tMyDesc.iTypeNum)
+		{
+		case 0:
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
+			break;
+		case 1:
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -500.f, 1.f));
+			break;
+		case 2:
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 500.f, 1.f));
+			break;
+		default:
+			break;
+		}
+	}
+
 	return S_OK;
 }
 
 void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
+	//if (pGameInstance->Key_Down(DIK_F6))
+	//{
+
+	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
+	//	char cName[MAX_PATH];
+	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
+	//	if (2106 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("TrainChiar1_Instancing"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2107 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("TrainChiar2_Instancing"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2108 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("TrainDoor_Instancing"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_NONANIM_INSTANCING);
+	//	RELEASE_INSTANCE(CData_Manager);
+
+	//}
+
+	//RELEASE_INSTANCE(CGameInstance);
 	if (false == m_bInit)
 	{
 		m_pModelCom->Update_Instancing(m_vecMatrix, 300000, fTimeDelta);
@@ -78,6 +124,9 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 	}
 	else
 		m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
+
+	if (g_iLevel == 3)
+		Move_Mesh(fTimeDelta);
 }
 
 void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
@@ -187,7 +236,7 @@ HRESULT CMeshObj_Static_Inst::Ready_Components()
 	CTransform::TRANSFORMDESC tTransformDesc;
 	ZeroMemory(&tTransformDesc, sizeof(CTransform::TRANSFORMDESC));
 	tTransformDesc.fRotationPerSec = XMConvertToRadians(90.f);
-	tTransformDesc.fSpeedPerSec = 5.f;
+	tTransformDesc.fSpeedPerSec = 20.f;
 
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &tTransformDesc)))
@@ -233,9 +282,9 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	tMeshInstancingDesc.iNumMeshInstancing = m_tMyDesc.iNumInstancing;
 	switch (m_tMyDesc.iModelIndex)
 	{
-	case 2001: lstrcpy(pPrototypeTag_Model, L"BigTree1_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2002: lstrcpy(pPrototypeTag_Model, L"BigTree2_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2003: lstrcpy(pPrototypeTag_Model, L"BigTree3_Instancing"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2001: lstrcpy(pPrototypeTag_Model, L"BigTree1_Instancing"); m_fFrustumRadiusRatio = 7000.f; break;
+	case 2002: lstrcpy(pPrototypeTag_Model, L"BigTree2_Instancing"); m_fFrustumRadiusRatio = 7000.f; break;
+	case 2003: lstrcpy(pPrototypeTag_Model, L"BigTree3_Instancing"); m_fFrustumRadiusRatio = 7000.f; break;
 	case 2004: lstrcpy(pPrototypeTag_Model, L"TreeFar1_Instancing"); m_fFrustumRadiusRatio = 7.f;  m_bRenderShadow = false; break;
 	case 2005: lstrcpy(pPrototypeTag_Model, L"TreeWillow_Instancing"); m_fFrustumRadiusRatio = 20.f; break;
 
@@ -328,10 +377,13 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2078: lstrcpy(pPrototypeTag_Model, L"SpiderWeb8_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
 	case 2079: lstrcpy(pPrototypeTag_Model, L"SpiderWeb9_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
 	case 2080: lstrcpy(pPrototypeTag_Model, L"Tree_Jenitsu_Instancing"); m_fFrustumRadiusRatio = 70.f; break;
-	case 2081: lstrcpy(pPrototypeTag_Model, L"TreeFar2_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
+	case 2081: lstrcpy(pPrototypeTag_Model, L"TreeFar2_Instancing"); m_fFrustumRadiusRatio = 5000.f; m_bRenderShadow = false; break;
 	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
 
 	case 2083: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Moon_Instancing"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
+	case 2106: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar1_Instancing"); m_fFrustumRadiusRatio = 5.f; break;
+	case 2107:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar2_Instancing"); m_fFrustumRadiusRatio = 5.f;  break;
+	case 2108:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainDoor_Instancing"); m_fFrustumRadiusRatio = 5.f;  break;
 
 	}
 
@@ -340,6 +392,117 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CMeshObj_Static_Inst::Move_Mesh(_float fTimeDelta)
+{
+	switch (m_tMyDesc.iModelIndex)
+	{
+	case 2001:
+	case 2002:
+	case 2003:
+	case 2004:
+	case 2005:
+
+	case 2006:
+	case 2007:
+	case 2008:
+	case 2009:
+	case 2010:
+	case 2011:
+	case 2012:
+	case 2013:
+	case 2014:
+	case 2015:
+
+	case 2016:
+	case 2017:
+	case 2018:
+
+	case 2019:
+	case 2020:
+	case 2021:
+	case 2022:
+	case 2023:
+	case 2024:
+	case 2025:
+	case 2026:
+
+	case 2027:
+	case 2028:
+	case 2029:
+	case 2030:
+
+	case 2031:
+	case 2032:
+	case 2033:
+	case 2034:
+	case 2035:
+	case 2036:
+
+	case 2037:
+	case 2038:
+	case 2039:
+	case 2040:
+
+	case 2041:
+	case 2042:
+	case 2043:
+	case 2044:
+
+	case 2045:
+	case 2046:
+	case 2047:
+	case 2048:
+	case 2049:
+	case 2050:
+
+	case 2051:
+	case 2052:
+
+	case 2053:
+	case 2054:
+	case 2055:
+
+	case 2056:
+	case 2057:
+	case 2058:
+	case 2059:
+	case 2060:
+	case 2061:
+	case 2062:
+	case 2063:
+	case 2064:
+
+	case 2065:
+	case 2066:
+
+	case 2067:
+
+	case 2068:
+	case 2069:
+
+	case 2070:
+	case 2071:
+	case 2072:
+	case 2073:
+	case 2074:
+	case 2075:
+	case 2076:
+	case 2077:
+	case 2078:
+	case 2079:
+	case 2080:
+	case 2081:
+	case 2082:
+	case 2083:
+		m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
+		if (550.f < XMVectorGetZ(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)))
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -800.f, 1.f));
+		break;
+	default:
+		break;
+	}
 }
 
 CMeshObj_Static_Inst * CMeshObj_Static_Inst::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

@@ -212,6 +212,7 @@
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_Hexagon.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Instance.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_Line.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Navigation.cpp" />
     <ClCompile Include="..\Private\VIBuffer_NewTerrain.cpp" />
     <ClCompile Include="..\Private\VIBuffer_New_Particle_Instance.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="..\Public\VIBuffer_Cube.h" />
     <ClInclude Include="..\public\VIBuffer_Hexagon.h" />
     <ClInclude Include="..\Public\VIBuffer_Instance.h" />
+    <ClInclude Include="..\Public\VIBuffer_Line.h" />
     <ClInclude Include="..\Public\VIBuffer_Navigation.h" />
     <ClInclude Include="..\Public\VIBuffer_NewTerrain.h" />
     <ClInclude Include="..\Public\VIBuffer_New_Particle_Instance.h" />
