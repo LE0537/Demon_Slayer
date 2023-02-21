@@ -106,22 +106,108 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
 	//	char cName[MAX_PATH];
 	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
-	//	if (2085 == m_tMyDesc.iModelIndex)
+	//	if (2090 == m_tMyDesc.iModelIndex)
 	//	{
-	//		pData_Manager->TCtoC(TEXT("Hut"), cName);
+	//		pData_Manager->TCtoC(TEXT("Rail1"), cName);
 	//		ERR_MSG(L"Clear1");
 	//	}
-	//	if (2086 == m_tMyDesc.iModelIndex)
+	//	if (2091 == m_tMyDesc.iModelIndex)
 	//	{
-	//		pData_Manager->TCtoC(TEXT("RuiMap"), cName);
+	//		pData_Manager->TCtoC(TEXT("Rail2"), cName);
 	//		ERR_MSG(L"Clear1");
 	//	}
+	//	if (2092 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("BrokenTrain1"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2093 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("BrokenTrain2"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2094 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("BrokenTrain3"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2095 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("BrokenTrain4"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2096 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("BrokenTrain5"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2097 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("TrainMap"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2098 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Enmu_Neck0"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2099 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Enmu_Neck1"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2100 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Enmu_Neck2"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2101 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Train1"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2102 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Train2"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2103 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Train3"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2104 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Trainbottom1"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2105 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("Trainbottom2"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2106 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("TrainChiar1"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2107 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("TrainChiar2"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//	if (2108 == m_tMyDesc.iModelIndex)
+	//	{
+	//		pData_Manager->TCtoC(TEXT("TrainDoor"), cName);
+	//		ERR_MSG(L"Clear1");
+	//	}
+	//
 	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_NONANIM);
 	//	RELEASE_INSTANCE(CData_Manager);
 
 	//}
 
-	RELEASE_INSTANCE(CGameInstance);
+	//RELEASE_INSTANCE(CGameInstance);
 
 
 }
@@ -402,12 +488,32 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2081: lstrcpy(pPrototypeTag_Model, L"TreeFar2"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false;break;
 	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false;break;
 
-	case 2083: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Moon"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
-	case 2084: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_MoonLight"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
+	case 2083: lstrcpy(pPrototypeTag_Model, L"Moon"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
+	case 2084: lstrcpy(pPrototypeTag_Model, L"MoonLight"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
 	case 2085: lstrcpy(pPrototypeTag_Model, L"Hut"); m_fFrustumRadiusRatio = 20.f; break;
 	case 2086:lstrcpy(pPrototypeTag_Model, L"RuiMap"); m_fFrustumRadiusRatio = 5000.f; m_bRenderShadow = false; break;
-	}
+	case 2090: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rail1"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2091:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Rail2"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2092: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BrokenTrain1"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2093:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BrokenTrain2"); m_fFrustumRadiusRatio = 30.f;  break;
+	case 2094: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BrokenTrain3"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2095:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BrokenTrain4"); m_fFrustumRadiusRatio = 30.f;  break;
+	case 2096: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_BrokenTrain5"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2097:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainMap"); m_fFrustumRadiusRatio = 5000.f; m_bRenderShadow = false; break;
+	case 2098:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Enmu_Neck0"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2099: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Enmu_Neck1"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2100:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Enmu_Neck2"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2101: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Train1"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2102:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Train2"); m_fFrustumRadiusRatio = 30.f;  break;
+	case 2103: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Train3"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2104:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Trainbottom1"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2105: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Trainbottom2"); m_fFrustumRadiusRatio = 30.f; break;
+	case 2106:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar1"); m_fFrustumRadiusRatio = 5.f; break;
+	case 2107: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar2"); m_fFrustumRadiusRatio = 5.f; break;
+	case 2108:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainDoor"); m_fFrustumRadiusRatio = 5.f; break;
+	
 
+}
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, pPrototypeTag_Model, (CComponent**)&m_pModelCom)))
 		return E_FAIL;

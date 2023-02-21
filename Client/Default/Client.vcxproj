@@ -256,7 +256,10 @@
     <ClInclude Include="..\Public\KyoujuroTakeDownState.h" />
     <ClInclude Include="..\Public\KyoujuroTargetRushState.h" />
     <ClInclude Include="..\Public\KyoujuroUpperHitState.h" />
+    <ClInclude Include="..\public\Level_AdvAkaza.h" />
     <ClInclude Include="..\Public\Level_AdvRui.h" />
+    <ClInclude Include="..\public\Level_BattleAkaza.h" />
+    <ClInclude Include="..\public\Level_BattleEnmu.h" />
     <ClInclude Include="..\Public\Level_GameResult.h" />
     <ClInclude Include="..\Public\Level_Menu.h" />
     <ClInclude Include="..\Public\Level_SelectMap.h" />
@@ -665,7 +668,10 @@
     <ClCompile Include="..\Private\KyoujuroTakeDownState.cpp" />
     <ClCompile Include="..\Private\KyoujuroTargetRushState.cpp" />
     <ClCompile Include="..\Private\KyoujuroUpperHitState.cpp" />
+    <ClCompile Include="..\private\Level_AdvAkaza.cpp" />
     <ClCompile Include="..\Private\Level_AdvRui.cpp" />
+    <ClCompile Include="..\private\Level_BattleAkaza.cpp" />
+    <ClCompile Include="..\private\Level_BattleEnmu.cpp" />
     <ClCompile Include="..\Private\Level_GameResult.cpp" />
     <ClCompile Include="..\Private\Level_Menu.cpp" />
     <ClCompile Include="..\Private\Level_SelectMap.cpp" />
