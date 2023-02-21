@@ -451,7 +451,6 @@ CNezukoState * CAtk_2_State::CommandCheck(CNezuko * pNezuko)
 	}
 
 
-
 	return nullptr;
 }
 
