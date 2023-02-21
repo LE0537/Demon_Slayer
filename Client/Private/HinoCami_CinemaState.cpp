@@ -198,7 +198,7 @@ CTanjiroState * CHinoCami_CinemaState::Scene_Start(CTanjiro * pTanjiro, _float f
 
 		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 1.5f, pTanjiro->Get_NavigationCom());
 
-		if (fDistance < 20.f)
+		if (fDistance < 18.f)
 			m_bNextAnim = true;
 
 	}
@@ -218,7 +218,7 @@ CTanjiroState * CHinoCami_CinemaState::Scene_0(CTanjiro * pTanjiro, _float fTime
 	_vector vTargetPosition = pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_float fDistance = XMVectorGetX(XMVector3Length(vTargetPosition - vMyPosition));
 
-	if (fDistance > 10.f)
+	if (fDistance > 7.f)
 	{
 		if (m_bAnimStop == false)
 		{
@@ -391,34 +391,49 @@ CTanjiroState * CHinoCami_CinemaState::Scene_5(CTanjiro * pTanjiro, _float fTime
 	if(m_bAnimStop == true && m_bControlMotion == false)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 0.05f);
 
-	if (pTanjiro->Get_Model()->Get_CurrentTime_Index(pTanjiro->Get_AnimIndex()) >= 15.f)
+
+	if (pTanjiro->Get_Model()->Get_CurrentTime_Index(pTanjiro->Get_AnimIndex()) >= 15.f && m_bFrameControl == false)
 	{
 		m_bControlMotion = true;
 		m_fTime += fTimeDelta;
 
-		if (m_fTime >= 1.f)
+		if (m_fTime >= 1.5f)
 		{
 			m_bAnimStop = false;
 			g_bDeathTime = true;
-
-
-
+			m_fTime = 0.f;
+			
 		}
-		else
-			pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 0.02f);
-		
 	}
 	
+	if (pTanjiro->Get_Model()->Get_CurrentTime_Index(pTanjiro->Get_AnimIndex()) >= 18.f)
+	{
+		m_bFrameControl = true;
+		m_bAnimStop = true;
+
+		m_fTime += fTimeDelta;
+
+		if (m_fTime < 2.f)
+		{
+			pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 0.05f);
+		}
+		else
+		{
+			if (m_bOnGround == true)
+			{
+				m_bNextAnim = true;
+				pTanjiro->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 4.f);
+			}
+		}
+
+
+	}
+
+
 
 	if (g_bDeathTime == true)
 	{
 		Fall_Height(pTanjiro, fTimeDelta);
-	}
-
-	if (m_bOnGround == true)
-	{
-		m_bNextAnim = true;
-		pTanjiro->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 4.f);
 	}
 
 
