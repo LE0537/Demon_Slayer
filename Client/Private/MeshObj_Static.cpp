@@ -67,8 +67,6 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-
 	//	¸Ê¸¶´Ù ±¤¿ø À§Ä¡ Á¶Á¤
 	//_float4 vEye = _float4(-10.f, 150.f, -10.f, 1.f);			//	eye
 	//_float4 vAt = _float4(60.f, -20.f, 60.f, 1.f);			//	at
@@ -206,8 +204,6 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 	//	RELEASE_INSTANCE(CData_Manager);
 
 	//}
-
-	//RELEASE_INSTANCE(CGameInstance);
 
 
 }

@@ -46,8 +46,6 @@ private:
 	CVIBuffer_Line*			m_pVIBuffer_LineCom = nullptr;
 
 private:/*Cube*/
-	CShader*			m_pShader_CubeCom = nullptr;
-	CVIBuffer*			m_pVIBuffer_CubeCom = nullptr;
 	CShader*			m_pShader_ModelCom = nullptr;
 	CModel*				m_pModelCom = nullptr;
 

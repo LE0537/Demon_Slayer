@@ -134,16 +134,7 @@ HRESULT CCamLine::Ready_Components()
 
 	/* For.Com_VIBuffer*/
 	m_pVIBuffer_LineCom = CVIBuffer_Line::Create(m_pDevice, m_pContext);
-
-
-
-	/* For.Com_VIBufferCube */
-	if (FAILED(__super::Add_Components(TEXT("Com_VIBufferCube"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"), (CComponent**)&m_pVIBuffer_CubeCom)))
-		return E_FAIL;
-	/* For.Com_ShaderCube */
-	if (FAILED(__super::Add_Components(TEXT("Com_ShaderCube"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxCubeTex"), (CComponent**)&m_pShader_CubeCom)))
-		return E_FAIL;
-
+	
 
 	/* For.Com_Model */
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_Sphere2"), (CComponent**)&m_pModelCom)))
@@ -247,8 +238,6 @@ void CCamLine::Free()
 
 	Safe_Release(m_pVIBuffer_LineCom);
 
-	Safe_Release(m_pShader_CubeCom);
-	Safe_Release(m_pVIBuffer_CubeCom);
 	Safe_Release(m_pShader_ModelCom);
 	Safe_Release(m_pModelCom);
 }

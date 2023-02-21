@@ -92,19 +92,25 @@ void CImGuiManager::ShowGui(_float fTimeDelta)
 	if (m_iLevel != g_iLevel)
 	{
 		LEVEL eLevel = LEVEL_STATIC;
+		_bool	bCheck = false;
 		switch (g_iLevel)
 		{
-		case 1: eLevel = LEVEL_GAMEPLAY; break;
-		case 2: eLevel = LEVEL_ADVRUI; break;
+		case 1: eLevel = LEVEL_GAMEPLAY; bCheck = true; break;
+		case 2: eLevel = LEVEL_ADVRUI; bCheck = true; break;
 			//	case 3: eLevel = LEVEL_ ¾ÆÄ«ÀÚ
+		default: bCheck = false; break;
 		}
-		CGameObject* pGameObject = pGameInstance->Find_Layer(eLevel, L"Layer_Camera")->Get_LayerFront();
-		if (nullptr != pGameObject)
+		if (true == bCheck)
 		{
-			Safe_Release(m_pCamera);
-			m_pCamera = pGameObject;
-			Safe_AddRef(m_pCamera);
+			CGameObject* pGameObject = pGameInstance->Find_Layer(eLevel, L"Layer_Camera")->Get_LayerFront();
+			if (nullptr != pGameObject)
+			{
+				Safe_Release(m_pCamera);
+				m_pCamera = pGameObject;
+				Safe_AddRef(m_pCamera);
+			}
 		}
+
 		m_iLevel = g_iLevel;
 	}
 
@@ -1863,6 +1869,7 @@ void CImGuiManager::Free()
 	{
 		for (auto & iter : m_vecCamObjects[j])
 		{
+			iter->Set_Dead();
 			Safe_Release(iter);
 		}
 		m_vecCamObjects[j].clear();
