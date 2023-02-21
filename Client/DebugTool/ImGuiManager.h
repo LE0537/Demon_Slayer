@@ -16,10 +16,13 @@ BEGIN(Client)
 class CImGuiManager : public CBase
 {
 	DECLARE_SINGLETON(CImGuiManager)
+private:
+	enum	CAMTYPE { CAM_EYE, CAM_AT, CAM_END };
+
 public:
 	CImGuiManager();
 	virtual ~CImGuiManager() = default;
-
+	
 public:
 	HRESULT		Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 
@@ -32,6 +35,15 @@ public:
 private:
 	void		PostProcessing(_float fTimeDelta);
 
+private:/* For.CamAction */
+	void		Camera_Action(_float fTimeDelta);
+	void		Sort_CamNodes(CAMTYPE eCamType);
+	void		Sort_CamNodes(_int iIndex, CAMTYPE eCamType);
+
+	_bool			Window_LoadCams(_bool* bOpen);
+	_bool			Window_SaveCams(_bool* bOpen);
+	void			Read_CamActionFiles();
+
 
 private:
 	ID3D11Device*			m_pDevice = nullptr;
@@ -41,8 +53,23 @@ private:
 
 	CRenderer*			m_pRendererCom = nullptr;
 
+	_int				m_iLevel = LEVEL_GAMEPLAY;
+
 private:/* For.PostProcessing */
 	_float				m_fPostProcessingValue[CRenderer::VALUE_END] = {1.f, };
+
+private:/*For.CamAction*/
+	CGameObject*				m_pCamera = nullptr;
+		
+	_uint						m_iNumCamFiles = 0;
+	char*						m_strCamFiles[40];
+	_int						m_iNumCam[CAM_END] = { 0, };
+
+	vector<_float4>				m_vecCam[CAM_END];
+	vector<class CCamLine*>		m_vecCamObjects[CAM_END];
+
+	vector<_float>				m_vecCamTime;
+	_int						m_iNumCamTime = 0;
 
 
 

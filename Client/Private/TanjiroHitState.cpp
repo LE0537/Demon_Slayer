@@ -5,6 +5,8 @@
 #include "TanjiroUpperHitState.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "UI_Manager.h"
+
 using namespace Tanjiro;
 
 CHitState::CHitState(_float _fPow, _bool _bJump)
@@ -159,6 +161,10 @@ CTanjiroState * CHitState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	//	Jump(pTanjiro, m_fJumpTime);
 	//}
 
+
+	if (pTanjiro->Get_BattleTarget()->Get_SplSkl() == true)
+		fTimeDelta *= 0.3f;
+
 	if (pTanjiro->Get_AnimIndex() == CTanjiro::ANIMID::ANIM_HIT_DMG2_G)
 		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else
@@ -204,24 +210,14 @@ void CHitState::Enter(CTanjiro * pTanjiro)
 		}
 	}
 
-
-
-
-	_uint iRand = rand() % 4;
+	_uint iRand = rand() % 3;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_1.wav"), fVOICE);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_2.wav"), fVOICE);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_3.wav"), fEFFECT);
-	else if (iRand == 3)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_4.wav"), fEFFECT);
-
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_3.wav"), fVOICE);
 }
 
 
@@ -427,6 +423,7 @@ void CHitState::Set_JumpHitState(CTanjiro * pTanjiro)
 		break;
 	}
 }
+
 void CHitState::Exit(CTanjiro * pTanjiro)
 {
 	pTanjiro->Set_HitTime(0.3f);

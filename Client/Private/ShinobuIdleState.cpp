@@ -13,6 +13,8 @@
 #include "ShinobuSkill_Upper.h"
 #include "ShinobuTargetRushState.h"
 #include "Effect_Manager.h"
+#include "Shinobu_CinemaState.h"
+
 
 using namespace Shinobu;
 
@@ -33,6 +35,10 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 		switch (pShinobu->Get_i1P())
 		{
 		case 1:
+			if (pGameInstance->Key_Pressing(DIK_E))
+				return new CShinobu_CinemaState(CShinobu_CinemaState::SCENE_START);
+
+
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_A)) // аб

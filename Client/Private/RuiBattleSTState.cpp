@@ -42,7 +42,7 @@ CRuiState * CBattleStartState::Tick(CRui* pRui, _float fTimeDelta)
 CRuiState * CBattleStartState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
 
-		pRui->Get_Model()->Play_Animation2(fTimeDelta);
+		pRui->Get_Model()->Play_Animation(fTimeDelta);
 	
 	return nullptr;
 }
@@ -54,7 +54,7 @@ void CBattleStartState::Enter(CRui* pRui)
 	pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_BATTLE_START);
 	pRui->Set_AnimIndex(CRui::ANIM_BATTLE_START);
 	pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex());
-	pRui->Get_Model()->Set_LinearTime(pRui->Get_AnimIndex(), 0.01f);
+	pRui->Get_Model()->Set_LinearTime(pRui->Get_AnimIndex(), 0.2f);
 }
 
 void CBattleStartState::Exit(CRui* pRui)

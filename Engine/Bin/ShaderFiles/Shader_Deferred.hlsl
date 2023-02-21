@@ -647,20 +647,11 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	vector			vDepthDesc = g_DepthTexture.Sample(DepthSampler, In.vTexUV);
+	vector			vWorldDesc = g_WorldTexture.Sample(DepthSampler, In.vTexUV);
 
 	float			fViewZ = vDepthDesc.y * g_fFar;
 
-	vector			vWorldPos = (vector)0.f;
-
-	vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
-	vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
-	vWorldPos.z = vDepthDesc.r;
-	vWorldPos.w = 1.0f;
-
-	vWorldPos *= fViewZ;
-
-	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
-	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+	vector			vWorldPos = vWorldDesc;
 
 
 	//	vector		vViewPos_InLight = mul(vWorldPos, g_matLightView);
@@ -673,7 +664,7 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 
 	for (int i = 0; i < fNumSamples; ++i)
 	{
-		vector		vRayPos = vWorldPos + (i * normalize(g_vCamPosition - vWorldPos) * 0.5f);
+		vector		vRayPos = vWorldPos + (i * normalize(vWorldPos - g_vCamPosition) * 0.5f);
 		vector		vWorldPos_InLight = mul(vRayPos, g_matLightView);
 
 		vector		vUVPos = mul(vWorldPos_InLight, g_matLightProj);

@@ -250,6 +250,9 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxNewParticleInstance"),
 		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/Shaderfiles/Shader_VtxPointInstance_New.hlsl"), NEWPARTICLEINSTANCE_DECLARATION::Elements, NEWPARTICLEINSTANCE_DECLARATION::iNumElements))))
 		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxLine"),
+		CShader::Create(m_pDevice, m_pContext, TEXT("../Bin/Shaderfiles/Shader_VtxLine.hlsl"), VTXPOS_DECLARATION::Elements, VTXPOS_DECLARATION::iNumElements))))
+		return E_FAIL;
 
 	//·Îµù°´Ã¼
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingAnim"),

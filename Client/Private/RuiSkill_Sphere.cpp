@@ -246,7 +246,11 @@ void CSkill_SphereState::Enter(CRui* pRui)
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_SKILL_SPHERE_0);
 		pRui->Get_Model()->Set_LinearTime(CRui::ANIM_SKILL_SPHERE_0, 0.01f);
 		pRui->Set_AnimIndex(CRui::ANIM_SKILL_SPHERE_0);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Sphere.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Sphere.wav"), fVOICE);
+		if (pRui->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_SpCommonSkill.wav"), fEFFECT);
+		else
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Sphere.wav"), fEFFECT);
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_SKILL_SPHERE_1);

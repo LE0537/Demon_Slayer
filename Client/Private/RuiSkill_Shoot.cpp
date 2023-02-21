@@ -271,7 +271,8 @@ void CSkill_ShootState::Enter(CRui* pRui)
 		pRui->Get_Model()->Set_FrameNum(CRui::ANIM_SKILL_SHOOT_0, 100);
 		pRui->Get_Model()->Set_FrameTime(CRui::ANIM_SKILL_SHOOT_0, 1, 30, 1.2f);
 		pRui->Get_Model()->Set_UsingFrame(CRui::ANIM_SKILL_SHOOT_0, 1, 30);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Commonn.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Commonn.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_CommonSkill.wav"), fEFFECT);
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_SKILL_SHOOT_1);
@@ -290,6 +291,9 @@ void CSkill_ShootState::Enter(CRui* pRui)
 		pRui->Get_Model()->Set_UsingFrame(CRui::ANIM_SKILL_SHOOT_2, 1, 100);
 		break;
 	}
+
+	if (pRui->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_CommonSkill.wav"), fEFFECT);
 
 }
 

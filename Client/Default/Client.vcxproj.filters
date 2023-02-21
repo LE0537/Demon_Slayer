@@ -475,9 +475,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko">
       <UniqueIdentifier>{cb180b3d-3e4a-4ac4-b7a7-906b4b3b9a0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu">
-      <UniqueIdentifier>{df7afd57-d44f-4572-a8af-5f8ad1075e47}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Skill">
       <UniqueIdentifier>{d419443c-09df-4a99-8ec8-7a19c02e1e27}</UniqueIdentifier>
     </Filter>
@@ -601,62 +598,11 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\Move">
       <UniqueIdentifier>{a8cf4bb8-ac68-4af6-9264-1bc8267a6bc8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\Sheath">
-      <UniqueIdentifier>{c70f1c86-597c-475b-bed7-472cddb438bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\Weapon">
-      <UniqueIdentifier>{820a0899-a15c-42b9-bab1-7e29714dd08f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState">
-      <UniqueIdentifier>{fb19f5b3-3df7-40ee-9f7e-515504d7b1a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\FallCut">
       <UniqueIdentifier>{44a43d32-2a6e-40e2-8979-17f4e4cfac08}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Hit">
       <UniqueIdentifier>{d5f57b3b-74a0-439e-9526-0f142efc8056}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Idle">
-      <UniqueIdentifier>{e33e0618-4631-4176-bc71-2ad3ccd6f747}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Jump">
-      <UniqueIdentifier>{e33bf0a3-d9c4-413e-8cb8-b4e1460ea555}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Move">
-      <UniqueIdentifier>{58091a81-85a5-4bc1-84c7-f30b7ab83584}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Move\MoveJump">
-      <UniqueIdentifier>{0f9473a2-2355-4222-ae0a-ee5130832f9e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Dash">
-      <UniqueIdentifier>{02e5fa68-160b-45b3-8ee4-c3d178d6bb8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Change">
-      <UniqueIdentifier>{e081d6fd-3502-4db8-9da0-cb717ebfd32e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Guard">
-      <UniqueIdentifier>{66398862-c76b-44e6-86eb-4749705c922e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit">
-      <UniqueIdentifier>{1914698b-2269-4d72-9796-211ab9c11c28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill">
-      <UniqueIdentifier>{3646567c-5394-4412-9a3a-7a65a6602176}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Tool">
-      <UniqueIdentifier>{3ce29a9a-cbb7-423f-bdad-c83532ac22d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack1">
-      <UniqueIdentifier>{95b32c40-594f-4f48-965e-88c77169bbee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack2">
-      <UniqueIdentifier>{f42f335a-4dde-40bb-80dd-4468cfb6cb58}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack3">
-      <UniqueIdentifier>{948ee78c-22b2-4c88-8f3b-0d14923fff2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack4">
-      <UniqueIdentifier>{de68daa3-7068-4bf0-a0bf-f88a05bcf60b}</UniqueIdentifier>
     </Filter>
     <Filter Include="05.CollBox\08.KyoujuroJumpSkill">
       <UniqueIdentifier>{774addfc-6d62-4294-b860-cdbbfaaa0e5f}</UniqueIdentifier>
@@ -666,15 +612,6 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\06.MenuModel">
       <UniqueIdentifier>{91127abc-4d60-4ea2-b63b-d7b957322ee2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Common">
-      <UniqueIdentifier>{49763eda-7a33-456f-b246-611ae5faf159}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Move">
-      <UniqueIdentifier>{5c6aca9c-00f8-409c-99bd-ff0790123ee0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Upper">
-      <UniqueIdentifier>{158c1bb5-e63d-417c-bfd6-3bff4ec48d41}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Skill\FriendAdv">
       <UniqueIdentifier>{e68f60f8-f899-4222-ba78-611a830e4a42}</UniqueIdentifier>
@@ -736,15 +673,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\TargetRush">
       <UniqueIdentifier>{fddc39df-4720-4832-bc40-baf963493240}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\JumpAttack">
-      <UniqueIdentifier>{b2d70f82-dec4-4a5c-88cb-3a628145f51e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\JumpAttack\JumpMoveAttack">
-      <UniqueIdentifier>{02507fd4-b39a-4256-86cb-9458e27b89cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\TargetRush">
-      <UniqueIdentifier>{defb0c4a-9cec-471a-a43c-314843d2974e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack">
       <UniqueIdentifier>{a5978d52-8047-47bc-94ad-362a386f2d9c}</UniqueIdentifier>
     </Filter>
@@ -762,9 +690,6 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\BattleStart">
       <UniqueIdentifier>{49db86fb-0542-4006-bf85-26cca1d174c8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\BattleStart">
-      <UniqueIdentifier>{8337f6e0-9414-4f68-835c-6e5778d4f445}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\BattleStart">
       <UniqueIdentifier>{fba41093-5cad-40fa-913a-ae73b56fa9aa}</UniqueIdentifier>
@@ -807,12 +732,6 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\Skill\JumpMove">
       <UniqueIdentifier>{2da338c4-ba42-4825-94c2-32a921f8b627}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpCommon">
-      <UniqueIdentifier>{2d2412fe-ac33-43ed-b351-f3853475dd33}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpMove">
-      <UniqueIdentifier>{a0896b3e-ee61-44cb-9ca4-bd52bb59c163}</UniqueIdentifier>
     </Filter>
     <Filter Include="03.UI\03.SelectChar\Main\Shdow">
       <UniqueIdentifier>{060bfa0e-9df7-416f-bfd7-86b189cd2018}</UniqueIdentifier>
@@ -1243,14 +1162,113 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState">
       <UniqueIdentifier>{d9ffca7e-630f-4a4f-97c8-d5f2a7f0b869}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState">
+      <UniqueIdentifier>{c24ac115-21d2-43dc-a418-3f0ee1a45a23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu">
+      <UniqueIdentifier>{df7afd57-d44f-4572-a8af-5f8ad1075e47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\Sheath">
+      <UniqueIdentifier>{c70f1c86-597c-475b-bed7-472cddb438bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\Weapon">
+      <UniqueIdentifier>{820a0899-a15c-42b9-bab1-7e29714dd08f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState">
+      <UniqueIdentifier>{fb19f5b3-3df7-40ee-9f7e-515504d7b1a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Idle">
+      <UniqueIdentifier>{e33e0618-4631-4176-bc71-2ad3ccd6f747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Jump">
+      <UniqueIdentifier>{e33bf0a3-d9c4-413e-8cb8-b4e1460ea555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Move">
+      <UniqueIdentifier>{58091a81-85a5-4bc1-84c7-f30b7ab83584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Move\MoveJump">
+      <UniqueIdentifier>{0f9473a2-2355-4222-ae0a-ee5130832f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Dash">
+      <UniqueIdentifier>{02e5fa68-160b-45b3-8ee4-c3d178d6bb8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Change">
+      <UniqueIdentifier>{e081d6fd-3502-4db8-9da0-cb717ebfd32e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Guard">
+      <UniqueIdentifier>{66398862-c76b-44e6-86eb-4749705c922e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Hit">
+      <UniqueIdentifier>{1914698b-2269-4d72-9796-211ab9c11c28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill">
+      <UniqueIdentifier>{3646567c-5394-4412-9a3a-7a65a6602176}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Common">
+      <UniqueIdentifier>{49763eda-7a33-456f-b246-611ae5faf159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Move">
+      <UniqueIdentifier>{5c6aca9c-00f8-409c-99bd-ff0790123ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\Upper">
+      <UniqueIdentifier>{158c1bb5-e63d-417c-bfd6-3bff4ec48d41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpCommon">
+      <UniqueIdentifier>{2d2412fe-ac33-43ed-b351-f3853475dd33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Skill\JumpMove">
+      <UniqueIdentifier>{a0896b3e-ee61-44cb-9ca4-bd52bb59c163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Tool">
+      <UniqueIdentifier>{3ce29a9a-cbb7-423f-bdad-c83532ac22d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack1">
+      <UniqueIdentifier>{95b32c40-594f-4f48-965e-88c77169bbee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack2">
+      <UniqueIdentifier>{f42f335a-4dde-40bb-80dd-4468cfb6cb58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack3">
+      <UniqueIdentifier>{948ee78c-22b2-4c88-8f3b-0d14923fff2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\Attack4">
+      <UniqueIdentifier>{de68daa3-7068-4bf0-a0bf-f88a05bcf60b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\JumpAttack">
+      <UniqueIdentifier>{b2d70f82-dec4-4a5c-88cb-3a628145f51e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\JumpAttack\JumpMoveAttack">
+      <UniqueIdentifier>{02507fd4-b39a-4256-86cb-9458e27b89cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\TargetRush">
+      <UniqueIdentifier>{defb0c4a-9cec-471a-a43c-314843d2974e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\BattleStart">
+      <UniqueIdentifier>{8337f6e0-9414-4f68-835c-6e5778d4f445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState">
+      <UniqueIdentifier>{851a4edb-118c-4c70-97bd-05e8295106cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState">
+      <UniqueIdentifier>{51f8089c-eb29-4602-95c5-68415ae68043}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState">
+      <UniqueIdentifier>{f5dec784-ebc4-4eba-bdd8-eb8a5f86951c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\99.Cam">
+      <UniqueIdentifier>{12b748c4-dfc4-458f-a71c-a9c4c6a25874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\99.Cam\CamLine">
+      <UniqueIdentifier>{dc9e44c2-8145-4e2d-ba88-9250ce03c7c0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="01.Levels\09.Adv_Akaza">
       <UniqueIdentifier>{dd0d114b-d586-469d-83f1-6586560cb28f}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Levels\10.Battle_Enmu">
       <UniqueIdentifier>{3fb48467-bbe9-49e0-88c4-4a02f0356a06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\11.Battle_Akaza">
-      <UniqueIdentifier>{0f29d584-e042-4cd3-99c7-0de1059be1c3}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\02.Map\05.Door">
+      <UniqueIdentifier>{a4a956d4-2dc3-4c51-a306-0e3e407495c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1364,9 +1382,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\TanjiroWeapon.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\UI_Manager.h">
-      <Filter>03.UI\99.Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI.h">
       <Filter>03.UI</Filter>
@@ -2475,14 +2490,32 @@
     <ClInclude Include="..\Public\AngryState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Rui_CinemaState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Kyoujuro_CinemaState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Shinobu_CinemaState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Nezuko_CinemaState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\CamLine.h">
+      <Filter>02.GameObjects\99.GameObj\99.Cam\CamLine</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Level_AdvAkaza.h">
       <Filter>01.Levels\09.Adv_Akaza</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Level_BattleAkaza.h">
-      <Filter>01.Levels\11.Battle_Akaza</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Level_BattleEnmu.h">
       <Filter>01.Levels\10.Battle_Enmu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI_Manager.h">
+      <Filter>03.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Door.h">
+      <Filter>02.GameObjects\02.Map\05.Door</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3680,14 +3713,29 @@
     <ClCompile Include="..\Private\AngryState.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState\AngryState</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Rui_CinemaState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Kyoujuro_CinemaState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shinobu_CinemaState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Nezuko_CinemaState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\CamLine.cpp">
+      <Filter>02.GameObjects\99.GameObj\99.Cam\CamLine</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Level_AdvAkaza.cpp">
       <Filter>01.Levels\09.Adv_Akaza</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Level_BattleAkaza.cpp">
-      <Filter>01.Levels\11.Battle_Akaza</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Level_BattleEnmu.cpp">
       <Filter>01.Levels\10.Battle_Enmu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Door.cpp">
+      <Filter>02.GameObjects\02.Map\05.Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -3744,6 +3792,9 @@
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
     <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxPointInstance_New.hlsl">
+      <Filter>97.ShaderFiles</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Bin\ShaderFiles\Shader_VtxLine.hlsl">
       <Filter>97.ShaderFiles</Filter>
     </FxCompile>
   </ItemGroup>

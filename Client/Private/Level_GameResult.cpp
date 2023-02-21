@@ -39,10 +39,16 @@ HRESULT CLevel_GameResult::Initialize()
 
 	if (FAILED(Load_Map(L"Layer_BackGround", "11_Map_Rui")))
 		return E_FAIL;
-
-	if (FAILED(Load_StaticObjects("11_Rui")))
-		return E_FAIL;
-
+	if (pUIManager->Get_SelMapNum() == 0)
+	{
+		if (FAILED(Load_StaticObjects("11_Rui")))
+			return E_FAIL;
+	}
+	else if (pUIManager->Get_SelMapNum() == 1)
+	{
+		if (FAILED(Load_StaticObjects("TrainBattle")))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

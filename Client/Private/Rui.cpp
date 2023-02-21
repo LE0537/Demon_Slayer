@@ -45,7 +45,7 @@ HRESULT CRui::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if (m_i1p != 10 && m_i1p != 11)
+	if (m_i1p != 10 && m_i1p != 11 && m_i1p != 22)
 	{
 		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
 		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
@@ -115,7 +115,21 @@ HRESULT CRui::Initialize(void * pArg)
 		CUI_Manager::Get_Instance()->Set_2P(this);
 
 	}
+	else if (m_i1p == 22)
+	{
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		RELEASE_INSTANCE(CGameInstance);
+		_vector vPos = { -0.302f, 16.420f, 192.321f,1.f };
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
+		m_pNavigationCom->Find_CurrentCellIndex(vPos);
+
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		CUI_Manager::Get_Instance()->Set_2P(this);
+
+	}
 
 	CRuiState* pState = new CIdleState();
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
@@ -341,6 +355,11 @@ HRESULT CRui::Ready_Components()
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
+	else if (g_iLevel == 4)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainBattle"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
 	else
 	{
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
@@ -442,6 +461,8 @@ void CRui::LateTickState(_float fTimeDelta)
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
+
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), fEFFECT);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_fEffectTime = 0.f;

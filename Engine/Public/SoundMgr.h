@@ -34,13 +34,15 @@ public:
 public:
 	void PlayBGM(TCHAR* pSoundKey, float fVolume);
 	void PlayEffect(TCHAR * pSoundKey, float fVolume);
+	void PlayVoice(TCHAR * pSoundKey, float fVolume);
 	void BGM_Stop();
-	void Effect_Stop();
+	void Effect_Stop(CHANNELID eType);
 	void Free();
 	void SetSoundVolume(CHANNELID  _Channel, float fVolume);
 private:
 	void LoadBGMFile();
-	void LoadSoundFile();
+	void LoadEffectFile();
+	void LoadVoiceFile();
 private:
 	static CSoundMgr* m_pInstance;
 

@@ -152,6 +152,9 @@ CKyoujuroState * CHitState::Late_Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 	//	Jump(pKyoujuro, m_fJumpTime);
 	//}
 
+	if (pKyoujuro->Get_BattleTarget()->Get_SplSkl() == true)
+		fTimeDelta *= 0.3f;
+
 	if (pKyoujuro->Get_AnimIndex() == CKyoujuro::ANIMID::ANIM_HIT_DMG2_G)
 		pKyoujuro->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else

@@ -59,6 +59,23 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 
 	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 
+	if (g_iLevel == 3)
+	{
+		switch (m_tMyDesc.iTypeNum)
+		{
+		case 0:
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
+			break;
+		case 1:
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -500.f, 1.f));
+			break;
+		case 2:
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 500.f, 1.f));
+			break;
+		default:
+			break;
+		}
+	}
 
 	return S_OK;
 }
@@ -67,149 +84,9 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	//	¸Ê¸¶´Ù ±¤¿ø À§Ä¡ Á¶Á¤
-	//_float4 vEye = _float4(-10.f, 150.f, -10.f, 1.f);			//	eye
-	//_float4 vAt = _float4(60.f, -20.f, 60.f, 1.f);			//	at
-	//_vector vLook = XMLoadFloat4(&vAt) - XMLoadFloat4(&vEye);
-	//XMStoreFloat4(&vAt, XMVectorSetW(XMLoadFloat4(&vEye) + XMVector3Normalize(vLook), 1.f));
-	//pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW, vEye, vAt);
-
-	//vEye = _float4(-1020.f, 1250.f, -570.f, 1.f);
-	//XMStoreFloat4(&vAt, XMVectorSetW(XMLoadFloat4(&vEye) + XMVector3Normalize(vLook), 1.f));
-	//pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, vEye, vAt);
-
-	//	¸Ê¸¶´Ù Shader°ª Á¶Á¤
-/*	
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.15f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.15f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 40.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 450.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 300.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.79f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.2f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.85f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
-*/
-
-
-	//if (pGameInstance->Key_Down(DIK_F4))
-	//{
-
-	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
-	//	char cName[MAX_PATH];
-	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
-	//	if (2090 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("Rail1"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2091 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("Rail2"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2092 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("BrokenTrain1"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2093 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("BrokenTrain2"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2094 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("BrokenTrain3"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2095 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("BrokenTrain4"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2096 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("BrokenTrain5"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2097 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("TrainMap"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2098 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("Enmu_Neck0"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2099 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("Enmu_Neck1"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2100 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("Enmu_Neck2"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2101 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("Train1"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2102 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("Train2"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2103 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("Train3"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2104 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("Trainbottom1"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2105 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("Trainbottom2"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2106 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("TrainChiar1"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2107 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("TrainChiar2"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//	if (2108 == m_tMyDesc.iModelIndex)
-	//	{
-	//		pData_Manager->TCtoC(TEXT("TrainDoor"), cName);
-	//		ERR_MSG(L"Clear1");
-	//	}
-	//
-	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_NONANIM);
-	//	RELEASE_INSTANCE(CData_Manager);
-
-	//}
-
-	//RELEASE_INSTANCE(CGameInstance);
-
-
+	if(g_iLevel == 3)
+		Move_Mesh(fTimeDelta);
 }
 
 void CMeshObj_Static::Late_Tick(_float fTimeDelta)
@@ -342,7 +219,7 @@ HRESULT CMeshObj_Static::Ready_Components()
 	CTransform::TRANSFORMDESC tTransformDesc;
 	ZeroMemory(&tTransformDesc, sizeof(CTransform::TRANSFORMDESC));
 	tTransformDesc.fRotationPerSec = XMConvertToRadians(90.f);
-	tTransformDesc.fSpeedPerSec = 5.f;
+	tTransformDesc.fSpeedPerSec = 20.f;
 
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &tTransformDesc)))
@@ -519,6 +396,22 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CMeshObj_Static::Move_Mesh(_float fTimeDelta)
+{
+	switch (m_tMyDesc.iModelIndex)
+	{
+	case 2097:
+		m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
+	
+		if (550.f < XMVectorGetZ(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)))
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -800.f, 1.f));
+
+		break;
+	default:
+		break;
+	}
 }
 
 CMeshObj_Static * CMeshObj_Static::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

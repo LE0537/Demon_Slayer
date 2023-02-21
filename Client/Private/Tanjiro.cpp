@@ -60,9 +60,16 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	if (m_i1p != 10 && m_i1p != 20)
 	{
-		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
-		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
-
+		if (g_iLevel == 4)
+		{
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-0.435f,16.413f,208.616f,1.f));
+			m_pNavigationCom->Find_CurrentCellIndex(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+		}
+		else
+		{
+			m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
+			m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
+		}
 
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
@@ -72,7 +79,10 @@ HRESULT CTanjiro::Initialize(void * pArg)
 			*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
 			if (m_i1p == 1)
 			{
-				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+				if (g_iLevel == 4)
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+				else
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
 				CUI_Manager::Get_Instance()->Set_1P(this);
 			}
@@ -680,11 +690,17 @@ HRESULT CTanjiro::Ready_Components()
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainNavi"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
+	else if (g_iLevel == 4)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainBattle"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
 	else
 	{
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
+	
 	return S_OK;
 }
 
@@ -724,7 +740,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_00.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_00.wav"), fVOICE);
 				pUIManager->Set_ClearCheck(true, 0);
 			}
 		}
@@ -749,7 +765,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 				pUIManager->Set_Msg(TEXT("흐갸아아악~타스케테~"));
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_00.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_00.wav"), fVOICE);
 			}
 		}
 		else if (!m_bQuest2MSG && m_bQuest1)
@@ -764,7 +780,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("귀살대원 '계'급 탄지로 입니다.지원 왔습니다."));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_01.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_01.wav"), fVOICE);
 						m_bSoundCheck = true;
 					}
 					break;
@@ -774,7 +790,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("앗! 지원군이 왔구나! 엥? 뭐라고? '계'급이라고?"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_01.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_01.wav"), fVOICE);
 						m_bSoundCheck = false;
 					}
 					break;
@@ -784,7 +800,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("왜 '주'가 아닌 거야?"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Murata_Dialog_02.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_02.wav"), fVOICE);
 						m_bSoundCheck = true;
 					}
 					break;
@@ -799,7 +815,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("으캬아야아"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_Dialog_00.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dialog_00.wav"), fVOICE);
 						m_bSoundCheck = false;
 					}
 					break;
@@ -853,7 +869,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("우리가족의 조용한 생활을 방해하지 마라"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Dialog_00.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Dialog_00.wav"), fVOICE);
 						m_bSoundCheck = true;
 					}
 					break;
@@ -863,7 +879,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("행복한 꿈속에 있고 싶겠지. 이해해"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_06.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_06.wav"), fVOICE);
 						m_bSoundCheck = false;
 					}
 					break;
@@ -873,7 +889,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("지금...뭐라고 했어?"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Dialog_01.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Dialog_01.wav"), fVOICE);
 						m_bSoundCheck = true;
 					}
 					break;
@@ -883,7 +899,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("난 말이야, 자신의 역할을 이해 못하는 녀석은"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Dialog_02.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Dialog_02.wav"), fVOICE);
 						m_bSoundCheck = false;
 					}
 					break;
@@ -893,7 +909,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("살아있을 필요가 없다고 생각해"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Dialog_03.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Dialog_03.wav"), fVOICE);
 						m_bSoundCheck = true;
 					}
 					break;
@@ -903,7 +919,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("취소 안 해!! 내가 한 말은 틀리지 않았어!!\n이상한 건, 너다!!"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_07.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_07.wav"), fVOICE);
 						m_bSoundCheck = false;
 					}
 					break;
@@ -913,7 +929,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("성가시군.큰 소리 내지 말아줄래? 너하고는 맞지가 않네."));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_Dialog_04.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Dialog_04.wav"), fVOICE);
 						m_bSoundCheck = true;
 					}
 					break;
@@ -923,7 +939,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("넌 이제 됐어. 잘가라"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiSelect.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiSelect.wav"), fVOICE);
 						m_bSoundCheck = false;
 					}
 					m_bQuest3_1MSG = true;
@@ -981,6 +997,8 @@ void CTanjiro::LateTickState(_float fTimeDelta)
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
+
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), fEFFECT);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_fEffectTime = 0.f;

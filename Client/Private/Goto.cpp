@@ -190,7 +190,7 @@ void CGoto::Check_Event()
 				pUIManager->Set_Msg(TEXT("À¸À¸...À¸À¹...µµ,µµ¿ÍÁà...."));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_00.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Goto_Dialog_00.wav"), fVOICE);
 					m_bSoundCheck = true;
 				}
 				break;
@@ -200,7 +200,7 @@ void CGoto::Check_Event()
 				pUIManager->Set_Msg(TEXT("±¦Âú¾Æ?"));
 				if (m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_05.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Goto_Dialog_05.wav"), fVOICE);
 					m_bSoundCheck = false;
 				}
 				break;
@@ -210,7 +210,7 @@ void CGoto::Check_Event()
 				pUIManager->Set_Msg(TEXT("¾öÃ» °­ÇÑ Ç÷±ÍÇÑÅ× ´çÇß¾î..."));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_00.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Goto_Dialog_00.wav"), fVOICE);
 					m_bSoundCheck = true;
 				}
 				break;
@@ -225,7 +225,7 @@ void CGoto::Check_Event()
 				pUIManager->Set_Msg(TEXT("±× ³à¼®À» Á¶½ÉÇØ¾ß ÇØ... À¸À¹..."));
 				if (m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Goto_Dialog_00.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Goto_Dialog_00.wav"), fVOICE);
 					m_bSoundCheck = false;
 				}
 				break;

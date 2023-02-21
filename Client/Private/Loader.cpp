@@ -15,7 +15,7 @@
 #include "MeshObj_Static_Inst.h"
 #include "MeshObj_Smell.h"
 #include "MeshObj_Smell_Inst.h"
-
+#include "Door.h"
 //Player 
 #include "Player.h"
 //char
@@ -188,6 +188,8 @@
 #include "Murata.h"
 #include "Goto.h"
 #include "Ozaki.h"
+//CamAction
+#include "CamLine.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -850,7 +852,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MeshObj_Static_Instancing"),
 			CMeshObj_Static_Inst::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
-
+		//Door
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Door"),
+			CDoor::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 
 
 		//	Smell
@@ -933,6 +938,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region Map
 	{
+
 	//	Skybox
 		/*For.Prototype_Component_Texture_SkyBox */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkyBox"), CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/SkyBox/SkyBox_11.dds", 1)))) return E_FAIL;
@@ -1819,6 +1825,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	//	CBattleField::Create(m_pDevice, m_pContext))))
 	//	return E_FAIL;
 
+	//	CamAction
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CamLine"),
+		CCamLine::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 
 	// Navi
@@ -1828,12 +1838,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"),
 		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/RuiStory.nav")))))
 		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainNavi"),
 		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/TrainNavi.nav")))))
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainBattle"),
 		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/TrainBattle.nav")))))
 		return E_FAIL;
+
 #pragma region UI°´Ã¼
 	//UI
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_InteractionUI"),

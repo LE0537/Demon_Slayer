@@ -205,10 +205,10 @@ CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 	{
 		CCharacters* m_pTarget = pShinobu->Get_BattleTarget();
 	
-		if (m_fTime > 0.4f)
+		if (m_fTime > 0.3f)
 			m_fMove += fTimeDelta;
 
-		if (m_fMove < 0.3f)
+		if (m_fMove < 0.2f)
 		{
 			//pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 0.3f, pShinobu->Get_NavigationCom());
 
@@ -327,7 +327,7 @@ CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 	switch (m_eStateType)
 	{
 	case Client::CShinobuState::TYPE_START:
-		if (m_fTime <= 0.2f)
+		if (m_fTime <= 0.3f)
 			Move(pShinobu, fTimeDelta);
 		else
 			Increase_Height(pShinobu, fTimeDelta);

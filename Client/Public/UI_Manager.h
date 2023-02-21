@@ -262,6 +262,8 @@ public:
 	void Set_SaveStory(_bool _bSave) { m_bSaveCheck = _bSave; }
 	void Set_RuiDadBattle(_bool _bBattle) { m_bRuiDadBattle = _bBattle; }
 	_bool Get_RuiDadBattle() { return m_bRuiDadBattle; }
+	void Set_EnmuBattle(_bool _bBattle) { m_bEnmuBattle = _bBattle; }
+	_bool Get_EnmuBattle() { return m_bEnmuBattle; }
 	//·Îµù
 	void Tick_Loading(_float fTimeDelta);
 	void Set_LoadingDead();
@@ -406,6 +408,8 @@ private:
 	_bool							m_bRuiDadBattle = false;
 	_bool							m_bStroyEvent[2] = { false };
 	_bool							m_bStroyEventend = false;
+	_bool							m_bEnmuBattle = false;
+	_bool							m_bAkazaBattle = false;
 public:
 	virtual void Free() override;
 };

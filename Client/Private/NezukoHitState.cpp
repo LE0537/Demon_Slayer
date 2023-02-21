@@ -149,6 +149,9 @@ CNezukoState * CHitState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	//	Jump(pNezuko, m_fJumpTime);
 	//}
 
+	if (pNezuko->Get_BattleTarget()->Get_SplSkl() == true)
+		fTimeDelta *= 0.3f;
+
 	if (pNezuko->Get_AnimIndex() == CNezuko::ANIMID::ANIM_HIT_DMG2_G)
 		pNezuko->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
 	else
