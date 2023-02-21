@@ -592,14 +592,13 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 	static _float fSettingTime = 0.f;
 	static _bool bActionPlaying = false;
+	static _bool bClusterRender = true;
+	static _bool bPreClusterRender = true;
 	if (ImGui::CollapsingHeader("Setting Actions"))
 	{
 		//	Play Time
-		_float fTime = 0.f;
-		for (auto & iter : m_vecCamTime)
-			fTime += iter;
 		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.68f);
-		ImGui::SliderFloat("Full Time", &fSettingTime, 0.f, fTime, "%f");
+		ImGui::SliderFloat("Full Time", &fSettingTime, 0.f, (_float)(m_vecCamTime.size() - 1), "%f");
 
 		//	Play CutScene
 		if (ImGui::Button("Play", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
@@ -608,13 +607,26 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 			m_iNumCam[CAM_EYE] == m_iNumCamTime + 1 &&
 			true == bActionPlaying)
 			bActionPlaying = ((CCamera_Dynamic*)m_pCamera)->Play_CutScene(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, &fSettingTime, fTimeDelta * (_float)bActionPlaying);
-
+		((CCamera_Dynamic*)m_pCamera)->Start_CutScene(bActionPlaying, CCamera_Dynamic::CUTSCENE_END);
 
 
 		ImGui::SameLine();
 		if (ImGui::Button("Stop", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
 			bActionPlaying = false;
 
+		ImGui::Checkbox("Render", &bClusterRender);
+		if (bPreClusterRender != bClusterRender)
+		{
+			for (_int iType = 0; iType < CAM_END; ++iType)
+			{
+				for (auto & iter : m_vecCamObjects[iType])
+				{
+					iter->Set_Rendering(bClusterRender);
+				}
+			}
+
+			bPreClusterRender = bClusterRender;
+		}
 	}
 
 

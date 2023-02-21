@@ -2,6 +2,8 @@
 #include "..\Public\HinoCami_CinemaState.h"
 #include "GameInstance.h"
 #include "TanjiroIdleState.h"
+#include "Layer.h"
+#include "Camera_Dynamic.h"
 
 using namespace Tanjiro;
 
@@ -81,7 +83,9 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 	m_eStateId = STATE_SKILL_KAGURA_COMMON;
 
 	pTanjiro->Set_SplSkl(true);
-	
+
+	LEVEL eLevel = LEVEL_END;
+	_bool bCheck = false;
 	switch (m_eScene)
 	{
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_START:
@@ -96,6 +100,24 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 
 		pTanjiro->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pTanjiro->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		
+		switch (g_iLevel)
+		{
+		case 1: eLevel = LEVEL_GAMEPLAY; bCheck = true; break;
+		case 2: eLevel = LEVEL_ADVRUI; bCheck = true; break;
+			//	case 3: eLevel = LEVEL_ ¾ÆÄ«ÀÚ
+		default: bCheck = false; break;
+		}
+		if (true == bCheck)
+		{
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			CGameObject* pCamera = pGameInstance->Find_Layer(eLevel, L"Layer_Camera")->Get_LayerFront();
+			if (nullptr != pCamera)
+			{
+				//((CCamera_Dynamic*)pCamera)->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_TAN_SPC_1);
+			}
+		}
+		RELEASE_INSTANCE(CGameInstance);
 
 		break; 
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_0:
