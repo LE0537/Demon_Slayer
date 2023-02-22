@@ -58,7 +58,7 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	_float fFovy = XMConvertToRadians(25.0f);
 	_float fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	_float fNear = 0.2f;
-	_float fFar = 1800.f;
+	_float fFar = g_fFar;
 
 	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 	
@@ -132,8 +132,11 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 	else
 		m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
 
+
 	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
+	{
 		Move_Mesh(fTimeDelta);
+	}
 }
 
 void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
@@ -199,11 +202,22 @@ HRESULT CMeshObj_Static_Inst::Render_ShadowDepth()
 		if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 			return E_FAIL;
 	}
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &XMMatrixTranspose(XMLoadFloat4x4(&m_matProjOrigin)), sizeof(_float4x4))))
-		return E_FAIL;
-	/*if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
-		return E_FAIL;*/
 
+
+	if (LEVEL_ADVAKAZA == m_tMyDesc.iCurrentLevel)
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &XMMatrixTranspose(XMLoadFloat4x4(&m_matProjOrigin)), sizeof(_float4x4))))
+			return E_FAIL;
+	}
+
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fFar", &g_fFar, sizeof(_float))))
+		return E_FAIL;
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 
@@ -279,6 +293,9 @@ HRESULT CMeshObj_Static_Inst::SetUp_ShaderResources()
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fFar", &g_fFar, sizeof(_float))))
+		return E_FAIL;
 
 
 	return S_OK;

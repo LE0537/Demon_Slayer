@@ -55,7 +55,7 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 	_float fFovy = XMConvertToRadians(25.0f);
 	_float fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	_float fNear = 0.2f;
-	_float fFar = 1800.f;
+	_float fFar = g_fFar;
 
 	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 
@@ -84,8 +84,10 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	if(g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
+	{
 		Move_Mesh(fTimeDelta);
+	}
 }
 
 void CMeshObj_Static::Late_Tick(_float fTimeDelta)
@@ -230,7 +232,18 @@ HRESULT CMeshObj_Static::Render_ShadowDepth()
 			return E_FAIL;
 	}
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &XMMatrixTranspose(XMLoadFloat4x4(&m_matProjOrigin)), sizeof(_float4x4))))
+	if (LEVEL_ADVAKAZA == m_tMyDesc.iCurrentLevel)
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+		return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &XMMatrixTranspose(XMLoadFloat4x4(&m_matProjOrigin)), sizeof(_float4x4))))
+			return E_FAIL;
+	}
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fFar", &g_fFar, sizeof(_float))))
 		return E_FAIL;
 
 
@@ -315,6 +328,9 @@ HRESULT CMeshObj_Static::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fGlowPower", &m_tMyDesc.fGlowPower, sizeof(_float))))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fFar", &g_fFar, sizeof(_float))))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -324,9 +340,9 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	_tchar	pPrototypeTag_Model[MAX_PATH] = L"";
 	switch (m_tMyDesc.iModelIndex)
 	{
-	case 2001: lstrcpy(pPrototypeTag_Model, L"BigTree1"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2002: lstrcpy(pPrototypeTag_Model, L"BigTree2"); m_fFrustumRadiusRatio = 7.f; break;
-	case 2003: lstrcpy(pPrototypeTag_Model, L"BigTree3"); m_fFrustumRadiusRatio = 7.f; break;
+	case 2001: lstrcpy(pPrototypeTag_Model, L"BigTree1"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2002: lstrcpy(pPrototypeTag_Model, L"BigTree2"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2003: lstrcpy(pPrototypeTag_Model, L"BigTree3"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
 	case 2004: lstrcpy(pPrototypeTag_Model, L"TreeFar1"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
 	case 2005: lstrcpy(pPrototypeTag_Model, L"TreeWillow"); m_fFrustumRadiusRatio = 20.f; break;
 

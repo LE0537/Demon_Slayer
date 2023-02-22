@@ -445,6 +445,8 @@ HRESULT CNezuko::Render_ShadowDepth()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fFar", &g_fFar, sizeof(_float))))
+		return E_FAIL;
 
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
@@ -542,6 +544,9 @@ HRESULT CNezuko::SetUp_ShaderResources()
 
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fFar", &g_fFar, sizeof(_float))))
+		return E_FAIL;
 
 	return S_OK;
 }

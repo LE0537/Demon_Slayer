@@ -25,4 +25,6 @@ extern bool			g_bCollBox;
 extern int			g_iLevel; 
 extern bool         g_bThread;
 extern bool			g_bDeathTime;
+extern float		g_fFar;
+
 using namespace Client;

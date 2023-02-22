@@ -24,6 +24,18 @@ public:
 	virtual ~CImGuiManager() = default;
 	
 public:
+	HRESULT		Setting_PostProcessingValue(_int iValueType, _float fValue)
+	{
+		if (CRenderer::VALUE_END < iValueType ||
+			0 > iValueType)
+			return E_FAIL;
+
+		m_fPostProcessingValue[iValueType] = fValue;
+
+		return S_OK;
+	}
+
+public:
 	HRESULT		Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 
 	void		Tick(_float fTimeDelta);
@@ -53,7 +65,7 @@ private:
 
 	CRenderer*			m_pRendererCom = nullptr;
 
-	_int				m_iLevel = LEVEL_GAMEPLAY;
+	_int				m_iLevel = LEVEL_STATIC;
 
 private:/* For.PostProcessing */
 	_float				m_fPostProcessingValue[CRenderer::VALUE_END] = {1.f, };

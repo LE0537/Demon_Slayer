@@ -32,6 +32,7 @@ public:
 	HRESULT Add_Debug(class CComponent* pDebugCom);
 
 public:
+	void	Set_Far(_float fFar);
 	void	Set_Value(VALUETYPE eValueType, _float fValue) 
 	{
 		if(eValueType >= VALUE_END) 

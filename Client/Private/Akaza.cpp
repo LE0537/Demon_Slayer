@@ -231,6 +231,8 @@ HRESULT CAkaza::Render_ShadowDepth()
 		return E_FAIL;
 
 
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fFar", &g_fFar, sizeof(_float))))
+		return E_FAIL;
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 
@@ -313,6 +315,9 @@ HRESULT CAkaza::SetUp_ShaderResources()
 
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fFar", &g_fFar, sizeof(_float))))
+		return E_FAIL;
 
 	return S_OK;
 }

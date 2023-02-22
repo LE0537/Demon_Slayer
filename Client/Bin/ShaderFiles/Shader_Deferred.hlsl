@@ -270,7 +270,7 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	Out.vShade *= g_fLightPower;
 	Out.vShade.a = 1.f;
 
-	vector			vWorld = g_WorldTexture.Sample(LinearSampler, In.vTexUV) * 1800.f;
+	vector			vWorld = g_WorldTexture.Sample(LinearSampler, In.vTexUV)/* * g_fFar*/;
 	vector			vWorldPos = (vector)0.f;
 	vWorldPos = vWorld;
 
@@ -371,7 +371,7 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 	vector			vShade = g_ShadeTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vSpecular = g_SpecularTexture.Sample(LinearSampler, In.vTexUV);
 	vector			vDepth = g_DepthTexture.Sample(LinearSampler, In.vTexUV);
-	vector			vWorld = g_WorldTexture.Sample(LinearSampler, In.vTexUV) * 1800.f;
+	vector			vWorld = g_WorldTexture.Sample(LinearSampler, In.vTexUV)/* * g_fFar*/;
 	vector			vAO = 0.1f * g_AOTexture.Sample(LinearSampler, In.vTexUV) * g_bRenderAO;
 
 	Out.vColor = ((vDiffuse - vAO) * vShade + vSpecular);
@@ -383,11 +383,31 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 	float			fViewZ = vDepthDesc.y * g_fFar;
 
 	vector			vWorldPos = (vector)0.f;
-	vWorldPos = vWorld;
+	vector		vWorldPos_Player = vWorld;
+	if (vWorldPos_Player.x == vWorldPos_Player.y &&
+		vWorldPos_Player.y == vWorldPos_Player.z &&
+		vWorldPos_Player.x == 0.f)
+		return Out;
+
+	/* 투영 공간상의 위치를 구했다. */
+	/* 투영 공간 == 로컬점의위치 * 월드행렬 * 뷰행렬 * 투영행렬 / w */
+	vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
+	vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
+	vWorldPos.z = vDepthDesc.r;
+	vWorldPos.w = 1.0f;
+
+	/* 로컬점의위치 * 월드행렬 * 뷰행렬 * 투영행렬 */
+	vWorldPos *= fViewZ;
+
+	/* 뷰 공간상의 위치르 ㄹ구한다. */
+	/* 로컬점의위치 * 월드행렬 * 뷰행렬  */
+	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+
+	/* 로컬점의위치 * 월드행렬   */
+	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
 
 
-
-	vector		vWorldPos_Every = mul(vWorldPos, g_matLightView);
+	vector		vWorldPos_Every = mul(vWorldPos_Player, g_matLightView);
 
 	vector		vUVPos = mul(vWorldPos_Every, g_matLightProj);
 	float2		vNewUV;
@@ -400,7 +420,7 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 
 
-	vector		vWorldPos_Once = mul(vWorldPos, g_matLightView_Static);
+	vector		vWorldPos_Once = mul(vWorldPos_Player, g_matLightView_Static);
 
 	vUVPos = mul(vWorldPos_Once, g_StaticShadowProj);
 	vNewUV.x = (vUVPos.x / vUVPos.w) * 0.5f + 0.5f;
@@ -651,12 +671,29 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	vector			vDepthDesc = g_DepthTexture.Sample(DepthSampler, In.vTexUV);
-	vector			vWorldDesc = g_WorldTexture.Sample(DepthSampler, In.vTexUV) * 1800.f;
+	vector			vWorldDesc = g_WorldTexture.Sample(DepthSampler, In.vTexUV)/* * g_fFar*/;
 
 	float			fViewZ = vDepthDesc.y * g_fFar;
 
 	vector			vWorldPos = vWorldDesc;
+	//vector			vWorldPos = (vector)0.f;
 
+	///* 투영 공간상의 위치를 구했다. */
+	///* 투영 공간 == 로컬점의위치 * 월드행렬 * 뷰행렬 * 투영행렬 / w */
+	//vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
+	//vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
+	//vWorldPos.z = vDepthDesc.r;
+	//vWorldPos.w = 1.0f;
+
+	///* 로컬점의위치 * 월드행렬 * 뷰행렬 * 투영행렬 */
+	//vWorldPos *= fViewZ;
+
+	///* 뷰 공간상의 위치르 ㄹ구한다. */
+	///* 로컬점의위치 * 월드행렬 * 뷰행렬  */
+	//vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+
+	///* 로컬점의위치 * 월드행렬   */
+	//vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
 
 	//	vector		vViewPos_InLight = mul(vWorldPos, g_matLightView);
 	//	matrix		matLightVP = mul(g_matLightView, g_matLightProj);

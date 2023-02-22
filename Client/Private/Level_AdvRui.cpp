@@ -12,6 +12,7 @@
 #include "MeshObj_Smell_Inst.h"
 #include "Tanjiro.h"
 #include "Characters.h"
+#include "ImGuiManager.h"
 
 unsigned int APIENTRY Thread_AdvRui(void* pArg)
 {
@@ -77,6 +78,8 @@ HRESULT CLevel_AdvRui::Initialize()
 	if (0 == m_hThread)
 		return E_FAIL;
 
+	g_fFar = 1800.f;
+
 	pUI_Manager->Add_Quiest();
 	RELEASE_INSTANCE(CUI_Manager);
 
@@ -112,6 +115,8 @@ HRESULT CLevel_AdvRui::Initialize()
 		return E_FAIL;
 	} 
 
+	_float fValue[CRenderer::VALUE_END] = { 0.07f, 0.12f, 0.1f, 55.f, 80.f, 0.83f, 0.7f, 1.36f, 0.4f, 1.f, 20.f, 300.f, 0.05f, 2.2f, 0.1f, 0.85f, 1.f };
+
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.07f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.12f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.1f);
@@ -129,6 +134,10 @@ HRESULT CLevel_AdvRui::Initialize()
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.1f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.85f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
+	m_pRendererCom->Set_Far(g_fFar);
+
+	for (_int i = 0; i < CRenderer::VALUE_END; ++i)
+		CImGuiManager::Get_Instance()->Setting_PostProcessingValue(i, fValue[i]);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -349,7 +358,7 @@ HRESULT CLevel_AdvRui::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CameraDesc.CameraDesc.fFovy = XMConvertToRadians(25.0f);
 	CameraDesc.CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	CameraDesc.CameraDesc.fNear = 0.2f;
-	CameraDesc.CameraDesc.fFar = 1800.f;
+	CameraDesc.CameraDesc.fFar = g_fFar;
 
 	CameraDesc.CameraDesc.TransformDesc.fSpeedPerSec = 10.f;
 	CameraDesc.CameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);

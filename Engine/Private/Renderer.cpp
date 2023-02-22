@@ -52,7 +52,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	_uint		iNumViewports = 1;
 
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-	m_fFar = 1800.f;//ViewportDesc.MaxDepth;
+	m_fFar = 1800.f;
 
 
 	//	Origin Cam Set
@@ -537,6 +537,25 @@ HRESULT CRenderer::Add_Debug(CComponent* pDebugCom)
 	return S_OK;
 }
 
+void CRenderer::Set_Far(_float fFar)
+{ 
+	m_fFar = fFar;
+
+	D3D11_VIEWPORT		ViewportDesc;
+	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	_uint		iNumViewports = 1;
+
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	_float fFovy = XMConvertToRadians(25.0f);
+	_float fAspect = (_float)ViewportDesc.Width / ViewportDesc.Height;
+	_float fNear = 0.2f;
+
+	XMStoreFloat4x4(&m_FirstProjmatrix, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, m_fFar));
+
+}
+
 void CRenderer::Set_PointBlur(_float3 vBlurPointPos, _float fBlurPower, _float fDuration, _float fBlurMinRatio)
 {
 	if (0.f < m_fBlurTime ||
@@ -861,7 +880,8 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 
 	if (_iLevel == 3)		//	Gameplay
 		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
-	else if (_iLevel == 8)	//	Rui 스토리
+	else if (_iLevel == 8 ||		//	Rui 스토리
+		10 == _iLevel)				//	AdvAkaza
 		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
 
 	if (nullptr != pLightDesc)
@@ -891,8 +911,16 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 
-		if (FAILED(m_pShader->Set_RawValue("g_StaticShadowProj", &XMMatrixTranspose(XMLoadFloat4x4(&m_FirstProjmatrix)), sizeof(_float4x4))))
-			return E_FAIL;
+		if (10 == _iLevel)	//	ADV_Akaza. 기차 스토리 첫번째
+		{
+			if (FAILED(m_pShader->Set_RawValue("g_StaticShadowProj", &pPipeLine->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pShader->Set_RawValue("g_StaticShadowProj", &XMMatrixTranspose(XMLoadFloat4x4(&m_FirstProjmatrix)), sizeof(_float4x4))))
+				return E_FAIL;
+		}
 		if (FAILED(m_pShader->Set_RawValue("g_matLightView_Static", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 			return E_FAIL;
 	}
@@ -1120,6 +1148,11 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 		return E_FAIL;
 
 	CPipeLine*			pPipeLine = GET_INSTANCE(CPipeLine);
+
+	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
+		return E_FAIL;
 
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Static_LightDepth"), m_pShader, "g_ShadowDepthTexture_Once")))
 		return E_FAIL;

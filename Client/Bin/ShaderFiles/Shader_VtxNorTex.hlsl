@@ -21,6 +21,8 @@ float4			g_vLightDir = float4(1.f, -1.f, 1.f, 0.f);
 float4			g_vMtrlAmbient = float4(1.f, 1.f, 1.f, 1.f);
 float4			g_vMtrlSpecular = float4(1.f, 1.f, 1.f, 1.f);
 
+float		g_fFar;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -161,7 +163,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	/* -1 ~ 1 => 0 ~ 1*/
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vWorldPos = In.vWorldPos / 1800.f;
+	Out.vWorldPos = In.vWorldPos / g_fFar;
 
 	return Out;
 }
@@ -198,8 +200,8 @@ PS_OUT PS_FILTER(PS_IN In)
 
 	Out.vNormal = vNormal;
 
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.f);
-	Out.vWorldPos = In.vWorldPos / 1800.f;
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fFar, 0.f, 0.f);
+	Out.vWorldPos = In.vWorldPos / g_fFar;
 
 	if (Out.vDiffuse.a < 0.5f)
 		discard;

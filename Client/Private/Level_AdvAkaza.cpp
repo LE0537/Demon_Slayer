@@ -15,6 +15,9 @@
 #include "Characters.h"
 #include  "Door.h"
 #include "Level_BattleEnmu.h"
+#include "ImGuiManager.h"
+
+
 unsigned int APIENTRY Thread_AdvAkaza(void* pArg)
 {
 	CLevel_AdvAkaza*		pLoader = (CLevel_AdvAkaza*)pArg;
@@ -79,6 +82,8 @@ HRESULT CLevel_AdvAkaza::Initialize()
 	if (0 == m_hThread)
 		return E_FAIL;
 
+	g_fFar = 3000.f;
+
 	//pUI_Manager->Add_Quiest();
 	RELEASE_INSTANCE(CUI_Manager);
 
@@ -110,6 +115,7 @@ HRESULT CLevel_AdvAkaza::Initialize()
 		return E_FAIL;
 	}
 
+	_float fValue[CRenderer::VALUE_END] = { 0.8f, 0.37f ,0.1f ,1.f ,350.f ,0.7f ,0.3f ,1.36f,0.4f,1.f,20.f,20.f,0.05f,1.5f,0.45f,0.6f,0.1f,0.2f,15.f,0.f,0.f };
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.8f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.37f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.1f);
@@ -129,6 +135,11 @@ HRESULT CLevel_AdvAkaza::Initialize()
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 0.1f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.2f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
+	m_pRendererCom->Set_Far(g_fFar);
+
+	for(_int i = 0; i < CRenderer::VALUE_END; ++i)
+		CImGuiManager::Get_Instance()->Setting_PostProcessingValue(i, fValue[i]);
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	
@@ -228,7 +239,7 @@ HRESULT CLevel_AdvAkaza::Ready_Lights()
 
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 	LightDesc.eType = LIGHTDESC::TYPE_BATTLESHADOW;
-	LightDesc.vDirection = _float4(-10.f, 110.f, 800.f, 1.f);		//	eye
+	LightDesc.vDirection = _float4(-10.f, 110.f, 100.f, 1.f);		//	eye
 	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&LightDesc.vDirection) + XMVector3Normalize(vLook), 1.f));
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
@@ -294,7 +305,7 @@ HRESULT CLevel_AdvAkaza::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CameraDesc.CameraDesc.fFovy = XMConvertToRadians(25.0f);
 	CameraDesc.CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	CameraDesc.CameraDesc.fNear = 0.2f;
-	CameraDesc.CameraDesc.fFar = 1800.f;
+	CameraDesc.CameraDesc.fFar = g_fFar;
 
 	CameraDesc.CameraDesc.TransformDesc.fSpeedPerSec = 10.f;
 	CameraDesc.CameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
