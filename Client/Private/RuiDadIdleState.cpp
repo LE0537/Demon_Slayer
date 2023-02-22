@@ -27,7 +27,7 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 
 
 
-	if (pRuiDad->Get_RuiDadAiMode() == true && g_iLevel == 1 && pRuiDad->Get_AnimIndex() != 0 && pRuiDad->Get_Tick() == true)
+	if (pRuiDad->Get_RuiDadAiMode() == true && g_iLevel == LEVEL_GAMEPLAY && pRuiDad->Get_AnimIndex() != 0 && pRuiDad->Get_Tick() == true)
 	{
 	
 

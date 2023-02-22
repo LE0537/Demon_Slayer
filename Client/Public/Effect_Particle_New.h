@@ -25,7 +25,7 @@ public:
 
 		char							szParticleDissolve[MAX_PATH];
 		char							szParticleMask[MAX_PATH];
-			
+
 		_bool							bUseGlow;
 		_bool							bUseRGB;
 		_bool							bUseColor;
@@ -66,8 +66,8 @@ public:
 		_float4							vColor;							// 파티클의 시작 색상
 		_float4							vColorGradient[5];				// 파티클 색상 변화
 
-		_bool							b1;
-		_bool							b2;
+		_bool							bAlpha;
+		_bool							bGravityTurn;
 		_bool							b3;
 
 		_int							i1;
@@ -86,6 +86,7 @@ public:
 		_float3							v3_2;
 		_float3							v3_3;
 		_float4							v4_1;
+
 
 	}PARTICLE_INFO;
 

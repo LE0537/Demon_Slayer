@@ -104,7 +104,10 @@ CTanjiroState * CKaguraSkill_SphereState::Late_Tick(CTanjiro * pTanjiro, _float 
 			{
 				_vector vTargetPos = vPos - vTarget;
 				vTarget += XMVector3Normalize(vTargetPos) * 2.f;
-				vTarget.m128_f32[1] = 4.f;
+				if (g_iLevel == LEVEL_BATTLEENMU)
+					vTarget.m128_f32[1] = 20.f;
+				else
+					vTarget.m128_f32[1] = 4.f;
 				if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vTarget))
 					pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTarget);
 			}
@@ -112,7 +115,10 @@ CTanjiroState * CKaguraSkill_SphereState::Late_Tick(CTanjiro * pTanjiro, _float 
 			{
 				_vector vLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK);
 				vPos += XMVector3Normalize(vLook) * 10.f;
-				vPos.m128_f32[1] = 4.f;
+				if (g_iLevel == LEVEL_BATTLEENMU)
+					vTarget.m128_f32[1] = 20.f;
+				else
+					vPos.m128_f32[1] = 4.f;
 				if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos))
 					pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 			}

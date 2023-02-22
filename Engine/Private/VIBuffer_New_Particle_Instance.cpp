@@ -124,11 +124,17 @@ HRESULT CVIBuffer_NewParticle_Instance::Initialize(void * pArg)
 	m_pParticleData = new VTXNEWPARTICLE[m_iNumInstance];
 	ZeroMemory(m_pParticleData, sizeof(VTXNEWPARTICLE) * m_iNumInstance);
 
+	m_matWorld = new _float4x4[m_iNumInstance];
+	ZeroMemory(m_matWorld, sizeof(_float4x4) * m_iNumInstance);
+
+	m_vGo = new _float4[m_iNumInstance];
+	ZeroMemory(m_vGo, sizeof(_float4) * m_iNumInstance);
+
 	return S_OK;
 }
 
 void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleReduction, _float4x4 ParentMtr, _float fSpeedReduction, _float fGravity,
-	_bool bSpeedKill)
+	_bool bSpeedKill, _matrix matParent)
 {
 	random_device rd;
 	mt19937 Seed(rd());
@@ -163,7 +169,7 @@ void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleRed
 			m_pParticleData[i].fTime += fTimeDelta;
 
 			_vector		vPosition = XMLoadFloat4(&m_pParticleData[i].vPosition);
-			_vector		vUp = XMLoadFloat4(&m_pParticleData[i].vUp);
+			_vector		vUp = XMLoadFloat4(&m_vGo[i]);
 
 			m_pParticleData[i].fSpeed *= fSpeedReduction;
 
@@ -178,11 +184,21 @@ void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleRed
 			m_pParticleData[i].vSize.x *= fScaleReduction.x;
 			m_pParticleData[i].vSize.y *= fScaleReduction.y;
 
+			if (m_bGravityTurn) {
+				_vector vUpGravity = XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vPosition) - vPosition);
+				_vector	vAxisY = XMVectorSet(0.f, 0.f, 1.f, 0.f);
+
+				_vector	vRight = XMVector3Cross(vAxisY, vUpGravity);
+
+				XMStoreFloat4(&m_pParticleData[i].vRight, vRight);
+				XMStoreFloat4(&m_pParticleData[i].vUp, vUpGravity);
+			}
+
 			XMStoreFloat4(&m_pParticleData[i].vPosition, vPosition);
 
 			if (m_pParticleData[i].fTime > m_pParticleData[i].fLifeTime ||
 				(bSpeedKill && m_pParticleData[i].fSpeed < 0.5f)) {
-				Reset_One(i);
+				Reset_One(i, matParent);
 			}
 
 			XMStoreFloat4(&m_pParticleData[i].vRight, XMVector3Normalize(XMLoadFloat4(&m_pParticleData[i].vRight)) * m_pParticleData[i].vSize.x);
@@ -212,6 +228,13 @@ void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleRed
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vColor = _float4(1.f, 1.f, 1.f, 1.f);
 		}
 		else {
+			if (m_bFollow) {
+				XMStoreFloat4(&((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vPosition,
+					XMVector3TransformCoord(XMLoadFloat4(&m_pParticleData[i].vPosition), XMLoadFloat4x4(&m_matWorld[i])));
+			}
+			else {
+				((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vPosition = m_pParticleData[i].vPosition;
+			}
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vSize = m_pParticleData[i].vSize;
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vRight = m_pParticleData[i].vRight;
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vUp = m_pParticleData[i].vUp;
@@ -221,7 +244,6 @@ void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleRed
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].fTime = m_pParticleData[i].fTime;
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].fSpeed = m_pParticleData[i].fSpeed;
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].fGravity = m_pParticleData[i].fGravity;
-			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vPosition = m_pParticleData[i].vPosition;
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vColor = m_pParticleData[i].vColor;
 		}
 	}
@@ -230,7 +252,8 @@ void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleRed
 }
 
 void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLifeTime, _float* fSpeed, _float2* vTexScale, _uint iParticleType,
-	_float fAngle, _float fRadius, _float3 vSize, _float3* vRotation, _float4 vColor, _float fDuration, _float fShotTime, _uint iOneParticleNumber, _float fCircleY, _float fCircleAngle)
+	_float fAngle, _float fRadius, _float3 vSize, _float3* vRotation, _float4 vColor, _float fDuration, _float fShotTime, _uint iOneParticleNumber,
+	_float fCircleY, _float fCircleAngle, _bool bFollow, _bool bGravityTurn, _matrix matParent)
 {
 	m_iMaxParticleNum = iMaxParticleNumber;
 	m_fDuration = fDuration;
@@ -253,6 +276,8 @@ void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLi
 	m_iShape = iParticleType;
 	m_fCircleAngle = fCircleAngle;
 	m_fCircleY = fCircleY;
+	m_bFollow = bFollow;
+	m_bGravityTurn = bGravityTurn;
 
 	random_device rd;
 	mt19937 Seed(rd());
@@ -344,10 +369,13 @@ void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLi
 				XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[i].vLook), XMConvertToRadians(z));
 		}
 
+		XMStoreFloat4x4(&m_matWorld[i], matParent);
+
 		WorldMatrix = ScaleMatrix * RotationMatrix * PositionMatrix * RevolveMatrix;
 
 		XMStoreFloat4(&m_pParticleData[i].vRight, WorldMatrix.r[0]);
 		XMStoreFloat4(&m_pParticleData[i].vUp, WorldMatrix.r[1]);
+		XMStoreFloat4(&m_vGo[i], WorldMatrix.r[1]);
 		XMStoreFloat4(&m_pParticleData[i].vLook, WorldMatrix.r[2]);
 		XMStoreFloat4(&m_pParticleData[i].vPosition, WorldMatrix.r[3]);
 	}
@@ -378,6 +406,13 @@ void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLi
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vColor = _float4(1.f, 1.f, 1.f, 1.f);
 		}
 		else {
+			if (m_bFollow) {
+				XMStoreFloat4(&((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vPosition,
+					XMVector3TransformCoord(XMLoadFloat4(&m_pParticleData[i].vPosition), XMLoadFloat4x4(&m_matWorld[i])));
+			}
+			else {
+				((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vPosition = m_pParticleData[i].vPosition;
+			}
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vSize = m_pParticleData[i].vSize;
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vRight = m_pParticleData[i].vRight;
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vUp = m_pParticleData[i].vUp;
@@ -387,7 +422,6 @@ void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLi
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].fTime = m_pParticleData[i].fTime;
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].fSpeed = m_pParticleData[i].fSpeed;
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].fGravity = m_pParticleData[i].fGravity;
-			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vPosition = m_pParticleData[i].vPosition;
 			((VTXNEWPARTICLE*)MappedSubResource.pData)[i].vColor = m_pParticleData[i].vColor;
 		}
 	}
@@ -395,17 +429,17 @@ void CVIBuffer_NewParticle_Instance::Reset(_uint iMaxParticleNumber, _float* fLi
 	m_pContext->Unmap(m_pInstanceBuffer, 0);
 }
 
-void CVIBuffer_NewParticle_Instance::Reset_One(_uint iNum)
+void CVIBuffer_NewParticle_Instance::Reset_One(_uint iNum, _matrix matParent)
 {
 	random_device rd;
 	mt19937 Seed(rd());
 
 	uniform_real_distribution<float> Dgree360(0, 360);
 	uniform_real_distribution<float> Dgree20(0, 5);
-	uniform_real_distribution<float> LifeTimeRand(m_fLifeTime[0], m_fLifeTime[1]);
-	uniform_real_distribution<float> SpeedRand(m_fSpeed[0], m_fSpeed[1]);
 	uniform_real_distribution<float> CircleAngleRand(0, m_fCircleAngle);
 	uniform_real_distribution<float> CircleYRand(0, m_fCircleY);
+	uniform_real_distribution<float> LifeTimeRand(m_fLifeTime[0], m_fLifeTime[1]);
+	uniform_real_distribution<float> SpeedRand(m_fSpeed[0], m_fSpeed[1]);
 	uniform_real_distribution<float> TexSizeXRand(m_vParticleSize[0].x, m_vParticleSize[1].x);
 	uniform_real_distribution<float> TexSizeYRand(m_vParticleSize[0].y, m_vParticleSize[1].y);
 	uniform_real_distribution<float> AngleRand(-1.f * (m_fAngle / 2.f), (m_fAngle / 2.f));
@@ -484,10 +518,13 @@ void CVIBuffer_NewParticle_Instance::Reset_One(_uint iNum)
 			XMMatrixRotationAxis(XMLoadFloat4(&m_pParticleData[iNum].vLook), XMConvertToRadians(z));
 	}
 
+	XMStoreFloat4x4(&m_matWorld[iNum], matParent);
+
 	WorldMatrix = ScaleMatrix * RotationMatrix * PositionMatrix * RevolveMatrix;
 
 	XMStoreFloat4(&m_pParticleData[iNum].vRight, WorldMatrix.r[0]);
 	XMStoreFloat4(&m_pParticleData[iNum].vUp, WorldMatrix.r[1]);
+	XMStoreFloat4(&m_vGo[iNum], WorldMatrix.r[1]);
 	XMStoreFloat4(&m_pParticleData[iNum].vLook, WorldMatrix.r[2]);
 	XMStoreFloat4(&m_pParticleData[iNum].vPosition, WorldMatrix.r[3]);
 
@@ -526,4 +563,7 @@ void CVIBuffer_NewParticle_Instance::Free()
 	__super::Free();
 
 	Safe_Delete_Array(m_pParticleData);
+
+	Safe_Delete_Array(m_matWorld);
+	Safe_Delete_Array(m_vGo);
 }

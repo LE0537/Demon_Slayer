@@ -17,12 +17,12 @@ namespace Client
 // Client_Defines.h
 #define fBGM	0.7f
 #define fEFFECT 1.0f
-#define fVOICE 0.f
+#define fVOICE 1.f
 extern HWND			g_hWnd;
 extern HINSTANCE	g_hInst;
 extern bool			g_bDebug;
 extern bool			g_bCollBox;
-extern int			g_iLevel; //겜플 1 루이스토리 2 그외 0
+extern int			g_iLevel; 
 extern bool         g_bThread;
 extern bool			g_bDeathTime;
 using namespace Client;

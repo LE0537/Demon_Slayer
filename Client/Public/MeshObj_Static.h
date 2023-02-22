@@ -48,7 +48,7 @@ private:
 	_float4x4	m_matProjOrigin;
 
 	_float		m_fFrustumRadiusRatio = 1.f;
-
+	_bool     m_bNonAlpha = false;
 private:
 	HRESULT Delete_Component(const _tchar* pComponentTag);
 

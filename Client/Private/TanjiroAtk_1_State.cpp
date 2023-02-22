@@ -223,7 +223,7 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 		_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 		vCollPos += XMVector3Normalize(vCollLook) * 3.f; //추가
-		vCollPos.m128_f32[1] = 1.f; //추가
+		vCollPos.m128_f32[1] += 1.f; //추가
 		m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 		CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 		CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
@@ -314,7 +314,8 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
-			vPos.m128_f32[1] = 0.f;
+			if(g_iLevel != LEVEL_BATTLEENMU)
+				vPos.m128_f32[1] = 0.f;
 			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
 			if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -334,8 +335,9 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1, pTanjiro);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1_GROUND, pTanjiro);
-
+		if(g_iLevel != LEVEL_BATTLEENMU)
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_TANATTACK1_GROUND, pTanjiro);
+	
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
 	}
