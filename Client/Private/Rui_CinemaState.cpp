@@ -71,7 +71,7 @@ CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 CRuiState * CRui_CinemaState::Late_Tick(CRui * pRui, _float fTimeDelta)
 {
 	
-		pRui->Get_Model()->Play_Animation_Skill(fTimeDelta* 0.2f);
+		pRui->Get_Model()->Play_Animation_Skill(fTimeDelta);
 
 	return nullptr;
 }

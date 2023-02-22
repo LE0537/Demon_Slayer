@@ -76,7 +76,7 @@ CTanjiroState * CHinoCami_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDel
 CTanjiroState * CHinoCami_CinemaState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 
-	pTanjiro->Get_Model()->Play_Animation_Skill(fTimeDelta * 0.2f);
+	pTanjiro->Get_Model()->Play_Animation_Skill(fTimeDelta);
 
 	return nullptr;
 }
