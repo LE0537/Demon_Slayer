@@ -58,6 +58,7 @@ float			g_fEnvLightValue = 1.f;
 float			g_fLightPower = 1.f;
 float			g_fShadowTestLength = 1.f;
 float			g_fPlayerShadowValue = 1.f;
+float			g_fLightShaftMinus = 1.f;
 
 float			g_fAddValue;
 float			g_fMapGrayScaleTimeRatio;
@@ -663,14 +664,14 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 	float		fNumSamples = 120.f;
 	int			iValue = fNumSamples;
 
-	vector		vLightDir = -g_vLightDir;
+	vector		vLightDir = -g_vLightPos;
 
 	for (int i = 0; i < fNumSamples; ++i)
 	{
 		vector		vRayPos = vWorldPos + (i * normalize(g_vCamPosition - vWorldPos) * 0.2f);
 		vector		vWorldPos_InLight = mul(vRayPos, g_matLightView);
 
-		vector		vUVPos = mul(vWorldPos_InLight, g_matLightProj);
+		vector		vUVPos = mul(vWorldPos_InLight, g_StaticShadowProj);
 		float2		vNewUV = (float2)0.f;
 		vNewUV.x = (vUVPos.x / vUVPos.w) * 0.5f + 0.5f;
 		vNewUV.y = (vUVPos.y / vUVPos.w) * -0.5f + 0.5f;
@@ -678,13 +679,13 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 
 		if (vWorldPos_InLight.z > (vShadowDepthInfo.x * g_fFar) - 0.01f)
 		{
-			iValue -= 1;
+			iValue -= g_fLightShaftMinus;
 		}
 	}
 
 	float		fLightPower = 0.3f;
 
-	iValue = min(fNumSamples, iValue);
+	iValue = max(0, iValue);
 
 	Out.vColor.rgb = fLightPower * (iValue / fNumSamples);
 	Out.vColor.a = 1.f;

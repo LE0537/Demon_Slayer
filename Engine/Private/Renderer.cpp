@@ -859,9 +859,9 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 	_matrix		matLightView;
 	const LIGHTDESC* pLightDesc = nullptr;
 
-	if (_iLevel == 1)
+	if (_iLevel == 3)		//	Gameplay
 		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
-	else if (_iLevel == 2)
+	else if (_iLevel == 8)	//	Rui ½ºÅä¸®
 		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
 
 	if (nullptr != pLightDesc)
@@ -1125,10 +1125,6 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_vLightDir", &vLightDir, sizeof(_float4))))
 		return E_FAIL;
-	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrixInv", &XMMatrixTranspose(XMLoadFloat4x4(&m_FirstProjmatrix)), sizeof(_float4x4))))
-		return E_FAIL;
-	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
-		return E_FAIL;
 
 
 	if (nullptr != pLightDesc)
@@ -1146,6 +1142,10 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 		if (FAILED(m_pShader->Set_RawValue("g_vCamPosition", &pPipeLine->Get_CamPosition(), sizeof(_float4))))
 			return E_FAIL;
 	}
+
+	_float fLightShaftMinus = 1.f;
+	if (FAILED(m_pShader->Set_RawValue("g_fLightShaftMinus", &fLightShaftMinus, sizeof(_float))))
+		return E_FAIL;
 
 
 	RELEASE_INSTANCE(CPipeLine);

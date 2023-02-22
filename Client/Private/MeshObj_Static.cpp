@@ -84,7 +84,6 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-
 	if(g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
 		Move_Mesh(fTimeDelta);
 }

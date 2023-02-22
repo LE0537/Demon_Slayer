@@ -117,6 +117,13 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 	//}
 
 	//RELEASE_INSTANCE(CGameInstance);
+
+	if (g_iLevel == LEVEL_ADVAKAZA)
+	{
+		if (true == m_bRenderShadow)
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
+	}
+
 	if (false == m_bInit)
 	{
 		m_pModelCom->Update_Instancing(m_vecMatrix, 300000, fTimeDelta);
@@ -194,6 +201,8 @@ HRESULT CMeshObj_Static_Inst::Render_ShadowDepth()
 	}
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &XMMatrixTranspose(XMLoadFloat4x4(&m_matProjOrigin)), sizeof(_float4x4))))
 		return E_FAIL;
+	/*if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+		return E_FAIL;*/
 
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
