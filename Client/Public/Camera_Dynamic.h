@@ -38,9 +38,8 @@ private:
 	CTransform*			m_pSubTransform = nullptr;
 
 private:
-	//TrainCam
-	void	Set_TrainCamPos();
-
+	_bool   Check_Level(_vector vPos);
+	void	Move_TrainCam(_float fTimeDelta);
 	void	Set_CamPos();
 	void	Move_CamPos(_float fTimeDelta);
 	void	Lerp_SubCam(_float fTimeDelta);
