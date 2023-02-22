@@ -120,12 +120,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_pSubTransform->Set_WorldMatrix(m_pTransform->Get_WorldMatrix());
 	m_fStartTime = 0.f;
 	m_fFov = 14.f;
-
-	if(g_iLevel == 4)
-		m_fLookAtY = 16.f;
-	else
-		m_fLookAtY = 4.f;
-
+	m_fLookAtY = 4.f;
 	m_fAngle = 45.f;
 	m_fZoomAngle = 25.f;
 	m_fQuestFov = 50.f;
@@ -226,7 +221,11 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 		{
 			m_CameraDesc.fFovy = XMConvertToRadians(25.f);
 			m_bStart = true;
-			_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
+			_vector vPos;
+			if (g_iLevel == LEVEL_BATTLEENMU)
+				vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(-14.292f, 21.707f, 231.684f, 1.f), m_fLerpTime);
+			else
+				vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
 
 			if (m_fLerpTime > 1.f)
 			{
@@ -243,7 +242,11 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			m_CameraDesc.fFovy = XMConvertToRadians(25.f);
 			//m_bStart = true;
 			//75.343f, 5.5f, 19.231f
-			_vector vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
+			_vector vPos;
+			if(g_iLevel == LEVEL_BATTLEENMU)
+				vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(-14.292f, 21.707f, 231.684f, 1.f), m_fLerpTime);
+			else
+				vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
 
 			if (m_fLerpTime > 1.f)
 			{
@@ -271,11 +274,10 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			m_pTarget = m_pTarget->Get_SubChar();
 
 
-		if (true == bCamAttach && m_bLerp && g_iLevel != 4)
+		if (true == bCamAttach && m_bLerp && g_iLevel != LEVEL_BATTLEENMU)
 			Move_CamPos(fTimeDelta);
-		else if (true == bCamAttach && m_bLerp && g_iLevel == 4)
-			Move_CamPos(fTimeDelta);
-			//Move_TrainCam(fTimeDelta);
+		else if (true == bCamAttach && m_bLerp && g_iLevel == LEVEL_BATTLEENMU)
+			Move_TrainCam(fTimeDelta);
 	}
 	else if (m_bStory && bCamAttach)
 	{
@@ -432,44 +434,7 @@ void CCamera_Dynamic::Move_TrainCam(_float fTimeDelta)
 	}
 	_vector v1PY = m_p1P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_bool	bTrue = m_b1P;
-	if (CheckSubChar() && !m_bZoom)
-	{
-		if (!m_p1P->Get_PlayerInfo().bJump && Check_Level(v1PY))
-		{
-			if (m_f1pY > -100.f)
-			{
-				while (true)
-				{
-					if (m_f1pY <= -300.f)
-						break;
-					if (bTrue != m_b1P)
-						break;
-					m_fLookY += fTimeDelta / 7.f;
-					if (m_fLookY > 80.f)
-						m_fLookY = 80.f;
-					Set_CamPos();
 
-					ConvertToViewPort(fTimeDelta);
-				}
-			}
-			else if (m_f1pY > -200.f)
-			{
-				while (true)
-				{
-					if (m_f1pY >= 580.f)
-						break;
-					if (bTrue != m_b1P)
-						break;
-					m_fLookY -= fTimeDelta / 7.f;
-					if (m_fLookY < 0.f)
-						m_fLookY = 0.f;
-					Set_CamPos();
-
-					ConvertToViewPort(fTimeDelta);
-				}
-			}
-		}
-	}
 	if (m_fTurnCol > 0.f)
 		m_fTurnCol -= fTimeDelta;
 	if (m_fDist < 8.f && m_eTurn == CAM_END && m_p1P->Get_PlayerInfo().iCombo > 1)
@@ -517,15 +482,15 @@ void CCamera_Dynamic::Set_CamPos()
 	_float fDiameter = 0.f;
 
 	if(g_iLevel == LEVEL_BATTLEENMU)
-		fDiameter = 80.f;
+		fDiameter = 60.f;
 	else
 		fDiameter = 85.f;
 
 	m_fCamDist = fDist / fDiameter;
 	if (m_fCamDist > 1.f)
 		m_fCamDist = 1.f;
-	else if (m_fCamDist < 0.33f)
-		m_fCamDist = 0.33f;
+	else if (m_fCamDist < 0.5)
+		m_fCamDist = 0.5f;
 	
 	if(g_iLevel == LEVEL_BATTLEENMU)
 		vPos += XMVector3Normalize(vLook2) * (fDist * 0.5f);
@@ -789,10 +754,12 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 	_vector vPlayerLook = vPos - vPlayerPos;
 	_vector vTargetLook = vPos - vTargetPos;
 
-
 	_vector vAtPos = XMVectorLerp(vPlayerPos, vTargetPos, 0.5f);
-	if(g_iLevel == LEVEL_BATTLEENMU)
-		vAtPos.m128_f32[1] = 11.f;
+	if (g_iLevel == LEVEL_BATTLEENMU)
+	{
+		vAtPos = vTargetPos;
+		vAtPos.m128_f32[1] -= 4.5f;
+	}
 	else
 		vAtPos.m128_f32[1] = 3.f;
 	m_pTransform->LookAt(vAtPos);
@@ -858,11 +825,20 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 	}
 	else
 	{
-		m_f1pX = m_vTargetPos.x;
-		m_f1pY = m_vTargetPos.y;
-		m_f2pX = m_vPlayerPos.x;
-		m_f2pY = m_vPlayerPos.y;
-
+		if (g_iLevel == LEVEL_BATTLEENMU)
+		{
+			m_f1pX = m_vPlayerPos.x;
+			m_f1pY = m_vPlayerPos.y;
+			m_f2pX = m_vTargetPos.x;
+			m_f2pY = m_vTargetPos.y;
+		}
+		else
+		{
+			m_f1pX = m_vTargetPos.x;
+			m_f1pY = m_vTargetPos.y;
+			m_f2pX = m_vPlayerPos.x;
+			m_f2pY = m_vPlayerPos.y;
+		}
 		switch (m_pPlayer->Get_i1P())
 		{
 		case 1:
@@ -936,26 +912,48 @@ void CCamera_Dynamic::Set_StartPos(_float fTimeDelta)
 {
 	_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTarget = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	_vector vLook2 = vPos - vTarget;
+	_vector vLook2;
+
+	if (g_iLevel == LEVEL_BATTLEENMU)
+		vLook2 = vTarget - vPos;
+	else
+		vLook2 = vPos - vTarget;
 
 	_float fDist = XMVectorGetX(XMVector3Length(vLook2));
 
-	vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
-	vPos.m128_f32[1] = m_fLookAtY;
+	if (g_iLevel == LEVEL_BATTLEENMU)
+		vPos += XMVector3Normalize(vLook2) * (fDist * 0.5f);
+	else
+		vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
+
+	if (g_iLevel == LEVEL_BATTLEENMU)
+		vPos.m128_f32[1] += 2.5f;
+	else
+		vPos.m128_f32[1] = m_fLookAtY;
+	
 	m_pTransform->LookAt(vPos);
 	XMStoreFloat4(&m_vLerpLook, vPos);
-	if(g_iLevel != 4)
-		vPos.m128_f32[1] = 0.f;
 
+	if(g_iLevel == LEVEL_BATTLEENMU)
+		vPos.m128_f32[1] -= 2.5f;
+	else
+		vPos.m128_f32[1] = 0.f;
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	//	m_pTransform->
-	//	m_pTransform->Set_Rotation(_float3(0.f, 30.f, 0.f));
-
+	if (g_iLevel == LEVEL_BATTLEENMU)
+	{
+		//if (m_fTurnAngle < 90.f)
+		//	m_pTransform->Set_Rotation(_float3(0.f, m_fTurnAngle, 0.f));
+		//m_fTurnAngle += 3.f;
+		m_pTransform->Set_Rotation(_float3(0.f, 90.f, 0.f));
+	}
 	_vector vLook = XMVector3Normalize(m_pTransform->Get_State(CTransform::STATE_LOOK));
 
 	vPos -= vLook * 35.f;
-	if (g_iLevel != 4)
+
+	if (g_iLevel != LEVEL_BATTLEENMU)
 		vPos.m128_f32[1] = 0.f;
+
 	vPos.m128_f32[1] += 4.7f;
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
@@ -985,12 +983,12 @@ void CCamera_Dynamic::Set_StartPos(_float fTimeDelta)
 		//	m_fLookAtY += 0.3f;
 	}
 #endif
-	if (g_iLevel == 4)
+	if (g_iLevel == LEVEL_BATTLEENMU)
 	{
-		if (m_fLookAtY < 19.f)
-			m_fLookAtY = 19.f;
-		else if (m_fLookAtY > 20.f)
-			m_fLookAtY = 20.f;
+		//if (m_fLookAtY < 19.f)
+		//	m_fLookAtY = 19.f;
+		//else if (m_fLookAtY > 20.f)
+		//	m_fLookAtY = 20.f;
 	}
 	else
 	{
@@ -1007,6 +1005,8 @@ void CCamera_Dynamic::Set_StartPos(_float fTimeDelta)
 
 
 	XMStoreFloat4(&m_vCamPos, m_pTransform->Get_State(CTransform::STATE_TRANSLATION));
+	m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
+
 }
 
 void CCamera_Dynamic::Set_BattleStart(_float fTimeDelta)

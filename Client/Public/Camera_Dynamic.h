@@ -115,6 +115,8 @@ private:
 	_float m_fLerpTime = 0.f;
 	_float4 m_vCamPos, m_vLerpLook;
 	_int   m_iAnimIndex = 0;
+	_float m_fTurnAngle = 0.f;
+	
 	//shake 
 	_float m_fShakeAmount = 0.f;
 	_float m_fShakeFrequency = 0.f;
