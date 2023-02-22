@@ -161,7 +161,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	Out.vNormal = vector(vNormal * 0.5f + 0.5f, 0.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.f);
 	Out.vGlow = g_GlowTexture.Sample(LinearSampler, In.vTexUV) * g_fGlowPower;
-	Out.vWorld = In.vWorld;
+	Out.vWorld = In.vWorld / 1800.f;
 
 	if (Out.vDiffuse.a <= 0.1f)
 		discard;
@@ -187,7 +187,7 @@ PS_OUT PS_MAP(PS_IN In)
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.f);
-	Out.vWorld = In.vWorld;
+	Out.vWorld = In.vWorld / 1800.f;
 
 
 	if (Out.vDiffuse.a <= 0.3f)

@@ -124,20 +124,24 @@ HRESULT CLevel_GamePlay::Initialize()
 	}
 
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.15f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.15f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 40.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 450.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.2f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.15f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 70.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 74.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.85f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.2f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 300.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.79f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.2f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.85f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 2.8f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.4f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.7f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 1.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
 
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);

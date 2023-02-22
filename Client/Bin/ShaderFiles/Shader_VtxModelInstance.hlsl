@@ -167,7 +167,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(vNormal * 0.5f + 0.5f, 0.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.f);
-	Out.vWorld = In.vWorld;
+	Out.vWorld = In.vWorld / 1800.f;
 
 	if (Out.vColor.a < 0.5f)
 		discard;

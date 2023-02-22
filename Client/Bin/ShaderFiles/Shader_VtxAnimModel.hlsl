@@ -97,7 +97,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.1f);
 	Out.vDrawPlayer = Out.vDiffuse;
-	Out.vWorld = In.vWorld;
+	Out.vWorld = In.vWorld / 1800.f;
 
 	if (Out.vDiffuse.a <= 0.3f)
 		discard;
@@ -124,7 +124,7 @@ PS_OUT PS_MASK(PS_IN In)
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.1f);
 	Out.vDrawPlayer = Out.vDiffuse;
-	Out.vWorld = In.vWorld;
+	Out.vWorld = In.vWorld / 1800.f;
 
 	if (vMask.r == 0.f)
 		Out.vDiffuse.rgb = 1.f;

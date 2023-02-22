@@ -168,7 +168,7 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 		m_pRendererCom->AO_OnOff(bAO_OnOff);
 
 	//	20
-	static float fAOValue[CRenderer::VALUE_END] = { 0.15f, 0.15f, 0.4f, 40.f, 450.f, 0.3f, 0.5f, 1.36f, 0.4f, 1.f, 20.f, 300.f, 0.05f, 1.79f, 0.2f, 0.85f, 1.f, 15.f, 1.f, 1.f };
+	static float fAOValue[CRenderer::VALUE_END] = { 0.15f, 0.15f, 0.4f, 40.f, 450.f, 0.3f, 0.5f, 1.36f, 0.4f, 1.f, 20.f, 300.f, 0.05f, 1.79f, 0.2f, 0.85f, 1.f, 0.3f, 15.f, 1.f, 1.f };
 	static float vFogColor[3] = { 0.15f, 0.15f, 0.4f };
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
@@ -218,6 +218,9 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
 	ImGui::DragFloat("Shadow Test Length", &fAOValue[CRenderer::VALUE_SHADOWTESTLENGTH], 0.001f, -3.f, 3.f, "%.3f");
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("Player Shadow Length", &fAOValue[CRenderer::VALUE_PLC_SHADOW], 0.00001f, 0.00001f, 1.f, "%.5f");
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
 	ImGui::DragFloat("MapGrayScaleMaxTime", &fAOValue[CRenderer::VALUE_MAPGRAYSCALETIME], 0.1f, 0.f, 100.f, "%.1f");

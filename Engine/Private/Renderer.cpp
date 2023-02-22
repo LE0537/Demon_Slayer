@@ -40,6 +40,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fValue[VALUE_LIGHTSHAFT] = 0.5f;
 	m_fValue[VALUE_LIGHTPOWER] = 1.f;
 	m_fValue[VALUE_SHADOWTESTLENGTH] = 0.5f;
+	m_fValue[VALUE_PLC_SHADOW] = 0.3f;
 	m_fValue[VALUE_MAPGRAYSCALETIME] = 15.f;
 
 	m_bRenderAO = true;
@@ -755,6 +756,9 @@ HRESULT CRenderer::Render_Lights()
 	//	그림자가 검수되는 길이
 	if (FAILED(m_pShader->Set_RawValue("g_fShadowTestLength", &m_fValue[VALUE_SHADOWTESTLENGTH], sizeof(_float))))
 		return E_FAIL;
+	//	캐릭터 그림자 값
+	if (FAILED(m_pShader->Set_RawValue("g_fPlayerShadowValue", &m_fValue[VALUE_PLC_SHADOW], sizeof(_float))))
+		return E_FAIL;
 	if (FAILED(m_pLight_Manager->Render_Lights(m_pShader, m_pVIBuffer)))
 		return E_FAIL;
 
@@ -773,6 +777,8 @@ HRESULT CRenderer::Render_AO()
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Normal"), m_pShader, "g_NormalTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Player"), m_pShader, "g_PlayerTexture")))
 		return E_FAIL;
 
 	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
@@ -1115,11 +1121,11 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 
 	CPipeLine*			pPipeLine = GET_INSTANCE(CPipeLine);
 
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Static_LightDepth"), m_pShader, "g_ShadowDepthTexture")))
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Static_LightDepth"), m_pShader, "g_ShadowDepthTexture_Once")))
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_vLightDir", &vLightDir, sizeof(_float4))))
 		return E_FAIL;
-	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrixInv", &XMMatrixTranspose(XMLoadFloat4x4(&m_FirstProjmatrix)), sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
 		return E_FAIL;
