@@ -40,6 +40,9 @@ private:
 	CTransform*			m_pSubTransform = nullptr;
 
 private:
+	//TrainCam
+	void	Set_TrainCamPos();
+
 	void	Set_CamPos();
 	void	Move_CamPos(_float fTimeDelta);
 	void	Lerp_SubCam(_float fTimeDelta);
@@ -163,6 +166,7 @@ private:
 	std::vector<std::vector<_float4>>		m_vecCamAt;
 	std::vector<std::vector<_float>>		m_vecCamTime;
 	
+	//TrainCam
 
 public:
 	static CCamera_Dynamic* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

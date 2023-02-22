@@ -64,7 +64,7 @@ HRESULT CLevel_GamePlay::Initialize()
 {
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
-
+	g_iLevel = LEVEL_GAMEPLAY;
 	g_bThread = true;
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
@@ -147,8 +147,6 @@ HRESULT CLevel_GamePlay::Initialize()
 	RELEASE_INSTANCE(CUI_Manager);
 
 	//CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
-
-	g_iLevel = 1;
 
 	return S_OK;
 }

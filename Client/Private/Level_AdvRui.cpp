@@ -63,7 +63,7 @@ HRESULT CLevel_AdvRui::Initialize()
 		return E_FAIL;
 
 	g_bThread = true;
-
+	g_iLevel = LEVEL_ADVRUI;
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	CoInitializeEx(nullptr, 0);
@@ -132,7 +132,7 @@ HRESULT CLevel_AdvRui::Initialize()
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	g_iLevel = 2;
+	
 
 	return S_OK;
 }

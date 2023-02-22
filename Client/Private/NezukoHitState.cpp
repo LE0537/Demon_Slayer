@@ -199,26 +199,14 @@ void CHitState::Enter(CNezuko* pNezuko)
 
 	}
 
-
-	_uint iRand = rand() % 4;
-
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_1.wav"), fEFFECT);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_2.wav"), fEFFECT);
-	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_3.wav"), fEFFECT);
-	else if (iRand == 3)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_4.wav"), fEFFECT);
+	_uint iRand = rand() % 2;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Hit_1.wav"), fVOICE);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Hit_2.wav"), fVOICE);
+
 }
-
-
-
 
 CNezukoState * CHitState::Jump(CNezuko* pNezuko, _float fTimeDelta)
 {

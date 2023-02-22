@@ -151,6 +151,7 @@ void CGuardAdvState::Enter(CShinobu* pShinobu)
 	pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_GUARD_ADV);
 	pShinobu->Set_AnimIndex(CShinobu::ANIM_GUARD_ADV);
 
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_GuardAdv.wav"), fEFFECT);
 }
 
 void CGuardAdvState::Exit(CShinobu* pShinobu)

@@ -64,7 +64,7 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	
 	m_bInit = false;
 
-	if (g_iLevel == 3 || g_iLevel == 4)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
 	{
 		switch (m_tMyDesc.iTypeNum)
 		{
@@ -125,7 +125,7 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 	else
 		m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
 
-	if (g_iLevel == 3 || g_iLevel == 4)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
 		Move_Mesh(fTimeDelta);
 }
 

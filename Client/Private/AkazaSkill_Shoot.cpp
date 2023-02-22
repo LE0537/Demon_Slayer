@@ -297,6 +297,9 @@ void CSkill_ShootState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SKILL_SHOOT_0, 0.01f);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SKILL_SHOOT_0);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Shoot.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_CommonSkill.wav"), fEFFECT);
+		if (pAkaza->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_CommonSkill.wav"), fEFFECT);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_SKILL_SHOOT_1);
@@ -307,6 +310,9 @@ void CSkill_ShootState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_SKILL_SHOOT_2);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SKILL_SHOOT_2, 0.01f);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SKILL_SHOOT_2);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_CommonSkill.wav"), fEFFECT);
+		if (pAkaza->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_CommonSkill.wav"), fEFFECT);
 		break;
 	}
 

@@ -106,6 +106,8 @@ CShinobuState * CJumpAttackState::Late_Tick(CShinobu* pShinobu, _float fTimeDelt
 					pShinobu->Set_ComboTime(0.f);
 				}
 
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_JumpAttack.wav"), fEFFECT);
+
 				_int iDest = rand() % 5;
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				switch (iDest)
@@ -194,6 +196,7 @@ void CJumpAttackState::Enter(CShinobu* pShinobu)
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_JUMPATTACK);
 		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMPATTACK, false);
 		pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_JumpAttack.wav"), fEFFECT);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_LOOP_END);

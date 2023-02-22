@@ -144,14 +144,6 @@ void CUpperHitState::Enter(CTanjiro * pTanjiro)
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_3.wav"), fVOICE);
 	else if (iRand == 3)
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_4.wav"), fVOICE);
-
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
-
-
-
 }
 
 

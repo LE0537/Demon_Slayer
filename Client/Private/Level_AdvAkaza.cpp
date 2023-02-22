@@ -63,7 +63,7 @@ HRESULT CLevel_AdvAkaza::Initialize()
 {
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
-	g_iLevel = 3;
+	g_iLevel = LEVEL_ADVAKAZA;
 	g_bThread = true;
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);

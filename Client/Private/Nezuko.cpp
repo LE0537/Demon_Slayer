@@ -140,7 +140,7 @@ void CNezuko::Tick(_float fTimeDelta)
 
 		m_pSphereCom->Update(matColl);
 
-		if (g_iLevel == 2)
+		if (g_iLevel == LEVEL_ADVRUI)
 			Set_Shadow();
 
 	}
@@ -425,14 +425,14 @@ HRESULT CNezuko::Render_ShadowDepth()
 
 	_vector vLightEye, vLightAt, vLightUp;
 	_matrix matLightView;
-	if (g_iLevel == 1)
+	if (g_iLevel == LEVEL_GAMEPLAY)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 	}
-	else if (g_iLevel == 2)
+	else if (g_iLevel == LEVEL_ADVRUI)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);
@@ -517,6 +517,8 @@ void CNezuko::LateTickState(_float fTimeDelta)
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
+
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), fEFFECT);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_fEffectTime = 0.f;

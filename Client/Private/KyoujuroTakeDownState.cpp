@@ -122,6 +122,7 @@ void CTakeDownState::Enter(CKyoujuro* pKyoujuro)
 			RELEASE_INSTANCE(CGameInstance);
 			g_bDeathTime = true;
 		}
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Hit_3.wav"), fVOICE);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_HIT_DMG_RETURN_1);
@@ -141,23 +142,6 @@ void CTakeDownState::Enter(CKyoujuro* pKyoujuro)
 		break;
 	}
 
-
-
-	//_uint iRand = rand() % 4;
-
-	//if (iRand == 0)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_1.wav"), fEFFECT);
-	//else if (iRand == 1)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_2.wav"), fEFFECT);
-	//else if (iRand == 2)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_3.wav"), fEFFECT);
-	//else if (iRand == 3)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_4.wav"), fEFFECT);
-
-	//if (iRand == 0)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
-	//else if (iRand == 1)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
 }
 
 

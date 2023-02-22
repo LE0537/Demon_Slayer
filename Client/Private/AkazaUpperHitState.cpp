@@ -49,43 +49,19 @@ CAkazaState * CUpperHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 		m_fCurrentDuration = 0.f;
 	}
 
-	_uint iRand = rand() % 3;
+	
 	switch (m_eHitType)
 	{
 	case Client::CCharacters::HIT_UPPER:
-		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_1.wav"), fVOICE);
-		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_2.wav"), fVOICE);
-		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_3.wav"), fVOICE);
 		return UpperState(pAkaza, fTimeDelta);
 		break;
 	case Client::CCharacters::HIT_BOUND:
-		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_1.wav"), fVOICE);
-		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_2.wav"), fVOICE);
-		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_3.wav"), fVOICE);
 		return BoundState(pAkaza, fTimeDelta);
 		break;
 	case Client::CCharacters::HIT_KNOCKBACK:
-		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_1.wav"), fVOICE);
-		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_2.wav"), fVOICE);
-		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_3.wav"), fVOICE);
 		return KnockBackState(pAkaza, fTimeDelta);
 		break;
 	case Client::CCharacters::HIT_UPPER_2:
-		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_1.wav"), fVOICE);
-		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_2.wav"), fVOICE);
-		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_3.wav"), fVOICE);
 		return Upper2State(pAkaza, fTimeDelta);
 	case Client::CCharacters::HIT_END:
 		break;
@@ -93,9 +69,14 @@ CAkazaState * CUpperHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 		break;
 	}
 
+	_uint iRand = rand() % 3;
 
-
-
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_1.wav"), fVOICE);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_2.wav"), fVOICE);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Hit_3.wav"), fVOICE);
 
 	return nullptr;
 }
