@@ -202,8 +202,7 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 {
 	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vLooAt.m128_f32[1] = 0.f;
-	pTanjiro->Get_Transform()->LookAt(vLooAt);
+	pTanjiro->Get_Transform()->Set_PlayerLookAt(vLooAt);
 	CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 	CCollider*	pMyCollider2 = pTanjiro->Get_SphereCollider();
 	m_fMove += fTimeDelta;
@@ -216,7 +215,7 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 			_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 			_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 			vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
-			vCollPos.m128_f32[1] = 1.f; //추가
+			vCollPos.m128_f32[1] += 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 
@@ -292,7 +291,7 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 			_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 			_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
 			vCollPos += XMVector3Normalize(vCollLook) * 3.5f; //추가
-			vCollPos.m128_f32[1] = 1.f; //추가
+			vCollPos.m128_f32[1] += 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
@@ -321,7 +320,7 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 				else if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
 					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(_int(-15 * pTanjiro->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Set_Atk2(false);
@@ -378,7 +377,8 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 
 		vPos += vMyLook * (fSpeed - fSpeed * fPow);
 		vTargetPos += vTargetLook * fSpeed * fPow;
-		vPos.m128_f32[1] = 0.f;
+		if(g_iLevel != LEVEL_BATTLEENMU)
+			vPos.m128_f32[1] = 0.f;
 		_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
 		if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos))

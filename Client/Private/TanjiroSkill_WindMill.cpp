@@ -227,7 +227,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 
 			_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 			_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
-			vCollPos.m128_f32[1] = 1.f; //추가
+			vCollPos.m128_f32[1] += 1.f; //추가
 			m_pCollBox->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vCollPos); //추가
 
 			m_pCollBox->Get_Transform()->Set_PlayerLookAt(XMLoadFloat4(&m_vLook));
@@ -259,7 +259,7 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 					else if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 					{
 						CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
-						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.3f);
+						dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.3f);
 						RELEASE_INSTANCE(CGameInstance);
 						pTanjiro->Set_Combo(1);
 						pTanjiro->Set_ComboTime(0.f);
@@ -268,8 +268,8 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 						if (!m_bHit)
 						{
 							m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER_2, 15.f, 20.f, 8.f);
-							dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
-							dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pTanjiro->Get_Renderer());
+							dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+							dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pTanjiro->Get_Renderer());
 							m_bHit = true;
 						}
 					}
@@ -365,7 +365,8 @@ CTanjiroState * CSkill_WindMillState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_WATER6_1, pTanjiro);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_WATER6_1_GROUND, pTanjiro);
+		if (g_iLevel != LEVEL_BATTLEENMU)
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_WATER6_1_GROUND, pTanjiro);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
