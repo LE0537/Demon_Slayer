@@ -56,6 +56,7 @@ void CDoor::Late_Tick(_float fTimeDelta)
 	if (nullptr != m_pRendererCom)
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -82,13 +83,19 @@ HRESULT CDoor::Render()
 			return E_FAIL;
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
 			return E_FAIL;
-
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-			return E_FAIL;
-
+		if (!m_bNonAlpha && i == 0)
+		{
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+				return E_FAIL;
+		}
+		else if (m_bNonAlpha && i == 1)
+		{
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
+				return E_FAIL;
+		}
 	}
 
-
+	m_bNonAlpha = !m_bNonAlpha;
 
 	return S_OK;
 }
@@ -131,7 +138,7 @@ HRESULT CDoor::Render_ShadowDepth()
 
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 1)))
 			return E_FAIL;
-
+		
 	}
 
 

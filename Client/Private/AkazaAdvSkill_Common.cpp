@@ -397,6 +397,10 @@ void CAdvSkill_CommmonState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_ADVSKILL_COMMON_0, false);
 		//////////////////////////////////////////////////////
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_FriendCommon.wav"), fEFFECT);
+		if(pAkaza->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_SpCommonSkill.wav"), fEFFECT);
+		else
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SpCommonSkill.wav"), fEFFECT);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_ADVSKILL_COMMON_1);

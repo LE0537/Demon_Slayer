@@ -62,7 +62,11 @@ void CHierarchyNode::Invalidate_CombinedTransformationmatrix(_bool bRemoveTransl
 	//	}
 	//		XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix));
 
+	
 	//}
+
+	
+
 	if (!strcmp(m_szName, "Root"))
 	{
 		//m_MoveTransformationMatrix = m_TransformationMatrix;
@@ -78,6 +82,15 @@ void CHierarchyNode::Invalidate_CombinedTransformationmatrix(_bool bRemoveTransl
 		XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix) * XMLoadFloat4x4(&m_pParent->m_CombinedTransformationMatrix));
 	else
 		m_CombinedTransformationMatrix = m_TransformationMatrix;
+}
+
+void CHierarchyNode::Invalidate_SkillCombinedTransformationmatrix(_bool bRemoveTranslation)
+{
+	if (nullptr != m_pParent)
+		XMStoreFloat4x4(&m_CombinedTransformationMatrix, XMLoadFloat4x4(&m_TransformationMatrix) * XMLoadFloat4x4(&m_pParent->m_CombinedTransformationMatrix));
+	else
+		m_CombinedTransformationMatrix = m_TransformationMatrix;
+
 }
 
 void CHierarchyNode::RuiDad_Invalidate_CombinedTransformationmatrix(_bool bRemoveTranslation)

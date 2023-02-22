@@ -253,7 +253,7 @@ CKyoujuroState * CKyoujuro_CinemaState::Scene_1(CKyoujuro * pKyoujuro, _float fT
 	{
 		if (m_bMotionDelay == false)
 		{
-			pKyoujuro->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_TYPE::HIT_KNOCKBACK, 20.f, 30.f, 7.f);
+			pKyoujuro->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_TYPE::HIT_KNOCKBACK, 20.f, 30.f, 30.f);
 			m_bMotionDelay = true;
 		}
 	}

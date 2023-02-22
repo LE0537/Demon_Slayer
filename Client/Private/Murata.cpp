@@ -93,9 +93,7 @@ void CMurata::Tick(_float fTimeDelta)
 					m_pModelCom->Set_CurrentTime_Index(3, 35.f);
 				}
 			
-		
-
-				RELEASE_INSTANCE(CUI_Manager);
+			RELEASE_INSTANCE(CUI_Manager);
 	
 		}
 		else if(!m_bQuestStop)
@@ -182,14 +180,14 @@ HRESULT CMurata::Render_ShadowDepth()
 
 	_vector vLightEye, vLightAt, vLightUp;
 	_matrix matLightView;
-	if (g_iLevel == 1)
+	if (g_iLevel == LEVEL_GAMEPLAY)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 	}
-	else if (g_iLevel == 2)
+	else if (g_iLevel == LEVEL_ADVRUI)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);

@@ -240,6 +240,7 @@ void CTargetRushState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_TARGET_RUSH_0);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_TARGET_RUSH_0, 0.01f);
 		pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), fEFFECT);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_TARGET_RUSH_1);
@@ -387,7 +388,7 @@ CShinobuState * CTargetRushState::CommandCheck(CShinobu * pShinobu)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_L))
 			{
-				return new CTargetRushState(TYPE_START);
+				//return new CTargetRushState(TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_SPACE))
 			{
@@ -432,7 +433,7 @@ CShinobuState * CTargetRushState::CommandCheck(CShinobu * pShinobu)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 			{
-				return new CTargetRushState(TYPE_START);
+				//return new CTargetRushState(TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
 			{

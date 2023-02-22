@@ -126,14 +126,14 @@ HRESULT CKyoujuroWeapon::Render_ShadowDepth()
 
 	_vector vLightEye, vLightAt, vLightUp;
 	_matrix matLightView;
-	if (g_iLevel == 1)
+	if (g_iLevel == LEVEL_GAMEPLAY)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 	}
-	else if (g_iLevel == 2 || g_iLevel == 3)
+	else if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);

@@ -98,6 +98,7 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 						m_pTarget->Player_TakeDown(0.2f);
 						//m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 15.f, 20.f, 0.3f);
 						//m_pTarget->Take_Damage(0.7f, true);
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), fEFFECT);
 						pKyojuro->Set_Combo(1);
 						pKyojuro->Set_ComboTime(0.f);
 					}
@@ -108,6 +109,7 @@ CKyoujuroState * CJumpSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float 
 						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(_int(-10 * pKyojuro->Get_PlayerInfo().fPowerUp));
 						m_pTarget->Take_Damage(0.2f, false);
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), fEFFECT);
 						pKyojuro->Set_Combo(1);
 						pKyojuro->Set_ComboTime(0.f);
 					}
@@ -240,7 +242,8 @@ void CJumpSkill_CommonState::Enter(CKyoujuro * pKyojuro)
 	m_vVelocity.y = 10.f;
 	m_vVelocity.z = 0.f;
 
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_JumpCommon.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_JumpCommon.wav"), fVOICE);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_JumpCommonSkill.wav"), fEFFECT);
 }
 
 void CJumpSkill_CommonState::Exit(CKyoujuro * pKyojuro)

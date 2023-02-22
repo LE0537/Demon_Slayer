@@ -234,6 +234,7 @@ void CTargetRushState::Enter(CKyoujuro* pKyoujuro)
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_TARGET_RUSH_0);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_TARGET_RUSH_0, 0.01f);
 		pKyoujuro->Get_Transform()->Set_PlayerLookAt(pKyoujuro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), fEFFECT);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_TARGET_RUSH_1);
@@ -382,7 +383,7 @@ CKyoujuroState * CTargetRushState::CommandCheck(CKyoujuro * pKyoujuro)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_L))
 		{
-			return new CTargetRushState(TYPE_START);
+		//	return new CTargetRushState(TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_SPACE))
 		{
@@ -426,7 +427,7 @@ CKyoujuroState * CTargetRushState::CommandCheck(CKyoujuro * pKyoujuro)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 		{
-			return new CTargetRushState(TYPE_START);
+		//	return new CTargetRushState(TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
 		{

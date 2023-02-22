@@ -124,7 +124,6 @@ void CTakeDownState::Enter(CAkaza* pAkaza)
 			RELEASE_INSTANCE(CGameInstance);
 			g_bDeathTime = true;
 		}
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_4.wav"), fVOICE);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_HIT_DMG_RETURN_1);
@@ -137,6 +136,7 @@ void CTakeDownState::Enter(CAkaza* pAkaza)
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT_DMG_RETURN_0);
 		pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_4.wav"), fVOICE);
 		break;
 	case Client::CAkazaState::TYPE_CHANGE:
 		break;

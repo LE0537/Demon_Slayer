@@ -145,6 +145,7 @@ void CJumpState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIM_JUMP_START);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_JUMP_START, 0.01f);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_JUMP_START);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), fEFFECT);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIM_JUMP_LOOP_START);
@@ -155,6 +156,7 @@ void CJumpState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIM_JUMP_LOOP_END);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_JUMP_LOOP_END, 0.01f);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_JUMP_LOOP_END);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), fEFFECT);
 		break;
 	case Client::CKyoujuroState::TYPE_DEFAULT:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIM_JUMP_END);

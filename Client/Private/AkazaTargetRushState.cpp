@@ -234,6 +234,7 @@ void CTargetRushState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_TARGET_RUSH_0);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIMID::ANIM_TARGET_RUSH_0, 0.01f);
 		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), fEFFECT);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_TARGET_RUSH_1);
@@ -388,7 +389,7 @@ CAkazaState * CTargetRushState::CommandCheck(CAkaza * pAkaza)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_L))
 		{
-			return new CTargetRushState(TYPE_START);
+			//return new CTargetRushState(TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_SPACE))
 		{
@@ -448,7 +449,7 @@ CAkazaState * CTargetRushState::CommandCheck(CAkaza * pAkaza)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 		{
-			return new CTargetRushState(TYPE_START);
+			//return new CTargetRushState(TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
 		{

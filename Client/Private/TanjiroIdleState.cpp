@@ -327,7 +327,7 @@ CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	_vector vPlayerY = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	pTanjiro->Set_NavigationHeight(vPlayerY);
-	if (vPlayerY.m128_f32[1] > pTanjiro->Get_NavigationHeight().y)
+	if (vPlayerY.m128_f32[1] > pTanjiro->Get_NavigationHeight().y + 0.1f)
 	{
 		pTanjiro->Set_PlayerOriginPosY(fTimeDelta);
 	}

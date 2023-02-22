@@ -94,7 +94,7 @@ HRESULT CNezuko::Initialize(void * pArg)
 	CNezukoState* pState = new CIdleState();
 	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 
-
+	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_NEZUKO;
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	return S_OK;
 }
@@ -140,7 +140,7 @@ void CNezuko::Tick(_float fTimeDelta)
 
 		m_pSphereCom->Update(matColl);
 
-		if (g_iLevel == 2)
+		if (g_iLevel == LEVEL_ADVRUI)
 			Set_Shadow();
 
 	}
@@ -197,7 +197,8 @@ HRESULT CNezuko::Render()
 
 	}
 	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y)
+	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y
+		&& -50000.f == XMVectorGetX(m_pSubChar->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
 	{
 		_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
@@ -216,7 +217,7 @@ HRESULT CNezuko::Render()
 					pUI_Manager->Set_FriendUseCount(1, 0);
 					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
-					m_fChangeDelay = 3.f;
+					m_fChangeDelay = 4.f;
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Set_ChangeInfo(true);
 					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -244,7 +245,7 @@ HRESULT CNezuko::Render()
 				pUI_Manager->Set_FriendUseCount(1, 0);
 				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
-				m_fChangeDelay = 3.f;
+				m_fChangeDelay = 4.f;
 				m_pSubChar->Set_Sub(false);
 				m_pSubChar->Set_ChangeInfo(true);
 				if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -313,7 +314,7 @@ HRESULT CNezuko::Render()
 					pUI_Manager->Set_FriendUseCount(1, 1);
 					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
-					m_fChangeDelay = 3.f;
+					m_fChangeDelay = 4.f;
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Set_ChangeInfo(true);
 					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -341,7 +342,7 @@ HRESULT CNezuko::Render()
 				pUI_Manager->Set_FriendUseCount(1, 1);
 				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
-				m_fChangeDelay = 3.f;
+				m_fChangeDelay = 4.f;
 				m_pSubChar->Set_Sub(false);
 				m_pSubChar->Set_ChangeInfo(true);
 				if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -424,14 +425,14 @@ HRESULT CNezuko::Render_ShadowDepth()
 
 	_vector vLightEye, vLightAt, vLightUp;
 	_matrix matLightView;
-	if (g_iLevel == 1)
+	if (g_iLevel == LEVEL_GAMEPLAY)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 	}
-	else if (g_iLevel == 2)
+	else if (g_iLevel == LEVEL_ADVRUI)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);
@@ -516,6 +517,8 @@ void CNezuko::LateTickState(_float fTimeDelta)
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
+
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), fEFFECT);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_fEffectTime = 0.f;

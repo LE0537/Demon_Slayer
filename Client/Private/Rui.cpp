@@ -135,7 +135,7 @@ HRESULT CRui::Initialize(void * pArg)
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
-
+	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_RUI;
 	Set_Info();
 	return S_OK;
 }
@@ -273,14 +273,14 @@ HRESULT CRui::Render_ShadowDepth()
 
 	_vector vLightEye, vLightAt, vLightUp;
 	_matrix matLightView;
-	if (g_iLevel == 1)
+	if (g_iLevel == LEVEL_GAMEPLAY)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 	}
-	else if (g_iLevel == 2)
+	else if (g_iLevel == LEVEL_ADVRUI)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);
@@ -355,7 +355,7 @@ HRESULT CRui::Ready_Components()
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
-	else if (g_iLevel == 4)
+	else if (g_iLevel == LEVEL_BATTLEENMU)
 	{
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainBattle"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;

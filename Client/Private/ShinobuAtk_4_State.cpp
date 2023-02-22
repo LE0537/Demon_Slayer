@@ -314,6 +314,8 @@ CShinobuState * CAtk_4_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 					pShinobu->Set_ComboTime(0.f);
 				}
 
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_Attack_3.wav"), fEFFECT);
+
 				_int iDest = rand() % 5;
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				switch (iDest)
@@ -399,16 +401,13 @@ void CAtk_4_State::Enter(CShinobu* pShinobu)
 	_uint iRand = rand() % 3;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Attack4_1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Attack4_1.wav"), fVOICE);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Attack4_2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Attack4_2.wav"), fVOICE);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_Attack4_3.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Attack4_3.wav"), fVOICE);
 
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff1.wav"), fEFFECT);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("KnifeEff2.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Attack_3.wav"), fEFFECT);
 }
 
 void CAtk_4_State::Exit(CShinobu* pShinobu)

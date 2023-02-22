@@ -95,7 +95,7 @@ HRESULT CShinobu::Initialize(void * pArg)
 
 	CShinobuState* pState = new CIdleState();
 	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
-
+	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_SHINOBU;
 	m_bRender = true;
 
 	return S_OK;
@@ -236,7 +236,8 @@ HRESULT CShinobu::Render()
 		//}
 	}
 	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y)
+	if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y
+		&& -50000.f == XMVectorGetX(m_pSubChar->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
 	{
 		_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
@@ -255,7 +256,7 @@ HRESULT CShinobu::Render()
 					pUI_Manager->Set_FriendUseCount(1, 0);
 					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
-					m_fChangeDelay = 3.f;
+					m_fChangeDelay = 4.f;
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Set_ChangeInfo(true);
 					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -283,7 +284,7 @@ HRESULT CShinobu::Render()
 				pUI_Manager->Set_FriendUseCount(1, 0);
 				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
-				m_fChangeDelay = 3.f;
+				m_fChangeDelay = 4.f;
 				m_pSubChar->Set_Sub(false);
 				m_pSubChar->Set_ChangeInfo(true);
 				if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -352,7 +353,7 @@ HRESULT CShinobu::Render()
 					pUI_Manager->Set_FriendUseCount(1, 1);
 					RELEASE_INSTANCE(CUI_Manager);
 					m_tInfo.iFriendBar -= 500;
-					m_fChangeDelay = 3.f;
+					m_fChangeDelay = 4.f;
 					m_pSubChar->Set_Sub(false);
 					m_pSubChar->Set_ChangeInfo(true);
 					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -380,7 +381,7 @@ HRESULT CShinobu::Render()
 				pUI_Manager->Set_FriendUseCount(1, 1);
 				RELEASE_INSTANCE(CUI_Manager);
 				m_tInfo.iFriendBar -= 500;
-				m_fChangeDelay = 3.f;
+				m_fChangeDelay = 4.f;
 				m_pSubChar->Set_Sub(false);
 				m_pSubChar->Set_ChangeInfo(true);
 				if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
@@ -631,6 +632,8 @@ void CShinobu::LateTickState(_float fTimeDelta)
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
+
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), fEFFECT);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_fEffectTime = 0.f;

@@ -92,17 +92,15 @@ void CImGuiManager::ShowGui(_float fTimeDelta)
 	if (m_iLevel != g_iLevel)
 	{
 		LEVEL eLevel = LEVEL_STATIC;
-		_bool	bCheck = false;
-		switch (g_iLevel)
+		_bool	bCheck = true;
+		if (g_iLevel == LEVEL_LOADING || g_iLevel == LEVEL_LOGO || g_iLevel == LEVEL_SELECTCHAR || g_iLevel == LEVEL_GAMERESULT
+			|| g_iLevel == LEVEL_MENU || g_iLevel == LEVEL_STORYMENU || g_iLevel == LEVEL_SELECTMAP)
 		{
-		case 1: eLevel = LEVEL_GAMEPLAY; bCheck = true; break;
-		case 2: eLevel = LEVEL_ADVRUI; bCheck = true; break;
-			//	case 3: eLevel = LEVEL_ 아카자
-		default: bCheck = false; break;
+			bCheck = false;
 		}
 		if (true == bCheck)
 		{
-			CGameObject* pGameObject = pGameInstance->Find_Layer(eLevel, L"Layer_Camera")->Get_LayerFront();
+			CGameObject* pGameObject = pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront();
 			if (nullptr != pGameObject)
 			{
 				Safe_Release(m_pCamera);
@@ -1049,7 +1047,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			{
 				if (m_vecObjList[1]->Get_PlayerInfo().strName == L"쿄주로")
 				{
-					strName.erase(strName.begin(), strName.begin() + 53);
+					strName.erase(strName.begin(), strName.begin() + 38);
 				}
 				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"탄지로")
 				{

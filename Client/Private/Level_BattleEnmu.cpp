@@ -64,7 +64,7 @@ HRESULT CLevel_BattleEnmu::Initialize()
 {
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
-	g_iLevel = 4;
+	g_iLevel = LEVEL_BATTLEENMU;
 	g_bThread = true;
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);

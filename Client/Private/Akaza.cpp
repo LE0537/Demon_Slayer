@@ -93,7 +93,7 @@ HRESULT CAkaza::Initialize(void * pArg)
 
 	CAkazaState* pState = new CIdleState();
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
-
+	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_AKAZA;
 	Set_Info();
 	return S_OK;
 }
@@ -210,14 +210,14 @@ HRESULT CAkaza::Render_ShadowDepth()
 
 	_vector vLightEye, vLightAt, vLightUp;
 	_matrix matLightView;
-	if (g_iLevel == 1)
+	if (g_iLevel == LEVEL_GAMEPLAY)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 	}
-	else if (g_iLevel == 2)
+	else if (g_iLevel == LEVEL_ADVRUI)
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);

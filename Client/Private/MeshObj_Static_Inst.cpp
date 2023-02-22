@@ -64,7 +64,7 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	
 	m_bInit = false;
 
-	if (g_iLevel == 3)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
 	{
 		switch (m_tMyDesc.iTypeNum)
 		{
@@ -125,7 +125,7 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 	else
 		m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
 
-	if (g_iLevel == 3)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
 		Move_Mesh(fTimeDelta);
 }
 
@@ -236,7 +236,7 @@ HRESULT CMeshObj_Static_Inst::Ready_Components()
 	CTransform::TRANSFORMDESC tTransformDesc;
 	ZeroMemory(&tTransformDesc, sizeof(CTransform::TRANSFORMDESC));
 	tTransformDesc.fRotationPerSec = XMConvertToRadians(90.f);
-	tTransformDesc.fSpeedPerSec = 20.f;
+	tTransformDesc.fSpeedPerSec = 100.f;
 
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &tTransformDesc)))

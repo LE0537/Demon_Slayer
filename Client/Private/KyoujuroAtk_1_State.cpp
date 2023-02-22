@@ -287,6 +287,8 @@ CKyoujuroState * CAtk_1_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 
 					++m_iHit;
 				}
+				CSoundMgr::Get_Instance()->Effect_Stop(SOUND_EFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_Attack_0.wav"), fEFFECT);
 			}
 
 		}
@@ -351,7 +353,7 @@ void CAtk_1_State::Enter(CKyoujuro * pKyoujuro)
 	else if (iRand == 2)
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Attack1_3.wav"), fVOICE);
 
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Attack1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Attack_0.wav"), fEFFECT);
 }
 
 void CAtk_1_State::Exit(CKyoujuro * pKyoujuro)

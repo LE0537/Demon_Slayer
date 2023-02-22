@@ -59,7 +59,7 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 
 	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 
-	if (g_iLevel == 3)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
 	{
 		switch (m_tMyDesc.iTypeNum)
 		{
@@ -85,7 +85,7 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 
 
-	if(g_iLevel == 3)
+	if(g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
 		Move_Mesh(fTimeDelta);
 }
 
@@ -96,7 +96,13 @@ void CMeshObj_Static::Late_Tick(_float fTimeDelta)
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	_matrix		matWorld = m_pTransformCom->Get_WorldMatrix();
 	
-	if (nullptr != m_pRendererCom)
+	if (m_tMyDesc.iModelIndex == 2101 || m_tMyDesc.iModelIndex == 2102
+		|| m_tMyDesc.iModelIndex == 2103 || m_tMyDesc.iModelIndex == 2108)
+	{
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
+	}
+	else if (nullptr != m_pRendererCom)
 	{
 		if (false == m_tMyDesc.bAlphaBlend)
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
@@ -130,9 +136,61 @@ HRESULT CMeshObj_Static::Render()
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
-		return E_FAIL;
+			return E_FAIL;
 
-		if (false == m_tMyDesc.bAlphaBlend)
+		if (m_tMyDesc.iModelIndex == 2101)
+		{
+			if (!m_bNonAlpha && i != 8 && i != 9)
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+					return E_FAIL;
+			}
+			else if (m_bNonAlpha && (i == 8 || i == 9))
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
+					return E_FAIL;
+			}
+		}
+		else if (m_tMyDesc.iModelIndex == 2102)
+		{
+			if (!m_bNonAlpha && i != 8 && i != 9)
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+					return E_FAIL;
+			}
+			else if (m_bNonAlpha && (i == 8 || i == 9))
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
+					return E_FAIL;
+			}
+		}
+		else if (m_tMyDesc.iModelIndex == 2103)
+		{
+			if (!m_bNonAlpha && i != 2 && i != 3)
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+					return E_FAIL;
+			}
+			else if (m_bNonAlpha && (i == 2 || i == 3))
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
+					return E_FAIL;
+			}
+		}
+		else if (m_tMyDesc.iModelIndex == 2108)
+		{
+			if (!m_bNonAlpha && i == 0)
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+					return E_FAIL;
+			}
+			else if (m_bNonAlpha && i == 1)
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
+					return E_FAIL;
+			}
+		}
+		else if (false == m_tMyDesc.bAlphaBlend)
 		{
 			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
 				return E_FAIL;
@@ -144,7 +202,7 @@ HRESULT CMeshObj_Static::Render()
 		}
 	}
 
-
+	m_bNonAlpha = !m_bNonAlpha;
 
 	return S_OK;
 }
@@ -219,7 +277,7 @@ HRESULT CMeshObj_Static::Ready_Components()
 	CTransform::TRANSFORMDESC tTransformDesc;
 	ZeroMemory(&tTransformDesc, sizeof(CTransform::TRANSFORMDESC));
 	tTransformDesc.fRotationPerSec = XMConvertToRadians(90.f);
-	tTransformDesc.fSpeedPerSec = 20.f;
+	tTransformDesc.fSpeedPerSec = 100.f;
 
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &tTransformDesc)))

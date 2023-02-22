@@ -26,8 +26,10 @@ CNezukoState * CNezuko_CinemaState::Tick(CNezuko * pNezuko, _float fTimeDelta)
 			return new CNezuko_CinemaState(CNezuko_CinemaState::SCENE_0);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_0:
+		Scene_0(pNezuko, fTimeDelta);
 
-
+		if (m_bNextAnim == true)
+			return new CNezuko_CinemaState(CNezuko_CinemaState::SCENE_1);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_1:
 		break;
@@ -83,6 +85,11 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 		pNezuko->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_0:
+		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_0);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_0);
+		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_0));
+		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_0);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_0, 0.01f);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_1:
 		break;
@@ -115,8 +122,13 @@ CNezukoState * CNezuko_CinemaState::Scene_Start(CNezuko * pNezuko, _float fTimeD
 {
 	if (pNezuko->Get_AnimIndex() == CNezuko_CinemaState::ANIM_SCENE_START)
 	{
+		m_bAnimStop = true;
+		pNezuko->Get_Model()->Play_Animation(fTimeDelta * 0.8f);
+
+
 		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_START))
 		{
+			m_bAnimStop = false;
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_START_RUN);
 			pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_START_RUN));
 			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_START);
@@ -131,11 +143,12 @@ CNezukoState * CNezuko_CinemaState::Scene_Start(CNezuko * pNezuko, _float fTimeD
 
 		_float fDistance = XMVectorGetX(XMVector3Length(vTargetPosition - vMyPosition));
 
-		if (fDistance >= 7.f)
+		if (fDistance >= 6.f)
 		{
 			pNezuko->Get_Transform()->Go_Straight(fTimeDelta * 2.f, pNezuko->Get_NavigationCom());
-			m_bNextAnim = true;
 		}
+		else
+			m_bNextAnim = true;
 	}
 
 
@@ -145,5 +158,20 @@ CNezukoState * CNezuko_CinemaState::Scene_Start(CNezuko * pNezuko, _float fTimeD
 
 CNezukoState * CNezuko_CinemaState::Scene_0(CNezuko * pNezuko, _float fTimeDelta)
 {
+
+	if (pNezuko->Get_AnimIndex() == CNezuko_CinemaState::ANIM_SCENE_0)
+	{
+		if(pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_0))
+		{	
+			//pNezuko->
+			//pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_0);
+		}
+
+
+
+	}
+
+
+
 	return nullptr;
 }

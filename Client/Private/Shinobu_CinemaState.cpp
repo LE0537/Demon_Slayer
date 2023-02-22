@@ -171,7 +171,7 @@ CShinobuState * CShinobu_CinemaState::Scene_0(CShinobu * pShinobu, _float fTimeD
 	if (pShinobu->Get_AnimIndex() == CShinobu_CinemaState::ANIM_SCENE_0_START)
 	{
 		m_bAnimStop = true;
-		pShinobu->Get_Model()->Play_Animation(fTimeDelta * 0.7f);
+		pShinobu->Get_Model()->Play_Animation(fTimeDelta * 0.4f);
 		Increase_Height(pShinobu, fTimeDelta);
 
 		if (m_bNextAnim == true)
