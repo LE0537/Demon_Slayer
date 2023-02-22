@@ -162,6 +162,8 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 
+	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_TANJIRO;
+
 
 	return S_OK;
 }

@@ -291,7 +291,7 @@ CNezukoState * CIdleState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	_vector vPlayerY = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 	pNezuko->Set_NavigationHeight(vPlayerY);
-	if (vPlayerY.m128_f32[1] > pNezuko->Get_NavigationHeight().y)
+	if (vPlayerY.m128_f32[1] > pNezuko->Get_NavigationHeight().y + 0.1f)
 	{
 		pNezuko->Set_PlayerOriginPosY(fTimeDelta);
 	}

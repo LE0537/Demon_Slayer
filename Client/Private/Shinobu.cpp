@@ -95,7 +95,7 @@ HRESULT CShinobu::Initialize(void * pArg)
 
 	CShinobuState* pState = new CIdleState();
 	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
-
+	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_SHINOBU;
 	m_bRender = true;
 
 	return S_OK;

@@ -93,7 +93,7 @@ HRESULT CAkaza::Initialize(void * pArg)
 
 	CAkazaState* pState = new CIdleState();
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
-
+	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_AKAZA;
 	Set_Info();
 	return S_OK;
 }

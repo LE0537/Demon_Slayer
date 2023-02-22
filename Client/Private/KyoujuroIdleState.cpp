@@ -238,7 +238,7 @@ CKyoujuroState * CIdleState::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 	_vector vPlayerY = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 	pKyoujuro->Set_NavigationHeight(vPlayerY);
-	if (vPlayerY.m128_f32[1] > pKyoujuro->Get_NavigationHeight().y)
+	if (vPlayerY.m128_f32[1] > pKyoujuro->Get_NavigationHeight().y + 0.1f)
 	{
 		pKyoujuro->Set_PlayerOriginPosY(fTimeDelta);
 	}

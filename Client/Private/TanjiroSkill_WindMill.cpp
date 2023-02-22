@@ -448,7 +448,7 @@ void CSkill_WindMillState::Increase_Height(CTanjiro * pTanjiro, _float fTimeDelt
 
 	_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
 
-	if (XMVectorGetY(vCurrentPos) > 5.f)
+	if (XMVectorGetY(vCurrentPos) > 5.f + m_fCurrentPosY)
 	{
 	/*	fDelay += fTimeDelta;
 

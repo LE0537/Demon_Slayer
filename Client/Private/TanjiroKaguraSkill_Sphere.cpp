@@ -365,6 +365,9 @@ void CKaguraSkill_SphereState::Enter(CTanjiro * pTanjiro)
 void CKaguraSkill_SphereState::Fall_Height(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 
+	pTanjiro->Set_NavigationHeight(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pTanjiro->Get_NavigationHeight().y;
+
 	static _float fGravity = -100.f;
 	static _float fVelocity = 0.f;
 	static _float3 vPosition;
@@ -379,10 +382,10 @@ void CKaguraSkill_SphereState::Fall_Height(CTanjiro * pTanjiro, _float fTimeDelt
 	_vector vecPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vecPos = XMVectorSetY(vecPos, vPosition.y);
 
-	if (vPosition.y <= 0.f)
+	if (vPosition.y <= m_fOriginPosY)
 	{
-		vPosition.y = 0.f;
-		fVelocity = 0.f;
+		vPosition.y = m_fOriginPosY;
+		fVelocity = m_fOriginPosY;
 
 		_vector vecPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 		vecPos = XMVectorSetY(vecPos, vPosition.y);

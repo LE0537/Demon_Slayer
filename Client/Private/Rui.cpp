@@ -135,7 +135,7 @@ HRESULT CRui::Initialize(void * pArg)
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
-
+	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_RUI;
 	Set_Info();
 	return S_OK;
 }

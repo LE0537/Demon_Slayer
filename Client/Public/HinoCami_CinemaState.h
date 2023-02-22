@@ -10,17 +10,15 @@ BEGIN(Tanjiro)
 class CHinoCami_CinemaState : public CTanjiroState
 {
 public:
-	enum CINEMASCENE { SCENE_START, SCENE_0, SCENE_1, SCENE_2, SCENE_3, SCENE_4, SCENE_5, SCENE_6, SCENE_END };
+	enum CINEMASCENE { SCENE_START, SCENE_0, SCENE_1, SCENE_2, SCENE_3, SCENE_4, SCENE_5, SCENE_END };
 	enum SCENE_ANIM 
 	{
-		ANIM_SCENE_START = 133,
-		ANIM_SCENE_0 = 106,
-		ANIM_SCENE_1 = 104,
-		ANIM_SCENE_2 = 104,
-		ANIM_SCENE_3 = 103,
-		ANIM_SCENE_4 = 111,
-		ANIM_SCENE_5 = 112,
-		ANIM_SECNE_6 = 113,
+		ANIM_SCENE_START = 132,
+		ANIM_SCENE_0 = 133,
+		ANIM_SCENE_1 = 134,
+		ANIM_SCENE_2 = 135,
+		ANIM_SCENE_3 = 136, 
+		ANIM_SCENE_4 = 137,
 	};
 public:
 	CHinoCami_CinemaState(CINEMASCENE eScene);
@@ -32,22 +30,6 @@ public:
 
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
-
-
-	CTanjiroState* Scene_Start(CTanjiro* pTanjiro, _float fTimeDelta);
-	CTanjiroState* Scene_0(CTanjiro* pTanjiro, _float fTimeDelta);
-	CTanjiroState* Scene_1(CTanjiro* pTanjiro, _float fTimeDelta);
-	CTanjiroState* Scene_2(CTanjiro* pTanjiro, _float fTimeDelta);
-	CTanjiroState* Scene_3(CTanjiro* pTanjiro, _float fTimeDelta);
-	CTanjiroState* Scene_4(CTanjiro* pTanjiro, _float fTimeDelta);
-	CTanjiroState* Scene_5(CTanjiro* pTanjiro, _float fTimeDelta);
-	CTanjiroState* Scene_6(CTanjiro* pTanjiro, _float fTimeDelta);
-
-
-	void Increase_Height(CTanjiro* pTanjiro, _float fTimeDelta);
-	void Fall_Height(CTanjiro* pTanjiro, _float fTimeDelta);
-	void Fall_Height_Player(CTanjiro* pTanjiro, _float fTimeDelta);
-
 
 
 private:

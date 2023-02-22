@@ -382,7 +382,7 @@ CKyoujuroState * CTargetRushState::CommandCheck(CKyoujuro * pKyoujuro)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_L))
 		{
-			return new CTargetRushState(TYPE_START);
+		//	return new CTargetRushState(TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_SPACE))
 		{
@@ -426,7 +426,7 @@ CKyoujuroState * CTargetRushState::CommandCheck(CKyoujuro * pKyoujuro)
 		}
 		else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 		{
-			return new CTargetRushState(TYPE_START);
+		//	return new CTargetRushState(TYPE_START);
 		}
 		else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
 		{

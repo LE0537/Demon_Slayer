@@ -1270,6 +1270,9 @@
     <Filter Include="02.GameObjects\02.Map\05.Door">
       <UniqueIdentifier>{a4a956d4-2dc3-4c51-a306-0e3e407495c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro">
+      <UniqueIdentifier>{971e0c84-0b72-4046-bc01-a90bd034d9ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2517,6 +2520,9 @@
     <ClInclude Include="..\public\Door.h">
       <Filter>02.GameObjects\02.Map\05.Door</Filter>
     </ClInclude>
+    <ClInclude Include="HitCinema_Tanjiro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3736,6 +3742,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Door.cpp">
       <Filter>02.GameObjects\02.Map\05.Door</Filter>
+    </ClCompile>
+    <ClCompile Include="HitCinema_Tanjiro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

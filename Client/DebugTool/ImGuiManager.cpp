@@ -1049,7 +1049,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			{
 				if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
 				{
-					strName.erase(strName.begin(), strName.begin() + 53);
+					strName.erase(strName.begin(), strName.begin() + 38);
 				}
 				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
 				{
