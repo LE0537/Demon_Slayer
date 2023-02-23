@@ -407,9 +407,9 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
 
 	case 2083: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Moon_Instancing"); m_fFrustumRadiusRatio = 2000.f; m_bRenderShadow = false; break;
-	case 2106: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar1_Instancing"); m_fFrustumRadiusRatio = 5.f; break;
-	case 2107:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar2_Instancing"); m_fFrustumRadiusRatio = 5.f;  break;
-	case 2108:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainDoor_Instancing"); m_fFrustumRadiusRatio = 5.f;  break;
+	case 2106: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar1_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
+	case 2107:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar2_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
+	case 2108:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainDoor_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
 
 	}
 
