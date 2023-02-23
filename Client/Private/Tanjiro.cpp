@@ -19,7 +19,7 @@
 #include "Effect_Manager.h"
 #include "TanjiroTakeDownState.h"
 #include "TanjiroUpperHitState.h"
-
+#include "Effect.h"
 #include "HinoCami_CinemaState.h"
 
 // 오의히트
@@ -184,7 +184,6 @@ void CTanjiro::Tick(_float fTimeDelta)
 			m_bBattleStart = false;
 		}
 
-
 		m_fDelta = fTimeDelta;
 		if (m_tInfo.fHitTime > 0.f)
 			m_tInfo.fHitTime -= fTimeDelta;
@@ -259,6 +258,11 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 
 		m_pWeapon->Tick(fTimeDelta);
 		m_pSheath->Tick(fTimeDelta);
+
+		if (m_bSplSkl)
+		{
+			Check_Spl();
+		}
 
 		if (!m_bRender)
 		{
@@ -1124,6 +1128,19 @@ void CTanjiro::Set_Info()
 	m_tInfo.iMaxGuard = 500;
 	m_tInfo.iGuard = m_tInfo.iMaxGuard;
 }
+void CTanjiro::Check_Spl()
+{
+	if (!m_bSplEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MONTION1_SWORD1, this);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bSplEffect = true;
+	}
+	dynamic_cast<CEffect*>(m_pEffect)->Set_ParentWorldMatrix(dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorldMatrix());
+} 
 CTanjiro * CTanjiro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CTanjiro*	pInstance = new CTanjiro(pDevice, pContext);
