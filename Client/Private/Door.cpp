@@ -258,9 +258,9 @@ void CDoor::Move_Mesh(_float fTimeDelta)
 		if (m_tMyDesc.iModelIndex == 4 && m_fTurnAngle >= 90.f)
 		{
 			//엔무 조우 연출 
-			CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+			/*CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 			pUIManager->Set_EnmuBattle(true);
-			RELEASE_INSTANCE(CUI_Manager);
+			RELEASE_INSTANCE(CUI_Manager);*/
 		}
 	}
 

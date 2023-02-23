@@ -272,6 +272,9 @@ HRESULT CLevel_AdvAkaza::Ready_Layer_Player(const _tchar * pLayerTag)
 	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Kyoujuro"), LEVEL_ADVAKAZA, TEXT("Layer_Kyoujuro"), &tCharacterDesc1p)))
 		return E_FAIL;
 
+	tCharacterDesc1p.i1P2P = 10;
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Enmu"), LEVEL_ADVAKAZA, TEXT("Layer_Enmu"), &tCharacterDesc1p)))
+		return E_FAIL;
 
 	//tCharacterDesc1p.bSub = true;
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Nezuko"), LEVEL_ADVAKAZA, TEXT("Layer_Nezuko"), &tCharacterDesc1p)))
