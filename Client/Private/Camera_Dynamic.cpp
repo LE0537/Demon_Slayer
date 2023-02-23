@@ -26,24 +26,19 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 
 	static _float fCullTime = 0.f;
 	_float	fUsedTime = fCullTime;
-	_int	iFrame = 1;				//	현재 프레임
-	std::vector<_float>::iterator iter = (vecUseTime.begin() + 1);	//	첫 번째는 읽지않음.(None)
-	for (; iter != vecUseTime.end(); ++iter)
-	{
-		fUsedTime -= (*iter);
-		if (0.f > fUsedTime)
-			break;
+	_int	iFrame = _int(fCullTime) + 1;				//	현재 프레임. 첫 번째는 읽지않음.(None)
+	_float	fDecimal = fCullTime - (iFrame - 1);
 
-		++iFrame;
-	}
-	if (vecUseTime.end() == iter)		//	끝 Check
+	if (iFrame + 1 == iSize)		//	끝 Check
 	{
+		m_bCutScene = false;
 		fCullTime = *pOut = 0.f;
+
 		return false;
 	}
 
 	//	해당 프레임의 초반부다 = fUsedTime의 절댓값이 크다. = Ratio가 작다. ->작을수록 이전프레임의 영향을 더 받음.
-	_float fRatio = fabs((*iter) + fUsedTime) / (*iter);		//	다음 프레임의 할당 비율
+	_float fRatio = fDecimal;		//	다음 프레임의 할당 비율
 	if (0.f == fRatio)
 		fRatio = 1.f;
 	if (iFrame + 1 == vecUseTime.size())			//	다음 프레임이 없다.
@@ -53,6 +48,8 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 	else
 	{
 		_float fValue = ((vecUseTime[iFrame] * (1.f - fRatio)) + (vecUseTime[iFrame + 1]) * fRatio);
+		if (0.f == fValue)
+			fValue = 0.01f;
 		*pOut += fTimeDelta / fValue;
 	}
 	fCullTime = *pOut;
@@ -60,8 +57,6 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 
 	_vector vCamPos, vCamAt;
 	_vector vAt[4];
-	//if (iSize - 4 > iFrame)
-	//{
 	_vector vPos[4];
 
 	for (_int j = 0; j < 4; ++j)
@@ -75,20 +70,6 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 
 	vCamPos = XMVectorCatmullRom(vPos[0], vPos[1], vPos[2], vPos[3], fRatio);
 	vCamAt = XMVectorCatmullRom(vAt[0], vAt[1], vAt[2], vAt[3], fRatio);
-	/*}
-	else
-	{
-		_vector vPos1 = XMLoadFloat4(&vecPositions[iSize - 4]);
-		_vector vPos2 = XMLoadFloat4(&vecPositions[iSize - 3]);
-		_vector vPos3 = XMLoadFloat4(&vecPositions[iSize - 2]);
-		_vector vPos4 = XMLoadFloat4(&vecPositions[iSize - 1]);
-
-		for (_int i = 0; i < 4; ++i)
-			vAt[i] = XMLoadFloat4(&vecLookAts[iSize - (4 - i)]);
-
-		vCamPos = XMVectorCatmullRom(vPos1, vPos2, vPos3, vPos4, fRatio);
-		vCamAt = XMVectorCatmullRom(vAt[0], vAt[1], vAt[2], vAt[3], fRatio);
-	}*/
 
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vCamPos);
 	m_pTransform->LookAt(vCamAt);
@@ -131,6 +112,15 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	//m_bStory = true;
 	m_eTurn = CAM_END;
 
+
+	if (FAILED(Ready_CutScene("tanjiro_1_1"))) return E_FAIL;
+	if (FAILED(Ready_CutScene("tanjiro_1_2"))) return E_FAIL;
+	if (FAILED(Ready_CutScene("tanjiro_1_3"))) return E_FAIL;
+	m_bCutScene = false;
+
+
+
+
 	if (FAILED(Bind_OnPipeLine()))
 		return E_FAIL;
 
@@ -142,162 +132,167 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 
 	static _bool	bCamAttach = true;
-	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-	if (pGameInstance->Key_Down(DIK_F10))
-		bCamAttach = !bCamAttach;
-
-	if (false == bCamAttach)
+	if (true == m_bCutScene)
 	{
-		_float fSpeed = 1.f;
-		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
-			fSpeed *= 10.f;
-
-		if (pGameInstance->Key_Pressing(DIK_UP))
-			m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-		if (pGameInstance->Key_Pressing(DIK_DOWN))
-			m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-		if (pGameInstance->Key_Pressing(DIK_LEFT))
-			m_pTransform->Go_Left(fTimeDelta * fSpeed);
-		if (pGameInstance->Key_Pressing(DIK_RIGHT))
-			m_pTransform->Go_Right(fTimeDelta * fSpeed);
-
-		if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
-		{
-			_long			MouseMove = 0;
-
-			if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_X))
-				m_pTransform->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * MouseMove * 0.1f);
-
-			if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_Y))
-				m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), fTimeDelta * MouseMove * 0.1f);
-		}
+		CutScene(m_eCutScene, fTimeDelta);	//	끝나면 false 리턴. 자동으로 못들어옴.
 	}
-	if (pUIManager->Get_RuiDadBattle())
+	else
 	{
-		if (!m_bBattle)
-		{
-			Set_BattleTarget(fTimeDelta);
-			m_bBattle = true;
-		}
-		if (!m_bStartBattle)
-		{
-			m_pTarget->Set_BattleStart(true);
-			m_bStartBattle = true;
-		}
+		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+		CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+		if (pGameInstance->Key_Down(DIK_F10))
+			bCamAttach = !bCamAttach;
 
-		if (!m_bQuestBattleCam && !m_bLerp)
-			QuestBattleCam(fTimeDelta);
-		else if (m_bLerp && !m_bQuestBattleCam)
+		if (false == bCamAttach)
 		{
-			_vector vPos = XMVectorLerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
-			if (m_fLerpTime > 1.f)
+			_float fSpeed = 1.f;
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+				fSpeed *= 10.f;
+
+			if (pGameInstance->Key_Pressing(DIK_UP))
+				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_DOWN))
+				m_pTransform->Go_Backward(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_LEFT))
+				m_pTransform->Go_Left(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_RIGHT))
+				m_pTransform->Go_Right(fTimeDelta * fSpeed);
+
+			if (pGameInstance->Mouse_Pressing(DIMK_RBUTTON))
 			{
-				m_bQuestBattleCam = true;
+				_long			MouseMove = 0;
+
+				if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_X))
+					m_pTransform->Turn(XMVectorSet(0.f, 1.f, 0.f, 0.f), fTimeDelta * MouseMove * 0.1f);
+
+				if (MouseMove = pGameInstance->Get_DIMMoveState(DIMM_Y))
+					m_pTransform->Turn(m_pTransform->Get_State(CTransform::STATE_RIGHT), fTimeDelta * MouseMove * 0.1f);
+			}
+		}
+		if (pUIManager->Get_RuiDadBattle())
+		{
+			if (!m_bBattle)
+			{
+				Set_BattleTarget(fTimeDelta);
+				m_bBattle = true;
+			}
+			if (!m_bStartBattle)
+			{
+				m_pTarget->Set_BattleStart(true);
+				m_bStartBattle = true;
 			}
 
-			m_fLerpTime += fTimeDelta;
-			m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
-			m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			if (!m_bQuestBattleCam && !m_bLerp)
+				QuestBattleCam(fTimeDelta);
+			else if (m_bLerp && !m_bQuestBattleCam)
+			{
+				_vector vPos = XMVectorLerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
+				if (m_fLerpTime > 1.f)
+				{
+					m_bQuestBattleCam = true;
+				}
+
+				m_fLerpTime += fTimeDelta;
+				m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
+				m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			}
+
+			if (true == bCamAttach && m_bQuestBattleCam)
+				Set_CamPos();
+
+			if (m_pPlayer->Get_PlayerInfo().bSub)
+				m_pPlayer = m_pPlayer->Get_SubChar();
+			if (m_pTarget->Get_PlayerInfo().bSub)
+				m_pTarget = m_pTarget->Get_SubChar();
+
+			if (true == bCamAttach && m_bQuestBattleCam)
+				Move_CamPos(fTimeDelta);
 		}
-
-		if (true == bCamAttach && m_bQuestBattleCam)
-			Set_CamPos();
-
-		if (m_pPlayer->Get_PlayerInfo().bSub)
-			m_pPlayer = m_pPlayer->Get_SubChar();
-		if (m_pTarget->Get_PlayerInfo().bSub)
-			m_pTarget = m_pTarget->Get_SubChar();
-
-		if (true == bCamAttach && m_bQuestBattleCam)
-			Move_CamPos(fTimeDelta);
-	}
-	else if (!m_bStory && !pUIManager->Get_RuiDadBattle())
-	{
-		m_fStartTime += fTimeDelta;
+		else if (!m_bStory && !pUIManager->Get_RuiDadBattle())
+		{
+			m_fStartTime += fTimeDelta;
 
 #ifdef _DEBUG
-		if (!m_bLerp && m_fStartTime > 5.9f)
-		{
-			m_CameraDesc.fFovy = XMConvertToRadians(25.f);
-			m_bStart = true;
-			_vector vPos;
-			if (g_iLevel == LEVEL_BATTLEENMU)
-				vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(-14.292f, 21.707f, 231.684f, 1.f), m_fLerpTime);
-			else
-				vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
-
-			if (m_fLerpTime > 1.f)
+			if (!m_bLerp && m_fStartTime > 5.9f)
 			{
-				m_bLerp = true;
-			}
+				m_CameraDesc.fFovy = XMConvertToRadians(25.f);
+				m_bStart = true;
+				_vector vPos;
+				if (g_iLevel == LEVEL_BATTLEENMU)
+					vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(-14.292f, 21.707f, 231.684f, 1.f), m_fLerpTime);
+				else
+					vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
 
-			m_fLerpTime += fTimeDelta;
-			m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
-			m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		}
+				if (m_fLerpTime > 1.f)
+				{
+					m_bLerp = true;
+				}
+
+				m_fLerpTime += fTimeDelta;
+				m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
+				m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			}
 #else
-		if (!m_bLerp && m_fStartTime > 1.5f)
-		{
-			m_CameraDesc.fFovy = XMConvertToRadians(25.f);
-			//m_bStart = true;
-			//75.343f, 5.5f, 19.231f
-			_vector vPos;
-			if(g_iLevel == LEVEL_BATTLEENMU)
-				vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(-14.292f, 21.707f, 231.684f, 1.f), m_fLerpTime);
-			else
-				vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
-
-			if (m_fLerpTime > 1.f)
+			if (!m_bLerp && m_fStartTime > 1.5f)
 			{
-				m_bLerp = true;
-			}
+				m_CameraDesc.fFovy = XMConvertToRadians(25.f);
+				//m_bStart = true;
+				//75.343f, 5.5f, 19.231f
+				_vector vPos;
+				if (g_iLevel == LEVEL_BATTLEENMU)
+					vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(-14.292f, 21.707f, 231.684f, 1.f), m_fLerpTime);
+				else
+					vPos = XMQuaternionSlerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
 
-			m_fLerpTime += fTimeDelta;
-			m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
-			m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		}
-		if (m_fStartTime > 1.f)
-			m_bStart = true;
+				if (m_fLerpTime > 1.f)
+				{
+					m_bLerp = true;
+				}
+
+				m_fLerpTime += fTimeDelta;
+				m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
+				m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
+			}
+			if (m_fStartTime > 1.f)
+				m_bStart = true;
 #endif
 
-		if (!m_bStart)
-			Set_StartPos(fTimeDelta);
+			if (!m_bStart)
+				Set_StartPos(fTimeDelta);
 
-		if (true == bCamAttach && m_bLerp)
-			Set_CamPos();
-
-
-		if (m_pPlayer->Get_PlayerInfo().bSub)
-			m_pPlayer = m_pPlayer->Get_SubChar();
-		if (m_pTarget->Get_PlayerInfo().bSub)
-			m_pTarget = m_pTarget->Get_SubChar();
+			if (true == bCamAttach && m_bLerp)
+				Set_CamPos();
 
 
-		if (true == bCamAttach && m_bLerp && g_iLevel != LEVEL_BATTLEENMU)
-			Move_CamPos(fTimeDelta);
-		else if (true == bCamAttach && m_bLerp && g_iLevel == LEVEL_BATTLEENMU)
-			Move_TrainCam(fTimeDelta);
+			if (m_pPlayer->Get_PlayerInfo().bSub)
+				m_pPlayer = m_pPlayer->Get_SubChar();
+			if (m_pTarget->Get_PlayerInfo().bSub)
+				m_pTarget = m_pTarget->Get_SubChar();
+
+
+			if (true == bCamAttach && m_bLerp && g_iLevel != LEVEL_BATTLEENMU)
+				Move_CamPos(fTimeDelta);
+			else if (true == bCamAttach && m_bLerp && g_iLevel == LEVEL_BATTLEENMU)
+				Move_TrainCam(fTimeDelta);
+		}
+		else if (m_bStory && bCamAttach)
+		{
+			if (!m_bQuestCam)
+				Key_Input(fTimeDelta);
+			else
+				QuestCam(fTimeDelta);
+
+
+			Check_Shake(fTimeDelta);
+			//Check_StoryCam();
+
+		}
+		RELEASE_INSTANCE(CGameInstance);
+		RELEASE_INSTANCE(CUI_Manager);
 	}
-	else if (m_bStory && bCamAttach)
-	{
-		if (!m_bQuestCam)
-			Key_Input(fTimeDelta);
-		else
-			QuestCam(fTimeDelta);
-
-
-		Check_Shake(fTimeDelta);
-		//Check_StoryCam();
-
-	}
-	RELEASE_INSTANCE(CGameInstance);
-	RELEASE_INSTANCE(CUI_Manager);
 
 	if (FAILED(Bind_OnPipeLine()))
 		return;
-
-
 }
 
 void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
@@ -481,7 +476,7 @@ void CCamera_Dynamic::Set_CamPos()
 	//맵의 임시 반지름
 	_float fDiameter = 0.f;
 
-	if(g_iLevel == LEVEL_BATTLEENMU)
+	if (g_iLevel == LEVEL_BATTLEENMU)
 		fDiameter = 60.f;
 	else
 		fDiameter = 85.f;
@@ -491,12 +486,12 @@ void CCamera_Dynamic::Set_CamPos()
 		m_fCamDist = 1.f;
 	else if (m_fCamDist < 0.5)
 		m_fCamDist = 0.5f;
-	
-	if(g_iLevel == LEVEL_BATTLEENMU)
+
+	if (g_iLevel == LEVEL_BATTLEENMU)
 		vPos += XMVector3Normalize(vLook2) * (fDist * 0.5f);
 	else
 		vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
-	
+
 
 	if (m_eTurn == CAM_RIGHT || m_eTurn == CAM_TARGETLEFT)
 	{
@@ -531,7 +526,7 @@ void CCamera_Dynamic::Set_CamPos()
 	vPos -= vLook * (fTime + m_fLookY) * (fDiameter * 0.5f) * m_fCamDist;
 	vPos.m128_f32[0] -= 3.f;
 
-	if(g_iLevel == LEVEL_BATTLEENMU)
+	if (g_iLevel == LEVEL_BATTLEENMU)
 		vPos.m128_f32[1] = 8.f;
 	else
 		vPos.m128_f32[1] = 0.f;
@@ -929,11 +924,11 @@ void CCamera_Dynamic::Set_StartPos(_float fTimeDelta)
 		vPos.m128_f32[1] += 2.5f;
 	else
 		vPos.m128_f32[1] = m_fLookAtY;
-	
+
 	m_pTransform->LookAt(vPos);
 	XMStoreFloat4(&m_vLerpLook, vPos);
 
-	if(g_iLevel == LEVEL_BATTLEENMU)
+	if (g_iLevel == LEVEL_BATTLEENMU)
 		vPos.m128_f32[1] -= 2.5f;
 	else
 		vPos.m128_f32[1] = 0.f;
@@ -1383,6 +1378,95 @@ void CCamera_Dynamic::Check_StoryCam()
 
 	if (fDist < 40.f)
 		m_bStoryBattle = true;
+}
+
+_bool CCamera_Dynamic::CutScene(CUTSCENE eCutScene, _float fTimeDelta)
+{
+	switch (m_eCutScene)
+	{
+	case CUTSCENE_TAN_SPC_1:
+		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
+		if (false == m_bCutScene)
+			Start_CutScene(true, CUTSCENE_TAN_SPC_2);		//	끝나면 2번째 실행
+		break;
+	case CUTSCENE_TAN_SPC_2:
+		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
+		if (false == m_bCutScene)
+			Start_CutScene(true, CUTSCENE_TAN_SPC_3);		//	끝나면 2번째 실행
+		break;
+	case CUTSCENE_TAN_SPC_3:
+		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
+		break;
+	}
+
+
+	return m_bCutScene;
+}
+
+HRESULT CCamera_Dynamic::Ready_CutScene(char * pFileName)
+{
+	int		iIndex = 0;
+
+	char		szFilePath[MAX_PATH] = "../Bin/Resources/Data/CamActions/";
+	strcat_s(szFilePath, pFileName);
+	strcat_s(szFilePath, ".cma");
+
+	_tchar		szRealPath[MAX_PATH] = L"";
+	MultiByteToWideChar(CP_ACP, 0, szFilePath, (_int)strlen(szFilePath), szRealPath, MAX_PATH);
+
+	HANDLE		hFile = CreateFile(szRealPath, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		ERR_MSG(L"Failed to Load : CamAction File");
+
+		RELEASE_INSTANCE(CGameInstance);
+		return E_FAIL;
+	}
+
+
+	enum CAMTYPE { CAM_EYE, CAM_AT, CAM_END };
+	std::vector<_float4>		vecCam[CAM_END];
+	std::vector<_float>			vecCamTime;
+
+	DWORD	dwByte = 0;
+	_float4*	pCamEye = new _float4;
+	_float4*	pCamAt = new _float4;
+	_float*		pCamTime = new _float;
+	while (true)
+	{
+		ReadFile(hFile, pCamEye, sizeof(_float4), &dwByte, nullptr);
+		ReadFile(hFile, pCamAt, sizeof(_float4), &dwByte, nullptr);
+		ReadFile(hFile, pCamTime, sizeof(_float), &dwByte, nullptr);
+
+		if (0 == dwByte)
+		{
+			Safe_Delete(pCamEye);
+			Safe_Delete(pCamAt);
+			Safe_Delete(pCamTime);
+
+			vecCamTime.erase(vecCamTime.end() - 1);
+			break;
+		}
+		_float4		vCamEye = *pCamEye;
+		_float4		vCamAt = *pCamAt;
+		_float		vCamTime = *pCamTime;
+
+		vecCam[CAM_EYE].push_back(vCamEye);
+		vecCam[CAM_AT].push_back(vCamAt);
+		vecCamTime.push_back(vCamTime);
+	}
+	CloseHandle(hFile);
+
+	Safe_Delete(pCamEye);
+	Safe_Delete(pCamAt);
+	Safe_Delete(pCamTime);
+
+	m_vecCamEye.push_back(vecCam[CAM_EYE]);
+	m_vecCamAt.push_back(vecCam[CAM_AT]);
+	m_vecCamTime.push_back(vecCamTime);
+
+	return S_OK;
 }
 
 CCamera_Dynamic * CCamera_Dynamic::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
