@@ -178,6 +178,8 @@ CTanjiroState * CAtk_3_KaguraState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CAtk_3_KaguraState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	pTanjiro->Set_EffectTime(fTimeDelta);
+
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_KAGURA_ATTACK_3);
 	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_KAGURA_ATTACK_3, 0.01f);
 

@@ -27,6 +27,7 @@ CRuiDadState * CSkill_RushState::HandleInput(CRuiDad* pRuiDad)
 
 CRuiDadState * CSkill_RushState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
+	pRuiDad->Set_EffectTime(fTimeDelta);
 	//pRuiDad->Get_Model()->Set_Loop(pRuiDad->Get_AnimIndex());
 	pRuiDad->Get_Transform()->Set_PlayerLookAt(pRuiDad->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 	CCharacters* m_pTarget = pRuiDad->Get_BattleTarget();

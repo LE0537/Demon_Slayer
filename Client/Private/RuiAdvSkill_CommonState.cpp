@@ -17,6 +17,8 @@ CRuiState * CAdvSkill_CommonState::HandleInput(CRui * pRui)
 
 CRuiState * CAdvSkill_CommonState::Tick(CRui * pRui, _float fTimeDelta)
 {
+	pRui->Set_EffectTime(fTimeDelta);
+
 	if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 	{
 		pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());

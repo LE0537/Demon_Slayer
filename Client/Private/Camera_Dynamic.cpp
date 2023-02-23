@@ -612,7 +612,7 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 						m_fLookY = 0.f;
 					Set_CamPos();
 
-					ConvertToViewPort(fTimeDelta);
+					ConvertToViewPort(fTimeDelta); 
 				}
 			}
 		}

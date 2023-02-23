@@ -172,6 +172,7 @@ CNezukoState * CSkill_MoveState::HandleInput(CNezuko* pNezuko)
 
 CNezukoState * CSkill_MoveState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
+	pNezuko->Set_EffectTime(fTimeDelta);
 	CCharacters* m_pTarget = pNezuko->Get_BattleTarget();
 
 	m_fComboDelay += fTimeDelta * 60;

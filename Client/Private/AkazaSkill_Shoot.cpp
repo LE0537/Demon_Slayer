@@ -179,6 +179,7 @@ CAkazaState * CSkill_ShootState::HandleInput(CAkaza* pAkaza)
 
 CAkazaState * CSkill_ShootState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
+	pAkaza->Set_EffectTime(fTimeDelta);
 	pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
 
 	if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))

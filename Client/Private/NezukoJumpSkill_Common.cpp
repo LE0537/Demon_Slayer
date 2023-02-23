@@ -35,6 +35,7 @@ CNezukoState * CJumpSkill_CommmonState::HandleInput(CNezuko* pNezuko)
 
 CNezukoState * CJumpSkill_CommmonState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
+	pNezuko->Set_EffectTime(fTimeDelta);
 	pNezuko->Get_Transform()->Set_PlayerLookAt(pNezuko->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 	pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
 	if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))

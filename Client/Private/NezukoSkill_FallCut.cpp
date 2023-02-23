@@ -167,6 +167,7 @@ CNezukoState * CSkill_FallCutState::HandleInput(CNezuko* pNezuko)
 
 CNezukoState * CSkill_FallCutState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
+	pNezuko->Set_EffectTime(fTimeDelta);
 	m_fComboDelay += fTimeDelta * 60;
 
 	if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))

@@ -175,6 +175,7 @@ CAkazaState * CAtk_4_State::HandleInput(CAkaza* pAkaza)
 
 CAkazaState * CAtk_4_State::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
+	pAkaza->Set_EffectTime(fTimeDelta);
 
 	pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_ATTACK_4);
 	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_ATTACK_4, 0.01f);

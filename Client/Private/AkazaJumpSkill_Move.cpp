@@ -34,6 +34,7 @@ CAkazaState * CJumpSkill_MoveState::HandleInput(CAkaza* pAkaza)
 
 CAkazaState * CJumpSkill_MoveState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
+	pAkaza->Set_EffectTime(fTimeDelta);
 	if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
 	{
 		switch (m_eStateType)

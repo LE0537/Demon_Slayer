@@ -34,6 +34,7 @@ CNezukoState * CJumpSkill_MoveState::HandleInput(CNezuko* pNezuko)
 
 CNezukoState * CJumpSkill_MoveState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
+	pNezuko->Set_EffectTime(fTimeDelta);
 	if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
 	{
 		//return new CIdleStat();

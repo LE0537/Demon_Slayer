@@ -174,6 +174,7 @@ CRuiState * CSkill_SphereState::HandleInput(CRui* pRui)
 
 CRuiState * CSkill_SphereState::Tick(CRui* pRui, _float fTimeDelta)
 {
+	pRui->Set_EffectTime(fTimeDelta);
 	pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex());
 
 	if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))

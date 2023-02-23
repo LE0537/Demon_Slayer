@@ -174,7 +174,7 @@ CKyoujuroState * CAtk_2_State::HandleInput(CKyoujuro * pKyoujuro)
 
 CKyoujuroState * CAtk_2_State::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
-
+	pKyoujuro->Set_EffectTime(fTimeDelta);
 	pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_ATTACK_2);
 	pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_ATTACK_2, 0.01f);
 

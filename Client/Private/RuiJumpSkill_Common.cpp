@@ -28,6 +28,7 @@ CRuiState * CJumpSkill_CommonState::HandleInput(CRui* pRui)
 
 CRuiState * CJumpSkill_CommonState::Tick(CRui* pRui, _float fTimeDelta)
 {
+	pRui->Set_EffectTime(fTimeDelta);
 	m_fDelay += fTimeDelta;
 
 	if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))

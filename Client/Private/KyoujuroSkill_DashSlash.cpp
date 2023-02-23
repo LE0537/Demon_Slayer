@@ -175,6 +175,7 @@ CKyoujuroState * CSkill_DashSlashState::HandleInput(CKyoujuro * pKyojuro)
 
 CKyoujuroState * CSkill_DashSlashState::Tick(CKyoujuro * pKyojuro, _float fTimeDelta)
 {
+	pKyojuro->Set_EffectTime(fTimeDelta);
 	pKyojuro->Get_Model()->Set_Loop(pKyojuro->Get_AnimIndex());
 
 	if (pKyojuro->Get_Model()->Get_End(pKyojuro->Get_AnimIndex()))

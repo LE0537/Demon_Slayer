@@ -72,6 +72,7 @@ HRESULT CRuiShoot::Initialize(void * pArg)
 
 void CRuiShoot::Tick(_float fTimeDelta)
 {
+	Set_EffectTime(fTimeDelta);
 	m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
 
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());

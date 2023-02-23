@@ -35,6 +35,7 @@ CRuiDadState * CAtk_1_State::HandleInput(CRuiDad* pRuiDad)
 
 CRuiDadState * CAtk_1_State::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
+	pRuiDad->Set_EffectTime(fTimeDelta);
 		switch (m_eStateType)
 		{
 		case Client::CRuiDadState::TYPE_START: // 1Ÿ

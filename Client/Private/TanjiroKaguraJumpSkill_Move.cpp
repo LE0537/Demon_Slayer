@@ -24,6 +24,8 @@ CTanjiroState * CKaguraJumpSkill_MoveState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CKaguraJumpSkill_MoveState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	pTanjiro->Set_EffectTime(fTimeDelta);
+
 	pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
 
 	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))

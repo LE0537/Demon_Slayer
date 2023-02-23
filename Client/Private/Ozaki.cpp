@@ -265,7 +265,7 @@ void COzaki::Check_Event()
 					m_bSoundCheck = true;
 				}
 				break;
-			case 5:
+			case 3:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUIManager->Set_Msg(TEXT("지원 요청을 하고 제가 주변을 살피고 올게요!"));
