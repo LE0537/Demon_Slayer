@@ -1067,7 +1067,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				}
 				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"네즈코")
 				{
-					strName.erase(strName.begin(), strName.begin());
+					strName.erase(strName.begin(), strName.begin()+ 38);
 				}
 				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"시노부")
 				{
@@ -1095,7 +1095,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				}
 				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"네즈코")
 				{
-					strName.erase(strName.begin(), strName.begin());
+					strName.erase(strName.begin(), strName.begin() + 38);
 				}
 				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"시노부")
 				{

@@ -20,28 +20,81 @@ CNezukoState * CNezuko_CinemaState::Tick(CNezuko * pNezuko, _float fTimeDelta)
 	switch (m_eScene)
 	{
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_START:
-		Scene_Start(pNezuko, fTimeDelta);
-
-		if (m_bNextAnim == true)
-			return new CNezuko_CinemaState(CNezuko_CinemaState::SCENE_0);
+		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_START))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_START);
+			return new CNezuko_CinemaState(SCENE_0);
+		}
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_0:
-		Scene_0(pNezuko, fTimeDelta);
-
-		if (m_bNextAnim == true)
-			return new CNezuko_CinemaState(CNezuko_CinemaState::SCENE_1);
+		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_0))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_0);
+			return new CNezuko_CinemaState(SCENE_1);
+		}
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_1:
+		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_1))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_1);
+			return new CNezuko_CinemaState(SCENE_2);
+		}
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_2:
+		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_2))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_2);
+			return new CNezuko_CinemaState(SCENE_3);
+		}
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_3:
+		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_3))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_3);
+			return new CNezuko_CinemaState(SCENE_4);
+		}
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_4:
+		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_4))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_4);
+			return new CNezuko_CinemaState(SCENE_5);
+		}
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_5:
+		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_5))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_5);
+			return new CNezuko_CinemaState(SCENE_6);
+		}
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_6:
+		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_6))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_6);
+			return new CNezuko_CinemaState(SCENE_7);
+		}
+		break;
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_7:
+		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_7))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_7);
+			return new CNezuko_CinemaState(SCENE_8);
+		}
+		break;
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_8:
+		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_8))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_8);
+			return new CNezuko_CinemaState(SCENE_9);
+		}
+		break;
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_9:
+		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_9))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_9);
+			return new CIdleState;
+		}
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_END:
 		break;
@@ -55,8 +108,8 @@ CNezukoState * CNezuko_CinemaState::Tick(CNezuko * pNezuko, _float fTimeDelta)
 
 CNezukoState * CNezuko_CinemaState::Late_Tick(CNezuko * pNezuko, _float fTimeDelta)
 {
-	if (m_bAnimStop == false)
-		pNezuko->Get_Model()->Play_Animation(fTimeDelta);
+
+		pNezuko->Get_Model()->Play_Animation_Skill(fTimeDelta);
 
 
 	return nullptr;
@@ -64,27 +117,22 @@ CNezukoState * CNezuko_CinemaState::Late_Tick(CNezuko * pNezuko, _float fTimeDel
 
 void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 {
-	m_eStateId = STATE_SKILL_COMMON;
-
 	switch (m_eScene)
 	{
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_START:
+		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(62.66f, pNezuko->Get_NavigationHeight().y, 47.29f, 1.f));
+		pNezuko->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(62.86f, pNezuko->Get_NavigationHeight().y, 47.29f, 1.f));
+		pNezuko->Get_Transform()->Set_PlayerLookAt(XMVectorSet(56.46f, pNezuko->Get_NavigationHeight().y, 56.46f, 1.f));
+		pNezuko->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(XMVectorSet(56.46f, pNezuko->Get_NavigationHeight().y, 56.46f, 1.f));
+		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_010);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_START);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_START);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_START));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_START);
-		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_START_RUN, true);
-
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_START, 0.01f);
-		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_START_RUN, 0.01f);
-
-		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.f, pNezuko->Get_NavigationHeight().y, 64.f, 1.f));
-		pNezuko->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(64.f, pNezuko->Get_NavigationHeight().y, 38.5f, 1.f));
-
-		pNezuko->Get_Transform()->Set_PlayerLookAt(pNezuko->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		pNezuko->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_0:
+		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_0);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_0);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_0));
@@ -92,16 +140,76 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_0, 0.01f);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_1:
+		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_030);
+		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_1);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_1);
+		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_1));
+		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_1);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_1, 0.01f);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_2:
+		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_040);
+		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_2);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_2);
+		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_2));
+		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_2);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_2, 0.01f);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_3:
+		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_050);
+		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_3);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_3);
+		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_3));
+		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_3);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_3, 0.01f);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_4:
+		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_060);
+		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_4);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_4);
+		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_4));
+		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_4);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_4, 0.01f);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_5:
+		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_070);
+		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_5);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_5);
+		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_5));
+		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_5);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_5, 0.01f);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_6:
+		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_080);
+		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_6);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_6);
+		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_6));
+		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_6);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_6, 0.01f);
+		break;
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_7:
+		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_090);
+		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_7);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_7);
+		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_7));
+		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_7);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_7, 0.01f);
+		break;
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_8:
+		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_100);
+		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_8);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_8);
+		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_8));
+		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_8);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_8, 0.01f);
+		break;
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_9:
+		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_110);
+		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_9);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_9);
+		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_9));
+		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_9);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_9, 0.01f);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_END:
 		break;
@@ -118,60 +226,3 @@ void CNezuko_CinemaState::Exit(CNezuko * pNezuko)
 
 }
 
-CNezukoState * CNezuko_CinemaState::Scene_Start(CNezuko * pNezuko, _float fTimeDelta)
-{
-	if (pNezuko->Get_AnimIndex() == CNezuko_CinemaState::ANIM_SCENE_START)
-	{
-		m_bAnimStop = true;
-		pNezuko->Get_Model()->Play_Animation(fTimeDelta * 0.8f);
-
-
-		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_START))
-		{
-			m_bAnimStop = false;
-			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_START_RUN);
-			pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_START_RUN));
-			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_START);
-		}
-
-	}
-
-	if (pNezuko->Get_AnimIndex() == CNezuko_CinemaState::ANIM_SCENE_START_RUN)
-	{
-		_vector vMyPosition = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		_vector vTargetPosition = pNezuko->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-		_float fDistance = XMVectorGetX(XMVector3Length(vTargetPosition - vMyPosition));
-
-		if (fDistance >= 6.f)
-		{
-			pNezuko->Get_Transform()->Go_Straight(fTimeDelta * 2.f, pNezuko->Get_NavigationCom());
-		}
-		else
-			m_bNextAnim = true;
-	}
-
-
-
-	return nullptr;
-}
-
-CNezukoState * CNezuko_CinemaState::Scene_0(CNezuko * pNezuko, _float fTimeDelta)
-{
-
-	if (pNezuko->Get_AnimIndex() == CNezuko_CinemaState::ANIM_SCENE_0)
-	{
-		if(pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_0))
-		{	
-			//pNezuko->
-			//pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_0);
-		}
-
-
-
-	}
-
-
-
-	return nullptr;
-}

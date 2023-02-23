@@ -1276,6 +1276,21 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui">
       <UniqueIdentifier>{8164b68b-1967-449b-9eec-3933d95dbc99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState">
+      <UniqueIdentifier>{ba47c1f9-c848-48af-98d4-ffbfc718d7df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Kyoujuro">
+      <UniqueIdentifier>{f685d115-7898-4dc4-b899-9e9ba428f186}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Akaza">
+      <UniqueIdentifier>{d6c5c3c9-4a17-4d5d-9e25-8c655c9546b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Nezuko">
+      <UniqueIdentifier>{4dfe429a-ec2e-44af-ae7c-e2665993c003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Shinobu">
+      <UniqueIdentifier>{5069f05b-0848-4b4b-9907-92252a6a5078}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2502,9 +2517,6 @@
     <ClInclude Include="..\Public\Kyoujuro_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Shinobu_CinemaState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Nezuko_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState</Filter>
     </ClInclude>
@@ -2528,6 +2540,24 @@
     </ClInclude>
     <ClInclude Include="..\Public\HitCinema_Rui.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HitCinema_Kyoujuro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Kyoujuro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Akaza_CinemaState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HitCinema_Akaza.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Akaza</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Shinobu_CinemaState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HitCinema_Shinobu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Shinobu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\HitCinema_Nezuko.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Nezuko</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3731,9 +3761,6 @@
     <ClCompile Include="..\Private\Kyoujuro_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Shinobu_CinemaState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Nezuko_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState</Filter>
     </ClCompile>
@@ -3754,6 +3781,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\HitCinema_Rui.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HitCinema_Kyoujuro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Kyoujuro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Akaza_CinemaState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HitCinema_Akaza.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shinobu_CinemaState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HitCinema_Shinobu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Shinobu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HitCinema_Nezuko.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Nezuko</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

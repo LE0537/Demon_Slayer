@@ -12,6 +12,8 @@
 #include "AkazaTargetRushState.h"
 #include "Effect_Manager.h"
 #include "UI_Manager.h"
+
+#include "Akaza_CinemaState.h"
 using namespace Akaza;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -27,6 +29,13 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 	switch (pAkaza->Get_i1P())
 	{
 	case 1:
+		if (pGameInstance->Key_Pressing(DIK_E)) // ╬у
+		{
+			pAkaza->Get_BattleTarget()->Play_Scene();
+			return new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_START);
+		}
+
+
 		if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 		{
 			if (pGameInstance->Key_Pressing(DIK_A)) // аб

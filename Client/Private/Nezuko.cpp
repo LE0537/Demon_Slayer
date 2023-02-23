@@ -16,6 +16,8 @@
 #include "Effect_Manager.h"
 #include "NezukoTakeDownState.h"
 #include "NezukoUpperHitState.h"
+
+#include "HitCinema_Shinobu.h"
 using namespace Nezuko;
 
 CNezuko::CNezuko(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -163,9 +165,11 @@ void CNezuko::Late_Tick(_float fTimeDelta)
 	if (!m_bChange)
 	{
 		LateTickState(fTimeDelta);
-
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+		if (m_bSceneRender)
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+		}
 
 		if (g_bCollBox)
 		{
@@ -665,6 +669,30 @@ void CNezuko::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJu
 
 void CNezuko::Play_Scene()
 {
+	CNezukoState* pState = nullptr;
+
+	switch (m_pBattleTarget->Get_PlayerType())
+	{
+	case Client::CCharacters::PLAYER_TANJIRO:
+		break;
+	case Client::CCharacters::PLAYER_KYOUJURO:
+		break;
+	case Client::CCharacters::PLAYER_RUI:
+
+		break;
+	case Client::CCharacters::PLAYER_AKAZA:
+		break;
+	case Client::CCharacters::PLAYER_NEZUKO:
+		break;
+	case Client::CCharacters::PLAYER_SHINOBU:
+		pState = new CHitCinema_Shinobu(CHitCinema_Shinobu::SCENE_START);
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+		break;
+	case Client::CCharacters::PLAYER_END:
+		break;
+	default:
+		break;
+	}
 }
 
 CNezuko * CNezuko::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
