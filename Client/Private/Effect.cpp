@@ -127,7 +127,7 @@ void CEffect::Tick(_float fTimeDelta)
 		else {
 			_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
 
-			XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * m_ParentMatrix);
+			XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * XMLoadFloat4x4(& m_ParentMatrix));
 		}
 
 		for (auto& pTex : m_Textures)
