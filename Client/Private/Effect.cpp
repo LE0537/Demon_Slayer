@@ -186,7 +186,13 @@ void CEffect::Set_ParentWorldMatrix(_matrix ParentMat)
 {
 	_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
 
-	XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * ParentMat);
+	_matrix mtrParentWorld = mtrWorld * ParentMat;
+
+	mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
+	mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
+	mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
+
+	XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrParentWorld);
 }
 
 HRESULT CEffect::Ready_Components()
