@@ -239,6 +239,116 @@ void CUI_Manager::Add_P2_OniHpUI()
 	m_iOniSepcialBarLayerNum = 0;
 }
 
+void CUI_Manager::Add_P1_PersonHpUI_Level_Enmu()
+{
+	for (auto iter : P1_P_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.pTarget = m_p1P;
+		m_ThrowInfo.pTargetSecond = m_p1P_2;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.bPlyCheck = false;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_BATTLEENMU;
+
+		P1_P_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : P1_P_DATALIST)
+		Add_Btl_PlayerUI_LevelEmmu(iter);
+
+	P1_P_DATALIST.clear();
+
+	m_iUltBarLayerNum = 0;
+	m_iCharNameLayerNum = 0;
+	m_iCharIconLayerNum = 0;
+	m_iChangeBarLayerNum = 0;
+}
+
+void CUI_Manager::Add_P1_OniHpUI_Level_Enmu()
+{
+	for (auto iter : P1_O_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.pTarget = m_p1P;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.bPlyCheck = false;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_BATTLEENMU;
+
+		P1_O_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : P1_O_DATALIST)
+		Add_Btl_PlayerUI_LevelEmmu(iter);
+
+	P1_O_DATALIST.clear();
+
+	m_iUltBarLayerNum = 0;
+	m_iCharNameLayerNum = 0;
+	m_iCharIconLayerNum = 0;
+	m_iOniSepcialBarLayerNum = 0;
+}
+
+void CUI_Manager::Add_P2_PersonHpUI_Level_Enmu()
+{
+	for (auto iter : P2_P_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.pTarget = m_p2P;
+		m_ThrowInfo.pTargetSecond = m_p2P_2;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.bPlyCheck = true;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_BATTLEENMU;
+
+		P2_P_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : P2_P_DATALIST)
+		Add_Btl_PlayerUI_LevelEmmu(iter);
+
+	P2_P_DATALIST.clear();
+
+	m_iUltBarLayerNum = 0;
+	m_iCharNameLayerNum = 0;
+	m_iCharIconLayerNum = 0;
+	m_iChangeBarLayerNum = 0;
+}
+
+void CUI_Manager::Add_P2_OniHpUI_Level_Enmu()
+{
+	for (auto iter : P2_O_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.pTarget = m_p2P;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.bPlyCheck = true;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_BATTLEENMU;
+
+		P2_O_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : P2_O_DATALIST)
+		Add_Btl_PlayerUI_LevelEmmu(iter);
+
+	P2_O_DATALIST.clear();
+
+	m_iUltBarLayerNum = 0;
+	m_iCharNameLayerNum = 0;
+	m_iCharIconLayerNum = 0;
+	m_iOniSepcialBarLayerNum = 0;
+}
+
 void CUI_Manager::Add_Select_CharUI()
 {
 	for (auto iter : SELECT_LOADDATALIST)
@@ -385,6 +495,78 @@ void CUI_Manager::Add_BattleUI()
 
 	m_iTimerLayerNum = 0;
 	m_iRoundIconLayerNum = 0;
+}
+
+void CUI_Manager::Add_BattleUI_Enmu()
+{
+	for (auto iter : ADVBATTLEUI_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.pTarget = m_p1P;
+		m_ThrowInfo.pTargetSecond = m_p2P;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = LEVEL_BATTLEENMU;
+
+		ADV_BATTLEUI_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : ADV_BATTLEUI_DATALIST)
+		Add_Btl_PlayerUI_LevelEmmu(iter);
+
+	ADV_BATTLEUI_DATALIST.clear();
+
+	m_iTimerLayerNum = 0;
+	m_iRoundIconLayerNum = 0;
+}
+
+void CUI_Manager::Add_P1_Combo_Enmu()
+{
+	for (auto iter : P1_COMBO_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.bPlyCheck = false;
+		m_ThrowInfo.iLevelIndex = LEVEL_BATTLEENMU;
+
+		P1_COMBO_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : P1_COMBO_DATALIST)
+		Add_Btl_PlayerUI_LevelEmmu(iter);
+
+	P1_COMBO_DATALIST.clear();
+
+	m_iComboNumLayerNum = 0;
+}
+
+void CUI_Manager::Add_P2_Combo_Enmu()
+{
+	for (auto iter : P2_COMBO_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.vPos.x = iter.vPos.x + 1040.f;
+		m_ThrowInfo.vPos.y = iter.vPos.y;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.bPlyCheck = true;
+		m_ThrowInfo.iLevelIndex = LEVEL_BATTLEENMU;
+
+		P2_COMBO_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : P2_COMBO_DATALIST)
+		Add_Btl_PlayerUI_LevelEmmu(iter);
+
+	P2_COMBO_DATALIST.clear();
+
+	m_iComboNumLayerNum = 0;
 }
 
 void CUI_Manager::Add_BattleResult()
@@ -760,6 +942,240 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 		break;
 	case 49:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OpeningUltBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	default:
+		break;
+	}
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_Btl_PlayerUI_LevelEmmu(CUI::THROWUIINFO iter)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	switch (iter.iTextureNum)
+	{
+	case 0:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeLight"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 1:
+		iter.iLayerNum = m_iCharIconLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharIcon"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iCharIconLayerNum;
+		break;
+	case 2: //ChangeBase 0
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 3: // ChangeSprt 1
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 4:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBase"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 5:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBase"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 6://HpbarBack 2
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 7: //SkillBarBack 3
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 8:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBar"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 9:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillBar"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 10: //HpBarDeco 4
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 11: //SkillBarParts 5
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 12: //SkillBarDeco 6
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 13:
+		iter.iLayerNum = m_iCharNameLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharNameUI"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iCharNameLayerNum;
+		break;
+	case 14: // PersonChangeBarBack 7
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 15: // PersonChangeBarFrame 8
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 16:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PersonChanBarEff"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 17:
+		iter.iLayerNum = m_iOniSepcialBarLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniSpeciSkillBar"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iOniSepcialBarLayerNum;
+		break;
+	case 18:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniChanBarEff"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 19:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniChanBarEff"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 20:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeIcon"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 21:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_KeyUI"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 22: // 사람 얼티밋 게이지 베이스 10 
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 23: //오니 얼티밋 게이지 베이스 11
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 24:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 25:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 26:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 27:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 28:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockFadeEff"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 29:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockFrame"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 30:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockBase"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 31:
+		iter.iLayerNum = m_iUltNumLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockNum"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iUltNumLayerNum;
+		break;
+	case 32:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltNumEff"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 33:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeDeco"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 34:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeDeco"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 35:
+		iter.iLayerNum = m_iUltBarLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltBar"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iUltBarLayerNum;
+		break;
+	case 36: //UltBarDeco 12
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 37:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PersonChanBarEff"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 38:
+		iter.iLayerNum = m_iTimerLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_NumTimer"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iTimerLayerNum;
+		break;
+	case 39:
+		iter.iLayerNum = m_iRoundIconLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RoundIcon"), LEVEL_BATTLEENMU, TEXT("Layer_RoundIconUI"), &iter)))
+			return E_FAIL;
+		++m_iRoundIconLayerNum;
+		break;
+	case 40:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RoundUI"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 41:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboBase"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 42:
+		iter.iLayerNum = m_iComboNumLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboNum"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iComboNumLayerNum;
+		break;
+	case 43:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboTxt"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 44:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboHitBase"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 45:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboHitDeco"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 46:
+		iter.iLayerNum = m_iChangeBarLayerNum;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeGagueBar"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		++m_iChangeBarLayerNum;
+		break;
+	case 47:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeFire"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 48:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeFrame"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 49:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OpeningUltBar"), LEVEL_BATTLEENMU, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	default:

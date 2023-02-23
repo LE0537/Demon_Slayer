@@ -159,7 +159,8 @@ HRESULT CChangeBar::Render()
 
 	m_pShaderCom->Begin(23);
 
-	m_pVIBufferCom->Render();
+	if(m_ThrowUIinfo.iLevelIndex != LEVEL_BATTLEENMU)
+		m_pVIBufferCom->Render();
 
 	return S_OK;
 }

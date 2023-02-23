@@ -35,12 +35,19 @@ public:
 	void Add_P1_OniHpUI();
 	void Add_P2_PersonHpUI();
 	void Add_P2_OniHpUI();
+	void Add_P1_PersonHpUI_Level_Enmu();
+	void Add_P1_OniHpUI_Level_Enmu();
+	void Add_P2_PersonHpUI_Level_Enmu();
+	void Add_P2_OniHpUI_Level_Enmu();
 	void Add_Select_CharUI();
 	void Add_Select_Map();
 	void Add_Logo_Title();
 	void Add_Menu();
 	void Add_Loading();
 	void Add_BattleUI();
+	void Add_BattleUI_Enmu();
+	void Add_P1_Combo_Enmu();
+	void Add_P2_Combo_Enmu();
 	void Add_BattleResult();
 	void Add_P1_Combo();
 	void Add_P2_Combo();
@@ -48,6 +55,7 @@ public:
 	void Add_Quiest();
 	void Add_AdvBattleUI();
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
+	HRESULT Add_Btl_PlayerUI_LevelEmmu(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectMapUI(CUI::THROWUIINFO iter);
 	HRESULT Add_LogoUI(CUI::THROWUIINFO iter);
