@@ -80,6 +80,8 @@ HRESULT CLevel_BattleEnmu::Initialize()
 	if (0 == m_hThread)
 		return E_FAIL;
 
+	g_fFar = 1800.f;
+
 	pUIManager->Set_CharNameUIZero();
 
 	if (FAILED(Ready_Lights()))
@@ -128,6 +130,7 @@ HRESULT CLevel_BattleEnmu::Initialize()
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.2f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.85f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
+	m_pRendererCom->Set_Far(g_fFar);
 
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
@@ -159,32 +162,22 @@ void CLevel_BattleEnmu::Tick(_float fTimeDelta)
 
 		if (!m_bCreateUI)
 		{
-			if (pUIManager->Get_BattleTypeCheck())
-			{
-				_bool bOniCheck = pUIManager->P1_Oni_Check();
-				if (!bOniCheck)
-					pUIManager->Add_P1_PersonHpUI();
-				else
-					pUIManager->Add_P1_OniHpUI();
-
-				bOniCheck = pUIManager->P2_Oni_Check();
-				if (!bOniCheck)
-					pUIManager->Add_P2_PersonHpUI();
-				else
-					pUIManager->Add_P2_OniHpUI();
-
-				pUIManager->Add_BattleUI();
-				pUIManager->Add_P1_Combo();
-				pUIManager->Add_P2_Combo();
-			}
+			_bool bOniCheck = pUIManager->P1_Oni_Check();
+			if (!bOniCheck)
+				pUIManager->Add_P1_PersonHpUI_Level_Enmu();
 			else
-			{
-				pUIManager->Add_P1_PersonHpUI();
-				pUIManager->Add_P2_OniHpUI();
-				pUIManager->Add_P1_Combo();
-				pUIManager->Add_AdvBattleUI();
-			}
+				pUIManager->Add_P1_OniHpUI_Level_Enmu();
 
+			bOniCheck = pUIManager->P2_Oni_Check();
+			if (!bOniCheck)
+				pUIManager->Add_P2_PersonHpUI_Level_Enmu();
+			else
+				pUIManager->Add_P2_OniHpUI_Level_Enmu();
+
+		/*	pUIManager->Add_BattleUI_Enmu();
+			pUIManager->Add_P1_Combo_Enmu();
+			pUIManager->Add_P2_Combo_Enmu();*/
+			
 			m_bCreateUI = true;
 		}
 
@@ -562,7 +555,7 @@ HRESULT CLevel_BattleEnmu::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CameraDesc.CameraDesc.fFovy = XMConvertToRadians(25.0f);
 	CameraDesc.CameraDesc.fAspect = (_float)g_iWinSizeX / g_iWinSizeY;
 	CameraDesc.CameraDesc.fNear = 0.2f;
-	CameraDesc.CameraDesc.fFar = 1800.f;
+	CameraDesc.CameraDesc.fFar = g_fFar;
 
 	CameraDesc.CameraDesc.TransformDesc.fSpeedPerSec = 10.f;
 	CameraDesc.CameraDesc.TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);

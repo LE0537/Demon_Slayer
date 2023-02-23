@@ -26,6 +26,7 @@ bool			g_bCollBox = false;
 int		    	g_iLevel = 0;
 bool			g_bThread = false;
 bool			g_bDeathTime = false;
+float			g_fFar = 1800.f;
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())

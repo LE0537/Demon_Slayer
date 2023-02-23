@@ -23,6 +23,10 @@ private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
+private:
+	_float					m_fMaxTime = 3.f;
+	_float					m_fCurTime = 0.f;
+
 
 public:
 	static CLoadingBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
