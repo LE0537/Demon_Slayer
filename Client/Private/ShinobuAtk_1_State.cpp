@@ -175,6 +175,8 @@ CShinobuState * CAtk_1_State::HandleInput(CShinobu* pShinobu)
 
 CShinobuState * CAtk_1_State::Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
+	pShinobu->Set_EffectTime(fTimeDelta);
+
 	pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_ATTACK_1);
 	pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_ATTACK_1, 0.01f);
 

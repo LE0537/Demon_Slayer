@@ -24,6 +24,7 @@ CRuiState * CJumpAttackState::HandleInput(CRui* pRui)
 
 CRuiState * CJumpAttackState::Tick(CRui* pRui, _float fTimeDelta)
 {
+	pRui->Set_EffectTime(fTimeDelta);
 
 	if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 	{

@@ -26,7 +26,7 @@ CTanjiroState * CJumpSkillCommonState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CJumpSkillCommonState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-
+	pTanjiro->Set_EffectTime(fTimeDelta);
 	//if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	//{
 	//	switch (m_eStateType)

@@ -163,6 +163,8 @@ CRuiState * CAtk_4_State::HandleInput(CRui* pRui)
 
 CRuiState * CAtk_4_State::Tick(CRui* pRui, _float fTimeDelta)
 {
+	pRui->Set_EffectTime(fTimeDelta);
+
 	if (pRui->Get_IsAIMode() == true)
 	{
 

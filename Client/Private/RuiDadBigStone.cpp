@@ -41,6 +41,7 @@ HRESULT CRuiDadBigStone::Initialize(void * pArg)
 
 void CRuiDadBigStone::Tick(_float fTimeDelta)
 {
+	Set_EffectTime(fTimeDelta);
 	if (m_bDeadTick)
 	{
 		Set_Dead();

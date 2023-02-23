@@ -169,8 +169,7 @@ CShinobuState * CSkill_MoveState::HandleInput(CShinobu* pShinobu)
 
 CShinobuState * CSkill_MoveState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
-
-
+	pShinobu->Set_EffectTime(fTimeDelta);
 
 	if (m_eStateType == TYPE_LOOP)
 	{

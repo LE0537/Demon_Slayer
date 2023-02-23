@@ -31,7 +31,7 @@ CKyoujuroState * CJumpSkill_CommonState::HandleInput(CKyoujuro * pKyojuro)
 
 CKyoujuroState * CJumpSkill_CommonState::Tick(CKyoujuro * pKyojuro, _float fTimeDelta)
 {
-	
+	pKyojuro->Set_EffectTime(fTimeDelta);
 	pKyojuro->Get_Model()->Set_Loop(pKyojuro->Get_AnimIndex());
 
 	if (m_bOnGround == false)

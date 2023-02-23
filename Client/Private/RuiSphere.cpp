@@ -58,7 +58,7 @@ HRESULT CRuiSphere::Initialize(void * pArg)
 
 void CRuiSphere::Tick(_float fTimeDelta)
 {
-
+	Set_EffectTime(fTimeDelta);
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
 
 	m_fDeadTime += fTimeDelta;

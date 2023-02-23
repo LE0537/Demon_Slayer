@@ -24,6 +24,7 @@ CTanjiroState * CJumpAttackState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CJumpAttackState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	pTanjiro->Set_EffectTime(fTimeDelta);
 
 	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	{

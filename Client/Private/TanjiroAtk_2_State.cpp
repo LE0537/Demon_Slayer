@@ -179,6 +179,7 @@ CTanjiroState * CAtk_2_State::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CAtk_2_State::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	pTanjiro->Set_EffectTime(fTimeDelta);
 
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_ATTACK_2);
 	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_ATTACK_2, 0.01f);

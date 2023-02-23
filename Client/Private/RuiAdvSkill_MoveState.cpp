@@ -25,6 +25,7 @@ CRuiState * CAdvSkill_MoveState::HandleInput(CRui * pRui)
 
 CRuiState * CAdvSkill_MoveState::Tick(CRui * pRui, _float fTimeDelta)
 {
+	pRui->Set_EffectTime(fTimeDelta);
 	m_fBackStepTime += fTimeDelta;
 
 	if (m_fBackStepTime <= 0.2f)

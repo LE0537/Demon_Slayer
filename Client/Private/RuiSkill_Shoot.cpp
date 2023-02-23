@@ -170,6 +170,7 @@ CRuiState * CSkill_ShootState::HandleInput(CRui* pRui)
 
 CRuiState * CSkill_ShootState::Tick(CRui* pRui, _float fTimeDelta)
 {
+	pRui->Set_EffectTime(fTimeDelta);
 	pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex());
 
 

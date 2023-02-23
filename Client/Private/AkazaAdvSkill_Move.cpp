@@ -32,7 +32,7 @@ CAkazaState * CAdvSkill_MoveState::HandleInput(CAkaza* pAkaza)
 
 CAkazaState * CAdvSkill_MoveState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
-
+	pAkaza->Set_EffectTime(fTimeDelta);
 	pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
 	if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))

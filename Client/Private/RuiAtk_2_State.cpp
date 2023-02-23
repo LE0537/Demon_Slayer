@@ -176,6 +176,8 @@ CRuiState * CAtk_2_State::HandleInput(CRui* pRui)
 
 CRuiState * CAtk_2_State::Tick(CRui* pRui, _float fTimeDelta)
 {
+	pRui->Set_EffectTime(fTimeDelta);
+
 	if (pRui->Get_IsAIMode() == true)
 	{
 		_vector vTargetPosition = pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

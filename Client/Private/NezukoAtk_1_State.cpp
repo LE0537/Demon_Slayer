@@ -175,6 +175,7 @@ CNezukoState * CAtk_1_State::HandleInput(CNezuko* pNezuko)
 
 CNezukoState * CAtk_1_State::Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
+	pNezuko->Set_EffectTime(fTimeDelta);
 
 	pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_ATTACK_1);
 	pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_ATTACK_1, 0.01f);

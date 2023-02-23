@@ -2,6 +2,7 @@
 #include "Effect.h"
 #include "GameInstance.h"
 #include "CollBox.h"
+#include "Characters.h"
 
 CEffect::CEffect(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObj(pDevice, pContext)
@@ -53,6 +54,11 @@ HRESULT CEffect::Initialize(void * pArg)
 		if (EFFMOVE_TARGET == m_EffectInfo.iMoveType) {
 			m_pTarget = (CGameObj*)pArg;
 			static_cast<CCollBox*>(m_pTarget)->Set_Effect(this);
+		}
+		else if (EFFMOVE_MATRIX == m_EffectInfo.iMoveType)
+		{
+			m_pTarget = (CGameObj*)pArg;
+			static_cast<CCharacters*>(m_pTarget)->Set_Effect(this);
 		}
 		else
 			m_pTarget = (CCharacters*)pArg;

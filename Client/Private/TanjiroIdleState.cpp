@@ -30,7 +30,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pTanjiro->Set_bGuard(false);
-
+	pTanjiro->Set_SplSkl(false);
 	//if (pGameInstance->Key_Down(DIK_2) && pTanjiro->Get_StoryKey())
 	//{
 	//	_vector vPos = { -335.479f,42.501f,-328.243f,1.f };

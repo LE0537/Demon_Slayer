@@ -64,6 +64,7 @@ HRESULT CRuiDadSmallStone::Initialize(void * pArg)
 
 void CRuiDadSmallStone::Tick(_float fTimeDelta)
 {
+	Set_EffectTime(fTimeDelta);
 	if (m_bDeadTick)
 	{
 		Set_Dead();
