@@ -19,6 +19,9 @@
 #include "Effect_Manager.h"
 #include "ShinobuTakeDownState.h"
 #include "ShinobuUpperHitState.h"
+
+
+#include "HitCinema_Nezuko.h"
 using namespace Shinobu;
 
 CShinobu::CShinobu(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -184,7 +187,7 @@ void CShinobu::Late_Tick(_float fTimeDelta)
 		m_pSheath->Tick(fTimeDelta);
 
 
-		if (true == m_bRender)
+		if (true == m_bRender && m_bSceneRender)
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
@@ -537,6 +540,30 @@ void CShinobu::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJ
 
 void CShinobu::Play_Scene()
 {
+	CShinobuState* pState = nullptr;
+
+	switch (m_pBattleTarget->Get_PlayerType())
+	{
+	case Client::CCharacters::PLAYER_TANJIRO:
+		break;
+	case Client::CCharacters::PLAYER_KYOUJURO:
+		break;
+	case Client::CCharacters::PLAYER_RUI:
+
+		break;
+	case Client::CCharacters::PLAYER_AKAZA:
+		break;
+	case Client::CCharacters::PLAYER_NEZUKO:
+		pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_START);
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+		break;
+	case Client::CCharacters::PLAYER_SHINOBU:
+		break;
+	case Client::CCharacters::PLAYER_END:
+		break;
+	default:
+		break;
+	}
 }
 
 void CShinobu::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)

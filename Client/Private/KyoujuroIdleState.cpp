@@ -31,6 +31,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
+				pKyoujuro->Get_BattleTarget()->Play_Scene();
 				return new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_START);
 			}
 

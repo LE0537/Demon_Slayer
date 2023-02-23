@@ -17,6 +17,8 @@
 #include "KyoujuroTakeDownState.h"
 #include "KyoujuroUpperHitState.h"
 #include "Effect_Manager.h"
+
+#include "HitCinema_Akaza.h"
 using namespace Kyoujuro;
 
 #include "UI_Manager.h"
@@ -185,18 +187,20 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 	{
 		LateTickState(fTimeDelta);
 
-		m_pWeapon->Tick(fTimeDelta);
-		m_pSheath->Tick(fTimeDelta);
+		if (m_bSceneRender)
+		{
+			m_pWeapon->Tick(fTimeDelta);
+			m_pSheath->Tick(fTimeDelta);
 
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-		dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Set_Render(true);
-		dynamic_cast<CKyoujuroSheath*>(m_pSheath)->Set_Render(true);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
-
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Set_Render(true);
+			dynamic_cast<CKyoujuroSheath*>(m_pSheath)->Set_Render(true);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+		}
 		
 			if (g_bCollBox)
 			{
@@ -723,6 +727,32 @@ void CKyoujuro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float f
 
 void CKyoujuro::Play_Scene()
 {
+	CKyoujuroState* pState = nullptr;
+
+	switch (m_pBattleTarget->Get_PlayerType())
+	{
+	case Client::CCharacters::PLAYER_TANJIRO:
+		//pState = new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_START);
+		//m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+		break;
+	case Client::CCharacters::PLAYER_KYOUJURO:
+	
+		break;
+	case Client::CCharacters::PLAYER_RUI:
+		break;
+	case Client::CCharacters::PLAYER_AKAZA:
+		pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_START);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+		break;
+	case Client::CCharacters::PLAYER_NEZUKO:
+		break;
+	case Client::CCharacters::PLAYER_SHINOBU:
+		break;
+	case Client::CCharacters::PLAYER_END:
+		break;
+	default:
+		break;
+	}
 }
 
 

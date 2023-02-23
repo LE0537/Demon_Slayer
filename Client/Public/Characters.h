@@ -145,7 +145,7 @@ public:
 	PLAYER_TYPE	Get_PlayerType() const { return m_ePlayerType; }
 	SKILL_TYPE Get_SkillType() const { return m_eSkillType; }
 	void Set_SkillType(SKILL_TYPE eType) { m_eSkillType = eType; }
-
+	void Set_SceneRender(_bool bRender) { m_bSceneRender = bRender; }
 protected:
 	PLAYERINFO		m_tInfo;
 	CCharacters*	m_pBattleTarget = nullptr;
@@ -179,7 +179,11 @@ protected:
 	PLAYER_TYPE				m_ePlayerType = PLAYER_END;
 	SKILL_TYPE				m_eSkillType = SKILL_END;
 
+
 	CGameObj*				 m_pEffect = nullptr;
+
+	_bool					m_bSceneRender = true;
+
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

@@ -65,7 +65,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	{
 		if (g_iLevel == LEVEL_BATTLEENMU)
 		{
-			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-0.435f,16.413f,212.616f,1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-0.435f, 16.413f, 212.616f, 1.f));
 			m_pNavigationCom->Find_CurrentCellIndex(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
 		}
 		else
@@ -144,9 +144,9 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVAKAZA, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
-		
+
 		_vector vPos = { 3.533f,5.701f,403.538f,1.f };
-	
+
 		m_pTransformCom->Set_Rotation(_float3(0.f, 180.f, 0.f));
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
@@ -237,7 +237,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 		m_tInfo.bJump = true;
 	}
 	else
-	{ 
+	{
 		m_tInfo.bJump = false;
 	}
 
@@ -263,12 +263,15 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 		m_pWeapon->Tick(fTimeDelta);
 		m_pSheath->Tick(fTimeDelta);
 
+
 		if (m_bSplSkl)
 		{
 			Check_Spl();
 		}
 
-		if (!m_bRender)
+		
+		if (!m_bRender && m_bSceneRender)
+
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
@@ -601,11 +604,18 @@ HRESULT CTanjiro::Render_ShadowDepth()
 
 void CTanjiro::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
-	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_HIT)
-		m_pModelCom->Reset_Anim(CTanjiro::ANIMID::ANIM_HIT);
+	//STATE_SKILL_WATERMILL,
+	//STATE_SKILL_WINDMILL,
+	//STATE_SKILL_COMMON,
+	//STATE_SKILL_KAGURA_COMMON,
+	//STATE_SKILL_KAGURA_MOVE,
+	//STATE_SKILL_KAGURA_SPHERE,
+
+
 
 	CTanjiroState* pState = new CHitState(_fPow, _bJumpHit);
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+
 }
 
 void CTanjiro::Get_GuardHit(_int eType)
@@ -626,14 +636,24 @@ void CTanjiro::Get_GuardHit(_int eType)
 
 void CTanjiro::Player_TakeDown(_float _fPow, _bool _bJumpHit)
 {
-	CTanjiroState* pState = new CTakeDownState(_fPow, _bJumpHit);
-	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+	if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_WATERMILL ||
+		CTanjiroState::STATE_SKILL_WINDMILL || CTanjiroState::STATE_SKILL_COMMON || CTanjiroState::STATE_SKILL_KAGURA_COMMON ||
+		CTanjiroState::STATE_SKILL_KAGURA_MOVE || CTanjiroState::STATE_SKILL_KAGURA_SPHERE || CTanjiroState::STATE_JUMP_ATTACK)
+	{
+		CTanjiroState* pState = new CTakeDownState(_fPow, _bJumpHit);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+	}
 }
 
 void CTanjiro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
-	CTanjiroState* pState = new CUpperHitState(eHitType, CTanjiroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
-	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+	if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_WATERMILL ||
+		CTanjiroState::STATE_SKILL_WINDMILL || CTanjiroState::STATE_SKILL_COMMON || CTanjiroState::STATE_SKILL_KAGURA_COMMON ||
+		CTanjiroState::STATE_SKILL_KAGURA_MOVE || CTanjiroState::STATE_SKILL_KAGURA_SPHERE || CTanjiroState::STATE_JUMP_ATTACK)
+	{
+		CTanjiroState* pState = new CUpperHitState(eHitType, CTanjiroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+	}
 
 }
 
@@ -648,7 +668,7 @@ void CTanjiro::Play_Scene()
 	case Client::CCharacters::PLAYER_KYOUJURO:
 		break;
 	case Client::CCharacters::PLAYER_RUI:
-		pState = new HitCinema_Rui(HitCinema_Rui::SCENE_START);
+		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
@@ -734,7 +754,7 @@ HRESULT CTanjiro::Ready_Components()
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
-	else if(m_i1p == 20)
+	else if (m_i1p == 20)
 	{
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainNavi"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
@@ -749,7 +769,7 @@ HRESULT CTanjiro::Ready_Components()
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Rui"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
-	
+
 	return S_OK;
 }
 
@@ -874,7 +894,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("내 가족에게 접근하지 마라!!"));
 					pUIManager->Set_MainQuestOff();
 					m_bQuest2_1MSG = true;
-				//	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_High(m_pRendererCom);
+					//	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_High(m_pRendererCom);
 					break;
 				default:
 					break;

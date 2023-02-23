@@ -224,8 +224,12 @@ void CRui::Late_Tick(_float fTimeDelta)
 	{
 		LateTickState(fTimeDelta);
 
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+
+		if (m_bSceneRender)
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+		}
 
 		if (g_bCollBox)
 		{
