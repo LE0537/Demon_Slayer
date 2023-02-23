@@ -477,21 +477,29 @@ void CCamera_Dynamic::Set_CamPos()
 	_float fDiameter = 0.f;
 
 	if (g_iLevel == LEVEL_BATTLEENMU)
+	{
 		fDiameter = 60.f;
+
+		m_fCamDist = fDist / fDiameter;
+		if (m_fCamDist > 1.f)
+			m_fCamDist = 1.f;
+		else if (m_fCamDist < 0.5)
+			m_fCamDist = 0.5f;
+
+		vPos += XMVector3Normalize(vLook2) * (fDist * 0.5f);
+	}
 	else
+	{
 		fDiameter = 85.f;
 
-	m_fCamDist = fDist / fDiameter;
-	if (m_fCamDist > 1.f)
-		m_fCamDist = 1.f;
-	else if (m_fCamDist < 0.5)
-		m_fCamDist = 0.5f;
+		m_fCamDist = fDist / fDiameter;
+		if (m_fCamDist > 1.f)
+			m_fCamDist = 1.f;
+		else if (m_fCamDist < 0.33)
+			m_fCamDist = 0.33f;
 
-	if (g_iLevel == LEVEL_BATTLEENMU)
-		vPos += XMVector3Normalize(vLook2) * (fDist * 0.5f);
-	else
 		vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
-
+	}
 
 	if (m_eTurn == CAM_RIGHT || m_eTurn == CAM_TARGETLEFT)
 	{
