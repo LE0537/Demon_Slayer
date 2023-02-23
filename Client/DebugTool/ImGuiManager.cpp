@@ -166,67 +166,87 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 		m_pRendererCom->AO_OnOff(bAO_OnOff);
 
 	//	20
-	static float fAOValue[CRenderer::VALUE_END] = { 0.15f, 0.15f, 0.4f, 40.f, 450.f, 0.3f, 0.5f, 1.36f, 0.4f, 1.f, 20.f, 300.f, 0.05f, 1.79f, 0.2f, 0.85f, 1.f, 15.f, 1.f, 1.f };
+	//	m_fPostProcessingValue = { 0.15f, 0.15f, 0.4f, 40.f, 450.f, 0.3f, 0.5f, 1.36f, 0.4f, 1.f, 20.f, 300.f, 0.05f, 1.79f, 0.2f, 0.85f, 1.f, 0.3f, 15.f, 1.f, 1.f };
 	static float vFogColor[3] = { 0.15f, 0.15f, 0.4f };
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat3("Fog Color", vFogColor, 0.001f, 0.000f, 1.f);
-	fAOValue[CRenderer::VALUE_FOGCOLOR_R] = vFogColor[0];
-	fAOValue[CRenderer::VALUE_FOGCOLOR_G] = vFogColor[1];
-	fAOValue[CRenderer::VALUE_FOGCOLOR_B] = vFogColor[2];
+	ImGui::DragFloat3("Fog Color", &m_fPostProcessingValue[CRenderer::VALUE_FOGCOLOR_R], 0.001f, 0.000f, 1.f);
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("Fog Distance", &fAOValue[CRenderer::VALUE_FOGDISTANCE], 1.f, 0.f, 500.f);
+	ImGui::DragFloat("Fog Distance", &m_fPostProcessingValue[CRenderer::VALUE_FOGDISTANCE], 1.f, 0.f, 500.f);
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("Fog Range", &fAOValue[CRenderer::VALUE_FOGRANGE], 1.f, 1.f, 2000.f);
+	ImGui::DragFloat("Fog Range", &m_fPostProcessingValue[CRenderer::VALUE_FOGRANGE], 1.f, 1.f, 2000.f);
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("Fog Min Power", &fAOValue[CRenderer::VALUE_FOGMINPOWER], 0.001f, 0.f, 1.f, "%.3f");
+	ImGui::DragFloat("Fog Min Power", &m_fPostProcessingValue[CRenderer::VALUE_FOGMINPOWER], 0.001f, 0.f, 1.f, "%.3f");
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("Fog Cubemap Power", &fAOValue[CRenderer::VALUE_CUBEMAPFOG], 0.001f, 0.f, 1.f, "%.3f");
+	ImGui::DragFloat("Fog Cubemap Power", &m_fPostProcessingValue[CRenderer::VALUE_CUBEMAPFOG], 0.001f, 0.f, 1.f, "%.3f");
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("AO Value", &fAOValue[CRenderer::VALUE_AO], 0.02f, 0.f);
+	ImGui::DragFloat("AO Value", &m_fPostProcessingValue[CRenderer::VALUE_AO], 0.02f, 0.f);
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("AO Radius", &fAOValue[CRenderer::VALUE_AORADIUS], 0.02f, 0.f);
+	ImGui::DragFloat("AO Radius", &m_fPostProcessingValue[CRenderer::VALUE_AORADIUS], 0.02f, 0.f);
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("Glow Blurring Count", &fAOValue[CRenderer::VALUE_GLOWBLURCOUNT], 0.02f, 0.f);
+	ImGui::DragFloat("Glow Blurring Count", &m_fPostProcessingValue[CRenderer::VALUE_GLOWBLURCOUNT], 0.02f, 0.f);
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("Distortion", &fAOValue[CRenderer::VALUE_DISTORTION], 0.02f, 0.f);
+	ImGui::DragFloat("Distortion", &m_fPostProcessingValue[CRenderer::VALUE_DISTORTION], 0.02f, 0.f);
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("OutLine", &fAOValue[CRenderer::VALUE_OUTLINE], 0.02f, 0.f);
+	ImGui::DragFloat("OutLine", &m_fPostProcessingValue[CRenderer::VALUE_OUTLINE], 0.02f, 0.f);
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("InnerLine", &fAOValue[CRenderer::VALUE_INNERLINE], 0.001f, 0.f);
+	ImGui::DragFloat("InnerLine", &m_fPostProcessingValue[CRenderer::VALUE_INNERLINE], 0.001f, 0.f);
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("Env Light", &fAOValue[CRenderer::VALUE_ENVLIGHT], 0.001f, -3.f, 10.f, "%.3f");
+	ImGui::DragFloat("Env Light", &m_fPostProcessingValue[CRenderer::VALUE_ENVLIGHT], 0.001f, -3.f, 10.f, "%.3f");
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("LightShaft", &fAOValue[CRenderer::VALUE_LIGHTSHAFT], 0.001f, -3.f, 10.f, "%.3f");
+	ImGui::DragFloat("LightShaft", &m_fPostProcessingValue[CRenderer::VALUE_LIGHTSHAFT], 0.001f, -3.f, 10.f, "%.3f");
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("LightPower", &fAOValue[CRenderer::VALUE_LIGHTPOWER], 0.001f, -3.f, 10.f, "%.3f");
+	ImGui::DragFloat("LightPower", &m_fPostProcessingValue[CRenderer::VALUE_LIGHTPOWER], 0.001f, -3.f, 10.f, "%.3f");
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("Shadow Test Length", &fAOValue[CRenderer::VALUE_SHADOWTESTLENGTH], 0.001f, -3.f, 3.f, "%.3f");
+	ImGui::DragFloat("Shadow Test Length", &m_fPostProcessingValue[CRenderer::VALUE_SHADOWTESTLENGTH], 0.001f, -3.f, 3.f, "%.3f");
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
-	ImGui::DragFloat("MapGrayScaleMaxTime", &fAOValue[CRenderer::VALUE_MAPGRAYSCALETIME], 0.1f, 0.f, 100.f, "%.1f");
-	if (0.f > fAOValue[CRenderer::VALUE_MAPGRAYSCALETIME])
-		fAOValue[CRenderer::VALUE_MAPGRAYSCALETIME] = 0.f;
+	ImGui::DragFloat("Player Shadow Length", &m_fPostProcessingValue[CRenderer::VALUE_PLC_SHADOW], 0.00001f, 0.00001f, 1.f, "%.5f");
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("MapGrayScaleMaxTime", &m_fPostProcessingValue[CRenderer::VALUE_MAPGRAYSCALETIME], 0.1f, 0.f, 100.f, "%.1f");
+	if (0.f > m_fPostProcessingValue[CRenderer::VALUE_MAPGRAYSCALETIME])
+		m_fPostProcessingValue[CRenderer::VALUE_MAPGRAYSCALETIME] = 0.f;
 
 	if (nullptr != m_pRendererCom)
 	{
 		for (_int i = 0; i < CRenderer::VALUE_END; ++i)
-			m_pRendererCom->Set_Value(CRenderer::VALUETYPE(i), fAOValue[i]);
+			m_pRendererCom->Set_Value(CRenderer::VALUETYPE(i), m_fPostProcessingValue[i]);
 	}
+
+
+
+	static _float4 vLightPos = _float4(0.f, 0.f, 0.f, 0.f);
+	static _float4 vLighAt = _float4(0.f, 0.f, 0.f, 0.f);
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW);
+	if (nullptr != pLightDesc)
+	{
+		LIGHTDESC tLightDesc = *pLightDesc;
+		memcpy(&vLightPos, &tLightDesc.vDirection.x, sizeof(_float4));
+		memcpy(&vLighAt, &tLightDesc.vDiffuse.x, sizeof(_float4));
+
+		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.8f);
+		ImGui::DragFloat3("pos", &vLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");
+		ImGui::DragFloat3("At", &vLighAt.x, 5.f, -2000.f, 2000.f, "%.1f");
+
+		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, vLightPos, vLighAt);
+	}
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 void CImGuiManager::Camera_Action(_float fTimeDelta)
@@ -422,7 +442,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		}
 
 		_vector vPos[4];
-		_int	iSize = m_vecCam[eChoice].size();
+		_int	iSize = (_int)m_vecCam[eChoice].size();
 		for (_int j = 0; j < 4; ++j)
 		{
 			_int	iIndex = max(min(iFixCamIndex[eChoice] + j, iSize - 1), 0);		//	최소 = 0, 최대 = Size
@@ -541,7 +561,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		if (0 == m_vecCamTime.size())
 			m_vecCamTime.push_back(0.f);
 		m_vecCamTime.push_back(1.f);
-		m_iNumCamTime = m_vecCamTime.size();
+		m_iNumCamTime = (_int)m_vecCamTime.size();
 		if (2 < m_iNumCamTime)
 		{
 			if (iCamTimeIndex + 1 != m_iNumCamTime)		//	사이에 집어넣기
@@ -590,14 +610,13 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 	static _float fSettingTime = 0.f;
 	static _bool bActionPlaying = false;
+	static _bool bClusterRender = true;
+	static _bool bPreClusterRender = true;
 	if (ImGui::CollapsingHeader("Setting Actions"))
 	{
 		//	Play Time
-		_float fTime = 0.f;
-		for (auto & iter : m_vecCamTime)
-			fTime += iter;
 		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.68f);
-		ImGui::SliderFloat("Full Time", &fSettingTime, 0.f, fTime, "%f");
+		ImGui::SliderFloat("Full Time", &fSettingTime, 0.f, (_float)(m_vecCamTime.size() - 1), "%f");
 
 		//	Play CutScene
 		if (ImGui::Button("Play", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
@@ -606,13 +625,26 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 			m_iNumCam[CAM_EYE] == m_iNumCamTime + 1 &&
 			true == bActionPlaying)
 			bActionPlaying = ((CCamera_Dynamic*)m_pCamera)->Play_CutScene(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, &fSettingTime, fTimeDelta * (_float)bActionPlaying);
-
+		((CCamera_Dynamic*)m_pCamera)->Start_CutScene(bActionPlaying, CCamera_Dynamic::CUTSCENE_END);
 
 
 		ImGui::SameLine();
 		if (ImGui::Button("Stop", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
 			bActionPlaying = false;
 
+		ImGui::Checkbox("Render", &bClusterRender);
+		if (bPreClusterRender != bClusterRender)
+		{
+			for (_int iType = 0; iType < CAM_END; ++iType)
+			{
+				for (auto & iter : m_vecCamObjects[iType])
+				{
+					iter->Set_Rendering(bClusterRender);
+				}
+			}
+
+			bPreClusterRender = bClusterRender;
+		}
 	}
 
 

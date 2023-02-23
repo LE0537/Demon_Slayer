@@ -40,6 +40,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	m_fValue[VALUE_LIGHTSHAFT] = 0.5f;
 	m_fValue[VALUE_LIGHTPOWER] = 1.f;
 	m_fValue[VALUE_SHADOWTESTLENGTH] = 0.5f;
+	m_fValue[VALUE_PLC_SHADOW] = 0.3f;
 	m_fValue[VALUE_MAPGRAYSCALETIME] = 15.f;
 
 	m_bRenderAO = true;
@@ -51,7 +52,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	_uint		iNumViewports = 1;
 
 	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
-	m_fFar = 1800.f;//ViewportDesc.MaxDepth;
+	m_fFar = 1800.f;
 
 
 	//	Origin Cam Set
@@ -536,6 +537,25 @@ HRESULT CRenderer::Add_Debug(CComponent* pDebugCom)
 	return S_OK;
 }
 
+void CRenderer::Set_Far(_float fFar)
+{ 
+	m_fFar = fFar;
+
+	D3D11_VIEWPORT		ViewportDesc;
+	ZeroMemory(&ViewportDesc, sizeof ViewportDesc);
+
+	_uint		iNumViewports = 1;
+
+	m_pContext->RSGetViewports(&iNumViewports, &ViewportDesc);
+
+	_float fFovy = XMConvertToRadians(25.0f);
+	_float fAspect = (_float)ViewportDesc.Width / ViewportDesc.Height;
+	_float fNear = 0.2f;
+
+	XMStoreFloat4x4(&m_FirstProjmatrix, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, m_fFar));
+
+}
+
 void CRenderer::Set_PointBlur(_float3 vBlurPointPos, _float fBlurPower, _float fDuration, _float fBlurMinRatio)
 {
 	if (0.f < m_fBlurTime ||
@@ -755,6 +775,9 @@ HRESULT CRenderer::Render_Lights()
 	//	그림자가 검수되는 길이
 	if (FAILED(m_pShader->Set_RawValue("g_fShadowTestLength", &m_fValue[VALUE_SHADOWTESTLENGTH], sizeof(_float))))
 		return E_FAIL;
+	//	캐릭터 그림자 값
+	if (FAILED(m_pShader->Set_RawValue("g_fPlayerShadowValue", &m_fValue[VALUE_PLC_SHADOW], sizeof(_float))))
+		return E_FAIL;
 	if (FAILED(m_pLight_Manager->Render_Lights(m_pShader, m_pVIBuffer)))
 		return E_FAIL;
 
@@ -773,6 +796,8 @@ HRESULT CRenderer::Render_AO()
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Depth"), m_pShader, "g_DepthTexture")))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Normal"), m_pShader, "g_NormalTexture")))
+		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Player"), m_pShader, "g_PlayerTexture")))
 		return E_FAIL;
 
 	if (FAILED(m_pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
@@ -853,9 +878,10 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 	_matrix		matLightView;
 	const LIGHTDESC* pLightDesc = nullptr;
 
-	if (_iLevel == 1)
+	if (_iLevel == 3)		//	Gameplay
 		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
-	else if (_iLevel == 2)
+	else if (_iLevel == 8 ||		//	Rui 스토리
+		10 == _iLevel)				//	AdvAkaza
 		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
 
 	if (nullptr != pLightDesc)
@@ -885,8 +911,16 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 
-		if (FAILED(m_pShader->Set_RawValue("g_StaticShadowProj", &XMMatrixTranspose(XMLoadFloat4x4(&m_FirstProjmatrix)), sizeof(_float4x4))))
-			return E_FAIL;
+		if (10 == _iLevel)	//	ADV_Akaza. 기차 스토리 첫번째
+		{
+			if (FAILED(m_pShader->Set_RawValue("g_StaticShadowProj", &pPipeLine->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pShader->Set_RawValue("g_StaticShadowProj", &XMMatrixTranspose(XMLoadFloat4x4(&m_FirstProjmatrix)), sizeof(_float4x4))))
+				return E_FAIL;
+		}
 		if (FAILED(m_pShader->Set_RawValue("g_matLightView_Static", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 			return E_FAIL;
 	}
@@ -1115,13 +1149,14 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 
 	CPipeLine*			pPipeLine = GET_INSTANCE(CPipeLine);
 
-	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Static_LightDepth"), m_pShader, "g_ShadowDepthTexture")))
-		return E_FAIL;
-	if (FAILED(m_pShader->Set_RawValue("g_vLightDir", &vLightDir, sizeof(_float4))))
-		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_ProjMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShader->Set_RawValue("g_ViewMatrixInv", &pPipeLine->Get_TransformFloat4x4_Inverse_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Static_LightDepth"), m_pShader, "g_ShadowDepthTexture_Once")))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_vLightDir", &vLightDir, sizeof(_float4))))
 		return E_FAIL;
 
 
@@ -1140,6 +1175,10 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 		if (FAILED(m_pShader->Set_RawValue("g_vCamPosition", &pPipeLine->Get_CamPosition(), sizeof(_float4))))
 			return E_FAIL;
 	}
+
+	_float fLightShaftMinus = 1.f;
+	if (FAILED(m_pShader->Set_RawValue("g_fLightShaftMinus", &fLightShaftMinus, sizeof(_float))))
+		return E_FAIL;
 
 
 	RELEASE_INSTANCE(CPipeLine);

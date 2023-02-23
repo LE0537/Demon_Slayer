@@ -25,6 +25,7 @@ float			g_iMulUV_V;
 float			g_fCurrentTime;
 
 float3			g_vColor;
+float		g_fFar;
 
 struct VS_IN
 {
@@ -159,9 +160,9 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(vNormal * 0.5f + 0.5f, 0.f);
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fFar, 0.f, 0.f);
 	Out.vGlow = g_GlowTexture.Sample(LinearSampler, In.vTexUV) * g_fGlowPower;
-	Out.vWorld = In.vWorld;
+	Out.vWorld = In.vWorld/* / g_fFar*/;
 
 	if (Out.vDiffuse.a <= 0.1f)
 		discard;
@@ -173,7 +174,7 @@ PS_OUT_SHADOW PS_SHADOW(PS_IN In)
 {
 	PS_OUT_SHADOW		Out = (PS_OUT_SHADOW)0;
 
-	Out.vLightDepth.r = In.vProjPos.w / 1800.f;
+	Out.vLightDepth.r = In.vProjPos.w / g_fFar;
 
 	Out.vLightDepth.a = 1.f;
 
@@ -186,8 +187,8 @@ PS_OUT PS_MAP(PS_IN In)
 
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 1800.f, 0.f, 0.f);
-	Out.vWorld = In.vWorld;
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fFar, 0.f, 0.f);
+	Out.vWorld = In.vWorld/* / g_fFar*/;
 
 
 	if (Out.vDiffuse.a <= 0.3f)

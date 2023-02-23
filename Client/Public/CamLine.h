@@ -28,6 +28,7 @@ private:
 public:
 	void Set_Pos(_float fX, _float fY, _float fZ);
 	void Set_Pos(_float3 vPos[4]);
+	void	Set_Rendering(_bool bTrueisOn) { m_bRender = bTrueisOn; }
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -44,6 +45,8 @@ private:
 	_float3					m_vPos[4];
 	_float3					m_vColor;
 	CVIBuffer_Line*			m_pVIBuffer_LineCom = nullptr;
+
+	_bool		m_bRender = true;
 
 private:/*Cube*/
 	CShader*			m_pShader_ModelCom = nullptr;

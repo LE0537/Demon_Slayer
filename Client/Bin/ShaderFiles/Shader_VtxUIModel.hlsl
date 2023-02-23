@@ -16,6 +16,7 @@ float4			g_vLightDir = float4(1.f, -1.f, 0.f, 0.f); // 빛의방향 //방향성광원 // 
 float4			g_vMtrlAmbient = float4(1.f, 1.f, 1.f, 1.f);  // 재질의 고유색
 float4			g_vMtrlSpecular = float4(1.f, 1.f, 1.f, 1.f);  // 재질의 하이라이트 (빤딱거리는느낌)
 
+float			g_fFar;
 
 /* 정점들에게 곱해져야할 행렬. */
 /* 정점들은 메시에게 소속. 이때 곱해져야하는 뼈의 행렬 == 이 메시에 영향을 주는 뼈다. */
