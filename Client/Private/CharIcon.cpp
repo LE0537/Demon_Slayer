@@ -63,7 +63,7 @@ void CCharIcon::Tick(_float fTimeDelta)
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY || m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU)
 	{
 		if (pUI_Manager->Get_BattleTypeCheck())
 		{
@@ -120,12 +120,19 @@ HRESULT CCharIcon::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)	
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY || m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU)
 		m_pShaderCom->Begin(16);
 	else if(m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 		m_pShaderCom->Begin(9);
 
-	m_pVIBufferCom->Render();
+	if(m_ThrowUIinfo.iLevelIndex != LEVEL_BATTLEENMU)
+		m_pVIBufferCom->Render();
+	else
+	{
+		if(m_ThrowUIinfo.iLayerNum == 0)
+			m_pVIBufferCom->Render();
+	}
+
 
 	return S_OK;
 }
@@ -188,7 +195,7 @@ HRESULT CCharIcon::Ready_Components()
 			return E_FAIL;
 	}
 
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY || m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU)
 	{
 		if (FAILED(__super::Add_Components(TEXT("Com_Texture1"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_CharMask"), (CComponent**)&m_pTextureMaskCom)))
 			return E_FAIL;
@@ -236,7 +243,7 @@ HRESULT CCharIcon::SetUp_ShaderResources()
 			m_iMaskImgNum = 3;
 	}
 
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY || m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU)
 	{
 		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pTextureMaskCom->Get_SRV(m_iMaskImgNum))))
 			return E_FAIL;
@@ -278,7 +285,7 @@ void CCharIcon::Free()
 
 	if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 		Safe_Release(m_pTextureMaskCom);
-	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY || m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU)
 		Safe_Release(m_pTextureMaskCom);
 
 	Safe_Release(m_pTransformCom);

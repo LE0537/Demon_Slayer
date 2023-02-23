@@ -90,7 +90,7 @@ HRESULT CBtlFixedImg::Render()
 
 	if(pUI_Manager->Get_BattleTypeCheck())
 		m_pVIBufferCom->Render();
-	else
+	else if(m_ThrowUIinfo.iLevelIndex == LEVEL_ADVRUI)
 	{
 		if (!m_ThrowUIinfo.bPlyCheck)
 			m_pVIBufferCom->Render();
@@ -99,6 +99,12 @@ HRESULT CBtlFixedImg::Render()
 			if(m_ThrowUIinfo.iTextureNum != 23 && m_ThrowUIinfo.iTextureNum != 36)
 				m_pVIBufferCom->Render();
 		}
+	}
+	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU)
+	{
+		if(m_ThrowUIinfo.iTextureNum != 2 && m_ThrowUIinfo.iTextureNum != 3 && m_ThrowUIinfo.iTextureNum != 14 && 
+			m_ThrowUIinfo.iTextureNum != 15 && m_ThrowUIinfo.iTextureNum != 23 && m_ThrowUIinfo.iTextureNum != 36)
+			m_pVIBufferCom->Render();
 	}
 
 	RELEASE_INSTANCE(CUI_Manager);

@@ -36,7 +36,7 @@ HRESULT CLoadingBar::Initialize(void * pArg)
 
 	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 
-	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
@@ -50,6 +50,7 @@ HRESULT CLoadingBar::Initialize(void * pArg)
 
 void CLoadingBar::Tick(_float fTimeDelta)
 {
+	m_fCurTime += fTimeDelta;
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
@@ -68,10 +69,7 @@ HRESULT CLoadingBar::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(3);
 
 	m_pVIBufferCom->Render();
 
@@ -113,6 +111,12 @@ HRESULT CLoadingBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxBar", &m_fMaxTime, sizeof(_float))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurBar", &m_fCurTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

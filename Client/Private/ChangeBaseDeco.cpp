@@ -73,7 +73,8 @@ HRESULT CChangeBaseDeco::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	m_pVIBufferCom->Render();
+	if (m_ThrowUIinfo.iLevelIndex != LEVEL_BATTLEENMU)
+		m_pVIBufferCom->Render();
 
 	return S_OK;
 }
