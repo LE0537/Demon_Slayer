@@ -222,6 +222,7 @@
     <ClInclude Include="..\Public\AkazaTargetRushState.h" />
     <ClInclude Include="..\Public\AkazaToolState.h" />
     <ClInclude Include="..\Public\AkazaUpperHitState.h" />
+    <ClInclude Include="..\Public\Akaza_CinemaState.h" />
     <ClInclude Include="..\Public\AngryState.h" />
     <ClInclude Include="..\public\BaseAtk.h" />
     <ClInclude Include="..\public\BigBird.h" />
@@ -252,7 +253,11 @@
     <ClInclude Include="..\Public\FeedArrow.h" />
     <ClInclude Include="..\public\Goto.h" />
     <ClInclude Include="..\Public\HinoCami_CinemaState.h" />
+    <ClInclude Include="..\Public\HitCinema_Akaza.h" />
+    <ClInclude Include="..\Public\HitCinema_Kyoujuro.h" />
+    <ClInclude Include="..\Public\HitCinema_Nezuko.h" />
     <ClInclude Include="..\Public\HitCinema_Rui.h" />
+    <ClInclude Include="..\Public\HitCinema_Shinobu.h" />
     <ClInclude Include="..\public\Hoke.h" />
     <ClInclude Include="..\Public\InteractionUI.h" />
     <ClInclude Include="..\public\KaguraSkill.h" />
@@ -643,6 +648,7 @@
     <ClCompile Include="..\Private\AkazaTargetRushState.cpp" />
     <ClCompile Include="..\Private\AkazaToolState.cpp" />
     <ClCompile Include="..\Private\AkazaUpperHitState.cpp" />
+    <ClCompile Include="..\Private\Akaza_CinemaState.cpp" />
     <ClCompile Include="..\Private\AngryState.cpp" />
     <ClCompile Include="..\private\BaseAtk.cpp" />
     <ClCompile Include="..\private\BigBird.cpp" />
@@ -674,7 +680,11 @@
     <ClCompile Include="..\Private\FeedArrow.cpp" />
     <ClCompile Include="..\private\Goto.cpp" />
     <ClCompile Include="..\Private\HinoCami_CinemaState.cpp" />
+    <ClCompile Include="..\Private\HitCinema_Akaza.cpp" />
+    <ClCompile Include="..\Private\HitCinema_Kyoujuro.cpp" />
+    <ClCompile Include="..\Private\HitCinema_Nezuko.cpp" />
     <ClCompile Include="..\Private\HitCinema_Rui.cpp" />
+    <ClCompile Include="..\Private\HitCinema_Shinobu.cpp" />
     <ClCompile Include="..\private\Hoke.cpp" />
     <ClCompile Include="..\Private\InteractionUI.cpp" />
     <ClCompile Include="..\private\KaguraSkill.cpp" />

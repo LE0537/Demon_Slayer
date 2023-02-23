@@ -32,6 +32,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 		case 1:
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
+				pNezuko->Get_BattleTarget()->Play_Scene();
 				return new CNezuko_CinemaState(CNezuko_CinemaState::SCENE_START);
 			}
 			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ

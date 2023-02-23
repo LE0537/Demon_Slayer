@@ -36,7 +36,10 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 		{
 		case 1:
 			if (pGameInstance->Key_Pressing(DIK_E))
+			{
+				pShinobu->Get_BattleTarget()->Play_Scene();
 				return new CShinobu_CinemaState(CShinobu_CinemaState::SCENE_START);
+			}
 
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ

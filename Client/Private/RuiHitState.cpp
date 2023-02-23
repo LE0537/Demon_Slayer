@@ -6,6 +6,7 @@
 #include "Camera_Dynamic.h"
 #include "Layer.h"
 
+
 using namespace Rui;
 
 CHitState::CHitState(_float _fPow, _bool _bJump)
@@ -21,6 +22,8 @@ CRuiState * CHitState::HandleInput(CRui* pRui)
 
 CRuiState * CHitState::Tick(CRui* pRui, _float fTimeDelta)
 {
+
+
 	if (!m_bReset)
 	{
 		if (pRui->Get_PlayerInfo().iUnicCount < 3 && pRui->Get_PlayerInfo().iUnicBar < pRui->Get_PlayerInfo().iUnicMaxBar)
