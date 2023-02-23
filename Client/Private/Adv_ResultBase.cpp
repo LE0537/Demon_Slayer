@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Adv_ResultBase.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CAdv_ResultBase::CAdv_ResultBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -26,7 +27,7 @@ HRESULT CAdv_ResultBase::Initialize(void * pArg)
 
 	m_fSizeX = m_ThrowUIinfo.vScale.x;
 	m_fSizeY = m_ThrowUIinfo.vScale.y;
-	m_fX = m_ThrowUIinfo.vPos.x;
+	m_fX = m_ThrowUIinfo.vPos.x + 10.f;
 	m_fY = m_ThrowUIinfo.vPos.y;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
@@ -50,13 +51,49 @@ HRESULT CAdv_ResultBase::Initialize(void * pArg)
 
 void CAdv_ResultBase::Tick(_float fTimeDelta)
 {
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	if (pUI_Manager->Get_FadeSwitch() && !m_bFadeCheck)
+	{
+		m_fFadeTime += 0.05f;
+		m_fX -= 2.f;
+		if (m_fFadeTime >= 1.f)
+		{
+			m_fFadeTime = 1.f;
+			m_fX = m_ThrowUIinfo.vPos.x;
+			m_bFadeCheck = true;
+		}
+	}
+
+	if (m_bFadeCheck)
+		m_fStopTime = fTimeDelta;
+
+	if (m_fStopTime >= 1.f)
+	{
+		m_fFadeTime -= 0.05f;
+		m_fX -= 2.f;
+	}
+	//else if ()
+	//{
+	//	/*m_fFadeTime -= 0.2f;
+	//	m_fX += 2.f;
+	//	if (m_fFadeTime <= 0.f)
+	//	{
+	//		m_bDead = true;
+	//		m_fFadeTime = 0.f;
+	//		m_fX = m_ThrowUIinfo.vPos.x;
+	//	}*/
+	//}
+
+	
+
+	RELEASE_INSTANCE(CUI_Manager);
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 }
 
 void CAdv_ResultBase::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
 }
 
 HRESULT CAdv_ResultBase::Render()
@@ -68,13 +105,18 @@ HRESULT CAdv_ResultBase::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	if (!m_ThrowUIinfo.bReversal)
-		m_pShaderCom->Begin();
-	else
-		m_pShaderCom->Begin(1);
+	m_pShaderCom->Begin(12);
 
-	if (m_ThrowUIinfo.iLevelIndex != LEVEL_BATTLEENMU)
-		m_pVIBufferCom->Render();
+	m_pVIBufferCom->Render();
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (pUI_Manager->Get_FadeSwitch())
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("배틀 결과"), XMVectorSet(m_fX - 150.f, m_fY - 23.f, 0.f, 1.f), XMVectorSet(1.f, 0.5f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+
+	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }
@@ -114,6 +156,9 @@ HRESULT CAdv_ResultBase::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

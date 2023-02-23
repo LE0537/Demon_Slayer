@@ -179,6 +179,9 @@ public:
 	CUI*	Get_MsgTextBase() { return m_pMsgTextBase; }
 	void	Set_MsgTextBase(CUI* pTarget) { m_pMsgTextBase = pTarget; }
 	
+	CUI*	Get_FadeUI() { return m_pFadeUI; }
+	void	Set_FadeUI(CUI* pTarget) { m_pFadeUI = pTarget; }
+	
 	_uint   Get_Sel1P() { return m_i1p; }
 	void	Set_Sel1P(_uint _i1p) { m_i1p = _i1p; }
 
@@ -237,6 +240,9 @@ public:
 
 	_bool	Get_AdvMenuSelCheck() { return m_bAdvMenuSelCheck; }
 	void	Set_AdvMenuSelCheck(_bool bCheck) { m_bAdvMenuSelCheck = bCheck; }
+	
+	_bool	Get_AdvResult() { return m_bAdvResultCheck; }
+	void	Set_AdvResult(_bool bCheck) { m_bAdvResultCheck = bCheck; }
 
 	_bool	Get_LevelResultOn() { return m_bLevelResultOn; }
 	void	Set_LevelResultOn(_bool bCheck) { m_bLevelResultOn = bCheck; }
@@ -350,6 +356,7 @@ private:
 	CUI*							m_pRankIcon = nullptr;
 	CUI*							m_pSelMapCursor = nullptr;
 	CUI*							m_pMsgTextBase = nullptr;
+	CUI*							m_pFadeUI = nullptr;
 
 	CUI::THROWUIINFO				m_ThrowInfo;
 	CUI::RESULTINFO					m_ResultInfo;
@@ -408,6 +415,8 @@ private:
 	_bool							m_bLevelMenu = false;
 
 	_bool							m_bBattleTypeCheck = false;
+
+	_bool							m_bAdvResultCheck = false;
 
 	_bool							m_bFadeSwitch = false;
 	_bool							m_bInteractionUIOnOff = false;

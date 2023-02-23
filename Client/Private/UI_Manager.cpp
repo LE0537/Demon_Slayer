@@ -738,7 +738,7 @@ void CUI_Manager::Add_AdvResult(LEVEL eLevel)
 	}
 
 	for (auto iter : ADVRESULT_DATALIST)
-		Add_Btl_PlayerUI(iter);
+		Add_ResultUI(iter);
 
 	ADVRESULT_DATALIST.clear();
 }
