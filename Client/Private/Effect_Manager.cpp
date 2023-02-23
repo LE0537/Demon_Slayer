@@ -101,7 +101,7 @@ void CEffect_Manager::Load_Effect(const _tchar * EffectName)
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	if (FAILED(pGameInstance->Add_Prototype(EffectName,
-		CEffect::Create(m_pDevice, m_pContext, EffectInfo, TexInfo, MeshInfoes, ParticleInfoes, NewParticleInfoes))))
+		CEffect::Create(m_pDevice, m_pContext, m_Effect.size() - 1, EffectInfo, TexInfo, MeshInfoes, ParticleInfoes, NewParticleInfoes))))
 		return;
 
 	RELEASE_INSTANCE(CGameInstance);

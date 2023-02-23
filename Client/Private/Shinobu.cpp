@@ -105,6 +105,7 @@ void CShinobu::Tick(_float fTimeDelta)
 {
 	if (!m_bChange)
 	{
+		m_fEffectStartTime = 0.f;
 		if (m_bBattleStart)
 		{
 			CShinobuState* pState = new CBattleStartState();

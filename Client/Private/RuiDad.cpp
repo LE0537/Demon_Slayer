@@ -79,6 +79,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 
 void CRuiDad::Tick(_float fTimeDelta)
 {
+	m_fEffectStartTime = 0.f;
 	if (m_i1p == 10)
 	{
 		HandleInput();

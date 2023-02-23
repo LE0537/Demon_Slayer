@@ -42,7 +42,7 @@ private:
 	virtual ~CEffect() = default;
 
 public:
-	HRESULT Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
+	HRESULT Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo, _uint Effect_Num
 		, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo, vector<CEffect_Particle_New::PARTICLE_INFO> NewParticleInfo);
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -60,9 +60,10 @@ private:
 private:
 	//char										m_szEffectName[MAX_PATH];
 
-	_int											m_iTexNum = -1; //보류
+	_int											m_iEffectNum = -1; //보류
 
 	_float											m_fEffectTime = 0.f;
+	_float											m_fEffectStartTime = 0.f;
 
 	_float4											m_vDestination;
 
@@ -71,6 +72,7 @@ private:
 	EFFECT_INFO										m_EffectInfo;
 
 	_bool											m_bStart;
+	_bool											m_bInvisible = false;
 
 	CGameObj*										m_pTarget;
 
@@ -85,7 +87,7 @@ private:
 	vector<CEffect_Particle_New::PARTICLE_INFO>		m_NewParticleInfo;
 
 public:
-	static CEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
+	static CEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uint Effect_Num, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
 		, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo, vector<CEffect_Particle_New::PARTICLE_INFO> NewParticleInfo);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;

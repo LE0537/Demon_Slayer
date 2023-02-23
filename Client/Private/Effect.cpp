@@ -2,6 +2,7 @@
 #include "Effect.h"
 #include "GameInstance.h"
 #include "CollBox.h"
+#include "Effect_Manager.h"
 #include "Characters.h"
 
 CEffect::CEffect(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -18,11 +19,12 @@ CEffect::CEffect(const CEffect & rhs)
 	m_Particle(rhs.m_Particle),
 	m_TextureInfo(rhs.m_TextureInfo),
 	m_MeshInfo(rhs.m_MeshInfo),
-	m_NewParticleInfo(rhs.m_NewParticleInfo)
+	m_NewParticleInfo(rhs.m_NewParticleInfo),
+	m_iEffectNum(rhs.m_iEffectNum)
 {
 }
 
-HRESULT CEffect::Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
+HRESULT CEffect::Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo, _uint Effect_Num
 	, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo, vector<CEffect_Particle_New::PARTICLE_INFO> NewParticleInfo)
 {
 	m_EffectInfo = EffectInfo;
@@ -42,6 +44,9 @@ HRESULT CEffect::Initialize_Prototype(EFFECT_INFO EffectInfo, vector<CEffect_Tex
 	for (auto pParticleInfo : NewParticleInfo) {
 		m_NewParticleInfo.push_back(pParticleInfo);
 	}
+
+	m_iEffectNum = Effect_Num;
+
 	return S_OK;
 }
 
@@ -167,19 +172,91 @@ void CEffect::Late_Tick(_float fTimeDelta)
 		return;
 	}
 
-	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
-		for (auto& pTex : m_Textures)
-			pTex->Late_Tick(fTimeDelta);
+	m_fEffectStartTime += m_pTarget->Get_EffectTime();
 
-		for (auto& pMesh : m_Meshes)
-			pMesh->Late_Tick(fTimeDelta);
+	switch (m_iEffectNum) {
+	case CEffect_Manager::EFF_HIT:
+	case CEffect_Manager::EFF_HIT2:
+	case CEffect_Manager::EFF_HIT3:
+	case CEffect_Manager::EFF_HIT4:
+	case CEffect_Manager::EFF_HIT5:
+	case CEffect_Manager::EFF_PCHANGE_DOWN:
+	case CEffect_Manager::EFF_PCHANGE_UP:
+	case CEffect_Manager::EFF_GUARD1:
+	case CEffect_Manager::EFF_GUARD2:
+	case CEffect_Manager::EFF_GUARD3:
+	case CEffect_Manager::EFF_GUARD3_BROKEN:
+	case CEffect_Manager::EFF_JUMP_DOWN:
+	case CEffect_Manager::EFF_JUMP_UP:
+	case CEffect_Manager::EFF_RUN:
+	case CEffect_Manager::EFF_RUSH_START:
+	case CEffect_Manager::EFF_RUSH_MOVE:
+	case CEffect_Manager::EFF_RUSH_HIT:
+	case CEffect_Manager::EFF_POWER_CHARGING:
+	case CEffect_Manager::EFF_POWER_UP:
+	case CEffect_Manager::EFF_POWER_UP_PLAYER:
+	case CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT:
+	case CEffect_Manager::EFF_GAMESTART:
+	case CEffect_Manager::EFF_DASH_TAN_MOVE:
+	case CEffect_Manager::EFF_DASH_TAN_STOP:
+	case CEffect_Manager::EFF_DASH_TAN_MOVEFB:
+	case CEffect_Manager::EFF_DASH_TAN_STOPFB:
+	case CEffect_Manager::EFF_SPL_HINO_MONTION1_PROJ1:
+	case CEffect_Manager::EFF_SPL_HINO_START:
+	case CEffect_Manager::EFF_SPL_HINO_STARTSLASH:
+	case CEffect_Manager::EFF_SPL_HINO_ENDGROUND:
+	case CEffect_Manager::EFF_SPL_HINO_MONTION1_SLASH1:
+	case CEffect_Manager::EFF_SPL_HINO_MONTION1_SLASH2:
+	case CEffect_Manager::EFF_SPL_HINO_MONTION1_SWORD1:
+	case CEffect_Manager::EFF_SPL_HINO_MONTION1_SWORD2:
+		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
+			for (auto& pTex : m_Textures)
+				pTex->Late_Tick(fTimeDelta);
 
-		for (auto& pParticle : m_Particle)
-			pParticle->Late_Tick(fTimeDelta);
+			for (auto& pMesh : m_Meshes)
+				pMesh->Late_Tick(fTimeDelta);
 
-		for (auto& pParticle : m_NewParticle)
-			pParticle->Late_Tick(fTimeDelta);
+			for (auto& pParticle : m_Particle)
+				pParticle->Late_Tick(fTimeDelta);
+
+			for (auto& pParticle : m_NewParticle)
+				pParticle->Late_Tick(fTimeDelta);
+		}
+		break;
+	default:
+		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
+			int i = 0;
+			for (auto& pTex : m_Textures) {
+				if(m_fEffectStartTime >= m_EffectInfo.fEffectStartTime + m_TextureInfo[i].fStartTime)
+					pTex->Late_Tick(fTimeDelta);
+				i++;
+			}
+
+			i = 0;
+			for (auto& pMesh : m_Meshes) {
+				if (m_fEffectStartTime >= m_EffectInfo.fEffectStartTime + m_MeshInfo[i].fStartTime)
+					pMesh->Late_Tick(fTimeDelta);
+				i++;
+			}
+
+			i = 0;
+			for (auto& pParticle : m_Particle) {
+				if (m_fEffectStartTime >= m_EffectInfo.fEffectStartTime + m_ParticleInfo[i].fStartTime)
+					pParticle->Late_Tick(fTimeDelta);
+				i++;
+			}
+
+			i = 0;
+			for (auto& pParticle : m_NewParticle) {
+				if (m_fEffectStartTime >= m_EffectInfo.fEffectStartTime + m_NewParticleInfo[i].fStartTime)
+					pParticle->Late_Tick(fTimeDelta);
+				i++;
+			}
+		}
+		break;
 	}
+
+	
 }
 
 void CEffect::Set_ParentWorldMatrix(_matrix ParentMat)
@@ -259,12 +336,12 @@ HRESULT CEffect::Ready_Parts()
 	return S_OK;
 }
 
-CEffect * CEffect::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
+CEffect * CEffect::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, _uint Effect_Num, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
 	, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo, vector<CEffect_Particle_New::PARTICLE_INFO> NewParticleInfo)
 {
 	CEffect*	pInstance = new CEffect(pDevice, pContext);
 
-	if (FAILED(pInstance->Initialize_Prototype(EffectInfo, TextureInfo, MeshInfo, ParticleInfo, NewParticleInfo)))
+	if (FAILED(pInstance->Initialize_Prototype(EffectInfo, TextureInfo, Effect_Num, MeshInfo, ParticleInfo, NewParticleInfo)))
 	{
 		ERR_MSG(TEXT("Failed to Created : CEffect"));
 		Safe_Release(pInstance);
