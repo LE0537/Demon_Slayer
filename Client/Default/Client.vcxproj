@@ -579,6 +579,7 @@
     <ClInclude Include="..\Public\WindowLeft.h" />
     <ClInclude Include="..\Public\WindowRight.h" />
     <ClInclude Include="Client.h" />
+    <ClInclude Include="HitCinema_Tanjiro.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RuiDadState.h" />
     <ClInclude Include="stdafx.h" />
@@ -989,6 +990,7 @@
     <ClCompile Include="..\Private\WindowLeft.cpp" />
     <ClCompile Include="..\Private\WindowRight.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="HitCinema_Tanjiro.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

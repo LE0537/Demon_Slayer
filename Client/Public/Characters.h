@@ -21,7 +21,8 @@ class CCharacters : public CGameObj
 {
 public:
 	enum HIT_TYPE {HIT_UPPER, HIT_UPPER_2 , HIT_BOUND, HIT_KNOCKBACK, HIT_END };
-
+	enum PLAYER_TYPE {PLAYER_TANJIRO, PLAYER_KYOUJURO, PLAYER_RUI, PLAYER_AKAZA, PLAYER_NEZUKO, PLAYER_SHINOBU, PLAYER_END};
+	enum SKILL_TYPE {SKILL_010, SKILL_020, SKILL_030, SKILL_040, SKILL_050, SKILL_060, SKILL_070, SKILL_080, SKILL_090 , SKILL_100, SKILL_110, SKILL_END};
 
 protected:
 	CCharacters(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -128,11 +129,12 @@ public:
 	_bool	   Get_GodMode() const { return m_bGodMode; }
 
 	void	   Set_SplSkl(_bool bSkpSkl) { m_bSplSkl = bSkpSkl; }
-	_bool	   Get_SplSkl() const { return m_bSplSkl; }
+	_bool Get_SplSkl() const { return m_bSplSkl; }
 
-	void			Set_Effect(CGameObj* _Effect) { m_pEffect = _Effect; }
-	
 
+	PLAYER_TYPE	Get_PlayerType() const { return m_ePlayerType; }
+	SKILL_TYPE Get_SkillType() const { return m_eSkillType; }
+	void Set_SkillType(SKILL_TYPE eType) { m_eSkillType = eType; }
 
 protected:
 	PLAYERINFO		m_tInfo;
@@ -164,8 +166,8 @@ protected:
 	queue<_uint>			m_SplSklIndex;
 	queue<_uint>			m_SplSklHitIndex;
 
-	//Effect
-	CGameObj*				 m_pEffect = nullptr;
+	PLAYER_TYPE				m_ePlayerType = PLAYER_END;
+	SKILL_TYPE				m_eSkillType = SKILL_END;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

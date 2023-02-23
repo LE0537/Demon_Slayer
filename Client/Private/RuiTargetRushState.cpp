@@ -397,7 +397,7 @@ CRuiState * CTargetRushState::CommandCheck(CRui * pRui)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_L))
 			{
-				return new CTargetRushState(TYPE_START);
+			//	return new CTargetRushState(TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_SPACE))
 			{
@@ -452,7 +452,7 @@ CRuiState * CTargetRushState::CommandCheck(CRui * pRui)
 			}
 			else if (pGameInstance->Key_Pressing(DIK_LSHIFT))
 			{
-				return new CTargetRushState(TYPE_START);
+			//	return new CTargetRushState(TYPE_START);
 			}
 			else if (pGameInstance->Key_Pressing(DIK_LCONTROL))
 			{

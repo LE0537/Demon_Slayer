@@ -300,7 +300,7 @@ CAkazaState * CIdleState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	_vector vPlayerY = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 	pAkaza->Set_NavigationHeight(vPlayerY);
-	if (vPlayerY.m128_f32[1] > pAkaza->Get_NavigationHeight().y && pAkaza->Get_BattleTarget()->Get_SplSkl() == false)
+	if (vPlayerY.m128_f32[1] > pAkaza->Get_NavigationHeight().y + 0.1f && pAkaza->Get_BattleTarget()->Get_SplSkl() == false)
 	{
 		pAkaza->Set_PlayerOriginPosY(fTimeDelta);
 	}

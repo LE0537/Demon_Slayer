@@ -112,7 +112,7 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
-
+	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_KYOUJURO;
 	return S_OK;
 }
 

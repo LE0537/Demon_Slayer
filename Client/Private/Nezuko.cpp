@@ -94,7 +94,7 @@ HRESULT CNezuko::Initialize(void * pArg)
 	CNezukoState* pState = new CIdleState();
 	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 
-
+	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_NEZUKO;
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	return S_OK;
 }

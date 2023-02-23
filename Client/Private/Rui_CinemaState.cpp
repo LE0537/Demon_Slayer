@@ -20,26 +20,39 @@ CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 	switch (m_eScene)
 	{
 	case Client::Rui::CRui_CinemaState::SCENE_START:
-		Scene_Start(pRui, fTimeDelta);
-		
-		if (m_bNextAnim == true)
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 			return new CRui_CinemaState(CRui_CinemaState::SCENE_0);
-
+		}
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_0:
-		Scene_0(pRui, fTimeDelta);
-		if (m_bNextAnim == true)
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 		{
-			pRui->Set_SplSkl(false);
-			pRui->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 1.f);
-			return new CIdleState();
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CRui_CinemaState(CRui_CinemaState::SCENE_1);
 		}
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_1:
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CRui_CinemaState(CRui_CinemaState::SCENE_2);
+		}
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_2:
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CRui_CinemaState(CRui_CinemaState::SCENE_3);
+		}
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_3:
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CIdleState();
+		}
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_4:
 		break;
@@ -57,8 +70,8 @@ CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 
 CRuiState * CRui_CinemaState::Late_Tick(CRui * pRui, _float fTimeDelta)
 {
-	if (m_bAnimStop == false)
-		pRui->Get_Model()->Play_Animation(fTimeDelta);
+	
+		pRui->Get_Model()->Play_Animation_Skill(fTimeDelta);
 
 	return nullptr;
 }
@@ -78,10 +91,10 @@ void CRui_CinemaState::Enter(CRui * pRui)
 		pRui->Get_Model()->Set_LinearTime(CRui_CinemaState::ANIM_SCENE_START, 0.05f);
 		
 		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.f, pRui->Get_NavigationHeight().y, 64.f, 1.f));
-		pRui->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(64.f, pRui->Get_NavigationHeight().y, 38.5f, 1.f));
+		//pRui->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(64.f, pRui->Get_NavigationHeight().y, 38.5f, 1.f));
 		
-		pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		pRui->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		//pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		//pRui->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_0:
 
@@ -94,15 +107,27 @@ void CRui_CinemaState::Enter(CRui * pRui)
 		//pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.f, pRui->Get_NavigationHeight().y, 64.f, 1.f));
 		//pRui->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(64.f, pRui->Get_NavigationHeight().y, 38.5f, 1.f));
 
-		pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		pRui->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		//pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		//pRui->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_1:
+		pRui->Get_Model()->Set_CurrentAnimIndex(CRui_CinemaState::ANIM_SCENE_1);
+		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CRui_CinemaState::ANIM_SCENE_1));
+		pRui->Get_Model()->Set_Loop(CRui_CinemaState::ANIM_SCENE_1);
+		pRui->Get_Model()->Set_LinearTime(CRui_CinemaState::ANIM_SCENE_1, 0.05f);
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_2:
+		pRui->Get_Model()->Set_CurrentAnimIndex(CRui_CinemaState::ANIM_SCENE_2);
+		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CRui_CinemaState::ANIM_SCENE_2));
+		pRui->Get_Model()->Set_Loop(CRui_CinemaState::ANIM_SCENE_2);
+		pRui->Get_Model()->Set_LinearTime(CRui_CinemaState::ANIM_SCENE_2, 0.05f);
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_3:
+		pRui->Get_Model()->Set_CurrentAnimIndex(CRui_CinemaState::ANIM_SCENE_3);
+		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CRui_CinemaState::ANIM_SCENE_3));
+		pRui->Get_Model()->Set_Loop(CRui_CinemaState::ANIM_SCENE_3);
+		pRui->Get_Model()->Set_LinearTime(CRui_CinemaState::ANIM_SCENE_3, 0.05f);
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_4:
 		break;

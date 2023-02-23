@@ -13,6 +13,7 @@
 #include "NezukoDashState.h"
 #include "NezukoTargetRushState.h"
 #include "UI_Manager.h"
+#include "Nezuko_CinemaState.h"
 using namespace Nezuko;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -29,6 +30,10 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 		switch (pNezuko->Get_i1P())
 		{
 		case 1:
+			if (pGameInstance->Key_Pressing(DIK_E))
+			{
+				return new CNezuko_CinemaState(CNezuko_CinemaState::SCENE_START);
+			}
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_A)) // аб
@@ -286,7 +291,7 @@ CNezukoState * CIdleState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 	_vector vPlayerY = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 	pNezuko->Set_NavigationHeight(vPlayerY);
-	if (vPlayerY.m128_f32[1] > pNezuko->Get_NavigationHeight().y)
+	if (vPlayerY.m128_f32[1] > pNezuko->Get_NavigationHeight().y + 0.1f)
 	{
 		pNezuko->Set_PlayerOriginPosY(fTimeDelta);
 	}

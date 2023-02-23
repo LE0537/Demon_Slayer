@@ -31,10 +31,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 	switch (pRui->Get_i1P())
 	{
 	case 1:
-		if (pGameInstance->Key_Pressing(DIK_E))
-		{
-			return new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
-		}
+		
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 		{
@@ -158,6 +155,11 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 
 		break;
 	case 2:
+		if (pGameInstance->Key_Pressing(DIK_E))
+		{
+			return new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
+		}
+
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 		{
 			if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
@@ -317,7 +319,7 @@ CRuiState * CIdleState::Late_Tick(CRui * pRui, _float fTimeDelta)
 	_vector vPlayerY = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 	pRui->Set_NavigationHeight(vPlayerY);
-	if (vPlayerY.m128_f32[1] > pRui->Get_NavigationHeight().y && pRui->Get_BattleTarget()->Get_SplSkl() == false)
+	if (vPlayerY.m128_f32[1] > pRui->Get_NavigationHeight().y + 0.1f && pRui->Get_BattleTarget()->Get_SplSkl() == false)
 	{
 		pRui->Set_PlayerOriginPosY(fTimeDelta);
 	}

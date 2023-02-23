@@ -484,8 +484,14 @@ HRESULT CLevel_AdvAkaza::Load_StaticObjects(char * pFileName)
 					tCharacterDesc1p.iModelIndex = i;
 					tCharacterDesc1p.matWorld = tMeshObj_Static_InstDesc.pWorld[i];
 					if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Door"), LEVEL_ADVAKAZA, TEXT("Layer_Door"), &tCharacterDesc1p)))
+					{
+						Safe_Delete_Array(arrWorld);
+						Safe_Delete_Array(arrGlowPower);
 						return E_FAIL;
+					}
 				}
+				Safe_Delete_Array(arrWorld);
+				Safe_Delete_Array(arrGlowPower);
 				continue;
 				break;
 			default:

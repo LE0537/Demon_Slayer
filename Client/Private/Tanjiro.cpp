@@ -62,7 +62,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	{
 		if (g_iLevel == LEVEL_BATTLEENMU)
 		{
-			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-0.435f,16.413f,208.616f,1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-0.435f,16.413f,212.616f,1.f));
 			m_pNavigationCom->Find_CurrentCellIndex(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
 		}
 		else
@@ -161,6 +161,8 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
+
+	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_TANJIRO;
 
 
 	return S_OK;

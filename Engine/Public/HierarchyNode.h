@@ -49,6 +49,8 @@ public:
 
 
 	void Invalidate_CombinedTransformationmatrix(_bool bRemoveTranslation);
+	void Invalidate_SkillCombinedTransformationmatrix(_bool bRemoveTranslation);
+
 	void RuiDad_Invalidate_CombinedTransformationmatrix(_bool bRemoveTranslation);
 
 	void Invalidate_CombinedTransformationmatrix(_bool bRemoveTranslation,_fvector vPosition);
