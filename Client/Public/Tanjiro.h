@@ -207,6 +207,7 @@ private:
 	HRESULT Ready_Components();
 	void Set_Shadow();
 	void Check_QuestEvent(_float fTimeDelta);
+	void Check_QuestTrainEvent(_float fTimeDelta);
 private:
 	void HandleInput(_float fTimeDelta);
 	void TickState(_float fTimeDelta);

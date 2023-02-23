@@ -84,7 +84,7 @@ HRESULT CLevel_AdvAkaza::Initialize()
 
 	g_fFar = 2000.f;
 
-	//pUI_Manager->Add_Quiest();
+	pUI_Manager->Add_Quiest();
 	RELEASE_INSTANCE(CUI_Manager);
 
 	if (FAILED(__super::Initialize()))
