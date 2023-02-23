@@ -84,7 +84,7 @@ void CComboNum::Tick(_float fTimeDelta)
 			m_iComboNum = 0;
 			m_bRenderOnOff = true;
 		}
-		else if(fComboTime <= 1.f)
+		else if(fComboTime <= 0.f)
 			m_bRenderOnOff = false;
 	}
 	else
@@ -112,7 +112,7 @@ void CComboNum::Tick(_float fTimeDelta)
 			m_iComboNum = 0;
 			m_bRenderOnOff = true;
 		}
-		else if (fComboTime <= 1.f)
+		else if (fComboTime <= 0.f)
 			m_bRenderOnOff = false;
 	}
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));

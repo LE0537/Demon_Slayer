@@ -203,7 +203,9 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 				pUIManager->Add_P1_PersonHpUI();
 				pUIManager->Add_P2_OniHpUI();
 				pUIManager->Add_P1_Combo();
+				pUIManager->Add_P2_Combo();
 				pUIManager->Add_AdvBattleUI();
+				pUIManager->Add_AdvResult(LEVEL_GAMEPLAY);
 			}
 
 			m_bCreateUI = true;
@@ -222,19 +224,28 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && pUIManager->Get_2P()->Get_PlayerInfo().strName != TEXT("·çÀÌ"))
 			{
 				m_fNextLevelTime += fTimeDelta;
-				if (m_fNextLevelTime > 5.f)
+				if (m_fNextLevelTime > 3.f && !pUIManager->Get_AdvResult())
+					pUIManager->Set_FadeIn();
+				else if (pUIManager->Get_AdvResult())
 				{
 					pUIManager->Set_SaveStory(true);
 					pUIManager->Set_RuiDadBattle(false);
+					pUIManager->Set_AdvResult(false);
 					if (FAILED(pGameInstance->Open_Level(LEVEL_ADVRUI, CLevel_AdvRui::Create(m_pDevice, m_pContext))))
-						return;
+					return;
 				}
 			}
 			else if(pUIManager->Get_StroyEventEnd())
 			{
-				pUIManager->Add_AdvResult(LEVEL_GAMEPLAY);
-				if (FAILED(pGameInstance->Open_Level(LEVEL_STORYMENU, CLevel_StoryMenu::Create(m_pDevice, m_pContext))))
-					return;
+				m_fNextLevelTime += fTimeDelta;
+				if (m_fNextLevelTime > 3.f && !pUIManager->Get_AdvResult())
+					pUIManager->Set_FadeIn();
+				else if (pUIManager->Get_AdvResult())
+				{
+					pUIManager->Set_AdvResult(false);
+					if (FAILED(pGameInstance->Open_Level(LEVEL_STORYMENU, CLevel_StoryMenu::Create(m_pDevice, m_pContext))))
+						return;
+				}
 			}
 
 		}

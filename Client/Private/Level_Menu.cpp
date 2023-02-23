@@ -23,6 +23,8 @@ HRESULT CLevel_Menu::Initialize()
 	pUI_Manager->Add_Menu();
 	Ready_Layer_InkEff();
 	pUI_Manager->Set_LevelResultOn(false);
+	pUI_Manager->RankInfo_ZeroMemory(0);
+	pUI_Manager->RankInfo_ZeroMemory(1);
 	RELEASE_INSTANCE(CUI_Manager);
 
 	if (FAILED(__super::Initialize()))

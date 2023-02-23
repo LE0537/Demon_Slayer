@@ -45,24 +45,24 @@ HRESULT CFadeUIEff::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	pUI_Manager->Set_FadeUI(this);
+	RELEASE_INSTANCE(CUI_Manager);
 	return S_OK;
 }
 
 void CFadeUIEff::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-	if (pUI_Manager->Get_FadeSwitch())
+
+	if (pUI_Manager->Get_FadeSwitch() && !m_bUIOn)
 	{
-		m_fFadeTime += 0.2f;
+		m_fFadeTime += 0.01f;
 		if (m_fFadeTime >= 1.f)
+		{
 			m_fFadeTime = 1.f;
-	}
-	else if(!pUI_Manager->Get_FadeSwitch())
-	{
-		m_fFadeTime -= 0.2f;
-		if (m_fFadeTime <= 0.f)
-			m_fFadeTime = 0.f;
+			m_bUIOn = true;
+		}
 	}
 	
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
@@ -129,7 +129,7 @@ HRESULT CFadeUIEff::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_fFadeTime, sizeof(_float))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fAlpha", &m_fFadeTime, sizeof(_float))))
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))

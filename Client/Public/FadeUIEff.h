@@ -13,6 +13,9 @@ private:
 	virtual ~CFadeUIEff() = default;
 
 public:
+	_bool Get_UIOn() { return m_bUIOn; }
+	
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -25,6 +28,8 @@ private:
 
 private:
 	_float					m_fFadeTime = 0.f;
+	_bool					m_bUIOn = false;
+	_float					m_fStopTime = 0.f;
 
 public:
 	static CFadeUIEff* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

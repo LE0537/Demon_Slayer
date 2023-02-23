@@ -62,8 +62,13 @@ void CBtlFixedImg::Late_Tick(_float fTimeDelta)
 {
 	if (m_ThrowUIinfo.iTextureNum == 15)
 	{
-		if (nullptr != m_pRendererCom)
+		CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+		if (nullptr != m_pRendererCom && !pUI_Manager->Get_FadeSwitch())
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
+		else
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+		RELEASE_INSTANCE(CUI_Manager);
 	}
 	else
 	{
