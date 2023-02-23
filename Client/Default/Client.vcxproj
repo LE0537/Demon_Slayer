@@ -247,6 +247,7 @@
     <ClInclude Include="..\Public\Effect_Particle_New.h" />
     <ClInclude Include="..\public\Deer.h" />
     <ClInclude Include="..\public\Deer2.h" />
+    <ClInclude Include="..\public\Enmu.h" />
     <ClInclude Include="..\Public\FadeUIEff.h" />
     <ClInclude Include="..\Public\FeedArrow.h" />
     <ClInclude Include="..\public\Goto.h" />
@@ -668,6 +669,7 @@
     <ClCompile Include="..\Private\Effect_Particle_New.cpp" />
     <ClCompile Include="..\private\Deer.cpp" />
     <ClCompile Include="..\private\Deer2.cpp" />
+    <ClCompile Include="..\private\Enmu.cpp" />
     <ClCompile Include="..\Private\FadeUIEff.cpp" />
     <ClCompile Include="..\Private\FeedArrow.cpp" />
     <ClCompile Include="..\private\Goto.cpp" />

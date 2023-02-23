@@ -1282,6 +1282,9 @@
     <Filter Include="03.UI\95.UIEff\Fade">
       <UniqueIdentifier>{654c4646-fb00-472a-a1af-9c56017617ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu">
+      <UniqueIdentifier>{8eaceb3c-af83-487c-b0a6-54375ea091d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2541,6 +2544,9 @@
     <ClInclude Include="..\Public\Adv_ResultBase.h">
       <Filter>03.UI\04.Result\Adv_Result</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Enmu.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3772,6 +3778,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\FadeUIEff.cpp">
       <Filter>03.UI\95.UIEff\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Enmu.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
