@@ -27,6 +27,7 @@
 #include "Shinobu.h"
 #include "MenuModel.h"
 #include "RuiDad.h"
+#include "Enmu.h"
 //parts
 #include "KyoujuroWeapon.h"
 #include "KyoujuroSheath.h"
@@ -1722,6 +1723,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CRuiDad::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu"),
+		CEnmu::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyoujuroWeapon"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_KyoujuroWeapon"),
