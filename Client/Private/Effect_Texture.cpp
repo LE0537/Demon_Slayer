@@ -26,6 +26,9 @@ HRESULT CEffect_Texture::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH(g_iWinSizeX, g_iWinSizeY, 0.f, 1.f)));
+
 	return S_OK;
 }
 
@@ -91,93 +94,101 @@ void CEffect_Texture::Late_Tick(_float fTimeDelta)
 	Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));
 
 	if (m_fTime > m_TextureInfo.fStartTime && m_fTime < m_TextureInfo.fLifeTime + m_TextureInfo.fStartTime) {
+		if (m_TextureInfo.iShader != CEffect::SHADER_PROJECTION) {
+			if (1 == m_TextureInfo.iYBillBoard || m_TextureInfo.bBillboard) {
 
-		if (1 == m_TextureInfo.iYBillBoard || m_TextureInfo.bBillboard) {
+				CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-			CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+				_float4 vCampos = pGameInstance->Get_CamPosition();
 
-			_float4 vCampos = pGameInstance->Get_CamPosition();
+				RELEASE_INSTANCE(CGameInstance);
 
-			RELEASE_INSTANCE(CGameInstance);
+				_float3 vScale = m_pTransformCom->Get_Scale();
 
-			_float3 vScale = m_pTransformCom->Get_Scale();
+				_matrix mtrCombinedWorld = XMLoadFloat4x4(&m_CombinedWorldMatrix);
 
-			_matrix mtrCombinedWorld = XMLoadFloat4x4(&m_CombinedWorldMatrix);
+				_vector vLook = XMVector3Normalize(mtrCombinedWorld.r[3] - XMLoadFloat4(&vCampos));
+				_vector vAxisY = XMVectorSet(0.f, 1.f, 0.f, 0.f);
 
-			_vector vLook = XMVector3Normalize(mtrCombinedWorld.r[3] - XMLoadFloat4(&vCampos));
-			_vector vAxisY = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+				_vector vRight = XMVector3Normalize(XMVector3Cross(vAxisY, vLook));
+				_vector	vUp = XMVector3Cross(vLook, vRight);
 
-			_vector vRight = XMVector3Normalize(XMVector3Cross(vAxisY, vLook));
-			_vector	vUp = XMVector3Cross(vLook, vRight);
+				_matrix RotationMatrix = XMMatrixRotationAxis(vLook, XMConvertToRadians(m_TextureInfo.fRotation.z));
 
-			_matrix RotationMatrix = XMMatrixRotationAxis(vLook, XMConvertToRadians(m_TextureInfo.fRotation.z));
+				mtrCombinedWorld.r[0] = XMVector3Normalize(vRight) * vScale.x;
+				mtrCombinedWorld.r[1] = XMVector3Normalize(vUp) * vScale.y;
+				mtrCombinedWorld.r[2] = XMVector3Normalize(vLook) * vScale.z;
 
-			mtrCombinedWorld.r[0] = XMVector3Normalize(vRight) * vScale.x;
-			mtrCombinedWorld.r[1] = XMVector3Normalize(vUp) * vScale.y;
-			mtrCombinedWorld.r[2] = XMVector3Normalize(vLook) * vScale.z;
+				mtrCombinedWorld.r[0] = XMVector3TransformNormal(mtrCombinedWorld.r[0], RotationMatrix);
+				mtrCombinedWorld.r[1] = XMVector3TransformNormal(mtrCombinedWorld.r[1], RotationMatrix);
+				mtrCombinedWorld.r[2] = XMVector3TransformNormal(mtrCombinedWorld.r[2], RotationMatrix);
 
-			mtrCombinedWorld.r[0] = XMVector3TransformNormal(mtrCombinedWorld.r[0], RotationMatrix);
-			mtrCombinedWorld.r[1] = XMVector3TransformNormal(mtrCombinedWorld.r[1], RotationMatrix);
-			mtrCombinedWorld.r[2] = XMVector3TransformNormal(mtrCombinedWorld.r[2], RotationMatrix);
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrCombinedWorld);
 
-			XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrCombinedWorld);
+				//m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(m_TextureInfo.fRotation.z));
+			}
+			else if (2 == m_TextureInfo.iYBillBoard) {
+				CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-			//m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(m_TextureInfo.fRotation.z));
+				_float4x4		ViewMatrix;
+				ViewMatrix = pGameInstance->Get_TransformFloat4x4_Inverse(CPipeLine::D3DTS_VIEW);
+
+				RELEASE_INSTANCE(CGameInstance);
+
+				_float3 vScale = m_pTransformCom->Get_Scale();
+
+				_matrix mtrCombinedWorld = XMLoadFloat4x4(&m_CombinedWorldMatrix);
+
+				_matrix RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4((_float4*)&ViewMatrix.m[2][0]), XMConvertToRadians(m_TextureInfo.fRotation.z));
+
+				mtrCombinedWorld.r[0] = XMVector3Normalize(XMLoadFloat4((_float4*)&ViewMatrix.m[0][0])) * vScale.x;
+				mtrCombinedWorld.r[2] = XMVector3Normalize(XMLoadFloat4((_float4*)&ViewMatrix.m[2][0])) * vScale.z;
+
+				mtrCombinedWorld.r[0] = XMVector3TransformNormal(mtrCombinedWorld.r[0], RotationMatrix);
+				mtrCombinedWorld.r[1] = XMVector3TransformNormal(mtrCombinedWorld.r[1], RotationMatrix);
+				mtrCombinedWorld.r[2] = XMVector3TransformNormal(mtrCombinedWorld.r[2], RotationMatrix);
+
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrCombinedWorld);
+			}
+			else if (3 == m_TextureInfo.iYBillBoard) {
+
+				CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+				_float4 vCampos = pGameInstance->Get_CamPosition();
+
+				RELEASE_INSTANCE(CGameInstance);
+
+				_float3 vScale = m_pTransformCom->Get_Scale();
+
+				_matrix mtrCombinedWorld = XMLoadFloat4x4(&m_CombinedWorldMatrix);
+
+				_vector vLook = XMVector3Normalize(mtrCombinedWorld.r[3] - XMLoadFloat4(&vCampos));
+				_vector vAxisY = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+
+				_vector vRight = XMVector3Normalize(XMVector3Cross(vAxisY, vLook));
+				_vector	vUp = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+
+				_matrix RotationMatrix = XMMatrixRotationAxis(vLook, XMConvertToRadians(m_TextureInfo.fRotation.z));
+
+				mtrCombinedWorld.r[0] = XMVector3Normalize(vRight) * vScale.x;
+				mtrCombinedWorld.r[1] = XMVector3Normalize(vUp) * vScale.y;
+				mtrCombinedWorld.r[2] = XMVector3Normalize(vLook) * vScale.z;
+
+				mtrCombinedWorld.r[0] = XMVector3TransformNormal(mtrCombinedWorld.r[0], RotationMatrix);
+				mtrCombinedWorld.r[1] = XMVector3TransformNormal(mtrCombinedWorld.r[1], RotationMatrix);
+				mtrCombinedWorld.r[2] = XMVector3TransformNormal(mtrCombinedWorld.r[2], RotationMatrix);
+
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrCombinedWorld);
+
+				//m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(m_TextureInfo.fRotation.z));
+			}
 		}
-		else if (2 == m_TextureInfo.iYBillBoard) {
-			CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-			_float4x4		ViewMatrix;
-			ViewMatrix = pGameInstance->Get_TransformFloat4x4_Inverse(CPipeLine::D3DTS_VIEW);
-
-			RELEASE_INSTANCE(CGameInstance);
-
-			_float3 vScale = m_pTransformCom->Get_Scale();
-
-			_matrix mtrCombinedWorld = XMLoadFloat4x4(&m_CombinedWorldMatrix);
-
-			_matrix RotationMatrix = XMMatrixRotationAxis(XMLoadFloat4((_float4*)&ViewMatrix.m[2][0]), XMConvertToRadians(m_TextureInfo.fRotation.z));
-
-			mtrCombinedWorld.r[0] = XMVector3Normalize(XMLoadFloat4((_float4*)&ViewMatrix.m[0][0])) * vScale.x;
-			mtrCombinedWorld.r[2] = XMVector3Normalize(XMLoadFloat4((_float4*)&ViewMatrix.m[2][0])) * vScale.z;
-
-			mtrCombinedWorld.r[0] = XMVector3TransformNormal(mtrCombinedWorld.r[0], RotationMatrix);
-			mtrCombinedWorld.r[1] = XMVector3TransformNormal(mtrCombinedWorld.r[1], RotationMatrix);
-			mtrCombinedWorld.r[2] = XMVector3TransformNormal(mtrCombinedWorld.r[2], RotationMatrix);
-
-			XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrCombinedWorld);
-		}
-		else if (3 == m_TextureInfo.iYBillBoard) {
-
-			CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-			_float4 vCampos = pGameInstance->Get_CamPosition();
-
-			RELEASE_INSTANCE(CGameInstance);
-
-			_float3 vScale = m_pTransformCom->Get_Scale();
-
-			_matrix mtrCombinedWorld = XMLoadFloat4x4(&m_CombinedWorldMatrix);
-
-			_vector vLook = XMVector3Normalize(mtrCombinedWorld.r[3] - XMLoadFloat4(&vCampos));
-			_vector vAxisY = XMVectorSet(0.f, 1.f, 0.f, 0.f);
-
-			_vector vRight = XMVector3Normalize(XMVector3Cross(vAxisY, vLook));
-			_vector	vUp = XMVectorSet(0.f, 1.f, 0.f, 0.f);
-
-			_matrix RotationMatrix = XMMatrixRotationAxis(vLook, XMConvertToRadians(m_TextureInfo.fRotation.z));
-
-			mtrCombinedWorld.r[0] = XMVector3Normalize(vRight) * vScale.x;
-			mtrCombinedWorld.r[1] = XMVector3Normalize(vUp) * vScale.y;
-			mtrCombinedWorld.r[2] = XMVector3Normalize(vLook) * vScale.z;
-
-			mtrCombinedWorld.r[0] = XMVector3TransformNormal(mtrCombinedWorld.r[0], RotationMatrix);
-			mtrCombinedWorld.r[1] = XMVector3TransformNormal(mtrCombinedWorld.r[1], RotationMatrix);
-			mtrCombinedWorld.r[2] = XMVector3TransformNormal(mtrCombinedWorld.r[2], RotationMatrix);
-
-			XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrCombinedWorld);
-
-			//m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), XMConvertToRadians(m_TextureInfo.fRotation.z));
+		else {
+			_float3		vRotation = m_TextureInfo.fRotation;
+			vRotation.x = XMConvertToRadians(vRotation.x);
+			vRotation.y = XMConvertToRadians(vRotation.y);
+			vRotation.z = XMConvertToRadians(vRotation.z);
+			m_pTransformCom->RotationAll(vRotation);
 		}
 
 		if (nullptr != m_pRendererCom)
@@ -197,6 +208,9 @@ void CEffect_Texture::Late_Tick(_float fTimeDelta)
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
 				break;
 			case CEffect::SHADER_PRIORITY_TEST:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this);
+				break;
+			case CEffect::SHADER_PROJECTION:
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this);
 				break;
 			}
@@ -239,6 +253,10 @@ HRESULT CEffect_Texture::Render()
 	else if (m_TextureInfo.iShader == CEffect::SHADER_PRIORITY_TEST) {
 		m_pShaderCom->Begin(8);
 	}
+	else if (m_TextureInfo.iShader == CEffect::SHADER_PROJECTION) {
+		m_pShaderCom->Begin(5);
+	}
+
 	m_pVIBufferCom->Render();
 
 	return S_OK;
@@ -297,20 +315,30 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
 
-	_float4x4		WorldMatrix;
-	XMStoreFloat4x4(&WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_CombinedWorldMatrix)));
+	if (m_TextureInfo.iShader == CEffect::SHADER_PROJECTION) {
+		if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+	}
+	else {
+		_float4x4		WorldMatrix;
+		XMStoreFloat4x4(&WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&m_CombinedWorldMatrix)));
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4))))
-		return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4))))
+			return E_FAIL;
 
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
-		return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
+			return E_FAIL;
 
-	RELEASE_INSTANCE(CGameInstance);
+		RELEASE_INSTANCE(CGameInstance);
+	}
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_vColor", &m_TextureInfo.vColor, sizeof(_float4))))
 		return E_FAIL;

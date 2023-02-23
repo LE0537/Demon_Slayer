@@ -32,9 +32,9 @@ public:
 		_bool							bUseMeshDiffuse;
 		_bool							bDisappearAlpha;
 
-		_uint							iMeshType;
+		_uint							iSprite_U;
 		_uint							iShader;
-		_uint							iMoveType;
+		_uint							iSprite_V;
 		_int							iNumUV_U = 1;
 		_int							iNumUV_V = 1;
 

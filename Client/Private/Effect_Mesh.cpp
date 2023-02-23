@@ -388,6 +388,20 @@ HRESULT CEffect_Mesh::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fDistortionBias", &m_MeshInfo.fDistortionBias, sizeof(_float))))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumUV_U", &m_MeshInfo.iSprite_U, sizeof(_int))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumUV_V", &m_MeshInfo.iSprite_V, sizeof(_int))))
+		return E_FAIL;
+
+	fAccTime = m_fTime - m_MeshInfo.fStartTime;
+	fAllLifeTime = m_MeshInfo.fLifeTime;
+	fAliveTimeRatio = max(fAccTime / fAllLifeTime, 0.f);
+	_int		iTexFrame = fAliveTimeRatio * (m_MeshInfo.iSprite_U * m_MeshInfo.iSprite_V);
+	if (m_MeshInfo.iSprite_U * m_MeshInfo.iSprite_V == iTexFrame)
+		iTexFrame = m_MeshInfo.iSprite_U * m_MeshInfo.iSprite_V - 1;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iFrame", &iTexFrame, sizeof(_int))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
