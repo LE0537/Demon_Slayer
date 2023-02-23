@@ -48,7 +48,7 @@ public:
 public:
 	_uint Get_EffectMove() { return m_EffectInfo.iMoveType; }
 	_float4x4 Get_CombinedWorldMatrix() { return m_CombinedWorldMatrix; }
-	void Set_ParentWorldMatrix(_float4x4 ParentMat) { m_ParentMatrix = ParentMat; }
+	void Set_ParentWorldMatrix(_matrix ParentMat);
 
 private:
 	HRESULT Ready_Components();
@@ -64,7 +64,6 @@ private:
 	_float4											m_vDestination;
 
 	_float4x4										m_CombinedWorldMatrix;
-	_float4x4										m_ParentMatrix;
 
 	EFFECT_INFO										m_EffectInfo;
 

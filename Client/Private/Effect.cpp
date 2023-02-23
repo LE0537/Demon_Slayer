@@ -124,11 +124,6 @@ void CEffect::Tick(_float fTimeDelta)
 				}
 			}
 		}
-		else {
-			_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
-
-			XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * XMLoadFloat4x4(& m_ParentMatrix));
-		}
 
 		for (auto& pTex : m_Textures)
 			pTex->Tick(fTimeDelta);
@@ -179,6 +174,13 @@ void CEffect::Late_Tick(_float fTimeDelta)
 		for (auto& pParticle : m_NewParticle)
 			pParticle->Late_Tick(fTimeDelta);
 	}
+}
+
+void CEffect::Set_ParentWorldMatrix(_matrix ParentMat)
+{
+	_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
+
+	XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * ParentMat);
 }
 
 HRESULT CEffect::Ready_Components()
