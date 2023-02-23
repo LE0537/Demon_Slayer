@@ -238,7 +238,7 @@ void COzaki::Check_Event()
 			case 0:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
-				pUIManager->Set_Msg(TEXT("어,얼른 게급이 높은 사람을 데려와 줘..."));
+				pUIManager->Set_Msg(TEXT("어,얼른 계급이 높은 사람을 데려와 줘..."));
 				if (!m_bSoundCheck)
 				{
 					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Ozaki_Dialog_00.wav"), fVOICE);
@@ -248,7 +248,7 @@ void COzaki::Check_Event()
 			case 1:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
-				pUIManager->Set_Msg(TEXT("안 그러면 전부 죽여버리게 될 거야!"));
+				pUIManager->Set_Msg(TEXT("안 그러면 전부 죽어버리게 될 거야!"));
 				if (m_bSoundCheck)
 				{
 					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Ozaki_Dialog_01.wav"), fVOICE);
@@ -265,7 +265,7 @@ void COzaki::Check_Event()
 					m_bSoundCheck = true;
 				}
 				break;
-			case 5:
+			case 3:
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUIManager->Set_Msg(TEXT("지원 요청을 하고 제가 주변을 살피고 올게요!"));

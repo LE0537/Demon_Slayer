@@ -219,7 +219,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 		}
 		else
 		{
-			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && !pUIManager->Get_StroyEventEnd())
+			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && pUIManager->Get_2P()->Get_PlayerInfo().strName != TEXT("·çÀÌ"))
 			{
 				m_fNextLevelTime += fTimeDelta;
 				if (m_fNextLevelTime > 5.f)
@@ -232,6 +232,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			}
 			else if(pUIManager->Get_StroyEventEnd())
 			{
+				pUIManager->Add_AdvResult(LEVEL_GAMEPLAY);
 				if (FAILED(pGameInstance->Open_Level(LEVEL_STORYMENU, CLevel_StoryMenu::Create(m_pDevice, m_pContext))))
 					return;
 			}

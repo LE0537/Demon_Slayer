@@ -54,6 +54,7 @@ public:
 	void Add_Adc_Menu();
 	void Add_Quiest();
 	void Add_AdvBattleUI();
+	void Add_AdvResult(LEVEL eLevel);
 	HRESULT Add_Btl_PlayerUI(CUI::THROWUIINFO iter);
 	HRESULT Add_Btl_PlayerUI_LevelEmmu(CUI::THROWUIINFO iter);
 	HRESULT Add_SelectUI(CUI::THROWUIINFO iter);
@@ -64,6 +65,7 @@ public:
 	HRESULT Add_BattleResultUI(CUI::THROWUIINFO iter);
 	HRESULT Add_Adc_MenuUI(CUI::THROWUIINFO iter);
 	HRESULT Add_QuiestUI(CUI::THROWUIINFO iter);
+	HRESULT Add_ResultUI(CUI::THROWUIINFO iter);
 	_bool P1_Oni_Check();
 	_bool P2_Oni_Check();
 
@@ -254,6 +256,10 @@ public:
 	_bool	Get_StroyEventEnd() { return 	m_bStroyEventend; }
 	void	Set_StroyEventEnd(_bool bCheck) { m_bStroyEventend = bCheck; }
 	
+	_bool	Get_FadeSwitch() { return m_bFadeSwitch; }
+	void	Set_FadeIn() { m_bFadeSwitch = true; }
+	void	Set_FadeOut() { m_bFadeSwitch = false; }
+
 	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }
 	void Set_Result_Info(CUI::RESULTINFO ResultInfo) { m_ResultInfo = ResultInfo; }
 
@@ -298,6 +304,7 @@ private:
 	list<CUI::LOADUIINFO>				SELECTMAP_LOADDATALIST;
 	list<CUI::LOADUIINFO>				QUIEST_LOADDATALIST;
 	list<CUI::LOADUIINFO>				ADVBATTLEUI_LOADDATALIST;
+	list<CUI::LOADUIINFO>				ADVRESULT_LOADDATALIST;
 
 	list<CUI::THROWUIINFO>				P1_P_DATALIST;
 	list<CUI::THROWUIINFO>				P1_O_DATALIST;
@@ -315,6 +322,7 @@ private:
 	list<CUI::THROWUIINFO>				SELECTMAP_DATALIST;
 	list<CUI::THROWUIINFO>				QUIEST_DATALIST;
 	list<CUI::THROWUIINFO>				ADV_BATTLEUI_DATALIST;
+	list<CUI::THROWUIINFO>				ADVRESULT_DATALIST;
 
 	string							m_sFilePath;
 	CCharacters*					m_p1P;
@@ -401,6 +409,7 @@ private:
 
 	_bool							m_bBattleTypeCheck = false;
 
+	_bool							m_bFadeSwitch = false;
 	_bool							m_bInteractionUIOnOff = false;
 	_bool							m_bClearCheck[5] = { false };
 	_bool							m_bMainQuestOnOff = false;

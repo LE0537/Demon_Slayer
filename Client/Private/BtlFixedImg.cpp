@@ -90,7 +90,7 @@ HRESULT CBtlFixedImg::Render()
 
 	if(pUI_Manager->Get_BattleTypeCheck())
 		m_pVIBufferCom->Render();
-	else if(m_ThrowUIinfo.iLevelIndex == LEVEL_ADVRUI)
+	else if(m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
 	{
 		if (!m_ThrowUIinfo.bPlyCheck)
 			m_pVIBufferCom->Render();

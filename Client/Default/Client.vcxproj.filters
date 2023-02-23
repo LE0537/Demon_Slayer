@@ -1276,6 +1276,12 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui">
       <UniqueIdentifier>{8164b68b-1967-449b-9eec-3933d95dbc99}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\04.Result\Adv_Result">
+      <UniqueIdentifier>{c7f26058-82fa-4cfd-81ab-43b215b44989}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\95.UIEff\Fade">
+      <UniqueIdentifier>{654c4646-fb00-472a-a1af-9c56017617ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2529,6 +2535,12 @@
     <ClInclude Include="..\Public\HitCinema_Rui.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\FadeUIEff.h">
+      <Filter>03.UI\95.UIEff\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Adv_ResultBase.h">
+      <Filter>03.UI\04.Result\Adv_Result</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3754,6 +3766,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\HitCinema_Rui.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Adv_ResultBase.cpp">
+      <Filter>03.UI\04.Result\Adv_Result</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FadeUIEff.cpp">
+      <Filter>03.UI\95.UIEff\Fade</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
