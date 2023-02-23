@@ -454,6 +454,10 @@ void CAkaza::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJum
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 }
 
+void CAkaza::Play_Scene()
+{
+}
+
 CAkaza * CAkaza::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CAkaza*	pInstance = new CAkaza(pDevice, pContext);

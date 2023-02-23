@@ -90,6 +90,7 @@ private:
 
 	_float4x4						m_CombinedWorldMatrix;
 	_float4x4						m_ParentsMtr;
+	_float4x4						m_ViewMatrix, m_ProjMatrix;
 
 	CEffect*						m_pParents = nullptr;
 

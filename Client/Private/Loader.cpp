@@ -973,7 +973,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 97))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 99))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -993,6 +993,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Useful", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Fire", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Aura", "../Bin/Resources/Effect/Texture/");
+		Load_Texture("Tanjiro_Hinokami_Action", "../Bin/Resources/Effect/Texture/");
 
 		Load_Texture("Shock", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Slash", "../Bin/Resources/Effect/Mesh/MeshTexture/");
@@ -1263,6 +1264,16 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Wind4"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Wind4.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiDad_Wind5"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/RuiDad/RuiDad_Wind5.fbx", PivotMatrix)))) return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_Circle"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_Circle.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_FireTrailPlane_01"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_FireTrailPlane_01.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_GroundFlame"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_GroundFlame.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_Hekira_01"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_Hekira_01.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_Hekira_04"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_Hekira_04.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_Hekira_05"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_Hekira_05.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_Hekira_07"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_Hekira_07.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_Stone"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_Stone.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_Wind"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_Wind.fbx", PivotMatrix)))) return E_FAIL;
+
 #pragma endregion Effect Model
 
 #pragma region Effect Object
@@ -1347,9 +1358,6 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Sphere_Main1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Sphere_Main2"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Sphere_Start"));
-		pEffect_Manager->Load_Effect(TEXT("Special_Tanjiro(Hinokami)_Start"));
-		pEffect_Manager->Load_Effect(TEXT("Special_Tanjiro(Hinokami)_Slash"));
-		pEffect_Manager->Load_Effect(TEXT("Special_Tanjiro(Hinokami)_Sword"));
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_NormAtk_1_Cl"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_NormAtk_2_1_Cl"));
@@ -1561,6 +1569,19 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		pEffect_Manager->Load_Effect(TEXT("RuiDad_Swing_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("RuiDad_Swing_Slash"));
+
+		// 오의 히노카미
+		pEffect_Manager->Load_Effect(TEXT("Special_Tanjiro(Hinokami)_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Special_Tanjiro(Hinokami)_Slash"));
+		pEffect_Manager->Load_Effect(TEXT("Special_Tanjiro(Hinokami)_EndGround"));
+		pEffect_Manager->Load_Effect(TEXT("Special_Tanjiro(Hinokami)_EndPlayer"));
+
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion1_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion1_Slash1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion1_Slash2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion1_Sword1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion1_Sword2"));
+
 
 
 		RELEASE_INSTANCE(CEffect_Manager);

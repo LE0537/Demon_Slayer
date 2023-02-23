@@ -101,25 +101,27 @@ void CEffect::Tick(_float fTimeDelta)
 	m_fEffectTime += fTimeDelta;
 
 	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
-		if (m_bStart) {
-			if (m_EffectInfo.iMoveType != EFFMOVE_ZERO) {
-				XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
+		if (m_EffectInfo.iMoveType != EFFMOVE_MATRIX) {
+			if (m_bStart) {
+				if (m_EffectInfo.iMoveType != EFFMOVE_ZERO) {
+					XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
+				}
+				else {
+					_matrix mtrTargetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
+					mtrTargetWorld.r[3].m128_f32[1] = 0.f;
+					_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
+
+					XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * mtrTargetWorld);
+				}
+				m_bStart = false;
 			}
 			else {
-				_matrix mtrTargetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
-				mtrTargetWorld.r[3].m128_f32[1] = 0.f;
-				_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
+				if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO) {
+					_matrix vTargetPos = m_pTarget->Get_Transform()->Get_WorldMatrix();
+					_matrix vPos = m_pTransformCom->Get_WorldMatrix();
 
-				XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * mtrTargetWorld);
-			}
-			m_bStart = false;
-		}
-		else { 
-			if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO) {
-				_matrix vTargetPos = m_pTarget->Get_Transform()->Get_WorldMatrix();
-				_matrix vPos = m_pTransformCom->Get_WorldMatrix();
-					
-				XMStoreFloat4x4(&m_CombinedWorldMatrix, vPos * vTargetPos);
+					XMStoreFloat4x4(&m_CombinedWorldMatrix, vPos * vTargetPos);
+				}
 			}
 		}
 
@@ -172,6 +174,13 @@ void CEffect::Late_Tick(_float fTimeDelta)
 		for (auto& pParticle : m_NewParticle)
 			pParticle->Late_Tick(fTimeDelta);
 	}
+}
+
+void CEffect::Set_ParentWorldMatrix(_matrix ParentMat)
+{
+	_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
+
+	XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * ParentMat);
 }
 
 HRESULT CEffect::Ready_Components()

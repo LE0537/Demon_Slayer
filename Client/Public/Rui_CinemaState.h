@@ -11,11 +11,10 @@ public:
 	enum CINEMASCENE { SCENE_START, SCENE_0, SCENE_1, SCENE_2, SCENE_3, SCENE_4, SCENE_5, SCENE_6, SCENE_END };
 	enum SCENE_ANIM
 	{
-		ANIM_SCENE_START = 106,
-		ANIM_SCENE_0 = 107,
-		ANIM_SCENE_1 = 108,
-		ANIM_SCENE_2 = 109,
-		ANIM_SCENE_3 = 110,
+		ANIM_SCENE_START  = 126,
+		ANIM_SCENE_0 = 127,
+		ANIM_SCENE_1 = 128,
+		ANIM_SCENE_2 = 129,
 		ANIM_SCENE_END,
 	};
 
@@ -31,12 +30,7 @@ public:
 	virtual void Enter(CRui* pRui) override;
 	virtual void Exit(CRui* pRui) override;
 
-	void Increase_Height(CRui* pRui, _float fTimeDelta);
-	void Decrease_Height(CRui* pRui, _float fTimeDelta);
-	void Gravity_Field(CRui* pRui, _float fTimeDelta);
 
-	CRuiState* Scene_Start(CRui* pRui, _float fTimeDelta);
-	CRuiState* Scene_0(CRui* pRui, _float fTimeDelta);
 
 
 private:

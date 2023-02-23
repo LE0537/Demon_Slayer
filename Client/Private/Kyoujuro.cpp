@@ -720,6 +720,10 @@ void CKyoujuro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float f
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 }
 
+void CKyoujuro::Play_Scene()
+{
+}
+
 
 void CKyoujuro::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
 {

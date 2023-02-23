@@ -1273,6 +1273,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro">
       <UniqueIdentifier>{971e0c84-0b72-4046-bc01-a90bd034d9ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui">
+      <UniqueIdentifier>{8164b68b-1967-449b-9eec-3933d95dbc99}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2523,6 +2526,9 @@
     <ClInclude Include="HitCinema_Tanjiro.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\HitCinema_Rui.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3745,6 +3751,9 @@
     </ClCompile>
     <ClCompile Include="HitCinema_Tanjiro.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\HitCinema_Rui.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

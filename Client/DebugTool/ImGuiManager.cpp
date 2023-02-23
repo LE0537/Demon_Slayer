@@ -1379,6 +1379,8 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 	ImGui::SameLine();
 	ImGui::Text("%d", m_iFrame);
 
+	
+	ImGui::Text("%f %f %f", m_vCurrentPosition.x, m_vCurrentPosition.y, m_vCurrentPosition.z);
 
 
 }

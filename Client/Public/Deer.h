@@ -50,6 +50,7 @@ public:
 	virtual	void  Get_GuardHit(_int eType);
 	virtual void  Player_TakeDown(_float _fPow, _bool _bJump = 0);
 	virtual void  Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower);
+	virtual void  Play_Scene();
 
 private:
 	CModel*					m_pModelCom = nullptr;

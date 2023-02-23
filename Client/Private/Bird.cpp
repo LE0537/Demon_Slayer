@@ -241,6 +241,10 @@ void CBird::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJump
 {
 }
 
+void CBird::Play_Scene()
+{
+}
+
 CBird * CBird::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CBird*	pInstance = new CBird(pDevice, pContext);

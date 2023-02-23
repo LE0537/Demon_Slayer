@@ -248,6 +248,10 @@ void CDeer::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJump
 {
 }
 
+void CDeer::Play_Scene()
+{
+}
+
 CDeer * CDeer::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CDeer*	pInstance = new CDeer(pDevice, pContext);

@@ -399,6 +399,10 @@ void CMurata::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJu
 {
 }
 
+void CMurata::Play_Scene()
+{
+}
+
 CMurata * CMurata::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CMurata*	pInstance = new CMurata(pDevice, pContext);
