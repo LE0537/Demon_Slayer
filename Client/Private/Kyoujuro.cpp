@@ -99,7 +99,7 @@ HRESULT CKyoujuro::Initialize(void * pArg)
 
 		_vector vPos = { 4.862,5.747f,283.194f,1.f };
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-90.f));
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
 
 		m_tInfo.bSub = false;
@@ -159,7 +159,6 @@ void CKyoujuro::Tick(_float fTimeDelta)
 		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
 		m_pSphereCom->Update(matColl);
-
 
 	}
 	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_JUMP
@@ -682,6 +681,7 @@ void CKyoujuro::Set_Info()
 	m_tInfo.iMaxGuard = 500;
 	m_tInfo.iGuard = m_tInfo.iMaxGuard;
 }
+
 void CKyoujuro::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
 	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_HIT)

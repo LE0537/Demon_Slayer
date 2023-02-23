@@ -456,8 +456,8 @@ void CCamera_Dynamic::Move_TrainCam(_float fTimeDelta)
 
 	Check_Shake(fTimeDelta);
 
-	if (m_bZoom)
-		Check_Zoom(fTimeDelta);
+	//if (m_bZoom)
+	//	Check_Zoom(fTimeDelta);
 }
 
 void CCamera_Dynamic::Set_CamPos()

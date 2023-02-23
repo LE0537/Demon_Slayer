@@ -1021,7 +1021,7 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 	{
 		if (!m_bQuest1)
 		{
-			_vector vQuest1 = { -0.175f, 5.707f,214.807f,1.f };
+			_vector vQuest1 = { 4.862f, 5.747f,283.194f,1.f };
 			_float fDist1 = XMVectorGetX(XMVector3Length(vQuest1 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
 
 			if (fDist1 < 3.f)
@@ -1038,43 +1038,25 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 				{
 				case 0:
 					pUIManager->Set_MsgOn();
-					pUIManager->Set_MsgName(TEXT("¿£¹«"));
-					pUIManager->Set_Msg(TEXT("¹¹¾ß?! ³Ê ¾î¶»°Ô Àá¿¡¼­ ±ü°ÅÁö?"));
-					if (!m_bSoundCheck)
-					{
-					//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_01.wav"), fVOICE);
-						m_bSoundCheck = true;
-					}
+					pUIManager->Set_MsgName(TEXT("·»°íÄí ÄìÁÖ·Î"));
+					pUIManager->Set_Msg(TEXT("¿ì¸¶ÀÌ!!   ¿ì¸¶ÀÌ!!"));
 					break;
 				case 1:
 					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("Ä«¸¶µµ ÅºÁö·Î"));
-					pUIManager->Set_Msg(TEXT("½ÊÀÌ±Í¿ù?!"));
-					if (m_bSoundCheck)
-					{
-					//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_01.wav"), fVOICE);
-						m_bSoundCheck = false;
-					}
+					pUIManager->Set_Msg(TEXT("¿°ÁÖ???"));
 					break;
 				case 2:
 					pUIManager->Set_MsgOn();
-					pUIManager->Set_MsgName(TEXT("¿£¹«"));
-					pUIManager->Set_Msg(TEXT("¿Á»óÀ¸·Î µû¶ó¿Í!"));
-					if (!m_bSoundCheck)
-					{
-					//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_02.wav"), fVOICE);
-						m_bSoundCheck = true;
-					}
+					pUIManager->Set_MsgName(TEXT("·»°íÄí ÄìÁÖ·Î"));
+					pUIManager->Set_Msg(TEXT("¿­Â÷¾È »ç¶÷µéÀº ³»°¡ ÁöÅ³Å×´Ï ³Ê´Â Ç÷±Í¸¦ Ã£¾Æ Á×¿©!"));
+
 					break;
 				case 3:
 					pUIManager->Set_MsgOn();
-					pUIManager->Set_MsgName(TEXT("Á¤¼®ÈÆ"));
-					pUIManager->Set_Msg(TEXT("Àú ³à¼®ÀÌ ³» ±¸½½À» ÈÉÃÄ°¬¾î!"));
-					if (m_bSoundCheck)
-					{
-					//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dialog_00.wav"), fVOICE);
-						m_bSoundCheck = false;
-					}
+					pUIManager->Set_MsgName(TEXT("Ä«¸¶µµ ÅºÁö·Î"));
+					pUIManager->Set_Msg(TEXT("¾Ë°Ú¾î¿ä! »ç¶÷µéÀ» ºÎÅ¹ÇÕ´Ï´Ù."));
+
 					m_bQuest2_1MSG = true;
 					break;
 				default:
@@ -1085,12 +1067,88 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 			{
 				m_bStop = false;
 				m_bQuest2MSG = true;
-				pUIManager->Set_EnmuBattle(true);
 			}
 			if (!m_bQuest2_2MSG && !pUIManager->Get_MsgOnOff())
 			{
 				pUIManager->Reset_MsgCount();
 				m_bQuest2_2MSG = true;
+			}
+		}
+		else 
+		{
+			if (!m_bQuest3)
+			{
+				_vector vQuest1 = { -0.175f, 5.707f,214.807f,1.f };
+				_float fDist1 = XMVectorGetX(XMVector3Length(vQuest1 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+
+				if (fDist1 < 3.f)
+				{
+					m_bQuest3 = true;
+					m_bStop = true;
+				}
+			}
+			else if (!m_bQuest3MSG && m_bQuest3)
+			{
+				if (m_bQuest3_2MSG && !m_bQuest3_1MSG)
+				{
+					switch (pUIManager->Get_MsgCount())
+					{
+					case 0:
+						pUIManager->Set_MsgOn();
+						pUIManager->Set_MsgName(TEXT("¿£¹«"));
+						pUIManager->Set_Msg(TEXT("¹¹¾ß?! ³Ê ¾î¶»°Ô Àá¿¡¼­ ±ü°ÅÁö?"));
+						if (!m_bSoundCheck)
+						{
+							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_01.wav"), fVOICE);
+							m_bSoundCheck = true;
+						}
+						break;
+					case 1:
+						pUIManager->Set_MsgOn();
+						pUIManager->Set_MsgName(TEXT("Ä«¸¶µµ ÅºÁö·Î"));
+						pUIManager->Set_Msg(TEXT("½ÊÀÌ±Í¿ù?!"));
+						if (m_bSoundCheck)
+						{
+							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_01.wav"), fVOICE);
+							m_bSoundCheck = false;
+						}
+						break;
+					case 2:
+						pUIManager->Set_MsgOn();
+						pUIManager->Set_MsgName(TEXT("¿£¹«"));
+						pUIManager->Set_Msg(TEXT("¿Á»óÀ¸·Î µû¶ó¿Í!"));
+						if (!m_bSoundCheck)
+						{
+							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_02.wav"), fVOICE);
+							m_bSoundCheck = true;
+						}
+						break;
+					case 3:
+						pUIManager->Set_MsgOn();
+						pUIManager->Set_MsgName(TEXT("Á¤¼®ÈÆ"));
+						pUIManager->Set_Msg(TEXT("Àú ³à¼®ÀÌ ³» ±¸½½À» ÈÉÃÄ°¬¾î!"));
+						if (m_bSoundCheck)
+						{
+							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dialog_00.wav"), fVOICE);
+							m_bSoundCheck = false;
+						}
+						m_bQuest3_1MSG = true;
+						break;
+					default:
+						break;
+					}
+				}
+				if (m_bQuest3_2MSG && m_bQuest3_1MSG && !pUIManager->Get_MsgOnOff())
+				{
+					m_bStop = false;
+					m_bQuest3MSG = true;
+					pUIManager->Set_EnmuBattle(true);
+				}
+				if (!m_bQuest3_2MSG && !pUIManager->Get_MsgOnOff())
+				{
+					pUIManager->Reset_MsgCount();
+					m_bQuest3_2MSG = true;
+				}
 			}
 		}
 	}
