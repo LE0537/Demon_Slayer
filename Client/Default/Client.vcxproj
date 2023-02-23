@@ -189,6 +189,7 @@
     <ClInclude Include="..\Public\AdcMenuSelFrame.h" />
     <ClInclude Include="..\Public\AdcMenuSelImg.h" />
     <ClInclude Include="..\Public\AdcMenuSelTxt.h" />
+    <ClInclude Include="..\Public\Adv_ResultBase.h" />
     <ClInclude Include="..\Public\AiState.h" />
     <ClInclude Include="..\Public\Akaza.h" />
     <ClInclude Include="..\Public\AkazaAdvSkill_Common.h" />
@@ -246,6 +247,7 @@
     <ClInclude Include="..\Public\Effect_Particle_New.h" />
     <ClInclude Include="..\public\Deer.h" />
     <ClInclude Include="..\public\Deer2.h" />
+    <ClInclude Include="..\Public\FadeUIEff.h" />
     <ClInclude Include="..\Public\FeedArrow.h" />
     <ClInclude Include="..\public\Goto.h" />
     <ClInclude Include="..\Public\HinoCami_CinemaState.h" />
@@ -606,6 +608,7 @@
     <ClCompile Include="..\Private\AdcMenuSelFrame.cpp" />
     <ClCompile Include="..\Private\AdcMenuSelImg.cpp" />
     <ClCompile Include="..\Private\AdcMenuSelTxt.cpp" />
+    <ClCompile Include="..\Private\Adv_ResultBase.cpp" />
     <ClCompile Include="..\Private\AiState.cpp" />
     <ClCompile Include="..\Private\Akaza.cpp" />
     <ClCompile Include="..\Private\AkazaAdvSkill_Common.cpp" />
@@ -663,6 +666,7 @@
     <ClCompile Include="..\Private\Effect_Particle_New.cpp" />
     <ClCompile Include="..\private\Deer.cpp" />
     <ClCompile Include="..\private\Deer2.cpp" />
+    <ClCompile Include="..\Private\FadeUIEff.cpp" />
     <ClCompile Include="..\Private\FeedArrow.cpp" />
     <ClCompile Include="..\private\Goto.cpp" />
     <ClCompile Include="..\Private\HinoCami_CinemaState.cpp" />

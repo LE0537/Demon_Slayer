@@ -35,6 +35,7 @@ HRESULT CLevel_Logo::Initialize()
 	pUIManager->Load_Data("MapSelect");
 	pUIManager->Load_Data("Quiest");
 	pUIManager->Load_Data("Adv_BattleUI");
+	pUIManager->Load_Data("Adv_BattleResult");
 
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("Title.wav"), fBGM);
 	CSoundMgr::Get_Instance()->PlayVoice(TEXT("LogoStart.wav"), fVOICE);

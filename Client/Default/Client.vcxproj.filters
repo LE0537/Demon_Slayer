@@ -1270,6 +1270,12 @@
     <Filter Include="02.GameObjects\02.Map\05.Door">
       <UniqueIdentifier>{a4a956d4-2dc3-4c51-a306-0e3e407495c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\04.Result\Adv_Result">
+      <UniqueIdentifier>{c7f26058-82fa-4cfd-81ab-43b215b44989}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\95.UIEff\Fade">
+      <UniqueIdentifier>{654c4646-fb00-472a-a1af-9c56017617ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2517,6 +2523,12 @@
     <ClInclude Include="..\public\Door.h">
       <Filter>02.GameObjects\02.Map\05.Door</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\FadeUIEff.h">
+      <Filter>03.UI\95.UIEff\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Adv_ResultBase.h">
+      <Filter>03.UI\04.Result\Adv_Result</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3736,6 +3748,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Door.cpp">
       <Filter>02.GameObjects\02.Map\05.Door</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Adv_ResultBase.cpp">
+      <Filter>03.UI\04.Result\Adv_Result</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\FadeUIEff.cpp">
+      <Filter>03.UI\95.UIEff\Fade</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

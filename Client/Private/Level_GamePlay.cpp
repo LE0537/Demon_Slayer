@@ -219,6 +219,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			}
 			else if(pUIManager->Get_StroyEventEnd())
 			{
+				pUIManager->Add_AdvResult(LEVEL_GAMEPLAY);
 				if (FAILED(pGameInstance->Open_Level(LEVEL_STORYMENU, CLevel_StoryMenu::Create(m_pDevice, m_pContext))))
 					return;
 			}

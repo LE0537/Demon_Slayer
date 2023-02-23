@@ -122,6 +122,8 @@ void CUI_Manager::Load_Data(string sLoadName)
 			QUIEST_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 		else if (sLoadName == "Adv_BattleUI")
 			ADVBATTLEUI_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
+		else if (sLoadName == "Adv_BattleResult")
+			ADVRESULT_LOADDATALIST.push_back(CUI::LOADUIINFO(tInfo));
 	}
 
 	RELEASE_INSTANCE(CGameInstance);
@@ -717,6 +719,28 @@ void CUI_Manager::Add_AdvBattleUI()
 
 	m_iTimerLayerNum = 0;
 	m_iRoundIconLayerNum = 0;
+}
+
+void CUI_Manager::Add_AdvResult(LEVEL eLevel)
+{
+	for (auto iter : ADVRESULT_LOADDATALIST)
+	{
+		m_ThrowInfo.bReversal = iter.bReversal;
+		m_ThrowInfo.iTextureNum = iter.iTextureNum;
+		m_ThrowInfo.pTarget = m_p1P;
+		m_ThrowInfo.pTargetSecond = m_p2P;
+		m_ThrowInfo.vPos = iter.vPos;
+		m_ThrowInfo.vRot = iter.vRot;
+		m_ThrowInfo.vScale = iter.vScale;
+		m_ThrowInfo.iLevelIndex = eLevel;
+
+		ADVRESULT_DATALIST.push_back(m_ThrowInfo);
+	}
+
+	for (auto iter : ADVRESULT_DATALIST)
+		Add_Btl_PlayerUI(iter);
+
+	ADVRESULT_DATALIST.clear();
 }
 
 HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
@@ -2030,6 +2054,34 @@ HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
 		break;
 	case 11:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InteractionUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	default:
+		break;
+	}
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_ResultUI(CUI::THROWUIINFO iter)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	switch (iter.iTextureNum)
+	{
+	case 0:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_FadeUI"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 1:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ResultUI"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
+			return E_FAIL;
+		break;
+	case 2:
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RankIcon"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	default:
