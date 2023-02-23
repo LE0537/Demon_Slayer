@@ -231,6 +231,10 @@ void CButterfly::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float 
 {
 }
 
+void CButterfly::Play_Scene()
+{
+}
+
 CButterfly * CButterfly::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CButterfly*	pInstance = new CButterfly(pDevice, pContext);

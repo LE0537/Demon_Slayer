@@ -121,6 +121,8 @@ public:
 	virtual	void  Get_GuardHit(_int eType) = 0;
 	virtual void  Player_TakeDown(_float _fPow, _bool _bJump = 0) PURE;
 	virtual void  Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower) PURE;
+	virtual void  Play_Scene() PURE;
+
 
 	void	   Set_Atk2(_bool bAtk2) { m_bAtk2 = bAtk2; }
 	_bool	   Get_Atk2() { return m_bAtk2; }

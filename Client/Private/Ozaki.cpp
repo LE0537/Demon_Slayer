@@ -305,6 +305,10 @@ void COzaki::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJum
 {
 }
 
+void COzaki::Play_Scene()
+{
+}
+
 COzaki * COzaki::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	COzaki*	pInstance = new COzaki(pDevice, pContext);

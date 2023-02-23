@@ -168,6 +168,8 @@ public:
 	virtual	void  Get_GuardHit(_int eType);
 	virtual void  Player_TakeDown(_float _fPow, _bool _bJump = 0);
 	virtual void  Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower);
+	virtual void  Play_Scene();
+
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 	_int Get_WaterMillHit() { return m_iWaterMillHit; }

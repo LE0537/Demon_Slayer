@@ -451,6 +451,10 @@ void CRuiDad::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJu
 
 }
 
+void CRuiDad::Play_Scene()
+{
+}
+
 CRuiDad * CRuiDad::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CRuiDad*	pInstance = new CRuiDad(pDevice, pContext);

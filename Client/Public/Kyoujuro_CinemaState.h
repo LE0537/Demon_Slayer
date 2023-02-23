@@ -11,12 +11,17 @@ public:
 	enum CINEMASCENE { SCENE_START, SCENE_0, SCENE_1, SCENE_2, SCENE_3, SCENE_4, SCENE_5, SCENE_6, SCENE_END };
 	enum SCENE_ANIM
 	{
-		ANIM_SCENE_START_0 = 4,
-		ANIM_SCENE_START_1 = 5,
-		ANIM_SCENE_0 = 43,
-		ANIM_SCENE_1 = 17,
-		ANIM_SCENE_2 = 75,
-		ANIM_SCENE_3 = 75,
+		ANIM_SCENE_START = 117,
+		ANIM_SCENE_0 = 118,
+		ANIM_SCENE_1 = 119,
+		ANIM_SCENE_2 = 120,
+		ANIM_SCENE_3 = 121,
+		ANIM_SCENE_4 = 122,
+		ANIM_SCENE_5 = 123,
+		ANIM_SCENE_6 = 124,
+		ANIM_SCENE_7 = 125,
+		ANIM_SCENE_8 = 126,
+
 		ANIM_SCENE_END = 100,
 	};
 
@@ -32,12 +37,7 @@ public:
 	virtual void Enter(CKyoujuro* pKyoujuro) override;
 	virtual void Exit(CKyoujuro* pKyoujuro) override;
 
-	CKyoujuroState* Scene_Start(CKyoujuro* pKyoujuro, _float fTimeDelta);
 
-	CKyoujuroState* Scene_0(CKyoujuro* pKyoujuro, _float fTimeDelta);
-	CKyoujuroState* Scene_1(CKyoujuro* pKyoujuro, _float fTimeDelta);
-
-	void Move(CKyoujuro* pKyoujuro, _float fTimeDelta);
 
 
 private:

@@ -241,6 +241,10 @@ void CHoke::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJump
 {
 }
 
+void CHoke::Play_Scene()
+{
+}
+
 CHoke * CHoke::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CHoke*	pInstance = new CHoke(pDevice, pContext);

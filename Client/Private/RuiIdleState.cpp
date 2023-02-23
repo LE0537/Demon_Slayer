@@ -31,7 +31,11 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 	switch (pRui->Get_i1P())
 	{
 	case 1:
-		
+		if (pGameInstance->Key_Pressing(DIK_E))
+		{
+			pRui->Get_BattleTarget()->Play_Scene();
+			return new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
+		}
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 		{
@@ -155,10 +159,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_E))
-		{
-			return new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
-		}
+
 
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 		{
