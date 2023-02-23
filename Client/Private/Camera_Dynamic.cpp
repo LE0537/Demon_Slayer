@@ -600,7 +600,6 @@ void CCamera_Dynamic::Move_CamPos(_float fTimeDelta)
 			{
 				while (true)
 				{
-					break;
 					if (m_f1pY >= 580.f)
 						break;
 					if (bTrue != m_b1P)
@@ -758,7 +757,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 	if (g_iLevel == LEVEL_BATTLEENMU)
 	{
 		vAtPos = vTargetPos;
-		vAtPos.m128_f32[1] -= 4.5f;
+		vAtPos.m128_f32[1] -= 5.5f;
 	}
 	else
 		vAtPos.m128_f32[1] = 3.f;
