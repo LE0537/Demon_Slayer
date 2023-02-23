@@ -221,6 +221,8 @@ HRESULT CModel::Play_Animation_Skill(_float fTimeDelta, _bool bRemoveTranslation
 {
 	// 또 너야
 	// 왜 또 오류
+
+
 	if (m_iCurrentAnimIndex != m_iPrevAnimIndex)
 	{
 		if (m_bAnimReset)
