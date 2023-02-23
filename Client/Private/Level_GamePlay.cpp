@@ -238,9 +238,9 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			else if(pUIManager->Get_StroyEventEnd())
 			{
 				m_fNextLevelTime += fTimeDelta;
-				if (m_fNextLevelTime > 3.f && !pUIManager->Get_AdvResult())
+				if (m_fNextLevelTime > 3.f && !pUIManager->Get_StroyEventEnd())
 					pUIManager->Set_FadeIn();
-				else if (pUIManager->Get_AdvResult())
+				else if (pUIManager->Get_AdvResult() && pUIManager->Get_StroyEventEnd())
 				{
 					pUIManager->Set_AdvResult(false);
 					if (FAILED(pGameInstance->Open_Level(LEVEL_STORYMENU, CLevel_StoryMenu::Create(m_pDevice, m_pContext))))
