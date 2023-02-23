@@ -21,7 +21,7 @@
 #include "TanjiroUpperHitState.h"
 #include "Effect.h"
 #include "HinoCami_CinemaState.h"
-
+#include "Box.h"
 // 오의히트
 #include "HitCinema_Rui.h"
 
@@ -59,6 +59,8 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
 	if (FAILED(Ready_Parts2()))
+		return E_FAIL;
+	if (FAILED(Ready_PartsBox()))
 		return E_FAIL;
 
 	if (m_i1p != 10 && m_i1p != 20)
@@ -263,6 +265,14 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 		m_pWeapon->Tick(fTimeDelta);
 		m_pSheath->Tick(fTimeDelta);
 
+		if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+		{
+			if (m_bIDLE)
+			{
+				dynamic_cast<CBox*>(m_pBox)->Set_Rot();
+			}
+			m_pBox->Tick(fTimeDelta);
+		}
 
 		if (m_bSplSkl)
 		{
@@ -283,9 +293,14 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+			if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+			{
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pBox);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pBox);
+			}
 		}
 
-		if (g_bCollBox)
+ 		if (g_bCollBox)
 		{
 			m_pRendererCom->Add_Debug(m_pSphereCom);
 		}
@@ -1042,7 +1057,7 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 	{
 		if (!m_bQuest1)
 		{
-			_vector vQuest1 = { -0.175f, 5.707f,214.807f,1.f };
+			_vector vQuest1 = { 4.862f, 5.747f,283.194f,1.f };
 			_float fDist1 = XMVectorGetX(XMVector3Length(vQuest1 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
 
 			if (fDist1 < 3.f)
@@ -1059,43 +1074,25 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 				{
 				case 0:
 					pUIManager->Set_MsgOn();
-					pUIManager->Set_MsgName(TEXT("엔무"));
-					pUIManager->Set_Msg(TEXT("뭐야?! 너 어떻게 잠에서 깬거지?"));
-					if (!m_bSoundCheck)
-					{
-					//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_01.wav"), fVOICE);
-						m_bSoundCheck = true;
-					}
+					pUIManager->Set_MsgName(TEXT("렌고쿠 쿄주로"));
+					pUIManager->Set_Msg(TEXT("우마이!!   우마이!!"));
 					break;
 				case 1:
 					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-					pUIManager->Set_Msg(TEXT("십이귀월?!"));
-					if (m_bSoundCheck)
-					{
-					//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_01.wav"), fVOICE);
-						m_bSoundCheck = false;
-					}
+					pUIManager->Set_Msg(TEXT("염주???"));
 					break;
 				case 2:
 					pUIManager->Set_MsgOn();
-					pUIManager->Set_MsgName(TEXT("엔무"));
-					pUIManager->Set_Msg(TEXT("옥상으로 따라와!"));
-					if (!m_bSoundCheck)
-					{
-					//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_02.wav"), fVOICE);
-						m_bSoundCheck = true;
-					}
+					pUIManager->Set_MsgName(TEXT("렌고쿠 쿄주로"));
+					pUIManager->Set_Msg(TEXT("열차안 사람들은 내가 지킬테니 너는 혈귀를 찾아 죽여!"));
+
 					break;
 				case 3:
 					pUIManager->Set_MsgOn();
-					pUIManager->Set_MsgName(TEXT("정석훈"));
-					pUIManager->Set_Msg(TEXT("저 녀석이 내 구슬을 훔쳐갔어!"));
-					if (m_bSoundCheck)
-					{
-					//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dialog_00.wav"), fVOICE);
-						m_bSoundCheck = false;
-					}
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("알겠어요! 사람들을 부탁합니다."));
+
 					m_bQuest2_1MSG = true;
 					break;
 				default:
@@ -1106,12 +1103,88 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 			{
 				m_bStop = false;
 				m_bQuest2MSG = true;
-				pUIManager->Set_EnmuBattle(true);
 			}
 			if (!m_bQuest2_2MSG && !pUIManager->Get_MsgOnOff())
 			{
 				pUIManager->Reset_MsgCount();
 				m_bQuest2_2MSG = true;
+			}
+		}
+		else 
+		{
+			if (!m_bQuest3)
+			{
+				_vector vQuest1 = { -0.175f, 5.707f,214.807f,1.f };
+				_float fDist1 = XMVectorGetX(XMVector3Length(vQuest1 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+
+				if (fDist1 < 3.f)
+				{
+					m_bQuest3 = true;
+					m_bStop = true;
+				}
+			}
+			else if (!m_bQuest3MSG && m_bQuest3)
+			{
+				if (m_bQuest3_2MSG && !m_bQuest3_1MSG)
+				{
+					switch (pUIManager->Get_MsgCount())
+					{
+					case 0:
+						pUIManager->Set_MsgOn();
+						pUIManager->Set_MsgName(TEXT("엔무"));
+						pUIManager->Set_Msg(TEXT("뭐야?! 너 어떻게 잠에서 깬거지?"));
+						if (!m_bSoundCheck)
+						{
+							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_01.wav"), fVOICE);
+							m_bSoundCheck = true;
+						}
+						break;
+					case 1:
+						pUIManager->Set_MsgOn();
+						pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+						pUIManager->Set_Msg(TEXT("십이귀월?!"));
+						if (m_bSoundCheck)
+						{
+							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_01.wav"), fVOICE);
+							m_bSoundCheck = false;
+						}
+						break;
+					case 2:
+						pUIManager->Set_MsgOn();
+						pUIManager->Set_MsgName(TEXT("엔무"));
+						pUIManager->Set_Msg(TEXT("옥상으로 따라와!"));
+						if (!m_bSoundCheck)
+						{
+							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_02.wav"), fVOICE);
+							m_bSoundCheck = true;
+						}
+						break;
+					case 3:
+						pUIManager->Set_MsgOn();
+						pUIManager->Set_MsgName(TEXT("정석훈"));
+						pUIManager->Set_Msg(TEXT("저 녀석이 내 구슬을 훔쳐갔어!"));
+						if (m_bSoundCheck)
+						{
+							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dialog_00.wav"), fVOICE);
+							m_bSoundCheck = false;
+						}
+						m_bQuest3_1MSG = true;
+						break;
+					default:
+						break;
+					}
+				}
+				if (m_bQuest3_2MSG && m_bQuest3_1MSG && !pUIManager->Get_MsgOnOff())
+				{
+					m_bStop = false;
+					m_bQuest3MSG = true;
+					pUIManager->Set_EnmuBattle(true);
+				}
+				if (!m_bQuest3_2MSG && !pUIManager->Get_MsgOnOff())
+				{
+					pUIManager->Reset_MsgCount();
+					m_bQuest3_2MSG = true;
+				}
 			}
 		}
 	}
@@ -1213,6 +1286,32 @@ HRESULT CTanjiro::Ready_Parts2()
 
 	return S_OK;
 }
+HRESULT CTanjiro::Ready_PartsBox()
+{
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Box_1_P0001_V00_C15");
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CBox::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	if (m_i1p == 10)
+		WeaponDesc.bStory = true;
+	else
+		WeaponDesc.bStory = false;
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pBox = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Box"), &WeaponDesc);
+	if (nullptr == m_pBox)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
 void CTanjiro::Set_Info()
 {
 	m_tInfo.strName = TEXT("탄지로");
@@ -1285,5 +1384,6 @@ void CTanjiro::Free()
 	Safe_Delete(m_pTanjiroState);
 	Safe_Release(m_pWeapon);
 	Safe_Release(m_pSheath);
+	Safe_Release(m_pBox);
 	Safe_Release(m_pNavigationCom);
 }

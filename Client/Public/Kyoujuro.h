@@ -176,6 +176,14 @@ private:
 	CGameObject*			m_pWeapon = nullptr;
 	CGameObject*			m_pSheath = nullptr;
 	_float					m_fEffectTime = 0.f;
+
+	_bool					m_bStop = false;
+	_bool					m_bQuest1 = false;
+	_bool					m_bQuest1MSG = false;
+	_bool					m_bQuest2 = false;
+	_bool					m_bQuest2MSG = false;
+	_bool					m_bQuest2_1MSG = false;
+	_bool					m_bQuest2_2MSG = false;
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);

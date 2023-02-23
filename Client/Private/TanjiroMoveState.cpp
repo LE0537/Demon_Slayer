@@ -26,6 +26,7 @@ CMoveState::CMoveState(OBJDIR eDir, STATE_TYPE eType)
 
 CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 {
+	pTanjiro->Set_IDLE(false);
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 	switch (pTanjiro->Get_i1P())

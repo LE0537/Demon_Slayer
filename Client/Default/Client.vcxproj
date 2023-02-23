@@ -227,6 +227,7 @@
     <ClInclude Include="..\public\BaseAtk.h" />
     <ClInclude Include="..\public\BigBird.h" />
     <ClInclude Include="..\public\Bird.h" />
+    <ClInclude Include="..\public\Box.h" />
     <ClInclude Include="..\Public\BtlFixedImg.h" />
     <ClInclude Include="..\public\Butterfly.h" />
     <ClInclude Include="..\Public\ButtonEff.h" />
@@ -653,6 +654,7 @@
     <ClCompile Include="..\private\BaseAtk.cpp" />
     <ClCompile Include="..\private\BigBird.cpp" />
     <ClCompile Include="..\private\Bird.cpp" />
+    <ClCompile Include="..\private\Box.cpp" />
     <ClCompile Include="..\Private\BtlFixedImg.cpp" />
     <ClCompile Include="..\private\Butterfly.cpp" />
     <ClCompile Include="..\Private\ButtonEff.cpp" />
