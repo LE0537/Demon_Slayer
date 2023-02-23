@@ -593,7 +593,8 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 
 			vPos += vMyLook * (fSpeed - fSpeed * fPow);
 			vTargetPos += vTargetLook * fSpeed * fPow;
-			vPos.m128_f32[1] = 0.f;
+			if(g_iLevel != LEVEL_BATTLEENMU)
+				vPos.m128_f32[1] = 0.f;
 			_vector vTargetPosY = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			vTargetPos.m128_f32[1] = vTargetPosY.m128_f32[1];
 			if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vPos))
