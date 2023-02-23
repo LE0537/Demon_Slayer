@@ -268,6 +268,10 @@ void CPlayer::Player_TakeDown(_float _fPow, _bool _bJump)
 {
 }
 
+void CPlayer::Play_Scene()
+{
+}
+
 void CPlayer::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
 }
