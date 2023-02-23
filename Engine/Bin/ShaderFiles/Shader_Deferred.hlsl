@@ -428,6 +428,11 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	vector		vShadowDepthInfo_Once = g_ShadowDepthTexture_Once.Sample(DepthSampler, vNewUV);
 
+
+
+
+	vector	vPlayer = g_PlayerTexture.Sample(LinearSampler, In.vTexUV);
+	bool		bPlayerDrew = all(vPlayer.a);		//	Player를 그리면 0
 	Out.vColor -= max(step(vShadowDepthInfo_Once.x * g_fFar, vWorldPos_Once.z - 0.1f) * vector(0.2f, 0.2f, 0.2f, 0.f),
 		step(vShadowDepthInfo.x * g_fFar, vWorldPos_Every.z - g_fShadowTestLength) * vector(0.2f, 0.2f, 0.2f, 0.f));
 
