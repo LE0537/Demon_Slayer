@@ -202,6 +202,9 @@ public:
 	_bool Get_Quest3MSG() { return m_bQuest3MSG; }
 	void Set_Stop(_bool _bStop) { m_bStop = _bStop; }
 	_bool Get_Stop() { return m_bStop; }
+
+	void Set_IDLE(_bool _bIDLE) { m_bIDLE = _bIDLE; }
+
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -214,6 +217,7 @@ private:
 	void LateTickState(_float fTimeDelta);
 	HRESULT Ready_Parts();
 	HRESULT Ready_Parts2();
+	HRESULT Ready_PartsBox();
 	void	Set_Info();
 	void    Check_Spl();
 private:
@@ -221,6 +225,7 @@ private:
 
 	CGameObject*			m_pWeapon = nullptr;
 	CGameObject*			m_pSheath = nullptr;
+	CGameObject*			m_pBox = nullptr;
 	_float					m_fHpTime = 0.f;
 	_int					m_iSkillHit = 0;
 	_int					m_iWaterMillHit = 0;
@@ -241,6 +246,8 @@ private:
 	_bool					m_bQuest3_1MSG = false;
 	_bool					m_bQuest3_2MSG = false;
 	_bool					m_bSoundCheck = false;
+
+	_bool					m_bIDLE = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

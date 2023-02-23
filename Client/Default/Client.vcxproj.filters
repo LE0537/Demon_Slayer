@@ -1285,6 +1285,9 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu">
       <UniqueIdentifier>{8eaceb3c-af83-487c-b0a6-54375ea091d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Box">
+      <UniqueIdentifier>{0e58a6b2-45c2-4c83-8cbc-0d4e8c6d285d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2547,6 +2550,9 @@
     <ClInclude Include="..\public\Enmu.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Box.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3781,6 +3787,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Enmu.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Box.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Box</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

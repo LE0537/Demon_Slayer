@@ -21,7 +21,7 @@
 #include "TanjiroUpperHitState.h"
 #include "Effect.h"
 #include "HinoCami_CinemaState.h"
-
+#include "Box.h"
 // 오의히트
 #include "HitCinema_Rui.h"
 
@@ -59,6 +59,8 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts()))
 		return E_FAIL;
 	if (FAILED(Ready_Parts2()))
+		return E_FAIL;
+	if (FAILED(Ready_PartsBox()))
 		return E_FAIL;
 
 	if (m_i1p != 10 && m_i1p != 20)
@@ -261,7 +263,14 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 
 		m_pWeapon->Tick(fTimeDelta);
 		m_pSheath->Tick(fTimeDelta);
-
+		if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+		{
+			if (m_bIDLE)
+			{
+				dynamic_cast<CBox*>(m_pBox)->Set_Rot();
+			}
+			m_pBox->Tick(fTimeDelta);
+		}
 		if (m_bSplSkl)
 		{
 			Check_Spl();
@@ -279,9 +288,14 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+			if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+			{
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pBox);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pBox);
+			}
 		}
 
-		if (g_bCollBox)
+ 		if (g_bCollBox)
 		{
 			m_pRendererCom->Add_Debug(m_pSphereCom);
 		}
@@ -1250,6 +1264,32 @@ HRESULT CTanjiro::Ready_Parts2()
 
 	return S_OK;
 }
+HRESULT CTanjiro::Ready_PartsBox()
+{
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Box_1_P0001_V00_C15");
+	if (nullptr == pSocket)
+		return E_FAIL;
+
+	CBox::WEAPONDESC		WeaponDesc;
+	WeaponDesc.pSocket = pSocket;
+	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
+	if (m_i1p == 10)
+		WeaponDesc.bStory = true;
+	else
+		WeaponDesc.bStory = false;
+	Safe_AddRef(pSocket);
+
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pBox = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Box"), &WeaponDesc);
+	if (nullptr == m_pBox)
+		return E_FAIL;
+
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
 void CTanjiro::Set_Info()
 {
 	m_tInfo.strName = TEXT("탄지로");
@@ -1322,5 +1362,6 @@ void CTanjiro::Free()
 	Safe_Delete(m_pTanjiroState);
 	Safe_Release(m_pWeapon);
 	Safe_Release(m_pSheath);
+	Safe_Release(m_pBox);
 	Safe_Release(m_pNavigationCom);
 }

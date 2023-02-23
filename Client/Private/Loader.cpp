@@ -37,6 +37,7 @@
 #include "ShinobuSheath.h"
 #include "KyoujuroWeaponMenu.h"
 #include "ShinobuWeaponMenu.h"
+#include "Box.h"
 //UI
 #include "HpBar.h"
 #include "HpBarBack.h"
@@ -1756,6 +1757,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("ShinobuSheath"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ShinobuSheath"),
 		CShinobuSheath::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Box"),
+	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/Box/Box.fbx", PivotMatrix))))
+	return E_FAIL;
+	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Box"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Box"),
+		CBox::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	_matrix PivotMatrix2 = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
