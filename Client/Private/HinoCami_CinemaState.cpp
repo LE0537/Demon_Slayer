@@ -88,6 +88,9 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 	{
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_START:
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.f, pTanjiro->Get_NavigationHeight().y, 64.f, 1.f));
+		pTanjiro->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.2f, pTanjiro->Get_NavigationHeight().y, 64.f, 1.f));
+		pTanjiro->Get_Transform()->Set_PlayerLookAt(XMVectorSet(52.f, pTanjiro->Get_NavigationHeight().y, 64.f, 1.f));
+		pTanjiro->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(XMVectorSet(52.f, pTanjiro->Get_NavigationHeight().y, 64.f, 1.f));
 		pTanjiro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_010);
 		pTanjiro->Get_Model()->Reset_Anim(CHinoCami_CinemaState::ANIM_SCENE_START);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CHinoCami_CinemaState::ANIM_SCENE_START);

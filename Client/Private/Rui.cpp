@@ -18,6 +18,10 @@
 #include "Effect_Manager.h"
 #include "RuiTakeDownState.h"
 #include "RuiUpperHitState.h"
+
+// 오의히트
+#include "HitCinema_Tanjiro.h"
+
 using namespace Rui;
 
 
@@ -506,6 +510,34 @@ void CRui::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpP
 {
 	CRuiState* pState = new CUpperHitState(eHitType, CRuiState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+}
+
+void CRui::Play_Scene()
+{
+	CRuiState* pState = nullptr;
+
+	switch (m_pBattleTarget->Get_PlayerType())
+	{
+	case Client::CCharacters::PLAYER_TANJIRO:
+		pState = new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_START);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+		break;
+	case Client::CCharacters::PLAYER_KYOUJURO:
+		break;
+	case Client::CCharacters::PLAYER_RUI:
+		break;
+	case Client::CCharacters::PLAYER_AKAZA:
+		break;
+	case Client::CCharacters::PLAYER_NEZUKO:
+		break;
+	case Client::CCharacters::PLAYER_SHINOBU:
+		break;
+	case Client::CCharacters::PLAYER_END:
+		break;
+	default:
+		break;
+	}
+
 }
 
 HRESULT CRui::SetUp_ShaderResources()

@@ -317,6 +317,10 @@ void CGoto::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJump
 {
 }
 
+void CGoto::Play_Scene()
+{
+}
+
 CGoto * CGoto::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CGoto*	pInstance = new CGoto(pDevice, pContext);

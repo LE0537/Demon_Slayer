@@ -510,6 +510,10 @@ void CMenuModel::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float 
 {
 }
 
+void CMenuModel::Play_Scene()
+{
+}
+
 HRESULT CMenuModel::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)

@@ -16,6 +16,7 @@
 #include "TanjiroChangeState.h"
 #include "TanjiroTargetRushState.h"
 #include "HinoCami_CinemaState.h"
+#include "ImGuiManager.h"
 using namespace Tanjiro;
 
 
@@ -46,6 +47,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		case 1:
 			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
 			{
+				pTanjiro->Get_BattleTarget()->Play_Scene();
 				return new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
 			}
 
@@ -306,6 +308,10 @@ CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			return new CIdleState(STATE_IDLE);
 		}
 	}
+
+	_float3 vPosition; XMStoreFloat3(&vPosition, pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	CImGuiManager::Get_Instance()->Set_CurrentPosition(vPosition);
 
 
 	return nullptr;

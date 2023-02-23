@@ -22,6 +22,9 @@
 
 #include "HinoCami_CinemaState.h"
 
+// 오의히트
+#include "HitCinema_Rui.h"
+
 
 
 #include "Level_Loading.h"
@@ -621,6 +624,33 @@ void CTanjiro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJ
 	CTanjiroState* pState = new CUpperHitState(eHitType, CTanjiroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 
+}
+
+void CTanjiro::Play_Scene()
+{
+	CTanjiroState* pState = nullptr;
+
+	switch (m_pBattleTarget->Get_PlayerType())
+	{
+	case Client::CCharacters::PLAYER_TANJIRO:
+		break;
+	case Client::CCharacters::PLAYER_KYOUJURO:
+		break;
+	case Client::CCharacters::PLAYER_RUI:
+		pState = new HitCinema_Rui(HitCinema_Rui::SCENE_START);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+		break;
+	case Client::CCharacters::PLAYER_AKAZA:
+		break;
+	case Client::CCharacters::PLAYER_NEZUKO:
+		break;
+	case Client::CCharacters::PLAYER_SHINOBU:
+		break;
+	case Client::CCharacters::PLAYER_END:
+		break;
+	default:
+		break;
+	}
 }
 
 void CTanjiro::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)

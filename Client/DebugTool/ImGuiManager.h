@@ -83,7 +83,7 @@ public:
 	void		Clear_AnimationList();
 	void		Character_Compare_Duration(_uint _iIndex);
 	void		Character_Set_Duration(_uint _iIndex);
-
+	void		Set_CurrentPosition(_float3 vPosition) { m_vCurrentPosition = vPosition; };
 	void		Character_Compare_Frame(_uint _iIndex);
 	void		Character_Set_Frame(_uint _iIndex);
 private:
@@ -102,6 +102,7 @@ private:
 	_float m_fDuration = 0.f;
 	_float m_fCurrentDuration = 0.f;
 
+	_float3 m_vCurrentPosition;
 public:
 	virtual void Free() override;
 };
