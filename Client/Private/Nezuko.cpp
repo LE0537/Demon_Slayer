@@ -663,6 +663,10 @@ void CNezuko::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJu
 	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 }
 
+void CNezuko::Play_Scene()
+{
+}
+
 CNezuko * CNezuko::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CNezuko*	pInstance = new CNezuko(pDevice, pContext);

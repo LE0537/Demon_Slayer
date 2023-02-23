@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "HitCinema_Tanjiro.h"
 #include "GameInstance.h"
-
+#include "RuiIdleState.h"
 
 using namespace Rui;
 
@@ -17,6 +17,54 @@ CRuiState * CHitCinema_Tanjiro::HandleInput(CRui * pRui)
 
 CRuiState * CHitCinema_Tanjiro::Tick(CRui * pRui, _float fTimeDelta)
 {
+	switch (m_eScene)
+	{
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_START:
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_0);
+		}
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_0:
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_1);
+		}
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_1:
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_2);
+		}
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_2:
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_3);
+		}
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_3:
+		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		{
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CIdleState();
+		}
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_4:
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_5:
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_6:
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_END:
+		break;
+
+	}
+
 	return nullptr;
 }
 
@@ -29,6 +77,55 @@ CRuiState * CHitCinema_Tanjiro::Late_Tick(CRui * pRui, _float fTimeDelta)
 
 void CHitCinema_Tanjiro::Enter(CRui * pRui)
 {
+	switch (m_eScene)
+	{
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_START:
+		pRui->Get_Model()->Reset_Anim(CHitCinema_Tanjiro::ANIM_SCENE_START);
+		pRui->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Tanjiro::ANIM_SCENE_START);
+		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CHitCinema_Tanjiro::ANIM_SCENE_START));
+		pRui->Get_Model()->Set_Loop(CHitCinema_Tanjiro::ANIM_SCENE_START);
+		pRui->Get_Model()->Set_LinearTime(CHitCinema_Tanjiro::ANIM_SCENE_START, 0.01f);
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_0:
+		pRui->Get_Model()->Reset_Anim(CHitCinema_Tanjiro::ANIM_SCENE_0);
+		pRui->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Tanjiro::ANIM_SCENE_0);
+		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CHitCinema_Tanjiro::ANIM_SCENE_0));
+		pRui->Get_Model()->Set_Loop(CHitCinema_Tanjiro::ANIM_SCENE_0);
+		pRui->Get_Model()->Set_LinearTime(CHitCinema_Tanjiro::ANIM_SCENE_0, 0.01f);
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_1:
+		pRui->Get_Model()->Reset_Anim(CHitCinema_Tanjiro::ANIM_SCENE_1);
+		pRui->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Tanjiro::ANIM_SCENE_1);
+		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CHitCinema_Tanjiro::ANIM_SCENE_1));
+		pRui->Get_Model()->Set_Loop(CHitCinema_Tanjiro::ANIM_SCENE_1);
+		pRui->Get_Model()->Set_LinearTime(CHitCinema_Tanjiro::ANIM_SCENE_1, 0.01f);
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_2:
+		pRui->Get_Model()->Reset_Anim(CHitCinema_Tanjiro::ANIM_SCENE_2);
+		pRui->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Tanjiro::ANIM_SCENE_2);
+		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CHitCinema_Tanjiro::ANIM_SCENE_2));
+		pRui->Get_Model()->Set_Loop(CHitCinema_Tanjiro::ANIM_SCENE_2);
+		pRui->Get_Model()->Set_LinearTime(CHitCinema_Tanjiro::ANIM_SCENE_2, 0.01f);
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_3:
+		pRui->Get_Model()->Reset_Anim(CHitCinema_Tanjiro::ANIM_SCENE_3);
+		pRui->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Tanjiro::ANIM_SCENE_3);
+		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CHitCinema_Tanjiro::ANIM_SCENE_3));
+		pRui->Get_Model()->Set_Loop(CHitCinema_Tanjiro::ANIM_SCENE_3);
+		pRui->Get_Model()->Set_LinearTime(CHitCinema_Tanjiro::ANIM_SCENE_3, 0.01f);
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_4:
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_5:
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_6:
+		break;
+	case Client::Rui::CHitCinema_Tanjiro::SCENE_END:
+		break;
+	default:
+		break;
+	}
+
 }
 
 void CHitCinema_Tanjiro::Exit(CRui * pRui)

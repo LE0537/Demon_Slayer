@@ -241,6 +241,10 @@ void CBigBird::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJ
 {
 }
 
+void CBigBird::Play_Scene()
+{
+}
+
 CBigBird * CBigBird::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CBigBird*	pInstance = new CBigBird(pDevice, pContext);

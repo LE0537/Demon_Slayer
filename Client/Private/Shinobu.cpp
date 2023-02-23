@@ -534,6 +534,10 @@ void CShinobu::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJ
 	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 }
 
+void CShinobu::Play_Scene()
+{
+}
+
 void CShinobu::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
 {
 	CShinobuState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CShinobuState::STATE_TYPE>(iTypeIndex), bIsContinue);
