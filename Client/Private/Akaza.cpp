@@ -101,6 +101,7 @@ HRESULT CAkaza::Initialize(void * pArg)
 void CAkaza::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	m_fEffectStartTime = 0.f;
 
 	if (m_bBattleStart)
 	{

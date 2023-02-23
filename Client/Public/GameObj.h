@@ -30,8 +30,8 @@ public:
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
 public:
-	void   Set_EffectTime(_float _fTime) { m_fEffectTime = _fTime; }
-	_float Get_EffectTime() { return m_fEffectTime; }
+	void   Set_EffectTime(_float _fTime) { m_fEffectStartTime = _fTime; }
+	_float Get_EffectTime() { return m_fEffectStartTime; }
 protected:
 	CShader*				m_pShaderCom = nullptr;
 	CTexture*				m_pTextureCom = nullptr;
@@ -41,7 +41,7 @@ protected:
 
 protected:
 	_float		m_fCamAngle = 0.f;
-	_float      m_fEffectTime = 0.f;
+	_float      m_fEffectStartTime = 0.f;
 public:
 	CTransform* Get_Transform() { return m_pTransformCom; }
 	CRenderer* Get_Renderer() { return m_pRendererCom; }

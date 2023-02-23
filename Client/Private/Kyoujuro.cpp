@@ -121,6 +121,7 @@ void CKyoujuro::Tick(_float fTimeDelta)
 {
 	if (!m_bChange)
 	{
+		m_fEffectStartTime = 0.f;
 		if (m_bBattleStart)
 		{
 			CKyoujuroState* pState = new CBattleStartState();

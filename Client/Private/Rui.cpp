@@ -148,7 +148,8 @@ void CRui::Tick(_float fTimeDelta)
 {
 	if (!m_tInfo.bSub)
 	{
-		
+
+		m_fEffectStartTime = 0.f;
 		if (m_bBattleStart)
 		{
 			CRuiState* pState = new CBattleStartState();

@@ -176,6 +176,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 	if (!m_bChange)
 	{
 		__super::Tick(fTimeDelta);
+		m_fEffectStartTime = 0.f;
 
 		if (m_bBattleStart)
 		{
