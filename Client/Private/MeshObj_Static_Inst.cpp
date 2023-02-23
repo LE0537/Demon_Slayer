@@ -124,14 +124,6 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
 	}
 
-	if (false == m_bInit)
-	{
-		m_pModelCom->Update_Instancing(m_vecMatrix, 300000, fTimeDelta);
-		m_bInit = true;
-	}
-	else
-		m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
-
 
 	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
 	{
@@ -142,6 +134,14 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
 {
 	__super::Late_Tick(fTimeDelta);
+
+	if (false == m_bInit)
+	{
+		m_pModelCom->Update_Instancing(m_vecMatrix, 300000, fTimeDelta);
+		m_bInit = true;
+	}
+	else
+		m_pModelCom->Update_Instancing(m_vecMatrix, m_fFrustumRadiusRatio, fTimeDelta);
 
 	if (nullptr != m_pRendererCom)
 	{

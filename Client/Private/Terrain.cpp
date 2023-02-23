@@ -221,6 +221,9 @@ HRESULT CTerrain::SetUp_ShaderResources()
 			return E_FAIL;
 	}
 
+	if (FAILED(m_pShaderCom->Set_RawValue("g_fFar", &g_fFar, sizeof(_float))))
+		return E_FAIL;
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;

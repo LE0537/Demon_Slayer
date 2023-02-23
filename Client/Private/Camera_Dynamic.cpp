@@ -282,13 +282,14 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			Check_Shake(fTimeDelta);
 			//Check_StoryCam();
 
-			}
+		}
 		RELEASE_INSTANCE(CGameInstance);
 		RELEASE_INSTANCE(CUI_Manager);
 
 		if (FAILED(Bind_OnPipeLine()))
 			return;
 	}
+}
 
 	void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 	{
@@ -1402,7 +1403,6 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 	HRESULT CCamera_Dynamic::Ready_CutScene(char* pFileName)
 	{
 		int		iIndex = 0;
-		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 		char		szFilePath[MAX_PATH] = "../Bin/Resources/Data/CamActions/";
 		strcat_s(szFilePath, pFileName);
