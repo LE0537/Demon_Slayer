@@ -58,7 +58,8 @@ VS_OUT VS_MAIN(VS_IN In)
 	Out.vNormal = vNormal;
 	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
-	Out.vWorld = vPosition;
+	vector vWorldPos = mul(vPosition, g_WorldMatrix);
+	Out.vWorld = vWorldPos;
 
 	return Out;
 }
