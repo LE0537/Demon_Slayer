@@ -169,6 +169,7 @@ CShinobuState * CSkill_CommonState::HandleInput(CShinobu* pShinobu)
 
 CShinobuState * CSkill_CommonState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
+	pShinobu->Set_EffectTime(fTimeDelta);
 	pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
 
 	if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))

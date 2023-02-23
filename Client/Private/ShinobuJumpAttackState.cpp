@@ -24,6 +24,7 @@ CShinobuState * CJumpAttackState::HandleInput(CShinobu* pShinobu)
 
 CShinobuState * CJumpAttackState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 {
+	pShinobu->Set_EffectTime(fTimeDelta);
 
 	if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
 	{

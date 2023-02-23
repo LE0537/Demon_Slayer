@@ -31,6 +31,7 @@ CAkazaState * CJumpSkill_CommmonState::HandleInput(CAkaza* pAkaza)
 
 CAkazaState * CJumpSkill_CommmonState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
+	pAkaza->Set_EffectTime(fTimeDelta);
 	pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 	pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
 	if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))

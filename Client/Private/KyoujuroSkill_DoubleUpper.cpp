@@ -173,6 +173,7 @@ CKyoujuroState * CSkill_DoubleUpperState::HandleInput(CKyoujuro * pKyojuro)
 
 CKyoujuroState * CSkill_DoubleUpperState::Tick(CKyoujuro * pKyojuro, _float fTimeDelta)
 {
+	pKyojuro->Set_EffectTime(fTimeDelta);
 	//pKyojuro->Get_Model()->Set_Loop(pKyojuro->Get_AnimIndex());
 
 	if (pKyojuro->Get_Model()->Get_End(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER))

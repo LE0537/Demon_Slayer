@@ -168,6 +168,7 @@ CAkazaState * CSkill_DestoryState::HandleInput(CAkaza* pAkaza)
 
 CAkazaState * CSkill_DestoryState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
+	pAkaza->Set_EffectTime(fTimeDelta);
 	pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
 	CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
 	_float fDist = 0.f;

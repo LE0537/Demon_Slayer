@@ -24,6 +24,7 @@ CKyoujuroState * CJumpAttackState::HandleInput(CKyoujuro* pKyoujuro)
 
 CKyoujuroState * CJumpAttackState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
+	pKyoujuro->Set_EffectTime(fTimeDelta);
 
 	if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
 	{

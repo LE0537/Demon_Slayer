@@ -36,8 +36,7 @@ CRuiDadState * CSkill_JumpDropState::HandleInput(CRuiDad* pRuiDad)
 
 CRuiDadState * CSkill_JumpDropState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
-
-
+	pRuiDad->Set_EffectTime(fTimeDelta);
 	if (pRuiDad->Get_Model()->Get_End(pRuiDad->Get_AnimIndex()))
 	{
 		switch (m_eStateType)

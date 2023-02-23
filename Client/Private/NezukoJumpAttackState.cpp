@@ -24,6 +24,7 @@ CNezukoState * CJumpAttackState::HandleInput(CNezuko* pNezuko)
 
 CNezukoState * CJumpAttackState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 {
+	pNezuko->Set_EffectTime(fTimeDelta);
 
 	if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
 	{

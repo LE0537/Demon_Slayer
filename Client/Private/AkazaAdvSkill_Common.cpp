@@ -32,6 +32,7 @@ CAkazaState * CAdvSkill_CommmonState::HandleInput(CAkaza* pAkaza)
 
 CAkazaState * CAdvSkill_CommmonState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
+	pAkaza->Set_EffectTime(fTimeDelta);
 	_vector vMyPositionLoop = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTargetPositionLoop = pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vTargetPositionLoop = XMVectorSetY(vTargetPositionLoop, 0.f);
