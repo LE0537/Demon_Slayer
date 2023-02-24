@@ -173,6 +173,7 @@ HRESULT CEffect_Particle_New::SetUp_ShaderResources()
 	m_pShaderCom->Set_RawValue("g_bBillboard", &m_ParticleInfo.bBillboard, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bYBillboard", &m_ParticleInfo.bYBillboard, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bBillboardTurn", &m_ParticleInfo.bBillboardTurn, sizeof(_bool));
+	m_pShaderCom->Set_RawValue("g_bAlphaDissolve", &m_ParticleInfo.bAlpha, sizeof(_bool));
 	m_pShaderCom->Set_RawValue("g_bFollow", &m_ParticleInfo.bFollow, sizeof(_bool));
 
 	return S_OK;
