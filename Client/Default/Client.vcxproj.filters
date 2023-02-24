@@ -1375,6 +1375,45 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Rui">
       <UniqueIdentifier>{0be8013f-32f7-4c48-9796-bb1ed30345df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState">
+      <UniqueIdentifier>{877ebe7c-1fe8-4587-a4c8-c4bfc64b959e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Tool">
+      <UniqueIdentifier>{fa3acea1-284b-4c43-b731-fe13ed832009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Idle">
+      <UniqueIdentifier>{0e8786ea-403e-42d9-8187-8c326a5267de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Move">
+      <UniqueIdentifier>{90df14ad-6029-4d93-8f46-fa769f0f1dab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Attack_1">
+      <UniqueIdentifier>{d1a1a280-e9b6-4e14-b5c7-08775f46137a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Attack_2">
+      <UniqueIdentifier>{90c66ddb-c73e-4995-91bb-8d44d5d001ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Attack_3">
+      <UniqueIdentifier>{c6198200-23f0-4f8c-9b35-4d01f7edebfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Guard">
+      <UniqueIdentifier>{6bb17709-9603-490c-9f8b-7791cd162fd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Skill">
+      <UniqueIdentifier>{1a7a0fbe-1f88-4dfd-a4d1-5b058c4577a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Dash">
+      <UniqueIdentifier>{e389f584-de48-4129-88fc-59777551a919}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\BattleStart">
+      <UniqueIdentifier>{0f03dc2a-709d-4375-96ba-4ccd114d68c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Hit">
+      <UniqueIdentifier>{abae57f1-1199-4b72-b80e-96254599e712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\TargetRush">
+      <UniqueIdentifier>{573811b7-f0c1-4ac7-b7e6-c12c1c49bdd9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2727,6 +2766,51 @@
     <ClInclude Include="..\Public\ShinobuHitCinema_Rui.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Rui</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\EnmuState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuToolState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuIdleState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuMoveState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuAttack_1.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Attack_1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuAttack_2.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Attack_2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuAttack_3.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Attack_3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuDashState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Dash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuBattleSTState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\BattleStart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuTargetRushState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\TargetRush</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuGuardHitState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuGuardState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Guard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuHitState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuTakeDownState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Hit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuUpperHitState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Hit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4051,6 +4135,48 @@
     </ClCompile>
     <ClCompile Include="..\Private\ShinobuHitCinema_Rui.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Rui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuToolState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuIdleState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuMoveState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuAttack_1.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Attack_1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuAttack_2.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Attack_2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuAttack_3.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Attack_3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuDashState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Dash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuBattleSTState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\BattleStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuTargetRushState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\TargetRush</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuGuardState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuGuardHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Guard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuTakeDownState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuUpperHitState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Hit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
