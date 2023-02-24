@@ -231,6 +231,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 					pUIManager->Set_SaveStory(true);
 					pUIManager->Set_RuiDadBattle(false);
 					pUIManager->Set_AdvResult(false);
+					pUIManager->Set_FadeOut();
 					if (FAILED(pGameInstance->Open_Level(LEVEL_ADVRUI, CLevel_AdvRui::Create(m_pDevice, m_pContext))))
 					return;
 				}
@@ -238,11 +239,12 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			else if(pUIManager->Get_StroyEventEnd())
 			{
 				m_fNextLevelTime += fTimeDelta;
-				if (m_fNextLevelTime > 3.f && !pUIManager->Get_StroyEventEnd())
+				if (m_fNextLevelTime > 3.f && !pUIManager->Get_AdvResult())
 					pUIManager->Set_FadeIn();
 				else if (pUIManager->Get_AdvResult() && pUIManager->Get_StroyEventEnd())
 				{
 					pUIManager->Set_AdvResult(false);
+					pUIManager->Set_FadeOut();
 					if (FAILED(pGameInstance->Open_Level(LEVEL_STORYMENU, CLevel_StoryMenu::Create(m_pDevice, m_pContext))))
 						return;
 				}
