@@ -35,7 +35,7 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 	_int	iFrame = max(_int(fCullTime), 0.f) + 1;				//	현재 프레임. 첫 번째는 읽지않음.(None)
 	_float	fDecimal = max(fCullTime, 0.f) - (iFrame - 1);
 
-	if (iFrame + 1 == iSize)		//	끝 Check
+	if (iFrame + 1 >= iSize)		//	끝 Check
 	{
 		fCullTime = *pOut = -1.f / 60.f;
 
@@ -1511,6 +1511,7 @@ HRESULT CCamera_Dynamic::Ready_CutScene(char * pFileName)
 			Safe_Delete(pCamEye);
 			Safe_Delete(pCamAt);
 			Safe_Delete(pCamTime);
+			Safe_Delete(pBlur);
 
 			vecCamTime.erase(vecCamTime.end() - 1);
 			break;
