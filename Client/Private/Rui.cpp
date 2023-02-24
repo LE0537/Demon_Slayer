@@ -20,7 +20,11 @@
 #include "RuiUpperHitState.h"
 
 // 오의히트
-#include "HitCinema_Tanjiro.h"
+#include "RuiHitCinema_Tanjiro.h"
+#include "RuiHitCinema_Akaza.h"
+#include "RuiHitCinema_Kyoujuro.h"
+#include "RuiHitCinema_Nezuko.h"
+#include "RuiHitCinema_Shinobu.h"
 
 using namespace Rui;
 
@@ -531,14 +535,22 @@ void CRui::Play_Scene()
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		break;
 	case Client::CCharacters::PLAYER_KYOUJURO:
+		pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_START);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		break;
 	case Client::CCharacters::PLAYER_RUI:
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
+		pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_START);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		break;
 	case Client::CCharacters::PLAYER_NEZUKO:
+		pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_START);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		break;
 	case Client::CCharacters::PLAYER_SHINOBU:
+		pState = new CHitCinema_Shinobu(CHitCinema_Shinobu::SCENE_START);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		break;
 	case Client::CCharacters::PLAYER_END:
 		break;

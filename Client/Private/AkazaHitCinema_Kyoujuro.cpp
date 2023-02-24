@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "HitCinema_Kyoujuro.h"
+#include "AkazaHitCinema_Kyoujuro.h"
 #include "GameInstance.h"
 #include "AkazaIdleState.h"
 

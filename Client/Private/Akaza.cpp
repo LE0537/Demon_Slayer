@@ -16,7 +16,11 @@
 #include "AkazaTakeDownState.h"
 #include "AkazaUpperHitState.h"
 
-#include "HitCinema_Kyoujuro.h"
+#include "AkazaHitCinema_Kyoujuro.h"
+#include "AkazaHitCinema_Nezuko.h"
+#include "AkazaHitCinema_Rui.h"
+#include "AkazaHitCinema_Shinobu.h"
+#include "AkazaHitCinema_Tanjiro.h"
 using namespace Akaza;
 
 
@@ -467,20 +471,26 @@ void CAkaza::Play_Scene()
 	switch (m_pBattleTarget->Get_PlayerType())
 	{
 	case Client::CCharacters::PLAYER_TANJIRO:
-		//pState = new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_START);
-		//m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+		pState = new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_START);
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 		break;
 	case Client::CCharacters::PLAYER_KYOUJURO:
 		pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_START);
 		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 		break;
 	case Client::CCharacters::PLAYER_RUI:
+		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
 		break;
 	case Client::CCharacters::PLAYER_NEZUKO:
+		pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_START);
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 		break;
 	case Client::CCharacters::PLAYER_SHINOBU:
+		pState = new CHitCinema_Shinobu(CHitCinema_Shinobu::SCENE_START);
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 		break;
 	case Client::CCharacters::PLAYER_END:
 		break;

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "HitCinema_Tanjiro.h"
+#include "RuiHitCinema_Tanjiro.h"
 #include "GameInstance.h"
 #include "RuiIdleState.h"
 

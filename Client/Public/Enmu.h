@@ -92,7 +92,7 @@ private:
 
 	_bool					m_bQuestStart = false;
 	_bool					m_bQuestStop = false;
-	class CEnmuState* m_pRuiDadState = nullptr;
+//	class CEnmuState* m_pRuiDadState = nullptr;
 
 
 public:

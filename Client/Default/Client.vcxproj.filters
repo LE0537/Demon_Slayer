@@ -1303,6 +1303,78 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon2">
       <UniqueIdentifier>{e5cd0aea-f79b-4175-8aed-a3caea569443}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Kyoujuro">
+      <UniqueIdentifier>{0586a9f1-be4c-41aa-a995-f7261080d918}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Akaza">
+      <UniqueIdentifier>{65a34074-5f9a-4350-8e49-256fc6787f61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Nezuko">
+      <UniqueIdentifier>{63009a2f-8595-462c-bca1-5cd622ddcc80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Shinobu">
+      <UniqueIdentifier>{0ac29b4f-34e0-4b59-87c1-1a61483f2c78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Nezuko">
+      <UniqueIdentifier>{cf578d8d-7ee9-4675-80e3-1fc063a99879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Akaza">
+      <UniqueIdentifier>{1a4d0e41-178e-4762-9edf-6add81a6f93f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Kyoujuro">
+      <UniqueIdentifier>{823c2d72-35b6-4dde-ae09-427ae9f6e8ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Shinobu">
+      <UniqueIdentifier>{340390c4-ab2d-46d3-8baf-805b709def00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Tanjiro">
+      <UniqueIdentifier>{e4c9dc2e-e9f0-4a6e-8674-43b5476f730a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Rui">
+      <UniqueIdentifier>{2aa6da24-aef1-456e-9e36-674e41d66a81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Nezuko">
+      <UniqueIdentifier>{90baf7a1-527d-41bc-b4bd-f734411abf37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Shinobu">
+      <UniqueIdentifier>{14868ebd-37de-49a6-96ba-569f55979641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Tanjiro">
+      <UniqueIdentifier>{5f7ebb99-f343-42f4-9a00-b3d115f3cae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Rui">
+      <UniqueIdentifier>{d4e89180-2040-4ae9-ae0c-c5fdc71a25ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Nezuko">
+      <UniqueIdentifier>{5f6096c0-f61a-4af6-ad1a-ddfa7119da49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Shinobu">
+      <UniqueIdentifier>{6786ba4a-bcfb-4f6c-b2c1-4db8759a6455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Akaza">
+      <UniqueIdentifier>{2fa5e02b-fa22-4b00-82e7-04d922c2d60c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Tanjiro">
+      <UniqueIdentifier>{3df5f658-c8e9-4584-995b-f6c21c8132cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Rui">
+      <UniqueIdentifier>{9dd01ee3-84bf-4087-97c3-b1921a89d142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Kyoujuro">
+      <UniqueIdentifier>{6246fa8d-a37e-46c3-b8c8-5a9f5822d59d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Tanjiro">
+      <UniqueIdentifier>{53c629d9-a07c-4ae6-acb1-51556b56cdc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Akaza">
+      <UniqueIdentifier>{b0179113-7fcc-4a75-a2c4-c91c6db0ba21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Kyoujuro">
+      <UniqueIdentifier>{15058b5e-9843-4c54-aef0-ddec550074e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Rui">
+      <UniqueIdentifier>{0be8013f-32f7-4c48-9796-bb1ed30345df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2292,9 +2364,6 @@
     <ClInclude Include="..\Public\Level_AdvRui.h">
       <Filter>01.Levels\07.Adv_Rui</Filter>
     </ClInclude>
-    <ClInclude Include="RuiDadState.h">
-      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\RuiDadAtk_1_State.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Attack</Filter>
     </ClInclude>
@@ -2547,12 +2616,6 @@
     <ClInclude Include="..\public\Door.h">
       <Filter>02.GameObjects\02.Map\05.Door</Filter>
     </ClInclude>
-    <ClInclude Include="HitCinema_Tanjiro.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\HitCinema_Rui.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\FadeUIEff.h">
       <Filter>03.UI\95.UIEff\Fade</Filter>
     </ClInclude>
@@ -2562,26 +2625,107 @@
     <ClInclude Include="..\public\Enmu.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\HitCinema_Kyoujuro.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Kyoujuro</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Akaza_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\HitCinema_Akaza.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Akaza</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Shinobu_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\HitCinema_Shinobu.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Shinobu</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\HitCinema_Nezuko.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Nezuko</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\TanjiroWeapon2.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroHitCinema_Rui.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoHitCinema_Shinobu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Shinobu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuHitCinema_Nezuko.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Nezuko</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaHitCinema_Kyoujuro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Kyoujuro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroHitCinema_Akaza.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Akaza</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiHitCinema_Tanjiro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroHitCinema_Akaza.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Akaza</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroHitCinema_Kyoujuro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Kyoujuro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroHitCinema_Shinobu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Shinobu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroHitCinema_Nezuko.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Nezuko</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiHitCinema_Akaza.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Akaza</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiHitCinema_Kyoujuro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Kyoujuro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiHitCinema_Shinobu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Shinobu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiHitCinema_Nezuko.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Nezuko</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroHitCinema_Nezuko.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Nezuko</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroHitCinema_Rui.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Rui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroHitCinema_Shinobu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Shinobu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroHitCinema_Tanjiro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Tanjiro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaHitCinema_Nezuko.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Nezuko</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaHitCinema_Rui.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Rui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaHitCinema_Tanjiro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Tanjiro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaHitCinema_Shinobu.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Shinobu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoHitCinema_Akaza.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Akaza</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoHitCinema_Kyoujuro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Kyoujuro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoHitCinema_Rui.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Rui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoHitCinema_Tanjiro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Tanjiro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuHitCinema_Akaza.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Akaza</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuHitCinema_Kyoujuro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Kyoujuro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuHitCinema_Tanjiro.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Tanjiro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuHitCinema_Rui.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Rui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3800,12 +3944,6 @@
     <ClCompile Include="..\private\Door.cpp">
       <Filter>02.GameObjects\02.Map\05.Door</Filter>
     </ClCompile>
-    <ClCompile Include="HitCinema_Tanjiro.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\HitCinema_Rui.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Adv_ResultBase.cpp">
       <Filter>03.UI\04.Result\Adv_Result</Filter>
     </ClCompile>
@@ -3815,26 +3953,104 @@
     <ClCompile Include="..\private\Enmu.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\HitCinema_Kyoujuro.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Kyoujuro</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Akaza_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\HitCinema_Akaza.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Akaza</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Shinobu_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\HitCinema_Shinobu.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Shinobu</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\HitCinema_Nezuko.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Nezuko</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\TanjiroWeapon2.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroHitCinema_Rui.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Rui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoHitCinema_Shinobu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Shinobu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuHitCinema_Nezuko.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Nezuko</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaHitCinema_Kyoujuro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Kyoujuro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroHitCinema_Akaza.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiHitCinema_Tanjiro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroHitCinema_Akaza.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroHitCinema_Kyoujuro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Kyoujuro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroHitCinema_Nezuko.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Nezuko</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroHitCinema_Shinobu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Shinobu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiHitCinema_Akaza.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiHitCinema_Kyoujuro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Kyoujuro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiHitCinema_Nezuko.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Nezuko</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiHitCinema_Shinobu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Shinobu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroHitCinema_Nezuko.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Nezuko</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroHitCinema_Rui.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Rui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroHitCinema_Shinobu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Shinobu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroHitCinema_Tanjiro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Tanjiro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaHitCinema_Nezuko.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Nezuko</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaHitCinema_Rui.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Rui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaHitCinema_Shinobu.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Shinobu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaHitCinema_Tanjiro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Tanjiro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoHitCinema_Akaza.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoHitCinema_Kyoujuro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Kyoujuro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoHitCinema_Rui.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Rui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoHitCinema_Tanjiro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Tanjiro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuHitCinema_Akaza.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuHitCinema_Kyoujuro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Kyoujuro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuHitCinema_Tanjiro.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Tanjiro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuHitCinema_Rui.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Rui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

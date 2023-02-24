@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "..\Public\HitCinema_Shinobu.h"
+#include "NezukoHitCinema_Shinobu.h"
 #include "GameInstance.h"
 #include "NezukoIdleState.h"
 

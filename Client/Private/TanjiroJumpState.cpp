@@ -275,7 +275,6 @@ void CJumpstate::Enter(CTanjiro * pTanjiro)
 			break;
 		}
 	}
-
 }
 
 void CJumpstate::Exit(CTanjiro * pTanjiro)
@@ -352,8 +351,8 @@ CTanjiroState* CJumpstate::Jump(CTanjiro* pTanjiro, _float fTimeDelta)
 			m_bEffect = true;
 		}
 	}
-
-	pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+	else
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
 
 	return nullptr;

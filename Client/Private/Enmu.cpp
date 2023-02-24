@@ -441,5 +441,5 @@ void CEnmu::Free()
 	Safe_Release(m_pSphereCom);
 	Safe_Release(m_pNavigationCom);
 
-	Safe_Delete(m_pRuiDadState);
+	//Safe_Delete(m_pRuiDadState);
 }

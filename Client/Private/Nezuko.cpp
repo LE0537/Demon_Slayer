@@ -17,7 +17,11 @@
 #include "NezukoTakeDownState.h"
 #include "NezukoUpperHitState.h"
 
-#include "HitCinema_Shinobu.h"
+#include "NezukoHitCinema_Shinobu.h"
+#include "NezukoHitCinema_Akaza.h"
+#include "NezukoHitCinema_Kyoujuro.h"
+#include "NezukoHitCinema_Tanjiro.h"
+#include "NezukoHitCinema_Rui.h"
 using namespace Nezuko;
 
 CNezuko::CNezuko(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -675,13 +679,21 @@ void CNezuko::Play_Scene()
 	switch (m_pBattleTarget->Get_PlayerType())
 	{
 	case Client::CCharacters::PLAYER_TANJIRO:
+		pState = new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_START);
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 		break;
 	case Client::CCharacters::PLAYER_KYOUJURO:
+		pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_START);
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 		break;
 	case Client::CCharacters::PLAYER_RUI:
+		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
+		pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_START);
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 		break;
 	case Client::CCharacters::PLAYER_NEZUKO:
 		break;

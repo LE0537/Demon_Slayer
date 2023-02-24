@@ -18,7 +18,11 @@
 #include "KyoujuroUpperHitState.h"
 #include "Effect_Manager.h"
 
-#include "HitCinema_Akaza.h"
+#include "KyoujuroHitCinema_Akaza.h"
+#include "KyoujuroHitCinema_Nezuko.h"
+#include "KyoujuroHitCinema_Rui.h"
+#include "KyoujuroHitCinema_Shinobu.h"
+#include "KyoujuroHitCinema_Tanjiro.h"
 using namespace Kyoujuro;
 
 #include "UI_Manager.h"
@@ -732,21 +736,27 @@ void CKyoujuro::Play_Scene()
 	switch (m_pBattleTarget->Get_PlayerType())
 	{
 	case Client::CCharacters::PLAYER_TANJIRO:
-		//pState = new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_START);
-		//m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+		pState = new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_START);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_KYOUJURO:
 	
 		break;
 	case Client::CCharacters::PLAYER_RUI:
+		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
 		pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_START);
 		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_NEZUKO:
+		pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_START);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_SHINOBU:
+		pState = new CHitCinema_Shinobu(CHitCinema_Shinobu::SCENE_START);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_END:
 		break;

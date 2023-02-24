@@ -23,7 +23,13 @@
 #include "HinoCami_CinemaState.h"
 #include "TanjiroWeapon2.h"
 // 오의히트
-#include "HitCinema_Rui.h"
+#include "TanjiroHitCinema_Rui.h"
+#include "TanjiroHitCinema_Akaza.h"
+#include "TanjiroHitCinema_Kyoujuro.h"
+#include "TanjiroHitCinema_Nezuko.h"
+#include "TanjiroHitCinema_Shinobu.h"
+
+
 #include "Data_Manager.h"
 
 
@@ -720,16 +726,24 @@ void CTanjiro::Play_Scene()
 	case Client::CCharacters::PLAYER_TANJIRO:
 		break;
 	case Client::CCharacters::PLAYER_KYOUJURO:
+		pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_START);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_RUI:
 		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
+		pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_START);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_NEZUKO:
+		pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_START);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_SHINOBU:
+		pState = new CHitCinema_Shinobu(CHitCinema_Shinobu::SCENE_START);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_END:
 		break;

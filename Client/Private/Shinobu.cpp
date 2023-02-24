@@ -21,7 +21,11 @@
 #include "ShinobuUpperHitState.h"
 
 
-#include "HitCinema_Nezuko.h"
+#include "ShinobuHitCinema_Nezuko.h"
+#include "ShinobuHitCinema_Kyoujuro.h"
+#include "ShinobuHitCinema_Akaza.h"
+#include "ShinobuHitCinema_Rui.h"
+#include "ShinobuHitCinema_Tanjiro.h"
 using namespace Shinobu;
 
 CShinobu::CShinobu(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -545,13 +549,21 @@ void CShinobu::Play_Scene()
 	switch (m_pBattleTarget->Get_PlayerType())
 	{
 	case Client::CCharacters::PLAYER_TANJIRO:
+		pState = new CHitCinema_Tanjiro(CHitCinema_Tanjiro::SCENE_START);
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 		break;
 	case Client::CCharacters::PLAYER_KYOUJURO:
+		pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_START);
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 		break;
 	case Client::CCharacters::PLAYER_RUI:
+		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
+		pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_START);
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 		break;
 	case Client::CCharacters::PLAYER_NEZUKO:
 		pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_START);
