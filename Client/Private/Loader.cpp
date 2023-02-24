@@ -37,7 +37,7 @@
 #include "ShinobuSheath.h"
 #include "KyoujuroWeaponMenu.h"
 #include "ShinobuWeaponMenu.h"
-#include "Box.h"
+#include "TanjiroWeapon2.h"
 //UI
 #include "HpBar.h"
 #include "HpBarBack.h"
@@ -1759,13 +1759,25 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CShinobuSheath::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Box"),
-	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/Box/Box.fbx", PivotMatrix))))
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_TanjiroWeapon2"),
+	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/TanjiroWeapon2/TanjiroWeapon2.fbx", PivotMatrix))))
 	return E_FAIL;
-	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Box"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Box"),
-		CBox::Create(m_pDevice, m_pContext))))
+	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TanjiroWeapon2"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TanjiroWeapon2"),
+		CTanjiroWeapon2::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_TanjiroADV"),
+	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/TanjiroADV/TanjiroADV.fbx", PivotMatrix))))
+	//return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TanjiroADV"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Box"),
+	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/Box/Box.fbx", PivotMatrix))))
+	//return E_FAIL;
+	////CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Box"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+	//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Box"),
+	//	CBox::Create(m_pDevice, m_pContext))))
+	//	return E_FAIL;
 
 	_matrix PivotMatrix2 = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_KyoujuroWeaponMenu"),

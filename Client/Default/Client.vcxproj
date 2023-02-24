@@ -227,7 +227,6 @@
     <ClInclude Include="..\public\BaseAtk.h" />
     <ClInclude Include="..\public\BigBird.h" />
     <ClInclude Include="..\public\Bird.h" />
-    <ClInclude Include="..\public\Box.h" />
     <ClInclude Include="..\Public\BtlFixedImg.h" />
     <ClInclude Include="..\public\Butterfly.h" />
     <ClInclude Include="..\Public\ButtonEff.h" />
@@ -566,6 +565,7 @@
     <ClInclude Include="..\Public\TanjiroToolState.h" />
     <ClInclude Include="..\Public\TanjiroUpperHitState.h" />
     <ClInclude Include="..\Public\TanjiroWeapon.h" />
+    <ClInclude Include="..\public\TanjiroWeapon2.h" />
     <ClInclude Include="..\Public\TargetCircle.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\Public\TxtWinLight.h" />
@@ -654,7 +654,6 @@
     <ClCompile Include="..\private\BaseAtk.cpp" />
     <ClCompile Include="..\private\BigBird.cpp" />
     <ClCompile Include="..\private\Bird.cpp" />
-    <ClCompile Include="..\private\Box.cpp" />
     <ClCompile Include="..\Private\BtlFixedImg.cpp" />
     <ClCompile Include="..\private\Butterfly.cpp" />
     <ClCompile Include="..\Private\ButtonEff.cpp" />
@@ -987,6 +986,7 @@
     <ClCompile Include="..\Private\TanjiroToolState.cpp" />
     <ClCompile Include="..\Private\TanjiroUpperHitState.cpp" />
     <ClCompile Include="..\Private\TanjiroWeapon.cpp" />
+    <ClCompile Include="..\private\TanjiroWeapon2.cpp" />
     <ClCompile Include="..\Private\TargetCircle.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\Private\TxtWinLight.cpp" />

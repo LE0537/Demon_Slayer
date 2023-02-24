@@ -222,50 +222,95 @@ CTanjiroState * CMoveJumpState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	_float fDurationTime = 0.f; // 애니메이션 총 시간
 	_float fCurrentTime = 0.f; // 애니메이션 현재 시간
 
-
-	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_START);
-	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_LOOP_START);
-	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_LOOP_END);
-	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_END);
-
-
-
-	if (m_eStateType == CTanjiroState::TYPE_CHANGE)
+	if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 	{
-		return new CMoveState(m_eNextDir, STATE_TYPE::TYPE_LOOP);
-	}
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_START);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_LOOP_START);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_LOOP_END);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_JUMP_END);
 
-
-	else if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
-	{
-		switch (m_eStateType)
+		if (m_eStateType == CTanjiroState::TYPE_CHANGE)
 		{
-		case Client::CTanjiroState::TYPE_START:
-			printf_s("Start Jump \n");
-			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-
-			return new CMoveJumpState(m_eDirection ,STATE_TYPE::TYPE_LOOP, m_fCurrentPosY, m_fJumpTime);
-			break;
-		case Client::CTanjiroState::TYPE_LOOP:
-			printf_s("Loop Jump \n");
-			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-
-			return new CMoveJumpState(m_eDirection, STATE_TYPE::TYPE_END, m_fCurrentPosY, m_fJumpTime);
-			break;
-		case Client::CTanjiroState::TYPE_END:
-			printf_s("End jump \n");
-			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			//return new CJumpstate(STATE_TYPE::TYPE_DEFAULT, m_fCurrentPosY, m_fJumpTime);
-			break;
-		case Client::CTanjiroState::TYPE_DEFAULT:
-			printf_s("Default Jump \n");
-			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			if(m_bMove == false)
-				return new CIdleState(STATE_ID::STATE_JUMP);
-			break;
+			return new CMoveState(m_eNextDir, STATE_TYPE::TYPE_LOOP);
 		}
-		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+
+
+		else if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
+		{
+			switch (m_eStateType)
+			{
+			case Client::CTanjiroState::TYPE_START:
+				printf_s("Start Jump \n");
+				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+
+				return new CMoveJumpState(m_eDirection, STATE_TYPE::TYPE_LOOP, m_fCurrentPosY, m_fJumpTime);
+				break;
+			case Client::CTanjiroState::TYPE_LOOP:
+				printf_s("Loop Jump \n");
+				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+
+				return new CMoveJumpState(m_eDirection, STATE_TYPE::TYPE_END, m_fCurrentPosY, m_fJumpTime);
+				break;
+			case Client::CTanjiroState::TYPE_END:
+				printf_s("End jump \n");
+				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+				//return new CJumpstate(STATE_TYPE::TYPE_DEFAULT, m_fCurrentPosY, m_fJumpTime);
+				break;
+			case Client::CTanjiroState::TYPE_DEFAULT:
+				printf_s("Default Jump \n");
+				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+				if (m_bMove == false)
+					return new CIdleState(STATE_ID::STATE_JUMP);
+				break;
+			}
+			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+		}
 	}
+	else
+	{
+		pTanjiro->Get_ModelADV()->Set_Loop(0);
+		pTanjiro->Get_ModelADV()->Set_Loop(1);
+		pTanjiro->Get_ModelADV()->Set_Loop(2);
+		pTanjiro->Get_ModelADV()->Set_Loop(3);
+
+		if (m_eStateType == CTanjiroState::TYPE_CHANGE)
+		{
+			return new CMoveState(m_eNextDir, STATE_TYPE::TYPE_LOOP);
+		}
+		else if (pTanjiro->Get_ModelADV()->Get_End(pTanjiro->Get_ADVAnimIndex()))
+		{
+			switch (m_eStateType)
+			{
+			case Client::CTanjiroState::TYPE_START:
+				printf_s("Start Jump \n");
+				pTanjiro->Get_ModelADV()->Set_End(pTanjiro->Get_ADVAnimIndex());
+
+				return new CMoveJumpState(m_eDirection, STATE_TYPE::TYPE_LOOP, m_fCurrentPosY, m_fJumpTime);
+				break;
+			case Client::CTanjiroState::TYPE_LOOP:
+				printf_s("Loop Jump \n");
+				pTanjiro->Get_ModelADV()->Set_End(pTanjiro->Get_ADVAnimIndex());
+
+				return new CMoveJumpState(m_eDirection, STATE_TYPE::TYPE_END, m_fCurrentPosY, m_fJumpTime);
+				break;
+			case Client::CTanjiroState::TYPE_END:
+				printf_s("End jump \n");
+				pTanjiro->Get_ModelADV()->Set_End(pTanjiro->Get_ADVAnimIndex());
+				//return new CJumpstate(STATE_TYPE::TYPE_DEFAULT, m_fCurrentPosY, m_fJumpTime);
+				break;
+			case Client::CTanjiroState::TYPE_DEFAULT:
+				printf_s("Default Jump \n");
+				pTanjiro->Get_ModelADV()->Set_End(pTanjiro->Get_ADVAnimIndex());
+				if (m_bMove == false)
+					return new CIdleState(STATE_ID::STATE_JUMP);
+				break;
+			}
+			pTanjiro->Get_ModelADV()->Set_End(pTanjiro->Get_ADVAnimIndex());
+		}
+	}
+
+
+
 
 
 	
@@ -275,26 +320,50 @@ CTanjiroState * CMoveJumpState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 CTanjiroState * CMoveJumpState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	if (m_eStateType == TYPE_START)
+	if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 	{
-		if (!m_bEffect)
+		if (m_eStateType == TYPE_START)
 		{
-			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			if (!m_bEffect)
+			{
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pTanjiro);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pTanjiro);
 
-			RELEASE_INSTANCE(CEffect_Manager);
-			m_bEffect = true;
+				RELEASE_INSTANCE(CEffect_Manager);
+				m_bEffect = true;
+			}
+			pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 3.f);
 		}
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 3.f);
+		else if (m_eStateType == TYPE_LOOP)
+			pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
+		else if (m_eStateType == TYPE_DEFAULT)
+			pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
+		else
+			pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 	}
-	else if (m_eStateType == TYPE_LOOP)
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
-	else if (m_eStateType == TYPE_DEFAULT)
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta * 1.5f);
 	else
-		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	{
+		if (m_eStateType == TYPE_START)
+		{
+			if (!m_bEffect)
+			{
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pTanjiro);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+				m_bEffect = true;
+			}
+			pTanjiro->Get_ModelADV()->Play_Animation(fTimeDelta * 3.f);
+		}
+		else if (m_eStateType == TYPE_LOOP)
+			pTanjiro->Get_ModelADV()->Play_Animation(fTimeDelta * 1.5f);
+		else if (m_eStateType == TYPE_DEFAULT)
+			pTanjiro->Get_ModelADV()->Play_Animation(fTimeDelta * 1.5f);
+		else
+			pTanjiro->Get_ModelADV()->Play_Animation(fTimeDelta);
+	}
 	m_fJumpTime += 0.035f;
 
 	if (m_eStateType != TYPE_DEFAULT && m_eStateType != TYPE_CHANGE)
@@ -312,45 +381,84 @@ void CMoveJumpState::Enter(CTanjiro * pTanjiro)
 	m_eStateId = CTanjiroState::STATE_JUMP;
 	
 	_uint iRand = rand() % 3;
-
-	switch (m_eStateType)
+	if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 	{
-	case Client::CTanjiroState::TYPE_START:
-		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_START);
-		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_START, 0.01f);
-		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_START);
-		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_0.wav"), fVOICE);
-		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_1.wav"), fVOICE);
-		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_2.wav"), fVOICE);
+		switch (m_eStateType)
+		{
+		case Client::CTanjiroState::TYPE_START:
+			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_START);
+			pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_START, 0.01f);
+			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_START);
+			if (iRand == 0)
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_0.wav"), fVOICE);
+			else if (iRand == 1)
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_1.wav"), fVOICE);
+			else if (iRand == 2)
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_2.wav"), fVOICE);
 
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), fEFFECT);
-		break;
-	case Client::CTanjiroState::TYPE_LOOP:
-		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_LOOP_START);
-		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_LOOP_START, 0.01f);
-		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_LOOP_START);
-		break;
-	case Client::CTanjiroState::TYPE_END:
-		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_LOOP_END);
-		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_LOOP_END, 0.01f);
-		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_LOOP_END);
-		break;
-	case Client::CTanjiroState::TYPE_DEFAULT:
-		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_END);
-		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_END);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), fEFFECT);
-		break;
-	case Client::CTanjiroState::TYPE_CHANGE:
-		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_MOVE_LOOP);
-		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_LOOP);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), fEFFECT);
+			break;
+		case Client::CTanjiroState::TYPE_LOOP:
+			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_LOOP_START);
+			pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_LOOP_START, 0.01f);
+			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_LOOP_START);
+			break;
+		case Client::CTanjiroState::TYPE_END:
+			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_LOOP_END);
+			pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_JUMP_LOOP_END, 0.01f);
+			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_LOOP_END);
+			break;
+		case Client::CTanjiroState::TYPE_DEFAULT:
+			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_END);
+			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_END);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), fEFFECT);
+			break;
+		case Client::CTanjiroState::TYPE_CHANGE:
+			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_MOVE_LOOP);
+			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_LOOP);
 
-		break;
+			break;
+		}
 	}
+	else
+	{
+		switch (m_eStateType)
+		{
+		case Client::CTanjiroState::TYPE_START:
+			pTanjiro->Get_ModelADV()->Set_CurrentAnimIndex(0);
+			pTanjiro->Get_ModelADV()->Set_LinearTime(0, 0.01f);
+			pTanjiro->Set_ADVAnimIndex(0);
+			if (iRand == 0)
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_0.wav"), fVOICE);
+			else if (iRand == 1)
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_1.wav"), fVOICE);
+			else if (iRand == 2)
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_2.wav"), fVOICE);
 
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), fEFFECT);
+			break;
+		case Client::CTanjiroState::TYPE_LOOP:
+			pTanjiro->Get_ModelADV()->Set_CurrentAnimIndex(1);
+			pTanjiro->Get_ModelADV()->Set_LinearTime(1, 0.01f);
+			pTanjiro->Set_ADVAnimIndex(1);
+			break;
+		case Client::CTanjiroState::TYPE_END:
+			pTanjiro->Get_ModelADV()->Set_CurrentAnimIndex(2);
+			pTanjiro->Get_ModelADV()->Set_LinearTime(2, 0.01f);
+			pTanjiro->Set_ADVAnimIndex(2);
+			break;
+		case Client::CTanjiroState::TYPE_DEFAULT:
+			pTanjiro->Get_ModelADV()->Set_CurrentAnimIndex(3);
+			pTanjiro->Set_ADVAnimIndex(3);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), fEFFECT);
+			break;
+		case Client::CTanjiroState::TYPE_CHANGE:
+			pTanjiro->Get_ModelADV()->Set_CurrentAnimIndex(5);
+			pTanjiro->Set_ADVAnimIndex(5);
 
+			break;
+		}
+	}
 }
 
 void CMoveJumpState::Exit(CTanjiro * pTanjiro)
@@ -495,18 +603,35 @@ CTanjiroState*  CMoveJumpState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 		m_fJumpTime = 0.f;
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		pTanjiro->Get_Transform()->Set_Jump(false);
-
-		if (m_bMove == false)
+		if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 		{
-			m_eStateType = CTanjiroState::TYPE_DEFAULT;
-			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_END);
-			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_END);
+			if (m_bMove == false)
+			{
+				m_eStateType = CTanjiroState::TYPE_DEFAULT;
+				pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_JUMP_END);
+				pTanjiro->Set_AnimIndex(CTanjiro::ANIM_JUMP_END);
+			}
+			else
+			{
+				m_eStateType = CTanjiroState::TYPE_CHANGE;
+				pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_MOVE_LOOP);
+				pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_LOOP);
+			}
 		}
 		else
 		{
-			m_eStateType = CTanjiroState::TYPE_CHANGE;
-			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_MOVE_LOOP);
-			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_LOOP);
+			if (m_bMove == false)
+			{
+				m_eStateType = CTanjiroState::TYPE_DEFAULT;
+				pTanjiro->Get_ModelADV()->Set_CurrentAnimIndex(3);
+				pTanjiro->Set_ADVAnimIndex(3);
+			}
+			else
+			{
+				m_eStateType = CTanjiroState::TYPE_CHANGE;
+				pTanjiro->Get_ModelADV()->Set_CurrentAnimIndex(5);
+				pTanjiro->Set_ADVAnimIndex(5);
+			}
 		}
 		if (!m_bEffect)
 		{

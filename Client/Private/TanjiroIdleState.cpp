@@ -31,7 +31,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pTanjiro->Set_bGuard(false);
 	pTanjiro->Set_SplSkl(false);
-	pTanjiro->Set_IDLE(true);
+
 	//if (pGameInstance->Key_Down(DIK_2) && pTanjiro->Get_StoryKey())
 	//{
 	//	_vector vPos = { -335.479f,42.501f,-328.243f,1.f };
@@ -41,7 +41,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 	//}
 
 
-	if (!pTanjiro->Get_PlayerInfo().bChange)
+	if (!pTanjiro->Get_PlayerInfo().bChange && g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 	{
 		switch (pTanjiro->Get_i1P())
 		{
@@ -287,6 +287,42 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			break;
 		}
 	}
+	else
+	{
+
+		if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
+		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // аб
+				return new CMoveState(OBJDIR::DIR_LF, STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л
+				return new CMoveState(OBJDIR::DIR_RF, STATE_TYPE::TYPE_START);
+			else
+				return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
+		}
+
+		else if (pGameInstance->Key_Pressing(DIK_D)) // ╣з
+		{
+			if (pGameInstance->Key_Pressing(DIK_A)) // аб
+				return new CMoveState(OBJDIR::DIR_LB, STATE_TYPE::TYPE_START);
+			else if (pGameInstance->Key_Pressing(DIK_D)) // ©Л 
+				return new CMoveState(OBJDIR::DIR_RB, STATE_TYPE::TYPE_START);
+			else
+				return new CMoveState(OBJDIR::DIR_RIGHT, STATE_TYPE::TYPE_START);
+		}
+
+
+		else if (pGameInstance->Key_Pressing(DIK_A)) // аб
+			return new CMoveState(OBJDIR::DIR_LEFT, STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Pressing(DIK_S)) // ©Л
+			return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+		else if (pGameInstance->Key_Down(DIK_SPACE)) // а║га
+		{
+			_vector vPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			_float fPositionY = XMVectorGetY(vPosition);
+			return new CJumpstate(STATE_TYPE::TYPE_START, fPositionY, 0.f);
+		}
+		
+	}
 	return nullptr;
 }
 
@@ -303,10 +339,21 @@ CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	if (ePreState == STATE_HIT || ePreState == STATE_MOVE)
 	{
-		if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
+		if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 		{
-			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			return new CIdleState(STATE_IDLE);
+			if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
+			{
+				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+				return new CIdleState(STATE_IDLE);
+			}
+		}
+		else
+		{
+			if (pTanjiro->Get_ModelADV()->Get_End(pTanjiro->Get_ADVAnimIndex()))
+			{
+				pTanjiro->Get_ModelADV()->Set_End(pTanjiro->Get_ADVAnimIndex());
+				return new CIdleState(STATE_IDLE);
+			}
 		}
 	}
 
@@ -326,11 +373,10 @@ CTanjiroState * CIdleState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	//	pTanjiro->Get_Model()->Play_Animation2(fTimeDelta);
 	//}
 	//else
-
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
-
-
-
+	if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
+		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	else
+		pTanjiro->Get_ModelADV()->Play_Animation(fTimeDelta);
 
 	_vector vPlayerY = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	pTanjiro->Set_NavigationHeight(vPlayerY);
@@ -421,10 +467,20 @@ void CIdleState::Enter(CTanjiro * pTanjiro)
 	//else
 	if (ePreState == STATE_MOVE)
 	{
-		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_END);
-		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_END);
-		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
-		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_MOVE_END, 0.01f);
+		if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
+		{
+			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_MOVE_END);
+			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_MOVE_END);
+			pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
+			pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_MOVE_END, 0.01f);
+		}
+		else
+		{
+			pTanjiro->Get_ModelADV()->Set_CurrentAnimIndex(6);
+			pTanjiro->Set_ADVAnimIndex(6);
+			pTanjiro->Get_ModelADV()->Set_Loop(pTanjiro->Get_ADVAnimIndex());
+			pTanjiro->Get_ModelADV()->Set_LinearTime(6, 0.01f);
+		}
 	}
 	else
 	{
@@ -433,10 +489,20 @@ void CIdleState::Enter(CTanjiro * pTanjiro)
 
 		pTanjiro->Set_GodMode(false);
 		//pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_IDLE);
-		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_IDLE);
-		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_IDLE);
-		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_IDLE, 0.05f);
-		pTanjiro->Get_Model()->Set_FrameNum(pTanjiro->Get_AnimIndex(), 100);
+		if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
+		{
+			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_IDLE);
+			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_IDLE);
+			pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_IDLE, 0.05f);
+			pTanjiro->Get_Model()->Set_FrameNum(pTanjiro->Get_AnimIndex(), 100);
+		}
+		else
+		{
+			pTanjiro->Get_ModelADV()->Set_CurrentAnimIndex(4);
+			pTanjiro->Set_ADVAnimIndex(4);
+			pTanjiro->Get_ModelADV()->Set_LinearTime(4, 0.05f);
+			pTanjiro->Get_ModelADV()->Set_FrameNum(pTanjiro->Get_ADVAnimIndex(), 100);
+		}
 	}
 
 }

@@ -21,10 +21,10 @@
 #include "TanjiroUpperHitState.h"
 #include "Effect.h"
 #include "HinoCami_CinemaState.h"
-#include "Box.h"
+#include "TanjiroWeapon2.h"
 // 오의히트
 #include "HitCinema_Rui.h"
-
+#include "Data_Manager.h"
 
 
 #include "Level_Loading.h"
@@ -60,7 +60,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		return E_FAIL;
 	if (FAILED(Ready_Parts2()))
 		return E_FAIL;
-	if (FAILED(Ready_PartsBox()))
+	if (FAILED(Ready_Parts3()))
 		return E_FAIL;
 
 	if (m_i1p != 10 && m_i1p != 20)
@@ -261,46 +261,45 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 	if (!m_bChange)
 	{
 		LateTickState(fTimeDelta);
-
-		m_pWeapon->Tick(fTimeDelta);
-		m_pSheath->Tick(fTimeDelta);
-
-		if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+		if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 		{
-			if (m_bIDLE)
-			{
-				dynamic_cast<CBox*>(m_pBox)->Set_Rot();
-			}
-			m_pBox->Tick(fTimeDelta);
+			m_pWeapon->Tick(fTimeDelta);
+			m_pSheath->Tick(fTimeDelta);
 		}
-
+		else
+		{
+			m_pWeapon2->Tick(fTimeDelta);
+		}
 		if (m_bSplSkl)
 		{
 			Check_Spl();
 		}
 
-		
+
 		if (!m_bRender && m_bSceneRender)
 
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
-			dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);
-			dynamic_cast<CTanjiroSheath*>(m_pSheath)->Set_Render(true);
-
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
-			if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+			if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 			{
-				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pBox);
-				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pBox);
+				dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);
+				dynamic_cast<CTanjiroSheath*>(m_pSheath)->Set_Render(true);
+
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pSheath);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
+			}
+			else
+			{
+				dynamic_cast<CTanjiroWeapon2*>(m_pWeapon2)->Set_Render(true);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon2);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon2);
 			}
 		}
 
- 		if (g_bCollBox)
+		if (g_bCollBox)
 		{
 			m_pRendererCom->Add_Debug(m_pSphereCom);
 		}
@@ -322,28 +321,30 @@ HRESULT CTanjiro::Render()
 
 	//m_pNavigationCom->Render();
 
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
-	{
-		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-			return E_FAIL;
-		if (i == 0 || i == 1)
-		{
-			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_MaskTexture", i, aiTextureType_NORMALS)))
-				return E_FAIL;
-
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
-				return E_FAIL;
-		}
-		else
-		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-				return E_FAIL;
-		}
-	}
+	_uint		iNumMeshes = 0;
 	if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 	{
+		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
+
+		for (_uint i = 0; i < iNumMeshes; ++i)
+		{
+			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+				return E_FAIL;
+			if (i == 0 || i == 1)
+			{
+				if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_MaskTexture", i, aiTextureType_NORMALS)))
+					return E_FAIL;
+
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+					return E_FAIL;
+			}
+		}
+
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 		if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y
 			&& -50000.f == XMVectorGetX(m_pSubChar->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
@@ -555,6 +556,29 @@ HRESULT CTanjiro::Render()
 			}
 		}
 	}
+	else
+	{
+		iNumMeshes = m_pModelADVCom->Get_NumMeshContainers();
+
+		for (_uint i = 0; i < iNumMeshes; ++i)
+		{
+			if (FAILED(m_pModelADVCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+				return E_FAIL;
+			if (i == 0 || i == 1)
+			{
+				if (FAILED(m_pModelADVCom->SetUp_Material(m_pShaderCom, "g_MaskTexture", i, aiTextureType_NORMALS)))
+					return E_FAIL;
+
+				if (FAILED(m_pModelADVCom->Render(m_pShaderCom, i, 2)))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(m_pModelADVCom->Render(m_pShaderCom, i, 0)))
+					return E_FAIL;
+			}
+		}
+	}
 	RELEASE_INSTANCE(CGameInstance);
 
 
@@ -597,20 +621,35 @@ HRESULT CTanjiro::Render_ShadowDepth()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_fFar", &g_fFar, sizeof(_float))))
 		return E_FAIL;
 
-
-
-	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
-
-	for (_uint i = 0; i < iNumMeshes; ++i)
+	_uint		iNumMeshes = 0;
+	if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 	{
-		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-			return E_FAIL;
+		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 1)))
-			return E_FAIL;
+		for (_uint i = 0; i < iNumMeshes; ++i)
+		{
+			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+				return E_FAIL;
 
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 1)))
+				return E_FAIL;
+
+		}
 	}
+	else
+	{
+		iNumMeshes = m_pModelADVCom->Get_NumMeshContainers();
 
+		for (_uint i = 0; i < iNumMeshes; ++i)
+		{
+			if (FAILED(m_pModelADVCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+				return E_FAIL;
+
+			if (FAILED(m_pModelADVCom->Render(m_pShaderCom, i, 1)))
+				return E_FAIL;
+
+		}
+	}
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
@@ -754,6 +793,8 @@ HRESULT CTanjiro::Ready_Components()
 
 	/* For.Com_Model*/
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Tanjiro"), (CComponent**)&m_pModelCom)))
+		return E_FAIL;
+	if (FAILED(__super::Add_Components(TEXT("Com_ModelADV"), LEVEL_STATIC, TEXT("TanjiroADV"), (CComponent**)&m_pModelADVCom)))
 		return E_FAIL;
 
 	CCollider::COLLIDERDESC		ColliderDesc;
@@ -1110,7 +1151,7 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 				m_bQuest2_2MSG = true;
 			}
 		}
-		else 
+		else
 		{
 			if (!m_bQuest3)
 			{
@@ -1188,8 +1229,8 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 			}
 		}
 	}
-		RELEASE_INSTANCE(CUI_Manager);
-		RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CGameInstance);
 }
 
 
@@ -1286,15 +1327,16 @@ HRESULT CTanjiro::Ready_Parts2()
 
 	return S_OK;
 }
-HRESULT CTanjiro::Ready_PartsBox()
+
+HRESULT CTanjiro::Ready_Parts3()
 {
-	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Box_1_P0001_V00_C15");
+	CHierarchyNode*		pSocket = m_pModelADVCom->Get_BonePtr("L_Weapon_1");
 	if (nullptr == pSocket)
 		return E_FAIL;
 
-	CBox::WEAPONDESC		WeaponDesc;
+	CTanjiroWeapon2::WEAPONDESC		WeaponDesc;
 	WeaponDesc.pSocket = pSocket;
-	WeaponDesc.SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	WeaponDesc.SocketPivotMatrix = m_pModelADVCom->Get_PivotFloat4x4();
 	WeaponDesc.pParentWorldMatrix = m_pTransformCom->Get_World4x4Ptr();
 	if (m_i1p == 10)
 		WeaponDesc.bStory = true;
@@ -1304,14 +1346,15 @@ HRESULT CTanjiro::Ready_PartsBox()
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	m_pBox = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_Box"), &WeaponDesc);
-	if (nullptr == m_pBox)
+	m_pWeapon2 = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_TanjiroWeapon2"), &WeaponDesc);
+	if (nullptr == m_pWeapon2)
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;
 }
+
 void CTanjiro::Set_Info()
 {
 	m_tInfo.strName = TEXT("탄지로");
@@ -1348,7 +1391,7 @@ void CTanjiro::Check_Spl()
 		m_bSplEffect = true;
 	}
 	dynamic_cast<CEffect*>(m_pEffect)->Set_ParentWorldMatrix(dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorldMatrix());
-} 
+}
 CTanjiro * CTanjiro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
 	CTanjiro*	pInstance = new CTanjiro(pDevice, pContext);
@@ -1381,9 +1424,10 @@ void CTanjiro::Free()
 
 	Safe_Release(m_pSphereCom);
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pModelADVCom);
 	Safe_Delete(m_pTanjiroState);
 	Safe_Release(m_pWeapon);
+	Safe_Release(m_pWeapon2);
 	Safe_Release(m_pSheath);
-	Safe_Release(m_pBox);
 	Safe_Release(m_pNavigationCom);
 }

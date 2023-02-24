@@ -168,6 +168,7 @@ public:
 public:
 	//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
 	CModel* Get_Model() const { return m_pModelCom; }
+	CModel* Get_ModelADV() const { return m_pModelADVCom; }
 
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
@@ -202,9 +203,8 @@ public:
 	_bool Get_Quest3MSG() { return m_bQuest3MSG; }
 	void Set_Stop(_bool _bStop) { m_bStop = _bStop; }
 	_bool Get_Stop() { return m_bStop; }
-
-	void Set_IDLE(_bool _bIDLE) { m_bIDLE = _bIDLE; }
-
+	void Set_ADVAnimIndex(_int _iIndex) { m_iAnimIndex = _iIndex; }
+	_int Get_ADVAnimIndex() { return m_iAnimIndex; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -217,15 +217,18 @@ private:
 	void LateTickState(_float fTimeDelta);
 	HRESULT Ready_Parts();
 	HRESULT Ready_Parts2();
-	HRESULT Ready_PartsBox();
+	HRESULT Ready_Parts3();
+
 	void	Set_Info();
 	void    Check_Spl();
 private:
 	CModel*					m_pModelCom = nullptr;
+	CModel*					m_pModelADVCom = nullptr;
 
 	CGameObject*			m_pWeapon = nullptr;
+	CGameObject*			m_pWeapon2 = nullptr;
 	CGameObject*			m_pSheath = nullptr;
-	CGameObject*			m_pBox = nullptr;
+
 	_float					m_fHpTime = 0.f;
 	_int					m_iSkillHit = 0;
 	_int					m_iWaterMillHit = 0;
@@ -247,7 +250,7 @@ private:
 	_bool					m_bQuest3_2MSG = false;
 	_bool					m_bSoundCheck = false;
 
-	_bool					m_bIDLE = false;
+	_int					m_iAnimIndex = 0;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

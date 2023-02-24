@@ -1300,8 +1300,8 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState\Shinobu">
       <UniqueIdentifier>{5069f05b-0848-4b4b-9907-92252a6a5078}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Box">
-      <UniqueIdentifier>{0e58a6b2-45c2-4c83-8cbc-0d4e8c6d285d}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon2">
+      <UniqueIdentifier>{e5cd0aea-f79b-4175-8aed-a3caea569443}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2580,8 +2580,8 @@
     <ClInclude Include="..\Public\HitCinema_Nezuko.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Nezuko</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Box.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Box</Filter>
+    <ClInclude Include="..\public\TanjiroWeapon2.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3833,8 +3833,8 @@
     <ClCompile Include="..\Private\HitCinema_Nezuko.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\CinemaState\Nezuko</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Box.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Box</Filter>
+    <ClCompile Include="..\private\TanjiroWeapon2.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
