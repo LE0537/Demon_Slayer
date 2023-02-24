@@ -29,6 +29,8 @@ public:
 	void Set_Pos(_float fX, _float fY, _float fZ);
 	void Set_Pos(_float3 vPos[4]);
 	void	Set_Rendering(_bool bTrueisOn) { m_bRender = bTrueisOn; }
+	void	Set_Color(_float3 vColor) { m_vColor = vColor; }
+	void	Set_SphereSize(_float fSphereRadius) { m_fSphereSize = fSphereRadius; }
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -47,6 +49,8 @@ private:
 	CVIBuffer_Line*			m_pVIBuffer_LineCom = nullptr;
 
 	_bool		m_bRender = true;
+
+	_float			m_fSphereSize = 0.1f;
 
 private:/*Cube*/
 	CShader*			m_pShader_ModelCom = nullptr;
