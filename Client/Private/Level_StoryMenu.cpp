@@ -21,6 +21,7 @@ HRESULT CLevel_StoryMenu::Initialize()
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	pUI_Manager->Add_Adc_Menu();
 	pUI_Manager->RankInfo_ZeroMemory(0);
+	pUI_Manager->Reset_Data();
 	RELEASE_INSTANCE(CUI_Manager);
 
 	if (FAILED(__super::Initialize()))

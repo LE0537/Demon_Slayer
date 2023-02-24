@@ -162,6 +162,8 @@ void CGoto::Check_Event()
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	if (fDist < 5.f)
 	{
+		pUIManager->Set_NpcForUI(this);
+		m_bInteractionCheck = true;
 		if (!m_bMsgEnd)
 		{
 			if (!m_MsgReset)
@@ -244,8 +246,11 @@ void CGoto::Check_Event()
 	}
 	else
 	{
-		if(!m_bMsgEnd)
+		if (!m_bMsgEnd)
 			pUIManager->Set_InteractionOff();
+
+		pUIManager->Set_NpcForUI(nullptr);
+		m_bInteractionCheck = false;
 	}
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);

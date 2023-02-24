@@ -25,7 +25,8 @@ private:
 
 private:
 	_float					m_fFadeTime = 0.f;
-
+	_uint					m_iLayerNum = 0;
+	_bool					m_bFadeInCheck = false;
 
 public:
 	static CQuiestKeyUI* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

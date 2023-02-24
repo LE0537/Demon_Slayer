@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "MsgTextBase.h"
 #include "UI_Manager.h"
+#include "Door.h"
 
 CQuiestKeyUI::CQuiestKeyUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -24,29 +25,31 @@ HRESULT CQuiestKeyUI::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
-
-	m_fSizeX = m_ThrowUIinfo.vScale.x;
-	m_fSizeY = m_ThrowUIinfo.vScale.y;
-	m_fX = m_ThrowUIinfo.vPos.x;
-	m_fY = m_ThrowUIinfo.vPos.y;
+	if (g_iLevel == LEVEL_ADVRUI)
+	{
+		memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
+		m_iImgNum = m_ThrowUIinfo.iLayerNum;
+		m_fSizeX = m_ThrowUIinfo.vScale.x;
+		m_fSizeY = m_ThrowUIinfo.vScale.y;
+		m_fX = m_ThrowUIinfo.vPos.x;
+		m_fY = m_ThrowUIinfo.vPos.y;
+	}
+	else
+	{
+		memcpy(&m_iLayerNum, pArg, sizeof(_uint));
+		m_iImgNum = 2;
+		m_fSizeX = 50.f;
+		m_fSizeY = 50.f;
+		m_fX = 830.f;
+		m_fY = 360.f;
+	}
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
-
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
-
-	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-
-	if (!m_ThrowUIinfo.bReversal)
-		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
-	else
-		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-	m_iImgNum = m_ThrowUIinfo.iLayerNum;
+	
 	return S_OK;
 }
 
@@ -54,35 +57,68 @@ void CQuiestKeyUI::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (m_ThrowUIinfo.iLayerNum == 0 || m_ThrowUIinfo.iLayerNum == 1)
+	if (g_iLevel == LEVEL_ADVRUI)
 	{
-		if (!pUI_Manager->Get_MsgOnOff())
+		if (m_ThrowUIinfo.iLayerNum == 0 || m_ThrowUIinfo.iLayerNum == 1)
 		{
-			m_fFadeTime += 0.2f;
-			if (m_fFadeTime >= 1.f)
-				m_fFadeTime = 1.f;
+			if (!pUI_Manager->Get_MsgOnOff())
+			{
+				m_fFadeTime += 0.2f;
+				if (m_fFadeTime >= 1.f)
+					m_fFadeTime = 1.f;
+			}
+			else
+			{
+				m_fFadeTime -= 0.2f;
+				if (m_fFadeTime <= 0.f)
+					m_fFadeTime = 0.f;
+			}
 		}
 		else
 		{
-			m_fFadeTime -= 0.2f;
-			if (m_fFadeTime <= 0.f)
-				m_fFadeTime = 0.f;
+
 		}
+		
 	}
-	else
+	else if(g_iLevel == LEVEL_ADVAKAZA)
 	{
-		if (pUI_Manager->Get_InteractionOnOff())
+		if (m_ThrowUIinfo.iLayerNum == 2)
 		{
-			m_fFadeTime += 0.2f;
-			if (m_fFadeTime >= 1.f)
-				m_fFadeTime = 1.f;
+			if (pUI_Manager->Get_InteractionOnOff())
+			{
+				m_fFadeTime += 0.2f;
+				if (m_fFadeTime >= 1.f)
+				{
+					m_fFadeTime = 1.f;
+					m_bFadeInCheck = true;
+				}
+			}
+
+			if (m_bFadeInCheck && !pUI_Manager->Get_InteractionOnOff())
+			{
+				m_fFadeTime -= 0.2f;
+				if (m_fFadeTime <= 0.f)
+				{
+					m_fFadeTime = 0.f;
+					m_bDead = true;
+				}
+			}
 		}
 		else
 		{
-			m_fFadeTime -= 0.2f;
-			if (m_fFadeTime <= 0.f)
-				m_fFadeTime = 0.f;
-		}
+			if (!pUI_Manager->Get_MsgOnOff())
+			{
+				m_fFadeTime += 0.2f;
+				if (m_fFadeTime >= 1.f)
+					m_fFadeTime = 1.f;
+			}
+			else
+			{
+				m_fFadeTime -= 0.2f;
+				if (m_fFadeTime <= 0.f)
+					m_fFadeTime = 0.f;
+			}
+		}	
 	}
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
@@ -106,8 +142,24 @@ HRESULT CQuiestKeyUI::Render()
 		return E_FAIL;
 
 	m_pShaderCom->Begin(12);
+
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	
-	m_pVIBufferCom->Render();
+	if(g_iLevel == LEVEL_ADVRUI)
+		m_pVIBufferCom->Render();
+	else if (g_iLevel == LEVEL_ADVAKAZA)
+	{
+		if(m_ThrowUIinfo.iLayerNum == 1)
+			m_pVIBufferCom->Render();
+
+		for (auto iter : pUI_Manager->Get_vecDoorInfo())
+		{
+			if (iter.iModelIndex == m_iLayerNum && dynamic_cast<CDoor*>(iter.pDoor)->Get_ColCheck())
+				m_pVIBufferCom->Render();
+		}
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }

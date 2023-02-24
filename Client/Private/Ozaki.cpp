@@ -213,6 +213,8 @@ void COzaki::Check_Event()
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	if (fDist < 5.f)
 	{
+		pUIManager->Set_NpcForUI(this);
+		m_bInteractionCheck = true;
 		if (!m_bMsgEnd)
 		{
 			if (!m_MsgReset)
@@ -282,6 +284,9 @@ void COzaki::Check_Event()
 	}
 	else
 	{
+		pUIManager->Set_NpcForUI(nullptr);
+		m_bInteractionCheck = false;
+
 		if (!m_bMsgEnd)
 			pUIManager->Set_InteractionOff();
 	}

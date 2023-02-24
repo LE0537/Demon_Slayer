@@ -72,8 +72,10 @@ void CMurata::Tick(_float fTimeDelta)
 		
 		if (fDist <= 3.f)
 		{
-	
 			CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+			pUIManager->Set_NpcForUI(this);
+			m_bInteractionCheck = true;
+			
 			if (!m_bSetPos)
 			{
 				_float4 vPos;
@@ -378,6 +380,9 @@ void CMurata::Check_Event()
 	{
 		if (!m_bMsgEnd)
 			pUIManager->Set_InteractionOff();
+
+		pUIManager->Set_NpcForUI(nullptr);
+		m_bInteractionCheck = false;
 	}
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
