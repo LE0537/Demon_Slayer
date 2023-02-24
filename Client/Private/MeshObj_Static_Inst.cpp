@@ -64,7 +64,7 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	
 	m_bInit = false;
 
-	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
 	{
 		switch (m_tMyDesc.iTypeNum)
 		{
@@ -125,7 +125,7 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 	}
 
 
-	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
 	{
 		Move_Mesh(fTimeDelta);
 	}
@@ -410,7 +410,7 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2106: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar1_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
 	case 2107:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar2_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
 	case 2108:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainDoor_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;
-
+	case 2112:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Enmu_Wall_Instancing"); m_fFrustumRadiusRatio = 20.f; break;
 	}
 
 

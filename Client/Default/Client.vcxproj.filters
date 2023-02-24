@@ -1303,6 +1303,27 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon2">
       <UniqueIdentifier>{e5cd0aea-f79b-4175-8aed-a3caea569443}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\11.Boss_Enmu">
+      <UniqueIdentifier>{9a3630de-050b-4c54-8db5-6b382f2a0b4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos">
+      <UniqueIdentifier>{d2406d6f-f757-4c76-93b2-e28c77a74059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\00.Head">
+      <UniqueIdentifier>{cd5c02a7-0c2f-42e3-99fd-544bcc0aa837}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\01.Shield">
+      <UniqueIdentifier>{80234578-d400-4a08-9534-2d0e8a45144c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\02.Right_Hand">
+      <UniqueIdentifier>{d51964f8-276a-466c-847a-1138d9042a3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\03.Left_Hand">
+      <UniqueIdentifier>{66a77bc3-5752-442f-8c42-62e04563cf72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\04.Chok">
+      <UniqueIdentifier>{1551f753-176e-4ca3-b02b-4a9ce084df68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2583,6 +2604,24 @@
     <ClInclude Include="..\public\TanjiroWeapon2.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon2</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_BossEnmu.h">
+      <Filter>01.Levels\11.Boss_Enmu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Enmu_Chaos_Head.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\00.Head</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Enmu_Shield.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\01.Shield</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Enmu_Right_Hand.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\02.Right_Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Enmu_Left_Hand.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\03.Left_Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Enmu_Chok.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\04.Chok</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3835,6 +3874,24 @@
     </ClCompile>
     <ClCompile Include="..\private\TanjiroWeapon2.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\Weapon2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_BossEnmu.cpp">
+      <Filter>01.Levels\11.Boss_Enmu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Enmu_Chaos_Head.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\00.Head</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Enmu_Shield.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\01.Shield</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Enmu_Right_Hand.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\02.Right_Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Enmu_Left_Hand.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\03.Left_Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Enmu_Chok.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\04.Chok</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

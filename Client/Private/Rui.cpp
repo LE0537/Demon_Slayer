@@ -122,9 +122,13 @@ HRESULT CRui::Initialize(void * pArg)
 	else if (m_i1p == 22)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
-		_vector vPos = { -0.302f, 16.420f, 192.321f,1.f };
+		_vector vPos;
+		if(g_iLevel == LEVEL_BATTLEENMU)
+			vPos = { -0.302f, 16.420f, 192.321f,1.f };
+		else if (g_iLevel == LEVEL_BOSSENMU)
+		    vPos = { -0.302f, 16.6f, 175.f,1.f };
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
@@ -370,6 +374,11 @@ HRESULT CRui::Ready_Components()
 	else if (g_iLevel == LEVEL_BATTLEENMU)
 	{
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainBattle"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
+	else if (g_iLevel == LEVEL_BOSSENMU)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Enmu_Navi"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
 	else
