@@ -28,6 +28,11 @@
 #include "MenuModel.h"
 #include "RuiDad.h"
 #include "Enmu.h"
+#include "Enmu_Chaos_Head.h"
+#include "Enmu_Shield.h"
+#include "Enmu_Right_Hand.h"
+#include "Enmu_Left_Hand.h"
+#include "Enmu_Chok.h"
 //parts
 #include "KyoujuroWeapon.h"
 #include "KyoujuroSheath.h"
@@ -443,7 +448,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Change/Icon_Change_Btl_%d.png"), 3))))
 			return E_FAIL;
 #pragma endregion BattleUI
-
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Enmu_Normal"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Meshes/Anim/Normal/%d.png"), 3))))
+			return E_FAIL;
 #pragma region SelectUI
 		//SelectChar
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MaskWindowLeft"),
@@ -841,6 +848,18 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Hut"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 		CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiMap"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Enmu_Ground", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Enmu/Enmu_Ground.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Enmu_NeckShield1", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Enmu/Enmu_NeckShield1.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Enmu_NeckShield2", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Enmu/Enmu_NeckShield2.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Enmu_Train", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Enmu/Enmu_Train.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Enmu_Wall", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Enmu/Enmu_Wall.fbx", PivotMatrix))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Enmu_Wall_Instancing", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM_INSTANCING, "../Bin/Resources/Meshes/NonAnim/static/Enmu/Enmu_Wall.fbx", PivotMatrix))))
+			return E_FAIL;
 		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_Hut", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/Hut/Hut.fbx", PivotMatrix))))
 		//	return E_FAIL;
 		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_RuiMap", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/RuiMap/RuiMap.fbx", PivotMatrix))))
@@ -1724,9 +1743,52 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CRuiDad::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Player"),
+	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Player/Player.fbx", PivotMatrix))))
+	return E_FAIL;*/
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu"),
 		CEnmu::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Chaos_Head"),
+	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Chaos_Head/Enmu_Chaos_Head.fbx", PivotMatrix))))
+	return E_FAIL;
+	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu_Chaos_Head"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu_Chaos_Head"),
+		CEnmu_Chaos_Head::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Shield"),
+	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Shield/Enmu_Shield.fbx", PivotMatrix))))
+	return E_FAIL;
+	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu_Shield"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu_Shield"),
+		CEnmu_Shield::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Right_Hand"),
+	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Right_Hand/Enmu_Right_Hand.fbx", PivotMatrix))))
+	return E_FAIL;
+	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu_Right_Hand"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu_Right_Hand"),
+		CEnmu_Right_Hand::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Left_Hand"),
+	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Left_Hand/Enmu_Left_Hand.fbx", PivotMatrix))))
+	return E_FAIL;
+	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu_Left_Hand"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu_Left_Hand"),
+		CEnmu_Left_Hand::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Chok"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Chok/Enmu_Chok.fbx", PivotMatrix))))
+		return E_FAIL;
+	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu_Chok"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu_Chok"),
+		CEnmu_Chok::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyoujuroWeapon"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
@@ -1897,6 +1959,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainBattle"),
 		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/TrainBattle.nav")))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Enmu_Navi"),
+		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/Enmu_Navi.nav")))))
 		return E_FAIL;
 
 #pragma region UI°´Ã¼

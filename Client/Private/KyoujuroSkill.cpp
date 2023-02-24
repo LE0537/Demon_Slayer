@@ -37,7 +37,7 @@ HRESULT CKyoujuroSkill::Initialize(void * pArg)
 void CKyoujuroSkill::Tick(_float fTimeDelta)
 {
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
-
+	
 	m_fTime += fTimeDelta;
 
 	//if(m_fTime > 5.f)

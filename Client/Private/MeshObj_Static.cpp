@@ -59,7 +59,7 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 
 	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 
-	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
 	{
 		switch (m_tMyDesc.iTypeNum)
 		{
@@ -84,7 +84,7 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
 	{
 		Move_Mesh(fTimeDelta);
 	}
@@ -461,7 +461,12 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2106:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar1"); m_fFrustumRadiusRatio = 5.f; break;
 	case 2107: lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainChiar2"); m_fFrustumRadiusRatio = 5.f; break;
 	case 2108:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_TrainDoor"); m_fFrustumRadiusRatio = 5.f; break;
-	
+	case 2109:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Enmu_Train"); m_fFrustumRadiusRatio = 500.f; break;
+	case 2110:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Enmu_NeckShield1"); m_fFrustumRadiusRatio = 20.f; break;
+	case 2111:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Enmu_NeckShield2"); m_fFrustumRadiusRatio = 20.f; break;
+	case 2112:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Enmu_Wall"); m_fFrustumRadiusRatio = 20.f; break;
+	case 2113:lstrcpy(pPrototypeTag_Model, L"Prototype_Component_Model_Enmu_Ground"); m_fFrustumRadiusRatio = 5000.f; break;
+
 
 }
 

@@ -71,7 +71,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	if (m_i1p != 10 && m_i1p != 20)
 	{
-		if (g_iLevel == LEVEL_BATTLEENMU)
+		if (g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
 		{
 			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-0.435f, 16.413f, 212.616f, 1.f));
 			m_pNavigationCom->Find_CurrentCellIndex(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
@@ -90,10 +90,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 			*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
 			if (m_i1p == 1)
 			{
-				if (g_iLevel == LEVEL_BATTLEENMU)
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
-				else
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
 				CUI_Manager::Get_Instance()->Set_1P(this);
 			}
@@ -188,8 +185,11 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 		if (m_bBattleStart)
 		{
-			CTanjiroState* pState = new CBattleStartState();
-			m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+			if (g_iLevel != LEVEL_BOSSENMU)
+			{
+				CTanjiroState* pState = new CBattleStartState();
+				m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+			}
 			m_bBattleStart = false;
 		}
 
@@ -832,6 +832,11 @@ HRESULT CTanjiro::Ready_Components()
 	else if (g_iLevel == LEVEL_BATTLEENMU)
 	{
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainBattle"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
+	else if (g_iLevel == LEVEL_BOSSENMU)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Enmu_Navi"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
 	else
