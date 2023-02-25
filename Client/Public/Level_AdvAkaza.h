@@ -48,6 +48,7 @@ private:
 	CRITICAL_SECTION		m_CriticalSection;
 	_bool					m_isFinished = false;
 	_bool					m_bTread = false;
+	_bool                   m_bThread = false;
 private:
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
 	CLevel_GamePlay::CHARACTERDESC	      tCharacterDesc;

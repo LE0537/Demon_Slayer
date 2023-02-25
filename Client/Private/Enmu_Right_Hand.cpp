@@ -39,9 +39,9 @@ HRESULT CEnmu_Right_Hand::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	_vector vPos = { 14.989f, 16.6f, 176.414f,1.f };
+	_vector vPos = { 12.989f, 16.6f, 177.414f,1.f };
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-
+	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 0.f));
 	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	m_pModelCom->Set_CurrentAnimIndex(41);

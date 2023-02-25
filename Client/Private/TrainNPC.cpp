@@ -118,7 +118,7 @@ void CTrainNPC::Late_Tick(_float fTimeDelta)
 
 	if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 	{
-		if (fDist < 100.f)
+		if (fDist < 70.f)
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 			m_pModelCom[m_i1p]->Play_Animation(fTimeDelta);
