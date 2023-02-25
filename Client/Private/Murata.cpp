@@ -151,12 +151,21 @@ HRESULT CMurata::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-			return E_FAIL;
+		if (i == 0)
+		{
+			if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(3))))
+				return E_FAIL;
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+				return E_FAIL;
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-			return E_FAIL;
-
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+				return E_FAIL;
+		}
 	}
 
 
@@ -271,6 +280,9 @@ HRESULT CMurata::Ready_Components()
 		return E_FAIL;
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_RuiStory"), (CComponent**)&m_pNavigationCom)))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_Enmu_Normal"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	return S_OK;

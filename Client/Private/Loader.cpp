@@ -197,6 +197,7 @@
 #include "Murata.h"
 #include "Goto.h"
 #include "Ozaki.h"
+#include "TrainNPC.h"
 //CamAction
 #include "CamLine.h"
 
@@ -241,7 +242,7 @@ unsigned int APIENTRY Thread_Main(void* pArg)
 		pLoader->Loading_ForSelectMap();
 		break;
 	}
-	
+
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
 
 	return 0;
@@ -449,7 +450,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 #pragma endregion BattleUI
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Enmu_Normal"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Meshes/Anim/Normal/%d.png"), 3))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Meshes/Anim/Normal/%d.png"), 4))))
 			return E_FAIL;
 #pragma region SelectUI
 		//SelectChar
@@ -603,7 +604,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma region UIEff
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_InkEff"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/UIEff/Xcmn_Ink_%d.png"), 2)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ButtonEff"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/UIEff/Xef_Base00.png"), 1)))) return E_FAIL;
-		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Fade"),	CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/UIEff/Fade.png"), 1)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Fade"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/UIEff/Fade.png"), 1)))) return E_FAIL;
 #pragma endregion UIEff
 
 #pragma region LoadingUI
@@ -962,8 +963,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma region Map
 	{
 
-	//	Skybox
-		/*For.Prototype_Component_Texture_SkyBox */
+		//	Skybox
+			/*For.Prototype_Component_Texture_SkyBox */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_SkyBox"), CTexture::Create(m_pDevice, m_pContext, L"../Bin/Resources/SkyBox/SkyBox_11.dds", 1)))) return E_FAIL;
 		/*For.Prototype_GameObject_NewTerrain */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_SkyBox"), CSkyBox::Create(m_pDevice, m_pContext)))) return E_FAIL;
@@ -1034,7 +1035,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Shinobu", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Nezuko", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 
-	
+
 #pragma endregion Eeffect Texture
 
 #pragma region Effect Model
@@ -1064,7 +1065,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_OgiAtk2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Slash/Ogi_Atk2.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Swing"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Rengoku_Swing.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Tiger"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Tiger/Tiger.fbx", PivotMatrix)))) return E_FAIL;
-		
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ring1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Ring/Ring1.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ring4"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Ring/Ring4.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ring5"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Ring/Ring5.fbx", PivotMatrix)))) return E_FAIL;
@@ -1113,7 +1114,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Water8_4"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Water/8/Water8_4.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ring_ShockWave1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Ring/Ring_ShockWave1.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_TigerMainFire"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/TigerFire/TigerMainFire.fbx", PivotMatrix)))) return E_FAIL;
-		
+
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Water_6_Wind2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Water/6/Water_6_Wind2.fbx", PivotMatrix)))) return E_FAIL;
 
 
@@ -1237,7 +1238,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TargetCircle"),
 			CTargetCircle::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
-		
+
 
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Blow1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Blow1.fbx", PivotMatrix)))) return E_FAIL;
@@ -1314,7 +1315,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectParticleNew"),
 			CEffect_Particle_New::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
-		
+
 		CEffect_Manager* pEffect_Manager = GET_INSTANCE(CEffect_Manager);
 
 		pEffect_Manager->Load_Effect(TEXT("HitEffect1"));
@@ -1428,7 +1429,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Move_Main"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Move_ColEveryTime"));
 
-		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Jump_Start"));	
+		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_Jump_Start"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_RuiColl_Skl_Jump_Main"));
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rui_Skl_JumpMove_StartEff"));
@@ -1717,19 +1718,83 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CGoto::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	//PivotMatrix = XMMatrixScaling(0.03f, 0.03f, 0.03f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+
+
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Kyou"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/Kyou.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_KyouBro"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/KyouBro.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_KyouDad"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/KyouDad.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Mom"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/Mom.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_NPC0"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/NPC0.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_NPCF1"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/NPCF1.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_NPCF2"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/NPCF2.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_NPCF3"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/NPCF3.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_NPCM1"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/NPCM1.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_NPCM2"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/NPCM2.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_RuiSis"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/RuiSis.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Slayer1"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/Slayer1.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Slayer2"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/Slayer2.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Yosi"),
+	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/NPC/Yosi.fbx", PivotMatrix))))
+	//	return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Kyou"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyouBro"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyouDad"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Mom"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("NPC0"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("NPCF1"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("NPCF2"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("NPCF3"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("NPCM1"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("NPCM2"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiSis"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Slayer1"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Slayer2"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Yosi"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TrainNPC"),
+		CTrainNPC::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 	/* 케릭터 객체 */
 
 	/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Player"),
 		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Player/Player.fbx", PivotMatrix))))
 		return E_FAIL;*/
-//	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Player"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
-//	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
-//		CPlayer::Create(m_pDevice, m_pContext))))
-//		return E_FAIL;
+		//	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Player"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+		//	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Player"),
+		//		CPlayer::Create(m_pDevice, m_pContext))))
+		//		return E_FAIL;
 
-	/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui"),
-		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Rui/Rui.fbx", PivotMatrix))))
-		return E_FAIL;*/
+			/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui"),
+				CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Rui/Rui.fbx", PivotMatrix))))
+				return E_FAIL;*/
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rui"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Rui"),
 		CRui::Create(m_pDevice, m_pContext))))
@@ -1776,32 +1841,32 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Chaos_Head"),
-	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Chaos_Head/Enmu_Chaos_Head.fbx", PivotMatrix))))
-	return E_FAIL;
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Chaos_Head/Enmu_Chaos_Head.fbx", PivotMatrix))))
+		return E_FAIL;
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu_Chaos_Head"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu_Chaos_Head"),
 		CEnmu_Chaos_Head::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Shield"),
-	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Shield/Enmu_Shield.fbx", PivotMatrix))))
-	return E_FAIL;
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Shield/Enmu_Shield.fbx", PivotMatrix))))
+		return E_FAIL;
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu_Shield"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu_Shield"),
 		CEnmu_Shield::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Right_Hand"),
-	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Right_Hand/Enmu_Right_Hand.fbx", PivotMatrix))))
-	return E_FAIL;
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Right_Hand/Enmu_Right_Hand.fbx", PivotMatrix))))
+		return E_FAIL;
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu_Right_Hand"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu_Right_Hand"),
 		CEnmu_Right_Hand::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Left_Hand"),
-	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Left_Hand/Enmu_Left_Hand.fbx", PivotMatrix))))
-	return E_FAIL;
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Enmu_Left_Hand/Enmu_Left_Hand.fbx", PivotMatrix))))
+		return E_FAIL;
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu_Left_Hand"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu_Left_Hand"),
 		CEnmu_Left_Hand::Create(m_pDevice, m_pContext))))
@@ -1845,10 +1910,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CShinobuSheath::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_TanjiroWeapon2"),
-	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/TanjiroWeapon2/TanjiroWeapon2.fbx", PivotMatrix))))
-	return E_FAIL;
-	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TanjiroWeapon2"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_TanjiroWeapon2"),
+	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/TanjiroWeapon2/TanjiroWeapon2.fbx", PivotMatrix))))
+	//return E_FAIL;
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TanjiroWeapon2"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_TanjiroWeapon2"),
 		CTanjiroWeapon2::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -1898,7 +1963,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_ShinobuMenu"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Shinobu(Menu)/Shinobu(Menu).fbx", PivotMatrix2))))
 	//	return E_FAIL;
- 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Tanjiro(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Tanjiro(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Kyoujuro(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Rui(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Akaza(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
@@ -2354,10 +2419,10 @@ HRESULT CLoader::Loading_ForSelectCharLevel()
 {
 	/* 객체 생성 중. */
 	lstrcpy(m_szLoadingText, TEXT("                       객체 생성 중."));
-	
+
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	
+
 
 	lstrcpy(m_szLoadingText, TEXT("                       로딩이 완료되었습니다."));
 
@@ -2389,11 +2454,11 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 
 
 	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
-	
-	m_isFinished = true; 
+
+	m_isFinished = true;
 
 	Safe_Release(pGameInstance);
-	
+
 	return S_OK;
 }
 
