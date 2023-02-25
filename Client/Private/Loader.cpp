@@ -449,7 +449,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 #pragma endregion BattleUI
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Enmu_Normal"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Meshes/Anim/Normal/%d.png"), 3))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Meshes/Anim/Normal/%d.png"), 4))))
 			return E_FAIL;
 #pragma region SelectUI
 		//SelectChar
