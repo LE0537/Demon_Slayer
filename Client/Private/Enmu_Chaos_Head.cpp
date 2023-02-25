@@ -40,14 +40,14 @@ HRESULT CEnmu_Chaos_Head::Initialize(void * pArg)
 		return E_FAIL;
 
 
-		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-		RELEASE_INSTANCE(CGameInstance);
-		_vector vPos = { 0.956f, 16.6f, 174.106f,1.f };
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+	RELEASE_INSTANCE(CGameInstance);
+	_vector vPos = { 0.956f, 16.6f, 174.106f,1.f };
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 0.f));
+	CUI_Manager::Get_Instance()->Set_2P(this);
 
-		CUI_Manager::Get_Instance()->Set_2P(this);
-	
 
 	m_pModelCom->Set_CurrentAnimIndex(3);
 
@@ -59,21 +59,21 @@ HRESULT CEnmu_Chaos_Head::Initialize(void * pArg)
 void CEnmu_Chaos_Head::Tick(_float fTimeDelta)
 {
 
-		m_pModelCom->Play_Animation(fTimeDelta);
-	
-
-			CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("Root");
-			if (nullptr == pSocket)
-				return;
-			_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
-
-			m_pSphereCom->Update(matColl);
-
-			HandleInput();
-			TickState(fTimeDelta);
+	m_pModelCom->Play_Animation(fTimeDelta);
 
 
-	
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("Root");
+	if (nullptr == pSocket)
+		return;
+	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+
+	m_pSphereCom->Update(matColl);
+
+	HandleInput();
+	TickState(fTimeDelta);
+
+
+
 
 
 
@@ -82,17 +82,17 @@ void CEnmu_Chaos_Head::Tick(_float fTimeDelta)
 void CEnmu_Chaos_Head::Late_Tick(_float fTimeDelta)
 {
 
-			LateTickState(fTimeDelta);
-			if (m_bRender)
-			{
-				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-			}
+	LateTickState(fTimeDelta);
+	if (m_bRender)
+	{
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+	}
 
-			if (g_bCollBox)
-			{
-				m_pRendererCom->Add_Debug(m_pSphereCom);
-			}
+	if (g_bCollBox)
+	{
+		m_pRendererCom->Add_Debug(m_pSphereCom);
+	}
 
 
 }
@@ -180,10 +180,10 @@ HRESULT CEnmu_Chaos_Head::Render_ShadowDepth()
 	_vector vLightEye, vLightAt, vLightUp;
 	_matrix matLightView;
 
-		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
-		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
-		vLightUp = { 0.f, 1.f, 0.f ,0.f };
-		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+	vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
+	vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
+	vLightUp = { 0.f, 1.f, 0.f ,0.f };
+	matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 		return E_FAIL;
@@ -274,7 +274,7 @@ HRESULT CEnmu_Chaos_Head::Ready_Components()
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_Enmu_Normal"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
-	
+
 
 	CCollider::COLLIDERDESC		ColliderDesc;
 
