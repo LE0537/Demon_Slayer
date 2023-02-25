@@ -137,7 +137,7 @@ void CEnmu::Late_Tick(_float fTimeDelta)
 		//}
 		if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 		{
-			if (fDist < 45.f)
+			if (fDist < 75.f)
 			{
 
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
