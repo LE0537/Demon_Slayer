@@ -298,6 +298,9 @@
     <ClInclude Include="..\Public\ShinobuHitCinema_Nezuko.h" />
     <ClInclude Include="..\Public\ShinobuHitCinema_Rui.h" />
     <ClInclude Include="..\Public\ShinobuHitCinema_Tanjiro.h" />
+    <ClInclude Include="..\Public\Skill1_EnmuState.h" />
+    <ClInclude Include="..\Public\Skill2_EnmuState.h" />
+    <ClInclude Include="..\Public\Skill3_EnmuState.h" />
     <ClInclude Include="..\Public\TanjiroHitCinema_Akaza.h" />
     <ClInclude Include="..\Public\TanjiroHitCinema_Kyoujuro.h" />
     <ClInclude Include="..\Public\TanjiroHitCinema_Nezuko.h" />
@@ -769,6 +772,9 @@
     <ClCompile Include="..\Private\ShinobuHitCinema_Nezuko.cpp" />
     <ClCompile Include="..\Private\ShinobuHitCinema_Rui.cpp" />
     <ClCompile Include="..\Private\ShinobuHitCinema_Tanjiro.cpp" />
+    <ClCompile Include="..\Private\Skill1_EnmuState.cpp" />
+    <ClCompile Include="..\Private\Skill2_EnmuState.cpp" />
+    <ClCompile Include="..\Private\Skill3_EnmuState.cpp" />
     <ClCompile Include="..\Private\TanjiroHitCinema_Akaza.cpp" />
     <ClCompile Include="..\Private\TanjiroHitCinema_Kyoujuro.cpp" />
     <ClCompile Include="..\Private\TanjiroHitCinema_Nezuko.cpp" />

@@ -5,6 +5,7 @@
 
 
 BEGIN(Client)
+
 class CRuiDadState
 {
 public:
