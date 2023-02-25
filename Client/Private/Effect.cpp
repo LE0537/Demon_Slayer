@@ -209,6 +209,9 @@ void CEffect::Late_Tick(_float fTimeDelta)
 		return;
 	}
 
+	if(EFFMOVE_MATRIX != m_EffectInfo.iMoveType&& EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType)
+		m_fEffectStartTime += m_pTarget->Get_EffectTime();
+
 	switch (m_iEffectNum) {
 	case CEffect_Manager::EFF_HIT:
 	case CEffect_Manager::EFF_HIT2:
