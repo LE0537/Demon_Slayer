@@ -6,12 +6,10 @@
 #include "UI_Manager.h"
 #include "Layer.h"
 #include "Level_GamePlay.h"
-#include "RuiDadIdleState.h"
+
 #include "ImGuiManager.h"
-#include "Tanjiro.h"
-#include "RuiDadHitState.h"
-#include "RuiDadGuardHitState.h"
-#include "AngryState.h"
+#include "EnmuBoss.h"
+
 
 
 CEnmu_Right_Hand::CEnmu_Right_Hand(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -45,7 +43,7 @@ HRESULT CEnmu_Right_Hand::Initialize(void * pArg)
 	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	m_pModelCom->Set_CurrentAnimIndex(41);
-
+	CEnmuBoss::Get_Instance()->Add_EnmuParts(this);
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	Set_Info();
 	return S_OK;
@@ -257,7 +255,7 @@ HRESULT CEnmu_Right_Hand::Ready_Components()
 
 void CEnmu_Right_Hand::Set_Info()
 {
-	m_tInfo.strName = TEXT("엔무(쉴드)");
+	m_tInfo.strName = TEXT("엔무_오른손");
 	m_tInfo.bOni = true;
 	m_tInfo.iMaxHp = 300;
 	m_tInfo.iHp = m_tInfo.iMaxHp;

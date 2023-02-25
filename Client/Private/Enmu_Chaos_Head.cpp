@@ -6,13 +6,9 @@
 #include "UI_Manager.h"
 #include "Layer.h"
 #include "Level_GamePlay.h"
-#include "RuiDadIdleState.h"
 #include "ImGuiManager.h"
-#include "Tanjiro.h"
-#include "RuiDadHitState.h"
-#include "RuiDadGuardHitState.h"
-#include "AngryState.h"
-using namespace RuiDad;
+
+#include "EnmuBoss.h"
 
 CEnmu_Chaos_Head::CEnmu_Chaos_Head(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -50,6 +46,9 @@ HRESULT CEnmu_Chaos_Head::Initialize(void * pArg)
 	
 
 	m_pModelCom->Set_CurrentAnimIndex(3);
+
+
+	CEnmuBoss::Get_Instance()->Add_EnmuParts(this);
 
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	Set_Info();

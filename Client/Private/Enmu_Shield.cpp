@@ -6,14 +6,8 @@
 #include "UI_Manager.h"
 #include "Layer.h"
 #include "Level_GamePlay.h"
-#include "RuiDadIdleState.h"
 #include "ImGuiManager.h"
-#include "Tanjiro.h"
-#include "RuiDadHitState.h"
-#include "RuiDadGuardHitState.h"
-#include "AngryState.h"
-
-
+#include "EnmuBoss.h"
 CEnmu_Shield::CEnmu_Shield(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
 {
@@ -50,7 +44,7 @@ HRESULT CEnmu_Shield::Initialize(void * pArg)
 
 
 	m_pModelCom->Set_CurrentAnimIndex(4);
-
+	CEnmuBoss::Get_Instance()->Add_EnmuParts(this);
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	Set_Info();
 	return S_OK;

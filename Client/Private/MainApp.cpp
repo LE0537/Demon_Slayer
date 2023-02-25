@@ -9,6 +9,7 @@
 #include "BackGround.h"
 #include "UI_Manager.h"
 #include "ImGuiManager.h"
+#include "EnmuBoss.h"
 
 //로딩객체
 #include "LoadingAnim.h"
@@ -327,7 +328,7 @@ void CMainApp::Free()
 	Safe_Release(m_pImGuiManager);
 
 	CImGuiManager::Destroy_Instance();
-
+	CEnmuBoss::Destroy_Instance();
 	CGameInstance::Release_Engine();
 	CData_Manager::Destroy_Instance();	// 추가
 	CUI_Manager::Destroy_Instance();
