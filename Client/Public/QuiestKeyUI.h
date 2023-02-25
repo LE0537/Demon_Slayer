@@ -25,7 +25,7 @@ private:
 
 private:
 	_float					m_fFadeTime = 0.f;
-	_uint					m_iLayerNum = 0;
+	_uint					m_iLayerNum = 100;
 	_bool					m_bFadeInCheck = false;
 
 public:

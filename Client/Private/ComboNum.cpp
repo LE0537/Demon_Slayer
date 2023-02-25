@@ -77,14 +77,14 @@ void CComboNum::Tick(_float fTimeDelta)
 		else if (m_ThrowUIinfo.iLayerNum == 1)
 			m_iSecondNum = (_uint)m_iComboNum % 10;
 
-		if (fComboTime > 2.f)
+		if (fComboTime >= 2.f)
 		{
 			pUI_Manager->Get_1P()->Set_ComboTime(0.f);
 			pUI_Manager->Get_1P()->Reset_Combo();
 			m_iComboNum = 0;
 			m_bRenderOnOff = true;
 		}
-		else if(fComboTime <= 0.f)
+		else
 			m_bRenderOnOff = false;
 	}
 	else
@@ -112,7 +112,7 @@ void CComboNum::Tick(_float fTimeDelta)
 			m_iComboNum = 0;
 			m_bRenderOnOff = true;
 		}
-		else if (fComboTime <= 0.f)
+		else
 			m_bRenderOnOff = false;
 	}
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
