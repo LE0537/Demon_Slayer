@@ -7,6 +7,7 @@
 #include "Tanjiro.h"
 //#include "Level_Manager.h"
 #include "Layer.h"
+#include "Door.h"
 
 IMPLEMENT_SINGLETON(CUI_Manager)
 
@@ -679,7 +680,7 @@ void CUI_Manager::Add_Quiest()
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
 		m_ThrowInfo.bPlyCheck = true;
-		m_ThrowInfo.iLevelIndex = LEVEL_ADVRUI;
+		m_ThrowInfo.iLevelIndex = g_iLevel;
 
 		QUIEST_DATALIST.push_back(m_ThrowInfo);
 	}
@@ -2032,8 +2033,11 @@ HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
 		break;
 	case 6:
 		iter.iLayerNum = m_iGuideKeyLayerNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestKeyUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
-			return E_FAIL;
+		//if (g_iLevel == LEVEL_ADVRUI && m_iGuideKeyLayerNum <= 1)
+		//{
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestKeyUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+				return E_FAIL;
+		//}
 		++m_iGuideKeyLayerNum;
 		break;
 	case 7:
@@ -2053,8 +2057,11 @@ HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		break;
 	case 11:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InteractionUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
-			return E_FAIL;
+		if (g_iLevel == LEVEL_ADVRUI)
+		{
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InteractionUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+				return E_FAIL;
+		}
 		break;
 	default:
 		break;
@@ -2101,6 +2108,28 @@ _bool CUI_Manager::P1_Oni_Check()
 _bool CUI_Manager::P2_Oni_Check()
 {
 	return  m_p2P->Get_PlayerInfo().bOni;
+}
+
+void CUI_Manager::Reset_Data()
+{
+	m_bSaveCheck = false;
+	m_bRuiDadBattle = false;
+	m_bEnmuBattle = false;
+	m_bStroyEvent[2] = { false };
+	m_bStroyEventend = false;
+	m_bAkazaBattle = false;
+	m_bAdvResultCheck = false;
+	m_bFadeSwitch = false;
+	m_bInteractionUIOnOff = false;
+	m_bClearCheck[5] = { false };
+	m_bMainQuestOnOff = false;
+	m_bQuestStartCheck = false;
+	m_bMsgOnoff = false;
+	m_iRescueCount = 0;
+	m_szMsg = TEXT("");
+	m_szMsgName = TEXT("");
+	m_iMsgCount = 0;
+	m_iQuestCount = 0;
 }
 
 void CUI_Manager::Tick_Loading(_float fTimeDelta)

@@ -34,7 +34,11 @@ HRESULT CDoor::Initialize(void * pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
+	pUI_Manager->Set_vecDoorInfo(m_tMyDesc.iModelIndex, this);
+
+	RELEASE_INSTANCE(CUI_Manager);
 	return S_OK;
 }
 
@@ -229,26 +233,41 @@ void CDoor::Move_Mesh(_float fTimeDelta)
 	_float fDist = XMVectorGetX(XMVector3Length(vPos - vMyPos));
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager*		pUI_Manager = GET_INSTANCE(CUI_Manager);
 
 	if (fDist < 3.f)
 	{
+		m_bColCheck = true;
+		if (!m_bUICreat)
+		{
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InteractionUI"), LEVEL_ADVAKAZA, TEXT("Layer_InteractionUI"), &m_tMyDesc.iModelIndex)))
+				return;
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestKeyUI"), LEVEL_ADVAKAZA, TEXT("Layer_KeyUI"), &m_tMyDesc.iModelIndex)))
+				return;
+			m_bUICreat = true;
+		}
+
+		if (m_bTurn == true && !m_bInteractionCheck)
+		{
+			pUI_Manager->Set_InteractionOn();
+		}
+		else if (m_bTurn == false && !m_bInteractionCheck)
+		{
+			pUI_Manager->Set_InteractionOn();
+		}
+
 		if (pGameInstance->Key_Down(DIK_F))
 		{
-			if (m_bTurn == true)
-			{
-				//´Ý±â UI
-			}
-			else if (m_bTurn == false)
-			{
-				//¿­±â UI
-			}
+			pUI_Manager->Set_InteractionOff();
 			m_bTurn = !m_bTurn;
+			m_bInteractionCheck = true;
 		}
+
 		if (m_bTurn && m_fTurnAngle < 90.f)
 		{
 			m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-3.f));
 			m_fTurnAngle += 3.f;
-		
+
 		}
 		else if (!m_bTurn && m_fTurnAngle > 0.f)
 		{
@@ -263,8 +282,16 @@ void CDoor::Move_Mesh(_float fTimeDelta)
 			RELEASE_INSTANCE(CUI_Manager);*/
 		}
 	}
+	else
+	{
+		m_bInteractionCheck = false;
+		m_bColCheck = false;
+		m_bUICreat = false;
+	}
+	
 
 	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 CDoor * CDoor::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

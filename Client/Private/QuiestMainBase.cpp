@@ -82,21 +82,43 @@ void CQuiestMainBase::Tick(_float fTimeDelta)
 
 	m_iBeforeCount = pUI_Manager->Get_QuestCount();
 
-	switch (pUI_Manager->Get_QuestCount())
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVRUI)
 	{
-	case 0: m_szMainQuest = TEXT("냄새를 따라가보자");
-		break;
-	case 1: m_szMainQuest = TEXT("귀살대 대원들을 구출하자");
-		break;
-	case 2: m_szMainQuest = TEXT("하현의 혈귀를 찾아보자");
-		break;
-	case 3: m_szMainQuest = TEXT("");
-		break;
-	case 4: m_szMainQuest = TEXT("");
-		break;
-	default:
-		break;
-	} 
+		switch (pUI_Manager->Get_QuestCount())
+		{
+		case 0: m_szMainQuest = TEXT("냄새를 따라가보자");
+			break;
+		case 1: m_szMainQuest = TEXT("귀살대 대원들을 구출하자");
+			break;
+		case 2: m_szMainQuest = TEXT("하현의 혈귀를 찾아보자");
+			break;
+		case 3: m_szMainQuest = TEXT("");
+			break;
+		case 4: m_szMainQuest = TEXT("");
+			break;
+		default:
+			break;
+		}
+	}
+	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
+	{
+		switch (pUI_Manager->Get_QuestCount())
+		{
+		case 0: m_szMainQuest = TEXT("열차 안을 조사하자");
+			break;
+		case 1: m_szMainQuest = TEXT("염주를 찾아보자");
+			break;
+		case 2: m_szMainQuest = TEXT("하현1 혈귀를 찾자");
+			break;
+		case 3: m_szMainQuest = TEXT("");
+			break;
+		case 4: m_szMainQuest = TEXT("");
+			break;
+		default:
+			break;
+		}
+	}
+	
 
 	
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));

@@ -3,7 +3,6 @@
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
 #include "UI_Manager.h"
-#include "Door.h"
 
 CInteractionUI::CInteractionUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -24,11 +23,9 @@ HRESULT CInteractionUI::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-	if(g_iLevel == LEVEL_ADVRUI)
-		memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
-	else
-		memcpy(&m_iLayerNum, pArg, sizeof(_uint));
-	
+
+	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
+
 	m_fSizeX = 300.f;// m_ThrowUIinfo.vScale.x;
 	m_fSizeY = 50.f; // m_ThrowUIinfo.vScale.y;
 	m_fX = 900.f; // m_ThrowUIinfo.vPos.x;
@@ -66,28 +63,6 @@ void CInteractionUI::Tick(_float fTimeDelta)
 				m_fFadeTime = 0.f;
 		}
 	}
-	else
-	{
-		if (pUI_Manager->Get_InteractionOnOff())
-		{
-			m_fFadeTime += 0.2f;
-			if (m_fFadeTime >= 1.f)
-			{
-				m_fFadeTime = 1.f;
-				m_bFadeInCheck = true;
-			}
-		}
-
-		if (m_bFadeInCheck && !pUI_Manager->Get_InteractionOnOff())
-		{
-			m_fFadeTime -= 0.2f;
-			if (m_fFadeTime <= 0.f)
-			{
-				m_fFadeTime = 0.f;
-				m_bDead = true;
-			}
-		}
-	}
 
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
@@ -117,25 +92,13 @@ HRESULT CInteractionUI::Render()
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (pUI_Manager->Get_InteractionOnOff() && g_iLevel == LEVEL_ADVRUI)
+	if (pUI_Manager->Get_InteractionOnOff())
 	{
 		m_pVIBufferCom->Render();
-		pGameInstance->Render_Font(TEXT("Font_Nexon"),TEXT(" : 대화 하기"), XMVectorSet(m_fX - 45.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
-	}
-	else if (g_iLevel == LEVEL_ADVAKAZA)
-	{
-		for (auto iter : pUI_Manager->Get_vecDoorInfo())
-		{
-			if (iter.iModelIndex == m_iLayerNum && dynamic_cast<CDoor*>(iter.pDoor)->Get_ColCheck())
-			{
-				m_pVIBufferCom->Render();
-				if(!dynamic_cast<CDoor*>(iter.pDoor)->Get_Turn())
-					pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT(" : 문 열기"), XMVectorSet(m_fX - 45.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
-				else
-					pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT(" : 문 닫기"), XMVectorSet(m_fX - 45.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
-			}
-		}
-		
+		if(g_iLevel == LEVEL_ADVRUI)
+			pGameInstance->Render_Font(TEXT("Font_Nexon"),TEXT(" : 대화 하기"), XMVectorSet(m_fX - 45.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		/*else if(g_iLevel == LEVEL_ADVAKAZA)
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT(" : 문열기"), XMVectorSet(m_fX - 45.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));*/
 	}
 
 	RELEASE_INSTANCE(CUI_Manager);

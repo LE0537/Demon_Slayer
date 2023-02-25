@@ -72,8 +72,10 @@ void CMurata::Tick(_float fTimeDelta)
 		
 		if (fDist <= 3.f)
 		{
-	
 			CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+			pUIManager->Set_NpcForUI(this);
+			m_bInteractionCheck = true;
+			
 			if (!m_bSetPos)
 			{
 				_float4 vPos;
@@ -285,16 +287,26 @@ void CMurata::Check_Event()
 	{
 		if (!m_bMsgEnd)
 		{
-			if(!m_MsgReset)
+			if (!m_MsgReset)
+			{
 				pUIManager->Set_InteractionOn();
+				pUIManager->Set_NpcForUI(this);
+				m_bInteractionCheck = true;
+			}
 		}
 		else
+		{
 			pUIManager->Set_InteractionOff();
+			pUIManager->Set_NpcForUI(nullptr);
+			m_bInteractionCheck = false;
+		}
 
 		if (!m_bMsgStart && !m_bMsgEnd && pGameInstance->Key_Down(DIK_F))
 		{
 			pUIManager->Set_InteractionOff();
 			m_bMsgStart = true;
+			pUIManager->Set_NpcForUI(nullptr);
+			m_bInteractionCheck = false;
 			if (!m_MsgReset)
 			{
 				pUIManager->Reset_MsgCount();
@@ -378,6 +390,9 @@ void CMurata::Check_Event()
 	{
 		if (!m_bMsgEnd)
 			pUIManager->Set_InteractionOff();
+
+		pUIManager->Set_NpcForUI(nullptr);
+		m_bInteractionCheck = false;
 	}
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
