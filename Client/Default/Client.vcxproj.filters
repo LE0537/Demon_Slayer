@@ -1396,6 +1396,9 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\04.Chok">
       <UniqueIdentifier>{1551f753-176e-4ca3-b02b-4a9ce084df68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC\TrainNPC">
+      <UniqueIdentifier>{688be346-9a87-4174-bf89-e43456a508d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2766,6 +2769,9 @@
     <ClInclude Include="..\public\Enmu_Chok.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\04.Chok</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\TrainNPC.h">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\TrainNPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4108,6 +4114,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Enmu_Chok.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\04.Chok</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TrainNPC.cpp">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\TrainNPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
