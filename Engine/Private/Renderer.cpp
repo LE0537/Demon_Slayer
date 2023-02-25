@@ -202,7 +202,7 @@ HRESULT CRenderer::Initialize_Prototype()
 	/* For.MRT_AlphaDeferred */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Master"))))
 		return E_FAIL;
-	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_AlphaGlow"))))
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Glow"))))
 		return E_FAIL;
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_AlphaDeferred"), TEXT("Target_Effect"))))
 		return E_FAIL;
@@ -396,14 +396,17 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 	}
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	if (true == pGameInstance->Key_Down(DIK_Y))
+	if (_iLevel == 8)		//	RuiMap
 	{
-		if (false == m_bMapGrayScale)
+		if (true == pGameInstance->Key_Down(DIK_Y))
 		{
-			m_bMapGrayScale = !m_bMapGrayScale;
-			m_fMapGrayScaleTime = 0.f;
+			if (false == m_bMapGrayScale)
+			{
+				m_bMapGrayScale = !m_bMapGrayScale;
+				m_fMapGrayScaleTime = 0.f;
 
-			m_fMapGrayScalePower = 1.f;
+				m_fMapGrayScalePower = 1.f;
+			}
 		}
 	}
 
@@ -1462,8 +1465,11 @@ HRESULT CRenderer::Render_MotionBlur(const _tchar * pTexName, const _tchar * pMR
 	m_PreViewMatrix = CamViewMatrix;
 	RELEASE_INSTANCE(CPipeLine);
 
-	_float	fRotationX = fabs(vCurrentRotAngle.y - vPreRotAngle.y) * m_iMotionBlurCountX;
+	_float	fRotationX = (vCurrentRotAngle.y - vPreRotAngle.y) * m_iMotionBlurCountX;
 	if (FAILED(m_pShader->Set_RawValue("g_fMotionBlurPowerX", &fRotationX, sizeof(_float))))
+		return E_FAIL;
+	_float	fRotationY = (vCurrentRotAngle.x - vPreRotAngle.x) * m_iMotionBlurCountY;
+	if (FAILED(m_pShader->Set_RawValue("g_fMotionBlurPowerY", &fRotationY, sizeof(_float))))
 		return E_FAIL;
 	
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(pTexName, m_pShader, "g_DiffuseTexture")))

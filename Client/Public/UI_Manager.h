@@ -26,6 +26,12 @@ public:
 		_uint iRank;
 	}RANKINFO;
 
+	typedef struct tagDoorInfo
+	{
+		_uint iModelIndex;
+		class CDoor* pDoor;
+	}DOORINFO;
+
 public:
 	HRESULT Init(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	
@@ -111,6 +117,8 @@ public:
 
 	CCharacters* Get_1P() { return m_p1P; }
 	CCharacters* Get_1P_2() { return m_p1P_2; }
+	CCharacters* Get_NpcForUI() { return m_pNpcForUI; }
+	void	Set_NpcForUI(CCharacters* pTarget) { m_pNpcForUI = pTarget; }
 	void	Set_1P(CCharacters* p1P) { m_p1P = p1P; }
 	void	Set_1P_2(CCharacters* p1P_2) { m_p1P_2 = p1P_2; }
 
@@ -198,6 +206,9 @@ public:
 	//2일때 루이
 	//3일때 탄지로
 
+	_uint   Get_DoorLayerNum() { return m_iDoorLayerNum; }
+	void	Set_DoorLayerNum(_uint iLayerNum) { m_iDoorLayerNum = iLayerNum; }
+
 	wstring Get_Msg() { return m_szMsg; }
 	void	Set_Msg(wstring _szMsg) { m_szMsg = _szMsg; }
 
@@ -284,6 +295,12 @@ public:
 	_bool Get_RuiDadBattle() { return m_bRuiDadBattle; }
 	void Set_EnmuBattle(_bool _bBattle) { m_bEnmuBattle = _bBattle; }
 	_bool Get_EnmuBattle() { return m_bEnmuBattle; }
+	void Reset_Data();
+	vector<DOORINFO> Get_vecDoorInfo() { return m_vecDoor; }
+	void Set_vecDoorInfo(_uint iModelIndex, class CDoor* pTarget) {
+		m_DoorInfo.iModelIndex = iModelIndex;
+		m_DoorInfo.pDoor = pTarget;
+		m_vecDoor.push_back(m_DoorInfo); }
 	//로딩
 	void Tick_Loading(_float fTimeDelta);
 	void Set_LoadingDead();
@@ -335,6 +352,7 @@ private:
 	CCharacters*					m_p2P;
 	CCharacters*					m_p1P_2;
 	CCharacters*					m_p2P_2;
+	CCharacters*					m_pNpcForUI;
 
 	CUI*							m_p1PUI;
 	CUI*							m_p2PUI;
@@ -436,6 +454,9 @@ private:
 	_bool							m_bStroyEventend = false;
 	_bool							m_bEnmuBattle = false;
 	_bool							m_bAkazaBattle = false;
+	_uint							m_iDoorLayerNum = 0;
+	DOORINFO						m_DoorInfo;
+	vector<DOORINFO>				m_vecDoor;
 public:
 	virtual void Free() override;
 };

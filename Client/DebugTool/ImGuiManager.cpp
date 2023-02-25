@@ -306,11 +306,12 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 	//	Eye, At Interface
 	ImGui::DragFloat3("Position", f3Movement_Pos, 0.05f);
-	if (0 < m_iNumCam[eChoice] - 3 && 0 != iCamIndex[eChoice] &&
-		(iCamIndex[eChoice] - 1) < iObjSize[eChoice])
+	if (0 < m_iNumCam[eChoice] && 0 != iCamIndex[eChoice])
 	{
 		m_vecCamObjects[eChoice][(iCamIndex[eChoice] - 1)]->Set_Pos(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2]);
 		XMStoreFloat4(&m_vecCam[eChoice][iCamIndex[eChoice]], XMVectorSet(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2], 1.f));
+		if (1 == iCamIndex[eChoice])
+			XMStoreFloat4(&m_vecCam[eChoice][iCamIndex[eChoice] - 1], XMVectorSet(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2], 1.f));
 
 		Sort_CamNodes(iCamIndex[eChoice], (CAMTYPE)eChoice);
 	}
@@ -330,7 +331,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		for (_uint i = 1; i < 150; ++i)
 		{
 			char cTemp[6] = "";
-			_itoa_s(i, cTemp, sizeof(cTemp), 10);
+			_itoa_s(i - 1, cTemp, sizeof(cTemp), 10);
 			strcpy_s(strEyeName[i], sizeof(cTemp), cTemp);
 			strcpy_s(strAtName[i], sizeof(cTemp), cTemp);
 			strcpy_s(strCamTimeName[i], sizeof(cTemp), cTemp);
@@ -358,7 +359,13 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	{
 		eChoice = (_int)CAM_EYE;
 		iCamIndex[CAM_AT] = 0;
-		iPreCamIndex[CAM_AT] = 0;
+
+		_float4 vPos = m_vecCam[CAM_EYE][iCamIndex[CAM_EYE]];
+		f3Movement_Pos[0] = vPos.x;
+		f3Movement_Pos[1] = vPos.y;
+		f3Movement_Pos[2] = vPos.z;
+
+		m_vecCamObjects[CAM_EYE][iCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
 	}
 	ImGui::EndChild();
 	ImGui::SameLine();
@@ -380,7 +387,13 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	{
 		eChoice = (_int)CAM_AT;
 		iCamIndex[CAM_EYE] = 0;
-		iPreCamIndex[CAM_EYE] = 0;
+
+		_float4 vPos = m_vecCam[CAM_AT][iCamIndex[CAM_AT]];
+		f3Movement_Pos[0] = vPos.x;
+		f3Movement_Pos[1] = vPos.y;
+		f3Movement_Pos[2] = vPos.z;
+
+		m_vecCamObjects[CAM_AT][iCamIndex[CAM_AT] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
 	}
 	ImGui::EndChild();
 
@@ -394,6 +407,13 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 				f3Movement_Pos[0] = vPos.x;
 				f3Movement_Pos[1] = vPos.y;
 				f3Movement_Pos[2] = vPos.z;
+
+				if (0 != iPreCamIndex[CAM_EYE])
+					m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
+				if (0 != iPreCamIndex[CAM_AT])
+					m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
+
+				m_vecCamObjects[CAM_EYE][iCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
 
 				iPreCamIndex[CAM_EYE] = iCamIndex[CAM_EYE];
 			}
@@ -410,6 +430,13 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 				f3Movement_Pos[1] = vPos.y;
 				f3Movement_Pos[2] = vPos.z;
 
+				if (0 != iPreCamIndex[CAM_EYE])
+					m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
+				if (0 != iPreCamIndex[CAM_AT])
+					m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
+
+				m_vecCamObjects[CAM_AT][iCamIndex[CAM_AT] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
+
 				iPreCamIndex[CAM_AT] = iCamIndex[CAM_AT];
 			}
 		}
@@ -419,7 +446,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		iFixCamIndex[CAM_EYE] = iCamIndex[CAM_EYE] - 1;		//	vector에 사용되는 인덱스.
 	else if (0 != iCamIndex[CAM_AT])
 		iFixCamIndex[CAM_AT] = iCamIndex[CAM_AT] - 1;		//	vector에 사용되는 인덱스.
-	
+
 
 
 	//	Push, Pop
@@ -495,6 +522,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 		--iCamIndex[eChoice];
 		--iFixCamIndex[eChoice];
+		--iPreCamIndex[eChoice];
 	}
 
 
@@ -553,7 +581,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 			iCamTimeIndex = i;
 	}
 	ImGui::EndChild();
-	if(m_iNumCamTime > iCamTimeIndex)
+	if (m_iNumCamTime > iCamTimeIndex)
 		fCamTime = m_vecCamTime[iCamTimeIndex];
 
 
@@ -575,7 +603,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 				}
 			}
 		}
-		
+
 		++iCamTimeIndex;
 
 		fCamTime = 1.f;
@@ -589,7 +617,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 		--iCamTimeIndex;
 
-		if(iter != m_vecCamTime.end())
+		if (iter != m_vecCamTime.end())
 			fCamTime = *iter;
 	}
 
@@ -610,28 +638,42 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 
 	static _float fSettingTime = 0.f;
-	static _bool bActionPlaying = false;
 	static _bool bClusterRender = true;
 	static _bool bPreClusterRender = true;
+	static _bool bTimeSlow = false;
+	static _float fClusterRadius = 0.1f;
+	static _float fPreClusterRadius = 0.1f;
 	if (ImGui::CollapsingHeader("Setting Actions"))
 	{
 		//	Play Time
 		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.68f);
 		ImGui::SliderFloat("Full Time", &fSettingTime, 0.f, (_float)(m_vecCamTime.size() - 1), "%f");
+		if (0.f > fSettingTime)
+			fSettingTime = 0.f;
+
+		if (pGameInstance->Key_Down(DIK_R))
+			m_bCutScene = true;
 
 		//	Play CutScene
 		if (ImGui::Button("Play", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
-			bActionPlaying = true;
+			m_bCutScene = true;
+		((CCamera_Dynamic*)m_pCamera)->Start_CutScene(m_bCutScene, CCamera_Dynamic::CUTSCENE_END);
 		if (m_iNumCam[CAM_EYE] == m_iNumCam[CAM_AT] &&
 			m_iNumCam[CAM_EYE] == m_iNumCamTime + 1 &&
-			true == bActionPlaying)
-			bActionPlaying = ((CCamera_Dynamic*)m_pCamera)->Play_CutScene(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, &fSettingTime, fTimeDelta * (_float)bActionPlaying);
-		((CCamera_Dynamic*)m_pCamera)->Start_CutScene(bActionPlaying, CCamera_Dynamic::CUTSCENE_END);
-
+			true == m_bCutScene)
+			m_bCutScene = ((CCamera_Dynamic*)m_pCamera)->Play_CutScene(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, &fSettingTime, fTimeDelta * (_float)m_bCutScene);
+		
 
 		ImGui::SameLine();
 		if (ImGui::Button("Stop", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
-			bActionPlaying = false;
+			m_bCutScene = false;
+
+		ImGui::Checkbox("Slow", &bTimeSlow);
+		g_bDeathTime = bTimeSlow;
+
+		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.3f);
+		ImGui::DragFloat2("MotionBlur", &m_fMotionBlur.x, 0.01f, 0.f, 10.f, "%.2f");
+		m_pRendererCom->MotionBlur(m_fMotionBlur.x, m_fMotionBlur.y);
 
 		ImGui::Checkbox("Render", &bClusterRender);
 		if (bPreClusterRender != bClusterRender)
@@ -646,6 +688,20 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 			bPreClusterRender = bClusterRender;
 		}
+
+		ImGui::DragFloat("Cluster Radius", &fClusterRadius, 0.001f, 0.f, 1.f, "%.3f");
+		if (0.f > fClusterRadius)
+			fClusterRadius = 0.001f;
+
+		for (_int iType = 0; iType < CAM_END; ++iType)
+		{
+			for (auto & iter : m_vecCamObjects[iType])
+			{
+				iter->Set_SphereSize(fClusterRadius);
+			}
+		}
+
+		fPreClusterRadius = fClusterRadius;
 	}
 
 
@@ -737,6 +793,10 @@ _bool CImGuiManager::Window_LoadCams(_bool * bOpen)
 		_float4*	pCamEye = new _float4;
 		_float4*	pCamAt = new _float4;
 		_float*		pCamTime = new _float;
+
+		_float2*	pBlur = new _float2;
+		ReadFile(hFile, pBlur, sizeof(_float2), &dwByte, nullptr);
+		m_fMotionBlur = *pBlur;
 		while (true)
 		{
 			ReadFile(hFile, pCamEye, sizeof(_float4), &dwByte, nullptr);
@@ -748,9 +808,10 @@ _bool CImGuiManager::Window_LoadCams(_bool * bOpen)
 				Safe_Delete(pCamEye);
 				Safe_Delete(pCamAt);
 				Safe_Delete(pCamTime);
+				Safe_Delete(pBlur);
 
 				//	std::vector<_float>::iterator iter = m_vecCamTime.end();
-				m_vecCamTime.erase(m_vecCamTime.end() -1);
+				m_vecCamTime.erase(m_vecCamTime.end() - 1);
 				--m_iNumCamTime;
 				break;
 			}
@@ -858,6 +919,7 @@ _bool CImGuiManager::Window_SaveCams(_bool * bOpen)
 
 		if (0 == err)
 		{
+			fwrite(&(m_fMotionBlur), sizeof(_float2), 1, fp);
 			for (_int i = 0; i < iSize; ++i)
 			{
 				_float4 vEyePos;
@@ -865,7 +927,7 @@ _bool CImGuiManager::Window_SaveCams(_bool * bOpen)
 				_float	fUseTime;
 				XMStoreFloat4(&vEyePos, XMLoadFloat4(&m_vecCam[CAM_EYE][i]));
 				XMStoreFloat4(&vAtPos, XMLoadFloat4(&m_vecCam[CAM_AT][i]));
-				if(i != iSize)
+				if (i != iSize)
 					fUseTime = m_vecCamTime[i];
 
 				fwrite(&(vEyePos), sizeof(_float4), 1, fp);
@@ -1392,9 +1454,21 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 	Character_Compare_Duration(_iIndex);
 	Character_Compare_Frame(_iIndex);
 
+	static _float fSetDuration = 0.f;
+	if (ImGui::CollapsingHeader("Duration Set"))
+	{
+		ImGui::DragFloat("Set Duration : ", &fSetDuration, 0.f, m_fDuration);
+	}
+
 	if (ImGui::SliderFloat("Duration : ", &m_fCurrentDuration, 0.f, m_fDuration))
 	{
 		Character_Set_Duration(_iIndex);
+	}
+	else if (0 != fSetDuration)
+	{
+		m_fCurrentDuration = fSetDuration;
+		Character_Set_Duration(0);
+		Character_Set_Duration(1);
 	}
 
 	ImGui::SameLine();
@@ -1407,7 +1481,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 	ImGui::SameLine();
 	ImGui::Text("%d", m_iFrame);
 
-	
+
 	ImGui::Text("%f %f %f", m_vCurrentPosition.x, m_vCurrentPosition.y, m_vCurrentPosition.z);
 
 

@@ -19,6 +19,11 @@ public:
 		CCharacters*  m_pPlayer;
 	}DOOR_DESC;
 
+public:
+	_uint Get_ModelIndex() { return m_tMyDesc.iModelIndex; }
+	_bool Get_ColCheck() { return m_bColCheck; }
+	_bool Get_Turn() { return m_bTurn; }
+
 private:
 	CDoor(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CDoor(const CDoor& rhs);
@@ -41,8 +46,11 @@ private:
 	_float4x4	m_matProjOrigin;
 
 	_bool     m_bTurn = false;
+	_bool	  m_bInteractionCheck = false;
+	_bool	  m_bUICreat = false;
 	_float    m_fTurnAngle = 0.f;
 	_bool     m_bNonAlpha = false;
+	_bool	  m_bColCheck = false;
 private:
 	HRESULT Delete_Component(const _tchar* pComponentTag);
 

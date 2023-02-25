@@ -34,6 +34,7 @@ public:
 
 		return S_OK;
 	}
+	void		Play_TestScene() { m_bCutScene = true; }
 
 public:
 	HRESULT		Initialize(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -102,6 +103,7 @@ private:
 	vector<CCharacters*> m_vecObjList;
 	vector<CAnimation*> m_vecAnimation;
 	vector<_uint> m_vecAnimIndex;
+	_float2 m_fMotionBlur;
 
 	int m_iFrame = 100;
 	int m_iCurrentFrame = 0;
@@ -115,6 +117,9 @@ private:
 	_float m_fCurrentDuration = 0.f;
 
 	_float3 m_vCurrentPosition;
+
+private:
+	_bool	m_bCutScene = false;
 public:
 	virtual void Free() override;
 };

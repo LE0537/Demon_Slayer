@@ -19,14 +19,14 @@ public:
 	enum SHAKE{ SHAKE_DOWN,SHAKE_HIT,SHAKE_END};
 	enum ZOOM { ZOOM_LOW,ZOOM_MIDDLE ,ZOOM_HIGH, ZOOM_END };
 	enum CAMTURN { CAM_RIGHT, CAM_LEFT, CAM_TARGETRIGHT, CAM_TARGETLEFT, CAM_END };
-	enum CUTSCENE{ CUTSCENE_TAN_SPC_1, CUTSCENE_TAN_SPC_2, CUTSCENE_TAN_SPC_3, CUTSCENE_END};
+	enum CUTSCENE{ CUTSCENE_TAN_SPC_1, CUTSCENE_TAN_SPC_2, CUTSCENE_TAN_SPC_3, CUTSCENE_TAN_SPC_4, CUTSCENE_TAN_SPC_5, CUTSCENE_END};
 private:
 	CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCamera_Dynamic(const CCamera_Dynamic& rhs);
 	virtual ~CCamera_Dynamic() = default;
 
 public:
-	void	Start_CutScene(_bool bTrueisPlay, CUTSCENE eCutScene) { m_bCutScene = bTrueisPlay; m_eCutScene = eCutScene; }
+	void	Start_CutScene(_bool bTrueisPlay, CUTSCENE eCutScene);
 	_bool 	Play_CutScene(vector<_float4> vecPositions, vector<_float4> vecLookAts, vector<_float> vecUseTime, _float* pOut, _float fTimeDelta);
 
 public:
@@ -160,9 +160,13 @@ private:
 	_float m_fBattleCamZ = 0.f;
 
 	//	CamAction
+	CRenderer*	m_pRendererCom = nullptr;
+
 	_bool		m_bCutScene = false;
 	CUTSCENE	m_eCutScene = CUTSCENE_END;
 	_float		m_fCurrentCutSceneTime = 0.f;
+
+	std::vector<_float2>					m_vecMotionBlur;
 	std::vector<std::vector<_float4>>		m_vecCamEye;
 	std::vector<std::vector<_float4>>		m_vecCamAt;
 	std::vector<std::vector<_float>>		m_vecCamTime;

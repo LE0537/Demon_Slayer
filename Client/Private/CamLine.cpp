@@ -89,7 +89,7 @@ HRESULT CCamLine::Render()
 
 
 	//	Cube Cluster
-	_matrix matWorld = XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixTranslation(m_vPos[3].x, m_vPos[3].y, m_vPos[3].z);
+	_matrix matWorld = XMMatrixScaling(m_fSphereSize, m_fSphereSize, m_fSphereSize) * XMMatrixTranslation(m_vPos[2].x, m_vPos[2].y, m_vPos[2].z);
 
 	if (FAILED(m_pShader_ModelCom->Set_RawValue("g_WorldMatrix", &XMMatrixTranspose(matWorld), sizeof(_float4x4))))
 		return E_FAIL;
