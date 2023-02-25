@@ -1444,6 +1444,9 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Idle">
       <UniqueIdentifier>{53ea6d48-0299-4420-9f7f-71ae760a2770}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC\TrainNPC">
+      <UniqueIdentifier>{688be346-9a87-4174-bf89-e43456a508d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2877,6 +2880,9 @@
     <ClInclude Include="..\Public\EnmuBossIdleState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Idle</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\TrainNPC.h">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\TrainNPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4276,6 +4282,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\EnmuBossIdleState.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TrainNPC.cpp">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\TrainNPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

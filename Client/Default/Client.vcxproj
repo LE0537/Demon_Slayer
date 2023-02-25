@@ -621,6 +621,7 @@
     <ClInclude Include="..\public\TanjiroWeapon2.h" />
     <ClInclude Include="..\Public\TargetCircle.h" />
     <ClInclude Include="..\Public\Terrain.h" />
+    <ClInclude Include="..\public\TrainNPC.h" />
     <ClInclude Include="..\Public\TxtWinLight.h" />
     <ClInclude Include="..\Public\TxtWinUI.h" />
     <ClInclude Include="..\public\UI.h" />
@@ -1090,6 +1091,7 @@
     <ClCompile Include="..\private\TanjiroWeapon2.cpp" />
     <ClCompile Include="..\Private\TargetCircle.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\private\TrainNPC.cpp" />
     <ClCompile Include="..\Private\TxtWinLight.cpp" />
     <ClCompile Include="..\Private\TxtWinUI.cpp" />
     <ClCompile Include="..\private\UI.cpp" />

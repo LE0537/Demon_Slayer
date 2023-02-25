@@ -5,6 +5,7 @@
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "RuiDadDashState.h"
+#include "SoundMgr.h"
 
 
 using namespace RuiDad;
@@ -468,7 +469,7 @@ void CAtk_1_State::Enter(CRuiDad* pRuiDad)
 	switch (m_eStateType)
 	{
 	case Client::CRuiDadState::TYPE_START:
-		m_eStateId = STATE_ID::STATE_ATK_1;
+		m_eStateId = STATE_ID::STATE_ATK_1; //ÆÝÄ¡ µÎ¹ø
 		pRuiDad->Get_Transform()->Set_PlayerLookAt(pRuiDad->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pRuiDad->Get_Model()->Reset_Anim(CRuiDad::ANIMID::ANIM_ATTACK_0);
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_ATTACK_0);
@@ -477,15 +478,16 @@ void CAtk_1_State::Enter(CRuiDad* pRuiDad)
 		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_ATTACK_0, 0.01f);
 		break;
 	case Client::CRuiDadState::TYPE_LOOP:
-		m_eStateId = STATE_ID::STATE_ATK_2;
+		m_eStateId = STATE_ID::STATE_ATK_2; 
 		pRuiDad->Get_Model()->Reset_Anim(CRuiDad::ANIMID::ANIM_ATTACK_1);
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_ATTACK_1);
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_ATTACK_1);
 		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_ATTACK_1, false);
 		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_ATTACK_1, 0.01f);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_4.wav"), fEFFECT);
 		break;
 	case Client::CRuiDadState::TYPE_END:
-		m_eStateId = STATE_ID::STATE_ATK_3;
+		m_eStateId = STATE_ID::STATE_ATK_3; // Á¡ÇÁ ÆÝÄ¡
 		pRuiDad->Get_Model()->Reset_Anim(CRuiDad::ANIMID::ANIM_ATTACK_2);
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_ATTACK_2);
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_ATTACK_2);

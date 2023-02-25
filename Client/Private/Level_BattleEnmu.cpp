@@ -15,6 +15,7 @@
 #include "Terrain.h"
 #include "Door.h"
 #include "Effect_Manager.h"
+#include "Level_BossEnmu.h"
 
 unsigned int APIENTRY Thread_BattleEnmu(void* pArg)
 {
@@ -138,7 +139,7 @@ HRESULT CLevel_BattleEnmu::Initialize()
 	CSoundMgr::Get_Instance()->BGM_Stop();
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
 
-	
+
 
 	return S_OK;
 }
@@ -169,18 +170,24 @@ void CLevel_BattleEnmu::Tick(_float fTimeDelta)
 			pUIManager->Add_P2_Combo_Enmu();
 			pUIManager->Add_AdvBattleUI();
 			pUIManager->Add_AdvResult((LEVEL)g_iLevel);
-			
+
 			m_bCreateUI = true;
 		}
 
-		if (pUIManager->Get_BattleTypeCheck())
+
+		if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
 		{
-			if (pUIManager->Get_LevelResultOn())
+			m_fNextLevelTime += fTimeDelta;
+			if (m_fNextLevelTime > 3.f)
 			{
-				if (FAILED(pGameInstance->Open_Level(LEVEL_GAMERESULT, CLevel_GameResult::Create(m_pDevice, m_pContext))))
+				if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
 					return;
 			}
+
 		}
+
+
+
 
 
 
@@ -758,7 +765,7 @@ HRESULT CLevel_BattleEnmu::Load_StaticObjects(char * pFileName)
 				tMeshObj_StaticDesc.fGlowPower = tMapObjDesc.fGlowPower;
 				tMeshObj_StaticDesc.bAlphaBlend = tMapObjDesc.bAlphaBlend;
 
-		
+
 				switch (tMeshObj_StaticDesc.iModelIndex)
 				{
 				case 2097:
