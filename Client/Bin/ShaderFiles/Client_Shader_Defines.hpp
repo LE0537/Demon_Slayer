@@ -121,3 +121,9 @@ DepthStencilState DSS_Effect
 	DepthEnable = false;
 	DepthWriteMask = zero;
 };
+DepthStencilState DSS_NonWriteDepth
+{
+	DepthEnable = true;
+DepthWriteMask = zero;
+DepthFunc = less_equal;
+};

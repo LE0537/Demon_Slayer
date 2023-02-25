@@ -730,7 +730,7 @@ void CTanjiro::Play_Scene()
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_RUI:
-		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
+		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_1);
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:

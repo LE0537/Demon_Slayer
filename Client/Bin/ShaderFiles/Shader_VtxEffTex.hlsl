@@ -557,4 +557,14 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_GRAYSCALE_FLOWMAP();
 	}
 
+	pass AlphaGlow_NonWriteDepth	//	11
+	{
+		SetRasterizerState(RS_Effect);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_NonWriteDepth, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_ALPHAGLOW();
+	}
 }

@@ -176,13 +176,22 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			//if (pGameInstance->Key_Pressing(DIK_RIGHT))
 			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
-			if (pGameInstance->Key_Pressing(DIK_1))
+			//if (pGameInstance->Key_Pressing(DIK_1))
+			//	m_pTransform->Go_Straight(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_2))
+			//	m_pTransform->Go_Backward(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_3))
+			//	m_pTransform->Go_Left(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_4))
+			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
+
+			if (pGameInstance->Key_Pressing(DIK_NUMPAD8))
 				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_2))
+			if (pGameInstance->Key_Pressing(DIK_NUMPAD5))
 				m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_3))
+			if (pGameInstance->Key_Pressing(DIK_NUMPAD4))
 				m_pTransform->Go_Left(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_4))
+			if (pGameInstance->Key_Pressing(DIK_NUMPAD6))
 				m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 			if (pGameInstance->Key_Pressing(DIK_NUMPAD9))
@@ -1430,6 +1439,9 @@ void CCamera_Dynamic::Check_StoryCam()
 
 _bool CCamera_Dynamic::CutScene(CUTSCENE eCutScene, _float fTimeDelta)
 {
+	if (CUTSCENE_END <= eCutScene)
+		return false;
+
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->MotionBlur(m_vecMotionBlur[eCutScene].x, m_vecMotionBlur[eCutScene].y);
 

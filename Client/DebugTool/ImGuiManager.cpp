@@ -305,6 +305,15 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 	//	Eye, At Interface
 	ImGui::DragFloat3("Position", f3Movement_Pos, 0.05f);
+	_float fSpeed = 0.01f;
+	if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+		fSpeed = -0.01f;
+	if (pGameInstance->Key_Down(DIK_1))
+		f3Movement_Pos[0] += fSpeed;
+	if (pGameInstance->Key_Down(DIK_2))
+		f3Movement_Pos[1] += fSpeed;
+	if (pGameInstance->Key_Down(DIK_3))
+		f3Movement_Pos[2] += fSpeed;
 	if (0 < m_iNumCam[eChoice] && 0 != iCamIndex[eChoice])
 	{
 		m_vecCamObjects[eChoice][(iCamIndex[eChoice] - 1)]->Set_Pos(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2]);
@@ -407,9 +416,11 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 				f3Movement_Pos[1] = vPos.y;
 				f3Movement_Pos[2] = vPos.z;
 
-				if (0 != iPreCamIndex[CAM_EYE])
+				if (0 != iPreCamIndex[CAM_EYE] &&
+					iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
 					m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
-				if (0 != iPreCamIndex[CAM_AT])
+				if (0 != iPreCamIndex[CAM_AT] &&
+					iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
 					m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
 
 				m_vecCamObjects[CAM_EYE][iCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
@@ -428,10 +439,12 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 				f3Movement_Pos[0] = vPos.x;
 				f3Movement_Pos[1] = vPos.y;
 				f3Movement_Pos[2] = vPos.z;
-
-				if (0 != iPreCamIndex[CAM_EYE])
+				
+				if (0 != iPreCamIndex[CAM_EYE] &&
+					iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
 					m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
-				if (0 != iPreCamIndex[CAM_AT])
+				if (0 != iPreCamIndex[CAM_AT] &&
+					iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
 					m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
 
 				m_vecCamObjects[CAM_AT][iCamIndex[CAM_AT] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));

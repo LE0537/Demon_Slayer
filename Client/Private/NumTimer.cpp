@@ -66,7 +66,7 @@ void CNumTimer::Tick(_float fTimeDelta)
 
 		if (!m_bTimerOnoff)
 		{
-			m_fTimer -= fTimeDelta;
+			/*m_fTimer -= fTimeDelta;
 
 			if (m_ThrowUIinfo.iLayerNum == 0)
 				m_iFirstNum = (_uint)m_fTimer / 10;
@@ -76,7 +76,7 @@ void CNumTimer::Tick(_float fTimeDelta)
 			if (m_iFirstNum <= 0)
 				m_iFirstNum = 0;
 
-			m_bRecord = true;
+			m_bRecord = true;*/
 		}
 		else
 		{

@@ -213,6 +213,9 @@ void CEffect_Texture::Late_Tick(_float fTimeDelta)
 			case CEffect::SHADER_PROJECTION:
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_EFFECT, this);
 				break;
+			case CEffect::SHADER_FIRSTPROJ:
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_BACKEFFECT, this);
+				break;
 			}
 		}
 	}
@@ -256,7 +259,9 @@ HRESULT CEffect_Texture::Render()
 	else if (m_TextureInfo.iShader == CEffect::SHADER_PROJECTION) {
 		m_pShaderCom->Begin(5);
 	}
-
+	else if (m_TextureInfo.iShader == CEffect::SHADER_FIRSTPROJ) {
+		m_pShaderCom->Begin(11);
+	}
 	m_pVIBufferCom->Render();
 
 	return S_OK;
@@ -315,7 +320,7 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
 
-	if (m_TextureInfo.iShader == CEffect::SHADER_PROJECTION) {
+	if (m_TextureInfo.iShader == CEffect::SHADER_PROJECTION || m_TextureInfo.iShader == CEffect::SHADER_FIRSTPROJ) {
 		if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
 			return E_FAIL;
 		if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))

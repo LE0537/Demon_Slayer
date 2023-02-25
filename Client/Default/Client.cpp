@@ -94,7 +94,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		
 			pGameInstance->Update_TimeDelta(TEXT("Timer_60"));
 
-			pMainApp->Tick(pGameInstance->Get_TimeDelta(TEXT("Timer_60")));
+			pMainApp->Tick(1.0f / 60.0f);
 			pMainApp->Render();
 		}
 		
