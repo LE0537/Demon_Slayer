@@ -55,6 +55,9 @@ HRESULT CQuiestSubBase::Initialize(void * pArg)
 
 void CQuiestSubBase::Tick(_float fTimeDelta)
 {
+
+	if (g_iLevel == LEVEL_BATTLEENMU)
+		m_bDead = true;
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	
 	if (pGameInstance->Key_Down(DIK_TAB))

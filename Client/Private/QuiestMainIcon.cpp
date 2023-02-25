@@ -51,6 +51,10 @@ HRESULT CQuiestMainIcon::Initialize(void * pArg)
 
 void CQuiestMainIcon::Tick(_float fTimeDelta)
 {
+
+	if (g_iLevel == LEVEL_BATTLEENMU)
+		m_bDead = true;
+
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
 	if (pUI_Manager->Get_MsgOnOff())
