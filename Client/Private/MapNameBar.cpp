@@ -141,7 +141,7 @@ HRESULT CMapNameBar::Render()
 	if(m_ThrowUIinfo.iLevelIndex == LEVEL_ADVRUI)
 		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("나타구모 산 초입"), XMVectorSet(m_fX - 115.f, m_fY - 23.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));	
 	else if(m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("무한열차 후문"), XMVectorSet(m_fX - 115.f, m_fY - 23.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("무한열차 후문"), XMVectorSet(m_fX - 100.f, m_fY - 23.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;

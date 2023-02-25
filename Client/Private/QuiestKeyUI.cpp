@@ -36,12 +36,24 @@ HRESULT CQuiestKeyUI::Initialize(void * pArg)
 	}
 	else
 	{
+		memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 		memcpy(&m_iLayerNum, pArg, sizeof(_uint));
-		m_iImgNum = 2;
-		m_fSizeX = 50.f;
-		m_fSizeY = 50.f;
-		m_fX = 830.f;
-		m_fY = 360.f;
+		if (m_ThrowUIinfo.iLayerNum == 1)
+		{
+			m_iImgNum = 1;
+			m_fSizeX = m_ThrowUIinfo.vScale.x;
+			m_fSizeY = m_ThrowUIinfo.vScale.y;
+			m_fX = m_ThrowUIinfo.vPos.x;
+			m_fY = m_ThrowUIinfo.vPos.y;
+		}
+		else if(m_iLayerNum >= 0 && m_iLayerNum <= 50)
+		{
+			m_iImgNum = 2;
+			m_fSizeX = 50.f;
+			m_fSizeY = 50.f;
+			m_fX = 830.f;
+			m_fY = 360.f;
+		}
 	}
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
@@ -56,6 +68,10 @@ HRESULT CQuiestKeyUI::Initialize(void * pArg)
 void CQuiestKeyUI::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+
+	if (g_iLevel == LEVEL_BATTLEENMU)
+		m_bDead = true;
 
 	if (g_iLevel == LEVEL_ADVRUI)
 	{
@@ -92,7 +108,7 @@ void CQuiestKeyUI::Tick(_float fTimeDelta)
 	}
 	else if(g_iLevel == LEVEL_ADVAKAZA)
 	{
-		if (m_ThrowUIinfo.iLayerNum == 2)
+		if (m_iLayerNum >= 0 && m_iLayerNum <= 50)
 		{
 			if (pUI_Manager->Get_InteractionOnOff())
 			{
@@ -114,7 +130,7 @@ void CQuiestKeyUI::Tick(_float fTimeDelta)
 				}
 			}
 		}
-		else
+		else if (m_ThrowUIinfo.iLayerNum == 1)
 		{
 			if (!pUI_Manager->Get_MsgOnOff())
 			{

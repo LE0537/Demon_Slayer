@@ -52,6 +52,10 @@ HRESULT CQuiestMainBase::Initialize(void * pArg)
 
 void CQuiestMainBase::Tick(_float fTimeDelta)
 {
+
+	if (g_iLevel == LEVEL_BATTLEENMU)
+		m_bDead = true;
+
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
 

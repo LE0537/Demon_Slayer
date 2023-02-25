@@ -107,8 +107,9 @@ HRESULT CBtlFixedImg::Render()
 	}
 	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU)
 	{
-		if(m_ThrowUIinfo.iTextureNum != 2 && m_ThrowUIinfo.iTextureNum != 3 && m_ThrowUIinfo.iTextureNum != 14 && 
-			m_ThrowUIinfo.iTextureNum != 15 && m_ThrowUIinfo.iTextureNum != 23 && m_ThrowUIinfo.iTextureNum != 36)
+		if(m_ThrowUIinfo.bPlyCheck && m_ThrowUIinfo.iTextureNum != 23 && m_ThrowUIinfo.iTextureNum != 36)
+			m_pVIBufferCom->Render();
+		else if(!m_ThrowUIinfo.bPlyCheck && m_ThrowUIinfo.iTextureNum != 3 && m_ThrowUIinfo.iTextureNum != 14 && m_ThrowUIinfo.iTextureNum != 15 && m_ThrowUIinfo.iTextureNum != 2)
 			m_pVIBufferCom->Render();
 	}
 

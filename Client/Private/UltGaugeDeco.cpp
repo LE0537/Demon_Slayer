@@ -71,7 +71,7 @@ HRESULT CUltGaugeDeco::Render()
 		nullptr == m_pVIBufferCom)
 		return E_FAIL;
 
-	if (FAILED(SetUp_ShaderResources()))
+	if (FAILED(SetUp_ShaderResources())) 
 		return E_FAIL;
 
 	m_pShaderCom->Begin(25);

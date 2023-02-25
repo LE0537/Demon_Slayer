@@ -101,7 +101,7 @@ HRESULT CCharNameUI::Initialize(void * pArg)
 void CCharNameUI::Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY || m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU)
 	{
 		if (!m_ThrowUIinfo.bPlyCheck)
 			Name_Selected(pUI_Manager->Get_1P()->Get_PlayerInfo().strName);
@@ -156,7 +156,7 @@ void CCharNameUI::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom && m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
-	else if(nullptr != m_pRendererCom && m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	else if(nullptr != m_pRendererCom && (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY || m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU))
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
 }
 
@@ -174,7 +174,7 @@ HRESULT CCharNameUI::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	if(m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
+	if(m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY || LEVEL_BATTLEENMU)
 		m_pVIBufferCom->Render();
 	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 	{
