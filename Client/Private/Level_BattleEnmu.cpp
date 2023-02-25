@@ -436,9 +436,9 @@ HRESULT CLevel_BattleEnmu::Ready_Layer_Player(const _tchar * pLayerTag)
 			return E_FAIL;
 		break;
 	case 8: //¿£¹«
-		tCharacterDesc2p.i1P2P = 22;
+		tCharacterDesc2p.i1P2P = 11;
 		tCharacterDesc2p.bSub = false;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_BATTLEENMU, TEXT("Layer_Rui"), &tCharacterDesc2p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Enmu"), LEVEL_BATTLEENMU, TEXT("Layer_Enmu"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	default:

@@ -12,6 +12,10 @@
 #include "EnmuGuardHitState.h"
 #include "EnmuGuardState.h"
 
+
+#include "EnmuHitState.h"
+#include "EnmuUpperHitState.h"
+#include "EnmuTakeDownState.h"
 using namespace Enmu;
 
 CEnmu::CEnmu(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -36,7 +40,7 @@ HRESULT CEnmu::Initialize(void * pArg)
 
 	m_i1p = tCharacterDesc.i1P2P;
 
-	m_i1p = 11;
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -59,10 +63,12 @@ HRESULT CEnmu::Initialize(void * pArg)
 	else if (m_i1p == 11)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
 		_vector vPos = { 64.f, 0.f, 38.5f,1.f };
+		if (g_iLevel == LEVEL_BATTLEENMU)
+			vPos = { -0.302f, 16.420f, 192.321f,1.f };
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
@@ -107,7 +113,10 @@ void CEnmu::Tick(_float fTimeDelta)
 		}
 	}
 
-
+	//if (m_pTransformCom->Get_Jump() == true)
+	//	m_tInfo.bJump = true;
+	//else if (m_pTransformCom->Get_Jump() == false)
+	//	m_tInfo.bJump = false;
 
 }
 
@@ -377,6 +386,8 @@ void CEnmu::Set_Info()
 
 void CEnmu::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+	CEnmuState* pState = new CHitState(_fPow, _bJumpHit);
+	m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pState);
 
 }
 
@@ -398,13 +409,15 @@ void CEnmu::Get_GuardHit(_int eType)
 
 void CEnmu::Player_TakeDown(_float _fPow, _bool _bJump)
 {
-
+	CEnmuState* pState = new CTakeDownState(_fPow, _bJump);
+	m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pState);
 
 }
 
 void CEnmu::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
-
+	CEnmuState* pState = new CUpperHitState(eHitType, CEnmuState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+	m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pState);
 
 }
 

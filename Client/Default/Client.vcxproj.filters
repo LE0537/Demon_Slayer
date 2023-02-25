@@ -2850,6 +2850,15 @@
     <ClInclude Include="..\public\Enmu_Chok.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\04.Chok</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Skill1_EnmuState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill2_EnmuState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Skill3_EnmuState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Skill</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4234,6 +4243,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Enmu_Chok.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\04.Chok</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill1_EnmuState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill2_EnmuState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Skill3_EnmuState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Skill</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

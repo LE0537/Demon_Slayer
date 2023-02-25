@@ -170,10 +170,10 @@ void CLevel_AdvAkaza::Tick(_float fTimeDelta)
 			pUIManager->Set_Sel2P(8);
 			pUIManager->Set_Sel2P_2(99);
 			
-			/*if (FAILED(pGameInstance->Open_Level(LEVEL_BATTLEENMU, CLevel_BattleEnmu::Create(m_pDevice, m_pContext))))
-				return;*/
-			if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
+			if (FAILED(pGameInstance->Open_Level(LEVEL_BATTLEENMU, CLevel_BattleEnmu::Create(m_pDevice, m_pContext))))
 				return;
+			//if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
+			//	return;
 		}
 		RELEASE_INSTANCE(CUI_Manager);
 		RELEASE_INSTANCE(CGameInstance);
