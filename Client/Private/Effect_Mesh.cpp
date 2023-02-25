@@ -100,7 +100,7 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 		}
 
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-
+		
 		vPos += XMVector3Normalize(XMLoadFloat3(&m_MeshInfo.vMoveDirection)) * fTimeDelta * m_MeshInfo.fMoveSpeed;
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	}

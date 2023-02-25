@@ -1299,4 +1299,7 @@ CRuiDadState* CIdleState::Attack_Setting(CRuiDad * pRuiDad)
 		return new CAtk_1_State(TYPE_END);
 		break;
 	}
+
+
+	return nullptr;
 }
