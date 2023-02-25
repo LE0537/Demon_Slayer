@@ -69,6 +69,8 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts3()))
 		return E_FAIL;
 
+	m_WeaponWorld = dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
+
 	if (m_i1p != 10 && m_i1p != 20)
 	{
 		if (g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
@@ -758,9 +760,6 @@ void CTanjiro::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIn
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
 
-
-
-
 HRESULT CTanjiro::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
@@ -1403,13 +1402,16 @@ void CTanjiro::Check_Spl()
 	if (!m_bSplEffect)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MONTION1_SWORD1, this);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH1, m_WeaponWorld);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH2, m_WeaponWorld);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ1, this);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SWORD, m_WeaponWorld);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bSplEffect = true;
 	}
-	dynamic_cast<CEffect*>(m_pEffect)->Set_ParentWorldMatrix(dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorldMatrix());
+	//m_WeaponWorld = dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
+	//XMStoreFloat4x4( &m_WeaponWorld, (dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorldMatrix()));
 }
 CTanjiro * CTanjiro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {

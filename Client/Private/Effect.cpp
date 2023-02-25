@@ -60,10 +60,8 @@ HRESULT CEffect::Initialize(void * pArg)
 			m_pTarget = (CGameObj*)pArg;
 			static_cast<CCollBox*>(m_pTarget)->Set_Effect(this);
 		}
-		else if (EFFMOVE_MATRIX == m_EffectInfo.iMoveType)
-		{
-			m_pTarget = (CGameObj*)pArg;
-			static_cast<CCharacters*>(m_pTarget)->Set_Effect(this);
+		else if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
+			m_ParentWorldMatrix = (_float4x4*)pArg;
 		}
 		else
 			m_pTarget = (CCharacters*)pArg;
@@ -78,7 +76,18 @@ HRESULT CEffect::Initialize(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
 
-	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
+	if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
+		_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
+
+		mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
+		mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
+		mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
+
+		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParentWorld);
+	}
+	else {
+		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
+	}
 	//m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-180.f));
 
 	if (FAILED(Ready_Parts()))
@@ -112,29 +121,57 @@ void CEffect::Tick(_float fTimeDelta)
 	m_fEffectTime += fTimeDelta;
 
 	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
-		if (m_EffectInfo.iMoveType != EFFMOVE_MATRIX) {
-			if (m_bStart) {
-				if (m_EffectInfo.iMoveType != EFFMOVE_ZERO) {
-					XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
-				}
-				else {
-					_matrix mtrTargetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
-					mtrTargetWorld.r[3].m128_f32[1] = 0.f;
-					_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
+		
+		if (m_bStart) {
+			if (m_EffectInfo.iMoveType == EFFMOVE_ZERO) {
+				_matrix mtrTargetWorld = m_pTarget->Get_Transform()->Get_WorldMatrix();
+				mtrTargetWorld.r[3].m128_f32[1] = 0.f;
+				_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
 
-					XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * mtrTargetWorld);
-				}
-				m_bStart = false;
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * mtrTargetWorld);
+			}
+			else if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
+				//m_ParentWorldMatrix = dynamic_cast<CCharacters*>(m_pTarget)->Get_WeaponWorld();
+				/*_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
+				_matrix mtrParentWorld = mtrWorld * XMLoadFloat4x4(&dynamic_cast<CCharacters*>(m_pTarget)->Get_WeaponWorld());
+
+				mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
+				mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
+				mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
+
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrParentWorld);*/
+
+				_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
+
+				mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
+				mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
+				mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
+
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParentWorld);
 			}
 			else {
-				if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO) {
-					_matrix vTargetPos = m_pTarget->Get_Transform()->Get_WorldMatrix();
-					_matrix vPos = m_pTransformCom->Get_WorldMatrix();
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
+			}
+			m_bStart = false;
+		}
+		else {
+			if (EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
+				_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
 
-					XMStoreFloat4x4(&m_CombinedWorldMatrix, vPos * vTargetPos);
-				}
+				mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
+				mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
+				mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
+
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParentWorld);
+			}
+			else if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO && m_EffectInfo.iMoveType != EFFMOVE_MATRIXPIX) {
+				_matrix vTargetPos = m_pTarget->Get_Transform()->Get_WorldMatrix();
+				_matrix vPos = m_pTransformCom->Get_WorldMatrix();
+
+				XMStoreFloat4x4(&m_CombinedWorldMatrix, vPos * vTargetPos);
 			}
 		}
+		
 
 		for (auto& pTex : m_Textures)
 			pTex->Tick(fTimeDelta);
@@ -172,8 +209,6 @@ void CEffect::Late_Tick(_float fTimeDelta)
 		return;
 	}
 
-	m_fEffectStartTime += m_pTarget->Get_EffectTime();
-
 	switch (m_iEffectNum) {
 	case CEffect_Manager::EFF_HIT:
 	case CEffect_Manager::EFF_HIT2:
@@ -201,14 +236,40 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_DASH_TAN_STOP:
 	case CEffect_Manager::EFF_DASH_TAN_MOVEFB:
 	case CEffect_Manager::EFF_DASH_TAN_STOPFB:
-	case CEffect_Manager::EFF_SPL_HINO_MONTION1_PROJ1:
 	case CEffect_Manager::EFF_SPL_HINO_START:
+	case CEffect_Manager::EFF_RUIDAD_ANGRY:
 	case CEffect_Manager::EFF_SPL_HINO_STARTSLASH:
 	case CEffect_Manager::EFF_SPL_HINO_ENDGROUND:
-	case CEffect_Manager::EFF_SPL_HINO_MONTION1_SLASH1:
-	case CEffect_Manager::EFF_SPL_HINO_MONTION1_SLASH2:
-	case CEffect_Manager::EFF_SPL_HINO_MONTION1_SWORD1:
-	case CEffect_Manager::EFF_SPL_HINO_MONTION1_SWORD2:
+	case CEffect_Manager::EFF_SPL_HINO_ENDPLAYER:
+	case CEffect_Manager::EFF_SPL_HINO_MO1_SLASH1:
+	case CEffect_Manager::EFF_SPL_HINO_MO1_SLASH2:
+	case CEffect_Manager::EFF_SPL_HINO_MO1_SWORD:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_BOOM1:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_BOOM2:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_BOOM3:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_BOOM4:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_BOOM5:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_BOOM6:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_PROJ1:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_PROJ2:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_PROJ3:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_PROJ4:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_PROJ5:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_SLASH1:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_SLASH2:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_SLASH3:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_SLASH4:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_SLASH5:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_SLASH6:
+	case CEffect_Manager::EFF_SPL_HINO_MO2_SWORD:
+	case CEffect_Manager::EFF_SPL_HINO_MO3_PROJ1:
+	case CEffect_Manager::EFF_SPL_HINO_MO3_SLASH1:
+	case CEffect_Manager::EFF_SPL_HINO_MO4_PROJ1:
+	case CEffect_Manager::EFF_SPL_HINO_MO4_SLASH1:
+	case CEffect_Manager::EFF_SPL_HINO_MO5_PROJ1:
+	case CEffect_Manager::EFF_SPL_HINO_MO5_PROJ2:
+	case CEffect_Manager::EFF_SPL_HINO_MO5_SLASH1:
+	case CEffect_Manager::EFF_SPL_HINO_MO5_SLASH2:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			for (auto& pTex : m_Textures)
 				pTex->Late_Tick(fTimeDelta);
@@ -269,7 +330,7 @@ void CEffect::Set_ParentWorldMatrix(_matrix ParentMat)
 	mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
 	mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
 
-	XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrParentWorld);
+	XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * mtrParentWorld);
 }
 
 HRESULT CEffect::Ready_Components()

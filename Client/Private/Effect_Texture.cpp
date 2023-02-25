@@ -316,6 +316,7 @@ HRESULT CEffect_Texture::SetUp_ShaderResources()
 		return E_FAIL;
 
 	if (m_TextureInfo.iShader == CEffect::SHADER_PROJECTION) {
+		_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
 		if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
 			return E_FAIL;
 		if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))

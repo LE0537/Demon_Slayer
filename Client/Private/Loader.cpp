@@ -1296,6 +1296,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_Hekira_07"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_Hekira_07.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_Stone"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_Stone.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_Wind"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_Wind.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_FireTrail02"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_FireTrail02.fbx", PivotMatrix)))) return E_FAIL;
 
 #pragma endregion Effect Model
 
@@ -1599,12 +1600,35 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Special_Tanjiro(Hinokami)_EndGround"));
 		pEffect_Manager->Load_Effect(TEXT("Special_Tanjiro(Hinokami)_EndPlayer"));
 
-		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion1_Proj1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion1_Slash1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion1_Slash2"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion1_Sword1"));
-		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion1_Sword2"));
-
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Boom1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Boom2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Boom3"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Boom4"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Boom5"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Boom6"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Proj2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Proj3"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Proj4"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Proj5"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Slash1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Slash2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Slash3"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Slash4"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Slash5"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Slash6"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Sword"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion3_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion3_Slash1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion4_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion4_Slash1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Proj2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Slash1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Slash2"));
 
 
 		RELEASE_INSTANCE(CEffect_Manager);

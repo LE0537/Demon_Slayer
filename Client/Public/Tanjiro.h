@@ -205,6 +205,7 @@ public:
 	_bool Get_Stop() { return m_bStop; }
 	void Set_ADVAnimIndex(_int _iIndex) { m_iAnimIndex = _iIndex; }
 	_int Get_ADVAnimIndex() { return m_iAnimIndex; }
+
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
