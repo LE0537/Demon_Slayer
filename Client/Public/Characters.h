@@ -130,6 +130,9 @@ public:
 	void	   Set_GodMode(_bool bGodMode) { m_bGodMode = bGodMode; }
 	_bool	   Get_GodMode() const { return m_bGodMode; }
 
+	void	   Set_InteractionCheck(_bool bCheck) { m_bInteractionCheck = bCheck; }
+	_bool	   Get_InteractionCheck() { return m_bInteractionCheck; }
+
 	void	   Set_SplSkl(_bool bSkpSkl) { 
 		if(bSkpSkl == true)
 			m_bSplSkl = true;
@@ -188,6 +191,7 @@ protected:
 	_bool					m_bSceneRender = true;
 
 	_float4x4*				m_WeaponWorld;
+	_bool					m_bInteractionCheck = false;
 
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

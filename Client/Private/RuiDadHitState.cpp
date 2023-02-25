@@ -98,11 +98,11 @@ CRuiDadState * CHitState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	if (pGameInstance->Key_Down(DIK_1))
-	{
-		_float fCurrentDuration = pRuiDad->Get_Model()->Get_CurrentTime_Index(CRuiDad::ANIM_HIT_FULL);
-		int a = 0;
-	}
+	//if (pGameInstance->Key_Down(DIK_1))
+	//{
+	//	_float fCurrentDuration = pRuiDad->Get_Model()->Get_CurrentTime_Index(CRuiDad::ANIM_HIT_FULL);
+	//	int a = 0;
+	//}
 
 
 	if (m_bRuiDadDead == false && pRuiDad->Get_AnimIndex() == CRuiDad::ANIM_HIT_FULL)
