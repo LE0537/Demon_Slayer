@@ -22,6 +22,7 @@ HRESULT CLevel_StoryMenu::Initialize()
 	pUI_Manager->Add_Adc_Menu();
 	pUI_Manager->RankInfo_ZeroMemory(0);
 	pUI_Manager->Reset_Data();
+	pUI_Manager->Set_MsgOff();
 	RELEASE_INSTANCE(CUI_Manager);
 
 	if (FAILED(__super::Initialize()))

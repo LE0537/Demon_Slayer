@@ -76,9 +76,19 @@ void CQuiestKeyUI::Tick(_float fTimeDelta)
 		}
 		else
 		{
-
+			if (pUI_Manager->Get_InteractionOnOff())
+			{
+				m_fFadeTime += 0.2f;
+				if (m_fFadeTime >= 1.f)
+					m_fFadeTime = 1.f;
+			}
+			else
+			{
+				m_fFadeTime -= 0.2f;
+				if (m_fFadeTime <= 0.f)
+					m_fFadeTime = 0.f;
+			}
 		}
-		
 	}
 	else if(g_iLevel == LEVEL_ADVAKAZA)
 	{
