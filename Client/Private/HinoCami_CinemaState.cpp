@@ -5,6 +5,7 @@
 #include "ImGuiManager.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "Effect_Manager.h"
 
 using namespace Tanjiro;
 
@@ -58,6 +59,7 @@ CTanjiroState * CHinoCami_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDel
 		if (pTanjiro->Get_Model()->Get_End(CHinoCami_CinemaState::ANIM_SCENE_1))
 		{
 			pTanjiro->Get_Model()->Set_End(CHinoCami_CinemaState::ANIM_SCENE_1);
+
 			return new CHinoCami_CinemaState(SCENE_2);
 		}
 		break;
@@ -65,6 +67,7 @@ CTanjiroState * CHinoCami_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDel
 		if (pTanjiro->Get_Model()->Get_End(CHinoCami_CinemaState::ANIM_SCENE_2))
 		{
 			pTanjiro->Get_Model()->Set_End(CHinoCami_CinemaState::ANIM_SCENE_2);
+
 			return new CHinoCami_CinemaState(SCENE_3);
 		}
 		break;
@@ -72,6 +75,7 @@ CTanjiroState * CHinoCami_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDel
 		if (pTanjiro->Get_Model()->Get_End(CHinoCami_CinemaState::ANIM_SCENE_3))
 		{
 			pTanjiro->Get_Model()->Set_End(CHinoCami_CinemaState::ANIM_SCENE_3);
+
 			return new CIdleState();
 		}
 		break;
@@ -122,34 +126,86 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		RELEASE_INSTANCE(CGameInstance);
 
 		break;
-	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_0:
+	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_0: {
 		pTanjiro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);
 		pTanjiro->Get_Model()->Reset_Anim(CHinoCami_CinemaState::ANIM_SCENE_0);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CHinoCami_CinemaState::ANIM_SCENE_0);
 		pTanjiro->Get_Model()->Set_Loop(CHinoCami_CinemaState::ANIM_SCENE_0);
 		pTanjiro->Get_Model()->Set_LinearTime(CHinoCami_CinemaState::ANIM_SCENE_0, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_BOOM1, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_BOOM2, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_BOOM3, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_BOOM4, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_BOOM5, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_BOOM6, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_SLASH1, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_SLASH2, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_SLASH3, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_SLASH4, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_SLASH5, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_SLASH6, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ2, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ3, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ4, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ5, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_SWORD, pTanjiro);
+																			  
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_1:
+	}
+	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_1: {
 		pTanjiro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_030);
 		pTanjiro->Get_Model()->Reset_Anim(CHinoCami_CinemaState::ANIM_SCENE_1);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CHinoCami_CinemaState::ANIM_SCENE_1);
 		pTanjiro->Get_Model()->Set_Loop(CHinoCami_CinemaState::ANIM_SCENE_1);
 		pTanjiro->Get_Model()->Set_LinearTime(CHinoCami_CinemaState::ANIM_SCENE_1, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO3_PROJ1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO3_SLASH1, pTanjiro->Get_WeaponWorld());
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_2:
+	}
+	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_2: {
 		pTanjiro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_040);
 		pTanjiro->Get_Model()->Reset_Anim(CHinoCami_CinemaState::ANIM_SCENE_2);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CHinoCami_CinemaState::ANIM_SCENE_2);
 		pTanjiro->Get_Model()->Set_Loop(CHinoCami_CinemaState::ANIM_SCENE_2);
 		pTanjiro->Get_Model()->Set_LinearTime(CHinoCami_CinemaState::ANIM_SCENE_2, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO4_PROJ1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO4_SLASH1, pTanjiro->Get_WeaponWorld());
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
-	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_3:
+	}
+	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_3: {
 		pTanjiro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_050);
 		pTanjiro->Get_Model()->Reset_Anim(CHinoCami_CinemaState::ANIM_SCENE_3);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CHinoCami_CinemaState::ANIM_SCENE_3);
 		pTanjiro->Get_Model()->Set_Loop(CHinoCami_CinemaState::ANIM_SCENE_3);
 		pTanjiro->Get_Model()->Set_LinearTime(CHinoCami_CinemaState::ANIM_SCENE_3, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_PROJ1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_PROJ2, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_SLASH1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_SLASH2, pTanjiro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
+	}
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_4:
 		break;
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_5:

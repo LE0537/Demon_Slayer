@@ -6,13 +6,13 @@
 #include "UI_Manager.h"
 #include "Layer.h"
 #include "Level_GamePlay.h"
-#include "RuiDadIdleState.h"
 #include "ImGuiManager.h"
-#include "Tanjiro.h"
-#include "RuiDadHitState.h"
-#include "RuiDadGuardHitState.h"
-#include "AngryState.h"
-using namespace RuiDad;
+#include "EnmuToolState.h"
+#include "EnmuIdleState.h"
+#include "EnmuGuardHitState.h"
+#include "EnmuGuardState.h"
+
+using namespace Enmu;
 
 CEnmu::CEnmu(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -36,8 +36,10 @@ HRESULT CEnmu::Initialize(void * pArg)
 
 	m_i1p = tCharacterDesc.i1P2P;
 
+	//m_i1p = 11;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+
 
 	if (m_i1p == 10)
 	{
@@ -57,7 +59,8 @@ HRESULT CEnmu::Initialize(void * pArg)
 	else if (m_i1p == 11)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
 		_vector vPos = { 64.f, 0.f, 38.5f,1.f };
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
@@ -69,10 +72,12 @@ HRESULT CEnmu::Initialize(void * pArg)
 		CUI_Manager::Get_Instance()->Set_2P(this);
 	}
 
-	m_pModelCom->Set_CurrentAnimIndex(0);
-
-	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	Set_Info();
+	CEnmuState* pState = new CIdleState();
+	m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pState);
+
+	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
+
 	return S_OK;
 }
 
@@ -83,7 +88,6 @@ void CEnmu::Tick(_float fTimeDelta)
 		HandleInput();
 		TickState(fTimeDelta);
 
-		m_pModelCom->Play_Animation(fTimeDelta);
 	}
 	else if (m_i1p == 11)
 	{
@@ -197,31 +201,8 @@ HRESULT CEnmu::Render_ShadowDepth()
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 
-	if (m_bShadowAlphaIncrease == false)
-		m_ShadowMatrix = m_pTransformCom->Get_WorldMatrix();
 
-	if (m_bShadowAlphaDecrease == true)
-		m_ShadowMatrix = m_pTransformCom->Get_WorldMatrix();
-
-
-	_float4 vTemp = *(_float4*)&m_ShadowMatrix.r[3];
-
-	if (m_bShadowAlphaIncrease == true)
-	{
-		vTemp.x += 100.f;
-		vTemp.y += 100.f;
-		vTemp.z += 100.f;
-	}
-
-	*(_float4*)&m_ShadowMatrix.r[3] = vTemp;
-
-	//_float4x4 WorldMatrix = m_pTransformCom->Get_World4x4();
-
-	_float4x4	TransposeMatrix;
-	XMStoreFloat4x4(&TransposeMatrix, XMMatrixTranspose(m_ShadowMatrix));
-
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &TransposeMatrix, sizeof(_float4x4))))
+	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
 		return E_FAIL;
 
 
@@ -270,19 +251,34 @@ HRESULT CEnmu::Render_ShadowDepth()
 	return S_OK;
 }
 
+void CEnmu::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
+{
+	CEnmuState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CEnmuState::STATE_TYPE>(iTypeIndex), bIsContinue);
+	m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pState);
+}
+
 void CEnmu::HandleInput()
 {
+	CEnmuState* pNewState = m_pEnmuState->HandleInput(this);
 
+	if (pNewState)
+		m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pNewState);
 }
 
 void CEnmu::TickState(_float fTimeDelta)
 {
+	CEnmuState* pNewState = m_pEnmuState->Tick(this, fTimeDelta);
 
+	if (pNewState)
+		m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pNewState);
 }
 
 void CEnmu::LateTickState(_float fTimeDelta)
 {
+	CEnmuState* pNewState = m_pEnmuState->Late_Tick(this, fTimeDelta);
 
+	if (pNewState)
+		m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pNewState);
 }
 
 HRESULT CEnmu::SetUp_ShaderResources()
@@ -386,7 +382,18 @@ void CEnmu::Take_Damage(_float _fPow, _bool _bJumpHit)
 
 void CEnmu::Get_GuardHit(_int eType)
 {
-
+	CEnmuState* pState;
+	if (eType == CEnmuState::STATE_TYPE::TYPE_START)
+	{
+		m_pModelCom->Reset_Anim(CEnmu::ANIMID::ANIM_GUARDHIT_0);
+		pState = new CGuardHitState(CEnmuState::STATE_TYPE::TYPE_START);
+	}
+	else
+	{
+		m_pModelCom->Reset_Anim(CEnmu::ANIMID::ANIM_GUARDHIT_0);
+		pState = new CGuardHitState(CEnmuState::STATE_TYPE::TYPE_LOOP);
+	}
+	m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pState);
 }
 
 void CEnmu::Player_TakeDown(_float _fPow, _bool _bJump)
@@ -441,5 +448,5 @@ void CEnmu::Free()
 	Safe_Release(m_pSphereCom);
 	Safe_Release(m_pNavigationCom);
 
-	//Safe_Delete(m_pRuiDadState);
+	Safe_Delete(m_pEnmuState);
 }

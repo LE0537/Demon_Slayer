@@ -38,6 +38,8 @@ void CKyoujuroSkill::Tick(_float fTimeDelta)
 {
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
 
+	Set_EffectTime(fTimeDelta);
+
 	m_fTime += fTimeDelta;
 
 	//if(m_fTime > 5.f)

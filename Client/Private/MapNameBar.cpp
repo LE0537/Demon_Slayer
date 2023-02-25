@@ -86,18 +86,30 @@ void CMapNameBar::Tick(_float fTimeDelta)
 				m_bOnCheck = true;
 				if (!m_bMsgOnCheck)
 				{
-					pUI_Manager->Set_MsgOn();
-					pUI_Manager->Set_Msg(TEXT("(킁킁.. 이..냄새는... 뭐지..?)"));
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_04.wav"), fEFFECT);
-					pUI_Manager->Set_QuestStartCheck(true);
-					pUI_Manager->Set_MainQuestOn();
+					if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVRUI)
+					{
+						pUI_Manager->Set_MsgOn();
+						pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
+						pUI_Manager->Set_Msg(TEXT("(킁킁.. 이..냄새는... 뭐지..?)"));
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_04.wav"), fEFFECT);
+						pUI_Manager->Set_QuestStartCheck(true);
+						pUI_Manager->Set_MainQuestOn();
+					
+					}
+					else
+					{
+						pUI_Manager->Set_MsgOn();
+						pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
+						pUI_Manager->Set_Msg(TEXT("열차에 간신히 타버렸다.. 안을 조사해 보자"));
+						pUI_Manager->Set_QuestStartCheck(true);
+						pUI_Manager->Set_MainQuestOn();
+					}
+
 					m_bMsgOnCheck = true;
 				}
-
 			}
 		}
 	}
-	
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
@@ -126,8 +138,10 @@ HRESULT CMapNameBar::Render()
 	
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("나타구모 산 초입"), XMVectorSet(m_fX - 115.f, m_fY - 23.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
-	
+	if(m_ThrowUIinfo.iLevelIndex == LEVEL_ADVRUI)
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("나타구모 산 초입"), XMVectorSet(m_fX - 115.f, m_fY - 23.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));	
+	else if(m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("무한열차 후문"), XMVectorSet(m_fX - 100.f, m_fY - 23.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
 	RELEASE_INSTANCE(CGameInstance);
 
 	return S_OK;

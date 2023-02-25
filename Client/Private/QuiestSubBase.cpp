@@ -55,6 +55,9 @@ HRESULT CQuiestSubBase::Initialize(void * pArg)
 
 void CQuiestSubBase::Tick(_float fTimeDelta)
 {
+
+	if (g_iLevel == LEVEL_BATTLEENMU)
+		m_bDead = true;
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	
 	if (pGameInstance->Key_Down(DIK_TAB))
@@ -112,16 +115,33 @@ HRESULT CQuiestSubBase::Render()
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (m_ThrowUIinfo.iLayerNum == 0)
-		m_szQuest = TEXT("Ç÷±Í ³¿»õ µû¶ó°¡±â");
-	else if (m_ThrowUIinfo.iLayerNum == 1)
-		wsprintf(m_szQuest2, TEXT("±Í»ì´ë¿ø ±¸Ãâ(%d/2)"), pUI_Manager->Get_RescueCount());
-	else if (m_ThrowUIinfo.iLayerNum == 2)
-		m_szQuest = TEXT("ÇÏÇö Ç÷±Í Ã³Ä¡");
-	else if (m_ThrowUIinfo.iLayerNum == 3)
-		m_szQuest = TEXT("");
-	else if (m_ThrowUIinfo.iLayerNum == 4)
-		m_szQuest = TEXT("");
+	if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVRUI)
+	{
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_szQuest = TEXT("Ç÷±Í ³¿»õ µû¶ó°¡±â");
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			wsprintf(m_szQuest2, TEXT("±Í»ì´ë¿ø ±¸Ãâ(%d/2)"), pUI_Manager->Get_RescueCount());
+		else if (m_ThrowUIinfo.iLayerNum == 2)
+			m_szQuest = TEXT("ÇÏÇö Ç÷±Í Ã³Ä¡");
+		else if (m_ThrowUIinfo.iLayerNum == 3)
+			m_szQuest = TEXT("");
+		else if (m_ThrowUIinfo.iLayerNum == 4)
+			m_szQuest = TEXT("");
+	}
+	else
+	{
+		if (m_ThrowUIinfo.iLayerNum == 0)
+			m_szQuest = TEXT("¿­Â÷ ¾ÈÀ» Á¶»çÇÏ±â");
+		else if (m_ThrowUIinfo.iLayerNum == 1)
+			m_szQuest = TEXT("¿°ÁÖ ·»°íÄí ÄìÁê·Î Ã£±â");
+		else if (m_ThrowUIinfo.iLayerNum == 2)
+			m_szQuest = TEXT("ÇÏÇö1 Ç÷±Í Ã³Ä¡");
+		else if (m_ThrowUIinfo.iLayerNum == 3)
+			m_szQuest = TEXT("");
+		else if (m_ThrowUIinfo.iLayerNum == 4)
+			m_szQuest = TEXT("");
+	}
+	
 
 
 	if (pUI_Manager->Get_QuestCount() >= m_ThrowUIinfo.iLayerNum)

@@ -33,7 +33,7 @@ public:
 	enum PARTICLETYPE { PART_SPHERER, PART_CIRCLE1, PART_LINE, PART_CONE, PART_LINE2, PART_END };
 	enum EFFMOVE {
 		EFFMOVE_NONE, EFFMOVE_PLAYER, EFFMOVE_TARGET, EFFMOVE_STOP, EFFMOVE_ZERO, EFFMOVE_RANDOM,
-		EFFMOVE_MATRIX, EFFMOVE_END
+		EFFMOVE_MATRIX, EFFMOVE_MATRIXPIX, EFFMOVE_END
 	};
 
 private:
@@ -68,6 +68,7 @@ private:
 	_float4											m_vDestination;
 
 	_float4x4										m_CombinedWorldMatrix;
+	_float4x4*										m_ParentWorldMatrix;
 
 	EFFECT_INFO										m_EffectInfo;
 

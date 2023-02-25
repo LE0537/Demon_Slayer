@@ -52,6 +52,8 @@ HRESULT CQuiestGuideBase::Initialize(void * pArg)
 
 void CQuiestGuideBase::Tick(_float fTimeDelta)
 {
+	if (g_iLevel == LEVEL_BATTLEENMU)
+		m_bDead = true;
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
 	if (!pUI_Manager->Get_MsgOnOff())
@@ -94,11 +96,17 @@ HRESULT CQuiestGuideBase::Render()
 
 	if (!pUI_Manager->Get_MsgOnOff())
 	{
-		m_pVIBufferCom->Render();
-		if(m_ThrowUIinfo.iLayerNum == 0)
+	
+		if (m_ThrowUIinfo.iLayerNum == 0 && m_ThrowUIinfo.iLevelIndex == LEVEL_ADVRUI)
+		{
+			m_pVIBufferCom->Render();
 			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("³¿»õ Å½Áö"), XMVectorSet(m_fX - 70.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+		}
 		else if (m_ThrowUIinfo.iLayerNum == 1)
+		{
+			m_pVIBufferCom->Render();
 			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("Äù½ºÆ® Ã¢"), XMVectorSet(m_fX - 70.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+		}
 	}
 
 	RELEASE_INSTANCE(CUI_Manager);

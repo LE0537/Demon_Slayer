@@ -69,9 +69,11 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts3()))
 		return E_FAIL;
 
+	m_WeaponWorld = dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
+
 	if (m_i1p != 10 && m_i1p != 20)
 	{
-		if (g_iLevel == LEVEL_BATTLEENMU)
+		if (g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
 		{
 			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-0.435f, 16.413f, 212.616f, 1.f));
 			m_pNavigationCom->Find_CurrentCellIndex(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
@@ -90,10 +92,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 			*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
 			if (m_i1p == 1)
 			{
-				if (g_iLevel == LEVEL_BATTLEENMU)
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
-				else
-					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
 				CUI_Manager::Get_Instance()->Set_1P(this);
 			}
@@ -188,8 +187,11 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 		if (m_bBattleStart)
 		{
-			CTanjiroState* pState = new CBattleStartState();
-			m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+			if (g_iLevel != LEVEL_BOSSENMU)
+			{
+				CTanjiroState* pState = new CBattleStartState();
+				m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+			}
 			m_bBattleStart = false;
 		}
 
@@ -758,9 +760,6 @@ void CTanjiro::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIn
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
 
-
-
-
 HRESULT CTanjiro::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
@@ -832,6 +831,11 @@ HRESULT CTanjiro::Ready_Components()
 	else if (g_iLevel == LEVEL_BATTLEENMU)
 	{
 		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_TrainBattle"), (CComponent**)&m_pNavigationCom)))
+			return E_FAIL;
+	}
+	else if (g_iLevel == LEVEL_BOSSENMU)
+	{
+		if (FAILED(__super::Add_Components(TEXT("Com_Navigation"), LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Enmu_Navi"), (CComponent**)&m_pNavigationCom)))
 			return E_FAIL;
 	}
 	else
@@ -1398,13 +1402,16 @@ void CTanjiro::Check_Spl()
 	if (!m_bSplEffect)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MONTION1_SWORD1, this);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH1, m_WeaponWorld);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH2, m_WeaponWorld);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ1, this);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SWORD, m_WeaponWorld);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bSplEffect = true;
 	}
-	dynamic_cast<CEffect*>(m_pEffect)->Set_ParentWorldMatrix(dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorldMatrix());
+	//m_WeaponWorld = dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
+	//XMStoreFloat4x4( &m_WeaponWorld, (dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorldMatrix()));
 }
 CTanjiro * CTanjiro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {

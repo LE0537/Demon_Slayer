@@ -11,6 +11,7 @@
 #include "Camera_Dynamic.h"
 #include "CamLine.h"
 #include "Layer.h"
+#include "Enmu.h"
 
 IMPLEMENT_SINGLETON(CImGuiManager)
 
@@ -1037,6 +1038,8 @@ void CImGuiManager::LiveCharacterList()
 				strName = "Nezuko";
 			else if (wStrName == L"시노부")
 				strName = "Shinobu";
+			else if (wStrName == L"엔무")
+				strName = "Enmu";
 
 			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
 			{
@@ -1112,6 +1115,11 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 		{
 			m_vecAnimation = ((CNezuko*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
 		}
+
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"엔무")
+		{
+			m_vecAnimation = ((CEnmu*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
+		}
 	}
 
 
@@ -1173,6 +1181,11 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 					strName.erase(strName.begin(), strName.begin() + 38);
 				}
 				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"시노부")
+				{
+					strName.erase(strName.begin(), strName.begin() + 38);
+				}
+
+				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"엔무")
 				{
 					strName.erase(strName.begin(), strName.begin() + 38);
 				}
@@ -1273,6 +1286,10 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 			{
 				((CShinobu*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
 			}
+			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"엔무")
+			{
+				((CEnmu*)(m_vecObjList[_iIndex]))->Set_ToolState(selected, 0, 0, 0, false);
+			}
 		}
 	}
 
@@ -1331,6 +1348,11 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				m_vecAnimIndex.push_back(selected);
 			}
 			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"시노부")
+			{
+				m_vecAnimIndex.push_back(selected);
+			}
+
+			else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"엔무")
 			{
 				m_vecAnimIndex.push_back(selected);
 			}
@@ -1429,6 +1451,12 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"시노부")
 				{
 					((CShinobu*)(m_vecObjList[_iIndex]))->
+						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
+				}
+
+				else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"엔무")
+				{
+					((CEnmu*)(m_vecObjList[_iIndex]))->
 						Set_ToolState(m_vecAnimIndex[0], m_vecAnimIndex[1], m_vecAnimIndex[2], 0, true);
 				}
 			}
@@ -1582,6 +1610,14 @@ void CImGuiManager::Character_Compare_Duration(_uint _iIndex)
 			m_fCurrentDuration = ((CShinobu*)(m_vecObjList[1]))->Get_Model()->Get_CurrentTime();
 			m_fDuration = ((CShinobu*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
 		}
+
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"엔무")
+		{
+			_uint iAnimIndex = ((CEnmu*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_fCurrentDuration = ((CEnmu*)(m_vecObjList[1]))->Get_Model()->Get_CurrentTime();
+			m_fDuration = ((CEnmu*)(m_vecObjList[1]))->Get_Model()->Get_Duration();
+		}
 	}
 }
 
@@ -1680,6 +1716,14 @@ void CImGuiManager::Character_Set_Duration(_uint _iIndex)
 
 			((CShinobu*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
 			((CShinobu*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
+		}
+
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"엔무")
+		{
+			_uint iAnimIndex = ((CEnmu*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			((CEnmu*)(m_vecObjList[1]))->Get_Model()->Reset_Anim(iAnimIndex);
+			((CEnmu*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fCurrentDuration);
 		}
 	}
 
@@ -1790,6 +1834,14 @@ void CImGuiManager::Character_Compare_Frame(_uint _iIndex)
 
 			m_iCurrentFrame = ((CShinobu*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
 			m_iFrame = ((CShinobu*)(m_vecObjList[1]))->Get_Model()->Get_AllFrame();
+		}
+
+		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"엔무")
+		{
+			_uint iAnimIndex = ((CEnmu*)(m_vecObjList[1]))->Get_AnimIndex();
+
+			m_iCurrentFrame = ((CEnmu*)(m_vecObjList[1]))->Get_Model()->Get_CurrentFrame();
+			m_iFrame = ((CEnmu*)(m_vecObjList[1]))->Get_Model()->Get_AllFrame();
 		}
 	}
 

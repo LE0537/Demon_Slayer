@@ -135,6 +135,7 @@ HRESULT CLevel_BattleEnmu::Initialize()
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 
+	CSoundMgr::Get_Instance()->BGM_Stop();
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
 
 	
@@ -162,21 +163,12 @@ void CLevel_BattleEnmu::Tick(_float fTimeDelta)
 
 		if (!m_bCreateUI)
 		{
-			_bool bOniCheck = pUIManager->P1_Oni_Check();
-			if (!bOniCheck)
-				pUIManager->Add_P1_PersonHpUI_Level_Enmu();
-			else
-				pUIManager->Add_P1_OniHpUI_Level_Enmu();
-
-			bOniCheck = pUIManager->P2_Oni_Check();
-			if (!bOniCheck)
-				pUIManager->Add_P2_PersonHpUI_Level_Enmu();
-			else
-				pUIManager->Add_P2_OniHpUI_Level_Enmu();
-
-		/*	pUIManager->Add_BattleUI_Enmu();
+			pUIManager->Add_P1_PersonHpUI_Level_Enmu();
+			pUIManager->Add_P2_OniHpUI_Level_Enmu();
 			pUIManager->Add_P1_Combo_Enmu();
-			pUIManager->Add_P2_Combo_Enmu();*/
+			pUIManager->Add_P2_Combo_Enmu();
+			pUIManager->Add_AdvBattleUI();
+			pUIManager->Add_AdvResult((LEVEL)g_iLevel);
 			
 			m_bCreateUI = true;
 		}

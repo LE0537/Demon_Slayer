@@ -62,6 +62,7 @@ public:
 		m_bRender = _bRender;
 	}
 	_matrix Get_CombinedWorldMatrix() { return XMLoadFloat4x4(&m_CombinedWorldMatrix); }
+	_float4x4* Get_CombinedWorld4x4() { return &m_CombinedWorldMatrix; }
 	void Set_Menu(_bool _bMenu) { m_bMenu = _bMenu; }
 	CTransform* Get_Transform() { return m_pTransformCom; }
 private:

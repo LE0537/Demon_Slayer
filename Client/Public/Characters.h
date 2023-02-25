@@ -130,6 +130,9 @@ public:
 	void	   Set_GodMode(_bool bGodMode) { m_bGodMode = bGodMode; }
 	_bool	   Get_GodMode() const { return m_bGodMode; }
 
+	void	   Set_InteractionCheck(_bool bCheck) { m_bInteractionCheck = bCheck; }
+	_bool	   Get_InteractionCheck() { return m_bInteractionCheck; }
+
 	void	   Set_SplSkl(_bool bSkpSkl) { 
 		if(bSkpSkl == true)
 			m_bSplSkl = true;
@@ -146,17 +149,20 @@ public:
 	SKILL_TYPE Get_SkillType() const { return m_eSkillType; }
 	void Set_SkillType(SKILL_TYPE eType) { m_eSkillType = eType; }
 	void Set_SceneRender(_bool bRender) { m_bSceneRender = bRender; }
+
+	_float4x4* Get_WeaponWorld() { return m_WeaponWorld; }
+
 protected:
-	PLAYERINFO		m_tInfo;
-	CCharacters*	m_pBattleTarget = nullptr;
-	CCharacters*	m_pSubChar = nullptr;
-	_int			m_iTargetIndex = 0;
+	PLAYERINFO				m_tInfo;
+	CCharacters*			m_pBattleTarget = nullptr;
+	CCharacters*			m_pSubChar = nullptr;
+	_int					m_iTargetIndex = 0;
 
 	CCollider*				m_pSphereCom = nullptr;
 	_int					m_i1p = 0;
 	_bool					m_bChange = false;
 	_float					m_fChangeTime = 0.f;
-	CNavigation*		m_pNavigationCom = nullptr;
+	CNavigation*			m_pNavigationCom = nullptr;
 	_float					m_fDelta = 0.f;
 	_float					m_fChangeDelay = 0.f;
 
@@ -183,6 +189,9 @@ protected:
 	CGameObj*				 m_pEffect = nullptr;
 
 	_bool					m_bSceneRender = true;
+
+	_float4x4*				m_WeaponWorld;
+	_bool					m_bInteractionCheck = false;
 
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

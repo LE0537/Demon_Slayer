@@ -7,6 +7,7 @@
 #include "Tanjiro.h"
 //#include "Level_Manager.h"
 #include "Layer.h"
+#include "Door.h"
 
 IMPLEMENT_SINGLETON(CUI_Manager)
 
@@ -143,7 +144,7 @@ void CUI_Manager::Add_P1_PersonHpUI()
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.bPlyCheck = false;
 		m_ThrowInfo.vScale = iter.vScale;
-		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+		m_ThrowInfo.iLevelIndex = g_iLevel;
 
 		P1_P_DATALIST.push_back(m_ThrowInfo);	
 	}
@@ -606,7 +607,7 @@ void CUI_Manager::Add_P1_Combo()
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
 		m_ThrowInfo.bPlyCheck = false;
-		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+		m_ThrowInfo.iLevelIndex = g_iLevel;
 
 		P1_COMBO_DATALIST.push_back(m_ThrowInfo);
 	}
@@ -679,7 +680,7 @@ void CUI_Manager::Add_Quiest()
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
 		m_ThrowInfo.bPlyCheck = true;
-		m_ThrowInfo.iLevelIndex = LEVEL_ADVRUI;
+		m_ThrowInfo.iLevelIndex = g_iLevel;
 
 		QUIEST_DATALIST.push_back(m_ThrowInfo);
 	}
@@ -707,7 +708,7 @@ void CUI_Manager::Add_AdvBattleUI()
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
-		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+		m_ThrowInfo.iLevelIndex = g_iLevel;
 
 		ADV_BATTLEUI_DATALIST.push_back(m_ThrowInfo);
 	}
@@ -751,221 +752,221 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 	switch (iter.iTextureNum)
 	{
 	case 0:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeLight"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeLight"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 1:
 		iter.iLayerNum = m_iCharIconLayerNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharIcon"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iCharIconLayerNum;
 		break;
 	case 2: //ChangeBase 0
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 3: // ChangeSprt 1
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 4:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBase"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 5:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_GaugeBase"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 6://HpbarBack 2
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 7: //SkillBarBack 3
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 8:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_HpBar"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 9:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_SkillBar"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 10: //HpBarDeco 4
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 11: //SkillBarParts 5
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 12: //SkillBarDeco 6
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 13:
 		iter.iLayerNum = m_iCharNameLayerNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharNameUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_CharNameUI"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iCharNameLayerNum;
 		break;
 	case 14: // PersonChangeBarBack 7
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 15: // PersonChangeBarFrame 8
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 16:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PersonChanBarEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PersonChanBarEff"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 17:
 		iter.iLayerNum = m_iOniSepcialBarLayerNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniSpeciSkillBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniSpeciSkillBar"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iOniSepcialBarLayerNum;
 		break;
 	case 18:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniChanBarEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniChanBarEff"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 19:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniChanBarEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OniChanBarEff"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 20:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeIcon"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeIcon"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 21:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_KeyUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_KeyUI"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 22: // 사람 얼티밋 게이지 베이스 10 
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 23: //오니 얼티밋 게이지 베이스 11
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 24:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 25:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 26:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 27:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockEff"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 28:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockFadeEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockFadeEff"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 29:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockFrame"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockFrame"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 30:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockBase"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 31:
 		iter.iLayerNum = m_iUltNumLayerNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockNum"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltStockNum"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iUltNumLayerNum;
 		break;
 	case 32:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltNumEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltNumEff"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 33:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeDeco"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 34:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeDeco"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 35:
 		iter.iLayerNum = m_iUltBarLayerNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltBar"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iUltBarLayerNum;
 		break;
 	case 36: //UltBarDeco 12
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 37: 
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PersonChanBarEff"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_PersonChanBarEff"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 38:
 		iter.iLayerNum = m_iTimerLayerNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_NumTimer"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_NumTimer"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iTimerLayerNum;
 		break;
 	case 39:
 		iter.iLayerNum = m_iRoundIconLayerNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RoundIcon"), LEVEL_GAMEPLAY, TEXT("Layer_RoundIconUI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RoundIcon"), iter.iLevelIndex, TEXT("Layer_RoundIconUI"), &iter)))
 			return E_FAIL;
 		++m_iRoundIconLayerNum;
 		break;
 	case 40:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RoundUI"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RoundUI"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 41:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboBase"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 42:
 		iter.iLayerNum = m_iComboNumLayerNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboNum"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboNum"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iComboNumLayerNum;
 		break;
 	case 43:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboTxt"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboTxt"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 44:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboHitBase"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboHitBase"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 45:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboHitDeco"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ComboHitDeco"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 46:
 		iter.iLayerNum = m_iChangeBarLayerNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeGagueBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ChangeGagueBar"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		++m_iChangeBarLayerNum;
 		break;
 	case 47:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeFire"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeFire"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 48:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeFrame"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_UltGaugeFrame"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	case 49:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OpeningUltBar"), LEVEL_GAMEPLAY, TEXT("Layer_UI"), &iter)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_OpeningUltBar"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
 		break;
 	default:
@@ -2032,8 +2033,11 @@ HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
 		break;
 	case 6:
 		iter.iLayerNum = m_iGuideKeyLayerNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestKeyUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
-			return E_FAIL;
+		//if (g_iLevel == LEVEL_ADVRUI && m_iGuideKeyLayerNum <= 1)
+		//{
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_QuiestKeyUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+				return E_FAIL;
+		//}
 		++m_iGuideKeyLayerNum;
 		break;
 	case 7:
@@ -2053,8 +2057,11 @@ HRESULT CUI_Manager::Add_QuiestUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		break;
 	case 11:
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InteractionUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
-			return E_FAIL;
+		if (g_iLevel == LEVEL_ADVRUI)
+		{
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_InteractionUI"), LEVEL_ADVRUI, TEXT("Layer_UI"), &iter)))
+				return E_FAIL;
+		}
 		break;
 	default:
 		break;
@@ -2101,6 +2108,28 @@ _bool CUI_Manager::P1_Oni_Check()
 _bool CUI_Manager::P2_Oni_Check()
 {
 	return  m_p2P->Get_PlayerInfo().bOni;
+}
+
+void CUI_Manager::Reset_Data()
+{
+	m_bSaveCheck = false;
+	m_bRuiDadBattle = false;
+	m_bEnmuBattle = false;
+	m_bStroyEvent[2] = { false };
+	m_bStroyEventend = false;
+	m_bAkazaBattle = false;
+	m_bAdvResultCheck = false;
+	m_bFadeSwitch = false;
+	m_bInteractionUIOnOff = false;
+	m_bClearCheck[5] = { false };
+	m_bMainQuestOnOff = false;
+	m_bQuestStartCheck = false;
+	m_bMsgOnoff = false;
+	m_iRescueCount = 0;
+	m_szMsg = TEXT("");
+	m_szMsgName = TEXT("");
+	m_iMsgCount = 0;
+	m_iQuestCount = 0;
 }
 
 void CUI_Manager::Tick_Loading(_float fTimeDelta)

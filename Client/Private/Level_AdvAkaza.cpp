@@ -16,7 +16,7 @@
 #include  "Door.h"
 #include "Level_BattleEnmu.h"
 #include "ImGuiManager.h"
-
+#include "Level_BossEnmu.h"
 
 unsigned int APIENTRY Thread_AdvAkaza(void* pArg)
 {
@@ -172,6 +172,8 @@ void CLevel_AdvAkaza::Tick(_float fTimeDelta)
 			
 			if (FAILED(pGameInstance->Open_Level(LEVEL_BATTLEENMU, CLevel_BattleEnmu::Create(m_pDevice, m_pContext))))
 				return;
+		/*	if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
+				return;*/
 		}
 		RELEASE_INSTANCE(CUI_Manager);
 		RELEASE_INSTANCE(CGameInstance);
