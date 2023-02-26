@@ -250,7 +250,7 @@ CTanjiroState * CAtk_2_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				else if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
 					m_pTarget->Set_Hp(_int(-pTanjiro->Get_PlayerInfo().iDmg * pTanjiro->Get_PlayerInfo().fPowerUp));
-					m_pTarget->Take_Damage(0.3f, false);
+					m_pTarget->Take_Damage(0.f, false);
 					pTanjiro->Set_Combo(1);
 					pTanjiro->Set_ComboTime(0.f);
 				}
