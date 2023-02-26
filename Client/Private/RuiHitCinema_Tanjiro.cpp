@@ -70,6 +70,14 @@ CRuiState * CHitCinema_Tanjiro::Tick(CRui * pRui, _float fTimeDelta)
 
 CRuiState * CHitCinema_Tanjiro::Late_Tick(CRui * pRui, _float fTimeDelta)
 {
+	if (m_eScene == CHitCinema_Tanjiro::SCENE_2)
+	{
+		/*_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vRight = pRui->Get_Transform()->Get_State(CTransform::STATE_RIGHT);
+		_vector vLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+		vPos += XMVector3Normalize(vLook) * 3.f;
+		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);*/
+	}
 	pRui->Get_Model()->Play_Animation_Skill(fTimeDelta);
 
 	return nullptr;
@@ -101,6 +109,12 @@ void CHitCinema_Tanjiro::Enter(CRui * pRui)
 		pRui->Get_Model()->Set_LinearTime(CHitCinema_Tanjiro::ANIM_SCENE_1, 0.01f);
 		break;
 	case Client::Rui::CHitCinema_Tanjiro::SCENE_2:
+		_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vRight = pRui->Get_Transform()->Get_State(CTransform::STATE_RIGHT);
+		_vector vLook = pRui->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+		vPos += XMVector3Normalize(vLook) * 0.46f;
+		vPos += XMVector3Normalize(vRight) * 0.9f;
+		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		pRui->Get_Model()->Reset_Anim(CHitCinema_Tanjiro::ANIM_SCENE_2);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Tanjiro::ANIM_SCENE_2);
 		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CHitCinema_Tanjiro::ANIM_SCENE_2));

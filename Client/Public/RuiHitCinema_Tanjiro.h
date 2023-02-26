@@ -33,6 +33,7 @@ public:
 private:
 	CINEMASCENE m_eScene = SCENE_END;
 	CCharacters::SKILL_TYPE m_eTargetSkill;
+
 };
 
 END
