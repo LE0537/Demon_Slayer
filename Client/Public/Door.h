@@ -48,6 +48,7 @@ private:
 	_bool     m_bTurn = false;
 	_bool	  m_bInteractionCheck = false;
 	_bool	  m_bUICreat = false;
+	_bool	  m_bKeyDownCheck = false;
 	_float    m_fTurnAngle = 0.f;
 	_bool     m_bNonAlpha = false;
 	_bool	  m_bColCheck = false;

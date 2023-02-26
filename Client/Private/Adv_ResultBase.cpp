@@ -65,12 +65,12 @@ void CAdv_ResultBase::Tick(_float fTimeDelta)
 	}
 
 	if (m_bFadeCheck)
-		m_fStopTime = fTimeDelta;
+		m_fStopTime += fTimeDelta;
 
 	if (m_fStopTime >= 1.f)
 	{
 		m_fFadeTime -= 0.05f;
-		m_fX -= 2.f;
+		m_fX += 2.f;
 	}
 	//else if ()
 	//{

@@ -141,14 +141,14 @@ HRESULT CUltOpenBar::SetUp_ShaderResources()
 
 	if (!m_ThrowUIinfo.bPlyCheck)
 	{
-		m_fMaxTime = 6.f;
+		m_fMaxTime = 10.f;
 		m_fCurTime = pUI_Manager->Get_1P()->Get_PlayerInfo().fPowerUpTime;
 		m_iPowerCount = pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex;
 		m_bOniCheck = pUI_Manager->Get_1P()->Get_PlayerInfo().bOni;
 	}
 	else
 	{
-		m_fMaxTime = 6.f;
+		m_fMaxTime = 10.f;
 		m_fCurTime = pUI_Manager->Get_2P()->Get_PlayerInfo().fPowerUpTime;
 		m_iPowerCount = pUI_Manager->Get_2P()->Get_PlayerInfo().iPowerIndex;
 		m_bOniCheck = pUI_Manager->Get_2P()->Get_PlayerInfo().bOni;

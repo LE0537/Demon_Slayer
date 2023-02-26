@@ -261,13 +261,13 @@ void CDoor::Move_Mesh(_float fTimeDelta)
 			pUI_Manager->Set_InteractionOff();
 			m_bTurn = !m_bTurn;
 			m_bInteractionCheck = true;
+			m_bKeyDownCheck = true;
 		}
 
 		if (m_bTurn && m_fTurnAngle < 90.f)
 		{
 			m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-3.f));
 			m_fTurnAngle += 3.f;
-
 		}
 		else if (!m_bTurn && m_fTurnAngle > 0.f)
 		{
@@ -281,6 +281,20 @@ void CDoor::Move_Mesh(_float fTimeDelta)
 			pUIManager->Set_EnmuBattle(true);
 			RELEASE_INSTANCE(CUI_Manager);*/
 		}
+
+		if (m_fTurnAngle <= 0.f && m_bKeyDownCheck)
+		{
+			m_bInteractionCheck = false;
+			m_bUICreat = false;
+			m_bKeyDownCheck = false;
+		}
+		else if (m_fTurnAngle >= 90.f && m_bKeyDownCheck)
+		{
+			m_bInteractionCheck = false;
+			m_bUICreat = false;
+			m_bKeyDownCheck = false;
+		}
+		
 	}
 	else
 	{
