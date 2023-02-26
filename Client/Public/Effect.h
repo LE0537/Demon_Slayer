@@ -73,6 +73,7 @@ private:
 	EFFECT_INFO										m_EffectInfo;
 
 	_bool											m_bStart;
+	_bool											m_bLateStart = true;
 	_bool											m_bInvisible = false;
 
 	CGameObj*										m_pTarget;
