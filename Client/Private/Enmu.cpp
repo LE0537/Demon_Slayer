@@ -16,6 +16,7 @@
 #include "EnmuHitState.h"
 #include "EnmuUpperHitState.h"
 #include "EnmuTakeDownState.h"
+#include "EnmuBattleSTState.h"
 using namespace Enmu;
 
 CEnmu::CEnmu(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -64,7 +65,7 @@ HRESULT CEnmu::Initialize(void * pArg)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
 		_vector vPos = { 64.f, 0.f, 38.5f,1.f };
 		if (g_iLevel == LEVEL_BATTLEENMU)
@@ -97,7 +98,14 @@ void CEnmu::Tick(_float fTimeDelta)
 	}
 	else if (m_i1p == 11)
 	{
-		if (!m_tInfo.bSub && m_bBattleStart)
+		if (m_bBattleStart)
+		{
+			CEnmuState* pState = new CBattleStartState();
+			m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pState);
+			m_bBattleStart = false;
+		}
+
+		if (!m_tInfo.bSub && !m_bBattleStart)
 		{
 			CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
 			if (nullptr == pSocket)
@@ -148,7 +156,7 @@ void CEnmu::Late_Tick(_float fTimeDelta)
 	}
 	else if (m_i1p == 11)
 	{
-		if (!m_tInfo.bSub && m_bBattleStart)
+		if (!m_tInfo.bSub && !m_bBattleStart)
 		{
 
 			LateTickState(fTimeDelta);

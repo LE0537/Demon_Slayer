@@ -99,6 +99,12 @@ public:
 	void		Set_CurrentPosition(_float3 vPosition) { m_vCurrentPosition = vPosition; };
 	void		Character_Compare_Frame(_uint _iIndex);
 	void		Character_Set_Frame(_uint _iIndex);
+
+	// EnmuBossLevel
+
+	void		EnmuBossAnimDebug();
+	void		EnmuBossCharacterList(_uint _iIndex);
+
 private:
 	vector<CCharacters*> m_vecObjList;
 	vector<CAnimation*> m_vecAnimation;
