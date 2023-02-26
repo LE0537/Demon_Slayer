@@ -22,15 +22,19 @@ CEnmuState * CSkill2_EnmuState::Tick(CEnmu * pEnmu, _float fTimeDelta)
 		switch (m_eStateType)
 		{
 		case Client::CEnmuState::TYPE_START:
+			pEnmu->Get_Model()->Set_End(pEnmu->Get_AnimIndex());
 			return new CSkill2_EnmuState(TYPE_LOOP);
 			break;
 		case Client::CEnmuState::TYPE_LOOP:
+			pEnmu->Get_Model()->Set_End(pEnmu->Get_AnimIndex());
 			return new CSkill2_EnmuState(TYPE_END);
 			break;
 		case Client::CEnmuState::TYPE_END:
+			pEnmu->Get_Model()->Set_End(pEnmu->Get_AnimIndex());
 			return new CSkill2_EnmuState(TYPE_DEFAULT);
 			break;
 		case Client::CEnmuState::TYPE_DEFAULT:
+			pEnmu->Get_Model()->Set_End(pEnmu->Get_AnimIndex());
 			return new CIdleState();
 			break;
 		case Client::CEnmuState::TYPE_CHANGE:

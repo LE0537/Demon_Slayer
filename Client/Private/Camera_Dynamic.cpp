@@ -16,6 +16,22 @@ CCamera_Dynamic::CCamera_Dynamic(const CCamera_Dynamic & rhs)
 {
 }
 
+void CCamera_Dynamic::Change_CutScene(CUTSCENE eCutScene, vector<_float4> vecPositions, vector<_float4> vecLookAts, vector<_float> vecUseTime, _float2 vMotionBlur)
+{
+	if (eCutScene >= CUTSCENE_END)
+	{
+		ERR_MSG(L"Failed to Change : CutScene");
+		return;
+	}
+
+	m_vecCamEye[eCutScene] = vecPositions;
+	m_vecCamAt[eCutScene] = vecLookAts;
+	m_vecCamTime[eCutScene] = vecUseTime;
+	m_vecMotionBlur[eCutScene] = vMotionBlur;
+
+	ERR_MSG(L"Changed!");
+}
+
 void CCamera_Dynamic::Start_CutScene(_bool bTrueisPlay, CUTSCENE eCutScene)
 {
 	m_bCutScene = bTrueisPlay;
@@ -24,37 +40,25 @@ void CCamera_Dynamic::Start_CutScene(_bool bTrueisPlay, CUTSCENE eCutScene)
 
 _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float4> vecLookAts, vector<_float> vecUseTime, _float * pOut, _float fTimeDelta)
 {
-	_uint iSize = vecPositions.size();
+	_int iSize = (_int)vecPositions.size();
 
 	if (iSize < 4 ||
-		(iSize != vecLookAts.size() || iSize != vecUseTime.size() + 1))
+		(iSize != (_int)vecLookAts.size() || iSize != (_int)vecUseTime.size() + 1))
 		return false;
 
-	static _float fCullTime = -1.f / 60.f;
+	static _float fCullTime = 0.f;
 	_float	fUsedTime = fCullTime;
-	_int	iFrame = max(_int(fCullTime), 0.f) + 1;				//	현재 프레임. 첫 번째는 읽지않음.(None)
+	_int	iFrame = max(_int(fCullTime), 0) + 1;				//	현재 프레임. 첫 번째는 읽지않음.(None)
 	_float	fDecimal = max(fCullTime, 0.f) - (iFrame - 1);
 
 	if (iFrame + 1 >= iSize)		//	끝 Check
 	{
-		fCullTime = *pOut = -1.f / 60.f;
+		fCullTime = *pOut = 0.f;
 
 		return false;
 	}
 
-	//	해당 프레임의 초반부다 = fUsedTime의 절댓값이 크다. = Ratio가 작다. ->작을수록 이전프레임의 영향을 더 받음.
-	_float fRatio = fDecimal;		//	다음 프레임의 할당 비율
-	if (iFrame + 1 == vecUseTime.size())			//	다음 프레임이 없다.
-	{
-		*pOut += (fTimeDelta) / (vecUseTime[iFrame]);		// 보간 X
-	}
-	else
-	{
-		_float fValue = ((vecUseTime[iFrame] * (1.f - fRatio)) + (vecUseTime[iFrame + 1]) * fRatio);
-		if (0.f == fValue)
-			fValue = 0.01f;
-		*pOut += (fTimeDelta) / fValue;
-	}
+	*pOut += (fTimeDelta) / (vecUseTime[iFrame]);
 	fCullTime = *pOut;
 
 
@@ -71,6 +75,7 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 
 
 
+	_float fRatio = fDecimal;		//	다음 프레임의 할당 비율
 	vCamPos = XMVectorCatmullRom(vPos[0], vPos[1], vPos[2], vPos[3], fRatio);
 	vCamAt = XMVectorCatmullRom(vAt[0], vAt[1], vAt[2], vAt[3], fRatio);
 
@@ -116,7 +121,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_eTurn = CAM_END;
 
 
-	m_fCurrentCutSceneTime = -1.f / 60.f;
+	m_fCurrentCutSceneTime = 0.f;
 	m_bCutScene = false;
 	if (FAILED(Ready_CutScene("tanjiro_1"))) return E_FAIL;
 	if (FAILED(Ready_CutScene("tanjiro_2"))) return E_FAIL;
@@ -124,6 +129,14 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("tanjiro_4"))) return E_FAIL;
 	if (FAILED(Ready_CutScene("tanjiro_5"))) return E_FAIL;
 
+	if (FAILED(Ready_CutScene("rui_Start"))) return E_FAIL;
+	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;
+	if (FAILED(Ready_CutScene("rui_1"))) return E_FAIL;
+	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	2
+	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	3
+	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	4
+	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	5
+	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	6
 
 	if (g_iLevel == LEVEL_BOSSENMU)
 	{
@@ -180,13 +193,22 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			//if (pGameInstance->Key_Pressing(DIK_RIGHT))
 			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
-			if (pGameInstance->Key_Pressing(DIK_1))
+			//if (pGameInstance->Key_Pressing(DIK_1))
+			//	m_pTransform->Go_Straight(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_2))
+			//	m_pTransform->Go_Backward(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_3))
+			//	m_pTransform->Go_Left(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_4))
+			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
+
+			if (pGameInstance->Key_Pressing(DIK_NUMPAD8))
 				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_2))
+			if (pGameInstance->Key_Pressing(DIK_NUMPAD5))
 				m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_3))
+			if (pGameInstance->Key_Pressing(DIK_NUMPAD4))
 				m_pTransform->Go_Left(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_4))
+			if (pGameInstance->Key_Pressing(DIK_NUMPAD6))
 				m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 			if (pGameInstance->Key_Pressing(DIK_NUMPAD9))
@@ -477,40 +499,44 @@ void CCamera_Dynamic::Move_TrainCam(_float fTimeDelta)
 	}
 	_vector v1PY = m_p1P->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_bool	bTrue = m_b1P;
-
-	if (m_fTurnCol > 0.f)
-		m_fTurnCol -= fTimeDelta;
-	if (m_fDist < 8.f && m_eTurn == CAM_END && m_p1P->Get_PlayerInfo().iCombo > 1)
+	if (g_iLevel != LEVEL_BOSSENMU)
 	{
-		if (m_fTurnCol <= 0.f)
-			m_bTurn = true;
+		if (m_fTurnCol > 0.f)
+			m_fTurnCol -= fTimeDelta;
+		if (m_fDist < 8.f && m_eTurn == CAM_END && m_p1P->Get_PlayerInfo().iCombo > 1)
+		{
+			if (m_fTurnCol <= 0.f)
+				m_bTurn = true;
+		}
+		else if (m_fDist < 8.f && m_eTurn == CAM_END && m_p2P->Get_PlayerInfo().iCombo > 1)
+		{
+			if (m_fTurnCol <= 0.f)
+				m_bTargetTurn = true;
+		}
+		if (m_bTurn)
+			Check_Trun(fTimeDelta);
+		else if (m_bTargetTurn)
+			Check_TargetTrun(fTimeDelta);
 	}
-	else if (m_fDist < 8.f && m_eTurn == CAM_END && m_p2P->Get_PlayerInfo().iCombo > 1)
-	{
-		if (m_fTurnCol <= 0.f)
-			m_bTargetTurn = true;
-	}
-	if (m_bTurn)
-		Check_Trun(fTimeDelta);
-	else if (m_bTargetTurn)
-		Check_TargetTrun(fTimeDelta);
-
 	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
 	if (CheckSubChar())
 		vPos.m128_f32[1] += v1PY.m128_f32[1] / 2.f;
-	if (vPos.m128_f32[2] > 245.f)
-		vPos.m128_f32[2] = 245.f;
-	if (vPos.m128_f32[0] < -30.f)
-		vPos.m128_f32[0] = -30.f;
-	else if (vPos.m128_f32[0] > 35.f)
-		vPos.m128_f32[0] = 35.f;
+	if (m_bZoom && g_iLevel == LEVEL_BOSSENMU)
+	{
+		if (vPos.m128_f32[2] > 230.f)
+			vPos.m128_f32[2] = 230.f;
+		if (vPos.m128_f32[0] < -30.f)
+			vPos.m128_f32[0] = -30.f;
+		else if (vPos.m128_f32[0] > 35.f)
+			vPos.m128_f32[0] = 35.f;
+	}
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pPlayer->Set_CamAngle(m_fAngle - fAngleDot);
 	m_pTarget->Set_CamAngle(m_fAngle - fAngleDot);
 
 	Check_Shake(fTimeDelta);
 
-	if (m_bZoom && g_iLevel == LEVEL_BOSSENMU)
+	if (m_bZoom)
 		Check_Zoom(fTimeDelta);
 }
 
@@ -530,15 +556,27 @@ void CCamera_Dynamic::Set_CamPos()
 	//맵의 임시 반지름
 	_float fDiameter = 0.f;
 
-	if (g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
+	if (g_iLevel == LEVEL_BATTLEENMU)
 	{
 		fDiameter = 60.f;
 
 		m_fCamDist = fDist / fDiameter;
 		if (m_fCamDist > 1.f)
 			m_fCamDist = 1.f;
-		else if (m_fCamDist < 0.5)
-			m_fCamDist = 0.5f;
+		else if (m_fCamDist < 0.7)
+			m_fCamDist = 0.7f;
+
+		vPos += XMVector3Normalize(vLook2) * (fDist * 0.5f);
+	}
+	else if (g_iLevel == LEVEL_BOSSENMU)
+	{
+		fDiameter = 60.f;
+
+		m_fCamDist = 1.f - (fDist / fDiameter);
+		if (m_fCamDist > 1.f)
+			m_fCamDist = 1.f;
+		else if (m_fCamDist < 0.33)
+			m_fCamDist = 0.33f;
 
 		vPos += XMVector3Normalize(vLook2) * (fDist * 0.5f);
 	}
@@ -811,10 +849,15 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 	_vector vTargetLook = vPos - vTargetPos;
 
 	_vector vAtPos = XMVectorLerp(vPlayerPos, vTargetPos, 0.5f);
-	if (g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
+	if (g_iLevel == LEVEL_BATTLEENMU)
 	{
 		vAtPos = vTargetPos;
 		vAtPos.m128_f32[1] -= 5.5f;
+	}
+	else if (g_iLevel == LEVEL_BOSSENMU)
+	{
+		vAtPos = vTargetPos;
+		vAtPos.m128_f32[1] -= 6.5f;
 	}
 	else
 		vAtPos.m128_f32[1] = 3.f;
@@ -1444,37 +1487,45 @@ void CCamera_Dynamic::Check_StoryCam()
 
 _bool CCamera_Dynamic::CutScene(CUTSCENE eCutScene, _float fTimeDelta)
 {
+	if (CUTSCENE_END <= eCutScene)
+		return false;
+
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->MotionBlur(m_vecMotionBlur[eCutScene].x, m_vecMotionBlur[eCutScene].y);
+		m_pRendererCom->MotionBlur((_int)m_vecMotionBlur[eCutScene].x, (_int)m_vecMotionBlur[eCutScene].y);
 
 	switch (m_eCutScene)
 	{
 	case CUTSCENE_TAN_SPC_1:
-		if(false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
-			Start_CutScene(m_bCutScene, CUTSCENE_TAN_SPC_2);		//	끝나면 2번째 실행
-		break;
 	case CUTSCENE_TAN_SPC_2:
-		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
-			Start_CutScene(m_bCutScene, CUTSCENE_TAN_SPC_3);		//	끝나면 3번째 실행
-		break;
 	case CUTSCENE_TAN_SPC_3:
-		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
-			Start_CutScene(m_bCutScene, CUTSCENE_TAN_SPC_4);		//	끝나면 4번째 실행
-		break;
 	case CUTSCENE_TAN_SPC_4:
-		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
-			Start_CutScene(m_bCutScene, CUTSCENE_TAN_SPC_5);		//	끝나면 4번째 실행
+		if(false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
+			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
 		break;
-	case CUTSCENE_TAN_SPC_5:
+	case CUTSCENE_TAN_SPC_5:	//	끝나면 false
 		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
-		//	끝나면 false
+		break;
+
+		//	Rui
+	case CUTSCENE_RUI_SPC_START:
+	case CUTSCENE_RUI_SPC_0:
+	case CUTSCENE_RUI_SPC_1:
+	case CUTSCENE_RUI_SPC_2:
+	case CUTSCENE_RUI_SPC_3:
+	case CUTSCENE_RUI_SPC_4:
+	case CUTSCENE_RUI_SPC_5:
+		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
+			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
+		break;
+	case CUTSCENE_RUI_SPC_6:
+		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
 		break;
 	}
 
 	if (false == m_bCutScene)
 	{
 		if (nullptr != m_pRendererCom)
-			m_pRendererCom->MotionBlur(0.f, 0.f);
+			m_pRendererCom->MotionBlur(0, 0);
 	}
 
 	return m_bCutScene;

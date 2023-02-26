@@ -33,8 +33,8 @@ public:
 		ANIM_ATTACK_3 = 3,
 
 		ANIM_SKILL_1_0 = 13,
-		ANIM_SKILL_1_1 = 14,
-		ANIM_SKILL_1_2 = 15,
+		ANIM_SKILL_1_1 = 15,
+		ANIM_SKILL_1_2 = 14,
 
 		ANIM_SKILL_2_0 = 9,
 		ANIM_SKILL_2_1 = 10,

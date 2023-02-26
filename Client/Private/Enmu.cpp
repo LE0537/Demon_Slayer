@@ -40,7 +40,7 @@ HRESULT CEnmu::Initialize(void * pArg)
 
 	m_i1p = tCharacterDesc.i1P2P;
 
-
+	m_i1p = 11;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
@@ -63,8 +63,8 @@ HRESULT CEnmu::Initialize(void * pArg)
 	else if (m_i1p == 11)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-		//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
 		_vector vPos = { 64.f, 0.f, 38.5f,1.f };
 		if (g_iLevel == LEVEL_BATTLEENMU)
@@ -137,7 +137,7 @@ void CEnmu::Late_Tick(_float fTimeDelta)
 		//}
 		if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 		{
-			if (fDist < 45.f)
+			if (fDist < 75.f)
 			{
 
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);

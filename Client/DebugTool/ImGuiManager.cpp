@@ -13,6 +13,14 @@
 #include "Layer.h"
 #include "Enmu.h"
 
+#include "Enmu_Chaos_Head.h"
+#include "Enmu_Left_Hand.h"
+#include "Enmu_Right_Hand.h"
+#include "Enmu_Chok.h"
+#include "Enmu_Shield.h"
+
+#include "EnmuBoss.h"
+
 IMPLEMENT_SINGLETON(CImGuiManager)
 
 CImGuiManager::CImGuiManager()
@@ -306,6 +314,15 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 	//	Eye, At Interface
 	ImGui::DragFloat3("Position", f3Movement_Pos, 0.05f);
+	_float fSpeed = 0.01f;
+	if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+		fSpeed = -0.01f;
+	if (pGameInstance->Key_Down(DIK_1))
+		f3Movement_Pos[0] += fSpeed;
+	if (pGameInstance->Key_Down(DIK_2))
+		f3Movement_Pos[1] += fSpeed;
+	if (pGameInstance->Key_Down(DIK_3))
+		f3Movement_Pos[2] += fSpeed;
 	if (0 < m_iNumCam[eChoice] && 0 != iCamIndex[eChoice])
 	{
 		m_vecCamObjects[eChoice][(iCamIndex[eChoice] - 1)]->Set_Pos(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2]);
@@ -408,9 +425,11 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 				f3Movement_Pos[1] = vPos.y;
 				f3Movement_Pos[2] = vPos.z;
 
-				if (0 != iPreCamIndex[CAM_EYE])
+				if (0 != iPreCamIndex[CAM_EYE] &&
+					iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
 					m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
-				if (0 != iPreCamIndex[CAM_AT])
+				if (0 != iPreCamIndex[CAM_AT] &&
+					iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
 					m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
 
 				m_vecCamObjects[CAM_EYE][iCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
@@ -429,10 +448,12 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 				f3Movement_Pos[0] = vPos.x;
 				f3Movement_Pos[1] = vPos.y;
 				f3Movement_Pos[2] = vPos.z;
-
-				if (0 != iPreCamIndex[CAM_EYE])
+				
+				if (0 != iPreCamIndex[CAM_EYE] &&
+					iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
 					m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
-				if (0 != iPreCamIndex[CAM_AT])
+				if (0 != iPreCamIndex[CAM_AT] &&
+					iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
 					m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
 
 				m_vecCamObjects[CAM_AT][iCamIndex[CAM_AT] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
@@ -643,6 +664,10 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	static _bool bTimeSlow = false;
 	static _float fClusterRadius = 0.1f;
 	static _float fPreClusterRadius = 0.1f;
+	static char strCamActionName[MAX_PATH][10] = { "Tan1", "Tan2", "Tan3", "Tan4", "Tan5", 
+		"RuiStt", "Rui0", "Rui1", "Rui2", "Rui3" , "Rui4" , "Rui5" , "Rui6",
+	};
+	static _int iCameraActionIndex = 0;
 	if (ImGui::CollapsingHeader("Setting Actions"))
 	{
 		//	Play Time
@@ -651,7 +676,14 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		if (0.f > fSettingTime)
 			fSettingTime = 0.f;
 
-		if (pGameInstance->Key_Down(DIK_R))
+		if (pGameInstance->Key_Down(DIK_F3) || 
+			pGameInstance->Key_Down(DIK_F4) || 
+			pGameInstance->Key_Down(DIK_F5) ||
+			pGameInstance->Key_Down(DIK_F6) ||
+			pGameInstance->Key_Down(DIK_F7) ||
+			pGameInstance->Key_Down(DIK_F8) ||
+			pGameInstance->Key_Down(DIK_F9) ||
+			pGameInstance->Key_Down(DIK_CAPSLOCK))
 			m_bCutScene = true;
 
 		//	Play CutScene
@@ -661,6 +693,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		if (m_iNumCam[CAM_EYE] == m_iNumCam[CAM_AT] &&
 			m_iNumCam[CAM_EYE] == m_iNumCamTime + 1 &&
 			true == m_bCutScene)
+			//	((CCamera_Dynamic*)m_pCamera)->Set_CutScene_Tool(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, m_fMotionBlur);
 			m_bCutScene = ((CCamera_Dynamic*)m_pCamera)->Play_CutScene(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, &fSettingTime, fTimeDelta * (_float)m_bCutScene);
 		
 
@@ -700,8 +733,25 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 				iter->Set_SphereSize(fClusterRadius);
 			}
 		}
-
 		fPreClusterRadius = fClusterRadius;
+
+		ImGui::BeginChild("Change CamAction", ImVec2(ImGui::GetWindowWidth() * 0.3f, 130), true, window_flags);
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("Change CamAction"))
+			{
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+		for (_int i = 0; i < CCamera_Dynamic::CUTSCENE_END; i++)
+		{
+			if (ImGui::Selectable(strCamActionName[i], iCameraActionIndex == i))
+				iCameraActionIndex = i;
+		}
+		ImGui::EndChild();
+		if (ImGui::Button("Change", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
+			((CCamera_Dynamic*)m_pCamera)->Change_CutScene((CCamera_Dynamic::CUTSCENE)iCameraActionIndex, m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, m_fMotionBlur);
 	}
 
 
@@ -1028,6 +1078,19 @@ void CImGuiManager::LiveCharacterList()
 			else if (wStrName == L"엔무")
 				strName = "Enmu";
 
+			//// 보스
+			//else if (wStrName == L"엔무(각성)")
+			//	strName = "Head";
+			//else if (wStrName == L"엔무(쉴드)")
+			//	strName = "Shield";
+			//else if (wStrName == L"엔무_오른손")
+			//	strName = "RightHand";
+			//else if (wStrName == L"엔무_왼손")
+			//	strName = "LeftHand";
+			//else if (wStrName == L"엔무_촉수")
+			//	strName = "CHOKCHOK";
+
+
 			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
 			{
 				selected = i;
@@ -1072,7 +1135,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 		}
 		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"시노부")
 		{
-			m_vecAnimation = ((CNezuko*)(m_vecObjList[0]))->Get_Model()->Get_Animation();
+			m_vecAnimation = ((CShinobu*)(m_vecObjList[0]))->Get_Model()->Get_Animation();
 		}
 
 	}
@@ -1100,7 +1163,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 		}
 		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"시노부")
 		{
-			m_vecAnimation = ((CNezuko*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
+			m_vecAnimation = ((CShinobu*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
 		}
 
 		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"엔무")

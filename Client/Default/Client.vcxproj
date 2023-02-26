@@ -257,6 +257,9 @@
     <ClInclude Include="..\Public\EnmuAttack_2.h" />
     <ClInclude Include="..\Public\EnmuAttack_3.h" />
     <ClInclude Include="..\Public\EnmuBattleSTState.h" />
+    <ClInclude Include="..\Public\EnmuBoss.h" />
+    <ClInclude Include="..\Public\EnmuBossIdleState.h" />
+    <ClInclude Include="..\Public\EnmuBossState.h" />
     <ClInclude Include="..\Public\EnmuDashState.h" />
     <ClInclude Include="..\Public\EnmuGuardHitState.h" />
     <ClInclude Include="..\Public\EnmuGuardState.h" />
@@ -618,6 +621,7 @@
     <ClInclude Include="..\public\TanjiroWeapon2.h" />
     <ClInclude Include="..\Public\TargetCircle.h" />
     <ClInclude Include="..\Public\Terrain.h" />
+    <ClInclude Include="..\public\TrainNPC.h" />
     <ClInclude Include="..\Public\TxtWinLight.h" />
     <ClInclude Include="..\Public\TxtWinUI.h" />
     <ClInclude Include="..\public\UI.h" />
@@ -733,6 +737,8 @@
     <ClCompile Include="..\Private\EnmuAttack_2.cpp" />
     <ClCompile Include="..\Private\EnmuAttack_3.cpp" />
     <ClCompile Include="..\Private\EnmuBattleSTState.cpp" />
+    <ClCompile Include="..\Private\EnmuBoss.cpp" />
+    <ClCompile Include="..\Private\EnmuBossIdleState.cpp" />
     <ClCompile Include="..\Private\EnmuDashState.cpp" />
     <ClCompile Include="..\Private\EnmuGuardHitState.cpp" />
     <ClCompile Include="..\Private\EnmuGuardState.cpp" />
@@ -1085,6 +1091,7 @@
     <ClCompile Include="..\private\TanjiroWeapon2.cpp" />
     <ClCompile Include="..\Private\TargetCircle.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
+    <ClCompile Include="..\private\TrainNPC.cpp" />
     <ClCompile Include="..\Private\TxtWinLight.cpp" />
     <ClCompile Include="..\Private\TxtWinUI.cpp" />
     <ClCompile Include="..\private\UI.cpp" />

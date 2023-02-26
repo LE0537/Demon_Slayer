@@ -38,6 +38,7 @@ texture2D		g_GrayScaleTexture;
 texture2D		g_AddTexture;
 texture2D		g_PlayerTexture;
 texture2D		g_EffectTexture;
+texture2D		g_ExceptTexture;
 
 float			g_fWinSizeX = 1280.f;
 float			g_fWinSizeY = 720.f;
@@ -854,6 +855,25 @@ PS_OUT PS_MOTIONBLUR(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_EXCEPT(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	vector vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	vector vExcept = g_ExceptTexture.Sample(LinearSampler, In.vTexUV);
+
+	if (1 == all(vExcept.a))
+		discard;
+	if (0.f == vColor.a)
+		discard;
+
+	Out.vColor = vColor;
+	Out.vColor.a = 1.f;
+
+	return Out;
+}
+
+
 
 
 
@@ -873,6 +893,14 @@ BlendState BS_LightBlending
 {
 	BlendEnable[0] = true;
 	BlendEnable[1] = true;
+
+	SrcBlend = one;
+	DestBlend = one;
+	BlendOp = add;
+};
+BlendState BS_Blend
+{
+	BlendEnable[0] = true;
 
 	SrcBlend = one;
 	DestBlend = one;
@@ -1102,6 +1130,17 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MOTIONBLUR();
+	}
+
+	pass Except		//	19
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Blend, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_EXCEPT();
 	}
 
 }

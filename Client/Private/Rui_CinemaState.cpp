@@ -2,6 +2,8 @@
 #include "..\Public\Rui_CinemaState.h"
 #include "GameInstance.h"
 #include "RuiIdleState.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 
 using namespace Rui;
 
@@ -12,7 +14,32 @@ CRui_CinemaState::CRui_CinemaState(CINEMASCENE eScene)
 
 CRuiState * CRui_CinemaState::HandleInput(CRui * pRui)
 {
-	return nullptr;
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CRuiState* pState = nullptr;
+	//if (pGameInstance->Key_Down(DIK_F3) && !pRui->Get_StoryKey())
+	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
+	//if (pGameInstance->Key_Down(DIK_F4) && !pRui->Get_StoryKey())
+	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_0);
+	//if (pGameInstance->Key_Down(DIK_F5) && !pRui->Get_StoryKey())
+	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_1);
+	//if (pGameInstance->Key_Down(DIK_F6) && !pRui->Get_StoryKey())
+	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_2);
+	//if (pGameInstance->Key_Down(DIK_F7) && !pRui->Get_StoryKey())
+	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_3);
+	//if (pGameInstance->Key_Down(DIK_F8) && !pRui->Get_StoryKey())
+	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_4);
+	//if (pGameInstance->Key_Down(DIK_F9) && !pRui->Get_StoryKey())
+	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_5);
+	//if (pGameInstance->Key_Down(DIK_CAPSLOCK) && !pRui->Get_StoryKey())
+	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_6);
+	RELEASE_INSTANCE(CGameInstance);
+
+	if (nullptr != pState)
+		pRui->Get_BattleTarget()->Play_Scene();
+
+	
+
+	return pState;
 }
 
 CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
@@ -27,10 +54,16 @@ CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 		}
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_0:
+		m_fTime += fTimeDelta;
+
+		if (m_fTime >= 2.67f)
+			return new CRui_CinemaState(CRui_CinemaState::SCENE_1);
+
 		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 		{
-			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			return new CRui_CinemaState(CRui_CinemaState::SCENE_1);
+		   pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+
+			//	return new CRui_CinemaState(CRui_CinemaState::SCENE_1);
 		}
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_1:
@@ -78,7 +111,7 @@ CRuiState * CRui_CinemaState::Late_Tick(CRui * pRui, _float fTimeDelta)
 
 void CRui_CinemaState::Enter(CRui * pRui)
 {
-
+	CGameInstance* pGameInstance = nullptr;
 	switch (m_eScene)
 	{
 	case Client::Rui::CRui_CinemaState::SCENE_START:
@@ -95,7 +128,11 @@ void CRui_CinemaState::Enter(CRui * pRui)
 
 		pRui->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(XMVectorSet(66.97f, pRui->Get_NavigationHeight().y, 44.423f, 1.f));
 		pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		
+
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_RUI_SPC_START);
+		RELEASE_INSTANCE(CGameInstance);
+
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_0:
 		pRui->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);

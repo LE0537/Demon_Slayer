@@ -19,11 +19,16 @@ public:
 	enum SHAKE{ SHAKE_DOWN,SHAKE_HIT,SHAKE_END};
 	enum ZOOM { ZOOM_LOW,ZOOM_MIDDLE ,ZOOM_HIGH, ZOOM_END };
 	enum CAMTURN { CAM_RIGHT, CAM_LEFT, CAM_TARGETRIGHT, CAM_TARGETLEFT, CAM_END };
-	enum CUTSCENE{ CUTSCENE_TAN_SPC_1, CUTSCENE_TAN_SPC_2, CUTSCENE_TAN_SPC_3, CUTSCENE_TAN_SPC_4, CUTSCENE_TAN_SPC_5, CUTSCENE_END};
+	enum CUTSCENE{ CUTSCENE_TAN_SPC_1, CUTSCENE_TAN_SPC_2, CUTSCENE_TAN_SPC_3, CUTSCENE_TAN_SPC_4, CUTSCENE_TAN_SPC_5, 
+		CUTSCENE_RUI_SPC_START, CUTSCENE_RUI_SPC_0, CUTSCENE_RUI_SPC_1, CUTSCENE_RUI_SPC_2, CUTSCENE_RUI_SPC_3, CUTSCENE_RUI_SPC_4, CUTSCENE_RUI_SPC_5, CUTSCENE_RUI_SPC_6, 
+		CUTSCENE_END};
 private:
 	CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCamera_Dynamic(const CCamera_Dynamic& rhs);
 	virtual ~CCamera_Dynamic() = default;
+
+public:/* For.Tool*/
+	void	Change_CutScene(CUTSCENE eCutScene, vector<_float4> vecPositions, vector<_float4> vecLookAts, vector<_float> vecUseTime, _float2 vMotionBlur);
 
 public:
 	void	Start_CutScene(_bool bTrueisPlay, CUTSCENE eCutScene);
@@ -91,6 +96,7 @@ private:
 
 private:/*For.ActionCam*/
 	_bool	CutScene(CUTSCENE eCutScene, _float fTimeDelta);
+	_bool	CutScene_Test(_float fTimeDelta);
 	
 	HRESULT Ready_CutScene(char* pFileName);
 
@@ -170,7 +176,7 @@ private:
 	std::vector<std::vector<_float4>>		m_vecCamEye;
 	std::vector<std::vector<_float4>>		m_vecCamAt;
 	std::vector<std::vector<_float>>		m_vecCamTime;
-	
+
 	//TrainCam
 
 public:

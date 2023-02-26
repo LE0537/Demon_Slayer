@@ -28,6 +28,7 @@ CEnmuState * CEnmuAttack1::Tick(CEnmu* pEnmu, _float fTimeDelta)
 
 		if (pEnmu->Get_TargetState() == 7 || fDistance <= 10.f)
 		{
+			pEnmu->Get_Model()->Reset_Anim(CEnmu::ANIMID::ANIM_ATTACK_1);
 			return new CEnmuAttack2(TYPE_START);
 		}
 	}
@@ -60,7 +61,7 @@ void CEnmuAttack1::Enter(CEnmu* pEnmu)
 	pEnmu->Get_Model()->Reset_Anim(CEnmu::ANIMID::ANIM_ATTACK_1);
 	pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_ATTACK_1);
 	pEnmu->Set_AnimIndex(CEnmu::ANIM_ATTACK_1);
-	pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_ATTACK_1, 0.2f);
+	pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_ATTACK_1, 0.01f);
 	pEnmu->Get_Model()->Set_Loop(pEnmu->Get_AnimIndex());
 
 }
