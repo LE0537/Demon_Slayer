@@ -30,12 +30,12 @@ CEnmuState * CSkill3_EnmuState::Tick(CEnmu * pEnmu, _float fTimeDelta)
 			break;
 		case Client::CEnmuState::TYPE_END:
 			pEnmu->Get_Model()->Set_End(pEnmu->Get_AnimIndex());
-			return new CSkill3_EnmuState(TYPE_DEFAULT);
-			break;
-		case Client::CEnmuState::TYPE_DEFAULT:
-			pEnmu->Get_Model()->Set_End(pEnmu->Get_AnimIndex());
 			return new CSkill3_EnmuState(TYPE_CHANGE);
 			break;
+		//case Client::CEnmuState::TYPE_DEFAULT:
+		//	pEnmu->Get_Model()->Set_End(pEnmu->Get_AnimIndex());
+		//	return new CSkill3_EnmuState(TYPE_CHANGE);
+		//	break;
 		case Client::CEnmuState::TYPE_CHANGE:
 			pEnmu->Get_Model()->Set_End(pEnmu->Get_AnimIndex());
 			break;
@@ -119,12 +119,12 @@ void CSkill3_EnmuState::Enter(CEnmu * pEnmu)
 		pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_SKILL_3_1, 0.01f);
 		
 		break;
-	case Client::CEnmuState::TYPE_DEFAULT:
-		//pEnmu->Get_Model()->Reset_Anim(CEnmu::ANIMID::ANIM_SKILL_3_2);
-		pEnmu->Set_AnimIndex(CEnmu::ANIM_SKILL_3_2);
-		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_SKILL_3_2);
-		pEnmu->Get_Model()->Set_Loop(CEnmu::ANIMID::ANIM_SKILL_3_2);
-		pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_SKILL_3_2, 0.01f);
+	//case Client::CEnmuState::TYPE_DEFAULT:
+	//	//pEnmu->Get_Model()->Reset_Anim(CEnmu::ANIMID::ANIM_SKILL_3_2);
+	//	pEnmu->Set_AnimIndex(CEnmu::ANIM_SKILL_3_2);
+	//	pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_SKILL_3_2);
+	//	pEnmu->Get_Model()->Set_Loop(CEnmu::ANIMID::ANIM_SKILL_3_2);
+	//	pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_SKILL_3_2, 0.01f);
 		
 		break;
 	case Client::CEnmuState::TYPE_CHANGE:

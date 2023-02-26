@@ -992,7 +992,13 @@ void CImGuiManager::Read_CamActionFiles()
 
 void CImGuiManager::AnimationDebug(_float fTimeDelta)
 {
-	LiveCharacterList();
+
+	if (g_iLevel == 12)
+	{
+		EnmuBossAnimDebug();
+	}
+	else
+		LiveCharacterList();
 
 }
 
@@ -2029,6 +2035,88 @@ void CImGuiManager::Character_Set_Frame(_uint _iIndex)
 			((CShinobu*)(m_vecObjList[1]))->Get_Model()->Set_CurrentTime(m_fSettingFrameTime);
 		}
 	}
+}
+
+void CImGuiManager::EnmuBossAnimDebug()
+{
+	ImVec2 vListSize(100, 60);
+	ImVec2 vObjSize(100, 20);
+	static int selected = 999;
+
+
+	if (ImGui::BeginListBox("Character", vListSize))
+	{
+		for (_uint i = 0; i < m_vecObjList.size(); ++i)
+		{
+			wstring wStrName = m_vecObjList[i]->Get_PlayerInfo().strName;
+			string strName;
+
+		
+			// 보스
+			if (wStrName == L"엔무(각성)")
+				strName = "Head";
+			else if (wStrName == L"엔무(쉴드)")
+				strName = "Shield";
+			else if (wStrName == L"엔무_오른손")
+				strName = "RightHand";
+			else if (wStrName == L"엔무_왼손")
+				strName = "LeftHand";
+			else if (wStrName == L"엔무_촉수")
+				strName = "CHOKCHOK";
+
+			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
+			{
+				selected = i;
+			}
+			ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndListBox();
+	}
+
+
+
+
+	if (selected != 999)
+		EnmuBossCharacterList(selected);
+
+}
+
+void CImGuiManager::EnmuBossCharacterList(_uint _iIndex)
+{
+	ImVec2 vListSize(300, 200);
+	ImVec2 vObjSize(300, 15);
+	static int selected = 0;
+
+	
+	m_vecAnimation = CEnmuBoss::Get_Instance()->Get_EnmuPartsList()[_iIndex]->Get_Model()->Get_Animation();
+
+	if (ImGui::BeginListBox("..", vListSize))
+	{
+		for (_uint i = 0; i < m_vecAnimation.size(); ++i)
+		{
+			string Temp = to_string(i) + ". ";
+			string strName = m_vecAnimation[i]->Get_AnimName();
+
+			strName = Temp + strName;
+
+			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
+			{
+				selected = i;
+			}
+			ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndListBox();
+	}
+
+
+
+	if (ImGui::Button("Play Animation"))
+	{
+
+	}
+
+
+
 }
 
 void CImGuiManager::Free()
