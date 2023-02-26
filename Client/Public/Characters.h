@@ -23,6 +23,7 @@ public:
 	enum HIT_TYPE {HIT_UPPER, HIT_UPPER_2 , HIT_BOUND, HIT_KNOCKBACK, HIT_END };
 	enum PLAYER_TYPE {PLAYER_TANJIRO, PLAYER_KYOUJURO, PLAYER_RUI, PLAYER_AKAZA, PLAYER_NEZUKO, PLAYER_SHINOBU, PLAYER_END};
 	enum SKILL_TYPE {SKILL_010, SKILL_020, SKILL_030, SKILL_040, SKILL_050, SKILL_060, SKILL_070, SKILL_080, SKILL_090 , SKILL_100, SKILL_110, SKILL_END};
+	enum ANIMID {};
 
 protected:
 	CCharacters(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -123,6 +124,10 @@ public:
 	virtual void  Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower) PURE;
 	virtual void  Play_Scene() PURE;
 	virtual CModel* Get_Model() { return nullptr; };
+
+
+	virtual ANIMID Get_AnimIndex() { return (ANIMID)0; }
+	virtual	void   Set_AnimIndex(ANIMID iAnimIndex) { };
 
 	void	   Set_Atk2(_bool bAtk2) { m_bAtk2 = bAtk2; }
 	_bool	   Get_Atk2() { return m_bAtk2; }

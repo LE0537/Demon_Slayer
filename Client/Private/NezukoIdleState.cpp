@@ -25,6 +25,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pNezuko->Set_bGuard(false);
+	pNezuko->Set_SplSkl(false);
 	if (!pNezuko->Get_PlayerInfo().bChange)
 	{
 		switch (pNezuko->Get_i1P())

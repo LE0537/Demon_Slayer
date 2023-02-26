@@ -30,6 +30,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pShinobu->Set_bGuard(false);
+	pShinobu->Set_SplSkl(false);
 	if (!pShinobu->Get_PlayerInfo().bChange)
 	{
 		switch (pShinobu->Get_i1P())

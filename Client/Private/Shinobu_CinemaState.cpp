@@ -87,6 +87,7 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Set_AnimIndex(static_cast<CShinobu::ANIMID>(CShinobu_CinemaState::ANIM_SCENE_START));
 		pShinobu->Get_Model()->Set_Loop(CShinobu_CinemaState::ANIM_SCENE_START);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu_CinemaState::ANIM_SCENE_START, 0.01f);
+		pShinobu->Set_SplSkl(true);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_0:
 		pShinobu->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);

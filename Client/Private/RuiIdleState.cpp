@@ -24,7 +24,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pRui->Set_bGuard(false);
-
+	pRui->Set_SplSkl(false);
 
 
 

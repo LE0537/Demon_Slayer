@@ -25,7 +25,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pAkaza->Set_bGuard(false);
-	
+	pAkaza->Set_SplSkl(false);
 	switch (pAkaza->Get_i1P())
 	{
 	case 1:

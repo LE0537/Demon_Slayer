@@ -260,6 +260,7 @@
     <ClInclude Include="..\Public\EnmuBoss.h" />
     <ClInclude Include="..\Public\EnmuBossIdleState.h" />
     <ClInclude Include="..\Public\EnmuBossState.h" />
+    <ClInclude Include="..\Public\EnmuBossToolState.h" />
     <ClInclude Include="..\Public\EnmuDashState.h" />
     <ClInclude Include="..\Public\EnmuGuardHitState.h" />
     <ClInclude Include="..\Public\EnmuGuardState.h" />
@@ -739,6 +740,7 @@
     <ClCompile Include="..\Private\EnmuBattleSTState.cpp" />
     <ClCompile Include="..\Private\EnmuBoss.cpp" />
     <ClCompile Include="..\Private\EnmuBossIdleState.cpp" />
+    <ClCompile Include="..\Private\EnmuBossToolState.cpp" />
     <ClCompile Include="..\Private\EnmuDashState.cpp" />
     <ClCompile Include="..\Private\EnmuGuardHitState.cpp" />
     <ClCompile Include="..\Private\EnmuGuardState.cpp" />
