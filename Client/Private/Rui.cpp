@@ -536,7 +536,6 @@ void CRui::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpP
 void CRui::Play_Scene()
 {
 	CRuiState* pState = nullptr;
-
 	switch (m_pBattleTarget->Get_PlayerType())
 	{
 	case Client::CCharacters::PLAYER_TANJIRO:

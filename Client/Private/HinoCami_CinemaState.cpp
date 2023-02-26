@@ -17,23 +17,23 @@ CHinoCami_CinemaState::CHinoCami_CinemaState(CINEMASCENE eScene)
 
 CTanjiroState * CHinoCami_CinemaState::HandleInput(CTanjiro * pTanjiro)
 {
-	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	if (pGameInstance->Key_Down(DIK_R) && !pTanjiro->Get_StoryKey())
-	{
-		RELEASE_INSTANCE(CGameInstance);
-		pTanjiro->Get_BattleTarget()->Play_Scene();
-		return new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
-	}
-	if (pGameInstance->Key_Down(DIK_F) && !pTanjiro->Get_StoryKey())
-	{
-		RELEASE_INSTANCE(CGameInstance);
+	CTanjiroState* pState = nullptr;
+	//if (pGameInstance->Key_Down(DIK_F5) && !pTanjiro->Get_StoryKey())
+	//	pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
+	//if (pGameInstance->Key_Down(DIK_F6) && !pTanjiro->Get_StoryKey())
+	//	pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_0);
+	//if (pGameInstance->Key_Down(DIK_F7) && !pTanjiro->Get_StoryKey())
+	//	pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_1);
+	//if (pGameInstance->Key_Down(DIK_F8) && !pTanjiro->Get_StoryKey())
+	//	pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_2);
+	//if (pGameInstance->Key_Down(DIK_F9) && !pTanjiro->Get_StoryKey())
+	//	pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_3);
 
+
+	if(nullptr != pState)
 		pTanjiro->Get_BattleTarget()->Play_Scene();
-		return new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
-	}
-	RELEASE_INSTANCE(CGameInstance);
-*/
-	return nullptr;
+
+	return pState;
 }
 
 CTanjiroState * CHinoCami_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)

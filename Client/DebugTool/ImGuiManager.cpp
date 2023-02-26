@@ -656,6 +656,10 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	static _bool bTimeSlow = false;
 	static _float fClusterRadius = 0.1f;
 	static _float fPreClusterRadius = 0.1f;
+	static char strCamActionName[MAX_PATH][10] = { "Tan1", "Tan2", "Tan3", "Tan4", "Tan5", 
+		"RuiStt", "Rui0", "Rui1", "Rui2", "Rui3" , "Rui4" , "Rui5" , "Rui6",
+	};
+	static _int iCameraActionIndex = 0;
 	if (ImGui::CollapsingHeader("Setting Actions"))
 	{
 		//	Play Time
@@ -664,7 +668,14 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		if (0.f > fSettingTime)
 			fSettingTime = 0.f;
 
-		if (pGameInstance->Key_Down(DIK_R))
+		if (pGameInstance->Key_Down(DIK_F3) || 
+			pGameInstance->Key_Down(DIK_F4) || 
+			pGameInstance->Key_Down(DIK_F5) ||
+			pGameInstance->Key_Down(DIK_F6) ||
+			pGameInstance->Key_Down(DIK_F7) ||
+			pGameInstance->Key_Down(DIK_F8) ||
+			pGameInstance->Key_Down(DIK_F9) ||
+			pGameInstance->Key_Down(DIK_CAPSLOCK))
 			m_bCutScene = true;
 
 		//	Play CutScene
@@ -674,6 +685,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		if (m_iNumCam[CAM_EYE] == m_iNumCam[CAM_AT] &&
 			m_iNumCam[CAM_EYE] == m_iNumCamTime + 1 &&
 			true == m_bCutScene)
+			//	((CCamera_Dynamic*)m_pCamera)->Set_CutScene_Tool(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, m_fMotionBlur);
 			m_bCutScene = ((CCamera_Dynamic*)m_pCamera)->Play_CutScene(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, &fSettingTime, fTimeDelta * (_float)m_bCutScene);
 		
 
@@ -713,8 +725,25 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 				iter->Set_SphereSize(fClusterRadius);
 			}
 		}
-
 		fPreClusterRadius = fClusterRadius;
+
+		ImGui::BeginChild("Change CamAction", ImVec2(ImGui::GetWindowWidth() * 0.3f, 130), true, window_flags);
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("Change CamAction"))
+			{
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+		for (_int i = 0; i < CCamera_Dynamic::CUTSCENE_END; i++)
+		{
+			if (ImGui::Selectable(strCamActionName[i], iCameraActionIndex == i))
+				iCameraActionIndex = i;
+		}
+		ImGui::EndChild();
+		if (ImGui::Button("Change", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
+			((CCamera_Dynamic*)m_pCamera)->Change_CutScene((CCamera_Dynamic::CUTSCENE)iCameraActionIndex, m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, m_fMotionBlur);
 	}
 
 
