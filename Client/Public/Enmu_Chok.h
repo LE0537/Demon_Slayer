@@ -21,6 +21,11 @@ BEGIN(Client)
 class CEnmu_Chok : public CCharacters
 {
 public:
+	enum ANIMID
+	{
+		ANIM_IDLE,
+	};
+public:
 	CEnmu_Chok(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CEnmu_Chok(const CEnmu_Chok& rhs);
 	virtual ~CEnmu_Chok() = default;
@@ -37,7 +42,8 @@ public:
 public:
 	//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
 	CModel* Get_Model() const { return m_pModelCom; }
-
+	ANIMID Get_AnimIndex() const { return m_eAnimID; }
+	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
 
 	void   Set_ShadowAlphaIncrease(_bool bShadow) { m_bShadowAlphaIncrease = bShadow; }
 	void   Set_ShadowAlphaDecrease(_bool bShadow) { m_bShadowAlphaDecrease = bShadow; }
@@ -71,7 +77,7 @@ private:
 
 	_float					m_fEffectTime = 0.f;
 private:
-
+	ANIMID m_eAnimID;
 
 	_bool	m_bShadowAlphaIncrease = false;
 	_bool	m_bShadowAlphaDecrease = false;

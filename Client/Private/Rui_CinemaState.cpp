@@ -121,7 +121,7 @@ void CRui_CinemaState::Enter(CRui * pRui)
 		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CRui_CinemaState::ANIM_SCENE_START));
 		pRui->Get_Model()->Set_Loop(CRui_CinemaState::ANIM_SCENE_START);
 		pRui->Get_Model()->Set_LinearTime(CRui_CinemaState::ANIM_SCENE_START, 0.01f);
-		
+		pRui->Set_SplSkl(true);
 		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pRui->Get_NavigationHeight().y, 56.1f, 1.f));
 		pRui->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pRui->Get_NavigationHeight().y, 50.03f, 1.f));
 		

@@ -130,6 +130,8 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_START));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_START);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_START, 0.01f);
+
+		pNezuko->Set_SplSkl(true);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_0:
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);

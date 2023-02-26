@@ -20,6 +20,11 @@ BEGIN(Client)
 
 class CEnmu_Chaos_Head : public CCharacters
 {
+	enum ANIMID
+	{
+		ANIM_IDLE,
+	};
+
 public:
 	CEnmu_Chaos_Head(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CEnmu_Chaos_Head(const CEnmu_Chaos_Head& rhs);
@@ -37,7 +42,8 @@ public:
 public:
 	//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
 	CModel* Get_Model() const { return m_pModelCom; }
-
+	ANIMID Get_AnimIndex() const { return m_eAnimID; }
+	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
 
 	void   Set_ShadowAlphaIncrease(_bool bShadow) { m_bShadowAlphaIncrease = bShadow; }
 	void   Set_ShadowAlphaDecrease(_bool bShadow) { m_bShadowAlphaDecrease = bShadow; }
@@ -72,7 +78,7 @@ private:
 	CCollider*				m_pOBBCom = nullptr;
 	_float					m_fEffectTime = 0.f;
 private:
-
+	ANIMID m_eAnimID;
 
 	_bool	m_bShadowAlphaIncrease = false;
 	_bool	m_bShadowAlphaDecrease = false;
