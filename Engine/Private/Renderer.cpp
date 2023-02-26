@@ -1058,7 +1058,7 @@ HRESULT CRenderer::Render_BackEffect()
 
 			if (FAILED(m_pTarget_Manager->Begin_MRT_NonClear(m_pContext, TEXT("MRT_Master"))))
 				return E_FAIL;
-			m_pShader->Begin(15);
+			m_pShader->Begin(19);
 			m_pVIBuffer->Render();
 			if (FAILED(m_pTarget_Manager->End_MRT(m_pContext)))
 				return E_FAIL;
