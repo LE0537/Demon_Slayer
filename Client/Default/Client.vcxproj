@@ -266,6 +266,7 @@
     <ClInclude Include="..\Public\EnmuHitState.h" />
     <ClInclude Include="..\Public\EnmuIdleState.h" />
     <ClInclude Include="..\Public\EnmuMoveState.h" />
+    <ClInclude Include="..\public\EnmuShoot.h" />
     <ClInclude Include="..\Public\EnmuState.h" />
     <ClInclude Include="..\Public\EnmuTakeDownState.h" />
     <ClInclude Include="..\Public\EnmuTargetRushState.h" />
@@ -745,6 +746,7 @@
     <ClCompile Include="..\Private\EnmuHitState.cpp" />
     <ClCompile Include="..\Private\EnmuIdleState.cpp" />
     <ClCompile Include="..\Private\EnmuMoveState.cpp" />
+    <ClCompile Include="..\private\EnmuShoot.cpp" />
     <ClCompile Include="..\Private\EnmuTakeDownState.cpp" />
     <ClCompile Include="..\Private\EnmuTargetRushState.cpp" />
     <ClCompile Include="..\Private\EnmuToolState.cpp" />

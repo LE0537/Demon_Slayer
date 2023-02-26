@@ -298,6 +298,8 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 				m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
 				m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 			}
+			if (m_fStartTime > 3.f && g_iLevel != LEVEL_BOSSENMU)
+				m_bStart = true;
 #else
 			if (!m_bLerp && m_fStartTime > 1.5f && g_iLevel != LEVEL_BOSSENMU)
 			{
@@ -852,7 +854,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 	if (g_iLevel == LEVEL_BATTLEENMU)
 	{
 		vAtPos = vTargetPos;
-		vAtPos.m128_f32[1] -= 5.5f;
+		vAtPos.m128_f32[1] = 11.f;
 	}
 	else if (g_iLevel == LEVEL_BOSSENMU)
 	{

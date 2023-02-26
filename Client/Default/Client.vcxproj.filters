@@ -1447,6 +1447,9 @@
     <Filter Include="02.GameObjects\99.GameObj\03.NPC\TrainNPC">
       <UniqueIdentifier>{688be346-9a87-4174-bf89-e43456a508d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\16.EnmuShoot">
+      <UniqueIdentifier>{82bd510d-03cc-4e67-95b6-e0f695dea156}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2883,6 +2886,9 @@
     <ClInclude Include="..\public\TrainNPC.h">
       <Filter>02.GameObjects\99.GameObj\03.NPC\TrainNPC</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\EnmuShoot.h">
+      <Filter>05.CollBox\16.EnmuShoot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4285,6 +4291,9 @@
     </ClCompile>
     <ClCompile Include="..\private\TrainNPC.cpp">
       <Filter>02.GameObjects\99.GameObj\03.NPC\TrainNPC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EnmuShoot.cpp">
+      <Filter>05.CollBox\16.EnmuShoot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
