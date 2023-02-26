@@ -6,13 +6,7 @@
 #include "UI_Manager.h"
 #include "Layer.h"
 #include "Level_GamePlay.h"
-#include "RuiDadIdleState.h"
-#include "ImGuiManager.h"
-#include "Tanjiro.h"
-#include "RuiDadHitState.h"
-#include "RuiDadGuardHitState.h"
-#include "AngryState.h"
-
+#include "EnmuBoss.h"
 
 CEnmu_Left_Hand::CEnmu_Left_Hand(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -39,13 +33,13 @@ HRESULT CEnmu_Left_Hand::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	_vector vPos = { -12.012f, 16.6f, 176.414f,1.f };
+	_vector vPos = { -10.012f, 16.6f, 177.414f,1.f };
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-
+	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 0.f));
 	CUI_Manager::Get_Instance()->Set_2P(this);
 
 	m_pModelCom->Set_CurrentAnimIndex(40);
-
+	CEnmuBoss::Get_Instance()->Add_EnmuParts(this);
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	Set_Info();
 	return S_OK;
@@ -258,7 +252,7 @@ HRESULT CEnmu_Left_Hand::Ready_Components()
 
 void CEnmu_Left_Hand::Set_Info()
 {
-	m_tInfo.strName = TEXT("¿£¹«(½¯µå)");
+	m_tInfo.strName = TEXT("¿£¹«_¿Þ¼Õ");
 	m_tInfo.bOni = true;
 	m_tInfo.iMaxHp = 300;
 	m_tInfo.iHp = m_tInfo.iMaxHp;

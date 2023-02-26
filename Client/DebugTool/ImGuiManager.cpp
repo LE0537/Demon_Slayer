@@ -13,6 +13,14 @@
 #include "Layer.h"
 #include "Enmu.h"
 
+#include "Enmu_Chaos_Head.h"
+#include "Enmu_Left_Hand.h"
+#include "Enmu_Right_Hand.h"
+#include "Enmu_Chok.h"
+#include "Enmu_Shield.h"
+
+#include "EnmuBoss.h"
+
 IMPLEMENT_SINGLETON(CImGuiManager)
 
 CImGuiManager::CImGuiManager()
@@ -1070,6 +1078,19 @@ void CImGuiManager::LiveCharacterList()
 			else if (wStrName == L"엔무")
 				strName = "Enmu";
 
+			//// 보스
+			//else if (wStrName == L"엔무(각성)")
+			//	strName = "Head";
+			//else if (wStrName == L"엔무(쉴드)")
+			//	strName = "Shield";
+			//else if (wStrName == L"엔무_오른손")
+			//	strName = "RightHand";
+			//else if (wStrName == L"엔무_왼손")
+			//	strName = "LeftHand";
+			//else if (wStrName == L"엔무_촉수")
+			//	strName = "CHOKCHOK";
+
+
 			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
 			{
 				selected = i;
@@ -1114,7 +1135,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 		}
 		else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"시노부")
 		{
-			m_vecAnimation = ((CNezuko*)(m_vecObjList[0]))->Get_Model()->Get_Animation();
+			m_vecAnimation = ((CShinobu*)(m_vecObjList[0]))->Get_Model()->Get_Animation();
 		}
 
 	}
@@ -1142,7 +1163,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 		}
 		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"시노부")
 		{
-			m_vecAnimation = ((CNezuko*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
+			m_vecAnimation = ((CShinobu*)(m_vecObjList[1]))->Get_Model()->Get_Animation();
 		}
 
 		else if (m_vecObjList[1]->Get_PlayerInfo().strName == L"엔무")

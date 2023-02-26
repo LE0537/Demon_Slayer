@@ -1435,6 +1435,18 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\04.Chok">
       <UniqueIdentifier>{1551f753-176e-4ca3-b02b-4a9ce084df68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss">
+      <UniqueIdentifier>{e07d7eb4-7fa9-44cf-a936-db4482607287}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState">
+      <UniqueIdentifier>{00dcef52-8aa8-43e0-a26c-ccaf8acd0c61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Idle">
+      <UniqueIdentifier>{53ea6d48-0299-4420-9f7f-71ae760a2770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC\TrainNPC">
+      <UniqueIdentifier>{688be346-9a87-4174-bf89-e43456a508d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2859,6 +2871,18 @@
     <ClInclude Include="..\Public\Skill3_EnmuState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Skill</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\EnmuBoss.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuBossState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuBossIdleState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TrainNPC.h">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\TrainNPC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4252,6 +4276,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Skill3_EnmuState.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\01.Enmu\EnmuState\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuBoss.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuBossIdleState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TrainNPC.cpp">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\TrainNPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

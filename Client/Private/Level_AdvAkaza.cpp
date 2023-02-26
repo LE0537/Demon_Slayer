@@ -150,6 +150,15 @@ HRESULT CLevel_AdvAkaza::Initialize()
 void CLevel_AdvAkaza::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
+	if (!m_isFinished && !m_bThread)
+	{
+		CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+		m_bThread = true;
+		pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
+		pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
+
+		RELEASE_INSTANCE(CGameInstance);
+	}
 	if (m_isFinished)
 	{
 		if (!m_bTread)
@@ -463,7 +472,7 @@ HRESULT CLevel_AdvAkaza::Load_StaticObjects(char * pFileName)
 
 			CDoor::DOOR_DESC	tCharacterDesc1p;
 			tCharacterDesc1p.m_pPlayer = m_pPlayer;
-
+			CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
 			switch (tMeshObj_Static_InstDesc.iModelIndex)
 			{
 			case 2001:
@@ -492,6 +501,34 @@ HRESULT CLevel_AdvAkaza::Load_StaticObjects(char * pFileName)
 						Safe_Delete_Array(arrGlowPower);
 						return E_FAIL;
 					}
+				}
+				Safe_Delete_Array(arrWorld);
+				Safe_Delete_Array(arrGlowPower);
+				continue;
+				break;
+			case 2019:
+				for (_uint i = 0; i < Pair.second; ++i)
+				{
+					tCharacterDesc.i1P2P = rand() % 14;
+					tCharacterDesc.matWorld = arrWorld[i];
+					tCharacterDesc.bSub = true;
+					tCharacterDesc.pSubChar = m_pPlayer;
+					if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_TrainNPC"), LEVEL_ADVAKAZA, TEXT("Layer_NPC"), &tCharacterDesc)))
+						return E_FAIL;
+				}
+				Safe_Delete_Array(arrWorld);
+				Safe_Delete_Array(arrGlowPower);
+				continue;
+				break;
+			case 2020:
+				for (_uint i = 0; i < Pair.second; ++i)
+				{
+					tCharacterDesc.i1P2P = rand() % 14;
+					tCharacterDesc.matWorld = arrWorld[i];
+					tCharacterDesc.bSub = false;
+					tCharacterDesc.pSubChar = m_pPlayer;
+					if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_TrainNPC"), LEVEL_ADVAKAZA, TEXT("Layer_NPC"), &tCharacterDesc)))
+						return E_FAIL;
 				}
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);

@@ -52,20 +52,20 @@ HRESULT CTanjiroWeapon2::Initialize(void * pArg)
 
 void CTanjiroWeapon2::Tick(_float fTimeDelta)
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (pGameInstance->Key_Down(DIK_F5))
-	{
-		CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
-		char cName[MAX_PATH];
-		ZeroMemory(cName, sizeof(char) * MAX_PATH);
-		pData_Manager->TCtoC(TEXT("TanjiroWeapon2"), cName);
-		pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
-		ERR_MSG(TEXT("Save_Bin_TanjiroWeapon2"));
-		RELEASE_INSTANCE(CData_Manager);
-	}
+	//if (pGameInstance->Key_Down(DIK_F5))
+	//{
+	//	CData_Manager* pData_Manager = GET_INSTANCE(CData_Manager);
+	//	char cName[MAX_PATH];
+	//	ZeroMemory(cName, sizeof(char) * MAX_PATH);
+	//	pData_Manager->TCtoC(TEXT("TanjiroWeapon2"), cName);
+	//	pData_Manager->Conv_Bin_Model(m_pModelCom, cName, CData_Manager::DATA_ANIM);
+	//	ERR_MSG(TEXT("Save_Bin_TanjiroWeapon2"));
+	//	RELEASE_INSTANCE(CData_Manager);
+	//}
 
-	RELEASE_INSTANCE(CGameInstance);
+	//RELEASE_INSTANCE(CGameInstance);
 	_matrix		SocketMatrix = m_WeaponDesc.pSocket->Get_CombinedTransformationMatrix() *
 		XMLoadFloat4x4(&m_WeaponDesc.SocketPivotMatrix) * XMLoadFloat4x4(m_WeaponDesc.pParentWorldMatrix);
 
@@ -205,7 +205,7 @@ HRESULT CTanjiroWeapon2::Ready_Components()
 
 	/* For.Com_Model*/
 
-	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_TanjiroWeapon2"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("TanjiroWeapon2"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
 

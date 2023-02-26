@@ -50,7 +50,7 @@ void CEnmuAttack3::Enter(CEnmu* pEnmu)
 	pEnmu->Get_Model()->Reset_Anim(CEnmu::ANIMID::ANIM_ATTACK_3);
 	pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_ATTACK_3);
 	pEnmu->Set_AnimIndex(CEnmu::ANIM_ATTACK_3);
-	pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_ATTACK_3, 0.2f);
+	pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_ATTACK_3, 0.01f);
 	pEnmu->Get_Model()->Set_Loop(pEnmu->Get_AnimIndex());
 
 }

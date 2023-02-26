@@ -8,11 +8,7 @@
 #include "Level_GamePlay.h"
 #include "RuiDadIdleState.h"
 #include "ImGuiManager.h"
-#include "Tanjiro.h"
-#include "RuiDadHitState.h"
-#include "RuiDadGuardHitState.h"
-#include "AngryState.h"
-
+#include "EnmuBoss.h"
 
 CEnmu_Chok::CEnmu_Chok(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -64,7 +60,7 @@ HRESULT CEnmu_Chok::Initialize(void * pArg)
 
 	_int i = rand() % 3 + 1;
 	m_pModelCom->Set_CurrentAnimIndex(i);
-
+	CEnmuBoss::Get_Instance()->Add_EnmuParts(this);
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	Set_Info();
 	return S_OK;
@@ -265,7 +261,7 @@ HRESULT CEnmu_Chok::Ready_Components()
 
 void CEnmu_Chok::Set_Info()
 {
-	m_tInfo.strName = TEXT("¿£¹«(½¯µå)");
+	m_tInfo.strName = TEXT("¿£¹«_ÃË¼ö");
 	m_tInfo.bOni = true;
 	m_tInfo.iMaxHp = 300;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
