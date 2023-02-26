@@ -32,6 +32,7 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
+	virtual CModel* Get_Model() const { return m_pModelCom; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();

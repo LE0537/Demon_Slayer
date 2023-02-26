@@ -20,9 +20,9 @@ BEGIN(Client)
 class CCharacters : public CGameObj
 {
 public:
-	enum HIT_TYPE {HIT_UPPER, HIT_UPPER_2 , HIT_BOUND, HIT_KNOCKBACK, HIT_END };
-	enum PLAYER_TYPE {PLAYER_TANJIRO, PLAYER_KYOUJURO, PLAYER_RUI, PLAYER_AKAZA, PLAYER_NEZUKO, PLAYER_SHINOBU, PLAYER_END};
-	enum SKILL_TYPE {SKILL_010, SKILL_020, SKILL_030, SKILL_040, SKILL_050, SKILL_060, SKILL_070, SKILL_080, SKILL_090 , SKILL_100, SKILL_110, SKILL_END};
+	enum HIT_TYPE { HIT_UPPER, HIT_UPPER_2, HIT_BOUND, HIT_KNOCKBACK, HIT_END };
+	enum PLAYER_TYPE { PLAYER_TANJIRO, PLAYER_KYOUJURO, PLAYER_RUI, PLAYER_AKAZA, PLAYER_NEZUKO, PLAYER_SHINOBU, PLAYER_END };
+	enum SKILL_TYPE { SKILL_010, SKILL_020, SKILL_030, SKILL_040, SKILL_050, SKILL_060, SKILL_070, SKILL_080, SKILL_090, SKILL_100, SKILL_110, SKILL_END };
 	enum ANIMID {};
 
 protected:
@@ -46,7 +46,7 @@ public:
 	typedef struct tagInfo {
 		wstring		strName; //캐릭터 이름;
 		_bool		bOni;    //true = 오니 , false = 인간;
-		_int		iMaxHp;  
+		_int		iMaxHp;
 		_int		iHp;
 		_int		iSkMaxBar; //맥스스킬게이지
 		_int		iSkBar;    //스킬게이지
@@ -89,7 +89,7 @@ public:
 	void	   Set_FriendSkillBar(_float _fSkill) { m_tInfo.iFriendBar += _fSkill; }
 	CNavigation*	Get_NavigationCom() { return m_pNavigationCom; }
 	void	   Set_HitTime(_float _fHitTime) { m_tInfo.fHitTime = _fHitTime; }
-	void	   Set_Sub(_bool _bSub){ m_tInfo.bSub = _bSub; }
+	void	   Set_Sub(_bool _bSub) { m_tInfo.bSub = _bSub; }
 	void	   Set_Change(_bool _bChange, _vector _vPos);
 	_bool	   Get_Change() { return m_bChange; };
 	void	   Set_SubChar(CCharacters* _pSubChar) { m_pSubChar = _pSubChar; }
@@ -113,9 +113,9 @@ public:
 	_bool	   Get_StoryKey() { return m_bStoryKey; }
 	void	   Set_StoryKey(_bool _bKey) { m_bStoryKey = _bKey; }
 	void	   Set_UnicBar(_int _iUnic) { m_tInfo.iUnicBar += _iUnic; }
-	void	   Reset_UnicBar(){ m_tInfo.iUnicBar = 0; }
+	void	   Reset_UnicBar() { m_tInfo.iUnicBar = 0; }
 	void	   Set_UnicCount(_int _iUnic) { m_tInfo.iUnicCount += _iUnic; }
-	void	   Set_PowerUp(_float _fPower){ m_tInfo.fPowerUp = _fPower; }
+	void	   Set_PowerUp(_float _fPower) { m_tInfo.fPowerUp = _fPower; }
 	void	   Set_PowerUpTime(_float _fPower) { m_tInfo.fPowerUpTime = _fPower; }
 	void	   Set_PowerIndex(_int _iIndex) { m_tInfo.iPowerIndex = _iIndex; }
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0) = 0;
@@ -123,7 +123,7 @@ public:
 	virtual void  Player_TakeDown(_float _fPow, _bool _bJump = 0) PURE;
 	virtual void  Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower) PURE;
 	virtual void  Play_Scene() PURE;
-	virtual CModel* Get_Model() { return nullptr; };
+	virtual CModel* Get_Model() const PURE;
 
 
 	virtual ANIMID Get_AnimIndex() { return (ANIMID)0; }
@@ -138,8 +138,8 @@ public:
 	void	   Set_InteractionCheck(_bool bCheck) { m_bInteractionCheck = bCheck; }
 	_bool	   Get_InteractionCheck() { return m_bInteractionCheck; }
 
-	void	   Set_SplSkl(_bool bSkpSkl) { 
-		if(bSkpSkl == true)
+	void	   Set_SplSkl(_bool bSkpSkl) {
+		if (bSkpSkl == true)
 			m_bSplSkl = true;
 		else if (bSkpSkl == false)
 		{
@@ -156,6 +156,8 @@ public:
 	void Set_SceneRender(_bool bRender) { m_bSceneRender = bRender; }
 
 	_float4x4* Get_WeaponWorld() { return m_WeaponWorld; }
+	_bool Get_MonsterDead() const { return m_bMonsterDead; }
+	void Set_MonsterDead() { m_bMonsterDead = true; }
 
 protected:
 	PLAYERINFO				m_tInfo;
@@ -174,7 +176,7 @@ protected:
 	_int					m_iModelIndex = 0;
 	_int					m_iAnimIndex = 0;
 	_bool					m_bBattleStart = false;
-
+	
 	_uint					m_iState = 0;
 	_bool					m_bStoryKey = false;
 	//Sub
@@ -194,6 +196,7 @@ protected:
 	CGameObj*				 m_pEffect = nullptr;
 
 	_bool					m_bSceneRender = true;
+	_bool					m_bMonsterDead = false;
 
 	_float4x4*				m_WeaponWorld;
 	_bool					m_bInteractionCheck = false;

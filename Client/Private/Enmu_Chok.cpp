@@ -56,7 +56,7 @@ HRESULT CEnmu_Chok::Initialize(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
-	CUI_Manager::Get_Instance()->Set_2P(this);
+	//CUI_Manager::Get_Instance()->Set_2P(this);
 
 	_int i = rand() % 3 + 1;
 	m_pModelCom->Set_CurrentAnimIndex(i);
@@ -69,7 +69,7 @@ HRESULT CEnmu_Chok::Initialize(void * pArg)
 void CEnmu_Chok::Tick(_float fTimeDelta)
 {
 
-	m_pModelCom->Play_Animation(fTimeDelta);
+	//m_pModelCom->Play_Animation(fTimeDelta);
 
 	HandleInput();
 	TickState(fTimeDelta);

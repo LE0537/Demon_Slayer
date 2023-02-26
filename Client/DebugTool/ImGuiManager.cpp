@@ -448,7 +448,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 				f3Movement_Pos[0] = vPos.x;
 				f3Movement_Pos[1] = vPos.y;
 				f3Movement_Pos[2] = vPos.z;
-				
+
 				if (0 != iPreCamIndex[CAM_EYE] &&
 					iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
 					m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
@@ -664,7 +664,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	static _bool bTimeSlow = false;
 	static _float fClusterRadius = 0.1f;
 	static _float fPreClusterRadius = 0.1f;
-	static char strCamActionName[MAX_PATH][10] = { "Tan1", "Tan2", "Tan3", "Tan4", "Tan5", 
+	static char strCamActionName[MAX_PATH][10] = { "Tan1", "Tan2", "Tan3", "Tan4", "Tan5",
 		"RuiStt", "Rui0", "Rui1", "Rui2", "Rui3" , "Rui4" , "Rui5" , "Rui6",
 	};
 	static _int iCameraActionIndex = 0;
@@ -676,8 +676,8 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		if (0.f > fSettingTime)
 			fSettingTime = 0.f;
 
-		if (pGameInstance->Key_Down(DIK_F3) || 
-			pGameInstance->Key_Down(DIK_F4) || 
+		if (pGameInstance->Key_Down(DIK_F3) ||
+			pGameInstance->Key_Down(DIK_F4) ||
 			pGameInstance->Key_Down(DIK_F5) ||
 			pGameInstance->Key_Down(DIK_F6) ||
 			pGameInstance->Key_Down(DIK_F7) ||
@@ -695,7 +695,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 			true == m_bCutScene)
 			//	((CCamera_Dynamic*)m_pCamera)->Set_CutScene_Tool(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, m_fMotionBlur);
 			m_bCutScene = ((CCamera_Dynamic*)m_pCamera)->Play_CutScene(m_vecCam[CAM_EYE], m_vecCam[CAM_AT], m_vecCamTime, &fSettingTime, fTimeDelta * (_float)m_bCutScene);
-		
+
 
 		ImGui::SameLine();
 		if (ImGui::Button("Stop", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
@@ -1037,6 +1037,18 @@ void CImGuiManager::AnimationDebug(_float fTimeDelta)
 
 	if (g_iLevel == 12)
 	{
+		if (m_bReset == false)
+		{
+			m_vecObjList.clear();
+			m_vecAnimation.clear();
+
+			for (_uint i = 0; i < CEnmuBoss::Get_Instance()->Get_EnmuPartsList().size(); ++i)
+			{
+				m_vecObjList.push_back(CEnmuBoss::Get_Instance()->Get_EnmuPartsList()[i]);
+			}
+			m_bReset = true;
+		}
+
 		EnmuBossAnimDebug();
 	}
 	else
@@ -1206,7 +1218,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 				}
 				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"네즈코")
 				{
-					strName.erase(strName.begin(), strName.begin()+ 38);
+					strName.erase(strName.begin(), strName.begin() + 38);
 				}
 				else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"시노부")
 				{
@@ -2093,7 +2105,7 @@ void CImGuiManager::EnmuBossAnimDebug()
 			wstring wStrName = m_vecObjList[i]->Get_PlayerInfo().strName;
 			string strName;
 
-		
+
 			// 보스
 			if (wStrName == L"엔무(각성)")
 				strName = "Head";
@@ -2129,8 +2141,27 @@ void CImGuiManager::EnmuBossCharacterList(_uint _iIndex)
 	ImVec2 vObjSize(300, 15);
 	static int selected = 0;
 
-	
-	m_vecAnimation = CEnmuBoss::Get_Instance()->Get_EnmuPartsList()[_iIndex]->Get_Model()->Get_Animation();
+
+	if (m_vecObjList[0]->Get_PlayerInfo().strName == L"엔무(각성)")
+	{
+		m_vecAnimation = ((CEnmu_Chaos_Head*)(m_vecObjList[_iIndex]))->Get_Model()->Get_Animation();
+	}
+	else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"엔무(쉴드)")
+	{
+		m_vecAnimation = ((CEnmu_Shield*)(m_vecObjList[_iIndex]))->Get_Model()->Get_Animation();
+	}
+	else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"엔무_오른손")
+	{
+		m_vecAnimation = ((CEnmu_Right_Hand*)(m_vecObjList[_iIndex]))->Get_Model()->Get_Animation();
+	}
+	else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"엔무_왼손")
+	{
+		m_vecAnimation = ((CEnmu_Left_Hand*)(m_vecObjList[_iIndex]))->Get_Model()->Get_Animation();
+	}
+	else if (m_vecObjList[0]->Get_PlayerInfo().strName == L"엔무_촉수")
+	{
+		m_vecAnimation = ((CEnmu_Chok*)(m_vecObjList[_iIndex]))->Get_Model()->Get_Animation();
+	}
 
 	if (ImGui::BeginListBox("..", vListSize))
 	{
@@ -2140,7 +2171,7 @@ void CImGuiManager::EnmuBossCharacterList(_uint _iIndex)
 			string strName = m_vecAnimation[i]->Get_AnimName();
 
 			strName = Temp + strName;
-
+			strName.erase(strName.begin(), strName.begin() + 23);
 			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
 			{
 				selected = i;
@@ -2154,7 +2185,7 @@ void CImGuiManager::EnmuBossCharacterList(_uint _iIndex)
 
 	if (ImGui::Button("Play Animation"))
 	{
-
+		CEnmuBoss::Get_Instance()->Set_ToolState(_iIndex, selected, 0, 0, 0, false);
 	}
 
 

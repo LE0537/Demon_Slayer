@@ -36,9 +36,13 @@ HRESULT CEnmu_Chaos_Head::Initialize(void * pArg)
 		return E_FAIL;
 
 
+
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 	RELEASE_INSTANCE(CGameInstance);
+
+	m_tInfo.bSub = false;
+
 	_vector vPos = { 0.956f, 16.6f, 174.106f,1.f };
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 0.f));
@@ -52,24 +56,29 @@ HRESULT CEnmu_Chaos_Head::Initialize(void * pArg)
 
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	Set_Info();
+
+
 	return S_OK;
+
 }
 
 void CEnmu_Chaos_Head::Tick(_float fTimeDelta)
 {
 
-	m_pModelCom->Play_Animation(fTimeDelta);
+	//m_pModelCom->Play_Animation(fTimeDelta);
 
+	if (m_bBattleStart)
+	{
+		CEnmuBoss::Get_Instance()->BossEnmu_Tick(fTimeDelta);
 
-	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("Root");
-	if (nullptr == pSocket)
-		return;
-	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("Root");
+		if (nullptr == pSocket)
+			return;
+		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
-	m_pSphereCom->Update(matColl);
+		m_pSphereCom->Update(matColl);
 
-	HandleInput();
-	TickState(fTimeDelta);
+	}
 
 
 
@@ -80,19 +89,21 @@ void CEnmu_Chaos_Head::Tick(_float fTimeDelta)
 
 void CEnmu_Chaos_Head::Late_Tick(_float fTimeDelta)
 {
-
-	LateTickState(fTimeDelta);
-	if (m_bRender)
+	if (m_bBattleStart)
 	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-	}
+		CEnmuBoss::Get_Instance()->BossEnmu_LateTick(fTimeDelta);
 
-	if (g_bCollBox)
-	{
-		m_pRendererCom->Add_Debug(m_pSphereCom);
-	}
+		if (m_bRender)
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+		}
 
+		if (g_bCollBox)
+		{
+			m_pRendererCom->Add_Debug(m_pSphereCom);
+		}
+	}
 
 }
 

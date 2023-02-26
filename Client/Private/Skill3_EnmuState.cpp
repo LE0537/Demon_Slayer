@@ -168,9 +168,9 @@ void CSkill3_EnmuState::Increase_Height(CEnmu * pEnmu, _float fTimeDelta)
 	m_vPosition.z = XMVectorGetZ(pEnmu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
 	m_vVelocity.y += fGravity * fTimeDelta;
-	m_vPosition.x += m_vVelocity.x * fTimeDelta;
+	//m_vPosition.x += m_vVelocity.x * fTimeDelta;
 	m_vPosition.y += m_vVelocity.y * fTimeDelta;
-	m_vPosition.z += m_vVelocity.z * fTimeDelta;
+	//m_vPosition.z += m_vVelocity.z * fTimeDelta;
 
 	_vector vCurrentPos = pEnmu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 

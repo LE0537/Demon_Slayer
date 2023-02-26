@@ -114,11 +114,11 @@ CEnmuState * CHitState::Tick(CEnmu* pEnmu, _float fTimeDelta)
 	{
 		if (pEnmu->Get_Model()->Get_End(CEnmu::ANIM_DEAD))
 		{
-			pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_HIT_DMG_RETURN_1);
-			pEnmu->Set_AnimIndex(CEnmu::ANIM_HIT_DMG_RETURN_1);
-			pEnmu->Get_Model()->Set_Loop(CEnmu::ANIMID::ANIM_HIT_DMG_RETURN_1);
-			pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
-			pEnmu->Get_Model()->Set_End(CEnmu::ANIM_DEAD);
+			//pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			//pEnmu->Set_AnimIndex(CEnmu::ANIM_HIT_DMG_RETURN_1);
+			//pEnmu->Get_Model()->Set_Loop(CEnmu::ANIMID::ANIM_HIT_DMG_RETURN_1);
+			//pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_HIT_DMG_RETURN_1, 0.01f);
+			//pEnmu->Get_Model()->Set_End(CEnmu::ANIM_DEAD);
 		}
 	}
 	else if (pEnmu->Get_Model()->Get_End(CEnmu::ANIM_HIT_DMG_RETURN_1))

@@ -41,7 +41,7 @@ HRESULT CEnmu::Initialize(void * pArg)
 
 	m_i1p = tCharacterDesc.i1P2P;
 
-	m_i1p = 11;
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 

@@ -122,6 +122,7 @@ private:
 	_float m_fDuration = 0.f;
 	_float m_fCurrentDuration = 0.f;
 
+	_bool m_bReset = false;
 	_float3 m_vCurrentPosition;
 
 private:
