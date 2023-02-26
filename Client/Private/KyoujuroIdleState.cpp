@@ -23,6 +23,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pKyoujuro->Set_bGuard(false);
+	pKyoujuro->Set_SplSkl(false);
 	if (!pKyoujuro->Get_PlayerInfo().bChange)
 	{
 		switch (pKyoujuro->Get_i1P())

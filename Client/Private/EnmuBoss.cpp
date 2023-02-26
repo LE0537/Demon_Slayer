@@ -8,6 +8,10 @@
 #include "Enmu_Chok.h"
 #include "Enmu_Shield.h"
 
+#include "EnmuBossToolState.h"
+
+using namespace EnmuBoss;
+
 IMPLEMENT_SINGLETON(CEnmuBoss)
 
 CEnmuBoss::CEnmuBoss()
@@ -23,6 +27,12 @@ HRESULT CEnmuBoss::Add_EnmuParts(CCharacters * pCharacter)
 		m_EnmuParts.push_back(pCharacter);
 
 	return S_OK;
+}
+
+void CEnmuBoss::Set_ToolState(_uint iPartsIndex, _uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
+{
+	CEnmuBossState* pState = new CBossToolState(iPartsIndex, iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CEnmuBossState::STATE_TYPE>(iTypeIndex), bIsContinue);
+	m_pEnmuBossState = m_pEnmuBossState->ChangeState(this, m_pEnmuBossState, pState);
 }
 
 

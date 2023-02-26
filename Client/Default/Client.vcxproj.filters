@@ -1447,6 +1447,9 @@
     <Filter Include="02.GameObjects\99.GameObj\03.NPC\TrainNPC">
       <UniqueIdentifier>{688be346-9a87-4174-bf89-e43456a508d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Tool">
+      <UniqueIdentifier>{36049760-7463-48f7-b390-665871e88c0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2883,6 +2886,9 @@
     <ClInclude Include="..\public\TrainNPC.h">
       <Filter>02.GameObjects\99.GameObj\03.NPC\TrainNPC</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\EnmuBossToolState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4285,6 +4291,9 @@
     </ClCompile>
     <ClCompile Include="..\private\TrainNPC.cpp">
       <Filter>02.GameObjects\99.GameObj\03.NPC\TrainNPC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuBossToolState.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
