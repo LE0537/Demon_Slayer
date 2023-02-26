@@ -244,6 +244,9 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_HINO_MO5_PROJ2:
 	case CEffect_Manager::EFF_SPL_HINO_MO5_SLASH1:
 	case CEffect_Manager::EFF_SPL_HINO_MO5_SLASH2:
+	case CEffect_Manager::EFF_SPL_HINO_MO5_SLASH3:
+	case CEffect_Manager::EFF_SPL_HINO_MO5_GOUND:
+	case CEffect_Manager::EFF_SPL_HINO_MO3_SLASH2:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			if (m_bStart) {
 				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
