@@ -1623,12 +1623,15 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion2_Sword"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion3_Proj1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion3_Slash1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion3_Slash2"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion4_Proj1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion4_Slash1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Proj1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Proj2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Slash1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Slash2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Slash3"));
 
 
 		RELEASE_INSTANCE(CEffect_Manager);

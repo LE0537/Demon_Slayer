@@ -130,41 +130,12 @@ void CEffect::Tick(_float fTimeDelta)
 
 				XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrWorld * mtrTargetWorld);
 			}
-			else if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
-				//m_ParentWorldMatrix = dynamic_cast<CCharacters*>(m_pTarget)->Get_WeaponWorld();
-				/*_matrix mtrWorld = m_pTransformCom->Get_WorldMatrix();
-				_matrix mtrParentWorld = mtrWorld * XMLoadFloat4x4(&dynamic_cast<CCharacters*>(m_pTarget)->Get_WeaponWorld());
-
-				mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
-				mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
-				mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
-
-				XMStoreFloat4x4(&m_CombinedWorldMatrix, mtrParentWorld);*/
-
-				_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
-
-				mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
-				mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
-				mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
-
-				XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParentWorld);
-			}
-			else {
+			else if (EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIX != m_EffectInfo.iMoveType) {
 				XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
 			}
-			m_bStart = false;
 		}
 		else {
-			if (EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
-				_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
-
-				mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
-				mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
-				mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
-
-				XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParentWorld);
-			}
-			else if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO && m_EffectInfo.iMoveType != EFFMOVE_MATRIXPIX) {
+			if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO && m_EffectInfo.iMoveType != EFFMOVE_MATRIXPIX && m_EffectInfo.iMoveType != EFFMOVE_MATRIX) {
 				_matrix vTargetPos = m_pTarget->Get_Transform()->Get_WorldMatrix();
 				_matrix vPos = m_pTransformCom->Get_WorldMatrix();
 
@@ -274,6 +245,30 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_HINO_MO5_SLASH1:
 	case CEffect_Manager::EFF_SPL_HINO_MO5_SLASH2:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
+			if (m_bStart) {
+				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
+					_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
+
+					mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
+					mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
+					mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
+
+					XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParentWorld);
+				}
+				m_bStart = false;
+			}
+			else {
+				if (EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
+					_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
+
+					mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
+					mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
+					mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
+
+					XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParentWorld);
+				}
+			}
+
 			for (auto& pTex : m_Textures)
 				pTex->Late_Tick(fTimeDelta);
 

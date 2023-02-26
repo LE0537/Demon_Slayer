@@ -152,7 +152,7 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ3, pTanjiro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ4, pTanjiro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ5, pTanjiro);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_SWORD, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_SWORD, pTanjiro->Get_WeaponWorld());
 																			  
 		RELEASE_INSTANCE(CEffect_Manager);
 		break;
@@ -168,6 +168,7 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO3_PROJ1, pTanjiro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO3_SLASH1, pTanjiro->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO3_SLASH2, pTanjiro->Get_WeaponWorld());
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		break;
@@ -201,6 +202,8 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_PROJ2, pTanjiro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_SLASH1, pTanjiro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_SLASH2, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_SLASH3, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_GOUND, pTanjiro);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 
