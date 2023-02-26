@@ -28,6 +28,7 @@ private:
 	_bool		m_bCurPerBarCheck = false;
 	_float		m_fFriendBar = 0.f;
 	_float		m_fFriendMaxBar = 0.f;
+	_bool		m_bSound = false;
 
 public:
 	static CChangeBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

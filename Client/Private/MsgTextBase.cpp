@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "UI_Manager.h"
 #include "MapNameBar.h"
+#include "SoundMgr.h"
 
 CMsgTextBase::CMsgTextBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -93,6 +94,11 @@ void CMsgTextBase::Tick(_float fTimeDelta)
 
 	if (m_bMoveCheck)
 	{
+		if (!m_bSound)
+		{
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+			m_bSound = true;
+		}
 		m_iMoveCount += 1;
 		m_fFadeTime += 0.2f;
 		m_fY -= 2.f;
@@ -105,6 +111,7 @@ void CMsgTextBase::Tick(_float fTimeDelta)
 
 		if (pGameInstance->Key_Down(DIK_RETURN))
 		{
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CharSelCancel.wav"), fEFFECT);
 			pUI_Manager->Set_MsgCount(1);
 
 			pUI_Manager->Set_MsgOff();
@@ -120,6 +127,7 @@ void CMsgTextBase::Tick(_float fTimeDelta)
 			m_iMoveCount = 0;
 			m_fFadeTime = 0.f;
 			m_fY = m_ThrowUIinfo.vPos.y + 10.f;
+			m_bSound = false;
 		}
 	}
 

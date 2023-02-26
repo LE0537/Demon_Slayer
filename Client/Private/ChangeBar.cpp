@@ -2,6 +2,7 @@
 #include "ChangeBar.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "SoundMgr.h"
 
 CChangeBar::CChangeBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -78,6 +79,7 @@ void CChangeBar::Tick(_float fTimeDelta)
 	{
 		if (m_fFriendBar < 500.f)
 		{
+			m_bSound = false;
 			if (!m_bCurPerBarCheck)
 			{
 				_float fPerCurBar = (m_fFriendBar * 0.002f) * 100.f;
@@ -100,10 +102,15 @@ void CChangeBar::Tick(_float fTimeDelta)
 		}
 		else if (m_fFriendBar >= 500.f)
 		{
+			if (!m_bSound)
+			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), fEFFECT);
+				m_bSound = true;
+			}
 			m_fTime = 469.17f;
 		}
 	}
-	else if (m_ThrowUIinfo.iLayerNum == 1 )
+	else if (m_ThrowUIinfo.iLayerNum == 1)
 	{
 		if(m_fFriendBar >= 500.f)
 		{
@@ -117,15 +124,22 @@ void CChangeBar::Tick(_float fTimeDelta)
 				m_fTime = 500.f;
 			if (m_fFriendBar < 1000)
 			{
+				m_bSound = false;
 				m_fTime -= 0.06166f;
 
 				if (!m_ThrowUIinfo.bPlyCheck)
 					pUI_Manager->Get_1P()->Set_FriendSkillBar(1.f);
 				else
 					pUI_Manager->Get_2P()->Set_FriendSkillBar(1.f);
+
 			}
 			else if (m_fFriendBar >= 1000.f)
 			{
+				if (!m_bSound)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), fEFFECT);
+					m_bSound = true;
+				}
 				m_fTime = 469.17f;
 				m_bCurPerBarCheck = false;
 			}

@@ -41,6 +41,7 @@ private:
 	_bool				m_bFirstSelCheck = false;
 	_bool				m_bSecondSelCheck = false;
 	_bool				m_bSelComplete = false;
+	_bool				m_bSound = false;
 
 public:
 	static CSelP2Cursor* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

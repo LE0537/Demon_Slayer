@@ -78,8 +78,8 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 		{
 			if (m_SelectInfo.bOni)
 			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickCharSelButton.wav"), fEFFECT);
 				PlayVoiceSound();
-
 				m_iSelCount = 2;
 				m_bFirstSelCheck = true;
 				m_bSecondSelCheck = true;
@@ -88,19 +88,21 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 			{
 				if (m_iSelCount == 1)
 				{
-					PlayVoiceSound();
-
 					if (!m_SelectInfo_2.bOni && m_SelectInfo.strName != m_SelectInfo_2.strName) //중복선택 오니 안됨
 					{
+						PlayVoiceSound();
 						++m_iSelCount;
 						if (m_iSelCount == 1)
 							m_bFirstSelCheck = true;
 						else if (m_iSelCount == 2)
 							m_bSecondSelCheck = true;
 					}
+					else
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
 				}
 				else //일반선택
 				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickCharSelButton.wav"), fEFFECT);
 					PlayVoiceSound();
 
 					if (m_iFrameLayerNum < 5 && m_iFrameLayerNum >= 0)
@@ -122,6 +124,7 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 		if (pGameInstance->Key_Down(DIK_Q))
 		{
 			CSoundMgr::Get_Instance()->Effect_Stop(SOUND_VOICE);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CharSelCancel.wav"), fEFFECT);
 			if (m_SelectInfo.bOni)
 			{
 				m_iSelCount = 0;
@@ -146,9 +149,19 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 	Cursor_To_SelFrame();
 
 	if (m_iSelCount >= 2)
+	{
+		if (!m_bSound)
+		{
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
+			m_bSound = true;
+		}
 		m_bSelComplete = true;
+	}
 	else
+	{
 		m_bSelComplete = false;
+		m_bSound = false;
+	}
 		
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - (_float)g_iWinSizeX * 0.5f, -m_fY + (_float)g_iWinSizeY * 0.5f, 0.45f, 1.f));
 
@@ -200,6 +213,7 @@ void CSelP1Cursor::Move_Cursor()
 
 	if (pGameInstance->Key_Down(DIK_D))
 	{
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
 		if (m_iFrameLayerNum < 5)
 			++m_iFrameLayerNum;
 		else if (m_iFrameLayerNum == 5)
@@ -207,6 +221,7 @@ void CSelP1Cursor::Move_Cursor()
 	}
 	else if (pGameInstance->Key_Down(DIK_A))
 	{
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
 		if (m_iFrameLayerNum > 0)
 			--m_iFrameLayerNum;
 		else if (m_iFrameLayerNum == 0)
@@ -214,6 +229,7 @@ void CSelP1Cursor::Move_Cursor()
 	}
 	else if (pGameInstance->Key_Down(DIK_W))
 	{
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
 		if (m_iFrameLayerNum > 3)
 			m_iFrameLayerNum -= 4;
 		else if (m_iFrameLayerNum < 2)
@@ -223,6 +239,7 @@ void CSelP1Cursor::Move_Cursor()
 	}
 	else if (pGameInstance->Key_Down(DIK_S))
 	{
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
 		if (m_iFrameLayerNum < 2)
 			m_iFrameLayerNum += 4;
 		else if (m_iFrameLayerNum > 3)

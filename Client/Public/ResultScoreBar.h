@@ -22,6 +22,9 @@ public:
 private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
+
+private:
+	_bool						m_bSound = false;
 	
 private:
 	_uint				m_iScore = 0;

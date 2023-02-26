@@ -2,6 +2,7 @@
 #include "OniSpecialSkillBar.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "SoundMgr.h"
 
 COniSpecialSkillBar::COniSpecialSkillBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -71,6 +72,7 @@ void COniSpecialSkillBar::Tick(_float fTimeDelta)
 	{
 		if (m_fSpecialSkillBar < 500.f)
 		{
+			m_bSound = false;
 			m_fSpecialSkillBar += fTimeDelta * 40.f;
 			
 			if (!m_ThrowUIinfo.bPlyCheck)
@@ -80,6 +82,11 @@ void COniSpecialSkillBar::Tick(_float fTimeDelta)
 		}
 		else if (m_fSpecialSkillBar >= 500.f)
 		{
+			if (!m_bSound)
+			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), fEFFECT);
+				m_bSound = true;
+			}
 			m_fSpecialSkillBar = 500.f;
 		}
 			
@@ -90,6 +97,7 @@ void COniSpecialSkillBar::Tick(_float fTimeDelta)
 		{
 			if (m_fSpecialSkillBar < 1000)
 			{
+				m_bSound = false;
 				m_fSpecialSkillBar -= 500.f;
 				m_fSpecialSkillBar += fTimeDelta * 40.f;
 				if (!m_ThrowUIinfo.bPlyCheck)
@@ -100,7 +108,14 @@ void COniSpecialSkillBar::Tick(_float fTimeDelta)
 
 			}
 			else if (m_fSpecialSkillBar >= 1000.f)
+			{
 				m_fSpecialSkillBar = 500.f;
+				if (!m_bSound)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), fEFFECT);
+					m_bSound = true;
+				}
+			}
 		}
 		else if (m_fSpecialSkillBar < 500)
 			m_fSpecialSkillBar = 0.f;
