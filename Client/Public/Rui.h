@@ -181,7 +181,7 @@ private:
 	void	Boss_LateTick(_float fTimeDelta);
 	void	Boss_Render();
 	void	Set_Info();
-
+	void    Check_Spl();
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);

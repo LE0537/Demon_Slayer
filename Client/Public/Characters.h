@@ -156,8 +156,12 @@ public:
 	void Set_SceneRender(_bool bRender) { m_bSceneRender = bRender; }
 
 	_float4x4* Get_WeaponWorld() { return m_WeaponWorld; }
+
 	_bool Get_MonsterDead() const { return m_bMonsterDead; }
 	void Set_MonsterDead() { m_bMonsterDead = true; }
+
+
+	_float4x4* Get_WeaponWorld2() { return m_WeaponWorld2; }
 
 protected:
 	PLAYERINFO				m_tInfo;
@@ -199,6 +203,7 @@ protected:
 	_bool					m_bMonsterDead = false;
 
 	_float4x4*				m_WeaponWorld;
+	_float4x4*				m_WeaponWorld2;
 	_bool					m_bInteractionCheck = false;
 
 public:

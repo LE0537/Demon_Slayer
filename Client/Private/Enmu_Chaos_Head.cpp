@@ -36,6 +36,7 @@ HRESULT CEnmu_Chaos_Head::Initialize(void * pArg)
 		return E_FAIL;
 
 
+	m_tInfo.bSub = false;
 
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
