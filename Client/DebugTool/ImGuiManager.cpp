@@ -275,7 +275,8 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	static _int	iPreCamIndex[CAM_END] = { 0, 0 };
 	_int		iObjSize[CAM_END] = { (_int)m_vecCamObjects[CAM_EYE].size(), (_int)m_vecCamObjects[CAM_AT].size() };
 	static _int iFixCamIndex[CAM_END] = { 0, 0 };
-
+	static float fAtSphereLength = 10.f;
+	
 	static _int		iCamTimeIndex = 0;
 	static _int		iPreCamTimeIndex = 0;
 	static _float	fCamTime = 1.f;
@@ -553,6 +554,65 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		--iPreCamIndex[eChoice];
 	}
 
+	ImGui::DragFloat("At Length", &fAtSphereLength, 0.01f, 0.1f, 1000.f, "%.2f");
+
+	if (ImGui::Button("At Length Push", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)))
+	{
+		if (eChoice == CAM_AT)
+		{
+			_float4 vAtSpherePos;
+			XMStoreFloat4(&vAtSpherePos, XMVectorSetW(XMLoadFloat4(&pGameInstance->Get_CamPosition()) + (fAtSphereLength * XMLoadFloat4(&pGameInstance->Get_CamLook())), 1.f));
+			if (0 == m_iNumCam[eChoice])
+				m_vecCam[eChoice].push_back(vAtSpherePos);		//	맨 처음 None용 인덱스. 못씀.
+			m_vecCam[eChoice].push_back(vAtSpherePos);
+
+			if (0 != m_iNumCam[eChoice])
+			{
+				if (iCamIndex[eChoice] + 1 != m_iNumCam[eChoice])		//	사이에 집어넣기
+				{
+					_float4	vPosTemp = *(m_vecCam[eChoice].end() - 1);
+					for (std::vector<_float4>::iterator iter = m_vecCam[eChoice].begin() + (iCamIndex[eChoice] + 1);
+						iter != m_vecCam[eChoice].end(); ++iter)
+					{
+						swap(*iter, vPosTemp);
+					}
+				}
+			}
+
+			_vector vPos[4];
+			_int	iSize = (_int)m_vecCam[eChoice].size();
+			for (_int j = 0; j < 4; ++j)
+			{
+				_int	iIndex = max(min(iFixCamIndex[eChoice] + j, iSize - 1), 0);		//	최소 = 0, 최대 = Size
+				vPos[j] = XMLoadFloat4(&m_vecCam[eChoice][iIndex]);
+			}
+
+
+			CGameObj* pGameObject = nullptr;
+			CCamLine::tagCamLineDesc tCamLineDesc;
+			tCamLineDesc.vColor = eChoice == CAM_EYE ? _float3(1.f, 0.f, 0.f) : _float3(0.f, 1.f, 0.f);
+			for (_int i = 0; i < 4; ++i)
+				XMStoreFloat3(&tCamLineDesc.vPos[i], vPos[i]);
+			pGameInstance->Add_GameObject(L"Prototype_GameObject_CamLine", LEVEL_STATIC, L"Layer_CamLine", &tCamLineDesc);
+			if (nullptr == tCamLineDesc.pMe)
+			{
+				ERR_MSG(L"Failed to Create : CamLine");
+			}
+			else
+			{
+				m_vecCamObjects[eChoice].push_back(tCamLineDesc.pMe);
+				Safe_AddRef(tCamLineDesc.pMe);
+			}
+
+			Sort_CamNodes((CAMTYPE)eChoice);
+			++iCamIndex[eChoice];
+			++iFixCamIndex[eChoice];
+
+			f3Movement_Pos[0] = m_vecCam[eChoice][iCamIndex[eChoice]].x;
+			f3Movement_Pos[1] = m_vecCam[eChoice][iCamIndex[eChoice]].y;
+			f3Movement_Pos[2] = m_vecCam[eChoice][iCamIndex[eChoice]].z;
+		}
+	}
 
 
 	if (ImGui::Button("Sort", ImVec2(ImGui::GetWindowWidth() * 0.12f, 20.f)))
