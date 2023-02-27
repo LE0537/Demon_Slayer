@@ -101,6 +101,10 @@ void CHitCinema_Tanjiro::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_LinearTime(CHitCinema_Tanjiro::ANIM_SCENE_1, 0.01f);
 		break;
 	case Client::Akaza::CHitCinema_Tanjiro::SCENE_2:
+		_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vRight = pAkaza->Get_Transform()->Get_State(CTransform::STATE_RIGHT);
+		vPos += XMVector3Normalize(vRight) * 0.67f;
+		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		pAkaza->Get_Model()->Reset_Anim(CHitCinema_Tanjiro::ANIM_SCENE_2);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Tanjiro::ANIM_SCENE_2);
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CHitCinema_Tanjiro::ANIM_SCENE_2));
