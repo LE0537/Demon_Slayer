@@ -4,6 +4,7 @@
 #include "Effect_Manager.h"
 #include "EnmuIdleState.h"
 #include "EnmuAttack_2.h"
+#include "SoundMgr.h"
 
 using namespace Enmu;
 
@@ -63,6 +64,14 @@ void CEnmuAttack1::Enter(CEnmu* pEnmu)
 	pEnmu->Set_AnimIndex(CEnmu::ANIM_ATTACK_1);
 	pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_ATTACK_1, 0.01f);
 	pEnmu->Get_Model()->Set_Loop(pEnmu->Get_AnimIndex());
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Attack_0.wav"), fEFFECT);
+
+	_uint iRand = rand() % 2;
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Enmu_Attack0_0.wav"), fVOICE);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Enmu_Attack0_1.wav"), fVOICE);
 
 }
 

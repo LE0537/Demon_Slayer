@@ -2,6 +2,7 @@
 #include "..\Public\Skill3_EnmuState.h"
 #include "GameInstance.h"
 #include "EnmuIdleState.h"
+#include "SoundMgr.h"
 
 using namespace Enmu;
 
@@ -91,7 +92,7 @@ void CSkill3_EnmuState::Enter(CEnmu * pEnmu)
 {
 	m_eStateId = STATE_SKILL3;
 
-	
+	_uint iRand = rand() % 2;
 
 	switch (m_eStateType)
 	{
@@ -101,7 +102,11 @@ void CSkill3_EnmuState::Enter(CEnmu * pEnmu)
 		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_SKILL_JUMP_1);
 		pEnmu->Get_Model()->Set_Loop(CEnmu::ANIMID::ANIM_SKILL_JUMP_1);
 		pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_SKILL_JUMP_1, 0.01f);
-		
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), fEFFECT);
+		if(iRand == 0)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Enmu_Skill3_0.wav"), fVOICE);
+		else if(iRand == 1) 
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Enmu_Skill3_1.wav"), fVOICE);
 		break;
 	case Client::CEnmuState::TYPE_LOOP:
 		//pEnmu->Get_Model()->Reset_Anim(CEnmu::ANIMID::ANIM_SKILL_3_0);
@@ -109,7 +114,7 @@ void CSkill3_EnmuState::Enter(CEnmu * pEnmu)
 		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_SKILL_3_0);
 		pEnmu->Get_Model()->Set_Loop(CEnmu::ANIMID::ANIM_SKILL_3_0);
 		pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_SKILL_3_0, 0.01f);
-		
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Skill_0.wav"), fEFFECT);
 		break;
 	case Client::CEnmuState::TYPE_END:
 		//pEnmu->Get_Model()->Reset_Anim(CEnmu::ANIMID::ANIM_SKILL_3_1);
@@ -117,7 +122,7 @@ void CSkill3_EnmuState::Enter(CEnmu * pEnmu)
 		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_SKILL_3_1);
 		pEnmu->Get_Model()->Set_Loop(CEnmu::ANIMID::ANIM_SKILL_3_1);
 		pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_SKILL_3_1, 0.01f);
-		
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Skill_0.wav"), fEFFECT);
 		break;
 	//case Client::CEnmuState::TYPE_DEFAULT:
 	//	//pEnmu->Get_Model()->Reset_Anim(CEnmu::ANIMID::ANIM_SKILL_3_2);
@@ -141,7 +146,6 @@ void CSkill3_EnmuState::Enter(CEnmu * pEnmu)
 		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_SKILL_JUMP_3);
 		pEnmu->Get_Model()->Set_Loop(CEnmu::ANIMID::ANIM_SKILL_JUMP_3);
 		pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_SKILL_JUMP_3, 0.01f);
-	
 		break;
 	default:
 		break;
