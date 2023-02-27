@@ -44,15 +44,9 @@ CKyoujuroState * CHitCinema_Rui::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		}
 		break;
 	case Client::Kyoujuro::CHitCinema_Rui::SCENE_1:
-		if (pKyoujuro->Get_Model()->Get_End(CHitCinema_Rui::ANIM_SCENE_DMG_040))
-		{
-			pKyoujuro->Get_Model()->Set_End(CHitCinema_Rui::ANIM_SCENE_DMG_040);
-
-		//	if (pKyoujuro->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_060)
-			{
-				return new CHitCinema_Rui(CHitCinema_Rui::SCENE_2);
-			}
-		}
+		m_fDuration += fTimeDelta;
+		if (5.46f < m_fDuration)
+			return new CHitCinema_Rui(CHitCinema_Rui::SCENE_2);
 		break;
 	case Client::Kyoujuro::CHitCinema_Rui::SCENE_2:
 		if (pKyoujuro->Get_Model()->Get_End(CHitCinema_Rui::ANIM_SCENE_DMG_060))

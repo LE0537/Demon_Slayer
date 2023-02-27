@@ -60,7 +60,7 @@ void CQuiestStampIcon::Tick(_float fTimeDelta)
 
 	if (!m_bDead)
 	{
-		m_bIconOn = dynamic_cast<CQuiestSubBase*>(pUI_Manager->Get_SubBase(m_ThrowUIinfo.iLayerNum))->Get_BaseOn();
+	//	m_bIconOn = dynamic_cast<CQuiestSubBase*>(pUI_Manager->Get_SubBase(m_ThrowUIinfo.iLayerNum))->Get_BaseOn();
 
 		if (m_bIconOn)
 		{

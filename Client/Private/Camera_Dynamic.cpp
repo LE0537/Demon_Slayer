@@ -32,6 +32,11 @@ void CCamera_Dynamic::Change_CutScene(CUTSCENE eCutScene, vector<_float4> vecPos
 	ERR_MSG(L"Changed!");
 }
 
+void CCamera_Dynamic::Set_Pos(_float3 vPos)
+{
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, XMVectorSetW(XMLoadFloat3(&vPos), 1.f));
+}
+
 void CCamera_Dynamic::Start_CutScene(_bool bTrueisPlay, CUTSCENE eCutScene)
 {
 	m_bCutScene = bTrueisPlay;
@@ -49,7 +54,6 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 	static _float fCullTime = 0.f;
 	_float	fUsedTime = fCullTime;
 	_int	iFrame = max(_int(fCullTime), 0) + 1;				//	현재 프레임. 첫 번째는 읽지않음.(None)
-	_float	fDecimal = max(fCullTime, 0.f) - (iFrame - 1);
 
 	if (iFrame + 1 >= iSize)		//	끝 Check
 	{
@@ -58,8 +62,21 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 		return false;
 	}
 
-	*pOut += (fTimeDelta) / (vecUseTime[iFrame]);
+	if (0.f == vecUseTime[iFrame])	//	부여된 시간이 0이면 스킵 ( 깔끔한 루트를 위한 구체는 스킵함. )
+	{
+		while (true)
+		{
+			if (0.f != vecUseTime[iFrame] ||
+				iFrame >= (_int)vecUseTime.size())
+				break;
+
+			++iFrame;
+		}
+	}
+	*pOut += min((fTimeDelta) / (vecUseTime[iFrame]), 1.f);
 	fCullTime = *pOut;
+
+	_float	fDecimal = max(fCullTime, 0.f) - (iFrame - 1);
 
 
 	_vector vCamPos, vCamAt;
@@ -132,11 +149,21 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("rui_Start"))) return E_FAIL;
 	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;
 	if (FAILED(Ready_CutScene("rui_1"))) return E_FAIL;
-	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	2
-	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	3
-	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	4
-	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	5
-	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	6
+	if (FAILED(Ready_CutScene("rui_2"))) return E_FAIL;	//	2
+	if (FAILED(Ready_CutScene("rui_3"))) return E_FAIL;	//	3
+	if (FAILED(Ready_CutScene("rui_4"))) return E_FAIL;	//	4
+	if (FAILED(Ready_CutScene("rui_5"))) return E_FAIL;	//	5	
+
+	if (FAILED(Ready_CutScene("kyojuro_Start"))) return E_FAIL;
+	if (FAILED(Ready_CutScene("kyojuro_0"))) return E_FAIL;	//	0
+	if (FAILED(Ready_CutScene("kyojuro_1"))) return E_FAIL;	//	1
+	if (FAILED(Ready_CutScene("kyojuro_2"))) return E_FAIL;	//	2
+	if (FAILED(Ready_CutScene("kyojuro_3"))) return E_FAIL;	//	3
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	4
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	5	
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	6
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	7	
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	8
 
 	if (g_iLevel == LEVEL_BOSSENMU)
 	{
@@ -166,6 +193,8 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
+
+
 	static _bool	bCamAttach = true;
 	if (true == m_bCutScene)
 	{
@@ -193,14 +222,14 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			//if (pGameInstance->Key_Pressing(DIK_RIGHT))
 			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
-			//if (pGameInstance->Key_Pressing(DIK_1))
-			//	m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_2))
-			//	m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_3))
-			//	m_pTransform->Go_Left(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_4))
-			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_1))
+				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_2))
+				m_pTransform->Go_Backward(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_3))
+				m_pTransform->Go_Left(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_4))
+				m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 			if (pGameInstance->Key_Pressing(DIK_NUMPAD8))
 				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
@@ -298,6 +327,8 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 				m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
 				m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 			}
+			if (m_fStartTime > 3.f && g_iLevel != LEVEL_BOSSENMU)
+				m_bStart = true;
 #else
 			if (!m_bLerp && m_fStartTime > 1.5f && g_iLevel != LEVEL_BOSSENMU)
 			{
@@ -363,6 +394,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 
 void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 {
+
 	__super::Late_Tick(fTimeDelta);
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
@@ -852,7 +884,7 @@ void CCamera_Dynamic::ConvertToViewPort(_float fTimeDelta)
 	if (g_iLevel == LEVEL_BATTLEENMU)
 	{
 		vAtPos = vTargetPos;
-		vAtPos.m128_f32[1] -= 5.5f;
+		vAtPos.m128_f32[1] = 11.f;
 	}
 	else if (g_iLevel == LEVEL_BOSSENMU)
 	{
@@ -1513,11 +1545,27 @@ _bool CCamera_Dynamic::CutScene(CUTSCENE eCutScene, _float fTimeDelta)
 	case CUTSCENE_RUI_SPC_2:
 	case CUTSCENE_RUI_SPC_3:
 	case CUTSCENE_RUI_SPC_4:
-	case CUTSCENE_RUI_SPC_5:
 		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
 			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
 		break;
-	case CUTSCENE_RUI_SPC_6:
+	case CUTSCENE_RUI_SPC_5:
+		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
+		break;
+
+		//	Kyojuro
+	case CUTSCENE_RGK_START:
+	case CUTSCENE_RGK_0:
+	case CUTSCENE_RGK_1:
+	case CUTSCENE_RGK_2:
+	case CUTSCENE_RGK_3:
+	case CUTSCENE_RGK_4:
+	case CUTSCENE_RGK_5:
+	case CUTSCENE_RGK_6:
+	case CUTSCENE_RGK_7:
+		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
+			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
+		break;
+	case CUTSCENE_RGK_8:
 		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
 		break;
 	}

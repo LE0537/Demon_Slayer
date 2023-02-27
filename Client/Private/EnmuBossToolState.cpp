@@ -80,7 +80,7 @@ CEnmuBossState * CBossToolState::Tick(CEnmuBoss* pEnmuBoss, _float fTimeDelta)
 
 CEnmuBossState * CBossToolState::Late_Tick(CEnmuBoss* pEnmuBoss, _float fTimeDelta)
 {
-	pEnmuBoss->Get_EnmuPartsList()[m_iPartsIndex]->Get_Model()->Play_Animation(fTimeDelta);
+	pEnmuBoss->Get_EnmuPartsList()[m_iPartsIndex]->Get_Model()->Play_Animation_Skill(fTimeDelta);
 
 	return nullptr;
 }

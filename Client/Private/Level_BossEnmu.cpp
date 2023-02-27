@@ -15,6 +15,7 @@
 #include "Terrain.h"
 #include "Door.h"
 #include "Effect_Manager.h"
+#include "EnmuBoss.h"
 
 unsigned int APIENTRY Thread_BossEnmu(void* pArg)
 {
@@ -137,6 +138,7 @@ HRESULT CLevel_BossEnmu::Initialize()
 
 	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
 
+	CEnmuBoss::Get_Instance()->Initialize();
 
 
 	return S_OK;

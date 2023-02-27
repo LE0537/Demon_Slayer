@@ -53,6 +53,8 @@ public:
 	CGameObject* Get_Sheath(_int _iIndex) { return m_pSheath[_iIndex]; }
 	void		 Set_Black(_bool _bBlack) { m_bBlack = _bBlack; }
 	CModel*      Get_ModelCom(_int _Index) { return m_pModelCom[_Index]; }
+	virtual CModel* Get_Model() const { return m_pModelCom[0]; }
+
 private:
 	CModel*					m_pModelCom[6] = { nullptr };
 	CGameObject*			m_pWeapon[3] = { nullptr };

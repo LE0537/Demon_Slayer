@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "EnmuIdleState.h"
 #include "SoundMgr.h"
+#include "EnmuShoot.h"
 
 using namespace Enmu;
 
@@ -83,6 +84,56 @@ CEnmuState * CSkill3_EnmuState::Tick(CEnmu * pEnmu, _float fTimeDelta)
 
 CEnmuState * CSkill3_EnmuState::Late_Tick(CEnmu * pEnmu, _float fTimeDelta)
 {
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	CCharacters* m_pTarget = pEnmu->Get_BattleTarget();
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	pEnmu->Get_Transform()->Set_PlayerLookAt(vLooAt);
+
+	
+
+	CEnmuShoot::ENMUSHOOTINFO	tInfo;
+	tInfo.pPlayer = pEnmu;
+	tInfo.pTarget = m_pTarget;
+
+	switch (m_eStateType)
+	{
+	case Client::CEnmuState::TYPE_LOOP:
+		m_fDelay += fTimeDelta;
+		if (m_fDelay > 0.2f)
+			m_fMove += fTimeDelta;
+		if (m_fMove > 0.3f && m_iHit < 2 && pEnmu->Get_BattleTarget()->Get_GodMode() == false)
+		{
+			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+			if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_EnmuShoot"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+				return nullptr;
+
+			RELEASE_INSTANCE(CGameInstance);
+			m_fMove = 0.f;
+			++m_iHit;
+		}
+		break;
+	case Client::CEnmuState::TYPE_END:
+		m_fDelay += fTimeDelta;
+		if (m_fDelay > 0.5f)
+			m_fMove += fTimeDelta;
+		if (m_fMove > 0.2f && m_iHit < 2 && pEnmu->Get_BattleTarget()->Get_GodMode() == false)
+		{
+			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+			if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_EnmuShoot"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+				return nullptr;
+
+			RELEASE_INSTANCE(CGameInstance);
+			m_fMove = 0.f;
+			++m_iHit;
+		}
+		break;
+	}
+
+
+	RELEASE_INSTANCE(CGameInstance);
 	pEnmu->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;
@@ -172,9 +223,9 @@ void CSkill3_EnmuState::Increase_Height(CEnmu * pEnmu, _float fTimeDelta)
 	m_vPosition.z = XMVectorGetZ(pEnmu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
 	m_vVelocity.y += fGravity * fTimeDelta;
-	m_vPosition.x += m_vVelocity.x * fTimeDelta;
+	//m_vPosition.x += m_vVelocity.x * fTimeDelta;
 	m_vPosition.y += m_vVelocity.y * fTimeDelta;
-	m_vPosition.z += m_vVelocity.z * fTimeDelta;
+	//m_vPosition.z += m_vVelocity.z * fTimeDelta;
 
 	_vector vCurrentPos = pEnmu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
