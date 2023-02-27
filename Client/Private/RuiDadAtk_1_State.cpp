@@ -5,7 +5,6 @@
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "RuiDadDashState.h"
-#include "SoundMgr.h"
 
 
 using namespace RuiDad;
@@ -126,24 +125,28 @@ CRuiDadState * CAtk_1_State::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 					if (pRuiDad->Get_BattleTarget()->Get_GodMode() == false)
 					{
-
 						_int iDest = rand() % 5;
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 						switch (iDest)
 						{
 						case 0:
+							CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Hit_Attack_00.wav"), fEFFECT);
 							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTarget);
 							break;
 						case 1:
+							CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Hit_Attack_01.wav"), fEFFECT);
 							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTarget);
 							break;
 						case 2:
+							CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Hit_Attack_00.wav"), fEFFECT);
 							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTarget);
 							break;
 						case 3:
+							CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Hit_Attack_01.wav"), fEFFECT);
 							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTarget);
 							break;
 						case 4:
+							CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Hit_Attack_00.wav"), fEFFECT);
 							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTarget);
 							break;
 						default:
@@ -243,6 +246,12 @@ CRuiDadState * CAtk_1_State::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 					if (pRuiDad->Get_BattleTarget()->Get_GodMode() == false)
 					{
+						_uint iRand = rand() % 2;
+
+						if(iRand == 0)
+							CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Hit_Attack_00.wav"), fEFFECT);
+						else 
+							CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Hit_Attack_01.wav"), fEFFECT);
 
 						_int iDest = rand() % 5;
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -361,6 +370,13 @@ CRuiDadState * CAtk_1_State::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 					if (pRuiDad->Get_BattleTarget()->Get_GodMode() == false)
 					{
 
+						_uint iRand = rand() % 2;
+
+						if (iRand == 0)
+							CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Hit_Attack_00.wav"), fEFFECT);
+						else
+							CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Hit_Attack_01.wav"), fEFFECT);
+
 						_int iDest = rand() % 5;
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 						switch (iDest)
@@ -464,7 +480,7 @@ CRuiDadState * CAtk_1_State::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 void CAtk_1_State::Enter(CRuiDad* pRuiDad)
 {
-	 
+	_uint iRand = rand() % 3;
 
 	switch (m_eStateType)
 	{
@@ -476,15 +492,28 @@ void CAtk_1_State::Enter(CRuiDad* pRuiDad)
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_ATTACK_0);
 		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_ATTACK_0, false);
 		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_ATTACK_0, 0.01f);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Attack_0.wav"), fEFFECT);
+		if(iRand == 0)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Attack_00.wav"), fVOICE);
+		else if (iRand == 1)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Attack_01.wav"), fVOICE);
+		else if (iRand == 2)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Attack_02.wav"), fVOICE);
 		break;
-	case Client::CRuiDadState::TYPE_LOOP:
+	case Client::CRuiDadState::TYPE_LOOP: // 점프 발차기
 		m_eStateId = STATE_ID::STATE_ATK_2; 
 		pRuiDad->Get_Model()->Reset_Anim(CRuiDad::ANIMID::ANIM_ATTACK_1);
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_ATTACK_1);
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_ATTACK_1);
 		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_ATTACK_1, false);
 		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_ATTACK_1, 0.01f);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_4.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Attack_1.wav"), fEFFECT);
+		if (iRand == 0)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Attack_20.wav"), fVOICE);
+		else if (iRand == 1)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Attack_21.wav"), fVOICE);
+		else if (iRand == 2)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Attack_22.wav"), fVOICE);
 		break;
 	case Client::CRuiDadState::TYPE_END:
 		m_eStateId = STATE_ID::STATE_ATK_3; // 점프 펀치
@@ -493,8 +522,14 @@ void CAtk_1_State::Enter(CRuiDad* pRuiDad)
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_ATTACK_2);
 		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_ATTACK_2, false);
 		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_ATTACK_2, 0.01f);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Attack_2.wav"), fEFFECT);
+		if (iRand == 0)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Attack_20.wav"), fVOICE);
+		else if (iRand == 1)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Attack_21.wav"), fVOICE);
+		else if (iRand == 2)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Attack_22.wav"), fVOICE);
 		break;
-
 	default:
 		break;
 	}

@@ -101,6 +101,10 @@ void CHitCinema_Tanjiro::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_LinearTime(CHitCinema_Tanjiro::ANIM_SCENE_1, 0.01f);
 		break;
 	case Client::Shinobu::CHitCinema_Tanjiro::SCENE_2:
+		_vector vPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vRight = pShinobu->Get_Transform()->Get_State(CTransform::STATE_RIGHT);
+		vPos += XMVector3Normalize(vRight) * 0.67f;
+		pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		pShinobu->Get_Model()->Reset_Anim(CHitCinema_Tanjiro::ANIM_SCENE_2);
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Tanjiro::ANIM_SCENE_2);
 		pShinobu->Set_AnimIndex(static_cast<CShinobu::ANIMID>(CHitCinema_Tanjiro::ANIM_SCENE_2));

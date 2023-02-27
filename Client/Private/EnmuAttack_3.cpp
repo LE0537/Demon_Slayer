@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Effect_Manager.h"
 #include "EnmuIdleState.h"
+#include "SoundMgr.h"
 #include "Camera_Dynamic.h"
 
 using namespace Enmu;
@@ -251,7 +252,14 @@ void CEnmuAttack3::Enter(CEnmu* pEnmu)
 	pEnmu->Set_AnimIndex(CEnmu::ANIM_ATTACK_3);
 	pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_ATTACK_3, 0.01f);
 	pEnmu->Get_Model()->Set_Loop(pEnmu->Get_AnimIndex());
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Attack_2.wav"), fEFFECT);
 
+	_uint iRand = rand() % 2;
+
+	if (iRand == 0)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Enmu_Attack2_0.wav"), fVOICE);
+	else if (iRand == 1)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Enmu_Attack2_1.wav"), fVOICE);
 }
 
 void CEnmuAttack3::Exit(CEnmu* pEnmu)

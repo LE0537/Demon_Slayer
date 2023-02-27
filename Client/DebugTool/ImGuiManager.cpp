@@ -275,7 +275,8 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	static _int	iPreCamIndex[CAM_END] = { 0, 0 };
 	_int		iObjSize[CAM_END] = { (_int)m_vecCamObjects[CAM_EYE].size(), (_int)m_vecCamObjects[CAM_AT].size() };
 	static _int iFixCamIndex[CAM_END] = { 0, 0 };
-
+	static float fAtSphereLength = 10.f;
+	
 	static _int		iCamTimeIndex = 0;
 	static _int		iPreCamTimeIndex = 0;
 	static _float	fCamTime = 1.f;
@@ -418,48 +419,42 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	{
 		if (iPreCamIndex[CAM_EYE] != iCamIndex[CAM_EYE])	// Change EyeIndex
 		{
-			if (0 < m_iNumCam[CAM_EYE] - 4)
-			{
-				_float4 vPos = m_vecCam[CAM_EYE][iCamIndex[CAM_EYE]];
-				f3Movement_Pos[0] = vPos.x;
-				f3Movement_Pos[1] = vPos.y;
-				f3Movement_Pos[2] = vPos.z;
+			_float4 vPos = m_vecCam[CAM_EYE][iCamIndex[CAM_EYE]];
+			f3Movement_Pos[0] = vPos.x;
+			f3Movement_Pos[1] = vPos.y;
+			f3Movement_Pos[2] = vPos.z;
 
-				if (0 != iPreCamIndex[CAM_EYE] &&
-					iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
-					m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
-				if (0 != iPreCamIndex[CAM_AT] &&
-					iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
-					m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
+			if (0 != iPreCamIndex[CAM_EYE] &&
+				iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
+				m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
+			if (0 != iPreCamIndex[CAM_AT] &&
+				iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
+				m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
 
-				m_vecCamObjects[CAM_EYE][iCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
+			m_vecCamObjects[CAM_EYE][iCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
 
-				iPreCamIndex[CAM_EYE] = iCamIndex[CAM_EYE];
-			}
+			iPreCamIndex[CAM_EYE] = iCamIndex[CAM_EYE];
 		}
 	}
 	else if (0 != iCamIndex[CAM_AT])
 	{
 		if (iPreCamIndex[CAM_AT] != iCamIndex[CAM_AT])	// Change AtIndex
 		{
-			if (0 < m_iNumCam[CAM_AT] - 4)
-			{
-				_float4 vPos = m_vecCam[CAM_AT][iCamIndex[CAM_AT]];
-				f3Movement_Pos[0] = vPos.x;
-				f3Movement_Pos[1] = vPos.y;
-				f3Movement_Pos[2] = vPos.z;
+			_float4 vPos = m_vecCam[CAM_AT][iCamIndex[CAM_AT]];
+			f3Movement_Pos[0] = vPos.x;
+			f3Movement_Pos[1] = vPos.y;
+			f3Movement_Pos[2] = vPos.z;
 
-				if (0 != iPreCamIndex[CAM_EYE] &&
-					iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
-					m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
-				if (0 != iPreCamIndex[CAM_AT] &&
-					iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
-					m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
+			if (0 != iPreCamIndex[CAM_EYE] &&
+				iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
+				m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
+			if (0 != iPreCamIndex[CAM_AT] &&
+				iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
+				m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
 
-				m_vecCamObjects[CAM_AT][iCamIndex[CAM_AT] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
+			m_vecCamObjects[CAM_AT][iCamIndex[CAM_AT] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
 
-				iPreCamIndex[CAM_AT] = iCamIndex[CAM_AT];
-			}
+			iPreCamIndex[CAM_AT] = iCamIndex[CAM_AT];
 		}
 	}
 
@@ -467,6 +462,19 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		iFixCamIndex[CAM_EYE] = iCamIndex[CAM_EYE] - 1;		//	vector에 사용되는 인덱스.
 	else if (0 != iCamIndex[CAM_AT])
 		iFixCamIndex[CAM_AT] = iCamIndex[CAM_AT] - 1;		//	vector에 사용되는 인덱스.
+
+
+
+
+
+	if (ImGui::Button("Move", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)) &&
+		1 < m_iNumCam[eChoice])
+	{
+		_float3 vPos = _float3(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2]);
+		((CCamera_Dynamic*)m_pCamera)->Set_Pos(vPos);
+	}
+
+
 
 
 
@@ -546,6 +554,65 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		--iPreCamIndex[eChoice];
 	}
 
+	ImGui::DragFloat("At Length", &fAtSphereLength, 0.01f, 0.1f, 1000.f, "%.2f");
+
+	if (ImGui::Button("At Length Push", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)))
+	{
+		if (eChoice == CAM_AT)
+		{
+			_float4 vAtSpherePos;
+			XMStoreFloat4(&vAtSpherePos, XMVectorSetW(XMLoadFloat4(&pGameInstance->Get_CamPosition()) + (fAtSphereLength * XMLoadFloat4(&pGameInstance->Get_CamLook())), 1.f));
+			if (0 == m_iNumCam[eChoice])
+				m_vecCam[eChoice].push_back(vAtSpherePos);		//	맨 처음 None용 인덱스. 못씀.
+			m_vecCam[eChoice].push_back(vAtSpherePos);
+
+			if (0 != m_iNumCam[eChoice])
+			{
+				if (iCamIndex[eChoice] + 1 != m_iNumCam[eChoice])		//	사이에 집어넣기
+				{
+					_float4	vPosTemp = *(m_vecCam[eChoice].end() - 1);
+					for (std::vector<_float4>::iterator iter = m_vecCam[eChoice].begin() + (iCamIndex[eChoice] + 1);
+						iter != m_vecCam[eChoice].end(); ++iter)
+					{
+						swap(*iter, vPosTemp);
+					}
+				}
+			}
+
+			_vector vPos[4];
+			_int	iSize = (_int)m_vecCam[eChoice].size();
+			for (_int j = 0; j < 4; ++j)
+			{
+				_int	iIndex = max(min(iFixCamIndex[eChoice] + j, iSize - 1), 0);		//	최소 = 0, 최대 = Size
+				vPos[j] = XMLoadFloat4(&m_vecCam[eChoice][iIndex]);
+			}
+
+
+			CGameObj* pGameObject = nullptr;
+			CCamLine::tagCamLineDesc tCamLineDesc;
+			tCamLineDesc.vColor = eChoice == CAM_EYE ? _float3(1.f, 0.f, 0.f) : _float3(0.f, 1.f, 0.f);
+			for (_int i = 0; i < 4; ++i)
+				XMStoreFloat3(&tCamLineDesc.vPos[i], vPos[i]);
+			pGameInstance->Add_GameObject(L"Prototype_GameObject_CamLine", LEVEL_STATIC, L"Layer_CamLine", &tCamLineDesc);
+			if (nullptr == tCamLineDesc.pMe)
+			{
+				ERR_MSG(L"Failed to Create : CamLine");
+			}
+			else
+			{
+				m_vecCamObjects[eChoice].push_back(tCamLineDesc.pMe);
+				Safe_AddRef(tCamLineDesc.pMe);
+			}
+
+			Sort_CamNodes((CAMTYPE)eChoice);
+			++iCamIndex[eChoice];
+			++iFixCamIndex[eChoice];
+
+			f3Movement_Pos[0] = m_vecCam[eChoice][iCamIndex[eChoice]].x;
+			f3Movement_Pos[1] = m_vecCam[eChoice][iCamIndex[eChoice]].y;
+			f3Movement_Pos[2] = m_vecCam[eChoice][iCamIndex[eChoice]].z;
+		}
+	}
 
 
 	if (ImGui::Button("Sort", ImVec2(ImGui::GetWindowWidth() * 0.12f, 20.f)))
@@ -665,7 +732,8 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	static _float fClusterRadius = 0.1f;
 	static _float fPreClusterRadius = 0.1f;
 	static char strCamActionName[MAX_PATH][10] = { "Tan1", "Tan2", "Tan3", "Tan4", "Tan5",
-		"RuiStt", "Rui0", "Rui1", "Rui2", "Rui3" , "Rui4" , "Rui5" , "Rui6",
+		"RuiStt", "Rui0", "Rui1", "Rui2", "Rui3" , "Rui4" , "Rui5" ,
+		"RgkStt", "Rgk0", "Rgk1", "Rgk2", "Rgk3" , "Rgk4" , "Rgk5" , "Rgk6", "Rgk7" , "Rgk8",
 	};
 	static _int iCameraActionIndex = 0;
 	if (ImGui::CollapsingHeader("Setting Actions"))
@@ -682,8 +750,10 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 			pGameInstance->Key_Down(DIK_F6) ||
 			pGameInstance->Key_Down(DIK_F7) ||
 			pGameInstance->Key_Down(DIK_F8) ||
-			pGameInstance->Key_Down(DIK_F9) ||
-			pGameInstance->Key_Down(DIK_CAPSLOCK))
+			pGameInstance->Key_Down(DIK_F9) ||			
+			pGameInstance->Key_Down(DIK_CAPSLOCK) ||
+			pGameInstance->Key_Down(DIK_PGUP) ||
+			pGameInstance->Key_Down(DIK_PGDN))
 			m_bCutScene = true;
 
 		//	Play CutScene

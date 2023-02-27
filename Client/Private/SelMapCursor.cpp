@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "SelMapIconFrame.h"
 #include "UI_Manager.h"
+#include "SoundMgr.h"
 
 CSelMapCursor::CSelMapCursor(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -60,6 +61,7 @@ void CSelMapCursor::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_A))
 	{
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
 		if (m_iFrameNum != 0)
 		{
 			--m_iFrameNum;
@@ -75,6 +77,7 @@ void CSelMapCursor::Tick(_float fTimeDelta)
 	}
 	else if (pGameInstance->Key_Down(DIK_D))
 	{
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
 		if (m_iFrameNum != 1)
 		{
 			++m_iFrameNum;
@@ -91,6 +94,7 @@ void CSelMapCursor::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_E))
 	{
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickCharSelButton.wav"), fEFFECT);
 		pUI_Manager->Set_SelMapNum(m_iFrameNum);
 		m_bMapSelectCheck = true;
 	}

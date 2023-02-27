@@ -2,7 +2,7 @@
 
 #include "Engine_Defines.h"
 #include "RuiDad.h"
-
+#include "SoundMgr.h"
 
 BEGIN(Client)
 

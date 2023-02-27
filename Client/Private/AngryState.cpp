@@ -21,7 +21,6 @@ CRuiDadState * CAngryState::HandleInput(CRuiDad * pRuiDad)
 CRuiDadState * CAngryState::Tick(CRuiDad * pRuiDad, _float fTimeDelta)
 {
 	if (pRuiDad->Get_Model()->Get_End(0))
-
 	{
 		pRuiDad->Get_Model()->Set_End(0);
 		
@@ -53,6 +52,8 @@ void CAngryState::Enter(CRuiDad * pRuiDad)
 	pRuiDad->Set_AnimIndex(static_cast<CRuiDad::ANIMID>(0));
 	pRuiDad->Get_Model()->Set_Loop(0, false);
 	pRuiDad->Get_Model()->Set_LinearTime(0, 0.01f);
+	if(g_iLevel == LEVEL_GAMEPLAY)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Roar.wav"), fVOICE);
 }
 
 void CAngryState::Exit(CRuiDad * pRuiDad)

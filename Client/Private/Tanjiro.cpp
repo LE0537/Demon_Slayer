@@ -69,7 +69,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts3()))
 		return E_FAIL;
 
-	m_WeaponWorld = dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
+	m_WeaponWorld = *dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
 
 	if (m_i1p != 10 && m_i1p != 20)
 	{
@@ -733,27 +733,7 @@ void CTanjiro::Play_Scene()
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_RUI:
-		pGameInstance = GET_INSTANCE(CGameInstance);
-		if (pGameInstance->Key_Down(DIK_F3))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
-		else if (pGameInstance->Key_Down(DIK_F4))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_0);
-		else if (pGameInstance->Key_Down(DIK_F5))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_1);
-		else if (pGameInstance->Key_Down(DIK_F6))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_2);
-		else if (pGameInstance->Key_Down(DIK_F7))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_3);
-		else if (pGameInstance->Key_Down(DIK_F8))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_4);
-		else if (pGameInstance->Key_Down(DIK_F9))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_5);
-		else if (pGameInstance->Key_Down(DIK_CAPSLOCK))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_6);
-		else
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
-		RELEASE_INSTANCE(CGameInstance);
-				
+		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);				
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
@@ -923,7 +903,11 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 
 			if (fDist2 < 10.f)
 			{
+				vQuest2 = { -280.015f,38.593f,-328.086f,1.f };
+				m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vQuest2);
+				m_pNavigationCom->Find_CurrentCellIndex(vQuest2);
 				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QusetCam();
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_RUIDAD_START);
 				m_bQuest2 = true;
 				m_bStop = true;
 				pUIManager->Set_MsgOn();
@@ -1017,6 +1001,14 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 
 			if (fDist1 < 10.f)
 			{
+				_vector vPos = { -850.479f, 93.596f,-61.984f,1.f };
+				m_pNavigationCom->Find_CurrentCellIndex(vPos);
+				Set_NavigationHeight(vPos);
+				vPos.m128_f32[1] = m_pNavigationCom->Get_NavigationHeight().y;
+				m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+				m_pTransformCom->LookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QusetCam();
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_RUI_START);
 				m_bQuest3 = true;
 				m_bStop = true;
 			}
@@ -1423,14 +1415,16 @@ void CTanjiro::Check_Spl()
 	if (!m_bSplEffect)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH1, m_WeaponWorld);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH2, m_WeaponWorld);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH1, &m_WeaponWorld);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH2, &m_WeaponWorld);
 		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ1, this);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SWORD, m_WeaponWorld);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SWORD, &m_WeaponWorld);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bSplEffect = true;
 	}
+
+	m_WeaponWorld = *dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
 	//m_WeaponWorld = dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
 	//XMStoreFloat4x4( &m_WeaponWorld, (dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorldMatrix()));
 }

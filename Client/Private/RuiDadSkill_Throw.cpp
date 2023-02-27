@@ -100,6 +100,13 @@ void CSkill_ThrowState::Enter(CRuiDad* pRuiDad)
 	pRuiDad->Set_AnimIndex(CRuiDad::ANIM_SKILL0);
 	pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_SKILL0);
 
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_ThrowSkill.wav"), fEFFECT);
+
+	_uint iRand = rand() % 2;
+	if(iRand == 0)
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_ThrowSkill_0.wav"), fVOICE);
+	else
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_ThrowSkill_1.wav"), fVOICE);
 }
 
 void CSkill_ThrowState::Exit(CRuiDad* pRuiDad)

@@ -30,6 +30,7 @@ private:
 	_float			m_fSpecialSkillBar = 0.f;
 	_float			m_fSpecialSkillMaxBar = 0.f;
 	_bool			m_bCurPerBarCheck = false;
+	_bool			m_bSound = false;
 
 public:
 	static COniSpecialSkillBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

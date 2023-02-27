@@ -101,6 +101,10 @@ void CHitCinema_Tanjiro::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_LinearTime(CHitCinema_Tanjiro::ANIM_SCENE_1, 0.01f);
 		break;
 	case Client::Nezuko::CHitCinema_Tanjiro::SCENE_2:
+		_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vRight = pNezuko->Get_Transform()->Get_State(CTransform::STATE_RIGHT);
+		vPos += XMVector3Normalize(vRight) * 0.67f;
+		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		pNezuko->Get_Model()->Reset_Anim(CHitCinema_Tanjiro::ANIM_SCENE_2);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Tanjiro::ANIM_SCENE_2);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CHitCinema_Tanjiro::ANIM_SCENE_2));

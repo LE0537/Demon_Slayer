@@ -20,8 +20,10 @@ public:
 	enum ZOOM { ZOOM_LOW,ZOOM_MIDDLE ,ZOOM_HIGH, ZOOM_END };
 	enum CAMTURN { CAM_RIGHT, CAM_LEFT, CAM_TARGETRIGHT, CAM_TARGETLEFT, CAM_END };
 	enum CUTSCENE{ CUTSCENE_TAN_SPC_1, CUTSCENE_TAN_SPC_2, CUTSCENE_TAN_SPC_3, CUTSCENE_TAN_SPC_4, CUTSCENE_TAN_SPC_5, 
-		CUTSCENE_RUI_SPC_START, CUTSCENE_RUI_SPC_0, CUTSCENE_RUI_SPC_1, CUTSCENE_RUI_SPC_2, CUTSCENE_RUI_SPC_3, CUTSCENE_RUI_SPC_4, CUTSCENE_RUI_SPC_5, CUTSCENE_RUI_SPC_6, 
+		CUTSCENE_RUI_SPC_START, CUTSCENE_RUI_SPC_0, CUTSCENE_RUI_SPC_1, CUTSCENE_RUI_SPC_2, CUTSCENE_RUI_SPC_3, CUTSCENE_RUI_SPC_4, CUTSCENE_RUI_SPC_5, 
+		CUTSCENE_RGK_START, CUTSCENE_RGK_0, CUTSCENE_RGK_1, CUTSCENE_RGK_2, CUTSCENE_RGK_3, CUTSCENE_RGK_4, CUTSCENE_RGK_5, CUTSCENE_RGK_6, CUTSCENE_RGK_7, CUTSCENE_RGK_8,
 		CUTSCENE_END};
+	enum STORYSCENE { STORYSCENE_RUIDAD_START, STORYSCENE_RUIDAD_BATTLE, STORYSCENE_RUI_START,STORYSCENE_END };
 private:
 	CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCamera_Dynamic(const CCamera_Dynamic& rhs);
@@ -29,6 +31,7 @@ private:
 
 public:/* For.Tool*/
 	void	Change_CutScene(CUTSCENE eCutScene, vector<_float4> vecPositions, vector<_float4> vecLookAts, vector<_float> vecUseTime, _float2 vMotionBlur);
+	void	Set_Pos(_float3 vPos);
 
 public:
 	void	Start_CutScene(_bool bTrueisPlay, CUTSCENE eCutScene);
@@ -73,6 +76,7 @@ public:
 	_bool Get_QuestCam() { return m_bQuestCam; }
 	void Set_QuestNPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
 	_bool Get_QuestBattleCam() { return m_bQuestBattleCam; }
+	void Set_StoryScene(STORYSCENE _eCutScene) { m_eStoryScene = _eCutScene; m_bStoryScene = true; }
 private:
 	//Shake
 	void Check_Shake(_float fTimeDelta);
@@ -96,10 +100,11 @@ private:
 
 private:/*For.ActionCam*/
 	_bool	CutScene(CUTSCENE eCutScene, _float fTimeDelta);
+	_bool	StoryScene(STORYSCENE eCutScene, _float fTimeDelta);
 	_bool	CutScene_Test(_float fTimeDelta);
 	
 	HRESULT Ready_CutScene(char* pFileName);
-
+	HRESULT Ready_StoryScene(char* pFileName);
 private:
 	CCharacters*				m_pPlayer = nullptr;
 	CCharacters*				m_pTarget = nullptr;
@@ -170,12 +175,21 @@ private:
 
 	_bool		m_bCutScene = false;
 	CUTSCENE	m_eCutScene = CUTSCENE_END;
+	_bool		m_bStoryScene = false;
+	STORYSCENE  m_eStoryScene = STORYSCENE_END;
 	_float		m_fCurrentCutSceneTime = 0.f;
+
+	_float		m_fCullTime = 0.f;
 
 	std::vector<_float2>					m_vecMotionBlur;
 	std::vector<std::vector<_float4>>		m_vecCamEye;
 	std::vector<std::vector<_float4>>		m_vecCamAt;
 	std::vector<std::vector<_float>>		m_vecCamTime;
+
+	std::vector<_float2>					m_vecStoryMotionBlur;
+	std::vector<std::vector<_float4>>		m_vecStoryCamEye;
+	std::vector<std::vector<_float4>>		m_vecStoryCamAt;
+	std::vector<std::vector<_float>>		m_vecStoryCamTime;
 
 	//TrainCam
 

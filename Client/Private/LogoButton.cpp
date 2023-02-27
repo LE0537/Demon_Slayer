@@ -2,6 +2,7 @@
 #include "LogoButton.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "SoundMgr.h"
 
 CLogoButton::CLogoButton(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -67,6 +68,7 @@ void CLogoButton::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_UP))
 	{
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_iImgNum = 1;
 		else if (m_ThrowUIinfo.iLayerNum == 1)
@@ -74,6 +76,7 @@ void CLogoButton::Tick(_float fTimeDelta)
 	}
 	else if (pGameInstance->Key_Down(DIK_DOWN))
 	{
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_iImgNum = 0;
 		else if (m_ThrowUIinfo.iLayerNum == 1)
@@ -82,6 +85,7 @@ void CLogoButton::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_E))
 	{
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickLogoButton.wav"), fEFFECT);
 		if (m_ThrowUIinfo.iLayerNum == 0 && m_iImgNum == 1)
 		{
 			Add_InkEff();

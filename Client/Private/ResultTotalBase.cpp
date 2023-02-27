@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "UI_Manager.h"
 #include "RankIcon.h"
+#include "SoundMgr.h"
 
 CResultTotalBase::CResultTotalBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -91,6 +92,11 @@ HRESULT CResultTotalBase::Render()
 		wsprintf(m_szScore, TEXT("Total Score : %d"), iRand);
 	else
 	{
+		if (!m_bSound)
+		{
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+			m_bSound = true;
+		}
 		dynamic_cast<CRankIcon*>(pUI_Manager->Get_RankIcon())->Set_ZoomStart(true);
 		if (!m_ThrowUIinfo.bPlyCheck)
 			wsprintf(m_szScore, TEXT("Total Score : %d"), pUI_Manager->Get_RankInfo(0).iRankScore);

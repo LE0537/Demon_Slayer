@@ -19,6 +19,7 @@ public:
 
 private:
 	_bool m_bEffect = false;
+
 };
 
 END

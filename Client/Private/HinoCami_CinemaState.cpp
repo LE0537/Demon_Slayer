@@ -202,7 +202,7 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_PROJ2, pTanjiro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_SLASH1, pTanjiro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_SLASH2, pTanjiro);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_SLASH3, pTanjiro);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_SLASH3, pTanjiro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO5_GOUND, pTanjiro);
 
 		RELEASE_INSTANCE(CEffect_Manager);

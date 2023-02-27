@@ -2,6 +2,8 @@
 #include "..\Public\Kyoujuro_CinemaState.h"
 #include "GameInstance.h"
 #include "KyoujuroIdleState.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 
 using namespace Kyoujuro;
 
@@ -12,27 +14,39 @@ CKyoujuro_CinemaState::CKyoujuro_CinemaState(CINEMASCENE eScene)
 
 CKyoujuroState * CKyoujuro_CinemaState::HandleInput(CKyoujuro * pKyoujuro)
 {
-	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	if (pGameInstance->Key_Down(DIK_R) && !pKyoujuro->Get_StoryKey())
-	{
-		RELEASE_INSTANCE(CGameInstance);
-		pKyoujuro->Get_BattleTarget()->Play_Scene();
-		return new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_1);
-	}
-	if (pGameInstance->Key_Down(DIK_F) && !pKyoujuro->Get_StoryKey())
-	{
-		RELEASE_INSTANCE(CGameInstance);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CKyoujuroState* pState = nullptr;
+	if (pGameInstance->Key_Down(DIK_F3) && !pKyoujuro->Get_StoryKey())
+		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_START);
+	if (pGameInstance->Key_Down(DIK_F4) && !pKyoujuro->Get_StoryKey())
+		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_0);
+	if (pGameInstance->Key_Down(DIK_F5) && !pKyoujuro->Get_StoryKey())
+		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_1);
+	if (pGameInstance->Key_Down(DIK_F6) && !pKyoujuro->Get_StoryKey())
+		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_2);
+	if (pGameInstance->Key_Down(DIK_F7) && !pKyoujuro->Get_StoryKey())
+		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_3);
+	if (pGameInstance->Key_Down(DIK_F8) && !pKyoujuro->Get_StoryKey())
+		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_4);
+	if (pGameInstance->Key_Down(DIK_F9) && !pKyoujuro->Get_StoryKey())
+		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_5);
+	if (pGameInstance->Key_Down(DIK_CAPSLOCK) && !pKyoujuro->Get_StoryKey())
+		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_6);
+	if (pGameInstance->Key_Down(DIK_PGUP) && !pKyoujuro->Get_StoryKey())
+		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_7);
+	if (pGameInstance->Key_Down(DIK_PGDN) && !pKyoujuro->Get_StoryKey())
+		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_8);
+	RELEASE_INSTANCE(CGameInstance);
 
+	if (nullptr != pState)
 		pKyoujuro->Get_BattleTarget()->Play_Scene();
-		return new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_1);
-	}
-	RELEASE_INSTANCE(CGameInstance);*/
 
-	return nullptr;
+	return pState;
 }
 
 CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
+	_float fValue = 0.f;
 	switch (m_eScene)
 	{
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_START:
@@ -71,6 +85,8 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		}
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_4:
+		pKyoujuro->Get_Renderer()->Set_PointBlur(860, 460, 100.f, 0.1f, 0.5f);			//	PointBlur
+
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro_CinemaState::ANIM_SCENE_4))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro_CinemaState::ANIM_SCENE_4);
@@ -78,6 +94,10 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		}
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_5:
+		m_fTime += fTimeDelta;
+		fValue = 80.f + (20.f * sin(m_fTime * 10.f));
+		pKyoujuro->Get_Renderer()->Set_PointBlur(640, 360, fValue, 0.5f, 0.8f);			//	PointBlur
+
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro_CinemaState::ANIM_SCENE_5))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro_CinemaState::ANIM_SCENE_5);
@@ -130,6 +150,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 {
 	pKyoujuro->Set_SplSkl(true);
 
+	CGameInstance* pGameInstance = nullptr;
 	switch (m_eScene)
 	{
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_START:
@@ -149,8 +170,14 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 
 		//pKyoujuro->Get_Transform()->Set_PlayerLookAt();
 		//pKyoujuro->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt();
+
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_RGK_START);
+		RELEASE_INSTANCE(CGameInstance);
+
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_0:
+		pKyoujuro->Get_BattleTarget()->Set_SceneRender(false); 
 		pKyoujuro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);
 		pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro_CinemaState::ANIM_SCENE_0);
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro_CinemaState::ANIM_SCENE_0);
@@ -186,6 +213,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_3, 0.01f);
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_4:
+		pKyoujuro->Get_BattleTarget()->Set_SceneRender(true);
 		pKyoujuro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_060);
 		pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro_CinemaState::ANIM_SCENE_4);
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro_CinemaState::ANIM_SCENE_4);

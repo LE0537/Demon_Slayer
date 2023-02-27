@@ -33,7 +33,7 @@ private:
 	_bool					m_bMoveCheck = false;
 	_float					m_fFirstMsg = 0.f;
 	_bool					m_bFirstMsgCheck = false;
-
+	_bool					m_bSound = false;
 public:
 	static CMsgTextBase* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

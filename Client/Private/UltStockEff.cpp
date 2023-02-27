@@ -2,6 +2,7 @@
 #include "UltStockEff.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "SoundMgr.h"
 
 CUltStockEff::CUltStockEff(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -124,9 +125,22 @@ void CUltStockEff::Tick(_float fTimeDelta)
 		if (!m_ThrowUIinfo.bPlyCheck)
 		{
 			if (m_iUnicCount < pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount)
+			{
 				m_bRenderCheck = true;
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UltNumUp.wav"), fEFFECT);
+			}
 			m_iUnicCount = pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount;
 		}
+		else
+		{
+			if (m_iUnicCount < pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicCount)
+			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UltNumUp.wav"), fEFFECT);
+				m_bRenderCheck = true;
+			}
+			m_iUnicCount = pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicCount;
+		}
+
 		RELEASE_INSTANCE(CUI_Manager);
 	}
 	
@@ -172,10 +186,13 @@ HRESULT CUltStockEff::Render()
 				m_pVIBufferCom->Render();
 		}
 	}
-	else if (!m_ThrowUIinfo.bPlyCheck)
+	else
 	{
-		if (pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex > 0)
-			m_pVIBufferCom->Render();
+		if (!m_ThrowUIinfo.bPlyCheck)
+		{
+			if (pUI_Manager->Get_1P()->Get_PlayerInfo().iPowerIndex > 0)
+				m_pVIBufferCom->Render();
+		}
 	}
 	
 	RELEASE_INSTANCE(CUI_Manager);

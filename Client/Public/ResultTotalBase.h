@@ -27,6 +27,7 @@ private:
 	_tchar				m_szScore[MAX_PATH] = TEXT("");
 	_float				m_fScoreTime = 0.f;
 	_bool				m_bScoreSelCheck = false;
+	_bool				m_bSound = false;
 
 public:
 	static CResultTotalBase* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

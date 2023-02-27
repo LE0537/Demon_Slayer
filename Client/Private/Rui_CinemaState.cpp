@@ -4,6 +4,7 @@
 #include "RuiIdleState.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "Effect_Manager.h"
 
 using namespace Rui;
 
@@ -14,32 +15,8 @@ CRui_CinemaState::CRui_CinemaState(CINEMASCENE eScene)
 
 CRuiState * CRui_CinemaState::HandleInput(CRui * pRui)
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CRuiState* pState = nullptr;
-	//if (pGameInstance->Key_Down(DIK_F3) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
-	//if (pGameInstance->Key_Down(DIK_F4) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_0);
-	//if (pGameInstance->Key_Down(DIK_F5) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_1);
-	//if (pGameInstance->Key_Down(DIK_F6) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_2);
-	//if (pGameInstance->Key_Down(DIK_F7) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_3);
-	//if (pGameInstance->Key_Down(DIK_F8) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_4);
-	//if (pGameInstance->Key_Down(DIK_F9) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_5);
-	//if (pGameInstance->Key_Down(DIK_CAPSLOCK) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_6);
-	RELEASE_INSTANCE(CGameInstance);
 
-	if (nullptr != pState)
-		pRui->Get_BattleTarget()->Play_Scene();
-
-	
-
-	return pState;
+	return nullptr;
 }
 
 CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
@@ -62,8 +39,6 @@ CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 		{
 		   pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-
-			//	return new CRui_CinemaState(CRui_CinemaState::SCENE_1);
 		}
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_1:
@@ -135,6 +110,7 @@ void CRui_CinemaState::Enter(CRui * pRui)
 
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_0:
+	{
 		pRui->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);
 		pRui->Get_Model()->Reset_Anim(CRui_CinemaState::ANIM_SCENE_0);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui_CinemaState::ANIM_SCENE_0);
@@ -148,21 +124,55 @@ void CRui_CinemaState::Enter(CRui * pRui)
 		//pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		//pRui->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO2_PROJ1, pRui);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO2_REDWEB1, pRui->Get_BattleTarget());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO2_TREADL1, pRui->Get_WeaponWorld2());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO2_TREADR1, pRui->Get_WeaponWorld());
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
+	}
 	case Client::Rui::CRui_CinemaState::SCENE_1:
+	{
 		pRui->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_040);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui_CinemaState::ANIM_SCENE_1);
 		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CRui_CinemaState::ANIM_SCENE_1));
 		pRui->Get_Model()->Set_Loop(CRui_CinemaState::ANIM_SCENE_1);
 		pRui->Get_Model()->Set_LinearTime(CRui_CinemaState::ANIM_SCENE_1, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO3_REDWEB1, pRui->Get_BattleTarget());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO3_WEB1, pRui->Get_BattleTarget());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO3_TREADL1, pRui->Get_WeaponWorld2());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO3_TREADR1, pRui->Get_WeaponWorld());
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
-	case Client::Rui::CRui_CinemaState::SCENE_2:
+	}
+	case Client::Rui::CRui_CinemaState::SCENE_2: {
 		pRui->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_050);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui_CinemaState::ANIM_SCENE_2);
 		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CRui_CinemaState::ANIM_SCENE_2));
 		pRui->Get_Model()->Set_Loop(CRui_CinemaState::ANIM_SCENE_2);
 		pRui->Get_Model()->Set_LinearTime(CRui_CinemaState::ANIM_SCENE_2, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO4_PROJ1, pRui);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO4_REDWEB1, pRui->Get_BattleTarget());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO4_REDWEB2, pRui->Get_BattleTarget());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO4_TREADL1, pRui->Get_WeaponWorld2());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO4_TREADR1, pRui->Get_WeaponWorld());
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
+	}
 	case Client::Rui::CRui_CinemaState::SCENE_3:
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_4:

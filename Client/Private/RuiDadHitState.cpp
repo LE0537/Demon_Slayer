@@ -138,7 +138,7 @@ void CHitState::Enter(CRuiDad* pRuiDad)
 	//pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
 	//pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.0f);
 	
-
+	_uint iRand = rand() % 3;
 
 	if (pRuiDad->Get_PlayerInfo().iHp <= 0)
 	{
@@ -158,6 +158,12 @@ void CHitState::Enter(CRuiDad* pRuiDad)
 			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_HIT_FREE_0);
 			pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_HIT_FREE_0, false);
 			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_HIT_FREE_0, 0.01f);
+			if (iRand == 0)
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_0.wav"), fVOICE);
+			else if(iRand == 1)
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_1.wav"), fVOICE);
+			else if (iRand == 2)
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_2.wav"), fVOICE);
 			break;
 		case Client::CRuiDadState::TYPE_LOOP:
 			pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FREE_1);

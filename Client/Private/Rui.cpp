@@ -97,11 +97,13 @@ HRESULT CRui::Initialize(void * pArg)
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
-		_vector vPos = { -860.374f,92.52f,-68.017f,1.f };
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	
+		//_vector vPos = { -860.374f,92.52f,-68.017f,1.f };
+		_vector vPos = { -858.182f, 93.145f,-56.077f,1.f };
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
-
+		Set_NavigationHeight(vPos);
+		vPos.m128_f32[1] = m_pNavigationCom->Get_NavigationHeight().y;
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		m_pTransformCom->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(180.f));
 		m_tInfo.bSub = tCharacterDesc.bSub;
 		m_bChange = tCharacterDesc.bSub;
 	//	CUI_Manager::Get_Instance()->Set_2P(this);
@@ -123,25 +125,7 @@ HRESULT CRui::Initialize(void * pArg)
 		CUI_Manager::Get_Instance()->Set_2P(this);
 
 	}
-	else if (m_i1p == 22)
-	{
-		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-		RELEASE_INSTANCE(CGameInstance);
-		_vector vPos;
-		if(g_iLevel == LEVEL_BATTLEENMU)
-			vPos = { -0.302f, 16.420f, 192.321f,1.f };
-		else if (g_iLevel == LEVEL_BOSSENMU)
-		    vPos = { -0.302f, 16.6f, 175.f,1.f };
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
-		m_pNavigationCom->Find_CurrentCellIndex(vPos);
-
-		m_tInfo.bSub = tCharacterDesc.bSub;
-		m_bChange = tCharacterDesc.bSub;
-		CUI_Manager::Get_Instance()->Set_2P(this);
-
-	}
 
 	CRuiState* pState = new CIdleState();
 	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
@@ -149,6 +133,7 @@ HRESULT CRui::Initialize(void * pArg)
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_RUI;
 	Set_Info();
+
 	return S_OK;
 }
 
@@ -156,6 +141,10 @@ void CRui::Tick(_float fTimeDelta)
 {
 	if (!m_tInfo.bSub)
 	{
+		if (m_bSplSkl)
+		{
+			Check_Spl();
+		}
 
 		m_fEffectStartTime = 0.f;
 		if (m_bBattleStart)
@@ -232,11 +221,6 @@ void CRui::Late_Tick(_float fTimeDelta)
 	{
 		LateTickState(fTimeDelta);
 
-		if (m_bSplSkl)
-		{
-			Check_Spl();
-		}
-
 		if (m_bSceneRender)
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
@@ -268,11 +252,9 @@ HRESULT CRui::Render()
 	{
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
-
+	
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
 			return E_FAIL;
-
-		//aiTextureType_AMBIENT
 	}
 
 
@@ -452,22 +434,22 @@ void CRui::Check_Spl()
 {
 	if (!m_bSplEffect)
 	{
-		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("R_Hand_1_Lct");
-		CHierarchyNode*		pSocket2 = m_pModelCom->Get_BonePtr("L_Hand_1_Lct");
-		_float4x4 SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
-		_float4x4 pParentWorldMatrix = *m_pTransformCom->Get_World4x4Ptr();
-
-		XMStoreFloat4x4(m_WeaponWorld, (pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
-		XMStoreFloat4x4(m_WeaponWorld2, (pSocket2->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
-
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 	
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SWORD, m_WeaponWorld);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SWORD, m_WeaponWorld2);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO1_WEB1, m_pBattleTarget);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bSplEffect = true;
 	}
+
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("R_Hand_1_Lct");
+	CHierarchyNode*		pSocket2 = m_pModelCom->Get_BonePtr("L_Hand_1_Lct");
+	_float4x4 SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	_float4x4 pParentWorldMatrix = *m_pTransformCom->Get_World4x4Ptr();
+
+	XMStoreFloat4x4(&m_WeaponWorld, (pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
+	XMStoreFloat4x4(&m_WeaponWorld2, (pSocket2->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
+
 }
 
 _bool CRui::Get_RuiHit()
@@ -562,6 +544,7 @@ void CRui::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpP
 void CRui::Play_Scene()
 {
 	CRuiState* pState = nullptr;
+	CGameInstance* pGameInstance = nullptr;
 	switch (m_pBattleTarget->Get_PlayerType())
 	{
 	case Client::CCharacters::PLAYER_TANJIRO:
@@ -569,6 +552,25 @@ void CRui::Play_Scene()
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		break;
 	case Client::CCharacters::PLAYER_KYOUJURO:
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		if (pGameInstance->Key_Down(DIK_F3))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_START);
+		else if (pGameInstance->Key_Down(DIK_F4))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_0);
+		else if (pGameInstance->Key_Down(DIK_F5))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_1);
+		else if (pGameInstance->Key_Down(DIK_F6))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_2);
+		else if (pGameInstance->Key_Down(DIK_F7))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_3);
+		else if (pGameInstance->Key_Down(DIK_F8))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_4);
+		else
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_START);
+		RELEASE_INSTANCE(CGameInstance);
+
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+		break;
 		pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_START);
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		break;

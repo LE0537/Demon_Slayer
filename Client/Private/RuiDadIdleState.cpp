@@ -12,6 +12,7 @@
 #include "RuiDadSkill_Punch.h"
 #include "RuiDadDashState.h"
 #include "Tanjiro.h"
+#include "AngryState.h"
 using namespace RuiDad;
 
 CIdleState::CIdleState()
@@ -21,12 +22,7 @@ CIdleState::CIdleState()
 CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 {
 
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
-
-
-
-
+	
 	if (pRuiDad->Get_RuiDadAiMode() == true && g_iLevel == LEVEL_GAMEPLAY && pRuiDad->Get_AnimIndex() != 0 && pRuiDad->Get_Tick() == true)
 	{
 	
@@ -81,6 +77,7 @@ CRuiDadState * CIdleState::HandleInput(CRuiDad* pRuiDad)
 
 CRuiDadState * CIdleState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
+
 	if (m_ePreState == AI_HIT)
 		m_fDelay += fTimeDelta;
 

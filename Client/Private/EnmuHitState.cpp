@@ -5,6 +5,7 @@
 #include "EnmuUpperHitState.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "SoundMgr.h"
 
 using namespace Enmu;
 
@@ -366,6 +367,15 @@ void CHitState::Set_HitState(CEnmu* pEnmu)
 		}
 
 	}
+
+	_uint iRand = rand() % 3;
+
+	if(iRand == 0)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_Hit_0.wav"), fEFFECT);
+	else if(iRand == 1)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_Hit_1.wav"), fEFFECT);
+	else if (iRand == 2)
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_Hit_2.wav"), fEFFECT);
 
 
 }
