@@ -2,7 +2,7 @@
 #include "HpBar.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
-
+#include "Rui.h"
 CHpBar::CHpBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
@@ -98,6 +98,11 @@ void CHpBar::Tick(_float fTimeDelta)
 			if (m_fCurHp <= 0.f && !pUI_Manager->Get_StroyEvent(0))
 			{
 				pUI_Manager->Set_StroyEvent(true, 0);
+				if (!m_bStory)
+				{
+					m_bStory = true;
+					dynamic_cast<CRui*>(pUI_Manager->Get_2P())->Set_StorySpl();
+				}
 			}
 			else if (m_fCurHp <= 0.f && !pUI_Manager->Get_StroyEvent(1) && pUI_Manager->Get_StroyEvent(0))
 			{

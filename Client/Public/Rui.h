@@ -166,6 +166,8 @@ public:
 	void Set_RuiHit(_bool bHit) { m_bIsHit = bHit; }
 	void	Set_NextRound(_bool bNextRound) { m_bNextRound = bNextRound; }
 	_bool   Get_NextRound() { return m_bNextRound; }
+	void	Set_StorySpl();
+	_bool   Get_StorySpl() { return m_bStorySpl; }
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 
@@ -211,7 +213,7 @@ private:
 	queue<_uint> m_queueDash;
 	
 	_bool m_bNextRound = false;
-
+	_bool m_bStorySpl = false;
 	list <class CRuiState*> m_AIStateList;
 public:
 	static CRui* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

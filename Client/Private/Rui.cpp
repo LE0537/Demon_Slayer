@@ -25,7 +25,7 @@
 #include "RuiHitCinema_Kyoujuro.h"
 #include "RuiHitCinema_Nezuko.h"
 #include "RuiHitCinema_Shinobu.h"
-
+#include "Rui_CinemaState.h"
 using namespace Rui;
 
 
@@ -52,7 +52,7 @@ HRESULT CRui::Initialize(void * pArg)
 	m_i1p = tCharacterDesc.i1P2P;
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
-
+	
 	if (m_i1p != 10 && m_i1p != 11 && m_i1p != 22)
 	{
 		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
@@ -455,6 +455,14 @@ void CRui::Check_Spl()
 _bool CRui::Get_RuiHit()
 {
 	return m_bIsHit;
+}
+
+void CRui::Set_StorySpl()
+{
+	m_bStorySpl = true;
+	m_pBattleTarget->Play_Scene();
+	CRuiState* pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 }
 
 void CRui::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
