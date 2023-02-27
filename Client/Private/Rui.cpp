@@ -149,6 +149,7 @@ HRESULT CRui::Initialize(void * pArg)
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_RUI;
 	Set_Info();
+
 	return S_OK;
 }
 
@@ -156,6 +157,10 @@ void CRui::Tick(_float fTimeDelta)
 {
 	if (!m_tInfo.bSub)
 	{
+		if (m_bSplSkl)
+		{
+			Check_Spl();
+		}
 
 		m_fEffectStartTime = 0.f;
 		if (m_bBattleStart)
@@ -231,11 +236,6 @@ void CRui::Late_Tick(_float fTimeDelta)
 	if (!m_tInfo.bSub)
 	{
 		LateTickState(fTimeDelta);
-
-		if (m_bSplSkl)
-		{
-			Check_Spl();
-		}
 
 		if (m_bSceneRender)
 		{
@@ -452,22 +452,22 @@ void CRui::Check_Spl()
 {
 	if (!m_bSplEffect)
 	{
-		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("R_Hand_1_Lct");
-		CHierarchyNode*		pSocket2 = m_pModelCom->Get_BonePtr("L_Hand_1_Lct");
-		_float4x4 SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
-		_float4x4 pParentWorldMatrix = *m_pTransformCom->Get_World4x4Ptr();
-
-		XMStoreFloat4x4(m_WeaponWorld, (pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
-		XMStoreFloat4x4(m_WeaponWorld2, (pSocket2->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
-
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 	
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SWORD, m_WeaponWorld);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SWORD, m_WeaponWorld2);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_MO1_WEB1, m_pBattleTarget);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bSplEffect = true;
 	}
+
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("R_Hand_1_Lct");
+	CHierarchyNode*		pSocket2 = m_pModelCom->Get_BonePtr("L_Hand_1_Lct");
+	_float4x4 SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	_float4x4 pParentWorldMatrix = *m_pTransformCom->Get_World4x4Ptr();
+
+	XMStoreFloat4x4(&m_WeaponWorld, (pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
+	XMStoreFloat4x4(&m_WeaponWorld2, (pSocket2->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
+
 }
 
 _bool CRui::Get_RuiHit()

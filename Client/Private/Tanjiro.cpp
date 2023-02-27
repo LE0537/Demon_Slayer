@@ -69,7 +69,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 	if (FAILED(Ready_Parts3()))
 		return E_FAIL;
 
-	m_WeaponWorld = dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
+	m_WeaponWorld = *dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
 
 	if (m_i1p != 10 && m_i1p != 20)
 	{
@@ -1403,14 +1403,16 @@ void CTanjiro::Check_Spl()
 	if (!m_bSplEffect)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH1, m_WeaponWorld);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH2, m_WeaponWorld);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH1, &m_WeaponWorld);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH2, &m_WeaponWorld);
 		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ1, this);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SWORD, m_WeaponWorld);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SWORD, &m_WeaponWorld);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bSplEffect = true;
 	}
+
+	m_WeaponWorld = *dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
 	//m_WeaponWorld = dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
 	//XMStoreFloat4x4( &m_WeaponWorld, (dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorldMatrix()));
 }

@@ -63,6 +63,9 @@ HRESULT CEffect::Initialize(void * pArg)
 		else if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
 			m_ParentWorldMatrix = (_float4x4*)pArg;
 		}
+		else if (EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {
+			m_ParentWorldMatrix = (_float4x4*)pArg;
+		}
 		else
 			m_pTarget = (CCharacters*)pArg;
 	}
@@ -76,7 +79,7 @@ HRESULT CEffect::Initialize(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
 
-	if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
+	if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {
 		_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
 
 		mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
@@ -137,14 +140,15 @@ void CEffect::Tick(_float fTimeDelta)
 
 					XMStoreFloat4x4(&m_CombinedWorldMatrix, vPos * vTargetPos);
 				}
-				else if (EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIX != m_EffectInfo.iMoveType) {
+				else if (EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIX2 != m_EffectInfo.iMoveType) {
 					XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
 				}
 				m_bStart = false;
 			}
 		}
 		else {
-			if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO && m_EffectInfo.iMoveType != EFFMOVE_MATRIXPIX && m_EffectInfo.iMoveType != EFFMOVE_MATRIX 
+			if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO && m_EffectInfo.iMoveType != EFFMOVE_MATRIXPIX 
+				&& m_EffectInfo.iMoveType != EFFMOVE_MATRIX && m_EffectInfo.iMoveType != EFFMOVE_MATRIX2
 				&& m_pTarget != nullptr) {
 				_matrix vTargetPos = m_pTarget->Get_Transform()->Get_WorldMatrix();
 				_matrix vPos = m_pTransformCom->Get_WorldMatrix();
@@ -190,7 +194,8 @@ void CEffect::Late_Tick(_float fTimeDelta)
 		return;
 	}
 
-	if(EFFMOVE_MATRIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType && m_pTarget != nullptr)
+	if(EFFMOVE_MATRIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType && m_pTarget != nullptr
+		&& EFFMOVE_MATRIX2 != m_EffectInfo.iMoveType)
 		m_fEffectStartTime += m_pTarget->Get_EffectTime();
 
 	switch (m_iEffectNum) {
@@ -257,9 +262,23 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_HINO_MO5_SLASH3:
 	case CEffect_Manager::EFF_SPL_HINO_MO5_GOUND:
 	case CEffect_Manager::EFF_SPL_HINO_MO3_SLASH2:
+	case CEffect_Manager::EFF_SPL_RUI_MO1_WEB1:
+	case CEffect_Manager::EFF_SPL_RUI_MO2_PROJ1:
+	case CEffect_Manager::EFF_SPL_RUI_MO2_REDWEB1:
+	case CEffect_Manager::EFF_SPL_RUI_MO2_TREADL1:
+	case CEffect_Manager::EFF_SPL_RUI_MO2_TREADR1:
+	case CEffect_Manager::EFF_SPL_RUI_MO3_REDWEB1:
+	case CEffect_Manager::EFF_SPL_RUI_MO3_TREADL1:
+	case CEffect_Manager::EFF_SPL_RUI_MO3_TREADR1:
+	case CEffect_Manager::EFF_SPL_RUI_MO3_WEB1:
+	case CEffect_Manager::EFF_SPL_RUI_MO4_PROJ1:
+	case CEffect_Manager::EFF_SPL_RUI_MO4_REDWEB1:
+	case CEffect_Manager::EFF_SPL_RUI_MO4_REDWEB2:
+	case CEffect_Manager::EFF_SPL_RUI_MO4_TREADL1:
+	case CEffect_Manager::EFF_SPL_RUI_MO4_TREADR1:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			if (m_bLateStart) {
-				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
+				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {
 					_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
 
 					mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
@@ -271,7 +290,7 @@ void CEffect::Late_Tick(_float fTimeDelta)
 				m_bLateStart = false;
 			}
 			else {
-				if (EFFMOVE_MATRIX == m_EffectInfo.iMoveType) {
+				if (EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {
 					_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
 
 					mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
