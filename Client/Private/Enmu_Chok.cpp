@@ -39,10 +39,10 @@ HRESULT CEnmu_Chok::Initialize(void * pArg)
 	switch (m_i1p)
 	{
 	case 0:
-		vPos = { 24.236f, 16.6f, 167.567f,1.f };
+		vPos = { 30.396f, 16.6f, 171.384f,1.f };
 		break;
 	case 1:
-		vPos = { 30.396f, 16.6f, 171.384f,1.f };
+		vPos = { 24.236f, 16.6f, 167.567f,1.f };
 		break;
 	case 2:
 		vPos = { -20.768f, 16.6f, 171.074f,1.f };
@@ -58,11 +58,12 @@ HRESULT CEnmu_Chok::Initialize(void * pArg)
 
 	//CUI_Manager::Get_Instance()->Set_2P(this);
 
-	_int i = rand() % 3 + 1;
-	m_pModelCom->Set_CurrentAnimIndex(i);
 	CEnmuBoss::Get_Instance()->Add_EnmuParts(this);
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	Set_Info();
+
+	m_vOriginPosition = vPos;
+
 	return S_OK;
 }
 

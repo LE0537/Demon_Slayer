@@ -15,6 +15,19 @@ public:
 		ANIM_IDLE,
 	};
 
+	enum PARTS
+	{
+		PARTS_HEAD,
+		PARTS_SHIELD,
+		PARTS_RIGHT_HAND,
+		PARTS_LEFT_HAND,
+		PARTS_CHOCK1,
+		PARTS_CHOCK2,
+		PARTS_CHOCK3,
+		PARTS_CHOCK4,
+		PARTS_END
+	};
+
 public:
 	CEnmuBoss();
 	virtual ~CEnmuBoss() = default;

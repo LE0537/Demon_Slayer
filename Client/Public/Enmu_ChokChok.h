@@ -18,18 +18,19 @@ END
 
 BEGIN(Client)
 
-class CEnmu_Shield : public CCharacters
+class CEnmu_ChokChok : public CCharacters
 {
 public:
 	enum ANIMID
 	{
-		ANIM_IDLE = 2,
-
+		ANIM_SKILL_0 = 0,
+		ANIM_SKILL_1 = 2,
+		ANIM_IDLE_2 = 3,
 	};
 public:
-	CEnmu_Shield(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CEnmu_Shield(const CEnmu_Shield& rhs);
-	virtual ~CEnmu_Shield() = default;
+	CEnmu_ChokChok(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CEnmu_ChokChok(const CEnmu_ChokChok& rhs);
+	virtual ~CEnmu_ChokChok() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -75,8 +76,7 @@ public:
 	virtual void  Play_Scene();
 private:
 	CModel*					m_pModelCom = nullptr;
-	CCollider*				m_pAABBCom = nullptr;
-	CCollider*				m_pOBBCom = nullptr;
+
 	_float					m_fEffectTime = 0.f;
 private:
 	ANIMID m_eAnimID;
@@ -95,9 +95,10 @@ private:
 	_bool					m_bQuestStart = false;
 	_bool					m_bQuestStop = false;
 
+	_vector	m_vOriginPosition;
 
 public:
-	static CEnmu_Shield* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CEnmu_ChokChok* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 

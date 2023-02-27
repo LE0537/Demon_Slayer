@@ -33,6 +33,7 @@
 #include "Enmu_Right_Hand.h"
 #include "Enmu_Left_Hand.h"
 #include "Enmu_Chok.h"
+#include "Enmu_ChokChok.h"
 //parts
 #include "KyoujuroWeapon.h"
 #include "KyoujuroSheath.h"
@@ -1882,6 +1883,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Enmu_Chok"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu_Chok"),
 		CEnmu_Chok::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Enmu_ChokChok"),
+		CEnmu_ChokChok::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("KyoujuroWeapon"), LEVEL_STATIC, CData_Manager::DATA_ANIM);

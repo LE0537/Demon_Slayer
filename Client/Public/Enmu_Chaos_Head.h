@@ -20,9 +20,10 @@ BEGIN(Client)
 
 class CEnmu_Chaos_Head : public CCharacters
 {
+public:
 	enum ANIMID
 	{
-		ANIM_IDLE,
+		ANIM_IDLE = 3,
 	};
 
 public:

@@ -23,7 +23,9 @@ class CEnmu_Chok : public CCharacters
 public:
 	enum ANIMID
 	{
-		ANIM_IDLE,
+		ANIM_IDLE_0 = 1,
+		ANIM_IDLE_1 = 2,
+		ANIM_IDLE_2 = 3,
 	};
 public:
 	CEnmu_Chok(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
@@ -93,6 +95,7 @@ private:
 	_bool					m_bQuestStart = false;
 	_bool					m_bQuestStop = false;
 
+	_vector	m_vOriginPosition;
 
 public:
 	static CEnmu_Chok* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

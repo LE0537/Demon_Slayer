@@ -1453,6 +1453,30 @@
     <Filter Include="05.CollBox\16.EnmuShoot">
       <UniqueIdentifier>{82bd510d-03cc-4e67-95b6-e0f695dea156}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern">
+      <UniqueIdentifier>{146e9f3e-532e-4f19-92a5-a42e18177b7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\ChokChok">
+      <UniqueIdentifier>{96423b08-3c8e-4c1b-96b0-eeac28c2d2a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern1">
+      <UniqueIdentifier>{14208efe-7b57-4f36-a362-bf2be0c3a154}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern2">
+      <UniqueIdentifier>{e4d9b0d8-ea91-4136-809c-2929df4f9f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern3">
+      <UniqueIdentifier>{f2bd7198-b5ae-4c8c-b24b-cd6ea466d582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern4">
+      <UniqueIdentifier>{0afdb5ad-07cd-4c21-8593-80cca5cd90f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern5">
+      <UniqueIdentifier>{e7d84f31-26dc-4254-807c-0dd9c366dada}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern6">
+      <UniqueIdentifier>{5b9e5751-d410-4893-8c15-304d376ddf6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2895,6 +2919,27 @@
     <ClInclude Include="..\public\EnmuShoot.h">
       <Filter>05.CollBox\16.EnmuShoot</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Enmu_ChokChok.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\ChokChok</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuBoss_Pattern1State.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern1</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuBoss_Pattern3State.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern3</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuBoss_Pattern4State.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern4</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuBoss_Pattern2State.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuBoss_Pattern5State.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern5</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\EnmuBoss_Pattern6State.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern6</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4303,6 +4348,27 @@
     </ClCompile>
     <ClCompile Include="..\private\EnmuShoot.cpp">
       <Filter>05.CollBox\16.EnmuShoot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Enmu_ChokChok.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\ChokChok</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuBoss_Pattern1State.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern1</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuBoss_Pattern2State.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuBoss_Pattern3State.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern3</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuBoss_Pattern4State.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern4</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuBoss_Pattern5State.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern5</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuBoss_Pattern6State.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern6</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

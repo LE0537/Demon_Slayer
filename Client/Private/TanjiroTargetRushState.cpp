@@ -297,8 +297,16 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	_vector vMyPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTargetPosition = pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	if (g_iLevel == 12)
+	{
+		vTargetPosition = XMVectorSet(-0.012f, 16.6f, 181.f, 1.f);
+	}
+
 	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
 	m_vTargetPosition = XMVector3Normalize(vTargetPosition - vMyPosition);
+
+
 
 	m_vVelocity.x += fGravity * fTimeDelta;
 	m_vVelocity.y += fGravity * fTimeDelta;
@@ -315,7 +323,38 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 	//{
 	//	m_bNextAnim = true;
 	//}
-	if (pTanjiro->Get_SphereCollider()->Collision(pTanjiro->Get_BattleTarget()->Get_SphereCollider()))
+
+	if (g_iLevel == 12)
+	{
+		if (fDistance <= 3.f)
+		{
+			m_bNextAnim = true;
+
+			if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().bGuard && pTanjiro->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+			{
+				pTanjiro->Get_BattleTarget()->Get_GuardHit(0);
+
+			}
+			else
+			{
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_RUSH_HIT, pTanjiro);
+				RELEASE_INSTANCE(CEffect_Manager);
+				pTanjiro->Get_BattleTarget()->Take_Damage(0.3f, false);
+
+				CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pTanjiro->Get_Renderer());
+				RELEASE_INSTANCE(CGameInstance);
+			}
+		}
+		else
+			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+
+	}
+	
+	else if (pTanjiro->Get_SphereCollider()->Collision(pTanjiro->Get_BattleTarget()->Get_SphereCollider()))
 	{
 		m_bNextAnim = true;
 		_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);

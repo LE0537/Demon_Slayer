@@ -2170,8 +2170,9 @@ void CImGuiManager::EnmuBossCharacterList(_uint _iIndex)
 			string Temp = to_string(i) + ". ";
 			string strName = m_vecAnimation[i]->Get_AnimName();
 
-			strName = Temp + strName;
+
 			strName.erase(strName.begin(), strName.begin() + 23);
+			strName = Temp + strName;
 			if (ImGui::Selectable(strName.c_str(), selected == i, 0, vObjSize))
 			{
 				selected = i;
@@ -2188,7 +2189,13 @@ void CImGuiManager::EnmuBossCharacterList(_uint _iIndex)
 		CEnmuBoss::Get_Instance()->Set_ToolState(_iIndex, selected, 0, 0, 0, false);
 	}
 
+	m_fCurrentDuration = m_vecObjList[_iIndex]->Get_Model()->Get_CurrentTime_Index(selected);
+	m_fDuration = m_vecObjList[_iIndex]->Get_Model()->Get_Duration_Index(selected);
 
+	if (ImGui::SliderFloat("Duration : ", &m_fCurrentDuration, 0.f, m_fDuration))
+	{
+		
+	}
 
 }
 

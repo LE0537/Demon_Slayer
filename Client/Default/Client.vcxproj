@@ -261,6 +261,12 @@
     <ClInclude Include="..\Public\EnmuBossIdleState.h" />
     <ClInclude Include="..\Public\EnmuBossState.h" />
     <ClInclude Include="..\Public\EnmuBossToolState.h" />
+    <ClInclude Include="..\Public\EnmuBoss_Pattern1State.h" />
+    <ClInclude Include="..\Public\EnmuBoss_Pattern2State.h" />
+    <ClInclude Include="..\Public\EnmuBoss_Pattern3State.h" />
+    <ClInclude Include="..\Public\EnmuBoss_Pattern4State.h" />
+    <ClInclude Include="..\Public\EnmuBoss_Pattern5State.h" />
+    <ClInclude Include="..\Public\EnmuBoss_Pattern6State.h" />
     <ClInclude Include="..\Public\EnmuDashState.h" />
     <ClInclude Include="..\Public\EnmuGuardHitState.h" />
     <ClInclude Include="..\Public\EnmuGuardState.h" />
@@ -275,6 +281,7 @@
     <ClInclude Include="..\Public\EnmuUpperHitState.h" />
     <ClInclude Include="..\public\Enmu_Chaos_Head.h" />
     <ClInclude Include="..\public\Enmu_Chok.h" />
+    <ClInclude Include="..\Public\Enmu_ChokChok.h" />
     <ClInclude Include="..\public\Enmu_Left_Hand.h" />
     <ClInclude Include="..\public\Enmu_Right_Hand.h" />
     <ClInclude Include="..\public\Enmu_Shield.h" />
@@ -742,6 +749,12 @@
     <ClCompile Include="..\Private\EnmuBoss.cpp" />
     <ClCompile Include="..\Private\EnmuBossIdleState.cpp" />
     <ClCompile Include="..\Private\EnmuBossToolState.cpp" />
+    <ClCompile Include="..\Private\EnmuBoss_Pattern1State.cpp" />
+    <ClCompile Include="..\Private\EnmuBoss_Pattern2State.cpp" />
+    <ClCompile Include="..\Private\EnmuBoss_Pattern3State.cpp" />
+    <ClCompile Include="..\Private\EnmuBoss_Pattern4State.cpp" />
+    <ClCompile Include="..\Private\EnmuBoss_Pattern5State.cpp" />
+    <ClCompile Include="..\Private\EnmuBoss_Pattern6State.cpp" />
     <ClCompile Include="..\Private\EnmuDashState.cpp" />
     <ClCompile Include="..\Private\EnmuGuardHitState.cpp" />
     <ClCompile Include="..\Private\EnmuGuardState.cpp" />
@@ -755,6 +768,7 @@
     <ClCompile Include="..\Private\EnmuUpperHitState.cpp" />
     <ClCompile Include="..\private\Enmu_Chaos_Head.cpp" />
     <ClCompile Include="..\private\Enmu_Chok.cpp" />
+    <ClCompile Include="..\Private\Enmu_ChokChok.cpp" />
     <ClCompile Include="..\private\Enmu_Left_Hand.cpp" />
     <ClCompile Include="..\private\Enmu_Right_Hand.cpp" />
     <ClCompile Include="..\private\Enmu_Shield.cpp" />

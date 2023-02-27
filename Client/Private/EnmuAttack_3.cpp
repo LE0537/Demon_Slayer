@@ -91,7 +91,7 @@ CEnmuState * CEnmuAttack3::Late_Tick(CEnmu* pEnmu, _float fTimeDelta)
 					if (m_bIsCreate == false)
 					{
 						m_pTarget->Take_Damage(0.0f, false);
-						m_bIsCreate = true;
+						//m_bIsCreate = true;
 					}
 					pEnmu->Set_Combo(1);
 					pEnmu->Set_ComboTime(0.f);
@@ -169,7 +169,8 @@ CEnmuState * CEnmuAttack3::Late_Tick(CEnmu* pEnmu, _float fTimeDelta)
 
 					if (m_bIsCreate == false)
 					{
-						m_pTarget->Take_Damage(0.0f, false);
+						m_pTarget->Player_TakeDown(0.2f, false);
+						//m_pTarget->Take_Damage(0.0f, false);
 						m_bIsCreate = true;
 					}
 					pEnmu->Set_Combo(1);
@@ -244,7 +245,7 @@ CEnmuState * CEnmuAttack3::Late_Tick(CEnmu* pEnmu, _float fTimeDelta)
 
 void CEnmuAttack3::Enter(CEnmu* pEnmu)
 {
-	m_eStateId = STATE_ID::STATE_ATK_3;
+	m_eStateId = STATE_SKILL2;
 	pEnmu->Get_Model()->Reset_Anim(CEnmu::ANIMID::ANIM_ATTACK_3);
 	pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_ATTACK_3);
 	pEnmu->Set_AnimIndex(CEnmu::ANIM_ATTACK_3);

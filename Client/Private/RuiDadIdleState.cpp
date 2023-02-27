@@ -331,7 +331,6 @@ void CIdleState::Update_AI_Out(CRuiDad * pRuiDad)
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 11);
 	int iRandom = RandomPattern(gen);
-
 	// 1 발사체
 	// 2 3방향
 	// 3 가드

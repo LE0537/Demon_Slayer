@@ -35,13 +35,10 @@ HRESULT CEnmu_Left_Hand::Initialize(void * pArg)
 
 	_vector vPos = { -10.012f, 16.6f, 177.414f,1.f };
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 0.f));
+	m_pTransformCom->Set_Scale(XMVectorSet(0.75f, 0.75f, 0.75f, 0.f));
 
 	//CUI_Manager::Get_Instance()->Set_2P(this);
 
-
-
-	m_pModelCom->Set_CurrentAnimIndex(40);
 	CEnmuBoss::Get_Instance()->Add_EnmuParts(this);
 	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 	Set_Info();

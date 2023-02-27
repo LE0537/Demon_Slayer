@@ -48,8 +48,8 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		case 1:
 			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
 			{
-				pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			//d	return new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
 			}
 
 

@@ -1,80 +1,67 @@
 #include "stdafx.h"
-#include "..\Public\Enmu_Shield.h"
+#include "..\Public\Enmu_ChokChok.h"
 
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
 #include "UI_Manager.h"
 #include "Layer.h"
 #include "Level_GamePlay.h"
+#include "RuiDadIdleState.h"
 #include "ImGuiManager.h"
 #include "EnmuBoss.h"
-CEnmu_Shield::CEnmu_Shield(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+
+CEnmu_ChokChok::CEnmu_ChokChok(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
 {
 }
 
-CEnmu_Shield::CEnmu_Shield(const CEnmu_Shield & rhs)
+CEnmu_ChokChok::CEnmu_ChokChok(const CEnmu_ChokChok & rhs)
 	: CCharacters(rhs)
 {
 }
 
-HRESULT CEnmu_Shield::Initialize_Prototype()
+HRESULT CEnmu_ChokChok::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CEnmu_Shield::Initialize(void * pArg)
+HRESULT CEnmu_ChokChok::Initialize(void * pArg)
 {
-	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
-	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
-	m_i1p = tCharacterDesc.i1P2P;
+	if (pArg != nullptr)
+	{
+		memcpy(&m_vOriginPosition, (_vector*)(pArg), sizeof(m_vOriginPosition));
+	}
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 1.f));
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, m_vOriginPosition);
+	m_pModelCom->Set_CurrentAnimIndex(0);
+	
 
-	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-	//RELEASE_INSTANCE(CGameInstance);
-	_vector vPos = { 0.956f, 16.6f, 174.106f,1.f };
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 0.f));
-
-	//CUI_Manager::Get_Instance()->Set_2P(this);
-
-
-	CEnmuBoss::Get_Instance()->Add_EnmuParts(this);
-
-	//CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
-	Set_Info();
 	return S_OK;
 }
 
-void CEnmu_Shield::Tick(_float fTimeDelta)
+void CEnmu_ChokChok::Tick(_float fTimeDelta)
 {
 
-	//m_pModelCom->Play_Animation(fTimeDelta);
-
-		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("Root");
-		if (nullptr == pSocket)
-			return;
-		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
-
-		m_pSphereCom->Update(matColl);
-
-		HandleInput();
-		TickState(fTimeDelta);
+	if (m_pModelCom->Get_End(0))
+	{
+		m_pModelCom->Set_End(0);
+		m_bDead = true;
+	}
 
 
-
-
+	HandleInput();
+	TickState(fTimeDelta);
 
 }
 
-void CEnmu_Shield::Late_Tick(_float fTimeDelta)
+void CEnmu_ChokChok::Late_Tick(_float fTimeDelta)
 {
-
+	m_pModelCom->Play_Animation(fTimeDelta);
 	LateTickState(fTimeDelta);
 	if (m_bRender)
 	{
@@ -82,15 +69,10 @@ void CEnmu_Shield::Late_Tick(_float fTimeDelta)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 	}
 
-	if (g_bCollBox)
-	{
-		m_pRendererCom->Add_Debug(m_pSphereCom);
-	}
-
 
 }
 
-HRESULT CEnmu_Shield::Render()
+HRESULT CEnmu_ChokChok::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pModelCom)
@@ -123,7 +105,7 @@ HRESULT CEnmu_Shield::Render()
 
 }
 
-HRESULT CEnmu_Shield::Render_ShadowDepth()
+HRESULT CEnmu_ChokChok::Render_ShadowDepth()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pModelCom)
@@ -194,22 +176,22 @@ HRESULT CEnmu_Shield::Render_ShadowDepth()
 	return S_OK;
 }
 
-void CEnmu_Shield::HandleInput()
+void CEnmu_ChokChok::HandleInput()
 {
 
 }
 
-void CEnmu_Shield::TickState(_float fTimeDelta)
+void CEnmu_ChokChok::TickState(_float fTimeDelta)
 {
 
 }
 
-void CEnmu_Shield::LateTickState(_float fTimeDelta)
+void CEnmu_ChokChok::LateTickState(_float fTimeDelta)
 {
 
 }
 
-HRESULT CEnmu_Shield::SetUp_ShaderResources()
+HRESULT CEnmu_ChokChok::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -230,7 +212,7 @@ HRESULT CEnmu_Shield::SetUp_ShaderResources()
 	return S_OK;
 }
 
-HRESULT CEnmu_Shield::Ready_Components()
+HRESULT CEnmu_ChokChok::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -251,28 +233,18 @@ HRESULT CEnmu_Shield::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Model*/
-	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Shield"), (CComponent**)&m_pModelCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Chok"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-
-
-	CCollider::COLLIDERDESC		ColliderDesc;
-
-	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
-
-	ColliderDesc.vScale = _float3(160.f, 160.f, 160.f);
-	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
-	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
-		return E_FAIL;
 
 
 
 	return S_OK;
 }
 
-void CEnmu_Shield::Set_Info()
+void CEnmu_ChokChok::Set_Info()
 {
-	m_tInfo.strName = TEXT("¿£¹«(½¯µå)");
+	m_tInfo.strName = TEXT("¿£¹«_ÃË¼ö");
 	m_tInfo.bOni = true;
 	m_tInfo.iMaxHp = 300;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
@@ -294,64 +266,62 @@ void CEnmu_Shield::Set_Info()
 	m_tInfo.iGuard = m_tInfo.iMaxGuard;
 }
 
-void CEnmu_Shield::Take_Damage(_float _fPow, _bool _bJumpHit)
+void CEnmu_ChokChok::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
 
 }
 
-void CEnmu_Shield::Get_GuardHit(_int eType)
+void CEnmu_ChokChok::Get_GuardHit(_int eType)
 {
 
 }
 
-void CEnmu_Shield::Player_TakeDown(_float _fPow, _bool _bJump)
-{
-
-
-}
-
-void CEnmu_Shield::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+void CEnmu_ChokChok::Player_TakeDown(_float _fPow, _bool _bJump)
 {
 
 
 }
 
-void CEnmu_Shield::Play_Scene()
+void CEnmu_ChokChok::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
+{
+
+
+}
+
+void CEnmu_ChokChok::Play_Scene()
 {
 }
 
-CEnmu_Shield * CEnmu_Shield::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CEnmu_ChokChok * CEnmu_ChokChok::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CEnmu_Shield*	pInstance = new CEnmu_Shield(pDevice, pContext);
+	CEnmu_ChokChok*	pInstance = new CEnmu_ChokChok(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CEnmu_Shield"));
+		ERR_MSG(TEXT("Failed to Created : CEnmu_Chok"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject * CEnmu_Shield::Clone(void * pArg)
+CGameObject * CEnmu_ChokChok::Clone(void * pArg)
 {
-	CGameObject*	pInstance = new CEnmu_Shield(*this);
+	CGameObject*	pInstance = new CEnmu_ChokChok(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CEnmu_Shield"));
+		ERR_MSG(TEXT("Failed to Cloned : CEnmu_Chok"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CEnmu_Shield::Free()
+void CEnmu_ChokChok::Free()
 {
 	__super::Free();
 
-	Safe_Release(m_pAABBCom);
-	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pSphereCom);
 

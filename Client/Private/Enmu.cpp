@@ -126,6 +126,8 @@ void CEnmu::Tick(_float fTimeDelta)
 	//else if (m_pTransformCom->Get_Jump() == false)
 	//	m_tInfo.bJump = false;
 
+	m_iState = m_pEnmuState->Get_EnmuState();
+
 }
 
 void CEnmu::Late_Tick(_float fTimeDelta)

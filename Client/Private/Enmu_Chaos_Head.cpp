@@ -50,8 +50,6 @@ HRESULT CEnmu_Chaos_Head::Initialize(void * pArg)
 	CUI_Manager::Get_Instance()->Set_2P(this);
 
 
-	m_pModelCom->Set_CurrentAnimIndex(3);
-
 
 	CEnmuBoss::Get_Instance()->Add_EnmuParts(this);
 
