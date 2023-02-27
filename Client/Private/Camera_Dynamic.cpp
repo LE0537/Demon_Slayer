@@ -161,9 +161,9 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("kyojuro_3"))) return E_FAIL;	//	3
 	if (FAILED(Ready_CutScene("kyojuro_4"))) return E_FAIL;	//	4
 	if (FAILED(Ready_CutScene("kyojuro_5"))) return E_FAIL;	//	5	
-	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	6
-	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	7	
-	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	8
+	if (FAILED(Ready_CutScene("kyojuro_6"))) return E_FAIL;	//	6
+	if (FAILED(Ready_CutScene("kyojuro_7"))) return E_FAIL;	//	7	
+	if (FAILED(Ready_CutScene("kyojuro_8"))) return E_FAIL;	//	8
 
 	if (g_iLevel == LEVEL_BOSSENMU)
 	{
