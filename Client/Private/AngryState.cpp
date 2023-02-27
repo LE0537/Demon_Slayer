@@ -21,7 +21,6 @@ CRuiDadState * CAngryState::HandleInput(CRuiDad * pRuiDad)
 CRuiDadState * CAngryState::Tick(CRuiDad * pRuiDad, _float fTimeDelta)
 {
 	if (pRuiDad->Get_Model()->Get_End(0))
-
 	{
 		pRuiDad->Get_Model()->Set_End(0);
 		
