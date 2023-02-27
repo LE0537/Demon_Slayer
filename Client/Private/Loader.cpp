@@ -1300,6 +1300,22 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_Wind"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_Wind.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Hi_Spl_FireTrail02"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Hinokami/Hi_Spl_FireTrail02.fbx", PivotMatrix)))) return E_FAIL;
 
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_Wind1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_Wind1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_Wind2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_Wind2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_WebLine2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_WebLine2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_WebLine1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_WebLine1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_WebDome1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_WebDome1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_Web7"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_Web7.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_Web6"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_Web6.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_Web5"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_Web5.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_Web2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_Web2.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_Web1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_Web1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_Tornade1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_Tornade1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_Spl_WebRing1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_Spl_WebRing1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_AtkSkl02_Web1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_AtkSkl02_Web1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_AtkSpl_Web1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_AtkSpl_Web1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rui_AtkThrow_Web1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Rui_AtkThrow_Web1.fbx", PivotMatrix)))) return E_FAIL;
+
 #pragma endregion Effect Model
 
 #pragma region Effect Object
@@ -1634,6 +1650,23 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Slash1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Slash2"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Slash3"));
+
+		//루이 오의
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion1_Web1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion2_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion2_RedWeb1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion2_TreadL1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion2_TreadR1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion3_RedWeb1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion3_TreadL1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion3_TreadR1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion3_Web1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion4_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion4_RedWeb1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion4_RedWeb2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion4_TreadL1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion4_TreadR1"));
+
 
 
 		RELEASE_INSTANCE(CEffect_Manager);
