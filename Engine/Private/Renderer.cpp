@@ -372,25 +372,6 @@ HRESULT CRenderer::Add_RenderGroup_Front(RENDERGROUP eRenderGroup, CGameObject *
 
 HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel)
 {
-	if (FAILED(Render_Priority()))
-		return E_FAIL;
-	if (FAILED(Render_StaticShadowDepth()))
-		return E_FAIL;
-	if (FAILED(Render_ShadowDepth()))
-		return E_FAIL;
-
-	//	광원 효과를 받는 객체를 Deferred에 그립니다.
-	if (FAILED(Render_NonAlphaBlend()))
-		return E_FAIL;
-	if (FAILED(Render_Lights()))
-		return E_FAIL;
-
-	if (FAILED(Render_AO()))
-		return E_FAIL;
-	//	그려진 객체들을 아름답게 섞습니다.
-	if (FAILED(Render_Blend(_iLevel)))
-		return E_FAIL;
-
 	m_fMapGrayScaleTime += fTimeDelta;
 	if (7.f < m_fMapGrayScaleTime)
 	{
@@ -416,23 +397,30 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 	if (false == m_bMapGrayScale)
 		m_fMapGrayScalePower /= (fTimeDelta * 65.f);	//	(1.2f)
 
-
 	m_fBlurTime -= fTimeDelta;
 	if (0.f > m_fBlurTime)
 		m_fBlurTime = 0.f;
 
-	//	Test
-	if (true == pGameInstance->Key_Down(DIK_F8))
-	{
-		m_fBlurTime = 1.f;
-		m_fBlurTimeMax = 1.f;
-		m_fValue[VALUE_POINTBLURPOWER] = 100.f;
-		m_vBlurPoint_Viewport = _float2(0.5f, 0.5f);
-	}
-	//	Test End
-
-
 	RELEASE_INSTANCE(CGameInstance);
+
+	if (FAILED(Render_Priority()))
+		return E_FAIL;
+	if (FAILED(Render_StaticShadowDepth()))
+		return E_FAIL;
+	if (FAILED(Render_ShadowDepth()))
+		return E_FAIL;
+
+	//	광원 효과를 받는 객체를 Deferred에 그립니다.
+	if (FAILED(Render_NonAlphaBlend()))
+		return E_FAIL;
+	if (FAILED(Render_Lights()))
+		return E_FAIL;
+
+	if (FAILED(Render_AO()))
+		return E_FAIL;
+	//	그려진 객체들을 아름답게 섞습니다.
+	if (FAILED(Render_Blend(_iLevel)))
+		return E_FAIL;
 
 
 	if (FAILED(Render_OutLine()))
@@ -573,8 +561,7 @@ HRESULT CRenderer::Bind_Target(CShader * pShader, _tchar * pTargetName, const ch
 
 void CRenderer::Set_PointBlur(_float3 vBlurPointPos, _float fBlurPower, _float fDuration, _float fBlurMinRatio)
 {
-	if (0.f < m_fBlurTime ||
-		0.f >= fDuration)
+	if (0.f >= fDuration)
 		return;
 
 	m_fValue[VALUE_POINTBLURPOWER] = fBlurPower;
@@ -600,6 +587,19 @@ void CRenderer::Set_PointBlur(_float3 vBlurPointPos, _float fBlurPower, _float f
 
 	m_vBlurPoint_Viewport = _float2(vPos.x / 1280.f, vPos.y / 720.f);
 	RELEASE_INSTANCE(CPipeLine);
+}
+
+void CRenderer::Set_PointBlur(_int iProjPosX, _int iProjPosY, _float fBlurPower, _float fDuration, _float fBlurMinRatio)
+{
+	if (0.f >= fDuration)
+		return;
+
+	m_fValue[VALUE_POINTBLURPOWER] = fBlurPower;
+	m_fBlurTime = fDuration;
+	m_fBlurTimeMax = fDuration;
+	m_fBlurMinRatio = fBlurMinRatio;
+
+	m_vBlurPoint_Viewport = _float2(iProjPosX / 1280.f, iProjPosY / 720.f);
 }
 
 HRESULT CRenderer::Ready_GlowDSV(_float fWinCX, _float fWinCY)

@@ -750,8 +750,10 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 			pGameInstance->Key_Down(DIK_F6) ||
 			pGameInstance->Key_Down(DIK_F7) ||
 			pGameInstance->Key_Down(DIK_F8) ||
-			pGameInstance->Key_Down(DIK_F9) ||
-			pGameInstance->Key_Down(DIK_CAPSLOCK))
+			pGameInstance->Key_Down(DIK_F9) ||			
+			pGameInstance->Key_Down(DIK_CAPSLOCK) ||
+			pGameInstance->Key_Down(DIK_PGUP) ||
+			pGameInstance->Key_Down(DIK_PGDN))
 			m_bCutScene = true;
 
 		//	Play CutScene

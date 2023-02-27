@@ -47,6 +47,7 @@ public:
 public:/* Motion Blur */
 	//	BlurMinRatio는 지정한 위치에서 어디부터 블러를 시키고싶은지를 지정합니다. 1 = 해당 위치가 Min, 0.5 = 해당위치에서 WinSize * 0.5의 위치가 Min
 	void	Set_PointBlur(_float3 vBlurPointPos, _float fBlurPower, _float fDuration, _float fBlurMinRatio = 1.f);
+	void	Set_PointBlur(_int	iProjPosX, _int	iProjPosY, _float fBlurPower, _float fDuration, _float fBlurMinRatio = 1.f);
 	void	MotionBlur(_int iCountX, _int iCountY) { m_iMotionBlurCountX = iCountX; m_iMotionBlurCountY = iCountY; }		//	Motion Blur
 
 

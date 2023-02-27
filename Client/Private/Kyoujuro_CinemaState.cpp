@@ -46,6 +46,7 @@ CKyoujuroState * CKyoujuro_CinemaState::HandleInput(CKyoujuro * pKyoujuro)
 
 CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
+	_float fValue = 0.f;
 	switch (m_eScene)
 	{
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_START:
@@ -84,6 +85,8 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		}
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_4:
+		pKyoujuro->Get_Renderer()->Set_PointBlur(860, 460, 100.f, 0.1f, 0.5f);			//	PointBlur
+
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro_CinemaState::ANIM_SCENE_4))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro_CinemaState::ANIM_SCENE_4);
@@ -91,6 +94,10 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		}
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_5:
+		m_fTime += fTimeDelta;
+		fValue = 80.f + (20.f * sin(m_fTime * 10.f));
+		pKyoujuro->Get_Renderer()->Set_PointBlur(640, 360, fValue, 0.5f, 0.8f);			//	PointBlur
+
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro_CinemaState::ANIM_SCENE_5))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro_CinemaState::ANIM_SCENE_5);
@@ -206,6 +213,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_3, 0.01f);
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_4:
+		pKyoujuro->Get_BattleTarget()->Set_SceneRender(true);
 		pKyoujuro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_060);
 		pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro_CinemaState::ANIM_SCENE_4);
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro_CinemaState::ANIM_SCENE_4);
