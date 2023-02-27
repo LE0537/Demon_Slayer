@@ -36,7 +36,7 @@ public:
 
 public:
 	//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
-	CModel* Get_Model() const { return m_pModelCom; }
+	virtual CModel* Get_Model() const { return m_pModelCom; }
 
 
 

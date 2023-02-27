@@ -155,7 +155,7 @@ public:
 
 public:
 	//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
-	CModel* Get_Model() const { return m_pModelCom; }
+	virtual CModel* Get_Model() const { return m_pModelCom; }
 	void	Set_Start() { m_bStart = true; }
 	_bool   Get_IsAIMode() const { return m_bAiState; }
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }

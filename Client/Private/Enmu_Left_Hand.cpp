@@ -37,6 +37,9 @@ HRESULT CEnmu_Left_Hand::Initialize(void * pArg)
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 0.f));
 
+	//CUI_Manager::Get_Instance()->Set_2P(this);
+
+
 
 	m_pModelCom->Set_CurrentAnimIndex(40);
 	CEnmuBoss::Get_Instance()->Add_EnmuParts(this);
@@ -48,7 +51,7 @@ HRESULT CEnmu_Left_Hand::Initialize(void * pArg)
 void CEnmu_Left_Hand::Tick(_float fTimeDelta)
 {
 
-	m_pModelCom->Play_Animation(fTimeDelta);
+	//m_pModelCom->Play_Animation(fTimeDelta);
 
 	HandleInput();
 	TickState(fTimeDelta);

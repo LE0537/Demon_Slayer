@@ -158,7 +158,7 @@ public:
 	virtual HRESULT Render_ShadowDepth();
 public:
 	//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
-	CModel* Get_Model() const { return m_pModelCom; }
+	virtual CModel* Get_Model() const { return m_pModelCom; }
 
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }

@@ -166,6 +166,8 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
+
+
 	static _bool	bCamAttach = true;
 	if (true == m_bCutScene)
 	{
@@ -193,14 +195,14 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			//if (pGameInstance->Key_Pressing(DIK_RIGHT))
 			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
-			//if (pGameInstance->Key_Pressing(DIK_1))
-			//	m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_2))
-			//	m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_3))
-			//	m_pTransform->Go_Left(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_4))
-			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_1))
+				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_2))
+				m_pTransform->Go_Backward(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_3))
+				m_pTransform->Go_Left(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_4))
+				m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 			if (pGameInstance->Key_Pressing(DIK_NUMPAD8))
 				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
@@ -365,6 +367,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 
 void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 {
+
 	__super::Late_Tick(fTimeDelta);
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
