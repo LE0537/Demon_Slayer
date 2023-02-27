@@ -51,13 +51,14 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 		(iSize != (_int)vecLookAts.size() || iSize != (_int)vecUseTime.size() + 1))
 		return false;
 
-	static _float fCullTime = 0.f;
-	_float	fUsedTime = fCullTime;
-	_int	iFrame = max(_int(fCullTime), 0) + 1;				//	현재 프레임. 첫 번째는 읽지않음.(None)
+	_float	fUsedTime = m_fCullTime;
+	_int	iFrame = max(_int(m_fCullTime), 0) + 1;				//	현재 프레임. 첫 번째는 읽지않음.(None)
+	_float	fDecimal = max(m_fCullTime, 0.f) - (iFrame - 1);
+
 
 	if (iFrame + 1 >= iSize)		//	끝 Check
 	{
-		fCullTime = *pOut = 0.f;
+		m_fCullTime = *pOut = 0.f;
 
 		return false;
 	}
@@ -75,6 +76,7 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 	}
 	*pOut += min((fTimeDelta) / (vecUseTime[iFrame]), 1.f);
 	fCullTime = *pOut;
+
 
 	_float	fDecimal = max(fCullTime, 0.f) - (iFrame - 1);
 
@@ -133,6 +135,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_fCamY = 10.f;
 	m_fBattleCamY = 5.f;
 	m_fBattleCamZ = 30.f;
+	m_bQuestBattleCam = true;
 	m_FovAngle = XMConvertToRadians(60.f);
 	//m_bStory = true;
 	m_eTurn = CAM_END;
@@ -149,6 +152,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("rui_Start"))) return E_FAIL;
 	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;
 	if (FAILED(Ready_CutScene("rui_1"))) return E_FAIL;
+
 	if (FAILED(Ready_CutScene("rui_2"))) return E_FAIL;	//	2
 	if (FAILED(Ready_CutScene("rui_3"))) return E_FAIL;	//	3
 	if (FAILED(Ready_CutScene("rui_4"))) return E_FAIL;	//	4
@@ -164,6 +168,12 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	6
 	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	7	
 	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	8
+
+	//Story
+	if (FAILED(Ready_StoryScene("RuiDadStart"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("RuiDadBattle"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("RuiStart"))) return E_FAIL;
+
 
 	if (g_iLevel == LEVEL_BOSSENMU)
 	{
@@ -222,13 +232,13 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			//if (pGameInstance->Key_Pressing(DIK_RIGHT))
 			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
-			if (pGameInstance->Key_Pressing(DIK_1))
+			if (pGameInstance->Key_Pressing(DIK_UP))
 				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_2))
+			if (pGameInstance->Key_Pressing(DIK_DOWN))
 				m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_3))
+			if (pGameInstance->Key_Pressing(DIK_LEFT))
 				m_pTransform->Go_Left(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_4))
+			if (pGameInstance->Key_Pressing(DIK_RIGHT))
 				m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 			if (pGameInstance->Key_Pressing(DIK_NUMPAD8))
@@ -277,22 +287,11 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 				m_bStartBattle = true;
 			}
 
-			if (!m_bQuestBattleCam && !m_bLerp)
+
+			if (m_bQuestBattleCam)
 				QuestBattleCam(fTimeDelta);
-			else if (m_bLerp && !m_bQuestBattleCam)
-			{
-				_vector vPos = XMVectorLerp(XMLoadFloat4(&m_vCamPos), XMVectorSet(32.8311f, 5.5f, 67.4087f, 1.f), m_fLerpTime);
-				if (m_fLerpTime > 1.f)
-				{
-					m_bQuestBattleCam = true;
-				}
 
-				m_fLerpTime += fTimeDelta;
-				m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
-				m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
-			}
-
-			if (true == bCamAttach && m_bQuestBattleCam)
+			if (true == bCamAttach && !m_bQuestBattleCam)
 				Set_CamPos();
 
 			if (m_pPlayer->Get_PlayerInfo().bSub)
@@ -300,7 +299,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			if (m_pTarget->Get_PlayerInfo().bSub)
 				m_pTarget = m_pTarget->Get_SubChar();
 
-			if (true == bCamAttach && m_bQuestBattleCam)
+			if (true == bCamAttach && !m_bQuestBattleCam)
 				Move_CamPos(fTimeDelta);
 		}
 		else if (!m_bStory && !pUIManager->Get_RuiDadBattle())
@@ -1402,98 +1401,13 @@ void CCamera_Dynamic::Check_TargetTrun(_float fTimeDelta)
 
 void CCamera_Dynamic::QuestCam(_float fTimeDelta)
 {
-	_vector vLookAt = m_pNPC->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vLookAt.m128_f32[1] += 3.f;
-
-
-	_vector vLookPos = { 0.f,m_fCamY,15.f,1.f };
-	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vLookPos);
-
-	_matrix matRotY = XMMatrixRotationY(XMConvertToRadians(m_fQuestAngle));
-	_matrix matTarget = m_pNPC->Get_Transform()->Get_WorldMatrix();
-	_matrix matWorld = m_pTransform->Get_WorldMatrix() * matRotY * matTarget;
-
-	m_pTransform->Set_WorldMatrix(matWorld);
-	m_pTransform->LookAt(vLookAt);
-
-	if (m_fQuestAngle < 120.f)
-	{
-		m_fQuestAngle += 2.f;
-		m_fCamY -= 0.1f;
-		if (m_fCamY < 2.f)
-			m_fCamY = 2.f;
-		m_fQuestFov -= 1.f;
-		if (m_fQuestFov < 30.f)
-			m_fQuestFov = 30.f;
-	}
-	else if (m_fQuestAngle >= 120.f && m_fQuestAngle < 400.f)
-	{
-		m_fQuestAngle += 2.f;
-		m_fCamY += 0.1f;
-		if (m_fCamY > 7.f)
-			m_fCamY = 7.f;
-		if (!m_bCamTurn)
-			m_fQuestFov += 1.f;
-		if (m_fQuestFov > 60.f)
-		{
-			m_fQuestFov = 60.f;
-			m_bCamTurn = true;
-		}
-
-	}
-	if (m_bCamTurn)
-	{
-		m_fQuestFov -= 1.f;
-		if (m_fQuestFov < 25.f)
-			m_fQuestFov = 25.f;
-	}
-
-	m_CameraDesc.fFovy = XMConvertToRadians(m_fQuestFov);
-
+	StoryScene(m_eStoryScene, fTimeDelta);
 }
 
 void CCamera_Dynamic::QuestBattleCam(_float fTimeDelta)
 {
-	dynamic_cast<CTanjiro*>(m_pPlayer)->Set_Render(true);
-	_vector vLookAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vLookAt.m128_f32[1] += 2.5f;
-
-	_vector vLookPos = { 0.f,m_fBattleCamY,m_fBattleCamZ,1.f };
-	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vLookPos);
-
-	_matrix matRotX = XMMatrixRotationX(XMConvertToRadians(m_fBattleAngle));
-	_matrix matTarget = m_pTarget->Get_Transform()->Get_WorldMatrix();
-	_matrix matWorld = m_pTransform->Get_WorldMatrix() * matRotX * matTarget;
-
-	m_pTransform->Set_WorldMatrix(matWorld);
-	m_pTransform->LookAt(vLookAt);
-
-	if (m_fBattleAngle < 20.f)
-	{
-		m_fBattleAngle += 0.1f;
-		m_fBattleCamZ -= 0.3f;
-		m_fBattleCamY -= 0.02f;
-		if (m_fBattleCamY < 6.5f)
-			m_fBattleCamY = 6.5f;
-
-		if (m_fBattleCamZ < 13.f)
-			m_fBattleCamZ = 13.f;
-	}
-	else if (m_fBattleAngle >= 20.f)
-	{
-		_vector vPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		_vector vTarget = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		_vector vLook2 = vPos - vTarget;
-
-		_float fDist = XMVectorGetX(XMVector3Length(vLook2));
-
-		vPos -= XMVector3Normalize(vLook2) * (fDist * 0.5f);
-		vPos.m128_f32[1] = m_fLookAtY;
-		XMStoreFloat4(&m_vLerpLook, vPos);
-		XMStoreFloat4(&m_vCamPos, m_pTransform->Get_State(CTransform::STATE_TRANSLATION));
-		m_bLerp = true;
-		dynamic_cast<CTanjiro*>(m_pPlayer)->Set_Render(false);
-	}
+	m_bQuestBattleCam = StoryScene(m_eStoryScene, fTimeDelta);
+	
 }
 
 void CCamera_Dynamic::Blur_VeryLow(CRenderer* _pRenderer)
@@ -1579,6 +1493,25 @@ _bool CCamera_Dynamic::CutScene(CUTSCENE eCutScene, _float fTimeDelta)
 	return m_bCutScene;
 }
 
+_bool CCamera_Dynamic::StoryScene(STORYSCENE eCutScene, _float fTimeDelta)
+{
+	if (STORYSCENE_END <= eCutScene)
+		return false;
+
+	if (nullptr != m_pRendererCom)
+		m_pRendererCom->MotionBlur((_int)m_vecStoryMotionBlur[eCutScene].x, (_int)m_vecStoryMotionBlur[eCutScene].y);
+
+	m_bStoryScene = Play_CutScene(m_vecStoryCamEye[eCutScene], m_vecStoryCamAt[eCutScene], m_vecStoryCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
+
+	if (false == m_bStoryScene)
+	{
+		if (nullptr != m_pRendererCom)
+			m_pRendererCom->MotionBlur(0, 0);
+	}
+
+	return m_bStoryScene;
+}
+
 HRESULT CCamera_Dynamic::Ready_CutScene(char * pFileName)
 {
 	int		iIndex = 0;
@@ -1646,6 +1579,77 @@ HRESULT CCamera_Dynamic::Ready_CutScene(char * pFileName)
 	m_vecCamEye.push_back(vecCam[CAM_EYE]);
 	m_vecCamAt.push_back(vecCam[CAM_AT]);
 	m_vecCamTime.push_back(vecCamTime);
+
+	return S_OK;
+}
+
+HRESULT CCamera_Dynamic::Ready_StoryScene(char * pFileName)
+{
+	int		iIndex = 0;
+
+	char		szFilePath[MAX_PATH] = "../Bin/Resources/Data/CamActions/";
+	strcat_s(szFilePath, pFileName);
+	strcat_s(szFilePath, ".cma");
+
+	_tchar		szRealPath[MAX_PATH] = L"";
+	MultiByteToWideChar(CP_ACP, 0, szFilePath, (_int)strlen(szFilePath), szRealPath, MAX_PATH);
+
+	HANDLE		hFile = CreateFile(szRealPath, GENERIC_READ, 0, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		ERR_MSG(L"Failed to Load : CamAction File");
+
+		return E_FAIL;
+	}
+
+
+	enum CAMTYPE { CAM_EYE, CAM_AT, CAM_END };
+	std::vector<_float4>		vecCam[CAM_END];
+	std::vector<_float>			vecCamTime;
+
+	DWORD	dwByte = 0;
+	_float4*	pCamEye = new _float4;
+	_float4*	pCamAt = new _float4;
+	_float*		pCamTime = new _float;
+
+	_float2*	pBlur = new _float2;
+	ReadFile(hFile, pBlur, sizeof(_float2), &dwByte, nullptr);
+	m_vecStoryMotionBlur.push_back(*pBlur);
+
+	while (true)
+	{
+		ReadFile(hFile, pCamEye, sizeof(_float4), &dwByte, nullptr);
+		ReadFile(hFile, pCamAt, sizeof(_float4), &dwByte, nullptr);
+		ReadFile(hFile, pCamTime, sizeof(_float), &dwByte, nullptr);
+
+		if (0 == dwByte)
+		{
+			Safe_Delete(pCamEye);
+			Safe_Delete(pCamAt);
+			Safe_Delete(pCamTime);
+			Safe_Delete(pBlur);
+
+			vecCamTime.erase(vecCamTime.end() - 1);
+			break;
+		}
+		_float4		vCamEye = *pCamEye;
+		_float4		vCamAt = *pCamAt;
+		_float		vCamTime = *pCamTime;
+
+		vecCam[CAM_EYE].push_back(vCamEye);
+		vecCam[CAM_AT].push_back(vCamAt);
+		vecCamTime.push_back(vCamTime);
+	}
+	CloseHandle(hFile);
+
+	Safe_Delete(pCamEye);
+	Safe_Delete(pCamAt);
+	Safe_Delete(pCamTime);
+
+	m_vecStoryCamEye.push_back(vecCam[CAM_EYE]);
+	m_vecStoryCamAt.push_back(vecCam[CAM_AT]);
+	m_vecStoryCamTime.push_back(vecCamTime);
 
 	return S_OK;
 }

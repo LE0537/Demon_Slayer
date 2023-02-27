@@ -903,7 +903,11 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 
 			if (fDist2 < 10.f)
 			{
+				vQuest2 = { -280.015f,38.593f,-328.086f,1.f };
+				m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vQuest2);
+				m_pNavigationCom->Find_CurrentCellIndex(vQuest2);
 				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QusetCam();
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_RUIDAD_START);
 				m_bQuest2 = true;
 				m_bStop = true;
 				pUIManager->Set_MsgOn();
@@ -997,6 +1001,14 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 
 			if (fDist1 < 10.f)
 			{
+				_vector vPos = { -850.479f, 93.596f,-61.984f,1.f };
+				m_pNavigationCom->Find_CurrentCellIndex(vPos);
+				Set_NavigationHeight(vPos);
+				vPos.m128_f32[1] = m_pNavigationCom->Get_NavigationHeight().y;
+				m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+				m_pTransformCom->LookAt(m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QusetCam();
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_RUI_START);
 				m_bQuest3 = true;
 				m_bStop = true;
 			}

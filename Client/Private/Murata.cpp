@@ -125,11 +125,23 @@ void CMurata::Late_Tick(_float fTimeDelta)
 
 	if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 	{
-		if (fDist < 40.f)
+		if (!m_bClearQuest && dynamic_cast<CTanjiro*>(m_pBattleTarget)->Get_Quest2())
 		{
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-			m_pModelCom->Play_Animation(fTimeDelta);
+			if (fDist < 70.f)
+			{
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+				m_pModelCom->Play_Animation(fTimeDelta);
+			}
+		}
+		else
+		{
+			if (fDist < 40.f)
+			{
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+				m_pModelCom->Play_Animation(fTimeDelta);
+			}
 		}
 	}
 

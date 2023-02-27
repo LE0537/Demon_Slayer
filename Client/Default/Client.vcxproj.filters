@@ -2457,9 +2457,6 @@
     <ClInclude Include="..\Public\RuiDadHitState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Hit</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\RuiDadIdleState.h">
-      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\RuiDadJumpState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\Jump</Filter>
     </ClInclude>
@@ -2894,6 +2891,9 @@
     </ClInclude>
     <ClInclude Include="..\public\EnmuShoot.h">
       <Filter>05.CollBox\16.EnmuShoot</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiDadIdleState.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

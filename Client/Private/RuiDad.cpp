@@ -58,6 +58,7 @@ HRESULT CRuiDad::Initialize(void * pArg)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_RUIDAD_BATTLE);
 		RELEASE_INSTANCE(CGameInstance);
 		_vector vPos = { 64.f, 0.f, 38.5f,1.f };
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
@@ -136,7 +137,7 @@ void CRuiDad::Late_Tick(_float fTimeDelta)
 		LateTickState(fTimeDelta);
 		if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 		{
-			if (fDist < 45.f)
+			if (dynamic_cast<CTanjiro*>(m_pBattleTarget)->Get_Quest2() && fDist < 70.f)
 			{
  
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
