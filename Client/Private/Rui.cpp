@@ -536,6 +536,7 @@ void CRui::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpP
 void CRui::Play_Scene()
 {
 	CRuiState* pState = nullptr;
+	CGameInstance* pGameInstance = nullptr;
 	switch (m_pBattleTarget->Get_PlayerType())
 	{
 	case Client::CCharacters::PLAYER_TANJIRO:
@@ -543,6 +544,25 @@ void CRui::Play_Scene()
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		break;
 	case Client::CCharacters::PLAYER_KYOUJURO:
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		if (pGameInstance->Key_Down(DIK_F3))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_START);
+		else if (pGameInstance->Key_Down(DIK_F4))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_0);
+		else if (pGameInstance->Key_Down(DIK_F5))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_1);
+		else if (pGameInstance->Key_Down(DIK_F6))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_2);
+		else if (pGameInstance->Key_Down(DIK_F7))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_3);
+		else if (pGameInstance->Key_Down(DIK_F8))
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_4);
+		else
+			pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_START);
+		RELEASE_INSTANCE(CGameInstance);
+
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+		break;
 		pState = new CHitCinema_Kyoujuro(CHitCinema_Kyoujuro::SCENE_START);
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		break;

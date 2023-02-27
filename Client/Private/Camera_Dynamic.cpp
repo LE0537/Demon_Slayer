@@ -32,6 +32,11 @@ void CCamera_Dynamic::Change_CutScene(CUTSCENE eCutScene, vector<_float4> vecPos
 	ERR_MSG(L"Changed!");
 }
 
+void CCamera_Dynamic::Set_Pos(_float3 vPos)
+{
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, XMVectorSetW(XMLoadFloat3(&vPos), 1.f));
+}
+
 void CCamera_Dynamic::Start_CutScene(_bool bTrueisPlay, CUTSCENE eCutScene)
 {
 	m_bCutScene = bTrueisPlay;
@@ -132,11 +137,21 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("rui_Start"))) return E_FAIL;
 	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;
 	if (FAILED(Ready_CutScene("rui_1"))) return E_FAIL;
-	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	2
-	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	3
-	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	4
-	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	5
-	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;	//	6
+	if (FAILED(Ready_CutScene("rui_2"))) return E_FAIL;	//	2
+	if (FAILED(Ready_CutScene("rui_3"))) return E_FAIL;	//	3
+	if (FAILED(Ready_CutScene("rui_4"))) return E_FAIL;	//	4
+	if (FAILED(Ready_CutScene("rui_5"))) return E_FAIL;	//	5	
+
+	if (FAILED(Ready_CutScene("kyojuro_Start"))) return E_FAIL;
+	if (FAILED(Ready_CutScene("kyojuro_0"))) return E_FAIL;	//	0
+	if (FAILED(Ready_CutScene("kyojuro_1"))) return E_FAIL;	//	1
+	if (FAILED(Ready_CutScene("kyojuro_2"))) return E_FAIL;	//	2
+	if (FAILED(Ready_CutScene("kyojuro_3"))) return E_FAIL;	//	3
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	4
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	5	
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	6
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	7	
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	8
 
 	if (g_iLevel == LEVEL_BOSSENMU)
 	{
@@ -1513,11 +1528,27 @@ _bool CCamera_Dynamic::CutScene(CUTSCENE eCutScene, _float fTimeDelta)
 	case CUTSCENE_RUI_SPC_2:
 	case CUTSCENE_RUI_SPC_3:
 	case CUTSCENE_RUI_SPC_4:
-	case CUTSCENE_RUI_SPC_5:
 		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
 			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
 		break;
-	case CUTSCENE_RUI_SPC_6:
+	case CUTSCENE_RUI_SPC_5:
+		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
+		break;
+
+		//	Kyojuro
+	case CUTSCENE_RGK_START:
+	case CUTSCENE_RGK_0:
+	case CUTSCENE_RGK_1:
+	case CUTSCENE_RGK_2:
+	case CUTSCENE_RGK_3:
+	case CUTSCENE_RGK_4:
+	case CUTSCENE_RGK_5:
+	case CUTSCENE_RGK_6:
+	case CUTSCENE_RGK_7:
+		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
+			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
+		break;
+	case CUTSCENE_RGK_8:
 		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
 		break;
 	}

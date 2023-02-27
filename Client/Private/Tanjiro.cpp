@@ -733,27 +733,7 @@ void CTanjiro::Play_Scene()
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_RUI:
-		pGameInstance = GET_INSTANCE(CGameInstance);
-		if (pGameInstance->Key_Down(DIK_F3))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
-		else if (pGameInstance->Key_Down(DIK_F4))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_0);
-		else if (pGameInstance->Key_Down(DIK_F5))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_1);
-		else if (pGameInstance->Key_Down(DIK_F6))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_2);
-		else if (pGameInstance->Key_Down(DIK_F7))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_3);
-		else if (pGameInstance->Key_Down(DIK_F8))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_4);
-		else if (pGameInstance->Key_Down(DIK_F9))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_5);
-		else if (pGameInstance->Key_Down(DIK_CAPSLOCK))
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_6);
-		else
-			pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
-		RELEASE_INSTANCE(CGameInstance);
-				
+		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);				
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
