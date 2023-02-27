@@ -54,7 +54,6 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 	static _float fCullTime = 0.f;
 	_float	fUsedTime = fCullTime;
 	_int	iFrame = max(_int(fCullTime), 0) + 1;				//	현재 프레임. 첫 번째는 읽지않음.(None)
-	_float	fDecimal = max(fCullTime, 0.f) - (iFrame - 1);
 
 	if (iFrame + 1 >= iSize)		//	끝 Check
 	{
@@ -63,8 +62,21 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 		return false;
 	}
 
-	*pOut += (fTimeDelta) / (vecUseTime[iFrame]);
+	if (0.f == vecUseTime[iFrame])	//	부여된 시간이 0이면 스킵 ( 깔끔한 루트를 위한 구체는 스킵함. )
+	{
+		while (true)
+		{
+			if (0.f != vecUseTime[iFrame] ||
+				iFrame >= (_int)vecUseTime.size())
+				break;
+
+			++iFrame;
+		}
+	}
+	*pOut += min((fTimeDelta) / (vecUseTime[iFrame]), 1.f);
 	fCullTime = *pOut;
+
+	_float	fDecimal = max(fCullTime, 0.f) - (iFrame - 1);
 
 
 	_vector vCamPos, vCamAt;

@@ -418,48 +418,42 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	{
 		if (iPreCamIndex[CAM_EYE] != iCamIndex[CAM_EYE])	// Change EyeIndex
 		{
-			if (0 < m_iNumCam[CAM_EYE] - 4)
-			{
-				_float4 vPos = m_vecCam[CAM_EYE][iCamIndex[CAM_EYE]];
-				f3Movement_Pos[0] = vPos.x;
-				f3Movement_Pos[1] = vPos.y;
-				f3Movement_Pos[2] = vPos.z;
+			_float4 vPos = m_vecCam[CAM_EYE][iCamIndex[CAM_EYE]];
+			f3Movement_Pos[0] = vPos.x;
+			f3Movement_Pos[1] = vPos.y;
+			f3Movement_Pos[2] = vPos.z;
 
-				if (0 != iPreCamIndex[CAM_EYE] &&
-					iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
-					m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
-				if (0 != iPreCamIndex[CAM_AT] &&
-					iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
-					m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
+			if (0 != iPreCamIndex[CAM_EYE] &&
+				iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
+				m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
+			if (0 != iPreCamIndex[CAM_AT] &&
+				iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
+				m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
 
-				m_vecCamObjects[CAM_EYE][iCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
+			m_vecCamObjects[CAM_EYE][iCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
 
-				iPreCamIndex[CAM_EYE] = iCamIndex[CAM_EYE];
-			}
+			iPreCamIndex[CAM_EYE] = iCamIndex[CAM_EYE];
 		}
 	}
 	else if (0 != iCamIndex[CAM_AT])
 	{
 		if (iPreCamIndex[CAM_AT] != iCamIndex[CAM_AT])	// Change AtIndex
 		{
-			if (0 < m_iNumCam[CAM_AT] - 4)
-			{
-				_float4 vPos = m_vecCam[CAM_AT][iCamIndex[CAM_AT]];
-				f3Movement_Pos[0] = vPos.x;
-				f3Movement_Pos[1] = vPos.y;
-				f3Movement_Pos[2] = vPos.z;
+			_float4 vPos = m_vecCam[CAM_AT][iCamIndex[CAM_AT]];
+			f3Movement_Pos[0] = vPos.x;
+			f3Movement_Pos[1] = vPos.y;
+			f3Movement_Pos[2] = vPos.z;
 
-				if (0 != iPreCamIndex[CAM_EYE] &&
-					iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
-					m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
-				if (0 != iPreCamIndex[CAM_AT] &&
-					iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
-					m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
+			if (0 != iPreCamIndex[CAM_EYE] &&
+				iPreCamIndex[CAM_EYE] <= m_vecCamObjects[CAM_EYE].size())
+				m_vecCamObjects[CAM_EYE][iPreCamIndex[CAM_EYE] - 1]->Set_Color(_float3(1.f, 0.f, 0.f));
+			if (0 != iPreCamIndex[CAM_AT] &&
+				iPreCamIndex[CAM_AT] <= m_vecCamObjects[CAM_AT].size())
+				m_vecCamObjects[CAM_AT][iPreCamIndex[CAM_AT] - 1]->Set_Color(_float3(0.f, 1.f, 0.f));
 
-				m_vecCamObjects[CAM_AT][iCamIndex[CAM_AT] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
+			m_vecCamObjects[CAM_AT][iCamIndex[CAM_AT] - 1]->Set_Color(_float3(1.f, 0.f, 1.f));
 
-				iPreCamIndex[CAM_AT] = iCamIndex[CAM_AT];
-			}
+			iPreCamIndex[CAM_AT] = iCamIndex[CAM_AT];
 		}
 	}
 
@@ -678,7 +672,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	static _float fClusterRadius = 0.1f;
 	static _float fPreClusterRadius = 0.1f;
 	static char strCamActionName[MAX_PATH][10] = { "Tan1", "Tan2", "Tan3", "Tan4", "Tan5",
-		"RuiStt", "Rui0", "Rui1", "Rui2", "Rui3" , "Rui4" , "Rui5" , "Rui6",
+		"RuiStt", "Rui0", "Rui1", "Rui2", "Rui3" , "Rui4" , "Rui5" ,
 		"RgkStt", "Rgk0", "Rgk1", "Rgk2", "Rgk3" , "Rgk4" , "Rgk5" , "Rgk6", "Rgk7" , "Rgk8",
 	};
 	static _int iCameraActionIndex = 0;
