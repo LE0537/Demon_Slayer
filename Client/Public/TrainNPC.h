@@ -34,7 +34,7 @@ public:
 	virtual HRESULT Render_ShadowDepth();
 
 
-
+	virtual CModel* Get_Model() const { return m_pModelCom[0]; }
 
 private:
 	HRESULT SetUp_ShaderResources();

@@ -27,6 +27,14 @@ private:
 	_float3 m_vVelocity;
 	_float3 m_vPosition;
 	_float m_fOriginPosY = 0.f;
+private:
+	_bool m_bAtkCombo = false;
+	_float m_fTime = 0.f;
+	_float m_fDelay = 0.f;
+	_float m_fMove = 0.f;
+	_int   m_iHit = 0;
+	_bool  m_bHit = false;
+	_bool  m_bEffect = false;
 };
 
 END

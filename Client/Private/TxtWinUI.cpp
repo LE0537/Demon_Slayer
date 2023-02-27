@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TxtWinUI.h"
 #include "GameInstance.h"
+#include "SoundMgr.h"
 
 CTxtWinUI::CTxtWinUI(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -52,7 +53,14 @@ void CTxtWinUI::Tick(_float fTimeDelta)
 {
 	if (m_fX < m_ThrowUIinfo.vPos.x)
 		m_fX += 1.f;
-
+	else
+	{
+		if (!m_bSound)
+		{
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ResultWinIcon.wav"), fEFFECT);
+			m_bSound = true;
+		}
+	}
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, -50.f, 1.f));
 }
 

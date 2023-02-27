@@ -80,6 +80,8 @@ void CTargetRushState::Enter(CRuiDad* pRuiDad)
 {
 	m_eStateId = STATE_JUMP_ATTACK;
 
+	_uint iRand = rand() % 2;
+
 	switch (m_eStateType)
 	{
 	case Client::CRuiDadState::TYPE_START:
@@ -93,6 +95,11 @@ void CTargetRushState::Enter(CRuiDad* pRuiDad)
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_RUSH_1);
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_RUSH_1);
 		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIMID::ANIM_RUSH_1, true);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_RushSkill.wav"), fEFFECT);	
+		if (iRand == 0)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_RushSkill_0.wav"), fVOICE);
+		else
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_RushSkill_1.wav"), fVOICE);
 		Initialize_value(pRuiDad);
 		break;
 	case Client::CRuiDadState::TYPE_END:

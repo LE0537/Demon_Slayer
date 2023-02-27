@@ -34,13 +34,16 @@ HRESULT CEnmu_Shield::Initialize(void * pArg)
 		return E_FAIL;
 
 
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-	RELEASE_INSTANCE(CGameInstance);
+	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+	//RELEASE_INSTANCE(CGameInstance);
 	_vector vPos = { 0.956f, 16.6f, 174.106f,1.f };
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 0.f));
-	CUI_Manager::Get_Instance()->Set_2P(this);
+
+	//CUI_Manager::Get_Instance()->Set_2P(this);
+
+
 
 
 
@@ -55,7 +58,7 @@ HRESULT CEnmu_Shield::Initialize(void * pArg)
 void CEnmu_Shield::Tick(_float fTimeDelta)
 {
 
-	m_pModelCom->Play_Animation(fTimeDelta);
+	//m_pModelCom->Play_Animation(fTimeDelta);
 
 		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("Root");
 		if (nullptr == pSocket)

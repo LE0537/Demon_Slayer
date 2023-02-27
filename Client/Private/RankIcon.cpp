@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "UI_Manager.h"
 #include "FadeUIEff.h"
+#include "SoundMgr.h"
 
 CRankIcon::CRankIcon(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -104,6 +105,11 @@ void CRankIcon::Tick(_float fTimeDelta)
 	CUI_Manager*  pUI_Manager = GET_INSTANCE(CUI_Manager);
 	if (m_bZoomStart && m_ThrowUIinfo.iLevelIndex == LEVEL_GAMERESULT)
 	{
+		if (!m_bSound)
+		{
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_RankIcon.wav"), fEFFECT);
+			m_bSound = true;
+		}
 		if (m_fSizeX >= m_ThrowUIinfo.vScale.x * 0.5f && m_fSizeY >= m_ThrowUIinfo.vScale.y * 0.5f && !m_bMinusCheck)
 		{
 			m_fSizeX -= 20.f;
@@ -126,6 +132,11 @@ void CRankIcon::Tick(_float fTimeDelta)
 	{
 		if (pUI_Manager->Get_FadeSwitch()&& !m_bZoomEnd)
 		{
+			if (!m_bSound)
+			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_RankIcon.wav"), fEFFECT);
+				m_bSound = true;
+			}
 			m_fFadeTime += 0.05f;
 			m_fSizeX -= 5.f;
 			m_fSizeY -= 5.f;

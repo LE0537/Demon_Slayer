@@ -174,7 +174,7 @@ HRESULT CCharNameUI::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	if(m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY || LEVEL_BATTLEENMU)
+	if(m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY || m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU)
 		m_pVIBufferCom->Render();
 	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_SELECTCHAR)
 	{
@@ -276,6 +276,16 @@ void CCharNameUI::Name_Selected(wstring strName)
 			m_fX = 215.f;
 		else if (m_ThrowUIinfo.bPlyCheck)//2p
 			m_fX = 1065.f;
+	}
+	else if (strName == TEXT("엔무"))
+	{
+		m_iImgNum = 7;
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.65f;
+	}
+	else if (strName == TEXT("엔무(각성)"))
+	{
+		m_iImgNum = 7;
+		m_fSizeX = m_ThrowUIinfo.vScale.x * 0.65f;
 	}
 	RELEASE_INSTANCE(CUI_Manager);
 }

@@ -91,6 +91,7 @@ void CGuardState::Enter(CRuiDad* pRuiDad)
 	case Client::CRuiDadState::TYPE_START:
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_GUARD_0);
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_GUARD_0);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Guard.wav"), fEFFECT);
 		break;
 	case Client::CRuiDadState::TYPE_LOOP:
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_GUARD_1);

@@ -7,7 +7,7 @@
 #include "Level_AdvRui.h"
 #include "Level_Menu.h"
 #include "Level_AdvAkaza.h"
-
+#include "Level_BossEnmu.h"
 CLevel_StoryMenu::CLevel_StoryMenu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -55,6 +55,8 @@ void CLevel_StoryMenu::Tick(_float fTimeDelta)
 		case 1:
 			if (FAILED(pGameInstance->Open_Level(LEVEL_ADVAKAZA, CLevel_AdvAkaza::Create(m_pDevice, m_pContext))))
 				return;
+			//if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
+			//	return;
 			break;
 		default:
 			break;

@@ -9,13 +9,24 @@
 #include "Enmu_Shield.h"
 
 #include "EnmuBossToolState.h"
+#include "EnmuBossIdleState.h"
 
-using namespace EnmuBoss;
+
 
 IMPLEMENT_SINGLETON(CEnmuBoss)
 
+using namespace EnmuBoss;
+
 CEnmuBoss::CEnmuBoss()
 {
+}
+
+HRESULT CEnmuBoss::Initialize()
+{
+	CEnmuBossState* pState = new CIdleState();
+	m_pEnmuBossState = m_pEnmuBossState->ChangeState(this, m_pEnmuBossState, pState);
+
+	return S_OK;
 }
 
 HRESULT CEnmuBoss::Add_EnmuParts(CCharacters * pCharacter)
@@ -26,6 +37,8 @@ HRESULT CEnmuBoss::Add_EnmuParts(CCharacters * pCharacter)
 	else if (pCharacter != nullptr)
 		m_EnmuParts.push_back(pCharacter);
 
+	int a = 0;
+
 	return S_OK;
 }
 
@@ -35,9 +48,45 @@ void CEnmuBoss::Set_ToolState(_uint iPartsIndex, _uint iAnimIndex, _uint iAnimIn
 	m_pEnmuBossState = m_pEnmuBossState->ChangeState(this, m_pEnmuBossState, pState);
 }
 
+void CEnmuBoss::BossEnmu_Tick(_float fTimeDelta)
+{
+	HandleInput();
+	TickState(fTimeDelta);
+
+}
+
+void CEnmuBoss::BossEnmu_LateTick(_float fTimeDelta)
+{
+	LateTickState(fTimeDelta);
+}
+
+void CEnmuBoss::HandleInput()
+{
+	CEnmuBossState* pNewState = m_pEnmuBossState->HandleInput(this);
+
+	if (pNewState)
+		m_pEnmuBossState = m_pEnmuBossState->ChangeState(this, m_pEnmuBossState, pNewState);
+}
+
+void CEnmuBoss::TickState(_float fTimeDelta)
+{
+	CEnmuBossState* pNewState = m_pEnmuBossState->Tick(this, fTimeDelta);
+
+	if (pNewState)
+		m_pEnmuBossState = m_pEnmuBossState->ChangeState(this, m_pEnmuBossState, pNewState);
+}
+
+void CEnmuBoss::LateTickState(_float fTimeDelta)
+{
+	CEnmuBossState* pNewState = m_pEnmuBossState->Late_Tick(this, fTimeDelta);
+
+	if (pNewState)
+		m_pEnmuBossState = m_pEnmuBossState->ChangeState(this, m_pEnmuBossState, pNewState);
+}
+
 
 
 void CEnmuBoss::Free()
 {
-	
+
 }

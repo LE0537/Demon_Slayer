@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "UI_Manager.h"
 #include "RankIcon.h"
+#include "SoundMgr.h"
 
 CResultScoreBar::CResultScoreBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -99,6 +100,11 @@ HRESULT CResultScoreBar::Render()
 			wsprintf(m_szScore, TEXT("최대 콤보       : %d"), iRand);
 		else
 		{
+			if (!m_bSound)
+			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+				m_bSound = true;
+			}
 			if(!m_ThrowUIinfo.bPlyCheck)
 				wsprintf(m_szScore, TEXT("최대 콤보       : %d"), pUI_Manager->Get_MaximumCombo(0));
 			else
@@ -111,6 +117,11 @@ HRESULT CResultScoreBar::Render()
 			wsprintf(m_szScore, TEXT("남은 시간       : %d"), iRand);
 		else
 		{
+			if (!m_bSound)
+			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+				m_bSound = true;
+			}
 			if (!m_ThrowUIinfo.bPlyCheck)
 				wsprintf(m_szScore, TEXT("남은 시간       : %d"), pUI_Manager->Get_RemnantTime(0));
 			else
@@ -123,6 +134,11 @@ HRESULT CResultScoreBar::Render()
 			wsprintf(m_szScore, TEXT("스킬사용횟수: %d"), iRand);
 		else
 		{
+			if (!m_bSound)
+			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+				m_bSound = true;
+			}
 			if (!m_ThrowUIinfo.bPlyCheck)
 				wsprintf(m_szScore, TEXT("스킬사용횟수: %d"), pUI_Manager->Get_UseSkillCount(0));
 			else
@@ -135,6 +151,11 @@ HRESULT CResultScoreBar::Render()
 			wsprintf(m_szScore, TEXT("개방사용횟수: %d"), iRand);
 		else
 		{
+			if (!m_bSound)
+			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+				m_bSound = true;
+			}
 			if (!m_ThrowUIinfo.bPlyCheck)
 				wsprintf(m_szScore, TEXT("개방사용횟수: %d"), pUI_Manager->Get_UltUseCount(0));
 			else
@@ -147,6 +168,11 @@ HRESULT CResultScoreBar::Render()
 			wsprintf(m_szScore, TEXT("친구스킬횟수: %d"), iRand);
 		else
 		{
+			if (!m_bSound)
+			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+				m_bSound = true;
+			}
 			if (!m_ThrowUIinfo.bPlyCheck)
 				wsprintf(m_szScore, TEXT("친구스킬횟수: %d"), pUI_Manager->Get_FriendUseCount(0));
 			else

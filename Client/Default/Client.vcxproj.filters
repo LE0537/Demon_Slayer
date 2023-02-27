@@ -760,9 +760,6 @@
     <Filter Include="03.UI\02.Battle\Combo\HitBase">
       <UniqueIdentifier>{64c014ec-d500-44b9-bf2b-20c7ae45eaed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\02.Battle\BattleTop\Change\ChangeBar">
-      <UniqueIdentifier>{cb63ac55-e279-4cea-aa8d-87ca8ae3c944}</UniqueIdentifier>
-    </Filter>
     <Filter Include="05.CollBox\12.RuiMoveSkill">
       <UniqueIdentifier>{90ce68e6-e609-419e-be88-775fb1cdc8fd}</UniqueIdentifier>
     </Filter>
@@ -1449,6 +1446,12 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Tool">
       <UniqueIdentifier>{36049760-7463-48f7-b390-665871e88c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\02.Battle\BattleTop\Change\ChangeBaseDeco\ChangeBar">
+      <UniqueIdentifier>{cb63ac55-e279-4cea-aa8d-87ca8ae3c944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.CollBox\16.EnmuShoot">
+      <UniqueIdentifier>{82bd510d-03cc-4e67-95b6-e0f695dea156}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -2380,7 +2383,7 @@
       <Filter>03.UI\02.Battle\Combo\Num</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ChangeBar.h">
-      <Filter>03.UI\02.Battle\BattleTop\Change\ChangeBar</Filter>
+      <Filter>03.UI\02.Battle\BattleTop\Change\ChangeBaseDeco\ChangeBar</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RuiMoveSkill.h">
       <Filter>05.CollBox\12.RuiMoveSkill</Filter>
@@ -2888,6 +2891,9 @@
     </ClInclude>
     <ClInclude Include="..\Public\EnmuBossToolState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EnmuShoot.h">
+      <Filter>05.CollBox\16.EnmuShoot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3798,7 +3804,7 @@
       <Filter>03.UI\02.Battle\Combo\HitBase</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ChangeBar.cpp">
-      <Filter>03.UI\02.Battle\BattleTop\Change\ChangeBar</Filter>
+      <Filter>03.UI\02.Battle\BattleTop\Change\ChangeBaseDeco\ChangeBar</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RuiMoveSkill.cpp">
       <Filter>05.CollBox\12.RuiMoveSkill</Filter>
@@ -4294,6 +4300,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\EnmuBossToolState.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EnmuShoot.cpp">
+      <Filter>05.CollBox\16.EnmuShoot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

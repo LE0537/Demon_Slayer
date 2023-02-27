@@ -12,7 +12,7 @@ CIdleState::CIdleState()
 CEnmuBossState * CIdleState::HandleInput(CEnmuBoss* pEnmuBoss)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
+	
 
 	return nullptr;
 }
@@ -25,9 +25,9 @@ CEnmuBossState * CIdleState::Tick(CEnmuBoss* pEnmuBoss, _float fTimeDelta)
 
 CEnmuBossState * CIdleState::Late_Tick(CEnmuBoss* pEnmuBoss, _float fTimeDelta)
 {
-	for (auto& iter : pEnmuBoss->Get_EnmuPartsList())
+	for (_uint i = 0; i < pEnmuBoss->Get_EnmuPartsList().size(); ++i)
 	{
-		iter->Get_Model()->Play_Animation(fTimeDelta);
+		pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Play_Animation(fTimeDelta);
 	}
 
 
@@ -37,6 +37,10 @@ CEnmuBossState * CIdleState::Late_Tick(CEnmuBoss* pEnmuBoss, _float fTimeDelta)
 void CIdleState::Enter(CEnmuBoss* pEnmuBoss)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
+
+
+
+
 
 	
 }

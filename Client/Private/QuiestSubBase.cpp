@@ -2,6 +2,8 @@
 #include "QuiestSubBase.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "SoundMgr.h"
+
 CQuiestSubBase::CQuiestSubBase(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
@@ -62,10 +64,16 @@ void CQuiestSubBase::Tick(_float fTimeDelta)
 	
 	if (pGameInstance->Key_Down(DIK_TAB))
 	{
-		if(!m_bBaseOn)
+		if (!m_bBaseOn)
+		{
 			m_bBaseOn = true;
-		else 
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_QuestOn.wav"), fEFFECT);
+		}
+		else
+		{
 			m_bBaseOn = false;
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_QuestOff.wav"), fEFFECT);
+		}
 	}
 
 	if (m_bBaseOn)
