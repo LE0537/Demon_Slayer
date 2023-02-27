@@ -44,15 +44,9 @@ CAkazaState * CHitCinema_Rui::Tick(CAkaza* pAkaza, _float fTimeDelta)
 		}
 		break;
 	case Client::Akaza::CHitCinema_Rui::SCENE_1:
-		if (pAkaza->Get_Model()->Get_End(CHitCinema_Rui::ANIM_SCENE_DMG_040))
-		{
-			pAkaza->Get_Model()->Set_End(CHitCinema_Rui::ANIM_SCENE_DMG_040);
-
-		//	if (pAkaza->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_060)
-			{
-				return new CHitCinema_Rui(CHitCinema_Rui::SCENE_2);
-			}
-		}
+		m_fDuration += fTimeDelta;
+		if (5.46f < m_fDuration)
+			return new CHitCinema_Rui(CHitCinema_Rui::SCENE_2);
 		break;
 	case Client::Akaza::CHitCinema_Rui::SCENE_2:
 		if (pAkaza->Get_Model()->Get_End(CHitCinema_Rui::ANIM_SCENE_DMG_060))

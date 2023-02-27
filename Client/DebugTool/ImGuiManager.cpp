@@ -470,6 +470,19 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 
 
+
+
+	if (ImGui::Button("Move", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)) &&
+		1 < m_iNumCam[eChoice])
+	{
+		_float3 vPos = _float3(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2]);
+		((CCamera_Dynamic*)m_pCamera)->Set_Pos(vPos);
+	}
+
+
+
+
+
 	//	Push, Pop
 	if (ImGui::Button("Push", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)))
 	{
@@ -666,6 +679,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	static _float fPreClusterRadius = 0.1f;
 	static char strCamActionName[MAX_PATH][10] = { "Tan1", "Tan2", "Tan3", "Tan4", "Tan5",
 		"RuiStt", "Rui0", "Rui1", "Rui2", "Rui3" , "Rui4" , "Rui5" , "Rui6",
+		"RgkStt", "Rgk0", "Rgk1", "Rgk2", "Rgk3" , "Rgk4" , "Rgk5" , "Rgk6", "Rgk7" , "Rgk8",
 	};
 	static _int iCameraActionIndex = 0;
 	if (ImGui::CollapsingHeader("Setting Actions"))

@@ -44,15 +44,9 @@ CShinobuState * CHitCinema_Rui::Tick(CShinobu* pShinobu, _float fTimeDelta)
 		}
 		break;
 	case Client::Shinobu::CHitCinema_Rui::SCENE_1:
-		if (pShinobu->Get_Model()->Get_End(CHitCinema_Rui::ANIM_SCENE_DMG_040))
-		{
-			pShinobu->Get_Model()->Set_End(CHitCinema_Rui::ANIM_SCENE_DMG_040);
-
-		//	if (pShinobu->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_060)
-			{
-				return new CHitCinema_Rui(CHitCinema_Rui::SCENE_2);
-			}
-		}
+		m_fDuration += fTimeDelta;
+		if(5.46f < m_fDuration)
+			return new CHitCinema_Rui(CHitCinema_Rui::SCENE_2);			
 		break;
 	case Client::Shinobu::CHitCinema_Rui::SCENE_2:
 		if (pShinobu->Get_Model()->Get_End(CHitCinema_Rui::ANIM_SCENE_DMG_060))

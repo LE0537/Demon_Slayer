@@ -14,32 +14,8 @@ CRui_CinemaState::CRui_CinemaState(CINEMASCENE eScene)
 
 CRuiState * CRui_CinemaState::HandleInput(CRui * pRui)
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CRuiState* pState = nullptr;
-	//if (pGameInstance->Key_Down(DIK_F3) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
-	//if (pGameInstance->Key_Down(DIK_F4) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_0);
-	//if (pGameInstance->Key_Down(DIK_F5) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_1);
-	//if (pGameInstance->Key_Down(DIK_F6) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_2);
-	//if (pGameInstance->Key_Down(DIK_F7) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_3);
-	//if (pGameInstance->Key_Down(DIK_F8) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_4);
-	//if (pGameInstance->Key_Down(DIK_F9) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_5);
-	//if (pGameInstance->Key_Down(DIK_CAPSLOCK) && !pRui->Get_StoryKey())
-	//	pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_6);
-	RELEASE_INSTANCE(CGameInstance);
 
-	if (nullptr != pState)
-		pRui->Get_BattleTarget()->Play_Scene();
-
-	
-
-	return pState;
+	return nullptr;
 }
 
 CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
@@ -62,8 +38,6 @@ CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 		{
 		   pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-
-			//	return new CRui_CinemaState(CRui_CinemaState::SCENE_1);
 		}
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_1:
