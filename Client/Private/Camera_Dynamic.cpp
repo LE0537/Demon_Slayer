@@ -75,10 +75,10 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 		}
 	}
 	*pOut += min((fTimeDelta) / (vecUseTime[iFrame]), 1.f);
-	fCullTime = *pOut;
+	m_fCullTime = *pOut;
 
 
-	_float	fDecimal = max(fCullTime, 0.f) - (iFrame - 1);
+	fDecimal = max(m_fCullTime, 0.f) - (iFrame - 1);
 
 
 	_vector vCamPos, vCamAt;
