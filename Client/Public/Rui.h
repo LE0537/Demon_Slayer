@@ -176,6 +176,7 @@ public:
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 	void Set_StoryDelay(_float _fTime) { m_StoryTime = _fTime; }
+
 private:
 	void HandleInput(_float fTimeDelta);
 	void TickState(_float fTimeDelta);

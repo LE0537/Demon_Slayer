@@ -34,8 +34,8 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 	case 1:
 		if (pGameInstance->Key_Pressing(DIK_E))
 		{
-			//pRui->Get_BattleTarget()->Play_Scene();
-			//return new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
+			pRui->Get_BattleTarget()->Play_Scene();
+			return new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
 
 			return new CSplSkrStartState(TYPE_START);
 		}

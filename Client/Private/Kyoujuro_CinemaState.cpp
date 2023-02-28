@@ -121,6 +121,8 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_8:
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro_CinemaState::ANIM_SCENE_8))
 		{
+			pKyoujuro->Set_SplWeapon(false);
+			pKyoujuro->Reset_SplWeapon();
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro_CinemaState::ANIM_SCENE_8);
 			return new CKyoujuro_CinemaState(SCENE_END);
 		}
@@ -252,6 +254,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_7, 0.01f);
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_8:
+		pKyoujuro->Set_SplWeapon(true);
 		pKyoujuro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_100);
 		pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro_CinemaState::ANIM_SCENE_8);
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro_CinemaState::ANIM_SCENE_8);

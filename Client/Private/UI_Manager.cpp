@@ -2112,6 +2112,7 @@ _bool CUI_Manager::P2_Oni_Check()
 
 void CUI_Manager::Reset_Data()
 {
+	m_bStorySplEnd = false;
 	m_bSaveCheck = false;
 	m_bRuiDadBattle = false;
 	m_bEnmuBattle = false;

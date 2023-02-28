@@ -152,7 +152,14 @@ void CRui::Tick(_float fTimeDelta)
 			if (m_tInfo.iHp > m_tInfo.iMaxHp)
 				m_tInfo.iHp = m_tInfo.iMaxHp;
 			if (m_StoryTime < 0.1f)
+			{
+				CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+
+				pUIManager->Set_StorySplEnd(true);
+					
+				RELEASE_INSTANCE(CUI_Manager);
 				m_bAiState = true;
+			}
 			m_StoryTime -= fTimeDelta;
 		}
 		if (m_bSplSkl)
@@ -266,11 +273,18 @@ HRESULT CRui::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
+		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+
+		if(/*pUIManager->Get_StroyEventEnd() &&*/ (i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7))
+			continue;
+		
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
-	
+
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
 			return E_FAIL;
+		
+		RELEASE_INSTANCE(CUI_Manager);
 	}
 
 

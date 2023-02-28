@@ -158,6 +158,9 @@ public:
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
 
+	void   Set_SplWeapon(_bool _bTrue) { m_bSplWeapon = _bTrue; }
+	void   Reset_SplWeapon();
+	_bool  Get_SplWeapon() { return m_bSplWeapon; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -189,6 +192,9 @@ private:
 	_bool					m_bQuest2MSG = false;
 	_bool					m_bQuest2_1MSG = false;
 	_bool					m_bQuest2_2MSG = false;
+
+	_bool					m_bSplWeapon = false;
+	_bool					m_bWeaponTurn = false;
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);

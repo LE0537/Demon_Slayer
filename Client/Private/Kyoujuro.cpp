@@ -127,6 +127,7 @@ void CKyoujuro::Tick(_float fTimeDelta)
 {
 	if (!m_bChange)
 	{
+	
 		m_fEffectStartTime = 0.f;
 		if (m_bBattleStart)
 		{
@@ -192,6 +193,15 @@ void CKyoujuro::Late_Tick(_float fTimeDelta)
 
 		if (m_bSceneRender)
 		{
+			if (m_bSplWeapon && !m_bWeaponTurn)
+			{
+				m_bWeaponTurn = true;
+				_vector vPos = dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				_vector vLook = dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Get_Transform()->Get_State(CTransform::STATE_LOOK);
+				vPos -= XMVector3Normalize(vLook) * 0.6f;
+				dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
+				dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Get_Transform()->Turn2(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(260.f));
+			}
 			m_pWeapon->Tick(fTimeDelta);
 			m_pSheath->Tick(fTimeDelta);
 
@@ -523,6 +533,14 @@ HRESULT CKyoujuro::Render_ShadowDepth()
 
 
 	return S_OK;
+}
+
+void CKyoujuro::Reset_SplWeapon()
+{
+	m_bWeaponTurn = false;
+
+	dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f,0.f,0.f,1.f));
+	dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Get_Transform()->Turn2(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(-260.f));
 }
 
 HRESULT CKyoujuro::SetUp_ShaderResources()

@@ -295,7 +295,9 @@ public:
 	_bool Get_RuiDadBattle() { return m_bRuiDadBattle; }
 	void Set_EnmuBattle(_bool _bBattle) { m_bEnmuBattle = _bBattle; }
 	_bool Get_EnmuBattle() { return m_bEnmuBattle; }
-	void Reset_Data();
+	void Set_StorySplEnd(_bool _bBattle) { m_bStorySplEnd = _bBattle; }
+	_bool Get_StorySplEnd() { return m_bStorySplEnd; }
+	void Reset_Data(); 
 	vector<DOORINFO> Get_vecDoorInfo() { return m_vecDoor; }
 	void Set_vecDoorInfo(_uint iModelIndex, class CDoor* pTarget) {
 		m_DoorInfo.iModelIndex = iModelIndex;
@@ -433,7 +435,7 @@ private:
 	_bool							m_bLevelMenu = false;
 
 	_bool							m_bBattleTypeCheck = false;
-
+	_bool							m_bStorySplEnd = false;
 	_bool							m_bAdvResultCheck = false;
 
 	_bool							m_bFadeSwitch = false;
