@@ -309,6 +309,7 @@
     <ClInclude Include="..\Public\RuiHitCinema_Shinobu.h" />
     <ClInclude Include="..\Public\RuiHitCinema_Tanjiro.h" />
     <ClInclude Include="..\Public\RuiSplSkrStartState.h" />
+    <ClInclude Include="..\Public\RuiSister.h" />
     <ClInclude Include="..\Public\ShinobuHitCinema_Akaza.h" />
     <ClInclude Include="..\Public\ShinobuHitCinema_Kyoujuro.h" />
     <ClInclude Include="..\Public\ShinobuHitCinema_Nezuko.h" />
@@ -801,6 +802,7 @@
     <ClCompile Include="..\Private\RuiHitCinema_Shinobu.cpp" />
     <ClCompile Include="..\Private\RuiHitCinema_Tanjiro.cpp" />
     <ClCompile Include="..\Private\RuiSplSkrStartState.cpp" />
+    <ClCompile Include="..\Private\RuiSister.cpp" />
     <ClCompile Include="..\Private\ShinobuHitCinema_Akaza.cpp" />
     <ClCompile Include="..\Private\ShinobuHitCinema_Kyoujuro.cpp" />
     <ClCompile Include="..\Private\ShinobuHitCinema_Nezuko.cpp" />

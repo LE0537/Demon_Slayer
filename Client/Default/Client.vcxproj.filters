@@ -1495,6 +1495,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\SplSkrState">
       <UniqueIdentifier>{14431c58-4f07-469e-957d-62cdb5633954}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC\RuiSister">
+      <UniqueIdentifier>{be1fcca2-3a65-421d-ae92-12e3bab565bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2976,6 +2979,9 @@
     <ClInclude Include="..\Public\RuiSplSkrStartState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\SplSkrState</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RuiSister.h">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\RuiSister</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4423,6 +4429,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiSplSkrStartState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\SplSkrState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiSister.cpp">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\RuiSister</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
