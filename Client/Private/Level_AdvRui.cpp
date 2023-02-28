@@ -319,9 +319,6 @@ HRESULT CLevel_AdvRui::Ready_Layer_Player(const _tchar * pLayerTag)
 	tCharacterDesc1p.pSubChar = tCharacterDesc.pSubChar;
 	m_pPlayer = tCharacterDesc.pSubChar;
 
-	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiSister"), LEVEL_ADVRUI, TEXT("Layer_RuiSister"), &tCharacterDesc1p)))
-		return E_FAIL;
-
 	if (!CUI_Manager::Get_Instance()->Get_SaveStory())
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_ADVRUI, TEXT("Layer_RuiDad"), &tCharacterDesc1p)))
@@ -332,6 +329,9 @@ HRESULT CLevel_AdvRui::Ready_Layer_Player(const _tchar * pLayerTag)
 		++m_iQuestIndex;
 
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_ADVRUI, TEXT("Layer_Rui"), &tCharacterDesc1p)))
+			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiSister"), LEVEL_ADVRUI, TEXT("Layer_RuiSister"), &tCharacterDesc1p)))
 			return E_FAIL;
 		
 	}
