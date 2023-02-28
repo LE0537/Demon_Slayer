@@ -15,6 +15,7 @@
 #include "KyoujuroAtk_1_State.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "KyoujuroSplSkrStartState.h"
 using namespace Kyoujuro;
 
 
@@ -557,6 +558,12 @@ CKyoujuroState * CSkill_DoubleUpperState::CommandCheck(CKyoujuro * pKyoujuro)
 		switch (pKyoujuro->Get_i1P())
 		{
 		case 1:
+			if (pGameInstance->Key_Pressing(DIK_E))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Down(DIK_J))
 				return new CAtk_1_State();
 
@@ -600,6 +607,12 @@ CKyoujuroState * CSkill_DoubleUpperState::CommandCheck(CKyoujuro * pKyoujuro)
 			}
 			break;
 		case 2:
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Down(DIK_Z))
 				return new CAtk_1_State();
 

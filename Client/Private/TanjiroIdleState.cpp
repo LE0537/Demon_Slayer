@@ -171,6 +171,12 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			}
 			break;
 		case 2:
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

@@ -15,6 +15,7 @@
 #include "TanjiroChangeState.h"
 #include "TanjiroKaguraAtk_1_State.h"
 #include "Effect_Manager.h"
+#include "TanjiroSplSkrStartState.h"
 using namespace Tanjiro;
 
 
@@ -32,6 +33,12 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 	switch (pTanjiro->Get_i1P())
 	{
 	case 1:
+		if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Down(DIK_J))
 		{
 			if (pTanjiro->Get_KaguraMode())
@@ -220,6 +227,12 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 				return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Down(DIK_Z))
 		{
 			if (pTanjiro->Get_KaguraMode())

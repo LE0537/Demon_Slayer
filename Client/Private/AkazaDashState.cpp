@@ -5,6 +5,7 @@
 #include "Layer.h"
 #include "AkazaMoveState.h"
 #include "Effect_Manager.h"
+#include "AkazaSplSkrStartState.h"
 using namespace Akaza;
 
 CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
@@ -22,6 +23,12 @@ CAkazaState * CDashState::HandleInput(CAkaza* pAkaza)
 		if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
 		{
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+
+			if (pGameInstance->Key_Pressing(DIK_E))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 			{
@@ -115,6 +122,12 @@ CAkazaState * CDashState::HandleInput(CAkaza* pAkaza)
 		if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
 		{
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 			{

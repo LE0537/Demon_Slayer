@@ -13,6 +13,7 @@
 #include "NezukoAtk_1_State.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "NezukoSplSkrStartState.h"
 using namespace Nezuko;
 
 CTargetRushState::CTargetRushState(STATE_TYPE eType)
@@ -357,6 +358,12 @@ CNezukoState * CTargetRushState::CommandCheck(CNezuko * pNezuko)
 		switch (pNezuko->Get_i1P())
 		{
 		case 1:
+			if (pGameInstance->Key_Pressing(DIK_E))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Down(DIK_J))
 				return new CAtk_1_State();
 
@@ -400,6 +407,12 @@ CNezukoState * CTargetRushState::CommandCheck(CNezuko * pNezuko)
 			}
 			break;
 		case 2:
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Down(DIK_Z))
 				return new CAtk_1_State();
 

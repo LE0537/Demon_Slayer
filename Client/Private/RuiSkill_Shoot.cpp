@@ -14,6 +14,7 @@
 #include "RuiJumpState.h"
 #include "RuiDashState.h"
 #include "RuiAtk_1_State.h"
+#include "RuiSplSkrStartState.h"
 using namespace Rui;
 
 
@@ -320,6 +321,12 @@ CRuiState * CSkill_ShootState::CommandCheck(CRui * pRui)
 
 	if (fRatio >= 0.7f)
 	{
+		if (pGameInstance->Key_Pressing(DIK_E))
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		switch (pRui->Get_i1P())
 		{
 		case 1:
@@ -375,6 +382,12 @@ CRuiState * CSkill_ShootState::CommandCheck(CRui * pRui)
 
 			break;
 		case 2:
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Pressing(DIK_X)) // ½ºÅ³ Å° 
 			{
 				if (pRui->Get_PlayerInfo().iSkBar >= 200)

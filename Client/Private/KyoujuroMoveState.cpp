@@ -13,6 +13,7 @@
 #include "KyoujuroSkill_DoubleUpper.h"
 #include "KyoujuroChangeState.h"
 #include "Effect_Manager.h"
+#include "KyoujuroSplSkrStartState.h"
 using namespace Kyoujuro;
 
 
@@ -29,6 +30,12 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 	switch (pKyoujuro->Get_i1P())
 	{
 	case 1:
+		if (pGameInstance->Key_Pressing(DIK_E))
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_O) && pKyoujuro->Get_PlayerInfo().fGuardTime <= 0.f)
@@ -172,6 +179,12 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_C) && pKyoujuro->Get_PlayerInfo().fGuardTime <= 0.f)

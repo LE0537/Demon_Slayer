@@ -20,6 +20,7 @@
 #include "Camera_Dynamic.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
+#include "TanjiroSplSkrStartState.h"
 using namespace Tanjiro;
 
 CTargetRushState::CTargetRushState(STATE_TYPE eType)
@@ -36,6 +37,13 @@ CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 	switch (pTanjiro->Get_i1P())
 	{
 	case 1:
+
+		if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Down(DIK_J))
 		{
 			if (pTanjiro->Get_KaguraMode() == true)
@@ -102,6 +110,11 @@ CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 		}
 		break;
 	case 2:
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
 
 		if (pGameInstance->Key_Down(DIK_Z))
 		{

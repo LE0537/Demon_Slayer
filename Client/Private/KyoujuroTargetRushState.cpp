@@ -13,6 +13,7 @@
 #include "Camera_Dynamic.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
+#include "KyoujuroSplSkrStartState.h"
 using namespace Kyoujuro;
 
 CTargetRushState::CTargetRushState(STATE_TYPE eType)
@@ -348,6 +349,12 @@ CKyoujuroState * CTargetRushState::CommandCheck(CKyoujuro * pKyoujuro)
 	switch (pKyoujuro->Get_i1P())
 	{
 	case 1:
+		if (pGameInstance->Key_Pressing(DIK_E))
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
 
@@ -391,6 +398,12 @@ CKyoujuroState * CTargetRushState::CommandCheck(CKyoujuro * pKyoujuro)
 		}
 		break;
 	case 2:
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
 

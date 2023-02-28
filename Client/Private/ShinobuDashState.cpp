@@ -5,6 +5,7 @@
 #include "Layer.h"
 #include "ShinobuMoveState.h"
 #include "Effect_Manager.h"
+#include "ShinobuSplSkrStartState.h"
 using namespace Shinobu;
 
 CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
@@ -23,6 +24,12 @@ CShinobuState * CDashState::HandleInput(CShinobu* pShinobu)
 		if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
 		{
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+
+			if (pGameInstance->Key_Pressing(DIK_E))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 			{
@@ -116,6 +123,12 @@ CShinobuState * CDashState::HandleInput(CShinobu* pShinobu)
 		if (pShinobu->Get_Model()->Get_End(pShinobu->Get_AnimIndex()))
 		{
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 			{

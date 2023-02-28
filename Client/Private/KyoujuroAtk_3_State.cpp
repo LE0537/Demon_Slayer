@@ -13,6 +13,7 @@
 #include "KyoujuroJumpState.h"
 #include "KyoujuroTargetRushState.h"
 #include "KyoujuroDashState.h"
+#include "KyoujuroSplSkrStartState.h"
 using namespace Kyoujuro;
 
 
@@ -451,6 +452,12 @@ CKyoujuroState * CAtk_3_State::CommandCheck(CKyoujuro * pKyoujuro)
 	switch (pKyoujuro->Get_i1P())
 	{
 	case 1:
+		if (pGameInstance->Key_Pressing(DIK_E))
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
 		{
 			if (pKyoujuro->Get_PlayerInfo().iSkBar >= 200)
@@ -491,6 +498,12 @@ CKyoujuroState * CAtk_3_State::CommandCheck(CKyoujuro * pKyoujuro)
 		}
 		break;
 	case 2:
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
 		{
 			if (pKyoujuro->Get_PlayerInfo().iSkBar >= 200)

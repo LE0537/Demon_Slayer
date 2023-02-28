@@ -172,9 +172,6 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_2">
       <UniqueIdentifier>{c230f2b1-cad2-4447-9ae3-78ea53ef900d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_3">
-      <UniqueIdentifier>{8b70cb3f-27e8-4f99-bdf0-a15363e2c456}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_4">
       <UniqueIdentifier>{3835a0cf-ddb5-4483-b147-79be7efeda33}</UniqueIdentifier>
     </Filter>
@@ -1497,6 +1494,9 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\03.NPC\RuiSister">
       <UniqueIdentifier>{be1fcca2-3a65-421d-ae92-12e3bab565bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_3">
+      <UniqueIdentifier>{8b70cb3f-27e8-4f99-bdf0-a15363e2c456}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
