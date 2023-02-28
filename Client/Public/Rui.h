@@ -173,6 +173,8 @@ public:
 	_bool   Get_NextRound() { return m_bNextRound; }
 	void	Set_StorySpl() { m_bStorySpl = true; }
 	_bool   Get_StorySpl() { return m_bStorySpl; }
+	void	Set_StoryDead() { m_bStoryDead = true; }
+	_bool   Get_StoryDead() { return m_bStoryDead; }
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 	void Set_StoryDelay(_float _fTime) { m_StoryTime = _fTime; }
@@ -226,6 +228,7 @@ private:
 	_bool m_bNextRound = false;
 	_bool m_bStorySpl = false;
 	_float m_fStoryTime = 0.f;
+	_bool  m_bStoryDead = false;
 	list <class CRuiState*> m_AIStateList;
 public:
 	static CRui* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

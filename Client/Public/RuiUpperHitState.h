@@ -42,6 +42,7 @@ private:
 	_bool m_bReset = false;
 	_bool m_bMaxHeight = false;
 
+	_bool m_bTrue = false;
 private:
 	_float3 m_vPosition;
 	_float3 m_vVelocity;

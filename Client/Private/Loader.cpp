@@ -44,6 +44,7 @@
 #include "KyoujuroWeaponMenu.h"
 #include "ShinobuWeaponMenu.h"
 #include "TanjiroWeapon2.h"
+#include "RuiHead.h"
 //UI
 #include "HpBar.h"
 #include "HpBarBack.h"
@@ -2043,6 +2044,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("ShinobuWeapon(Menu)"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ShinobuWeaponMenu"),
 		CShinobuWeaponMenu::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiHead"),
+		CRuiHead::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_TanjiroMenu"),
 	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Tanjiro(Menu)/Tanjiro(Menu).fbx", PivotMatrix2))))

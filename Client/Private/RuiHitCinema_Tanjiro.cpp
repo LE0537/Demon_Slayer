@@ -51,7 +51,10 @@ CRuiState * CHitCinema_Tanjiro::Tick(CRui * pRui, _float fTimeDelta)
 		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 		{
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			return new CIdleState();
+			if(pRui->Get_StoryDead())
+				pRui->Player_UpperDown(CCharacters::HIT_BOUND, 20.f, 30.f, 0.f);
+			else
+				return new CIdleState();
 		}
 		break;
 	case Client::Rui::CHitCinema_Tanjiro::SCENE_4:

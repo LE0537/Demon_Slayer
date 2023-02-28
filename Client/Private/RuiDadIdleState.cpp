@@ -98,7 +98,7 @@ CRuiDadState * CIdleState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 	{
 		m_fTime += fTimeDelta;
 
-		if (m_fTime >= 3.f)
+		if (m_fTime >= 1.5f)
 		{
 			pRuiDad->Set_Tick(true);
 		}
