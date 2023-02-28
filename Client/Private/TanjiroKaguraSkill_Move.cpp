@@ -116,6 +116,7 @@ CTanjiroState * CKaguraSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _float fT
 			}
 			if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_Hit.wav"), fEFFECT);
 				_int iDest = rand() % 5;
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				switch (iDest)
@@ -186,6 +187,7 @@ CTanjiroState * CKaguraSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _float fT
 			}
 			if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_Hit.wav"), fEFFECT);
 				_int iDest = rand() % 5;
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				switch (iDest)
@@ -269,6 +271,7 @@ void CKaguraSkill_MoveState::Enter(CTanjiro * pTanjiro)
 
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_MOVE);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_KAGURA_MOVE);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_SE_MoveSkill.wav"), fEFFECT);
 
 }
 

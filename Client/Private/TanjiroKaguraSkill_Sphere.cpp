@@ -188,7 +188,7 @@ CTanjiroState * CKaguraSkill_SphereState::Late_Tick(CTanjiro * pTanjiro, _float 
 						pTanjiro->Set_Combo(1);
 						pTanjiro->Set_ComboTime(0.f);
 					}
-
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_Hit.wav"), fEFFECT);
 					_int iDest = rand() % 5;
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					switch (iDest)
@@ -260,7 +260,7 @@ CTanjiroState * CKaguraSkill_SphereState::Late_Tick(CTanjiro * pTanjiro, _float 
 						pTanjiro->Set_Combo(1);
 						pTanjiro->Set_ComboTime(0.f);
 					}
-
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_Hit.wav"), fEFFECT);
 					_int iDest = rand() % 5;
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					switch (iDest)
@@ -350,12 +350,14 @@ void CKaguraSkill_SphereState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_KAGURA_SPHERE);
 		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
 		pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.01f);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_SE_Sphere_0.wav"), fEFFECT);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_SPHERE_1);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_KAGURA_SPHERE_1);
 		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex(), true);
 		pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.01f);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_SE_Sphere_1.wav"), fEFFECT);
 		break;
 	case Client::CTanjiroState::TYPE_END:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_SPHERE_2);

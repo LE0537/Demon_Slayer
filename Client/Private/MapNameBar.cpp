@@ -97,7 +97,7 @@ void CMapNameBar::Tick(_float fTimeDelta)
 						m_bMsgOnCheck = true;
 					
 					}
-					else if(m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
+					else if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
 					{
 						switch (pUI_Manager->Get_MsgCount())
 						{
@@ -119,8 +119,6 @@ void CMapNameBar::Tick(_float fTimeDelta)
 							break;
 						}
 					}
-
-					
 				}
 			}
 		}
