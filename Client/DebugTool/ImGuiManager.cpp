@@ -165,14 +165,31 @@ void CImGuiManager::Render()
 void CImGuiManager::PostProcessing(_float fTimeDelta)
 {
 	ImGuiIO& io = ImGui::GetIO();
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 
-
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar;
 	static char*	AOButton = ("AO Button");
 	static _bool	bAO_OnOff = true;
 	if (ImGui::Button(AOButton, ImVec2(ImGui::GetWindowWidth() * 0.35f, 25.f)))
 		bAO_OnOff = !bAO_OnOff;
 	if (nullptr != m_pRendererCom)
 		m_pRendererCom->AO_OnOff(bAO_OnOff);
+
+	static _bool bInputLightName = false;
+	static char strLightName[30][6] = { "" };
+	if (false == bInputLightName)
+	{
+		strcpy_s(strLightName[0], "None");
+
+		for (_uint i = 1; i < 30; ++i)
+		{
+			char cTemp[6] = "";
+			_itoa_s(i - 1, cTemp, sizeof(cTemp), 10);
+			strcpy_s(strLightName[i], sizeof(cTemp), cTemp);
+		}
+
+		bInputLightName = true;
+	}
 
 	//	20
 	//	m_fPostProcessingValue = { 0.15f, 0.15f, 0.4f, 40.f, 450.f, 0.3f, 0.5f, 1.36f, 0.4f, 1.f, 20.f, 300.f, 0.05f, 1.79f, 0.2f, 0.85f, 1.f, 0.3f, 15.f, 1.f, 1.f };
@@ -239,22 +256,199 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 
 
 
-	static _float4 vLightPos = _float4(0.f, 0.f, 0.f, 0.f);
-	static _float4 vLighAt = _float4(0.f, 0.f, 0.f, 0.f);
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW);
+	ImGui::Separator();
+
+
+
+	static _float3	vDirLightDir = _float3(0.f, 0.f, 0.f);
+	static _float3	vDirLightColor = _float3(1.f, 1.f, 1.f);
+	static _float3	vDirLightPower = _float3(0.4f, 0.4f, 0.4f);
+	static _float3	vDirLightSpecular = _float3(1.f, 1.f, 1.f);
+	ImGui::DragFloat3("Dir Light Dir", &vDirLightDir.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
+	ImGui::DragFloat3("Dir Light Color", &vDirLightColor.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
+	ImGui::DragFloat3("Dir Light Power", &vDirLightPower.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
+	ImGui::DragFloat3("Dir Light Specular", &vDirLightSpecular.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
+	const LIGHTDESC* pDirectionalLightDesc = pGameInstance->Get_LightDesc(_int(LIGHTDESC::TYPE_DIRECTIONAL));
+	if (nullptr != pDirectionalLightDesc)
+	{
+		LIGHTDESC tDirLightDesc;
+
+		tDirLightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
+		XMStoreFloat4(&tDirLightDesc.vDirection, XMLoadFloat3(&vDirLightDir));
+		XMStoreFloat4(&tDirLightDesc.vDiffuse, XMLoadFloat3(&vDirLightColor));
+		XMStoreFloat4(&tDirLightDesc.vAmbient, XMLoadFloat3(&vDirLightPower));
+		XMStoreFloat4(&tDirLightDesc.vSpecular, XMLoadFloat3(&vDirLightSpecular));
+
+		pGameInstance->Set_LightDesc(LIGHTDESC::TYPE_DIRECTIONAL, tDirLightDesc);
+	}
+
+
+
+	ImGui::Separator();
+
+
+
+	static _int		iLightIndex = 0;
+	static _int		iPreLightIndex = 0;
+	static _float3	vLightPosition = _float3(0.f, 0.f, 0.f);
+	static _float	fLightRange = 1.f;
+	static _float3	vLightColor = _float3(0.f, 0.f, 0.f);
+	static _float3	vLightPower = _float3(0.f, 0.f, 0.f);
+	static _float3	vLightSpecular = _float3(0.f, 0.f, 0.f);
+	ImGui::DragFloat3("Light Pos", &vLightPosition.x, 2.f, -2000.f, 2000.f, "%.1f", window_flags);
+	ImGui::DragFloat("Light Range", &fLightRange, 0.2f, 0.f, 5000.f, "%.2f", window_flags);
+	ImGui::DragFloat3("Light Color", &vLightColor.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
+	ImGui::DragFloat3("Light Power", &vLightPower.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
+	ImGui::DragFloat3("Light Specular", &vLightSpecular.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
+
+	_int			iNumLight = 1;
+	while (true)
+	{
+		const LIGHTDESC* pLightDesc = pGameInstance->Get_LightDesc(iNumLight);
+		if (nullptr == pLightDesc)
+			break;
+
+		++iNumLight;
+	}
+
+	const LIGHTDESC* pLightDesc = pGameInstance->Get_LightDesc(_int(LIGHTDESC::TYPE_POINT1) + iLightIndex - 1);
 	if (nullptr != pLightDesc)
 	{
-		LIGHTDESC tLightDesc = *pLightDesc;
-		memcpy(&vLightPos, &tLightDesc.vDirection.x, sizeof(_float4));
-		memcpy(&vLighAt, &tLightDesc.vDiffuse.x, sizeof(_float4));
+		if (0 < iLightIndex)
+		{
+			LIGHTDESC pNewLightDesc;
+			pNewLightDesc.eType = LIGHTDESC::TYPE(_int(LIGHTDESC::TYPE_POINT1) + (iLightIndex - 1));
+			pNewLightDesc.vPosition = _float4(vLightPosition.x, vLightPosition.y, vLightPosition.z, 1.f);
+			pNewLightDesc.fRange = fLightRange;
+			pNewLightDesc.vDiffuse = _float4(vLightColor.x, vLightColor.y, vLightColor.z, 1.f);
+			pNewLightDesc.vAmbient = _float4(vLightPower.x, vLightPower.y, vLightPower.z, 1.f);
+			pNewLightDesc.vSpecular = _float4(vLightSpecular.x, vLightSpecular.y, vLightSpecular.z, 1.f);
+
+			pGameInstance->Set_LightDesc(iLightIndex, pNewLightDesc);
+		}
+	}
+
+
+
+	if (ImGui::Button("Light Add", ImVec2(ImGui::GetWindowWidth() * 0.35f, 25.f)))
+	{
+		if (iNumLight < 6)	//	Dir + Point5개
+		{
+			LIGHTDESC	tLightDesc;
+			tLightDesc.eType = LIGHTDESC::TYPE(_int(LIGHTDESC::TYPE_POINT1) + (iNumLight - 1));
+			tLightDesc.vPosition = _float4(vLightPosition.x, vLightPosition.y, vLightPosition.z, 1.f);
+			tLightDesc.fRange = fLightRange;
+			tLightDesc.vDiffuse = _float4(vLightColor.x, vLightColor.y, vLightColor.z, 1.f);
+			tLightDesc.vAmbient = _float4(vLightPower.x, vLightPower.y, vLightPower.z, 1.f);
+			tLightDesc.vSpecular = _float4(vLightSpecular.x, vLightSpecular.y, vLightSpecular.z, 1.f);
+			pGameInstance->Add_Light(m_pDevice, m_pContext, tLightDesc);
+
+			++iNumLight;
+		}
+		else
+		{
+			ERR_MSG(L"Light NumMax = 5");
+		}
+	}
+
+
+
+	if (ImGui::Button("Light Delete", ImVec2(ImGui::GetWindowWidth() * 0.35f, 25.f)))
+	{
+		if (0 < iLightIndex)	//	Dir + Point5개
+		{
+			if (FAILED(pGameInstance->Delete_Light(iLightIndex)))
+				ERR_MSG(L"실패");
+			else
+			{
+				--iLightIndex;
+				--iNumLight;
+			}
+		}
+	}
+
+
+
+
+	ImGui::PushItemWidth(160);
+	ImGui::BeginChild("Light", ImVec2(ImGui::GetWindowWidth() * 0.3f, 130), true, window_flags);
+	if (ImGui::BeginMenuBar())
+	{
+		if (ImGui::BeginMenu("Light"))
+		{
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+	for (_int i = 0; i < iNumLight; i++)
+	{
+		if (ImGui::Selectable(strLightName[i], iLightIndex == i))
+			iLightIndex = i;
+	}
+	if (iPreLightIndex != iLightIndex)
+	{
+		if (0 < iLightIndex)
+		{
+			const LIGHTDESC* pChoiceLightDesc = pGameInstance->Get_LightDesc(_int(LIGHTDESC::TYPE_POINT1) + iLightIndex - 1);
+
+			_float4 vPos = pChoiceLightDesc->vPosition;
+			vLightPosition = _float3(vPos.x, vPos.y, vPos.z);
+			fLightRange = pChoiceLightDesc->fRange;
+			vLightColor = *(_float3*)(&pChoiceLightDesc->vDiffuse.x);
+			vLightPower = *(_float3*)(&pChoiceLightDesc->vAmbient.x);
+			vLightSpecular = *(_float3*)(&pChoiceLightDesc->vSpecular.x);
+		}
+
+		iPreLightIndex = iLightIndex;
+	}
+	ImGui::EndChild();
+
+
+	ImGui::Separator();
+
+
+
+	static _float4 vPlayerShadowLightPos = _float4(0.f, 0.f, 0.f, 0.f);
+	static _float4 vPlayerShadowLighAt = _float4(0.f, 0.f, 0.f, 0.f);
+	const LIGHTDESC* pPlayerShadowLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
+	if (nullptr != pPlayerShadowLightDesc)
+	{
+		LIGHTDESC tLightDesc = *pPlayerShadowLightDesc;
+		memcpy(&vPlayerShadowLightPos, &tLightDesc.vDirection.x, sizeof(_float4));
+		_vector vLook = XMVectorSetW(XMLoadFloat4(&tLightDesc.vDiffuse) - XMLoadFloat3(&vDirLightDir), 1.f);
+		memcpy(&vPlayerShadowLighAt, &vLook, sizeof(_float4));
 
 		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.8f);
-		ImGui::DragFloat3("pos", &vLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");
-		ImGui::DragFloat3("At", &vLighAt.x, 5.f, -2000.f, 2000.f, "%.1f");
+		ImGui::DragFloat3("Player Shadow pos", &vPlayerShadowLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");
 
-		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, vLightPos, vLighAt);
+		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW, vPlayerShadowLightPos, vPlayerShadowLighAt);
 	}
+
+
+
+	ImGui::Separator();
+
+
+
+	static _float4 vShadowLightPos = _float4(0.f, 0.f, 0.f, 0.f);
+	static _float4 vShadowLighAt = _float4(0.f, 0.f, 0.f, 0.f);
+	const LIGHTDESC* pShadowLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW);
+	if (nullptr != pShadowLightDesc)
+	{
+		LIGHTDESC tLightDesc = *pShadowLightDesc;
+		memcpy(&vShadowLightPos, &tLightDesc.vDirection.x, sizeof(_float4));
+		_vector vLook = XMVectorSetW(XMLoadFloat4(&tLightDesc.vDiffuse) - XMLoadFloat3(&vDirLightDir), 1.f);
+		memcpy(&vPlayerShadowLighAt, &vLook, sizeof(_float4));
+
+		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.8f);
+		ImGui::DragFloat3("Shadow pos", &vShadowLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");
+
+		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, vShadowLightPos, vShadowLighAt);
+	}
+
+
+
+
 	RELEASE_INSTANCE(CGameInstance);
 }
 

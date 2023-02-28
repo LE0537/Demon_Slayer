@@ -27,6 +27,7 @@ public: /* For.Engine */
 	void Tick_Engine(_float fTimeDelta);
 
 	void Clear(_uint iLevelIndex);
+	HRESULT LightClear();
 
 
 public: /* For.Graphic_Device */	
@@ -84,6 +85,7 @@ public: /* For.Light_Manager */
 	const LIGHTDESC* Get_ShadowLightDesc(_uint iIndex);
 	void Set_ShadowLightDesc(_uint iIndex,_float4 vPos,_float4 vAt);
 	HRESULT Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc);
+	HRESULT Delete_Light(_int iLightIndex);
 	HRESULT Add_ShadowLight(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc);
 public: /* For.Font_Manager */
 	HRESULT Add_Fonts(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const _tchar* pFontTag, const _tchar* pFontFilePath);

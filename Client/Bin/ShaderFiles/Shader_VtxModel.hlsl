@@ -65,6 +65,7 @@ VS_OUT VS_MAIN(VS_IN In)
 	/* 투영행렬까지 곱하면 정점위치의 w에 뷰스페이스 상의 z를 보관한다. == Out.vPosition이 반드시 float4이어야하는 이유. */
 	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
 	Out.vNormal = vNormal;
+	Out.vNormal.a = 0.f;
 	Out.vTexUV = In.vTexUV;
 	Out.vProjPos = Out.vPosition;
 

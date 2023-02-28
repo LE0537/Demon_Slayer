@@ -234,6 +234,8 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+	pGameInstance->LightClear();
+
 	LIGHTDESC			LightDesc;
 
 	/* For.Point */
@@ -299,6 +301,8 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 	{
 		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, LightDesc.vDirection, LightDesc.vDiffuse);
 	}
+
+
 
 	RELEASE_INSTANCE(CGameInstance);
 

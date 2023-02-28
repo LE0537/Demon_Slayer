@@ -229,20 +229,12 @@ HRESULT CEnmu::Render_ShadowDepth()
 
 	_vector vLightEye, vLightAt, vLightUp;
 	_matrix matLightView;
-	if (g_iLevel == LEVEL_BATTLEENMU)
-	{
-		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDirection);
-		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW)->vDiffuse);
-		vLightUp = { 0.f, 1.f, 0.f ,0.f };
-		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
-	}
-	else if (g_iLevel == LEVEL_ADVAKAZA)
-	{
-		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
-		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);
-		vLightUp = { 0.f, 1.f, 0.f ,0.f };
-		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
-	}
+
+	vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
+	vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);
+	vLightUp = { 0.f, 1.f, 0.f ,0.f };
+	matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+	
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 		return E_FAIL;
 

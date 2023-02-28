@@ -44,7 +44,7 @@ void CLight_Manager::Set_ShadowLightDesc(_uint iIndex ,_float4 vPos,_float4 vAt)
 }
 HRESULT CLight_Manager::Set_LightDesc(_uint iIndex, LIGHTDESC tLightDesc)
 {
-	for (auto& iter : m_ShadowLights)
+	for (auto& iter : m_Lights)
 	{
 		if (iter->Get_LightDesc()->eType == iIndex)
 		{
@@ -62,6 +62,21 @@ HRESULT CLight_Manager::Add_Light(ID3D11Device * pDevice, ID3D11DeviceContext * 
 		return E_FAIL;
 
 	m_Lights.push_back(pLight);
+
+	return S_OK;
+}
+
+HRESULT CLight_Manager::Delete_Light(_int iLightIndex)
+{
+	if (m_Lights.size() <= iLightIndex)
+		return E_FAIL;
+
+	list<class CLight*>::iterator	iter = m_Lights.begin();
+	for (_int i = 0; i < iLightIndex; ++i)
+		++iter;
+
+	Safe_Release(*iter);
+	m_Lights.erase(iter);
 
 	return S_OK;
 }
@@ -90,19 +105,12 @@ HRESULT CLight_Manager::Render_Lights(CShader * pShader, CVIBuffer_Rect * pVIBuf
 
 void CLight_Manager::Clear()
 {
-	/*
 	for (auto& pLight : m_Lights)
 	{
 		Safe_Release(pLight);
 	}
-	for (auto& pShadowLight : m_ShadowLights)
-	{
-		Safe_Release(pShadowLight);
-	}
 
 	m_Lights.clear();
-	m_ShadowLights.clear();
-	*/
 }
 
 void CLight_Manager::Free()

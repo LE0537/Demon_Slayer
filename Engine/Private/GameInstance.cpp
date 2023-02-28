@@ -93,7 +93,16 @@ void CGameInstance::Clear(_uint iLevelIndex)
 
 	m_pComponent_Manager->Clear(iLevelIndex);
 	m_pObject_Manager->Clear(iLevelIndex);
-	//	m_pLight_Manager->Clear();
+}
+
+HRESULT CGameInstance::LightClear()
+{
+	if (nullptr == m_pLight_Manager)
+		return E_FAIL;
+
+	m_pLight_Manager->Clear();	//	그림자는 지우지 않습니다.
+
+	return S_OK;
 }
 
 HRESULT CGameInstance::Clear_BackBuffer_View(_float4 vClearColor)
@@ -400,6 +409,13 @@ HRESULT CGameInstance::Add_Light(ID3D11Device * pDevice, ID3D11DeviceContext * p
 		return E_FAIL;
 
 	return m_pLight_Manager->Add_Light(pDevice, pContext, LightDesc);
+}
+HRESULT CGameInstance::Delete_Light(_int iLightIndex)
+{
+	if (nullptr == m_pLight_Manager)
+		return E_FAIL;
+
+	return m_pLight_Manager->Delete_Light(iLightIndex);
 }
 HRESULT CGameInstance::Add_ShadowLight(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, const LIGHTDESC & LightDesc)
 {
