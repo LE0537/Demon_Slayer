@@ -346,19 +346,21 @@ void CKaguraSkill_SphereState::Enter(CTanjiro * pTanjiro)
 	switch (m_eStateType)
 	{
 	case Client::CTanjiroState::TYPE_START:
-	//	pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_SPHERE);
+		pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_SPHERE);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_SPHERE);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_KAGURA_SPHERE);
 		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
 		pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.01f);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
+		pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_SPHERE_1);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_SPHERE_1);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_KAGURA_SPHERE_1);
 		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex(), true);
 		pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.01f);
 		break;
 	case Client::CTanjiroState::TYPE_END:
+		pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_SPHERE_2);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_SPHERE_2);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_KAGURA_SPHERE_2);
 		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
@@ -434,7 +436,7 @@ CTanjiroState * CKaguraSkill_SphereState::CommandCheck(CTanjiro * pTanjiro)
 	//printf_s("Duration : %f \n", m_fDuration);
 	//printf_s("current : %f \n", m_fCurrentDuration);
 
-	if (fRatio >= 0.2f)
+	if (fRatio >= 0.7f)
 	{
 		switch (pTanjiro->Get_i1P())
 		{

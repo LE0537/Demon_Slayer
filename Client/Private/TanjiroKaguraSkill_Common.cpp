@@ -264,6 +264,7 @@ void CKaguraSkill_CommonState::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_ID::STATE_SKILL_KAGURA_COMMON;
 
+	pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_COMMON);
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_COMMON);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_KAGURA_COMMON);
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_COMMON);
@@ -289,7 +290,7 @@ CTanjiroState * CKaguraSkill_CommonState::CommandCheck(CTanjiro * pTanjiro)
 	//printf_s("Duration : %f \n", m_fDuration);
 	//printf_s("current : %f \n", m_fCurrentDuration);
 
-	if (fRatio >= 0.2f)
+	if (fRatio >= 0.7f)
 	{
 		switch (pTanjiro->Get_i1P())
 		{

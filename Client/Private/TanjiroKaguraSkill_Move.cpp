@@ -268,8 +268,11 @@ void CKaguraSkill_MoveState::Enter(CTanjiro * pTanjiro)
 {
 	m_eStateId = STATE_ID::STATE_SKILL_KAGURA_MOVE;
 
+	pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SKILL_KAGURA_MOVE);
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_KAGURA_MOVE);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_KAGURA_MOVE);
+	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_SKILL_KAGURA_MOVE);
+	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_SKILL_KAGURA_MOVE, 0.01f);
 
 }
 
@@ -292,7 +295,7 @@ CTanjiroState * CKaguraSkill_MoveState::CommandCheck(CTanjiro * pTanjiro)
 	//printf_s("Duration : %f \n", m_fDuration);
 	//printf_s("current : %f \n", m_fCurrentDuration);
 
-	if (fRatio >= 0.2f)
+	if (fRatio >= 0.7f)
 	{
 		switch (pTanjiro->Get_i1P())
 		{
