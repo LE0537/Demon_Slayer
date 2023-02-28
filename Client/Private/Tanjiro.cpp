@@ -28,8 +28,8 @@
 #include "TanjiroHitCinema_Kyoujuro.h"
 #include "TanjiroHitCinema_Nezuko.h"
 #include "TanjiroHitCinema_Shinobu.h"
-
-
+#include "TanjiroSplSkrStartState.h"
+#include "Rui.h"
 #include "Data_Manager.h"
 
 
@@ -186,6 +186,8 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 	if (!m_bChange)
 	{
+		if (m_bStorySpl)
+			StorySpl(fTimeDelta);
 		__super::Tick(fTimeDelta);
 		m_fEffectStartTime = 0.f;
 
@@ -1491,6 +1493,19 @@ void CTanjiro::Check_Spl()
 	m_WeaponWorld = *dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
 	//m_WeaponWorld = dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
 	//XMStoreFloat4x4( &m_WeaponWorld, (dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorldMatrix()));
+}
+void CTanjiro::StorySpl(_float fTimeDelta)
+{
+	m_fStoryTime += fTimeDelta;
+	if (m_fStoryTime > 4.f)
+	{
+		m_pBattleTarget->Play_Scene();
+		CTanjiroState* pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+		m_bStorySpl = false;
+		m_bStorySplEnd = true;
+		m_fStoryTime = 0.f;
+	}
 }
 CTanjiro * CTanjiro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {

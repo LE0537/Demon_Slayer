@@ -48,12 +48,12 @@ void CKyoujuroWeapon::Tick(_float fTimeDelta)
 	{
 		m_bTrue = true;
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-		_vector vUp = m_pTransformCom->Get_State(CTransform::STATE_UP);
+		_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 
-		vPos += XMVector3Normalize(vUp) * 1.f;
+		vPos += XMVector3Normalize(vLook) * 1.f;
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	}
-
+	
 	_matrix		SocketMatrix = m_WeaponDesc.pSocket->Get_CombinedTransformationMatrix() *
 		XMLoadFloat4x4(&m_WeaponDesc.SocketPivotMatrix) * XMLoadFloat4x4(m_WeaponDesc.pParentWorldMatrix);
 	

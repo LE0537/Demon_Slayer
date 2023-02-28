@@ -6,7 +6,7 @@
 #include "Camera_Dynamic.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-
+#include "UI_Manager.h"
 using namespace Tanjiro;
 
 CHinoCami_CinemaState::CHinoCami_CinemaState(CINEMASCENE eScene)
@@ -74,6 +74,14 @@ CTanjiroState * CHinoCami_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDel
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_3:
 		if (pTanjiro->Get_Model()->Get_End(CHinoCami_CinemaState::ANIM_SCENE_3))
 		{
+			if (pTanjiro->Get_StorySplEnd())
+			{
+				CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+
+				pUIManager->Set_StroyEventEnd(true);
+
+				RELEASE_INSTANCE(CUI_Manager);
+			}
 			pTanjiro->Get_Model()->Set_End(CHinoCami_CinemaState::ANIM_SCENE_3);
 
 			return new CIdleState();

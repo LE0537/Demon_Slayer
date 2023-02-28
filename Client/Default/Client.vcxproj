@@ -303,6 +303,7 @@
     <ClInclude Include="..\Public\NezukoHitCinema_Tanjiro.h" />
     <ClInclude Include="..\Public\NezukoSplSkrStartState.h" />
     <ClInclude Include="..\Public\RuiDadState.h" />
+    <ClInclude Include="..\public\RuiHead.h" />
     <ClInclude Include="..\Public\RuiHitCinema_Akaza.h" />
     <ClInclude Include="..\Public\RuiHitCinema_Kyoujuro.h" />
     <ClInclude Include="..\Public\RuiHitCinema_Nezuko.h" />
@@ -796,6 +797,7 @@
     <ClCompile Include="..\Private\NezukoHitCinema_Rui.cpp" />
     <ClCompile Include="..\Private\NezukoHitCinema_Tanjiro.cpp" />
     <ClCompile Include="..\Private\NezukoSplSkrStartState.cpp" />
+    <ClCompile Include="..\private\RuiHead.cpp" />
     <ClCompile Include="..\Private\RuiHitCinema_Akaza.cpp" />
     <ClCompile Include="..\Private\RuiHitCinema_Kyoujuro.cpp" />
     <ClCompile Include="..\Private\RuiHitCinema_Nezuko.cpp" />

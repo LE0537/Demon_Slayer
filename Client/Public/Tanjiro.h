@@ -213,6 +213,10 @@ public:
 
 	void Set_StoryRuiSpl(_bool _bStory) { m_bStoryRuiSpl = _bStory; }
 	_bool Get_StoryRuiSpl() { return  m_bStoryRuiSpl; }
+	void	Set_StorySpl() { m_bStorySpl = true; }
+	_bool   Get_StorySpl() { return m_bStorySpl; }
+	void	Set_StorySplEnd() { m_bStorySplEnd = true; }
+	_bool   Get_StorySplEnd() { return m_bStorySplEnd; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -261,6 +265,9 @@ private:
 	_int					m_iAnimIndex = 0;
 	_bool					m_fPowerTime = 0.f;
 	_bool					m_bStoryRuiSpl = false;
+	_bool				    m_bStorySpl = false;
+	_float					m_fStoryTime = 0.f;
+	_bool					m_bStorySplEnd = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
@@ -271,7 +278,7 @@ private:
 private:
 	OBJKEYSTATE m_ePreKeyState = KEY_END;
 	OBJKEYSTATE m_eCurKeyState = KEY_END;
-
+	void    StorySpl(_float fTimeDelta);
 public:
 	static CTanjiro* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
