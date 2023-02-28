@@ -32,6 +32,7 @@ private:
 	_float			m_fMinusHpTime = 0.f;
 	_float			m_fMinusHp = 0.f;
 	_float			m_fMinus_BeforeHp = 0.f;
+	_bool			m_bStory = false;
 public:
 	static CHpBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

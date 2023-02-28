@@ -161,6 +161,7 @@ public:
 	//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
 	virtual CModel* Get_Model() const { return m_pModelCom; }
 	void	Set_Start() { m_bStart = true; }
+	void	Set_AiMode(_bool _bAiMode) { m_bAiState = _bAiMode; }
 	_bool   Get_IsAIMode() const { return m_bAiState; }
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
@@ -170,9 +171,11 @@ public:
 	void Set_RuiHit(_bool bHit) { m_bIsHit = bHit; }
 	void	Set_NextRound(_bool bNextRound) { m_bNextRound = bNextRound; }
 	_bool   Get_NextRound() { return m_bNextRound; }
+	void	Set_StorySpl() { m_bStorySpl = true; }
+	_bool   Get_StorySpl() { return m_bStorySpl; }
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
-
+	void Set_StoryDelay(_float _fTime) { m_StoryTime = _fTime; }
 private:
 	void HandleInput(_float fTimeDelta);
 	void TickState(_float fTimeDelta);
@@ -186,6 +189,7 @@ private:
 	void	Boss_Render();
 	void	Set_Info();
 	void    Check_Spl();
+	void    StorySpl(_float fTimeDelta);
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);
@@ -203,19 +207,24 @@ private:
 
 	_float					m_fEffectTime = 0.f;
 
+	_float					m_StoryTime = 0.f;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
  
 	class CRuiState* m_pRuiState = nullptr;
 	
+	_bool m_bHeal = false;
+	_int  m_iHp = 0;
+
 	_bool m_bStart = false;
 	_bool m_bAiState = false;
 	_bool m_bIsHit = false;
 	queue<_uint> m_queueDash;
 	
 	_bool m_bNextRound = false;
-
+	_bool m_bStorySpl = false;
+	_float m_fStoryTime = 0.f;
 	list <class CRuiState*> m_AIStateList;
 public:
 	static CRui* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

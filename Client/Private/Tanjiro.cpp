@@ -763,6 +763,18 @@ void CTanjiro::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIn
 	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 }
 
+void CTanjiro::Set_StoryPowerUp()
+{
+	m_bIsKagura = true;
+	m_tInfo.iPowerIndex = 1;
+	m_tInfo.fPowerUp = 1.5f;
+	m_tInfo.fPowerUpTime = 9999.f;
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, this);
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, this);
+	RELEASE_INSTANCE(CEffect_Manager);
+}
+
 HRESULT CTanjiro::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
