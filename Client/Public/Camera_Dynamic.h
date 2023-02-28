@@ -23,7 +23,7 @@ public:
 		CUTSCENE_RUI_SPC_START, CUTSCENE_RUI_SPC_0, CUTSCENE_RUI_SPC_1, CUTSCENE_RUI_SPC_2, CUTSCENE_RUI_SPC_3, CUTSCENE_RUI_SPC_4, CUTSCENE_RUI_SPC_5, 
 		CUTSCENE_RGK_START, CUTSCENE_RGK_0, CUTSCENE_RGK_1, CUTSCENE_RGK_2, CUTSCENE_RGK_3, CUTSCENE_RGK_4, CUTSCENE_RGK_5, CUTSCENE_RGK_6, CUTSCENE_RGK_7, CUTSCENE_RGK_8,
 		CUTSCENE_END};
-	enum STORYSCENE { STORYSCENE_RUIDAD_START, STORYSCENE_RUIDAD_BATTLE, STORYSCENE_RUI_START,STORYSCENE_END };
+	enum STORYSCENE { STORYSCENE_RUIDAD_START, STORYSCENE_RUIDAD_BATTLE, STORYSCENE_RUI_START, STORYSCENE_RUI_DEAD,STORYSCENE_END };
 private:
 	CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCamera_Dynamic(const CCamera_Dynamic& rhs);
@@ -77,6 +77,7 @@ public:
 	_bool Get_QuestCam() { return m_bQuestCam; }
 	void Set_QuestNPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
 	_bool Get_QuestBattleCam() { return m_bQuestBattleCam; }
+	void Set_QuestBattleCam(_bool _bQuestCam) { m_bQuestBattleCam = _bQuestCam; }
 	void Set_StoryScene(STORYSCENE _eCutScene) { m_eStoryScene = _eCutScene; m_bStoryScene = true; }
 
 private:

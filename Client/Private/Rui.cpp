@@ -270,12 +270,11 @@ HRESULT CRui::Render()
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
-
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-
-		if(/*pUIManager->Get_StroyEventEnd() &&*/ (i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7))
+	
+		if (pUIManager->Get_StroyEventEnd() && (i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7))
 			continue;
 		
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
@@ -284,9 +283,8 @@ HRESULT CRui::Render()
 		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
 			return E_FAIL;
 		
-		RELEASE_INSTANCE(CUI_Manager);
 	}
-
+	RELEASE_INSTANCE(CUI_Manager);
 
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -484,8 +482,9 @@ void CRui::Check_Spl()
 
 void CRui::StorySpl(_float fTimeDelta)
 {
+	//2페이즈 가는 연출 딜레이
 	m_fStoryTime += fTimeDelta;
-	if (m_fStoryTime > 4.f)
+	if (m_fStoryTime > 10.f)
 	{
 		dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_StoryRuiSpl(true);
 		m_pBattleTarget->Play_Scene();

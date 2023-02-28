@@ -78,8 +78,8 @@ CTanjiroState * CUpperHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 CTanjiroState * CUpperHitState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 
-
-	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
+	if(!m_bStop)
+		pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
 
 	return nullptr;
@@ -592,30 +592,22 @@ CTanjiroState * CUpperHitState::BoundState(CTanjiro * pTanjiro, _float fTimeDelt
 		case Client::CTanjiroState::TYPE_LOOP:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 			pTanjiro->Set_GodMode(true);
+
 			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CTanjiroState::TYPE_END:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 			if (m_bNextAnim == true)
 			{
-			
-				return new CUpperHitState(m_eHitType, TYPE_CHANGE, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+				m_bStop = true;
+				if (!pTanjiro->Get_StoryRuiSpl())
+					return new CUpperHitState(m_eHitType, TYPE_CHANGE, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			}
 			break;
 		case Client::CTanjiroState::TYPE_CHANGE:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 		
-			if (m_fDelay >= 4.f && !m_bTrue && pTanjiro->Get_StoryRuiSpl())
-			{
-				m_bTrue = true;
-				pTanjiro->Set_StoryPowerUp();
-			}
-			if (m_fDelay >= 5.f && pTanjiro->Get_StoryRuiSpl())
-			{
-				pTanjiro->Set_StoryRuiSpl(false);
-				dynamic_cast<CRui*>(pTanjiro->Get_BattleTarget())->Set_StoryDelay(3.f);
-			}
-			if (m_fDelay >= 0.5f && !pTanjiro->Get_StoryRuiSpl())
+			if (m_fDelay >= 0.5f)
 			{
 				return new CIdleState(STATE_HIT);
 			}
@@ -636,6 +628,21 @@ CTanjiroState * CUpperHitState::BoundState(CTanjiro * pTanjiro, _float fTimeDelt
 		break;
 	case Client::CTanjiroState::TYPE_END:
 		Bound_Player(pTanjiro, fTimeDelta);
+		if (m_bStop == true)
+		{
+			m_fDelay += fTimeDelta;
+			if (m_fDelay >= 4.f && !m_bTrue && pTanjiro->Get_StoryRuiSpl())
+			{
+				m_bTrue = true;
+				pTanjiro->Set_StoryPowerUp();
+			}
+			if (m_fDelay >= 5.f && pTanjiro->Get_StoryRuiSpl())
+			{
+				pTanjiro->Set_StoryRuiSpl(false);
+				dynamic_cast<CRui*>(pTanjiro->Get_BattleTarget())->Set_StoryDelay(3.f);
+				return new CUpperHitState(m_eHitType, TYPE_CHANGE, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			}
+		}
 		break;
 	case Client::CTanjiroState::TYPE_DEFAULT:
 		break;

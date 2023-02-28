@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Camera_Dynamic.h"
+#include "Level_GamePlay.h"
 using namespace Rui;
 
 CUpperHitState::CUpperHitState(CRui::HIT_TYPE eHitType, STATE_TYPE eType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower, _float fJumpTime)
@@ -76,8 +77,8 @@ CRuiState * CUpperHitState::Tick(CRui* pRui, _float fTimeDelta)
 CRuiState * CUpperHitState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
 
-
-	pRui->Get_Model()->Play_Animation(fTimeDelta);
+	if(!m_bTrue)
+		pRui->Get_Model()->Play_Animation(fTimeDelta);
 
 
 	return nullptr;
@@ -599,20 +600,36 @@ CRuiState * CUpperHitState::BoundState(CRui* pRui, _float fTimeDelta)
 		case Client::CRuiState::TYPE_LOOP:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 			pRui->Set_GodMode(true);
+			
 			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CRuiState::TYPE_END:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 			if (m_bNextAnim == true)
 			{
-			
-				return new CUpperHitState(m_eHitType, TYPE_CHANGE, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+				if (!m_bTrue && pRui->Get_StoryDead())
+				{
+					CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+				
+					CLevel_GamePlay::CHARACTERDESC	tCharacterDesc1p;
+					tCharacterDesc1p.pSubChar = pRui->Get_BattleTarget();
+					tCharacterDesc1p.matWorld = pRui->Get_Transform()->Get_World4x4();
+					tCharacterDesc1p.bSub = false;
+					if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiHead"), g_iLevel, TEXT("Layer_RuiHead"), &tCharacterDesc1p)))
+						return nullptr; 
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_RUI_DEAD);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+					RELEASE_INSTANCE(CGameInstance);
+					m_bTrue = true;
+				}
+				if (!pRui->Get_StoryDead())
+					return new CUpperHitState(m_eHitType, TYPE_CHANGE, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			}
 			break;
 		case Client::CRuiState::TYPE_CHANGE:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 			if(m_fDelay >= 0.5f)
-			return new CIdleState(STATE_HIT);
+				return new CIdleState(STATE_HIT);
 			break;
 		default:
 			break;
