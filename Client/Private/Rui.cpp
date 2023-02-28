@@ -18,7 +18,7 @@
 #include "Effect_Manager.h"
 #include "RuiTakeDownState.h"
 #include "RuiUpperHitState.h"
-
+#include "Tanjiro.h"
 // 오의히트
 #include "RuiHitCinema_Tanjiro.h"
 #include "RuiHitCinema_Akaza.h"
@@ -141,10 +141,26 @@ void CRui::Tick(_float fTimeDelta)
 {
 	if (!m_tInfo.bSub)
 	{
+		if (m_StoryTime > 0.f)
+		{
+			if (!m_bHeal)
+			{
+				m_bHeal = true;
+				m_iHp = m_tInfo.iMaxHp - m_tInfo.iHp;
+			}
+			m_tInfo.iHp += 15;//m_iHp / 120;
+			if (m_tInfo.iHp > m_tInfo.iMaxHp)
+				m_tInfo.iHp = m_tInfo.iMaxHp;
+			if (m_StoryTime < 0.1f)
+				m_bAiState = true;
+			m_StoryTime -= fTimeDelta;
+		}
 		if (m_bSplSkl)
 		{
 			Check_Spl();
 		}
+		if(m_bStorySpl)
+			StorySpl(fTimeDelta);
 
 		m_fEffectStartTime = 0.f;
 		if (m_bBattleStart)
@@ -452,17 +468,23 @@ void CRui::Check_Spl()
 
 }
 
+void CRui::StorySpl(_float fTimeDelta)
+{
+	m_fStoryTime += fTimeDelta;
+	if (m_fStoryTime > 4.f)
+	{
+		dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_StoryRuiSpl(true);
+		m_pBattleTarget->Play_Scene();
+		CRuiState* pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+		m_bStorySpl = false;
+		m_fStoryTime = 0.f;
+	}
+}
+
 _bool CRui::Get_RuiHit()
 {
 	return m_bIsHit;
-}
-
-void CRui::Set_StorySpl()
-{
-	m_bStorySpl = true;
-	m_pBattleTarget->Play_Scene();
-	CRuiState* pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
-	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 }
 
 void CRui::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)

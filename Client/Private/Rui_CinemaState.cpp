@@ -5,7 +5,7 @@
 #include "Camera_Dynamic.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-
+#include "Tanjiro.h"
 using namespace Rui;
 
 CRui_CinemaState::CRui_CinemaState(CINEMASCENE eScene)
@@ -21,8 +21,7 @@ CRuiState * CRui_CinemaState::HandleInput(CRui * pRui)
 
 CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 {
-	if (!pRui->Get_StorySpl())
-	{
+
 		switch (m_eScene)
 		{
 		case Client::Rui::CRui_CinemaState::SCENE_START:
@@ -74,51 +73,15 @@ CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 			break;
 
 		}
-	}
-	else
-	{
-		switch (m_eScene)
-		{
-		case Client::Rui::CRui_CinemaState::SCENE_START:
-			if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
-			{
-				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-				return new CRui_CinemaState(CRui_CinemaState::SCENE_0);
-			}
-			break;
-		case Client::Rui::CRui_CinemaState::SCENE_0:
-			m_fTime += fTimeDelta;
-
-			if (m_fTime >= 2.67f)
-				return new CRui_CinemaState(CRui_CinemaState::SCENE_1);
-
-			if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
-			{
-				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			}
-			break;
-		case Client::Rui::CRui_CinemaState::SCENE_1:
-			if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
-			{
-				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-				CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-				((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Stop_CutScene();
-				RELEASE_INSTANCE(CGameInstance);
-				//return new CRui_CinemaState(CRui_CinemaState::SCENE_2);
-			}
-			break;
 	
-		}
-	}
+
 	return nullptr;
 }
 
 CRuiState * CRui_CinemaState::Late_Tick(CRui * pRui, _float fTimeDelta)
 {
-	if (!pRui->Get_StorySpl())
-		pRui->Get_Model()->Play_Animation_Skill(fTimeDelta);
-	else
-		pRui->Get_Model()->Play_Animation_Skill(fTimeDelta * 0.5f);
+
+	pRui->Get_Model()->Play_Animation_Skill(fTimeDelta);
 
 	return nullptr;
 }
@@ -145,6 +108,7 @@ void CRui_CinemaState::Enter(CRui * pRui)
 
 		pGameInstance = GET_INSTANCE(CGameInstance);
 		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_RUI_SPC_START);
+
 		RELEASE_INSTANCE(CGameInstance);
 
 		break;

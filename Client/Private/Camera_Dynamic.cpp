@@ -59,7 +59,6 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 	if (iFrame + 1 >= iSize)		//	끝 Check
 	{
 		m_fCullTime = *pOut = 0.f;
-		m_bStorySpl = false;
 		return false;
 	}
 
@@ -74,8 +73,9 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 			++iFrame;
 		}
 	}
-	if(!m_bStorySpl)
-		*pOut += min((fTimeDelta) / (vecUseTime[iFrame]), 1.f);
+
+	*pOut += min((fTimeDelta) / (vecUseTime[iFrame]), 1.f);
+
 	m_fCullTime = *pOut;
 
 
@@ -98,11 +98,9 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 	_float fRatio = fDecimal;		//	다음 프레임의 할당 비율
 	vCamPos = XMVectorCatmullRom(vPos[0], vPos[1], vPos[2], vPos[3], fRatio);
 	vCamAt = XMVectorCatmullRom(vAt[0], vAt[1], vAt[2], vAt[3], fRatio);
-	if (!m_bStorySpl)
-	{
-		m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vCamPos);
-		m_pTransform->LookAt(vCamAt);
-	}
+	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vCamPos);
+	m_pTransform->LookAt(vCamAt);
+
 	return true;
 }
 

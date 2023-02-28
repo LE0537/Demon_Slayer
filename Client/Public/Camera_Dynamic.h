@@ -36,7 +36,7 @@ public:/* For.Tool*/
 public:
 	void	Start_CutScene(_bool bTrueisPlay, CUTSCENE eCutScene);
 	_bool 	Play_CutScene(vector<_float4> vecPositions, vector<_float4> vecLookAts, vector<_float> vecUseTime, _float* pOut, _float fTimeDelta);
-	void	End_CutScene() { m_fCullTime = 9999.f; }
+	void	End_CutScene() { m_fCullTime = 9999.f;/* m_bStorySpl = false;*/ }
 	void	Stop_CutScene() { m_bStorySpl = true; }
 public:
 	virtual HRESULT Initialize_Prototype() override;

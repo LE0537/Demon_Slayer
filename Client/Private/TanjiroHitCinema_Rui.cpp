@@ -65,7 +65,8 @@ CTanjiroState * CHitCinema_Rui::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 			pTanjiro->Get_Model()->Set_End(CHitCinema_Rui::ANIM_SCENE_DMG_070);
 
-			return new CIdleState();
+			pTanjiro->Player_UpperDown(CCharacters::HIT_BOUND, 20.f, 30.f, 0.f);
+			//return new CIdleState();
 		}
 		break;
 	case Client::Tanjiro::CHitCinema_Rui::SCENE_4:
