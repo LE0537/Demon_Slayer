@@ -135,11 +135,17 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	m_fCamY = 10.f;
 	m_fBattleCamY = 5.f;
 	m_fBattleCamZ = 30.f;
-	m_bQuestBattleCam = true;
+	
 	m_FovAngle = XMConvertToRadians(60.f);
 	//m_bStory = true;
 	m_eTurn = CAM_END;
 
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	if (pUIManager->Get_RuiDadBattle())
+		m_bQuestBattleCam = true;
+	else
+		m_bQuestBattleCam = false;
+	RELEASE_INSTANCE(CUI_Manager);
 
 	m_fCurrentCutSceneTime = 0.f;
 	m_bCutScene = false;
@@ -173,7 +179,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_StoryScene("RuiDadStart"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("RuiDadBattle"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("RuiStart"))) return E_FAIL;
-
+	if (FAILED(Ready_StoryScene("RuiDead"))) return E_FAIL;
 
 	if (g_iLevel == LEVEL_BOSSENMU)
 	{
@@ -356,7 +362,10 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			if (!m_bStart)
 				Set_StartPos(fTimeDelta);
 
-			if (true == bCamAttach && m_bLerp)
+			if (m_bQuestBattleCam)
+				QuestBattleCam(fTimeDelta);
+
+			if (true == bCamAttach && m_bLerp && !m_bQuestBattleCam)
 				Set_CamPos();
 
 
@@ -366,9 +375,9 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 				m_pTarget = m_pTarget->Get_SubChar();
 
 
-			if (true == bCamAttach && m_bLerp && g_iLevel != LEVEL_BATTLEENMU && g_iLevel != LEVEL_BOSSENMU)
+			if (true == bCamAttach && m_bLerp && g_iLevel != LEVEL_BATTLEENMU && g_iLevel != LEVEL_BOSSENMU && !m_bQuestBattleCam)
 				Move_CamPos(fTimeDelta);
-			else if (true == bCamAttach && m_bLerp && (g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU))
+			else if (true == bCamAttach && m_bLerp && (g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU) && !m_bQuestBattleCam)
 				Move_TrainCam(fTimeDelta);
 		}
 		else if (m_bStory && bCamAttach)
