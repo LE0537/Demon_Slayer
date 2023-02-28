@@ -5,6 +5,7 @@
 #include "Layer.h"
 #include "KyoujuroMoveState.h"
 #include "Effect_Manager.h"
+#include "KyoujuroSplSkrStartState.h"
 using namespace Kyoujuro;
 
 CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
@@ -22,6 +23,12 @@ CKyoujuroState * CDashState::HandleInput(CKyoujuro* pKyoujuro)
 		if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
 		{
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+
+			if (pGameInstance->Key_Pressing(DIK_E))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 			{
@@ -115,6 +122,12 @@ CKyoujuroState * CDashState::HandleInput(CKyoujuro* pKyoujuro)
 		if (pKyoujuro->Get_Model()->Get_End(pKyoujuro->Get_AnimIndex()))
 		{
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 			{

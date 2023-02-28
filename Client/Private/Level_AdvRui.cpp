@@ -327,8 +327,13 @@ HRESULT CLevel_AdvRui::Ready_Layer_Player(const _tchar * pLayerTag)
 	else
 	{ 
 		++m_iQuestIndex;
+
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_ADVRUI, TEXT("Layer_Rui"), &tCharacterDesc1p)))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiSister"), LEVEL_ADVRUI, TEXT("Layer_RuiSister"), &tCharacterDesc1p)))
+			return E_FAIL;
+		
 	}
 
 	//tCharacterDesc1p.bSub = true;

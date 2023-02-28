@@ -14,6 +14,7 @@
 #include "UI_Manager.h"
 
 #include "Akaza_CinemaState.h"
+#include "AkazaSplSkrStartState.h"
 using namespace Akaza;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -31,8 +32,9 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 	case 1:
 		if (pGameInstance->Key_Pressing(DIK_E)) // ╬у
 		{
-			pAkaza->Get_BattleTarget()->Play_Scene();
-			return new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_START);
+			//pAkaza->Get_BattleTarget()->Play_Scene();
+			//return new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_START);
+			return new CSplSkrStartState(TYPE_START);
 		}
 
 
@@ -158,6 +160,14 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 
 		break;
 	case 2:
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT)) // ╬у
+		{
+			//pAkaza->Get_BattleTarget()->Play_Scene();
+			//return new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_START);
+			return new CSplSkrStartState(TYPE_START);
+		}
+
+
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 		{
 			if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

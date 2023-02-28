@@ -31,10 +31,28 @@ public:
 	virtual void Enter(CShinobu* pShinobu) override;
 	virtual void Exit(CShinobu* pShinobu) override;
 
+
+	void Jump(CShinobu* pShinobu, _float fTimeDelta);
 	
 
 private:
 	CINEMASCENE m_eScene = SCENE_END;
+	_float m_fBoundPower = 20.f;
+	_float m_fJumpPower = 30.f;
+	_float m_fKnockBackPower = 8.f;
+
+private:
+	_bool m_bHitPlayerJump = false;
+	_bool m_bNextAnim = false;
+	_bool m_bReset = false;
+	_bool m_bMaxHeight = false;
+
+private:
+	_float3 m_vPosition;
+	_float3 m_vVelocity;
+	_float m_fCurrentPosY = 0.f;
+	_float m_fJumpTime = 0.f;
+	_float m_fDelay = 0.f;
 
 };
 

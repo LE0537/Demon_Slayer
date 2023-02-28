@@ -36,7 +36,8 @@ public:/* For.Tool*/
 public:
 	void	Start_CutScene(_bool bTrueisPlay, CUTSCENE eCutScene);
 	_bool 	Play_CutScene(vector<_float4> vecPositions, vector<_float4> vecLookAts, vector<_float> vecUseTime, _float* pOut, _float fTimeDelta);
-
+	void	End_CutScene() { m_fCullTime = 9999.f;/* m_bStorySpl = false;*/ }
+	void	Stop_CutScene() { m_bStorySpl = true; }
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg)override;
@@ -77,6 +78,7 @@ public:
 	void Set_QuestNPC(CCharacters* _pNPC) { m_pNPC = _pNPC; }
 	_bool Get_QuestBattleCam() { return m_bQuestBattleCam; }
 	void Set_StoryScene(STORYSCENE _eCutScene) { m_eStoryScene = _eCutScene; m_bStoryScene = true; }
+
 private:
 	//Shake
 	void Check_Shake(_float fTimeDelta);
@@ -126,6 +128,7 @@ private:
 	_float					m_fLookAtY = 0.f;
 	_bool					m_bStartBattle = false;
 	_bool					m_bEffect = false;
+	_bool					m_bStorySpl = false;
 	_float3 				m_vAtPos;
 	//Start
 	_bool  m_bStart = false;

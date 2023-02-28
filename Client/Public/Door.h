@@ -52,6 +52,8 @@ private:
 	_float    m_fTurnAngle = 0.f;
 	_bool     m_bNonAlpha = false;
 	_bool	  m_bColCheck = false;
+	_bool	  m_bEventCheck = false;
+	_float	  m_fEventStart = 0.f;
 private:
 	HRESULT Delete_Component(const _tchar* pComponentTag);
 
@@ -61,6 +63,7 @@ private:
 
 	HRESULT Ready_ModelComponent();
 	void	Move_Mesh(_float fTimeDelta);
+	void	Event_Check(_float fTimeDelta);
 public:
 	static CDoor* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

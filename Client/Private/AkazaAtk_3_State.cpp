@@ -14,6 +14,7 @@
 #include "AkazaSkill_Shoot.h"
 #include "AkazaTargetRushState.h"
 #include "AkazaJumpState.h"
+#include "AkazaSplSkrStartState.h"
 using namespace Akaza;
 
 
@@ -460,6 +461,12 @@ CAkazaState * CAtk_3_State::CommandCheck(CAkaza * pAkaza)
 	switch (pAkaza->Get_i1P())
 	{
 	case 1:
+		if (pGameInstance->Key_Pressing(DIK_E))
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
 		{
 			if (pAkaza->Get_PlayerInfo().iSkBar >= 200)
@@ -517,6 +524,12 @@ CAkazaState * CAtk_3_State::CommandCheck(CAkaza * pAkaza)
 
 		break;
 	case 2:
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
 		{
 			if (pAkaza->Get_PlayerInfo().iSkBar >= 200)

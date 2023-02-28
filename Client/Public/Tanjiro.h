@@ -151,6 +151,10 @@ public:
 
 		ANIM_DEAD = 131,
 
+		ANIM_SPLSKL_START_0 = 110,
+		ANIM_SPLSKL_START_1 = 112,
+		ANIM_SPLSKL_END = 113,
+
 		ANIM_END = 114
 	};
 
@@ -205,7 +209,10 @@ public:
 	_bool Get_Stop() { return m_bStop; }
 	void Set_ADVAnimIndex(_int _iIndex) { m_iAnimIndex = _iIndex; }
 	_int Get_ADVAnimIndex() { return m_iAnimIndex; }
+	void Set_StoryPowerUp();
 
+	void Set_StoryRuiSpl(_bool _bStory) { m_bStoryRuiSpl = _bStory; }
+	_bool Get_StoryRuiSpl() { return  m_bStoryRuiSpl; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -252,6 +259,8 @@ private:
 	_bool					m_bSoundCheck = false;
 
 	_int					m_iAnimIndex = 0;
+	_bool					m_fPowerTime = 0.f;
+	_bool					m_bStoryRuiSpl = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

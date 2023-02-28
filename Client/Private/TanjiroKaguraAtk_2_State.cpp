@@ -17,6 +17,7 @@
 #include "TanjiroDashState.h"
 #include "TanjiroTargetRushState.h"
 #include "TanjiroJumpState.h"
+#include "TanjiroSplSkrStartState.h"
 using namespace Tanjiro;
 
 
@@ -431,6 +432,12 @@ CTanjiroState * CAtk_2_KaguraState::CommandCheck(CTanjiro * pTanjiro)
 		switch (pTanjiro->Get_i1P())
 		{
 		case 1:
+			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
 			{
 				if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)
@@ -471,6 +478,12 @@ CTanjiroState * CAtk_2_KaguraState::CommandCheck(CTanjiro * pTanjiro)
 			}
 			break;
 		case 2:
+			if (pGameInstance->Key_Pressing(DIK_LSHIFT) && !pTanjiro->Get_StoryKey())
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
 			{
 				if (pTanjiro->Get_PlayerInfo().iSkBar >= 200)

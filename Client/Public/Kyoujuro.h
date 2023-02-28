@@ -131,6 +131,11 @@ public:
 			
 		ANIM_DEAD = 100,
 
+
+		ANIM_SPLSKL_START_0 = 76,
+		ANIM_SPLSKL_START_1 = 78,
+		ANIM_SPLSKL_END = 75,
+
 		ANIM_END = 101
 	};
 

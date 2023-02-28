@@ -14,6 +14,7 @@
 #include "ShinobuTargetRushState.h"
 #include "Effect_Manager.h"
 #include "Shinobu_CinemaState.h"
+#include "ShinobuSplSkrStartState.h"
 
 
 using namespace Shinobu;
@@ -38,8 +39,9 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 		case 1:
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
-				pShinobu->Get_BattleTarget()->Play_Scene();
-				return new CShinobu_CinemaState(CShinobu_CinemaState::SCENE_START);
+				//pShinobu->Get_BattleTarget()->Play_Scene();
+				//return new CShinobu_CinemaState(CShinobu_CinemaState::SCENE_START);
+				return new CSplSkrStartState(TYPE_START);
 			}
 
 

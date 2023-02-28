@@ -122,10 +122,15 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro_CinemaState::ANIM_SCENE_8))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro_CinemaState::ANIM_SCENE_8);
-			return new CIdleState();
+			return new CKyoujuro_CinemaState(SCENE_END);
 		}
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_END:
+		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_SPLSKL_END))
+		{
+			pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_SPLSKL_END);
+			return new CIdleState();
+		}
 		break;
 	default:
 		break;
@@ -255,6 +260,18 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_8, 0.01f);
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_END:
+		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pKyoujuro->Get_NavigationHeight().y, 56.1f, 1.f));
+		pKyoujuro->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pKyoujuro->Get_NavigationHeight().y, 50.03f, 1.f));
+
+		pKyoujuro->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_KNOCKBACK, 0.f, 0.f, 8.f);
+		pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro::ANIM_SPLSKL_END);
+		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIM_SPLSKL_END);
+		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro::ANIM_SPLSKL_END));
+		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_END);
+		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_END, 0.01f);
+
+
+
 		break;
 	default:
 		break;

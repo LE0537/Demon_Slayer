@@ -81,6 +81,15 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		if (pAkaza->Get_Model()->Get_End(CAkaza_CinemaState::ANIM_SCENE_7))
 		{
 			pAkaza->Get_Model()->Set_End(CAkaza_CinemaState::ANIM_SCENE_7);
+			return new CAkaza_CinemaState(SCENE_8);
+			return new CIdleState();
+		}
+		break;
+	case Client::Akaza::CAkaza_CinemaState::SCENE_8:
+		if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_SPLSKL_END))
+		{
+			pAkaza->Get_Model()->Set_End(CAkaza::ANIM_SPLSKL_END);
+
 			return new CIdleState();
 		}
 		break;
@@ -89,7 +98,7 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 	default:
 		break;
 	}
-
+	
 
 	return nullptr;
 }
@@ -183,6 +192,15 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_7, 0.01f);
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_8:
+		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pAkaza->Get_NavigationHeight().y, 56.1f, 1.f));
+		pAkaza->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pAkaza->Get_NavigationHeight().y, 50.03f, 1.f));
+
+		pAkaza->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_KNOCKBACK, 0.f, 0.f, 8.f);
+		pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_SPLSKL_END);
+		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_SPLSKL_END);
+		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza::ANIM_SPLSKL_END));
+		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_SPLSKL_END);
+		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_END, 0.01f);
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_END:
 		break;

@@ -13,6 +13,7 @@
 #include "AkazaSkill_Destroy.h"
 #include "AkazaAdvSkill_Move.h"
 #include "Effect_Manager.h"
+#include "AkazaSplSkrStartState.h"
 using namespace Akaza;
 
 
@@ -29,6 +30,12 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 	switch (pAkaza->Get_i1P())
 	{
 	case 1:
+		if (pGameInstance->Key_Pressing(DIK_E))
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Down(DIK_J))
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_O) && pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)
@@ -191,6 +198,12 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 			return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+		{
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			return new CSplSkrStartState(TYPE_START);
+		}
+
 		if (pGameInstance->Key_Down(DIK_Z))
 			return new CAtk_1_State();
 		else if (pGameInstance->Key_Pressing(DIK_C) && pAkaza->Get_PlayerInfo().fGuardTime <= 0.f)

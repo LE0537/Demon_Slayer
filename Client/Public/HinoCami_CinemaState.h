@@ -31,6 +31,7 @@ public:
 	virtual void Enter(CTanjiro* pTanjiro) override;
 	virtual void Exit(CTanjiro* pTanjiro) override;
 
+	void Fall_Height(CTanjiro* pTanjiro, _float fTimeDelta);
 
 private:
 	CINEMASCENE m_eScene = SCENE_END;
@@ -50,6 +51,8 @@ private:
 	_float m_fPositionY;
 	_float3 m_vPosition;
 	_float3 m_vVelocity;
+
+	_float m_fOriginPosY;
 
 	_bool      m_bEffect = false;
 };

@@ -5,6 +5,7 @@
 #include "Layer.h"
 #include "NezukoMoveState.h"
 #include "Effect_Manager.h"
+#include "NezukoSplSkrStartState.h"
 using namespace Nezuko;
 
 CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
@@ -22,6 +23,11 @@ CNezukoState * CDashState::HandleInput(CNezuko* pNezuko)
 		if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
 		{
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+			if (pGameInstance->Key_Pressing(DIK_E))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 			{
@@ -115,6 +121,12 @@ CNezukoState * CDashState::HandleInput(CNezuko* pNezuko)
 		if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
 		{
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 			{

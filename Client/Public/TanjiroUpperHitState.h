@@ -50,6 +50,7 @@ private:
 	_float m_fJumpTime = 0.f;
 	_float m_fDelay = 0.f;
 
+	_bool  m_bTrue = false;
 };
 END
 END

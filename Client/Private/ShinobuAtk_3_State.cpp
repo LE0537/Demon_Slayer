@@ -11,6 +11,7 @@
 #include "ShinobuTargetRushState.h"
 #include "ShinobuDashState.h"
 #include "ShinobuJumpState.h"
+#include "ShinobuSplSkrStartState.h"
 using namespace Shinobu;
 
 
@@ -240,7 +241,11 @@ CShinobuState * CAtk_3_State::CommandCheck(CShinobu * pShinobu)
 		switch (pShinobu->Get_i1P())
 		{
 		case 1:
-	
+			if (pGameInstance->Key_Pressing(DIK_E))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
 			{
@@ -282,7 +287,11 @@ CShinobuState * CAtk_3_State::CommandCheck(CShinobu * pShinobu)
 			}
 			break;
 		case 2:
-		
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 
 			{

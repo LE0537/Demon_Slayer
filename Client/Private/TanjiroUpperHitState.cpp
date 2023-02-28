@@ -4,7 +4,7 @@
 #include "GameInstance.h"
 #include "Layer.h"
 #include "Camera_Dynamic.h"
-
+#include "Rui.h"
 using namespace Tanjiro;
 
 CUpperHitState::CUpperHitState(CTanjiro::HIT_TYPE eHitType, STATE_TYPE eType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower, _float fJumpTime)
@@ -604,8 +604,21 @@ CTanjiroState * CUpperHitState::BoundState(CTanjiro * pTanjiro, _float fTimeDelt
 			break;
 		case Client::CTanjiroState::TYPE_CHANGE:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			if(m_fDelay >= 0.5f)
-			return new CIdleState(STATE_HIT);
+		
+			if (m_fDelay >= 4.f && !m_bTrue && pTanjiro->Get_StoryRuiSpl())
+			{
+				m_bTrue = true;
+				pTanjiro->Set_StoryPowerUp();
+			}
+			if (m_fDelay >= 5.f && pTanjiro->Get_StoryRuiSpl())
+			{
+				pTanjiro->Set_StoryRuiSpl(false);
+				dynamic_cast<CRui*>(pTanjiro->Get_BattleTarget())->Set_StoryDelay(3.f);
+			}
+			if (m_fDelay >= 0.5f && !pTanjiro->Get_StoryRuiSpl())
+			{
+				return new CIdleState(STATE_HIT);
+			}
 			break;
 		default:
 			break;

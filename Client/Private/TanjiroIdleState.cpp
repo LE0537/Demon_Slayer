@@ -17,6 +17,7 @@
 #include "TanjiroTargetRushState.h"
 #include "HinoCami_CinemaState.h"
 #include "ImGuiManager.h"
+#include "TanjiroSplSkrStartState.h"
 using namespace Tanjiro;
 
 
@@ -48,8 +49,10 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		case 1:
 			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
 			{
-				pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
+				//pTanjiro->Get_BattleTarget()->Play_Scene();
+				//return new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);
+
+				return new CSplSkrStartState(TYPE_START);
 			}
 
 
@@ -170,6 +173,12 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			}
 			break;
 		case 2:
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
+			{
+				//	pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
+			}
+
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

@@ -12,6 +12,7 @@
 #include "KyoujuroTargetRushState.h"
 #include "Effect_Manager.h"
 #include "Kyoujuro_CinemaState.h"
+#include "KyoujuroSplSkrStartState.h"
 using namespace Kyoujuro;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -32,8 +33,9 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
-				pKyoujuro->Get_BattleTarget()->Play_Scene();
-				return new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_START);
+				//pKyoujuro->Get_BattleTarget()->Play_Scene();
+				//return new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_START);
+				return new CSplSkrStartState(TYPE_START);
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ

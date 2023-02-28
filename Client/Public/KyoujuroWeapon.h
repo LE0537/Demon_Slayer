@@ -54,6 +54,11 @@ private:
 	_bool					m_bRender = false;
 	_bool					m_bMenu = false;
 	_bool					m_bTrue = false;
+
+	_float m_fAngleX = 0.f;
+	_float m_fAngleY = 0.f;
+	_float m_fAngleZ = 0.f;
+
 public:
 	void Set_Render(_bool _bRender) {
 		m_bRender = _bRender;
@@ -64,6 +69,7 @@ private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
+	
 
 public:
 	static CKyoujuroWeapon* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
