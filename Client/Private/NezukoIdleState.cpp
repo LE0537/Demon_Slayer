@@ -14,6 +14,7 @@
 #include "NezukoTargetRushState.h"
 #include "UI_Manager.h"
 #include "Nezuko_CinemaState.h"
+#include "NezukoSplSkrStartState.h"
 using namespace Nezuko;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -33,8 +34,8 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 		case 1:
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
-				pNezuko->Get_BattleTarget()->Play_Scene();
-				return new CNezuko_CinemaState(CNezuko_CinemaState::SCENE_START);
+				//pNezuko->Get_BattleTarget()->Play_Scene();
+				return new CSplSkrStartState(TYPE_START);
 			}
 			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 			{

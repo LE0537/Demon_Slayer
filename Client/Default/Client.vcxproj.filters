@@ -1477,6 +1477,24 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern6">
       <UniqueIdentifier>{5b9e5751-d410-4893-8c15-304d376ddf6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\SplSkrStart">
+      <UniqueIdentifier>{387ffc75-e627-46e9-bbc0-341aad15330e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\SplSkrStart">
+      <UniqueIdentifier>{cf795ff6-c779-4ea4-8206-f54c846128ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\SplSkrStart">
+      <UniqueIdentifier>{6d50a5d8-3ab3-4e60-8904-de47ace10452}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\SplSkrState">
+      <UniqueIdentifier>{8ee10a46-054a-403a-a115-87658a186b98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\SplSkrState">
+      <UniqueIdentifier>{b1003dbf-4cea-49dd-ac45-7b21b983bea1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\SplSkrState">
+      <UniqueIdentifier>{14431c58-4f07-469e-957d-62cdb5633954}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2940,6 +2958,24 @@
     <ClInclude Include="..\Public\RuiDadIdleState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\TanjiroSplSkrStartState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\SplSkrStart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroSplSkrStartState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\SplSkrStart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\NezukoSplSkrStartState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\SplSkrStart</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\ShinobuSplSkrStartState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\SplSkrState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaSplSkrStartState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\SplSkrState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\RuiSplSkrStartState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\SplSkrState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4369,6 +4405,24 @@
     </ClCompile>
     <ClCompile Include="..\Private\EnmuBoss_Pattern6State.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern6</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TanjiroSplSkrStartState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\SplSkrStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroSplSkrStartState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\SplSkrStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\NezukoSplSkrStartState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\SplSkrStart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ShinobuSplSkrStartState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\05.Shinobu\ShinobuState\SplSkrState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaSplSkrStartState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\SplSkrState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiSplSkrStartState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\SplSkrState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -138,6 +138,10 @@ public:
 
 		ANIM_DEAD =105,
 
+		ANIM_SPLSKL_START_0 = 23,
+
+		ANIM_SPLSKL_END = 113,
+
 		ANIM_END = 106
 	};
 
