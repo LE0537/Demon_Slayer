@@ -14,34 +14,9 @@ CKyoujuro_CinemaState::CKyoujuro_CinemaState(CINEMASCENE eScene)
 
 CKyoujuroState * CKyoujuro_CinemaState::HandleInput(CKyoujuro * pKyoujuro)
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	CKyoujuroState* pState = nullptr;
-	if (pGameInstance->Key_Down(DIK_F3) && !pKyoujuro->Get_StoryKey())
-		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_START);
-	if (pGameInstance->Key_Down(DIK_F4) && !pKyoujuro->Get_StoryKey())
-		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_0);
-	if (pGameInstance->Key_Down(DIK_F5) && !pKyoujuro->Get_StoryKey())
-		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_1);
-	if (pGameInstance->Key_Down(DIK_F6) && !pKyoujuro->Get_StoryKey())
-		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_2);
-	if (pGameInstance->Key_Down(DIK_F7) && !pKyoujuro->Get_StoryKey())
-		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_3);
-	if (pGameInstance->Key_Down(DIK_F8) && !pKyoujuro->Get_StoryKey())
-		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_4);
-	if (pGameInstance->Key_Down(DIK_F9) && !pKyoujuro->Get_StoryKey())
-		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_5);
-	if (pGameInstance->Key_Down(DIK_CAPSLOCK) && !pKyoujuro->Get_StoryKey())
-		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_6);
-	if (pGameInstance->Key_Down(DIK_PGUP) && !pKyoujuro->Get_StoryKey())
-		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_7);
-	if (pGameInstance->Key_Down(DIK_PGDN) && !pKyoujuro->Get_StoryKey())
-		pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_8);
-	RELEASE_INSTANCE(CGameInstance);
 
-	if (nullptr != pState)
-		pKyoujuro->Get_BattleTarget()->Play_Scene();
 
-	return pState;
+	return nullptr;
 }
 
 CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)

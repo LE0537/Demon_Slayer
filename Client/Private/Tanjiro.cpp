@@ -233,7 +233,9 @@ void CTanjiro::Tick(_float fTimeDelta)
 			Set_Shadow();
 			Check_QuestEvent(fTimeDelta);
 		}
-		else if (g_iLevel == LEVEL_ADVAKAZA)
+		else if (g_iLevel == LEVEL_ADVAKAZA ||
+			g_iLevel == LEVEL_BATTLEENMU ||
+			g_iLevel == LEVEL_BOSSENMU)
 		{
 			Set_Shadow();
 			Check_QuestTrainEvent(fTimeDelta);
@@ -613,7 +615,7 @@ HRESULT CTanjiro::Render_ShadowDepth()
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 	}
-	else if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+	else
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);
@@ -857,9 +859,13 @@ void CTanjiro::Set_Shadow()
 	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
 	_float4 vAt = vPos;
 
-	vPos.x -= 20.f;
-	vPos.y += 40.f;
-	vPos.z -= 40.f;
+	_float fValue = 1.f;
+	if (LEVEL_BATTLEENMU == g_iLevel)
+		fValue = 4.8f;
+
+	vPos.x -= 20.f * fValue;
+	vPos.y += 40.f * fValue;
+	vPos.z -= 40.f * fValue;
 
 	pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW, vPos, vAt);
 

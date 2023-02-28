@@ -894,10 +894,9 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 	const LIGHTDESC* pLightDesc = nullptr;
 
 	if (_iLevel == 3)		//	Gameplay
-		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
-	else if (_iLevel == 8 ||		//	Rui 스토리
-		10 == _iLevel)				//	AdvAkaza
-		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
+		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);		//	Player를 따라다니지 않는 그림자.
+	else
+		pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);			//	Player를 따라다니는 그림자.
 
 	if (nullptr != pLightDesc)
 	{

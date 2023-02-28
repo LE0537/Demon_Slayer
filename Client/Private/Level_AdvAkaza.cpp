@@ -115,25 +115,25 @@ HRESULT CLevel_AdvAkaza::Initialize()
 		return E_FAIL;
 	}
 
-	_float fValue[CRenderer::VALUE_END] = { 0.8f, 0.37f ,0.1f ,20.f ,400.f ,0.4f ,0.3f ,1.36f,0.4f,1.f,20.f,20.f,0.05f,1.7f,0.6f,0.4f,0.1f,0.2f,15.f,0.f,0.f };
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.8f);
+	_float fValue[CRenderer::VALUE_END] = { 1.f, 0.37f ,0.1f ,182.f ,1571.f ,0.142f ,0.f ,1.36f,0.4f,1.f,20.f,20.f,0.05f,0.257f,0.2f,0.4f,0.1f,0.3f,15.f,0.f,0.f };
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 1.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.37f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.1f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 20.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 400.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.3f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 182.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 1571.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.142f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 20.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.7f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.6f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 0.257f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.2f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.4f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 0.1f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.2f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
 	m_pRendererCom->Set_Far(g_fFar);
 
@@ -203,6 +203,8 @@ HRESULT CLevel_AdvAkaza::Ready_Lights()
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+	pGameInstance->LightClear();
+
 	LIGHTDESC			LightDesc;
 
 	/* For.Point */
@@ -262,6 +264,59 @@ HRESULT CLevel_AdvAkaza::Ready_Lights()
 	{
 		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, LightDesc.vDirection, LightDesc.vDiffuse);
 	}
+
+
+	//	Point Light
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+	LightDesc.eType = LIGHTDESC::TYPE_POINT1;
+	LightDesc.vPosition = _float4(0.f, 308.f, 1060.f, 1.f);
+	LightDesc.fRange = 572.f;
+	LightDesc.vDiffuse = _float4(1.f, 0.7f, 0.2f, 0.f);
+	LightDesc.vAmbient = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
+	
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+	LightDesc.eType = LIGHTDESC::TYPE_POINT2;
+	LightDesc.vPosition = _float4(0.f, 36.f, -260.f, 1.f);
+	LightDesc.fRange = 684.f;
+	LightDesc.vDiffuse = _float4(1.f, 0.7f, 0.2f, 0.f);
+	LightDesc.vAmbient = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
+
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+	LightDesc.eType = LIGHTDESC::TYPE_POINT3;
+	LightDesc.vPosition = _float4(0.f, 14.f, 406.f, 1.f);
+	LightDesc.fRange = 8.4f;
+	LightDesc.vDiffuse = _float4(1.f, 0.7f, 0.2f, 0.f);
+	LightDesc.vAmbient = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
+
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+	LightDesc.eType = LIGHTDESC::TYPE_POINT4;
+	LightDesc.vPosition = _float4(0.f, 102.f, 360.f, 1.f);
+	LightDesc.fRange = 143.f;
+	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vAmbient = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
+
+	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
+	LightDesc.eType = LIGHTDESC::TYPE_POINT5;
+	LightDesc.vPosition = _float4(0.f, 118.f, 236.f, 1.f);
+	LightDesc.fRange = 138.f;
+	LightDesc.vDiffuse = _float4(1.f, 0.f, 0.f, 1.f);
+	LightDesc.vAmbient = _float4(1.f, 1.f, 1.f, 1.f);
+	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, LightDesc)))
+		return E_FAIL;
+
 
 	RELEASE_INSTANCE(CGameInstance);
 

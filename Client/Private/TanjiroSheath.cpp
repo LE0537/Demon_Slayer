@@ -135,7 +135,7 @@ HRESULT CTanjiroSheath::Render_ShadowDepth()
 		vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
 	}
-	else if (g_iLevel == LEVEL_ADVRUI)
+	else
 	{
 		vLightEye = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDirection);
 		vLightAt = XMLoadFloat4(&pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW)->vDiffuse);

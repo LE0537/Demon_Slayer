@@ -17,6 +17,7 @@ public:
 	HRESULT Set_LightDesc(_uint iIndex, LIGHTDESC tLightDesc);
 public:
 	HRESULT Add_Light(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc);
+	HRESULT Delete_Light(_int iLightIndex);
 	HRESULT Add_ShadowLight(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc);
 	HRESULT Render_Lights(class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 

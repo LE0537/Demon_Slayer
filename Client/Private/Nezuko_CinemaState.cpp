@@ -12,7 +12,36 @@ CNezuko_CinemaState::CNezuko_CinemaState(CINEMASCENE eScene)
 
 CNezukoState * CNezuko_CinemaState::HandleInput(CNezuko * pNezuko)
 {
-	return nullptr;
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	CNezukoState* pState = nullptr;
+	if (pGameInstance->Key_Down(DIK_F3) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_START);
+	if (pGameInstance->Key_Down(DIK_F4) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_0);
+	if (pGameInstance->Key_Down(DIK_F5) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_1);
+	if (pGameInstance->Key_Down(DIK_F6) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_2);
+	if (pGameInstance->Key_Down(DIK_F7) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_3);
+	if (pGameInstance->Key_Down(DIK_F8) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_4);
+	if (pGameInstance->Key_Down(DIK_F9) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_5);
+	if (pGameInstance->Key_Down(DIK_CAPSLOCK) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_6);
+	if (pGameInstance->Key_Down(DIK_PGUP) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_7);
+	if (pGameInstance->Key_Down(DIK_PGDN) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_8);
+	if (pGameInstance->Key_Down(DIK_RCONTROL) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_9);
+	RELEASE_INSTANCE(CGameInstance);
+
+	if (nullptr != pState)
+		pNezuko->Get_BattleTarget()->Play_Scene();
+
+	return pState;
 }
 
 CNezukoState * CNezuko_CinemaState::Tick(CNezuko * pNezuko, _float fTimeDelta)
