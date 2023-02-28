@@ -126,5 +126,10 @@ void CSplSkrStartState::Exit(CTanjiro * pTanjiro)
 
 void CSplSkrStartState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-	pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 2.f);
+	_vector vMyPosition = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTargetPosition = pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
+	if(fDistance >= 5.f)
+		pTanjiro->Get_Transform()->Go_Straight(fTimeDelta * 2.f);
 }

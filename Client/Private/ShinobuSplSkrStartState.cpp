@@ -127,5 +127,10 @@ void CSplSkrStartState::Exit(CShinobu* pShinobu)
 
 void CSplSkrStartState::Move(CShinobu* pShinobu, _float fTimeDelta)
 {
-	pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 2.f);
+	_vector vMyPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTargetPosition = pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
+	if (fDistance >= 5.f)
+		pShinobu->Get_Transform()->Go_Straight(fTimeDelta * 2.f);
 }

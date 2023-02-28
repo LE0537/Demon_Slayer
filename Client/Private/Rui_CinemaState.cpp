@@ -59,6 +59,11 @@ CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 		{
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+
+			pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, 10.f, 56.1f, 1.f));
+			pRui->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pRui->Get_NavigationHeight().y, 50.03f, 1.f));
+			pRui->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_BOUND, 20.f, 30.f, 0.f);
+
 			return new CIdleState();
 		}
 		break;

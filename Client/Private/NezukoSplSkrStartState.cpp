@@ -138,5 +138,10 @@ void CSplSkrStartState::Exit(CNezuko* pNezuko)
 
 void CSplSkrStartState::Move(CNezuko* pNezuko, _float fTimeDelta)
 {
-	pNezuko->Get_Transform()->Go_Straight(fTimeDelta * 2.f);
+	_vector vMyPosition = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTargetPosition = pNezuko->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
+	if (fDistance >= 5.f)
+		pNezuko->Get_Transform()->Go_Straight(fTimeDelta * 2.f);
 }

@@ -52,13 +52,25 @@ CShinobuState * CShinobu_CinemaState::Tick(CShinobu * pShinobu, _float fTimeDelt
 		if (pShinobu->Get_Model()->Get_End(CShinobu_CinemaState::ANIM_SCENE_3))
 		{
 			pShinobu->Get_Model()->Set_End(CShinobu_CinemaState::ANIM_SCENE_3);
+			return new CShinobu_CinemaState(SCENE_END);
+		}
+		break;
+	case Client::Shinobu::CShinobu_CinemaState::SCENE_END:
+		if (pShinobu->Get_Model()->Get_End(CShinobu::ANIM_SPLSKL_END))
+		{
+			pShinobu->Get_Model()->Set_End(CShinobu::ANIM_SPLSKL_END);
 			return new CIdleState();
 		}
 		break;
-
 	default:
 		break;
 	}
+
+
+	if (m_eScene == SCENE_END && m_bNextAnim == false)
+		Jump(pShinobu, fTimeDelta);
+
+
 
 
 	return nullptr;
@@ -122,6 +134,17 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu_CinemaState::ANIM_SCENE_3, 0.01f);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_END:
+		pShinobu->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_BOUND, 20.f, 30.f, 3.f);
+		pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_SPLSKL_END);
+		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_SPLSKL_END);
+		pShinobu->Set_AnimIndex(static_cast<CShinobu::ANIMID>(CShinobu::ANIM_SPLSKL_END));
+		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_SPLSKL_END);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SPLSKL_END, 0.01f);
+
+
+		 m_fBoundPower = 20.f;
+		 m_fJumpPower = 30.f;
+		 m_fKnockBackPower = 8.f;
 		break;
 	default:
 		break;
@@ -132,5 +155,74 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 
 void CShinobu_CinemaState::Exit(CShinobu * pShinobu)
 {
+}
+
+void CShinobu_CinemaState::Jump(CShinobu * pShinobu, _float fTimeDelta)
+{
+	pShinobu->Set_NavigationHeight(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fCurrentPosY = pShinobu->Get_NavigationHeight().y;
+	m_fJumpTime += 0.035f;
+
+	static _float fStartHeight = XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	static _float fVelocity = 5.f;
+
+	m_vPosition.x = XMVectorGetX(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_vPosition.y = XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_vPosition.z = XMVectorGetZ(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+
+	_vector vCurrentPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	_vector vMyPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTargetPosition = pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+
+	vMyPosition = XMVectorSetY(vMyPosition, XMVectorGetY(vTargetPosition));
+
+	_vector vLookAt = XMVector3Normalize(vTargetPosition - vMyPosition) * -1.f;
+
+	//m_vVelocity.x += fGravity * fTimeDelta * 0.8f;
+	m_vVelocity.y += 50.f * fTimeDelta;
+	//m_vVelocity.z += fGravity * fTimeDelta * 0.8f;
+
+
+
+	m_vPosition.x += XMVectorGetX(vLookAt) * m_fKnockBackPower * fTimeDelta * 1.1f;
+	m_vPosition.z += XMVectorGetZ(vLookAt) * m_fKnockBackPower * fTimeDelta * 1.1f;
+
+	m_vPosition.y = fStartHeight + m_fBoundPower * m_fJumpTime - (0.5f * m_fJumpPower * m_fJumpTime * m_fJumpTime);
+
+	//m_vPosition.y -= 3.f;
+
+
+
+	_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
+
+
+	if (m_vPosition.y <= m_fCurrentPosY)
+	{
+		m_vPosition.y = m_fCurrentPosY;
+
+
+		_vector vPosition = XMVectorSet(m_vPosition.x, m_vPosition.y, m_vPosition.z, 1.f);
+		if (pShinobu->Get_NavigationCom()->Cheak_Cell(vPosition))
+			pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+
+		m_bNextAnim = true;
+
+		pShinobu->Get_Transform()->Set_Jump(false);
+	}
+	else
+	{
+		if (pShinobu->Get_NavigationCom()->Cheak_Cell(vPosition))
+		{
+			pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+		}
+		else
+		{
+			_vector vec = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			vec = XMVectorSetY(vec, m_vPosition.y);
+			pShinobu->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vec);
+		}
+	}
 }
 

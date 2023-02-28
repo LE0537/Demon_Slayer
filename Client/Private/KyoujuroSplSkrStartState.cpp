@@ -126,5 +126,10 @@ void CSplSkrStartState::Exit(CKyoujuro* pKyoujuro)
 
 void CSplSkrStartState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {
-	pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 2.f);
+	_vector vMyPosition = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTargetPosition = pKyoujuro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
+	if (fDistance >= 5.f)
+		pKyoujuro->Get_Transform()->Go_Straight(fTimeDelta * 2.f);
 }

@@ -129,5 +129,10 @@ void CSplSkrStartState::Exit(CAkaza* pAkaza)
 
 void CSplSkrStartState::Move(CAkaza* pAkaza, _float fTimeDelta)
 {
+	_vector vMyPosition = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vTargetPosition = pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
+	if (fDistance >= 5.f)
 	pAkaza->Get_Transform()->Go_Straight(fTimeDelta * 2.2f);
 }

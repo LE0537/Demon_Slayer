@@ -76,10 +76,17 @@ CTanjiroState * CHinoCami_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDel
 		{
 			pTanjiro->Get_Model()->Set_End(CHinoCami_CinemaState::ANIM_SCENE_3);
 
-			return new CIdleState();
+			 
+			return new CHinoCami_CinemaState(SCENE_4);
 		}
 		break;
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_4:
+		if (pTanjiro->Get_Model()->Get_End(CTanjiro::ANIM_SPLSKL_END))
+		{
+			pTanjiro->Get_Model()->Set_End(CTanjiro::ANIM_SPLSKL_END);
+
+			return new CIdleState();
+		}
 		break;
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_5:
 		break;
@@ -89,7 +96,12 @@ CTanjiroState * CHinoCami_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDel
 		break;
 	}
 
-
+	if (m_eScene == CHinoCami_CinemaState::SCENE_4)
+	{
+		if(m_bNextAnim == false)
+			Fall_Height(pTanjiro, fTimeDelta);
+	}
+	
 
 
 
@@ -210,6 +222,14 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		break;
 	}
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_4:
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, 10.f, 56.1f, 1.f));
+		pTanjiro->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pTanjiro->Get_NavigationHeight().y, 50.03f, 1.f));
+
+		pTanjiro->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_BOUND, 20.f, 30.f, 0.f);
+		pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIM_SPLSKL_END);
+		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_SPLSKL_END);
+		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_SPLSKL_END);
+		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_SPLSKL_END, 0.2f);
 		break;
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_5:
 		break;
@@ -223,6 +243,52 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 
 void CHinoCami_CinemaState::Exit(CTanjiro * pTanjiro)
 {
+
+}
+
+void CHinoCami_CinemaState::Fall_Height(CTanjiro * pTanjiro, _float fTimeDelta)
+{
+	
+	pTanjiro->Set_NavigationHeight(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	m_fOriginPosY = pTanjiro->Get_NavigationHeight().y;
+	pTanjiro->Get_Transform()->Set_Jump(true);
+	static _float fGravity = -80.f;
+	static _float fVelocity = 0.f;
+	static _float3 vPosition;
+
+	vPosition.x = XMVectorGetX(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	vPosition.y = XMVectorGetY(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	vPosition.z = XMVectorGetZ(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	fVelocity += fGravity * fTimeDelta;
+
+	vPosition.y += fVelocity * fTimeDelta;
+
+	_vector vecPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	vecPos = XMVectorSetX(vecPos, vPosition.x);
+	vecPos = XMVectorSetY(vecPos, vPosition.y);
+	vecPos = XMVectorSetZ(vecPos, vPosition.z);
+
+	if (vPosition.y <= m_fOriginPosY)// m_fCurrentPosY)
+	{
+		vPosition.y = m_fOriginPosY;
+		fVelocity = m_fOriginPosY;
+		pTanjiro->Get_Transform()->Set_Jump(false);
+		_vector vecPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+		vecPos = XMVectorSetY(vecPos, vPosition.y);
+		if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+
+		m_bNextAnim = true;
+	}
+	else
+	{
+		if (pTanjiro->Get_NavigationCom()->Cheak_Cell(vecPos))
+			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+	}
+
+
 
 }
 

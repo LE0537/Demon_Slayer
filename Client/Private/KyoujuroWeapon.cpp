@@ -68,10 +68,16 @@ void CKyoujuroWeapon::Tick(_float fTimeDelta)
 		_vector vUp = matCollBox.r[1];
 		matCollBox.r[3] += XMVector3Normalize(vUp) * 2.f;
 
+
+
+
+
 }
 
 void CKyoujuroWeapon::Late_Tick(_float fTimeDelta)
 {
+
+
 
 
 }

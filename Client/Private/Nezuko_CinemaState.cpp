@@ -93,10 +93,15 @@ CNezukoState * CNezuko_CinemaState::Tick(CNezuko * pNezuko, _float fTimeDelta)
 		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_9))
 		{
 			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_9);
-			return new CIdleState;
+			return new CNezuko_CinemaState(SCENE_END);
 		}
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_END:
+		if (pNezuko->Get_Model()->Get_End(CNezuko::ANIM_SPLSKL_END))
+		{
+			pNezuko->Get_Model()->Set_End(CNezuko::ANIM_SPLSKL_END);
+			return new CIdleState();
+		}
 		break;
 	default:
 		break;
@@ -214,6 +219,15 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_9, 0.01f);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_END:
+		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pNezuko->Get_NavigationHeight().y, 56.1f, 1.f));
+		pNezuko->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pNezuko->Get_NavigationHeight().y, 50.03f, 1.f));
+
+		pNezuko->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_BOUND, 20.f, 30.f, 2.f);
+		pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_SPLSKL_END);
+		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_SPLSKL_END);
+		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko::ANIM_SPLSKL_END));
+		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_SPLSKL_END);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_END, 0.01f);
 		break;
 	default:
 		break;
