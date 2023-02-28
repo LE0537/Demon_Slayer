@@ -94,18 +94,33 @@ void CMapNameBar::Tick(_float fTimeDelta)
 						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_04.wav"), fEFFECT);
 						pUI_Manager->Set_QuestStartCheck(true);
 						pUI_Manager->Set_MainQuestOn();
+						m_bMsgOnCheck = true;
 					
 					}
-					else
+					else if(m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
 					{
-						pUI_Manager->Set_MsgOn();
-						pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
-						pUI_Manager->Set_Msg(TEXT("열차에 간신히 타버렸다.. 안을 조사해 보자"));
-						pUI_Manager->Set_QuestStartCheck(true);
-						pUI_Manager->Set_MainQuestOn();
+						switch (pUI_Manager->Get_MsgCount())
+						{
+						case 0:
+							pUI_Manager->Set_MsgOn();
+							pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
+							pUI_Manager->Set_Msg(TEXT("큭.. 냄새가 지독해, 무거워...! 이 바람 속에서 혈귀 냄새가 이렇게까지...!!"));
+							break;
+						case 1:
+							pUI_Manager->Set_MsgOn();
+							pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
+							pUI_Manager->Set_Msg(TEXT("혈귀는 바람이 불어오는 쪽... 선두 차량인가? 앞으로 가보자"));
+							pUI_Manager->Set_QuestStartCheck(true);
+							pUI_Manager->Set_MainQuestOn();
+							pUI_Manager->Reset_MsgCount();
+							m_bMsgOnCheck = true;
+							break;
+						default:
+							break;
+						}
 					}
 
-					m_bMsgOnCheck = true;
+					
 				}
 			}
 		}

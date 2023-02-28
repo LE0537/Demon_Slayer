@@ -48,6 +48,8 @@ void CDoor::Tick(_float fTimeDelta)
 
 
 	Move_Mesh(fTimeDelta);
+	if(m_tMyDesc.iModelIndex == 0)
+		Event_Check(fTimeDelta);
 }
 
 void CDoor::Late_Tick(_float fTimeDelta)
@@ -305,6 +307,47 @@ void CDoor::Move_Mesh(_float fTimeDelta)
 	
 
 	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
+}
+
+void CDoor::Event_Check(_float fTimeDelta)
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (m_bTurn && !m_bEventCheck)
+	{
+		m_fEventStart = fTimeDelta;
+
+		if (m_fEventStart >= 3.f)
+		{
+			switch (pUI_Manager->Get_MsgCount())
+			{
+			case 0:
+				pUI_Manager->Set_MsgOn();
+				pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUI_Manager->Set_Msg(TEXT("사람들이 잠들어 있다...?"));
+				break;
+			case 1:
+				pUI_Manager->Set_MsgOn();
+				pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUI_Manager->Set_Msg(TEXT("혈귀가 수를 쓴거야"));
+				break;
+			case 2:
+				pUI_Manager->Set_MsgOn();
+				pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUI_Manager->Set_Msg(TEXT("어떻게 이토록 강한 혈귀술을..."));
+				pUI_Manager->Reset_MsgCount();
+				m_bEventCheck = true;
+				break;
+			default:
+				break;
+			}
+
+		}
+		
+		
+	}
+
 	RELEASE_INSTANCE(CUI_Manager);
 }
 
