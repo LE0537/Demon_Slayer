@@ -160,6 +160,14 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 
 		break;
 	case 2:
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT)) // ╬у
+		{
+			//pAkaza->Get_BattleTarget()->Play_Scene();
+			//return new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_START);
+			return new CSplSkrStartState(TYPE_START);
+		}
+
+
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 		{
 			if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб
