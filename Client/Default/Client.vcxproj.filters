@@ -1477,6 +1477,9 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern6">
       <UniqueIdentifier>{5b9e5751-d410-4893-8c15-304d376ddf6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC\RuiSister">
+      <UniqueIdentifier>{be1fcca2-3a65-421d-ae92-12e3bab565bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2940,6 +2943,9 @@
     <ClInclude Include="..\Public\RuiDadIdleState.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\00.RuiDad\RuiDadState\AiState</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RuiSister.h">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\RuiSister</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4369,6 +4375,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\EnmuBoss_Pattern6State.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Pattern\Pattern6</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiSister.cpp">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\RuiSister</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
