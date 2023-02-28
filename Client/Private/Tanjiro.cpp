@@ -677,10 +677,12 @@ void CTanjiro::Take_Damage(_float _fPow, _bool _bJumpHit)
 	//STATE_SKILL_KAGURA_MOVE,
 	//STATE_SKILL_KAGURA_SPHERE,
 
+	if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
+	{
 
-
-	CTanjiroState* pState = new CHitState(_fPow, _bJumpHit);
-	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+		CTanjiroState* pState = new CHitState(_fPow, _bJumpHit);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+	}
 
 }
 
@@ -702,9 +704,7 @@ void CTanjiro::Get_GuardHit(_int eType)
 
 void CTanjiro::Player_TakeDown(_float _fPow, _bool _bJumpHit)
 {
-	if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_WATERMILL ||
-		CTanjiroState::STATE_SKILL_WINDMILL || CTanjiroState::STATE_SKILL_COMMON || CTanjiroState::STATE_SKILL_KAGURA_COMMON ||
-		CTanjiroState::STATE_SKILL_KAGURA_MOVE || CTanjiroState::STATE_SKILL_KAGURA_SPHERE || CTanjiroState::STATE_JUMP_ATTACK)
+	if (m_pTanjiroState->Get_TanjiroState() !=  CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
 	{
 		CTanjiroState* pState = new CTakeDownState(_fPow, _bJumpHit);
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
@@ -713,9 +713,7 @@ void CTanjiro::Player_TakeDown(_float _fPow, _bool _bJumpHit)
 
 void CTanjiro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
-	if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_WATERMILL ||
-		CTanjiroState::STATE_SKILL_WINDMILL || CTanjiroState::STATE_SKILL_COMMON || CTanjiroState::STATE_SKILL_KAGURA_COMMON ||
-		CTanjiroState::STATE_SKILL_KAGURA_MOVE || CTanjiroState::STATE_SKILL_KAGURA_SPHERE || CTanjiroState::STATE_JUMP_ATTACK)
+	if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
 	{
 		CTanjiroState* pState = new CUpperHitState(eHitType, CTanjiroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
