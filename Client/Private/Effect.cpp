@@ -67,7 +67,7 @@ HRESULT CEffect::Initialize(void * pArg)
 			m_ParentWorldMatrix = (_float4x4*)pArg;
 		}
 		else
-			m_pTarget = (CCharacters*)pArg;
+			m_pTarget = (CGameObj*)pArg;
 	}
 	
 	_float3 vRadian;

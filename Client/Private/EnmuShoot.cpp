@@ -36,7 +36,7 @@ HRESULT CEnmuShoot::Initialize(void * pArg)
 
 	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-	pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_COLL_COM_MAIN, this);
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMU_BALL, this);
 	RELEASE_INSTANCE(CEffect_Manager);
 
 
