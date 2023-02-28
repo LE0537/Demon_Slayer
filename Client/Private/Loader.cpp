@@ -199,6 +199,7 @@
 #include "Goto.h"
 #include "Ozaki.h"
 #include "TrainNPC.h"
+#include "RuiSister.h"
 //CamAction
 #include "CamLine.h"
 
@@ -1720,6 +1721,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Goto"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Goto"),
 		CGoto::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiSister"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/RuiSister/RuiSister.fbx", PivotMatrix))))
+		return E_FAIL;*/
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("RuiSister"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiSister"),
+		CRuiSister::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	//PivotMatrix = XMMatrixScaling(0.03f, 0.03f, 0.03f) * XMMatrixRotationY(XMConvertToRadians(180.0f));

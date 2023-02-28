@@ -1453,6 +1453,9 @@
     <Filter Include="05.CollBox\16.EnmuShoot">
       <UniqueIdentifier>{82bd510d-03cc-4e67-95b6-e0f695dea156}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC\RuiSister">
+      <UniqueIdentifier>{be1fcca2-3a65-421d-ae92-12e3bab565bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2895,6 +2898,9 @@
     <ClInclude Include="..\public\EnmuShoot.h">
       <Filter>05.CollBox\16.EnmuShoot</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RuiSister.h">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\RuiSister</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4303,6 +4309,9 @@
     </ClCompile>
     <ClCompile Include="..\private\EnmuShoot.cpp">
       <Filter>05.CollBox\16.EnmuShoot</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiSister.cpp">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\RuiSister</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
