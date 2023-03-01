@@ -188,7 +188,7 @@ PS_OUT PS_NORMAL(PS_NORMALIN In)
 
 	float3x3	WorldMatrix = float3x3(In.vTangent, In.vBinormal, vNormal);
 
-	vNormal = mul(vNormal, WorldMatrix);
+	vNormal = mul(In.vNormal, WorldMatrix);
 
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(vNormal * 0.5f + 0.5f, 0.f);
