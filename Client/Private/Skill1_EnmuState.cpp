@@ -4,7 +4,7 @@
 #include "EnmuIdleState.h"
 #include "SoundMgr.h"
 #include "EnmuShoot.h"
-
+#include "Effect_Manager.h"
 using namespace Enmu;
 
 CSkill1_EnmuState::CSkill1_EnmuState(STATE_TYPE eType)
@@ -32,10 +32,10 @@ CEnmuState * CSkill1_EnmuState::Tick(CEnmu * pEnmu, _float fTimeDelta)
 			return new CIdleState();
 			//return new CSkill1_EnmuState(TYPE_END);
 			break;
-		//case Client::CEnmuState::TYPE_END:
-		//	pEnmu->Get_Model()->Set_End(pEnmu->Get_AnimIndex());
-		//	return new CIdleState();
-		//	break;
+			//case Client::CEnmuState::TYPE_END:
+			//	pEnmu->Get_Model()->Set_End(pEnmu->Get_AnimIndex());
+			//	return new CIdleState();
+			//	break;
 		case Client::CEnmuState::TYPE_DEFAULT:
 			break;
 		case Client::CEnmuState::TYPE_CHANGE:
@@ -78,12 +78,20 @@ CEnmuState * CSkill1_EnmuState::Late_Tick(CEnmu * pEnmu, _float fTimeDelta)
 				return nullptr;
 
 			RELEASE_INSTANCE(CGameInstance);
+
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMU_SKILL_BALLSTART, pEnmu);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+
+
 			m_fMove = 0.f;
 			++m_iHit;
 		}
 		break;
 	case Client::CEnmuState::TYPE_LOOP:
-		if (m_fDelay > 0.15f && m_iHit == 0  && pEnmu->Get_BattleTarget()->Get_GodMode() == false)
+		if (m_fDelay > 0.15f && m_iHit == 0 && pEnmu->Get_BattleTarget()->Get_GodMode() == false)
 		{
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 
@@ -91,6 +99,12 @@ CEnmuState * CSkill1_EnmuState::Late_Tick(CEnmu * pEnmu, _float fTimeDelta)
 				return nullptr;
 
 			RELEASE_INSTANCE(CGameInstance);
+
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMU_SKILL_BALLSTART, pEnmu);
+
+			RELEASE_INSTANCE(CEffect_Manager);
 			m_fDelay = 0.f;
 			++m_iHit;
 		}
@@ -132,11 +146,11 @@ void CSkill1_EnmuState::Enter(CEnmu * pEnmu)
 		pEnmu->Set_AnimIndex(CEnmu::ANIM_SKILL_1_1);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Skill_0.wav"), fEFFECT);
 		break;
-	//case Client::CEnmuState::TYPE_END:
-	//	pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_SKILL_1_2);
-	//	pEnmu->Get_Model()->Set_Loop(CEnmu::ANIMID::ANIM_SKILL_1_2);
-	//	pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_SKILL_1_2, 0.01f);
-	//	pEnmu->Set_AnimIndex(CEnmu::ANIM_SKILL_1_2);
+		//case Client::CEnmuState::TYPE_END:
+		//	pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_SKILL_1_2);
+		//	pEnmu->Get_Model()->Set_Loop(CEnmu::ANIMID::ANIM_SKILL_1_2);
+		//	pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_SKILL_1_2, 0.01f);
+		//	pEnmu->Set_AnimIndex(CEnmu::ANIM_SKILL_1_2);
 		break;
 	case Client::CEnmuState::TYPE_DEFAULT:
 		break;

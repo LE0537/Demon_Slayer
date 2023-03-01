@@ -4,7 +4,7 @@
 #include "EnmuIdleState.h"
 #include "SoundMgr.h"
 #include "EnmuShoot.h"
-
+#include "Effect_Manager.h"
 using namespace Enmu;
 
 CSkill3_EnmuState::CSkill3_EnmuState(STATE_TYPE eType)
@@ -110,6 +110,12 @@ CEnmuState * CSkill3_EnmuState::Late_Tick(CEnmu * pEnmu, _float fTimeDelta)
 				return nullptr;
 
 			RELEASE_INSTANCE(CGameInstance);
+
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMU_SKILL_BALLSTART, pEnmu);
+
+			RELEASE_INSTANCE(CEffect_Manager);
 			m_fMove = 0.f;
 			++m_iHit;
 		}
@@ -126,6 +132,11 @@ CEnmuState * CSkill3_EnmuState::Late_Tick(CEnmu * pEnmu, _float fTimeDelta)
 				return nullptr;
 
 			RELEASE_INSTANCE(CGameInstance);
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMU_SKILL_BALLSTART, pEnmu);
+
+			RELEASE_INSTANCE(CEffect_Manager);
 			m_fMove = 0.f;
 			++m_iHit;
 		}
