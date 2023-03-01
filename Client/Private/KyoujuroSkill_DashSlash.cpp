@@ -489,7 +489,12 @@ CKyoujuroState * CSkill_DashSlashState::CommandCheck(CKyoujuro * pKyoujuro)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pKyoujuro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pKyoujuro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
@@ -535,7 +540,12 @@ CKyoujuroState * CSkill_DashSlashState::CommandCheck(CKyoujuro * pKyoujuro)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pKyoujuro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pKyoujuro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 

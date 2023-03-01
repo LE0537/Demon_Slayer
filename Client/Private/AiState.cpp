@@ -49,19 +49,19 @@ CRuiState * CAiState::HandleInput(CRui * pRui)
 			m_queueDash.pop();
 			pRui->Set_QueueCombo(m_queueDash);
 			pRui->Get_Transform()->Set_PlayerLookAt(m_vOriginPosition);
-			return new CDashState(OBJDIR::DIR_STRAIGHT, false, false);
+			return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 			break;
 		case Client::Rui::CAiState::DASH_L:
 			m_queueDash.pop();
 			pRui->Set_QueueCombo(m_queueDash);
 			pRui->Get_Transform()->Set_PlayerLookAt(m_vOriginPosition);
-			return new CDashState(OBJDIR::DIR_LEFT, false, false);
+			return new CDashState(OBJDIR::DIR_STRAIGHT, false, false);
 			break;
 		case Client::Rui::CAiState::DASH_R:
 			m_queueDash.pop();
 			pRui->Set_QueueCombo(m_queueDash);
 			pRui->Get_Transform()->Set_PlayerLookAt(m_vOriginPosition);
-			return new CDashState(OBJDIR::DIR_RIGHT, false, false);
+			return new CDashState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 			break;
 		}
 	}
@@ -403,13 +403,16 @@ CRuiState * CAiState::Return_AIState(CRui * pRui)
 		return nullptr;
 		break;
 	case Client::Rui::CAiState::AI_BACKMOVE:
-		return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+		pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 		break;
 	case Client::Rui::CAiState::AI_FRONTMOVE:
+		pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 		break;
 	case Client::Rui::CAiState::AI_ATTACK:
 		pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_ATTACK_1);
+
 		return new CAtk_1_State();
 		break;
 	case Client::Rui::CAiState::AI_JUMPATK:

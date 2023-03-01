@@ -34,7 +34,12 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		if (pGameInstance->Key_Pressing(DIK_E))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pRui->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pRui->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
 
 		if (pGameInstance->Key_Down(DIK_J))
@@ -204,7 +209,12 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pRui->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pRui->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
 
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -405,7 +415,7 @@ CRuiState * CMoveState::Tick(CRui* pRui, _float fTimeDelta)
 			switch (m_eStateType)
 			{
 			case Client::CRuiState::TYPE_START:
-				return new CMoveState(m_eDirection, TYPE_START);
+				return AIMove(pRui, m_eDirection, fTimeDelta);
 
 			}
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
@@ -419,7 +429,8 @@ CRuiState * CMoveState::Tick(CRui* pRui, _float fTimeDelta)
 
 CRuiState * CMoveState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
-	Move(pRui, fTimeDelta);
+	if (pRui->Get_IsAIMode() == false)
+		Move(pRui, fTimeDelta);
 
 	if (m_eStateType == TYPE_LOOP)
 		pRui->Get_Model()->Play_Animation(fTimeDelta * 1.1f);
@@ -551,7 +562,7 @@ CRuiState* CMoveState::AIMove(CRui * pRui,  OBJDIR eDir ,_float fTimeDelta)
 
 	if (bSetLook == false)
 	{
-		pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		//pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		bSetLook = true;
 	}
 
@@ -574,7 +585,11 @@ CRuiState* CMoveState::AIMove(CRui * pRui,  OBJDIR eDir ,_float fTimeDelta)
 	fContinueTime += fTimeDelta;
 
 	if (fContinueTime >= 1.4f)
+	{
+		fContinueTime = 0.f;
+		bSetLook = false;
 		return new CAiState();
+	}
 
 	return nullptr;
 

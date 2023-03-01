@@ -200,8 +200,6 @@ CRuiState * CAtk_1_State::Tick(CRui* pRui, _float fTimeDelta)
 	}
 
 
-	pRui->Get_Model()->Set_Loop(CRui::ANIM_ATTACK_1);
-	pRui->Get_Model()->Set_LinearTime(CRui::ANIM_ATTACK_1, 0.01f);
 
 	m_fTime += fTimeDelta * 60;
 	m_fComboDelay += fTimeDelta * 60;
@@ -343,6 +341,8 @@ CRuiState * CAtk_1_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 	RELEASE_INSTANCE(CGameInstance);
 
 	pRui->Get_Model()->Play_Animation(fTimeDelta * 1.2f);
+
+
 	if (!m_bEffect)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -358,6 +358,8 @@ CRuiState * CAtk_1_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 void CAtk_1_State::Enter(CRui* pRui)
 {
 	m_eStateId = STATE_ID::STATE_ATK_1;
+
+	pRui->Get_Model()->Set_End(CRui::ANIM_ATTACK_1);
 	pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_ATTACK_1);
 	pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_ATTACK_1);
 	pRui->Set_AnimIndex(CRui::ANIM_ATTACK_1);
@@ -383,7 +385,7 @@ void CAtk_1_State::Enter(CRui* pRui)
 void CAtk_1_State::Exit(CRui* pRui)
 {
 	m_pCollBox->Set_Dead(); //추가
-	pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_ATTACK_1);
+	//pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_ATTACK_1);
 }
 
 CRuiState * CAtk_1_State::CommandCheck(CRui * pRui)
@@ -402,7 +404,12 @@ CRuiState * CAtk_1_State::CommandCheck(CRui * pRui)
 		if (pGameInstance->Key_Pressing(DIK_E))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pRui->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pRui->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
 
 		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 

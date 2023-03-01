@@ -40,9 +40,14 @@ CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 
 		if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
 		{
-			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pTanjiro->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
+
 
 		if (pGameInstance->Key_Down(DIK_J))
 		{
@@ -53,7 +58,7 @@ CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 			else
 				return new CAtk_1_State();
 		}
-			
+
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 		{
@@ -113,7 +118,12 @@ CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 		if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pTanjiro->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
 
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -366,7 +376,7 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
 	}
-	
+
 	else if (pTanjiro->Get_SphereCollider()->Collision(pTanjiro->Get_BattleTarget()->Get_SphereCollider()))
 	{
 		m_bNextAnim = true;
@@ -377,7 +387,7 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().bGuard && pTanjiro->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
 		{
 			pTanjiro->Get_BattleTarget()->Get_GuardHit(0);
-		
+
 		}
 		else
 		{
@@ -461,7 +471,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 					if (pTanjiro->Get_KaguraMode() == true)
 						return new CKaguraSkill_MoveState();
 					else
-					return new CSkill_WaterMillState(TYPE_START); // move skill
+						return new CSkill_WaterMillState(TYPE_START); // move skill
 				}
 				else
 				{
@@ -473,7 +483,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 					if (pTanjiro->Get_KaguraMode() == true)
 						return new CKaguraSkill_CommonState();
 					else
-					return new CSkill_CommonState();
+						return new CSkill_CommonState();
 				}
 			}
 		}
@@ -500,7 +510,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 					if (pTanjiro->Get_KaguraMode() == true)
 						return new CKaguraSkill_SphereState();
 					else
-					return new CSkill_WindMillState(TYPE_START);
+						return new CSkill_WindMillState(TYPE_START);
 				}
 				else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
 				{
@@ -511,7 +521,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 					if (pTanjiro->Get_KaguraMode() == true)
 						return new CKaguraSkill_MoveState();
 					else
-					return new CSkill_WaterMillState(TYPE_START); // move skill
+						return new CSkill_WaterMillState(TYPE_START); // move skill
 				}
 				else
 				{
@@ -522,7 +532,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 					if (pTanjiro->Get_KaguraMode() == true)
 						return new CKaguraSkill_CommonState();
 					else
-					return new CSkill_CommonState();
+						return new CSkill_CommonState();
 				}
 			}
 		}
