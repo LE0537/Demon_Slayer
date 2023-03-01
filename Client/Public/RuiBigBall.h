@@ -15,6 +15,8 @@ public:
 	typedef struct tagRuiBigInfo {
 		CCharacters*		pPlayer;
 		CCharacters*		pTarget;
+		_int				iType;
+		_float4				vMyPos;
 	}RUIBIGBALLINFO;
 protected:
 	CRuiBigBall(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

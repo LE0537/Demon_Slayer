@@ -74,7 +74,7 @@ CEnmuBossState * CEnmuBoss_Pattern4State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 			{
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_End(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_2);
 
-
+				dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Set_CollBox(false);
 
 				return new CEnmuBoss_Pattern4State(STATE_TYPE::TYPE_DEFAULT, m_eParts);
 			}
@@ -84,6 +84,8 @@ CEnmuBossState * CEnmuBoss_Pattern4State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 			if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Get_End(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN4_2))
 			{
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_End(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN4_2);
+
+				dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Set_CollBox(false);
 
 				return new CEnmuBoss_Pattern4State(STATE_TYPE::TYPE_DEFAULT, m_eParts);
 			}
@@ -164,7 +166,23 @@ CEnmuBossState * CEnmuBoss_Pattern4State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 
 		pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Play_Animation(fTimeDelta);
 	}
+	if (m_eStateType == CEnmuBossState::TYPE_END)
+	{
+		m_fDelay += fTimeDelta;
+		if (m_fDelay > 0.3f && m_iHit == 0)
+		{
+			CCharacters* m_pTarget = pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_BattleTarget();
 
+
+			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
+				dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Set_CollBox(true);
+			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
+				dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Set_CollBox(true);
+
+			++m_iHit;
+		}
+
+	}
 	return nullptr;
 }
 

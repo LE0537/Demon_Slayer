@@ -293,7 +293,7 @@ void CTargetRushState::Move(CNezuko * pNezuko, _float fTimeDelta)
 
 		pNezuko->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pNezuko->Get_BattleTarget()->Get_PlayerInfo().bGuard && pNezuko->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pNezuko->Get_BattleTarget()->Get_PlayerInfo().bGuard && pNezuko->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pNezuko->Get_BattleTarget()->Get_GuardHit(0);
 		}

@@ -151,7 +151,7 @@ void CTargetRushState::Move(CRuiDad* pRuiDad, _float fTimeDelta)
 
 		pRuiDad->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pRuiDad->Get_BattleTarget()->Get_PlayerInfo().bGuard && pRuiDad->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pRuiDad->Get_BattleTarget()->Get_PlayerInfo().bGuard && pRuiDad->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pRuiDad->Get_BattleTarget()->Get_GuardHit(0);
 		}

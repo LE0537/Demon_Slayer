@@ -300,7 +300,7 @@ void CTargetRushState::Move(CRui* pRui, _float fTimeDelta)
 
 		pRui->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pRui->Get_BattleTarget()->Get_PlayerInfo().bGuard && pRui->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pRui->Get_BattleTarget()->Get_PlayerInfo().bGuard && pRui->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pRui->Get_BattleTarget()->Get_GuardHit(0);
 		}

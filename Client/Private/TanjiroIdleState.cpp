@@ -47,7 +47,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		switch (pTanjiro->Get_i1P())
 		{
 		case 1:
-			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
+			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey() && g_iLevel == LEVEL_GAMEPLAY)
 			{
 				pTanjiro->Get_BattleTarget()->Play_Scene();
 				return new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);

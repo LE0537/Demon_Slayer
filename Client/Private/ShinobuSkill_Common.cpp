@@ -226,7 +226,7 @@ CShinobuState * CSkill_CommonState::Late_Tick(CShinobu* pShinobu, _float fTimeDe
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-40 * pShinobu->Get_PlayerInfo().fPowerUp));
@@ -304,7 +304,7 @@ CShinobuState * CSkill_CommonState::Late_Tick(CShinobu* pShinobu, _float fTimeDe
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-50 * pShinobu->Get_PlayerInfo().fPowerUp));

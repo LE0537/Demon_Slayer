@@ -76,7 +76,8 @@ public:
 	virtual void  Play_Scene();
 private:
 	CModel*					m_pModelCom = nullptr;
-
+	CCollider*				m_pOBBCom = nullptr;
+	_bool					m_bIsCreate = false;
 	_float					m_fEffectTime = 0.f;
 private:
 	ANIMID m_eAnimID;
@@ -96,7 +97,11 @@ private:
 	_bool					m_bQuestStop = false;
 
 	_vector	m_vOriginPosition;
-
+	_float m_fTime = 0.f;
+	_float m_fComboDelay = 0.f;
+	_float m_fMove = 0.f;
+	_bool  m_bHit = false;
+	CCharacters* m_pTanjiro = nullptr;
 public:
 	static CEnmu_ChokChok* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
