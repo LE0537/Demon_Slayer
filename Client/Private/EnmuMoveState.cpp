@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "Effect_Manager.h"
 #include "..\Public\EnmuMoveState.h"
+#include "EnmuAttack_1.h"
 
 using namespace Enmu;
 
@@ -23,7 +24,8 @@ CEnmuState * CMoveState::Tick(CEnmu * pEnmu, _float fTimeDelta)
 		switch (m_eStateType)
 		{
 		case Client::CEnmuState::TYPE_START:
-			return new CMoveState(TYPE_LOOP);
+			//pEnmu->Get_Model()->Set_End(CEnmu::ANIMID::ANIM_MOVE_0);
+			//return new CMoveState(TYPE_LOOP);
 			break;
 		case Client::CEnmuState::TYPE_LOOP:
 			break;
@@ -40,12 +42,13 @@ CEnmuState * CMoveState::Tick(CEnmu * pEnmu, _float fTimeDelta)
 		pEnmu->Get_Model()->Set_End(pEnmu->Get_AnimIndex());
 	}
 
-	if (m_eStateType == TYPE_LOOP)
+	if (m_eStateType == TYPE_START)
 	{
 		Move(pEnmu, fTimeDelta);
 
 		if (m_bNextAnim == true)
-			return new CIdleState();
+			return new CEnmuAttack1(TYPE_START);
+			//return new CIdleState();
 
 	}
 
@@ -73,14 +76,14 @@ void CMoveState::Enter(CEnmu * pEnmu)
 	case Client::CEnmuState::TYPE_START:
 		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_MOVE_0);
 		pEnmu->Set_AnimIndex(CEnmu::ANIM_MOVE_0);
-		pEnmu->Get_Model()->Set_Loop(CEnmu::ANIM_MOVE_0);
+		pEnmu->Get_Model()->Set_Loop(CEnmu::ANIM_MOVE_0, true);
 		pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_MOVE_0, 0.05f);
 		break;
 	case Client::CEnmuState::TYPE_LOOP:
-		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_MOVE_1);
-		pEnmu->Set_AnimIndex(CEnmu::ANIM_MOVE_1);
-		pEnmu->Get_Model()->Set_Loop(CEnmu::ANIM_MOVE_1);
-		pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_MOVE_1, 0.05f);
+		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_MOVE_0);
+		pEnmu->Set_AnimIndex(CEnmu::ANIM_MOVE_0);
+		pEnmu->Get_Model()->Set_Loop(CEnmu::ANIM_MOVE_0,true);
+		pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_MOVE_0, 0.05f);
 		break;
 	case Client::CEnmuState::TYPE_END:
 		break;
@@ -116,9 +119,6 @@ void CMoveState::Move(CEnmu * pEnmu, _float fTimeDelta)
 	else
 	{
 		pEnmu->Get_Transform()->Set_PlayerLookAt(vTargetPosition);
-		pEnmu->Get_Transform()->Go_Straight(fTimeDelta * 1.3f, pEnmu->Get_NavigationCom());
+		pEnmu->Get_Transform()->Go_Straight(fTimeDelta * 2.f, pEnmu->Get_NavigationCom());
 	}
-
-
-
 }

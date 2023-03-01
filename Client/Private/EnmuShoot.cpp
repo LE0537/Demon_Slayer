@@ -103,6 +103,7 @@ void CEnmuShoot::Late_Tick(_float fTimeDelta)
 	{
 		m_pRendererCom->Add_Debug(m_pOBBCom);
 	}
+
 }
 
 HRESULT CEnmuShoot::Render()

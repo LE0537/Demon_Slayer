@@ -326,8 +326,11 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		vTargetPosition = XMVectorSet(-0.012f, 16.6f, 181.f, 1.f);
 	}
 
-	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+	m_vTargetPosition = XMVectorSetY(m_vTargetPosition, pTanjiro->Get_NavigationHeight().y);
 	m_vTargetPosition = XMVector3Normalize(vTargetPosition - vMyPosition);
+
+	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
 
 
 
@@ -340,12 +343,16 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	_vector vCurrentPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-	_vector vPosition = XMVectorSet(m_vPosition.x, XMVectorGetY(vCurrentPos), m_vPosition.z, 1.f);
+	_vector vPosition = XMVectorSet(m_vPosition.x, pTanjiro->Get_NavigationHeight().y, m_vPosition.z, 1.f);
 
 	//if (fDistance <= 3.f)
 	//{
 	//	m_bNextAnim = true;
 	//}
+
+	if (fDistance <= 2.f)
+		m_bNextAnim = true;
+
 
 	if (g_iLevel == 12)
 	{

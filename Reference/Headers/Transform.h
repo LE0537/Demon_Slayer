@@ -104,6 +104,7 @@ public:
 
 	void Set_Jump(_bool bJump) { m_bJump = bJump; }
 	_bool Get_Jump() const { return m_bJump; }
+	_bool Get_Sliding() const { return m_bSliding; }
 public:
 	void Set_Rotation(_float3 fAngle);
 	void Set_RotationY(_float fAngleY);
@@ -115,6 +116,7 @@ private:
 	_float m_fCurrentRotationZ = 0.f;
 
 	_bool m_bJump = false;
+	_bool m_bSliding = false;
 private:			
 	_float4x4				m_WorldMatrix;
 	TRANSFORMDESC			m_TransformDesc;

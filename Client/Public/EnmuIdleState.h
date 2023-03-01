@@ -28,6 +28,8 @@ public:
 
 private:
 	void Update_TargetState(CEnmu* pEnmu);
+
+
 	void Update_AI_Near(CEnmu* pEnmu);
 	void Update_AI_Out(CEnmu* pEnmu);
 
@@ -37,6 +39,15 @@ private:
 	void Update_Near_Guard();
 	void Update_Near_Rush();
 	void Update_Near_Skill();
+
+	void Update_Far_Attack();
+	void Update_Far_Move();
+	void Update_Far_Guard();
+	void Update_Far_Rush();
+	void Update_Far_Skill();
+
+
+	_bool Dash_CalCul(CEnmu* pEnmu);
 
 	CEnmuState* Near_Skill_Setting(CEnmu* pEnmu);
 	CEnmuState* Return_AIState(CEnmu* pEnmu);
