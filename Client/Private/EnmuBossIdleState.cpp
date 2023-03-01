@@ -44,6 +44,35 @@ CEnmuBossState * CIdleState::HandleInput(CEnmuBoss* pEnmuBoss)
 		return new CEnmuBoss_Pattern6State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
 
 
+	if (pEnmuBoss->Get_Start() == false)
+	{
+		if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Get_End(46) &&
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Get_End(45))
+		{
+
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Set_AnimIndex(5);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_CurrentAnimIndex(5);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_Loop(5, false);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_LinearTime(5, 0.1f);
+
+			if(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Get_End(5))
+			{ 
+				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_End(46);
+				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_End(45);
+				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_End(5);
+
+				pEnmuBoss->Set_Start();
+
+				return new CIdleState();
+			}
+
+		}
+
+		return nullptr;
+	}
+		
+
+
 
 	CCharacters* pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront());
 	_vector vTargetPosition = pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
@@ -109,7 +138,7 @@ void CIdleState::Enter(CEnmuBoss* pEnmuBoss)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
-	if (!pEnmuBoss->Get_EnmuPartsList().empty())
+	if (pEnmuBoss->Get_Start() == false)
 	{
 		// HEAD
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Set_AnimIndex(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE);
@@ -119,27 +148,27 @@ void CIdleState::Enter(CEnmuBoss* pEnmuBoss)
 
 		// SHIELD
 
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Set_AnimIndex(CEnmu_Shield::ANIMID::ANIM_IDLE);
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Shield::ANIMID::ANIM_IDLE);
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_Loop(CEnmu_Shield::ANIMID::ANIM_IDLE, true);
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_LinearTime(CEnmu_Shield::ANIMID::ANIM_IDLE, 0.1f);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Set_AnimIndex(4);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_CurrentAnimIndex(4);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_Loop(4, true);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_LinearTime(4, 0.1f);
 
 		// RIGHT_HAND
 
 
 
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Set_AnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_Loop(CEnmu_Right_Hand::ANIMID::ANIM_IDLE, true);
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Right_Hand::ANIMID::ANIM_IDLE, 0.1f);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Set_AnimIndex(46);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_CurrentAnimIndex(46);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_Loop(46);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_LinearTime(46, 0.1f);
 
 		// LEFT_HAND
 
 
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Set_AnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_IDLE);
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_IDLE);
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_Loop(CEnmu_Left_Hand::ANIMID::ANIM_IDLE, true);
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Left_Hand::ANIMID::ANIM_IDLE, 0.1f);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Set_AnimIndex(45);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_CurrentAnimIndex(45);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_Loop(45);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_LinearTime(45, 0.1f);
 
 		// CHOK
 
@@ -172,7 +201,78 @@ void CIdleState::Enter(CEnmuBoss* pEnmuBoss)
 				break;
 			}
 		}
+		//pEnmuBoss->Set_Start();
 	}
+
+	else
+	{
+		if (!pEnmuBoss->Get_EnmuPartsList().empty())
+		{
+			// HEAD
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Set_AnimIndex(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Set_Loop(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE, true);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Set_LinearTime(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE, 0.1f);
+
+			// SHIELD
+
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Set_AnimIndex(CEnmu_Shield::ANIMID::ANIM_IDLE);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Shield::ANIMID::ANIM_IDLE);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_Loop(CEnmu_Shield::ANIMID::ANIM_IDLE, true);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_LinearTime(CEnmu_Shield::ANIMID::ANIM_IDLE, 0.1f);
+
+			// RIGHT_HAND
+
+
+
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Set_AnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_Loop(CEnmu_Right_Hand::ANIMID::ANIM_IDLE, true);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Right_Hand::ANIMID::ANIM_IDLE, 0.1f);
+
+			// LEFT_HAND
+
+
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Set_AnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_IDLE);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_IDLE);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_Loop(CEnmu_Left_Hand::ANIMID::ANIM_IDLE, true);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Left_Hand::ANIMID::ANIM_IDLE, 0.1f);
+
+			// CHOK
+
+			for (_uint i = CEnmuBoss::PARTS::PARTS_CHOCK1; i < CEnmuBoss::PARTS::PARTS_END; ++i)
+			{
+				std::random_device RandomDevice;
+				std::mt19937 gen(RandomDevice());
+				std::uniform_int_distribution<int> RandomPattern(1, 3);
+				int iRandom = RandomPattern(gen);
+
+				switch (iRandom)
+				{
+				case 1:
+					pEnmuBoss->Get_EnmuPartsList()[i]->Set_AnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_0);
+					pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_0);
+					pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_Loop(CEnmu_Chok::ANIMID::ANIM_IDLE_0, true);
+					pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_LinearTime(CEnmu_Chok::ANIMID::ANIM_IDLE_0, 0.1f);
+					break;
+				case 2:
+					pEnmuBoss->Get_EnmuPartsList()[i]->Set_AnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_1);
+					pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_1);
+					pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_Loop(CEnmu_Chok::ANIMID::ANIM_IDLE_1, true);
+					pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_LinearTime(CEnmu_Chok::ANIMID::ANIM_IDLE_1, 0.1f);
+					break;
+				case 3:
+					pEnmuBoss->Get_EnmuPartsList()[i]->Set_AnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_2);
+					pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_2);
+					pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_Loop(CEnmu_Chok::ANIMID::ANIM_IDLE_2, true);
+					pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_LinearTime(CEnmu_Chok::ANIMID::ANIM_IDLE_2, 0.1f);
+					break;
+				}
+			}
+		}
+	}
+
+
 }
 
 void CIdleState::Exit(CEnmuBoss* pEnmuBoss)

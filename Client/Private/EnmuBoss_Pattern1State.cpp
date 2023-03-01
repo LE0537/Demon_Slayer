@@ -146,7 +146,11 @@ CEnmuBossState * CEnmuBoss_Pattern1State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 	{
 		if (m_iHit == 0)
 		{
-			CCharacters* m_pTarget = pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_BattleTarget();
+			CCharacters* m_pTarget = nullptr;
+			if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_BattleTarget()->Get_PlayerInfo().iHp > 0)
+				m_pTarget = pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_BattleTarget();
+			else if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_BattleTarget()->Get_PlayerInfo().iHp <= 0)
+				m_pTarget = pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_BattleTarget();
 
 			CRuiBigBall::RUIBIGBALLINFO	tInfo;
 
