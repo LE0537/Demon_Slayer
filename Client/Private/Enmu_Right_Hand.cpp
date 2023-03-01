@@ -50,6 +50,9 @@ HRESULT CEnmu_Right_Hand::Initialize(void * pArg)
 
 	m_pTanjiro = dynamic_cast<CCharacters*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
 
+
+	m_vOriginalLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
@@ -408,6 +411,8 @@ _float4 CEnmu_Right_Hand::Check_CollPos()
 
 void CEnmu_Right_Hand::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+
+
 
 }
 

@@ -83,6 +83,8 @@ public:
 	void   Set_Tick(_bool bTick) { m_bTick = bTick; }
 	_float4    Check_CollPos();
 	void	Set_CollBox(_bool _bTrue) { m_bCollBox = _bTrue; }
+
+	_vector GET_LeftHandOriginLook() { return m_vOriginalLook; }
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
@@ -126,7 +128,7 @@ private:
 	_bool					m_bQuestStart = false;
 	_bool					m_bQuestStop = false;
 
-
+	_vector m_vOriginalLook;
 public:
 	static CEnmu_Left_Hand* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

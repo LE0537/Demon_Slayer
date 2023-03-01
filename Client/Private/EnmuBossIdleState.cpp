@@ -17,6 +17,8 @@
 #include "Tanjiro.h"
 #include "Layer.h"
 
+#include "ImGuiManager.h"
+
 using namespace EnmuBoss;
 
 CIdleState::CIdleState()
@@ -42,11 +44,52 @@ CEnmuBossState * CIdleState::HandleInput(CEnmuBoss* pEnmuBoss)
 		return new CEnmuBoss_Pattern6State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
 
 
-	return nullptr;
+
+	CCharacters* pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+	_vector vTargetPosition = pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vMyPosition = pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
+	CImGuiManager::Get_Instance()->Set_Distance(fDistance);
+
+	if (fDistance <= 25.f) { m_eRange = RANGE_IN; }
+	else { m_eRange = RANGE_OUT; }
+
+
+	switch (m_eRange)
+	{
+	case Client::EnmuBoss::CIdleState::RANGE_IN:
+		Update_AI_Near(pEnmuBoss);
+		break;
+	case Client::EnmuBoss::CIdleState::RANGE_OUT:
+		Update_AI_Out(pEnmuBoss);
+		break;
+	case Client::EnmuBoss::CIdleState::RANGE_END:
+		break;
+	default:
+		break;
+	}
+
+
+
+
+	if (m_fDelay >= 1.f)
+	{
+		m_fDelay = 0.f;
+		return Return_AIState(pEnmuBoss);
+	}
+	else
+	{
+		return nullptr;
+	}
+
+
 }
 
 CEnmuBossState * CIdleState::Tick(CEnmuBoss* pEnmuBoss, _float fTimeDelta)
 {
+	m_fDelay += fTimeDelta;
 
 	return nullptr;
 }
@@ -66,67 +109,202 @@ void CIdleState::Enter(CEnmuBoss* pEnmuBoss)
 {
 	m_eStateId = STATE_ID::STATE_IDLE;
 
-	// HEAD
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Set_AnimIndex(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Set_Loop(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE, true);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Set_LinearTime(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE, 0.1f);
-
-	// SHIELD
-
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Set_AnimIndex(CEnmu_Shield::ANIMID::ANIM_IDLE);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Shield::ANIMID::ANIM_IDLE);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_Loop(CEnmu_Shield::ANIMID::ANIM_IDLE, true);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_LinearTime(CEnmu_Shield::ANIMID::ANIM_IDLE, 0.1f);
-
-	// RIGHT_HAND
-
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Set_AnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_Loop(CEnmu_Right_Hand::ANIMID::ANIM_IDLE, true);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Right_Hand::ANIMID::ANIM_IDLE, 0.1f);
-
-	// LEFT_HAND
-
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Set_AnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_IDLE);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_IDLE);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_Loop(CEnmu_Left_Hand::ANIMID::ANIM_IDLE, true);
-	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Left_Hand::ANIMID::ANIM_IDLE, 0.1f);
-	
-	// CHOK
-
-	for (_uint i = CEnmuBoss::PARTS::PARTS_CHOCK1; i < CEnmuBoss::PARTS::PARTS_END; ++i)
+	if (!pEnmuBoss->Get_EnmuPartsList().empty())
 	{
-		std::random_device RandomDevice;
-		std::mt19937 gen(RandomDevice());
-		std::uniform_int_distribution<int> RandomPattern(1, 3);
-		int iRandom = RandomPattern(gen);
+		// HEAD
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Set_AnimIndex(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Set_Loop(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE, true);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Set_LinearTime(CEnmu_Chaos_Head::ANIMID::ANIM_IDLE, 0.1f);
 
-		switch (iRandom)
+		// SHIELD
+
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Set_AnimIndex(CEnmu_Shield::ANIMID::ANIM_IDLE);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Shield::ANIMID::ANIM_IDLE);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_Loop(CEnmu_Shield::ANIMID::ANIM_IDLE, true);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_LinearTime(CEnmu_Shield::ANIMID::ANIM_IDLE, 0.1f);
+
+		// RIGHT_HAND
+
+
+
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Set_AnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_Loop(CEnmu_Right_Hand::ANIMID::ANIM_IDLE, true);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Right_Hand::ANIMID::ANIM_IDLE, 0.1f);
+
+		// LEFT_HAND
+
+
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Set_AnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_IDLE);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_IDLE);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_Loop(CEnmu_Left_Hand::ANIMID::ANIM_IDLE, true);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Left_Hand::ANIMID::ANIM_IDLE, 0.1f);
+
+		// CHOK
+
+		for (_uint i = CEnmuBoss::PARTS::PARTS_CHOCK1; i < CEnmuBoss::PARTS::PARTS_END; ++i)
 		{
-		case 1:
-			pEnmuBoss->Get_EnmuPartsList()[i]->Set_AnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_0);
-			pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_0);
-			pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_Loop(CEnmu_Chok::ANIMID::ANIM_IDLE_0, true);
-			pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_LinearTime(CEnmu_Chok::ANIMID::ANIM_IDLE_0, 0.1f);
-			break;
-		case 2:
-			pEnmuBoss->Get_EnmuPartsList()[i]->Set_AnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_1);
-			pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_1);
-			pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_Loop(CEnmu_Chok::ANIMID::ANIM_IDLE_1, true);
-			pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_LinearTime(CEnmu_Chok::ANIMID::ANIM_IDLE_1, 0.1f);
-			break;
-		case 3:
-			pEnmuBoss->Get_EnmuPartsList()[i]->Set_AnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_2);
-			pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_2);
-			pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_Loop(CEnmu_Chok::ANIMID::ANIM_IDLE_2, true);
-			pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_LinearTime(CEnmu_Chok::ANIMID::ANIM_IDLE_2, 0.1f);
-			break;
+			std::random_device RandomDevice;
+			std::mt19937 gen(RandomDevice());
+			std::uniform_int_distribution<int> RandomPattern(1, 3);
+			int iRandom = RandomPattern(gen);
+
+			switch (iRandom)
+			{
+			case 1:
+				pEnmuBoss->Get_EnmuPartsList()[i]->Set_AnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_0);
+				pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_0);
+				pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_Loop(CEnmu_Chok::ANIMID::ANIM_IDLE_0, true);
+				pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_LinearTime(CEnmu_Chok::ANIMID::ANIM_IDLE_0, 0.1f);
+				break;
+			case 2:
+				pEnmuBoss->Get_EnmuPartsList()[i]->Set_AnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_1);
+				pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_1);
+				pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_Loop(CEnmu_Chok::ANIMID::ANIM_IDLE_1, true);
+				pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_LinearTime(CEnmu_Chok::ANIMID::ANIM_IDLE_1, 0.1f);
+				break;
+			case 3:
+				pEnmuBoss->Get_EnmuPartsList()[i]->Set_AnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_2);
+				pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Chok::ANIMID::ANIM_IDLE_2);
+				pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_Loop(CEnmu_Chok::ANIMID::ANIM_IDLE_2, true);
+				pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Set_LinearTime(CEnmu_Chok::ANIMID::ANIM_IDLE_2, 0.1f);
+				break;
+			}
 		}
 	}
-
 }
 
 void CIdleState::Exit(CEnmuBoss* pEnmuBoss)
 {
+}
+
+void CIdleState::Update_AI_Near(CEnmuBoss * pEnmuBoss)
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
+
+	switch (iRandom)
+	{
+	case 1:
+		m_ePattern = AI_PATTERN::PATTERN_1;
+		break;
+	case 2:
+		m_ePattern = AI_PATTERN::PATTERN_1;
+		break;
+	case 3:
+		m_ePattern = AI_PATTERN::PATTERN_1;
+		break;
+	case 4:
+		m_ePattern = AI_PATTERN::PATTERN_1;
+		break;
+	case 5:
+		m_ePattern = AI_PATTERN::PATTERN_2;
+		break;
+	case 6:
+		m_ePattern = AI_PATTERN::PATTERN_2;
+		break;
+	case 7:
+		m_ePattern = AI_PATTERN::PATTERN_2;
+		break;
+	case 8:
+		m_ePattern = AI_PATTERN::PATTERN_2;
+		break;
+	case 9:
+		m_ePattern = AI_PATTERN::PATTERN_3;
+		break;
+	case 10:
+		m_ePattern = AI_PATTERN::PATTERN_3;
+		break;
+	}
+}
+
+void CIdleState::Update_AI_Out(CEnmuBoss * pEnmuBoss)
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
+
+	switch (iRandom)
+	{
+	case 1:
+		m_ePattern = AI_PATTERN::PATTERN_3;
+		break;
+	case 2:
+		m_ePattern = AI_PATTERN::PATTERN_3;
+		break;
+	case 3:
+		m_ePattern = AI_PATTERN::PATTERN_4;
+		break;
+	case 4:
+		m_ePattern = AI_PATTERN::PATTERN_4;
+		break;
+	case 5:
+		m_ePattern = AI_PATTERN::PATTERN_5;
+		break;
+	case 6:
+		m_ePattern = AI_PATTERN::PATTERN_5;
+		break;
+	case 7:
+		m_ePattern = AI_PATTERN::PATTERN_1;
+		break;
+	case 8:
+		m_ePattern = AI_PATTERN::PATTERN_1;
+		break;
+	case 9:
+		m_ePattern = AI_PATTERN::PATTERN_2;
+		break;
+	case 10:
+		m_ePattern = AI_PATTERN::PATTERN_6;
+		break;
+	}
+
+
+
+}
+
+CEnmuBossState * CIdleState::Return_AIState(CEnmuBoss * pEnmuBoss)
+{
+
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 2);
+	int iRandom = RandomPattern(gen);
+
+	switch (m_ePattern)
+	{
+	case Client::EnmuBoss::CIdleState::PATTERN_1:
+		if (iRandom == 1)
+			return new CEnmuBoss_Pattern1State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
+		else
+			return new CEnmuBoss_Pattern1State(TYPE_START, CEnmuBoss::PARTS::PARTS_LEFT_HAND);
+		break;
+	case Client::EnmuBoss::CIdleState::PATTERN_2:
+		return new CEnmuBoss_Pattern2State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
+		break;
+	case Client::EnmuBoss::CIdleState::PATTERN_3:
+		return new CEnmuBoss_Pattern3State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
+		break;
+	case Client::EnmuBoss::CIdleState::PATTERN_4:
+		return new CEnmuBoss_Pattern4State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
+		break;
+	case Client::EnmuBoss::CIdleState::PATTERN_5:
+		return new CEnmuBoss_Pattern5State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
+		break;
+	case Client::EnmuBoss::CIdleState::PATTERN_6:
+		return new CEnmuBoss_Pattern6State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
+		break;
+	case Client::EnmuBoss::CIdleState::PATTERN_END:
+		break;
+	default:
+		break;
+	}
+
+
+
+
+	return nullptr;
 }

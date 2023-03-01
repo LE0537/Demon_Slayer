@@ -2487,6 +2487,8 @@ void CImGuiManager::EnmuBossCharacterList(_uint _iIndex)
 		
 	}
 
+	ImGui::Text("distance : %f", m_fEnmuBossDist);
+
 }
 
 void CImGuiManager::Free()

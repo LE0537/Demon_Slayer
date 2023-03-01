@@ -120,7 +120,8 @@ CEnmuBossState * CEnmuBoss_Pattern4State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 			{
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_End(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_4);
 
-
+				_vector vRightHandLook = dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->GET_RightHandOriginLook();
+				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Transform()->Set_State(CTransform::STATE_LOOK, vRightHandLook);
 
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Set_AnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
@@ -132,9 +133,13 @@ CEnmuBossState * CEnmuBoss_Pattern4State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 		}
 		else if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
 		{
+
 			if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Get_End(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN4_4))
 			{
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_End(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN4_4);
+
+				_vector vLeftHandLook = dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->GET_LeftHandOriginLook();
+				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Transform()->Set_State(CTransform::STATE_LOOK, vLeftHandLook);
 
 				return new CIdleState();
 			}
@@ -287,6 +292,8 @@ void CEnmuBoss_Pattern4State::Enter(CEnmuBoss * pEnmuBoss)
 		// RIGHT_HAND
 		if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
 	{
+
+
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Reset_Anim(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_4);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Set_AnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_4);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_4);

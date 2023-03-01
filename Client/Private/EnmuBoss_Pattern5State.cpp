@@ -119,6 +119,10 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_Loop(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Right_Hand::ANIMID::ANIM_IDLE, 0.1f);
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_End(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN5_4);
+
+				_vector vRightHandLook = dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->GET_RightHandOriginLook();
+				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Transform()->Set_State(CTransform::STATE_LOOK, vRightHandLook);
+
 				return new CEnmuBoss_Pattern5State(STATE_TYPE::TYPE_START, CEnmuBoss::PARTS::PARTS_LEFT_HAND);
 
 				//return new CIdleState();
@@ -129,6 +133,10 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 			if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Get_End(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN5_4))
 			{
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_End(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN5_4);
+
+				_vector vLeftHandLook = dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->GET_LeftHandOriginLook();
+				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Transform()->Set_State(CTransform::STATE_LOOK, vLeftHandLook);
+
 				return new CIdleState();
 			}
 		}

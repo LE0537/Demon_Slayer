@@ -46,6 +46,8 @@ HRESULT CEnmu_Left_Hand::Initialize(void * pArg)
 
 	m_pTanjiro = dynamic_cast<CCharacters*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
 
+	m_vOriginalLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
