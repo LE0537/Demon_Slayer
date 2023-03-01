@@ -115,7 +115,7 @@ HRESULT CLevel_AdvAkaza::Initialize()
 		return E_FAIL;
 	}
 
-	_float fValue[CRenderer::VALUE_END] = { 1.f, 0.37f ,0.1f ,182.f ,1571.f ,0.142f ,0.f ,1.36f,0.4f,1.f,20.f,20.f,0.05f,0.257f,0.2f,0.4f,0.1f,0.3f,15.f,0.f,0.f };
+	_float fValue[CRenderer::VALUE_END] = { 1.f, 0.37f ,0.1f ,182.f ,1571.f ,0.142f ,0.f ,1.36f,0.4f,1.f,20.f,20.f,0.07f,0.257f,0.2f,0.4f,0.1f,0.3f,15.f,0.f,0.f };
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 1.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.37f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.1f);
@@ -128,7 +128,7 @@ HRESULT CLevel_AdvAkaza::Initialize()
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 20.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.07f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 0.257f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.2f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.4f);

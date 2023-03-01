@@ -1339,7 +1339,6 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 
 void CTanjiro::HandleInput(_float fTimeDelta)
 {
-
 	CTanjiroState* pNewState = m_pTanjiroState->HandleInput(this);
 
 	if (pNewState)

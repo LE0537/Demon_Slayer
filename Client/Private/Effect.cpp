@@ -276,6 +276,14 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_RUI_MO4_REDWEB2:
 	case CEffect_Manager::EFF_SPL_RUI_MO4_TREADL1:
 	case CEffect_Manager::EFF_SPL_RUI_MO4_TREADR1:
+	case CEffect_Manager::EFF_ENMU_ATK1:
+	case CEffect_Manager::EFF_ENMU_ATK2_1:
+	case CEffect_Manager::EFF_ENMU_ATK2_2:
+	case CEffect_Manager::EFF_ENMU_ATK3_1:
+	case CEffect_Manager::EFF_ENMU_ATK3_2:
+	case CEffect_Manager::EFF_ENMU_ATK3_3:
+	case CEffect_Manager::EFF_ENMU_BALL:
+	case CEffect_Manager::EFF_ENMU_SKILL_BALLSTART:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			if (m_bLateStart) {
 				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {

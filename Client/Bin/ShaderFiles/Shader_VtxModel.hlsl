@@ -2,6 +2,7 @@
 #include "Client_Shader_Defines.hpp"
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
+matrix			g_PivotMatrix;
 texture2D		g_DiffuseTexture;
 texture2D		g_NormalTexture;
 
@@ -59,11 +60,42 @@ VS_OUT VS_MAIN(VS_IN In)
 	matWV = mul(g_WorldMatrix, g_ViewMatrix);
 	matWVP = mul(matWV, g_ProjMatrix);
 
-	vector vNormal = normalize(mul(vector(In.vNormal, 0.f), g_WorldMatrix));
+	/* 정점의 위치에 월드 뷰 투영행렬을 곱한다. 현재 정점은 ViewSpace에 존재하낟. */
+	/* 투영행렬까지 곱하면 정점위치의 w에 뷰스페이스 상의 z를 보관한다. == Out.vPosition이 반드시 float4이어야하는 이유. */
+	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
+
+	matrix		matPW;
+	matPW = mul(g_PivotMatrix, g_WorldMatrix);
+
+	vector vNormal = normalize(mul(vector(In.vNormal, 0.f), matPW));
+	Out.vNormal = vNormal;
+	Out.vNormal.a = 0.f;
+	Out.vTexUV = In.vTexUV;
+	Out.vProjPos = Out.vPosition;
+
+	vector	vWorld = mul(vector(In.vPosition, 1.f), g_WorldMatrix);
+	Out.vWorld = vWorld;
+
+	Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), matPW)).xyz;
+	Out.vBinormal = cross(Out.vNormal, Out.vTangent);
+	
+	return Out;
+}
+
+VS_OUT VS_MAIN_NONBIN(VS_IN In)
+{
+	VS_OUT		Out = (VS_OUT)0;
+
+	matrix		matWV, matWVP;
+
+	matWV = mul(g_WorldMatrix, g_ViewMatrix);
+	matWVP = mul(matWV, g_ProjMatrix);
 
 	/* 정점의 위치에 월드 뷰 투영행렬을 곱한다. 현재 정점은 ViewSpace에 존재하낟. */
 	/* 투영행렬까지 곱하면 정점위치의 w에 뷰스페이스 상의 z를 보관한다. == Out.vPosition이 반드시 float4이어야하는 이유. */
 	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
+
+	vector vNormal = normalize(mul(vector(In.vNormal, 0.f), g_WorldMatrix));
 	Out.vNormal = vNormal;
 	Out.vNormal.a = 0.f;
 	Out.vTexUV = In.vTexUV;
@@ -74,7 +106,37 @@ VS_OUT VS_MAIN(VS_IN In)
 
 	Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), g_WorldMatrix)).xyz;
 	Out.vBinormal = cross(Out.vNormal, Out.vTangent);
-	
+
+	return Out;
+}
+
+VS_OUT VS_TOONSHADE(VS_IN In)
+{
+	VS_OUT		Out = (VS_OUT)0;
+
+	matrix		matWV, matWVP;
+
+	matWV = mul(g_WorldMatrix, g_ViewMatrix);
+	matWVP = mul(matWV, g_ProjMatrix);
+
+	/* 정점의 위치에 월드 뷰 투영행렬을 곱한다. 현재 정점은 ViewSpace에 존재하낟. */
+	/* 투영행렬까지 곱하면 정점위치의 w에 뷰스페이스 상의 z를 보관한다. == Out.vPosition이 반드시 float4이어야하는 이유. */
+	Out.vPosition = mul(vector(In.vPosition, 1.f), matWVP);
+
+	vector vNormal = normalize(mul(vector(In.vNormal, 0.f), g_PivotMatrix));
+	vNormal = normalize(mul(vNormal, g_WorldMatrix));
+	Out.vNormal = vNormal;
+	Out.vNormal.a = 1.f;		//	ToonShade
+	Out.vTexUV = In.vTexUV;
+	Out.vProjPos = Out.vPosition;
+
+	vector	vWorld = mul(vector(In.vPosition, 1.f), g_WorldMatrix);
+	Out.vWorld = vWorld;
+
+	Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), g_PivotMatrix)).xyz;
+	Out.vTangent = normalize(mul(Out.vTangent, g_WorldMatrix));
+	Out.vBinormal = cross(Out.vNormal, Out.vTangent);
+
 	return Out;
 }
 
@@ -148,6 +210,30 @@ struct PS_OUT_SHADOW
 /* 리턴하는 색은 Target0 == 장치에 0번째에 바인딩되어있는 렌더타겟(일반적으로 백버퍼)에 그린다. */
 /* 그래서 백버퍼에 색이 그려진다. */
 PS_OUT PS_MAIN(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	float3	vNormal = g_NormalTexture.Sample(LinearSampler, In.vTexUV).xyz;
+
+	vNormal = vNormal * 2.f - 1.f;
+
+	float3x3	WorldMatrix = float3x3(In.vTangent, In.vBinormal, vNormal);
+
+	vNormal = mul(In.vNormal, WorldMatrix);
+
+	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	Out.vNormal = vector(vNormal * 0.5f + 0.5f, 0.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fFar, 0.f, 0.f);
+	Out.vGlow = g_GlowTexture.Sample(LinearSampler, In.vTexUV) * g_fGlowPower;
+	Out.vWorld = In.vWorld/* / g_fFar*/;
+
+	if (Out.vDiffuse.a <= 0.1f)
+		discard;
+
+	return Out;
+}
+
+PS_OUT PS_MAIN_NONBIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
 
@@ -383,5 +469,25 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_FINAL2();
+	}
+	pass ToonShade		//	7
+	{
+		SetRasterizerState(RS_Effect);
+		SetBlendState(BS_AlphaBlending, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_TOONSHADE();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN();
+	}
+	pass NonBinary		//	8
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN_NONBIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_NONBIN();
 	}
 }

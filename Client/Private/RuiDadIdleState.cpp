@@ -392,10 +392,12 @@ CRuiDadState * CIdleState::Return_AIState(CRuiDad * pRuiDad)
 		return nullptr;
 		break;
 	case Client::RuiDad::CIdleState::AI_BACKMOVE:
-		return new CMoveState(OBJDIR::DIR_BACK, STATE_TYPE::TYPE_START);
+		pRuiDad->Get_Transform()->Set_PlayerLookAt(pRuiDad->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 		break;
 
 	case Client::RuiDad::CIdleState::AI_FRONTMOVE:
+		pRuiDad->Get_Transform()->Set_PlayerLookAt(pRuiDad->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		return new CMoveState(OBJDIR::DIR_STRAIGHT, STATE_TYPE::TYPE_START);
 		break;
 	case Client::RuiDad::CIdleState::AI_ATTACK:
@@ -419,7 +421,7 @@ CRuiDadState * CIdleState::Return_AIState(CRuiDad * pRuiDad)
 		if (pRuiDad->Get_iTargetIndex() == 2)
 			return new CSkill_JumpDropState(TYPE_START);
 		else
-			return new  CSkill_RushState(TYPE_START);
+			return new  CMoveState(OBJDIR::DIR_STRAIGHT, TYPE_START);
 
 		break;
 	case Client::RuiDad::CIdleState::AI_DASH:
@@ -447,8 +449,6 @@ CRuiDadState * CIdleState::Return_AIState(CRuiDad * pRuiDad)
 		{
 			if (pRuiDad->Get_iTargetIndex() == 2)
 				return new CSkill_JumpDropState(TYPE_START);
-			else
-				return new CSkill_RushState(TYPE_START);
 		}
 
 		break;

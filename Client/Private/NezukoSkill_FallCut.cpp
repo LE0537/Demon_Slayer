@@ -559,7 +559,12 @@ CNezukoState * CSkill_FallCutState::CommandCheck(CNezuko * pNezuko)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_J))
@@ -608,7 +613,12 @@ CNezukoState * CSkill_FallCutState::CommandCheck(CNezuko * pNezuko)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_Z))

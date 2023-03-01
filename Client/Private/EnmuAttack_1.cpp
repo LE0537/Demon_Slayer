@@ -174,7 +174,15 @@ CEnmuState * CEnmuAttack1::Late_Tick(CEnmu* pEnmu, _float fTimeDelta)
 
 	pEnmu->Get_Model()->Play_Animation(fTimeDelta);
 
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMU_ATK1, pEnmu);
+	
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 
 	return nullptr;
 }
