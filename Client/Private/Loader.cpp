@@ -1023,6 +1023,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Aura", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Tanjiro_Hinokami_Action", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Rui_Action", "../Bin/Resources/Effect/Texture/");
+		Load_Texture("Rengoku_Action", "../Bin/Resources/Effect/Texture/");
 
 		Load_Texture("Shock", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Slash", "../Bin/Resources/Effect/Mesh/MeshTexture/");
@@ -1357,6 +1358,17 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Wind8"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Wind/Wind8.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Wind9"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Wind/Wind9.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Wind10"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Wind/Wind10.fbx", PivotMatrix)))) return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_Bg_11"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_078_Bg_11.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_Bg_12"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_078_Bg_12.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_Debri1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_078_Debri1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_Dome1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_078_Dome1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_Tornado"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_Tornado.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_Smoke3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_078_Smoke3.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_Wind1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_078_Wind1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_Circle1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_Circle1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_GroundRock1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_GroundRock1.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_GroundRock2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_GroundRock2.fbx", PivotMatrix)))) return E_FAIL;
 
 #pragma endregion Effect Model
 
@@ -1718,6 +1730,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Enmu_Attack3_3"));
 		pEffect_Manager->Load_Effect(TEXT("Enmu_Skill_Ball1"));
 		pEffect_Manager->Load_Effect(TEXT("Enmu_Skill_Start"));
+
+		//·»°íÄí ¿ÀÀÇ
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion1_Sword1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion2_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion2_Sword1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion2_Aura1"));
 
 
 		RELEASE_INSTANCE(CEffect_Manager);

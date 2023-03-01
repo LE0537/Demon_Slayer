@@ -65,6 +65,8 @@ public:
 	}
 	void Set_Menu(_bool _bMenu) { m_bMenu = _bMenu; }
 	CTransform* Get_Transform() { return m_pTransformCom; }
+	_matrix Get_CombinedWorldMatrix() { return XMLoadFloat4x4(&m_CombinedWorldMatrix); }
+	_float4x4* Get_CombinedWorld4x4() { return &m_CombinedWorldMatrix; }
 private:
 	HRESULT Ready_Components();
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
