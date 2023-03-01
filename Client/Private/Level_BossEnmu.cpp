@@ -480,7 +480,7 @@ HRESULT CLevel_BossEnmu::Ready_Layer_Player(const _tchar * pLayerTag)
 	case 8: //¿£¹«
 		tCharacterDesc2p.i1P2P = 22;
 		tCharacterDesc2p.bSub = false;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Enmu_Chaos_Head"), LEVEL_BOSSENMU, TEXT("Enmu_Chaos"), &tCharacterDesc2p)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Enmu_Chaos_Head"), LEVEL_BOSSENMU, TEXT("Enmu_Head"), &tCharacterDesc2p)))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Enmu_Shield"), LEVEL_BOSSENMU, TEXT("Enmu_Chaos"), &tCharacterDesc2p)))
 			return E_FAIL;
