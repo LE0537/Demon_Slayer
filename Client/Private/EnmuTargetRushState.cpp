@@ -158,7 +158,7 @@ void CTargetRushState::Move(CEnmu* pEnmu, _float fTimeDelta)
 
 		pEnmu->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pEnmu->Get_BattleTarget()->Get_PlayerInfo().bGuard && pEnmu->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pEnmu->Get_BattleTarget()->Get_PlayerInfo().bGuard && pEnmu->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pEnmu->Get_BattleTarget()->Get_GuardHit(0);
 		}

@@ -288,7 +288,7 @@ void CTargetRushState::Move(CAkaza* pAkaza, _float fTimeDelta)
 
 		pAkaza->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pAkaza->Get_BattleTarget()->Get_PlayerInfo().bGuard && pAkaza->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pAkaza->Get_BattleTarget()->Get_PlayerInfo().bGuard && pAkaza->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pAkaza->Get_BattleTarget()->Get_GuardHit(0);
 		}

@@ -146,7 +146,7 @@ CAkazaState * CAdvSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelt
 				_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-60 * pAkaza->Get_PlayerInfo().fPowerUp));
@@ -242,7 +242,7 @@ CAkazaState * CAdvSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelt
 				_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-70 * pAkaza->Get_PlayerInfo().fPowerUp));

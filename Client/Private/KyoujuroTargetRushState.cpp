@@ -288,7 +288,7 @@ void CTargetRushState::Move(CKyoujuro* pKyoujuro, _float fTimeDelta)
 
 		pKyoujuro->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pKyoujuro->Get_BattleTarget()->Get_PlayerInfo().bGuard && pKyoujuro->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pKyoujuro->Get_BattleTarget()->Get_PlayerInfo().bGuard && pKyoujuro->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pKyoujuro->Get_BattleTarget()->Get_GuardHit(0);
 		}
