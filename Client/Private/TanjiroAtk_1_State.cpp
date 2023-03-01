@@ -263,7 +263,7 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 						m_bIsCreate = true;
 					}
 					pTanjiro->Set_Combo(1);
-					pTanjiro->Set_ComboTime(0.f);
+					pTanjiro->Set_ComboTime(0.f); 
 				}
 				if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
