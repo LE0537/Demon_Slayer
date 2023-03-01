@@ -73,6 +73,8 @@ void CTransform::Go_Straight(_float fTimeDelta, CNavigation* pNavigation)
 
 	_bool	bMoveCheck = pNavigation->isMove(vPosition, vLook, &vSliding);
 
+	m_bSliding = bMoveCheck;
+
 	if (true == bMoveCheck)
 	{
 		_float fHeight = 0.f;
@@ -91,7 +93,6 @@ void CTransform::Go_Straight(_float fTimeDelta, CNavigation* pNavigation)
 	}
 	else
 	{
-		
 		vPrePosition += XMLoadFloat3(&vSliding) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
 		if (true == pNavigation->isMove(vPrePosition, vLook, &vSliding))
 		{
@@ -128,8 +129,9 @@ void CTransform::Go_Backward(_float fTimeDelta, class CNavigation* pNavigation)
 	}
 
 	_bool	bMoveCheck = pNavigation->isMove(vPosition, vLook, &vSliding);
+	//	갈 수 있는지 체크
 
-	if (true == bMoveCheck)
+	if (true == bMoveCheck)	//	갈 수 있다.
 	{
 		_float fHeight = 0.f;
 		_vector vecTemp = Get_State(CTransform::STATE_TRANSLATION);
@@ -144,7 +146,7 @@ void CTransform::Go_Backward(_float fTimeDelta, class CNavigation* pNavigation)
 		else
 			Set_State(CTransform::STATE_TRANSLATION, vPosition);
 	}
-	else
+	else	//	못가서 vSliding을 리턴받고, vPrePosition에서 슬벡만큼 더해서 다시 검사
 	{
 		vPrePosition += XMLoadFloat3(&vSliding) * m_TransformDesc.fSpeedPerSec * fTimeDelta;
 		if (true == pNavigation->isMove(vPrePosition, vLook, &vSliding))
