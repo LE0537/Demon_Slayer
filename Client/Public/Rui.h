@@ -175,6 +175,8 @@ public:
 	_bool   Get_StorySpl() { return m_bStorySpl; }
 	void	Set_StoryDead() { m_bStoryDead = true; }
 	_bool   Get_StoryDead() { return m_bStoryDead; }
+	void	Set_HitSpl(_bool _bHit) { m_bHitSpl = _bHit; }
+	_bool   Get_HitSpl() { return m_bHitSpl; }
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 	void Set_StoryDelay(_float _fTime) { m_StoryTime = _fTime; }
@@ -207,7 +209,7 @@ private:
 
 	CGameObject*			m_pTrail = nullptr;
 
-
+	_bool					m_bHitSpl = false;
 	_float					m_fEffectTime = 0.f;
 
 	_float					m_StoryTime = 0.f;

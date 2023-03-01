@@ -25,7 +25,14 @@ private:
 
 private:
 	_bool m_bCollision = false;
-
+	_float m_fTime = 0.f;
+	_float m_fHitTime = 0.f;
+	_float m_fDelay = 0.f;
+	_bool m_bCombo = false;
+	_bool  m_bEffect = false;
+	_float m_fMove = 0.f;
+	_int   m_iHit = 0;
+	_bool  m_bHit = false;
 };
 
 END
