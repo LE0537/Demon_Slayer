@@ -100,7 +100,7 @@ CShinobuState * CSplSkrStartState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 
 		m_fMove += fTimeDelta;
 
-		if (m_fMove > 0.3f)
+		if (m_fMove > 0.2f)
 		{
 			_vector vCollPos = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 			_vector vCollLook = pShinobu->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
@@ -110,7 +110,7 @@ CShinobuState * CSplSkrStartState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 			CCollider*	pMyCollider2 = pShinobu->Get_SphereCollider();
-			if (m_fMove < 0.5f && !m_bHit)
+			if (m_fMove < 1.2f && !m_bHit)
 			{
 				if (nullptr == pTargetCollider)
 					return nullptr;

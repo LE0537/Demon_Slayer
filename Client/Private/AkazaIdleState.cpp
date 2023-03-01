@@ -30,11 +30,14 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 	switch (pAkaza->Get_i1P())
 	{
 	case 1:
-		if (pGameInstance->Key_Pressing(DIK_E)) // ¾Õ
+		if (pGameInstance->Key_Pressing(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
 		{
-			//pAkaza->Get_BattleTarget()->Play_Scene();
-			//return new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_START);
-			return new CSplSkrStartState(TYPE_START);
+			if (pAkaza->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pAkaza->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
 
 
@@ -160,13 +163,15 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_RSHIFT)) // ¾Õ
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT) && g_iLevel == LEVEL_GAMEPLAY)
 		{
-			//pAkaza->Get_BattleTarget()->Play_Scene();
-			//return new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_START);
-			return new CSplSkrStartState(TYPE_START);
-		}
+			if (pAkaza->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pAkaza->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
 
+			}
+		}
 
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 		{

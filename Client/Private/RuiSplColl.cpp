@@ -27,34 +27,23 @@ HRESULT CRuiSplColl::Initialize(void * pArg)
 		return E_FAIL;
 
 	memcpy(&m_ShootInfo, pArg, sizeof(RUISPLINFO));
-	
+
 	_vector vPos;
 
-	switch (m_ShootInfo.iIndex)
-	{
-	case 0:
-		vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		vPos.m128_f32[1] = 1.f;
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		break;
-	case 1:
-		vPos = m_ShootInfo.pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		vPos.m128_f32[1] = 1.f;
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		break;
 
-	default:
-		break;
-	}
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	vPos = m_ShootInfo.pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	vPos.m128_f32[1] = 1.f;
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_FRIENDCOM_START, this);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_FRIENDCOM_MAIN, this);
-		RELEASE_INSTANCE(CEffect_Manager);
-		
-	
-	
-	return S_OK; 
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_FRIENDCOM_START, this);
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_FRIENDCOM_MAIN, this);
+	RELEASE_INSTANCE(CEffect_Manager);
+
+
+
+	return S_OK;
 }
 
 void CRuiSplColl::Tick(_float fTimeDelta)
@@ -71,10 +60,9 @@ void CRuiSplColl::Late_Tick(_float fTimeDelta)
 {
 	m_fMove += fTimeDelta;
 
-	if (m_fMove < 0.6f && m_fMove > 1.1f)
+	if (m_fMove > 0.6f && m_fMove < 0.8f)
 	{
-		m_fDelay += fTimeDelta;
-		if (m_fDelay > 0.13f && m_iHit == 0)
+		if (m_iHit == 0)
 		{
 
 			CCollider*	pMyCollider = m_pOBBCom;
@@ -121,7 +109,7 @@ void CRuiSplColl::Late_Tick(_float fTimeDelta)
 
 		}
 	}
-	
+
 
 	if (g_bCollBox)
 	{

@@ -50,7 +50,6 @@ HRESULT CRui::Initialize(void * pArg)
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 
 	m_i1p = tCharacterDesc.i1P2P;
-	m_i1p = 11;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
