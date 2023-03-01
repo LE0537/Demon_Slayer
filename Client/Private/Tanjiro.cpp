@@ -181,7 +181,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 void CTanjiro::Tick(_float fTimeDelta)
 {
 
-	_float4 vPos; 
+	_float4 vPos;
 	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
 
 	if (!m_bChange)
@@ -338,7 +338,7 @@ HRESULT CTanjiro::Render()
 	//m_pNavigationCom->Render();
 
 	_uint		iNumMeshes = 0;
-	if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
+	if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA )
 	{
 		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 
@@ -360,23 +360,52 @@ HRESULT CTanjiro::Render()
 					return E_FAIL;
 			}
 		}
-
-		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-		if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y
-			&& -50000.f == XMVectorGetX(m_pSubChar->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		if (g_iLevel != LEVEL_BATTLEENMU && g_iLevel != LEVEL_BOSSENMU)
 		{
-			_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-			_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-			vPos.m128_f32[1] += 15.f;
-			_vector vLastPos = vPos;
-			//	vPos -= XMVector3Normalize(vLook) * 5.f;
-			vPos -= XMVector3Normalize(vRight) * 5.f;
-			switch (m_i1p)
+			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+			if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y
+				&& -50000.f == XMVectorGetX(m_pSubChar->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
 			{
-			case 1:
-				if (m_tInfo.iFriendBar >= 500 && (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_D)))
+				_vector vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+				_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+				vPos.m128_f32[1] += 15.f;
+				_vector vLastPos = vPos;
+				//	vPos -= XMVector3Normalize(vLook) * 5.f;
+				vPos -= XMVector3Normalize(vRight) * 5.f;
+				switch (m_i1p)
 				{
-					if (pGameInstance->Key_Up(DIK_U))
+				case 1:
+					if (m_tInfo.iFriendBar >= 500 && (pGameInstance->Key_Pressing(DIK_W) || pGameInstance->Key_Pressing(DIK_S) || pGameInstance->Key_Pressing(DIK_A) || pGameInstance->Key_Pressing(DIK_D)))
+					{
+						if (pGameInstance->Key_Up(DIK_U))
+						{
+							CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+							pUI_Manager->Set_FriendUseCount(1, 0);
+							RELEASE_INSTANCE(CUI_Manager);
+							m_tInfo.iFriendBar -= 500;
+							m_fChangeDelay = 4.f;
+							m_pSubChar->Set_Sub(false);
+							m_pSubChar->Set_ChangeInfo(true);
+							if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+								m_pSubChar->Set_Change(false, vPos);
+							else
+							{
+								vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+								vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+								vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+								vPos += XMVector3Normalize(vLook) * 5.f;
+								vPos += XMVector3Normalize(vRight) * 5.f;
+								vPos.m128_f32[1] += 15.f;
+								if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+									m_pSubChar->Set_Change(false, vPos);
+								else
+									m_pSubChar->Set_Change(false, vLastPos);
+							}
+							m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+							m_pSubChar->Set_SubSkill(2);
+						}
+					}
+					else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_U))
 					{
 						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 						pUI_Manager->Set_FriendUseCount(1, 0);
@@ -401,79 +430,79 @@ HRESULT CTanjiro::Render()
 								m_pSubChar->Set_Change(false, vLastPos);
 						}
 						m_pSubChar->Set_BattleTarget(m_pBattleTarget);
-						m_pSubChar->Set_SubSkill(2);
+						m_pSubChar->Set_SubSkill(1);
 					}
-				}
-				else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_U))
-				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_FriendUseCount(1, 0);
-					RELEASE_INSTANCE(CUI_Manager);
-					m_tInfo.iFriendBar -= 500;
-					m_fChangeDelay = 4.f;
-					m_pSubChar->Set_Sub(false);
-					m_pSubChar->Set_ChangeInfo(true);
-					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
-						m_pSubChar->Set_Change(false, vPos);
-					else
+					else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_U))
 					{
-						vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-						vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-						vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-						vPos += XMVector3Normalize(vLook) * 5.f;
-						vPos += XMVector3Normalize(vRight) * 5.f;
-						vPos.m128_f32[1] += 15.f;
-						if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
-							m_pSubChar->Set_Change(false, vPos);
-						else
-							m_pSubChar->Set_Change(false, vLastPos);
-					}
-					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
-					m_pSubChar->Set_SubSkill(1);
-				}
-				else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_U))
-				{
-					m_fChangeTime += m_fDelta;
-					if (m_fChangeTime > 0.5f)
-					{
-						m_tInfo.iFriendBar -= 500;
-						m_tInfo.bSub = true;
-						CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
-						CUI_Manager::Get_Instance()->Set_1P_2(this);
-						m_pSubChar->Set_ChangeDelay(1.f);
-						m_pSubChar->Set_Sub(false);
-						m_pSubChar->Change_Info(m_tInfo);
-						m_pSubChar->Set_ChangeInfo(true);
-						if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
-							m_pSubChar->Set_Change(false, vPos);
-						else
+						m_fChangeTime += m_fDelta;
+						if (m_fChangeTime > 0.5f)
 						{
-							vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-							vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-							vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-							vPos += XMVector3Normalize(vLook) * 5.f;
-							vPos += XMVector3Normalize(vRight) * 5.f;
-							vPos.m128_f32[1] += 15.f;
+							m_tInfo.iFriendBar -= 500;
+							m_tInfo.bSub = true;
+							CUI_Manager::Get_Instance()->Set_1P(m_pSubChar);
+							CUI_Manager::Get_Instance()->Set_1P_2(this);
+							m_pSubChar->Set_ChangeDelay(1.f);
+							m_pSubChar->Set_Sub(false);
+							m_pSubChar->Change_Info(m_tInfo);
+							m_pSubChar->Set_ChangeInfo(true);
 							if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
 								m_pSubChar->Set_Change(false, vPos);
 							else
-								m_pSubChar->Set_Change(false, vLastPos);
+							{
+								vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+								vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+								vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+								vPos += XMVector3Normalize(vLook) * 5.f;
+								vPos += XMVector3Normalize(vRight) * 5.f;
+								vPos.m128_f32[1] += 15.f;
+								if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+									m_pSubChar->Set_Change(false, vPos);
+								else
+									m_pSubChar->Set_Change(false, vLastPos);
+							}
+							m_pSubChar->Set_SubSkill(0);
+							m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+							m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+							m_fChangeTime = 0.f;
 						}
-						m_pSubChar->Set_SubSkill(0);
-						m_pSubChar->Set_BattleTarget(m_pBattleTarget);
-						m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+					}
+					else
+					{
 						m_fChangeTime = 0.f;
 					}
-				}
-				else
-				{
-					m_fChangeTime = 0.f;
-				}
-				break;
-			case 2:
-				if (m_tInfo.iFriendBar >= 500 && (pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN) || pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT)))
-				{
-					if (pGameInstance->Key_Up(DIK_V))
+					break;
+				case 2:
+					if (m_tInfo.iFriendBar >= 500 && (pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN) || pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT)))
+					{
+						if (pGameInstance->Key_Up(DIK_V))
+						{
+							CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+							pUI_Manager->Set_FriendUseCount(1, 1);
+							RELEASE_INSTANCE(CUI_Manager);
+							m_tInfo.iFriendBar -= 500;
+							m_fChangeDelay = 4.f;
+							m_pSubChar->Set_Sub(false);
+							m_pSubChar->Set_ChangeInfo(true);
+							if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+								m_pSubChar->Set_Change(false, vPos);
+							else
+							{
+								vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+								vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+								vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+								vPos += XMVector3Normalize(vLook) * 5.f;
+								vPos += XMVector3Normalize(vRight) * 5.f;
+								vPos.m128_f32[1] += 15.f;
+								if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+									m_pSubChar->Set_Change(false, vPos);
+								else
+									m_pSubChar->Set_Change(false, vLastPos);
+							}
+							m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+							m_pSubChar->Set_SubSkill(2);
+						}
+					}
+					else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_V))
 					{
 						CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 						pUI_Manager->Set_FriendUseCount(1, 1);
@@ -498,77 +527,50 @@ HRESULT CTanjiro::Render()
 								m_pSubChar->Set_Change(false, vLastPos);
 						}
 						m_pSubChar->Set_BattleTarget(m_pBattleTarget);
-						m_pSubChar->Set_SubSkill(2);
+						m_pSubChar->Set_SubSkill(1);
 					}
-				}
-				else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Up(DIK_V))
-				{
-					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-					pUI_Manager->Set_FriendUseCount(1, 1);
-					RELEASE_INSTANCE(CUI_Manager);
-					m_tInfo.iFriendBar -= 500;
-					m_fChangeDelay = 4.f;
-					m_pSubChar->Set_Sub(false);
-					m_pSubChar->Set_ChangeInfo(true);
-					if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
-						m_pSubChar->Set_Change(false, vPos);
-					else
+					else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_V))
 					{
-						vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-						vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-						vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-						vPos += XMVector3Normalize(vLook) * 5.f;
-						vPos += XMVector3Normalize(vRight) * 5.f;
-						vPos.m128_f32[1] += 15.f;
-						if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
-							m_pSubChar->Set_Change(false, vPos);
-						else
-							m_pSubChar->Set_Change(false, vLastPos);
-					}
-					m_pSubChar->Set_BattleTarget(m_pBattleTarget);
-					m_pSubChar->Set_SubSkill(1);
-				}
-				else if (m_tInfo.iFriendBar >= 500 && pGameInstance->Key_Pressing(DIK_V))
-				{
-					m_fChangeTime += m_fDelta;
-					if (m_fChangeTime > 0.5f)
-					{
-						m_tInfo.iFriendBar -= 500;
-						m_tInfo.bSub = true;
-						CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
-						CUI_Manager::Get_Instance()->Set_2P_2(this);
-						m_pSubChar->Set_ChangeDelay(1.f);
-						m_pSubChar->Set_Sub(false);
-						m_pSubChar->Change_Info(m_tInfo);
-						m_pSubChar->Set_ChangeInfo(true);
-						if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
-							m_pSubChar->Set_Change(false, vPos);
-						else
+						m_fChangeTime += m_fDelta;
+						if (m_fChangeTime > 0.5f)
 						{
-							vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-							vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-							vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-							vPos += XMVector3Normalize(vLook) * 5.f;
-							vPos += XMVector3Normalize(vRight) * 5.f;
-							vPos.m128_f32[1] += 15.f;
+							m_tInfo.iFriendBar -= 500;
+							m_tInfo.bSub = true;
+							CUI_Manager::Get_Instance()->Set_2P(m_pSubChar);
+							CUI_Manager::Get_Instance()->Set_2P_2(this);
+							m_pSubChar->Set_ChangeDelay(1.f);
+							m_pSubChar->Set_Sub(false);
+							m_pSubChar->Change_Info(m_tInfo);
+							m_pSubChar->Set_ChangeInfo(true);
 							if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
 								m_pSubChar->Set_Change(false, vPos);
 							else
-								m_pSubChar->Set_Change(false, vLastPos);
+							{
+								vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+								vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+								vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+								vPos += XMVector3Normalize(vLook) * 5.f;
+								vPos += XMVector3Normalize(vRight) * 5.f;
+								vPos.m128_f32[1] += 15.f;
+								if (m_pSubChar->Get_NavigationCom()->Cheak_Cell(vPos))
+									m_pSubChar->Set_Change(false, vPos);
+								else
+									m_pSubChar->Set_Change(false, vLastPos);
+							}
+							m_pSubChar->Set_SubSkill(0);
+							m_pSubChar->Set_BattleTarget(m_pBattleTarget);
+							m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+							m_fChangeTime = 0.f;
 						}
-						m_pSubChar->Set_SubSkill(0);
-						m_pSubChar->Set_BattleTarget(m_pBattleTarget);
-						m_pBattleTarget->Set_BattleTarget(m_pSubChar);
+					}
+					else
+					{
 						m_fChangeTime = 0.f;
 					}
+					break;
+				default:
+					break;
 				}
-				else
-				{
-					m_fChangeTime = 0.f;
-				}
-				break;
-			default:
-				break;
 			}
 		}
 	}
@@ -595,9 +597,9 @@ HRESULT CTanjiro::Render()
 			}
 		}
 	}
+
+
 	RELEASE_INSTANCE(CGameInstance);
-
-
 	return S_OK;
 }
 
@@ -708,7 +710,7 @@ void CTanjiro::Get_GuardHit(_int eType)
 
 void CTanjiro::Player_TakeDown(_float _fPow, _bool _bJumpHit)
 {
-	if (m_pTanjiroState->Get_TanjiroState() !=  CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
+	if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
 	{
 		CTanjiroState* pState = new CTakeDownState(_fPow, _bJumpHit);
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
@@ -739,7 +741,7 @@ void CTanjiro::Play_Scene()
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_RUI:
-		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);				
+		pState = new CHitCinema_Rui(CHitCinema_Rui::SCENE_START);
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
