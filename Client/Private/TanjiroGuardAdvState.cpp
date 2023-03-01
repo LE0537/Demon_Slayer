@@ -81,8 +81,8 @@ CTanjiroState * CGuardAdvState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta
 
 	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vLooAt.m128_f32[1] = 0.f;
-	pTanjiro->Get_Transform()->LookAt(vLooAt);
+
+	pTanjiro->Get_Transform()->Set_PlayerLookAt(vLooAt);
 
 	_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 	_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
