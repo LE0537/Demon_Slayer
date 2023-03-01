@@ -265,7 +265,11 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	}
 	else
 	{
-		Out.vShade = g_vLightDiffuse * g_fEnvLightValue * (saturate(dot(normalize(g_vLightDir2) * -1.f, normalize(vNormal))) + (g_vLightAmbient * g_vMtrlAmbient));
+		float fDot = saturate(dot(normalize(g_vLightDir) * -1.f, normalize(vNormal)));
+
+
+		Out.vShade = g_vLightDiffuse * g_fEnvLightValue * ((fDot + 0.4f) + (g_vLightAmbient * g_vMtrlAmbient));
+		//Out.vShade = g_vLightDiffuse * g_fEnvLightValue * (saturate(dot(normalize(g_vLightDir2) * -1.f, normalize(vNormal))) + (g_vLightAmbient * g_vMtrlAmbient));
 	}
 
 	Out.vShade *= g_fLightPower;
@@ -468,7 +472,7 @@ PS_OUT PS_INNERLINE(PS_IN In)
 
 	vector		vNormalTexture = g_NormalTexture.Sample(LinearSampler, In.vTexUV);
 	float		fValue = vNormalTexture.a;
-	if (fValue == 0.f)
+	if (fValue != 1.f)
 		discard;
 
 	float4 inline_color = 0;

@@ -387,7 +387,8 @@ void CSkill_WaterMillState::Exit(CTanjiro * pTanjiro)
 	if (m_eStateType == Client::CTanjiroState::TYPE_END)
 	{
 		_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		vPos.m128_f32[1] = 0.f;
+		vPos.m128_f32[1] = pTanjiro->Get_NavigationHeight().y;
+
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPos);
 		pTanjiro->Reset_WaterMillHit();
 	}
