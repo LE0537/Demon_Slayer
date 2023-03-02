@@ -1510,6 +1510,9 @@
     <Filter Include="03.UI\96.MsgUI\Dialog">
       <UniqueIdentifier>{d05b2261-0e6c-4b37-99b4-99461ed64b8b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train">
+      <UniqueIdentifier>{9e67cf96-6304-487c-8489-3aeb1b51a382}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3006,6 +3009,9 @@
     <ClInclude Include="..\Public\BattleDialog.h">
       <Filter>03.UI\96.MsgUI\Dialog</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\TanjiroTrain_CinemaState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4468,6 +4474,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\BattleDialog.cpp">
       <Filter>03.UI\96.MsgUI\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroTrain_CinemaState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

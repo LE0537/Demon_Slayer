@@ -104,7 +104,7 @@ public:
 
 	void		EnmuBossAnimDebug();
 	void		EnmuBossCharacterList(_uint _iIndex);
-
+	void		Set_CameraPosition(_fvector vCamPos) { XMStoreFloat3(&m_vCameraPosition, vCamPos); }
 private:
 	vector<CCharacters*> m_vecObjList;
 	vector<CAnimation*> m_vecAnimation;
@@ -124,6 +124,7 @@ private:
 	_float m_fEnmuBossDist = 0.f;
 	_bool m_bReset = false;
 	_float3 m_vCurrentPosition;
+	_float3 m_vCameraPosition;
 
 private:
 	_bool	m_bCutScene = false;

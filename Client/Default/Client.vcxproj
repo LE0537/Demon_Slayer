@@ -636,6 +636,7 @@
     <ClInclude Include="..\Public\TanjiroTakeDownState.h" />
     <ClInclude Include="..\Public\TanjiroTargetRushState.h" />
     <ClInclude Include="..\Public\TanjiroToolState.h" />
+    <ClInclude Include="..\Public\TanjiroTrain_CinemaState.h" />
     <ClInclude Include="..\Public\TanjiroUpperHitState.h" />
     <ClInclude Include="..\Public\TanjiroWeapon.h" />
     <ClInclude Include="..\public\TanjiroWeapon2.h" />
@@ -1126,6 +1127,7 @@
     <ClCompile Include="..\Private\TanjiroTakeDownState.cpp" />
     <ClCompile Include="..\Private\TanjiroTargetRushState.cpp" />
     <ClCompile Include="..\Private\TanjiroToolState.cpp" />
+    <ClCompile Include="..\Private\TanjiroTrain_CinemaState.cpp" />
     <ClCompile Include="..\Private\TanjiroUpperHitState.cpp" />
     <ClCompile Include="..\Private\TanjiroWeapon.cpp" />
     <ClCompile Include="..\private\TanjiroWeapon2.cpp" />
