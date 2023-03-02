@@ -12,7 +12,7 @@
 #include "EnmuGuardHitState.h"
 #include "EnmuGuardState.h"
 
-
+#include "Tanjiro.h"
 #include "EnmuHitState.h"
 #include "EnmuUpperHitState.h"
 #include "EnmuTakeDownState.h"
@@ -103,9 +103,22 @@ void CEnmu::Tick(_float fTimeDelta)
 			CEnmuState* pState = new CBattleStartState();
 			m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pState);
 			m_bBattleStart = false;
-			m_bAiMode = true;
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_BATTLE_ENMU);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+			RELEASE_INSTANCE(CGameInstance);
+			dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(true);
 		}
-
+		if (!m_bAiBattleStart)
+		{
+			m_fStartTime += fTimeDelta;
+			if (m_fStartTime > 7.5f)
+			{
+				m_bAiBattleStart = true;
+				m_bAiMode = true;
+				dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
+			}
+		}
 		if (!m_tInfo.bSub && !m_bBattleStart)
 		{
 			CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
@@ -117,8 +130,6 @@ void CEnmu::Tick(_float fTimeDelta)
 
 			HandleInput();
 			TickState(fTimeDelta);
-
-			m_bAiMode = true;
 		}
 	}
 
