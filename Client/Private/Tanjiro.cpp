@@ -1506,17 +1506,14 @@ void CTanjiro::Check_Spl()
 }
 void CTanjiro::StorySpl(_float fTimeDelta)
 {
-	m_fStoryTime += fTimeDelta;
-	if (m_fStoryTime > 4.f)
-	{
+
 		dynamic_cast<CRui*>(m_pBattleTarget)->Set_StoryDead();
 		m_pBattleTarget->Play_Scene();
 		CTanjiroState* pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 		m_bStorySpl = false;
 		m_bStorySplEnd = true;
-		m_fStoryTime = 0.f;
-	}
+
 }
 CTanjiro * CTanjiro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
