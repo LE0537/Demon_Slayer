@@ -17,7 +17,8 @@
 #include "Effect_Manager.h"
 #include "EnmuBoss.h"
 #include "ImGuiManager.h"
-
+#include "Layer.h"
+#include "Level_GamePlay.h"
 unsigned int APIENTRY Thread_BossEnmu(void* pArg)
 {
 	CLevel_BossEnmu*		pLoader = (CLevel_BossEnmu*)pArg;
@@ -50,6 +51,7 @@ unsigned int APIENTRY Thread_BossEnmu(void* pArg)
 		}
 	}
 	pUIManager->Set_LoadingDead();
+
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
@@ -144,7 +146,7 @@ HRESULT CLevel_BossEnmu::Initialize()
 
 
 	m_pRendererCom->Set_Far(g_fFar);
-
+	m_pEnmu = dynamic_cast<CCharacters*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Enmu_Head"))->Get_LayerFront());
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 
@@ -195,11 +197,17 @@ void CLevel_BossEnmu::Tick(_float fTimeDelta)
 			m_bCreateUI = true;
 		}
 
-		if (pUIManager->Get_BattleTypeCheck())
+		if (m_pEnmu->Get_PlayerInfo().iHp <= 0)
 		{
-			if (pUIManager->Get_LevelResultOn())
+			m_fNextLevelTime += fTimeDelta;
+			if (m_fNextLevelTime > 5.f)
 			{
-				if (FAILED(pGameInstance->Open_Level(LEVEL_GAMERESULT, CLevel_GameResult::Create(m_pDevice, m_pContext))))
+				pUIManager->Set_SelMapNum(1);
+				pUIManager->Set_Sel1P(0);
+				pUIManager->Set_Sel1P_2(4);
+				pUIManager->Set_Sel2P(8);
+				pUIManager->Set_Sel2P_2(99);
+				if (FAILED(pGameInstance->Open_Level(LEVEL_GAMEPLAY, CLevel_GamePlay::Create(m_pDevice, m_pContext))))
 					return;
 			}
 		}

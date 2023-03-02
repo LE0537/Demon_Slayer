@@ -56,6 +56,7 @@ private:
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
 
 	CCharacters*  m_pPlayer = nullptr;
+	CCharacters*  m_pEnmu = nullptr;
 	CRenderer*	m_pRendererCom = nullptr;
 
 	_bool		m_bCreateUI = false;

@@ -221,7 +221,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 		}
 		else
 		{
-			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && pUIManager->Get_2P()->Get_PlayerInfo().strName != TEXT("루이"))
+			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && pUIManager->Get_2P()->Get_PlayerInfo().strName == TEXT("아빠 거미"))
 			{
 				m_fNextLevelTime += fTimeDelta;
 				if (m_fNextLevelTime > 3.f && !pUIManager->Get_AdvResult())
@@ -249,7 +249,19 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 						return;
 				}
 			}
-
+			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && pUIManager->Get_2P()->Get_PlayerInfo().strName == TEXT("아카자"))
+			{
+				m_fNextLevelTime += fTimeDelta;
+				if (m_fNextLevelTime > 15.f && !pUIManager->Get_AdvResult())
+					pUIManager->Set_FadeIn();
+				else if (pUIManager->Get_AdvResult() && pUIManager->Get_StroyEventEnd())
+				{
+					pUIManager->Set_AdvResult(false);
+					pUIManager->Set_FadeOut();
+					if (FAILED(pGameInstance->Open_Level(LEVEL_STORYMENU, CLevel_StoryMenu::Create(m_pDevice, m_pContext))))
+						return;
+				}
+			}
 		}
 
 
@@ -496,6 +508,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		tCharacterDesc2p.i1P2P = 11;
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
+			return E_FAIL;
+		break;
+	case 8:
+		tCharacterDesc2p.i1P2P = 2;
+		tCharacterDesc2p.bSub = false;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	default:

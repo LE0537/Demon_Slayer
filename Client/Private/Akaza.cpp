@@ -44,57 +44,43 @@ HRESULT CAkaza::Initialize(void * pArg)
 	CLevel_GamePlay::CHARACTERDESC	tCharacterDesc;
 	memcpy(&tCharacterDesc, pArg, sizeof CLevel_GamePlay::CHARACTERDESC);
 	m_i1p = tCharacterDesc.i1P2P;
-	
+
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	if (m_i1p != 10)
-	{
-		m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
-		m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
-		m_tInfo.bSub = tCharacterDesc.bSub;
-		m_bChange = tCharacterDesc.bSub;
-		if (!m_tInfo.bSub)
-		{
-			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-			*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
-			if (m_i1p == 1)
-			{
-				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
+	m_pTransformCom->Set_WorldMatrix(XMLoadFloat4x4(&tCharacterDesc.matWorld));
+	m_pNavigationCom->Set_NaviIndex(tCharacterDesc.iNaviIndex);
 
-				CUI_Manager::Get_Instance()->Set_1P(this);
-			}
-			else if (m_i1p == 2)
-			{
-				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-
-				CUI_Manager::Get_Instance()->Set_2P(this);
-			}
-			RELEASE_INSTANCE(CGameInstance);
-
-		}
-		else
-		{
-			m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
-			m_pSubChar->Set_SubChar(this);
-
-		}
-	}
-	else if (m_i1p == 10)
+	m_tInfo.bSub = tCharacterDesc.bSub;
+	m_bChange = tCharacterDesc.bSub;
+	if (!m_tInfo.bSub)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-		RELEASE_INSTANCE(CGameInstance);
-		_vector vPos = { -35.788f,4.438f,-31.331f,1.f };
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-		m_pTransformCom->Set_Scale(XMVectorSet(0.3f, 0.3f, 0.3f, 0.f));
-		m_pNavigationCom->Find_CurrentCellIndex(vPos);
+		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
+		if (m_i1p == 1)
+		{
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Player(this);
 
-		m_tInfo.bSub = tCharacterDesc.bSub;
-		m_bChange = tCharacterDesc.bSub;
-		//CUI_Manager::Get_Instance()->Set_2P(this);
+			CUI_Manager::Get_Instance()->Set_1P(this);
+		}
+		else if (m_i1p == 2)
+		{
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+
+			CUI_Manager::Get_Instance()->Set_2P(this);
+		}
+		RELEASE_INSTANCE(CGameInstance);
+
 	}
+	else
+	{
+		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
+		m_pSubChar->Set_SubChar(this);
+
+	}
+
+
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 	CAkazaState* pState = new CIdleState();
@@ -200,7 +186,7 @@ HRESULT CAkaza::Render()
 		//aiTextureType_AMBIENT
 	}
 
-	
+
 	RELEASE_INSTANCE(CGameInstance);
 
 
