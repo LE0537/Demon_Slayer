@@ -261,7 +261,7 @@ HRESULT CKyoujuro::Render()
 	}
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (pUI_Manager->Get_Sel2P() != 8)
+	if (pUI_Manager->Get_Sel2P() != 8 && g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 	{
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 		if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y
