@@ -245,6 +245,8 @@ HRESULT CKyoujuro::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
+		if (i == 8)
+			continue;
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 		if (i == 0 || i == 1)

@@ -9,7 +9,7 @@
 #include "RuiDadIdleState.h"
 #include "ImGuiManager.h"
 #include "EnmuBoss.h"
-
+#include "Effect_Manager.h"
 CEnmu_ChokChok::CEnmu_ChokChok(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
 {
@@ -39,8 +39,11 @@ HRESULT CEnmu_ChokChok::Initialize(void * pArg)
 	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, m_vOriginPosition);
 	m_pModelCom->Set_CurrentAnimIndex(0);
-	
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+	m_pTanjiro = dynamic_cast<CCharacters*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
@@ -56,6 +59,7 @@ void CEnmu_ChokChok::Tick(_float fTimeDelta)
 
 	HandleInput();
 	TickState(fTimeDelta);
+	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
 
 }
 
@@ -63,12 +67,91 @@ void CEnmu_ChokChok::Late_Tick(_float fTimeDelta)
 {
 	m_pModelCom->Play_Animation(fTimeDelta);
 	LateTickState(fTimeDelta);
+
+	m_fMove += fTimeDelta;
+
+	if (m_fMove > 0.3f)
+	{
+		
+		CCollider*	pTargetCollider = m_pTanjiro->Get_SphereCollider();
+
+		if (m_fMove < 0.5f && !m_bHit)
+		{
+			if (nullptr == pTargetCollider)
+				return;
+
+			if (m_pOBBCom->Collision(pTargetCollider))
+			{
+
+				if (m_pTanjiro->Get_PlayerInfo().bGuard && m_pTanjiro->Get_PlayerInfo().fGuardTime <= 0.f)
+				{
+					m_pTanjiro->Get_GuardHit(0);
+					m_pTanjiro->Set_GuardHp(-60);
+					if (m_pTanjiro->Get_PlayerInfo().iGuard <= 0)
+					{
+						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTanjiro);
+						RELEASE_INSTANCE(CEffect_Manager);
+						m_pTanjiro->Set_ResetGuardHp();
+						m_pTanjiro->Set_GuardTime(2.f);
+					}
+				}
+				else if (m_pTanjiro->Get_GodMode() == false)
+				{
+					m_pTanjiro->Set_Hp(-50);
+
+					if (m_bIsCreate == false)
+					{
+						m_pTanjiro->Take_Damage(0.0f, false);
+						m_bIsCreate = true;
+					}
+			
+				}
+				if (m_pTanjiro->Get_GodMode() == false)
+				{
+					_int iDest = rand() % 5;
+					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+					switch (iDest)
+					{
+					case 0:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTanjiro);
+						break;
+					case 1:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTanjiro);
+						break;
+					case 2:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTanjiro);
+						break;
+					case 3:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTanjiro);
+						break;
+					case 4:
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTanjiro);
+						break;
+					default:
+						break;
+					}
+
+
+					RELEASE_INSTANCE(CEffect_Manager);
+
+					m_bHit = true;
+				}
+			}
+
+		}
+	}
+
+
 	if (m_bRender)
 	{
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 	}
-
+	if (g_bCollBox)
+	{
+		m_pRendererCom->Add_Debug(m_pOBBCom);
+	}
 
 }
 
@@ -236,7 +319,14 @@ HRESULT CEnmu_ChokChok::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_Enmu_Chok"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
+	CCollider::COLLIDERDESC		ColliderDesc;
+	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
+	/* For.Com_OBB*/
+	ColliderDesc.vScale = _float3(6.f, 12.f, 6.f);
+	ColliderDesc.vPosition = _float3(0.f, 3.f, 0.f);
+	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
+		return E_FAIL;
 
 
 	return S_OK;
@@ -323,6 +413,7 @@ void CEnmu_ChokChok::Free()
 	__super::Free();
 
 	Safe_Release(m_pModelCom);
+	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pSphereCom);
-
+	
 }

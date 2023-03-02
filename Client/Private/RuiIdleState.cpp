@@ -32,12 +32,14 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 	switch (pRui->Get_i1P())
 	{
 	case 1:
-		if (pGameInstance->Key_Pressing(DIK_E))
+		if (pGameInstance->Key_Pressing(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
 		{
-			pRui->Get_BattleTarget()->Play_Scene();
-			return new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);
+			if (pRui->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pRui->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
 
-			return new CSplSkrStartState(TYPE_START);
+			}
 		}
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
@@ -162,7 +164,15 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 
 		break;
 	case 2:
+		if (pGameInstance->Key_Pressing(DIK_RSHIFT) && g_iLevel == LEVEL_GAMEPLAY)
+		{
+			if (pRui->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pRui->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
 
+			}
+		}
 
 		if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
 		{

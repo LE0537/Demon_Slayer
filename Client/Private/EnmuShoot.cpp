@@ -68,7 +68,7 @@ void CEnmuShoot::Late_Tick(_float fTimeDelta)
 		//vPos.m128_f32[1] = 0.f;
 		m_ShootInfo.pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard && m_ShootInfo.pTarget->Get_PlayerInfo().iGuard > 0)
+		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard && m_ShootInfo.pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			m_ShootInfo.pTarget->Get_GuardHit(0);
 			m_ShootInfo.pTarget->Set_GuardHp(_int(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
@@ -103,6 +103,7 @@ void CEnmuShoot::Late_Tick(_float fTimeDelta)
 	{
 		m_pRendererCom->Add_Debug(m_pOBBCom);
 	}
+
 }
 
 HRESULT CEnmuShoot::Render()

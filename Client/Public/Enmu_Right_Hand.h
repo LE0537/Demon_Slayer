@@ -82,7 +82,12 @@ public:
 	void   Set_Render(_bool bRender) { m_bRender = bRender; }
 	_bool  Get_Tick() const { return m_bTick; }
 	void   Set_Tick(_bool bTick) { m_bTick = bTick; }
+	void	Set_CollBox(_bool _bTrue) { m_bCollBox = _bTrue; }
+	_float4    Check_CollPos();
 
+
+
+	_vector GET_RightHandOriginLook() { return m_vOriginalLook; }
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
@@ -93,8 +98,8 @@ private:
 	HRESULT Ready_Components();
 
 	void	Set_Info();
-
-
+	
+	
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);
@@ -103,8 +108,11 @@ public:
 	virtual void  Play_Scene();
 private:
 	CModel*					m_pModelCom = nullptr;
-
+	CCollider*				m_pOBBCom = nullptr;
 	_float					m_fEffectTime = 0.f;
+	CCharacters* m_pTanjiro = nullptr;
+	_bool					m_bIsCreate = false;
+	_bool					m_bHit = false;
 private:
 	ANIMID m_eAnimID;
 
@@ -122,7 +130,9 @@ private:
 	_bool					m_bQuestStart = false;
 	_bool					m_bQuestStop = false;
 
+	_bool	m_bCollBox = false;
 
+	_vector m_vOriginalLook;
 public:
 	static CEnmu_Right_Hand* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

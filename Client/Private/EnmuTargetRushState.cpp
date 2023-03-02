@@ -145,7 +145,7 @@ void CTargetRushState::Move(CEnmu* pEnmu, _float fTimeDelta)
 
 	_vector vCurrentPos = pEnmu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-	_vector vPosition = XMVectorSet(m_vPosition.x, XMVectorGetY(vCurrentPos), m_vPosition.z, 1.f);
+	_vector vPosition = XMVectorSet(m_vPosition.x, pEnmu->Get_NavigationHeight().y, m_vPosition.z, 1.f);
 
 	//if (fDistance <= 3.f)
 	//{
@@ -158,7 +158,7 @@ void CTargetRushState::Move(CEnmu* pEnmu, _float fTimeDelta)
 
 		pEnmu->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pEnmu->Get_BattleTarget()->Get_PlayerInfo().bGuard && pEnmu->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pEnmu->Get_BattleTarget()->Get_PlayerInfo().bGuard && pEnmu->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pEnmu->Get_BattleTarget()->Get_GuardHit(0);
 		}
@@ -169,13 +169,13 @@ void CTargetRushState::Move(CEnmu* pEnmu, _float fTimeDelta)
 			RELEASE_INSTANCE(CEffect_Manager);
 			pEnmu->Get_BattleTarget()->Take_Damage(0.3f, false);
 			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 			
 			RELEASE_INSTANCE(CGameInstance);
 
 			CGameInstance* pGameInstanceCam = GET_INSTANCE(CGameInstance);
-			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
-			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pEnmu->Get_Renderer());
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_BATTLEENMU, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pEnmu->Get_Renderer());
 			RELEASE_INSTANCE(CGameInstance);
 		}
 	}

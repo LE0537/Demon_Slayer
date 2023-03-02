@@ -20,51 +20,63 @@ using namespace Enmu;
 CIdleState::CIdleState(STATE_ID eState)
 	: ePreState(eState)
 {
-	
+
 }
 
 CEnmuState * CIdleState::HandleInput(CEnmu* pEnmu)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-
-	//Update_TargetState(pEnmu);
-
-	//switch (m_eRange)
-	//{
-	//case Client::Enmu::CIdleState::RANGE_IN:
-	//	Update_AI_Near(pEnmu);
-	//	break;
-	//case Client::Enmu::CIdleState::RANGE_OUT:
-	//	Update_AI_Out(pEnmu);
-	//	break;
-	//default:
-	//	break;
-	//}
+	if (pEnmu->Get_EnmuAiMode() == false)
+		return nullptr;
 
 
-	if (pGameInstance->Get_Instance()->Key_Down(DIK_1))
-		return new CEnmuAttack1(TYPE_START);
-
-	if (pGameInstance->Get_Instance()->Key_Down(DIK_2))
-		return new CSkill1_EnmuState(TYPE_START);
-
-	if (pGameInstance->Get_Instance()->Key_Down(DIK_3))
-		return new CSkill2_EnmuState(TYPE_START);
-
-	if (pGameInstance->Get_Instance()->Key_Down(DIK_4))
-		return new CSkill3_EnmuState(TYPE_START);
+	Update_TargetState(pEnmu);
 
 
 
+	switch (m_eRange)
+	{
+	case Client::Enmu::CIdleState::RANGE_IN:
+		Update_AI_Near(pEnmu);
+		break;
+	case Client::Enmu::CIdleState::RANGE_OUT:
+		Update_AI_Out(pEnmu);
+		break;
+	default:
+		break;
+	}
 
 
-	return Return_AIState(pEnmu);
+	//if (pGameInstance->Get_Instance()->Key_Down(DIK_1))
+	//	return new CEnmuAttack1(TYPE_START);
+
+	//if (pGameInstance->Get_Instance()->Key_Down(DIK_2))
+	//	return new CSkill1_EnmuState(TYPE_START);
+
+	//if (pGameInstance->Get_Instance()->Key_Down(DIK_3))
+	//	return new CSkill2_EnmuState(TYPE_START);
+
+	//if (pGameInstance->Get_Instance()->Key_Down(DIK_4))
+	//	return new CSkill3_EnmuState(TYPE_START);
+
+
+	if (m_fDelay >= 0.5f)
+	{
+		m_fDelay = 0.f;
+		return Return_AIState(pEnmu);
+	}
+	else
+	{
+		return nullptr;
+	}
+
+
 }
 
 CEnmuState * CIdleState::Tick(CEnmu* pEnmu, _float fTimeDelta)
 {
-
+	m_fDelay += fTimeDelta;
 
 	return nullptr;
 }
@@ -102,7 +114,7 @@ void CIdleState::Enter(CEnmu* pEnmu)
 	pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_IDLE);
 	pEnmu->Set_AnimIndex(CEnmu::ANIM_IDLE);
 	pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_IDLE, 0.05f);
-	
+
 
 }
 
@@ -113,6 +125,9 @@ void CIdleState::Exit(CEnmu* pEnmu)
 void CIdleState::Update_TargetState(CEnmu * pEnmu)
 {
 	CCharacters* pTarget = pEnmu->Get_BattleTarget();
+
+	if (pTarget == nullptr)
+		return;
 
 	m_iTargetState = pTarget->Get_TargetState();
 
@@ -201,7 +216,33 @@ void CIdleState::Update_AI_Near(CEnmu * pEnmu)
 void CIdleState::Update_AI_Out(CEnmu * pEnmu)
 {
 
-
+	switch (m_eTargetState)
+	{
+	case Client::Enmu::CIdleState::STATE_IDLE:
+	case Client::Enmu::CIdleState::STATE_MOVE:
+	case Client::Enmu::CIdleState::STATE_JUMP:
+	case Client::Enmu::CIdleState::STATE_DASH:
+		Update_Far_Move();
+		break;
+	case Client::Enmu::CIdleState::STATE_ATTACK:
+		Update_Far_Attack();
+		break;
+	case Client::Enmu::CIdleState::STATE_SKILL:
+		Update_Far_Skill();
+		break;
+	case Client::Enmu::CIdleState::STATE_GUARD:
+		Update_Far_Guard();
+		break;
+	case Client::Enmu::CIdleState::STATE_HIT:
+		break;
+	case Client::Enmu::CIdleState::STATE_RUSH:
+		Update_Far_Rush();
+		break;
+	case Client::Enmu::CIdleState::STATE_END:
+		break;
+	default:
+		break;
+	}
 
 
 
@@ -209,6 +250,45 @@ void CIdleState::Update_AI_Out(CEnmu * pEnmu)
 
 void CIdleState::Update_Near_Attack()
 {
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 2:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 3:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 4:
+		m_eState = AI_STATE::AI_GUARD;
+		break;
+	case 5:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 6:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 7:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 8:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 9:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 10:
+		m_eState = AI_STATE::AI_DASH;
+		break;
+	}
+
 }
 
 void CIdleState::Update_Near_Move()
@@ -230,7 +310,7 @@ void CIdleState::Update_Near_Move()
 		m_eState = AI_STATE::AI_ATTACK;
 		break;
 	case 4:
-		m_eState = AI_STATE::AI_SKILL;
+		m_eState = AI_STATE::AI_ATTACK;
 		break;
 	case 5:
 		m_eState = AI_STATE::AI_SKILL;
@@ -239,13 +319,13 @@ void CIdleState::Update_Near_Move()
 		m_eState = AI_STATE::AI_SKILL;
 		break;
 	case 7:
-		m_eState = AI_STATE::AI_IDLE;
+		m_eState = AI_STATE::AI_SKILL;
 		break;
 	case 8:
-		m_eState = AI_STATE::AI_DASH;
+		m_eState = AI_STATE::AI_IDLE;
 		break;
 	case 9:
-		m_eState = AI_STATE::AI_DASH;
+		m_eState = AI_STATE::AI_IDLE;
 		break;
 	case 10:
 		m_eState = AI_STATE::AI_DASH;
@@ -256,17 +336,380 @@ void CIdleState::Update_Near_Move()
 
 void CIdleState::Update_Near_Guard()
 {
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
 
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 2:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 3:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 4:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 5:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 6:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 7:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 8:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 9:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 10:
+		m_eState = AI_STATE::AI_DASH;
+		break;
+	}
 
 }
 
 void CIdleState::Update_Near_Rush()
 {
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
 
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 2:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 3:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 4:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 5:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 6:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 7:
+		m_eState = AI_STATE::AI_GUARD;
+		break;
+	case 8:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 9:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 10:
+		m_eState = AI_STATE::AI_DASH;
+		break;
+	}
 }
 
 void CIdleState::Update_Near_Skill()
 {
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 2:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 3:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 4:
+		m_eState = AI_STATE::AI_ATTACK;
+		break;
+	case 5:
+		m_eState = AI_STATE::AI_GUARD;
+		break;
+	case 6:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 7:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 8:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 9:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 10:
+		m_eState = AI_STATE::AI_DASH;
+		break;
+	}
+}
+
+
+
+
+void CIdleState::Update_Far_Attack()
+{
+
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 2:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 3:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 4:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 5:
+		m_eState = AI_STATE::AI_FRONTMOVE;
+		break;
+	case 6:
+		m_eState = AI_STATE::AI_FRONTMOVE;
+		break;
+	case 7:
+		m_eState = AI_STATE::AI_RUSH;
+		break;
+	case 8:
+		m_eState = AI_STATE::AI_RUSH;
+		break;
+	case 9:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 10:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	}
+
+
+
+
+}
+
+void CIdleState::Update_Far_Move()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 2:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 3:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 4:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 5:
+		m_eState = AI_STATE::AI_FRONTMOVE;
+		break;
+	case 6:
+		m_eState = AI_STATE::AI_FRONTMOVE;
+		break;
+	case 7:
+		m_eState = AI_STATE::AI_RUSH;
+		break;
+	case 8:
+		m_eState = AI_STATE::AI_RUSH;
+		break;
+	case 9:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 10:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	}
+
+
+}
+
+void CIdleState::Update_Far_Guard()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 2:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 3:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 4:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 5:
+		m_eState = AI_STATE::AI_FRONTMOVE;
+		break;
+	case 6:
+		m_eState = AI_STATE::AI_FRONTMOVE;
+		break;
+	case 7:
+		m_eState = AI_STATE::AI_RUSH;
+		break;
+	case 8:
+		m_eState = AI_STATE::AI_RUSH;
+		break;
+	case 9:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 10:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	}
+}
+
+void CIdleState::Update_Far_Rush()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 2:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 3:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 4:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 5:
+		m_eState = AI_STATE::AI_FRONTMOVE;
+		break;
+	case 6:
+		m_eState = AI_STATE::AI_FRONTMOVE;
+		break;
+	case 7:
+		m_eState = AI_STATE::AI_RUSH;
+		break;
+	case 8:
+		m_eState = AI_STATE::AI_RUSH;
+		break;
+	case 9:
+		m_eState = AI_STATE::AI_GUARD;
+		break;
+	case 10:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	}
+
+}
+
+void CIdleState::Update_Far_Skill()
+{
+	std::random_device RandomDevice;
+	std::mt19937 gen(RandomDevice());
+	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	int iRandom = RandomPattern(gen);
+
+	switch (iRandom)
+	{
+	case 1:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 2:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 3:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 4:
+		m_eState = AI_STATE::AI_SKILL;
+		break;
+	case 5:
+		m_eState = AI_STATE::AI_FRONTMOVE;
+		break;
+	case 6:
+		m_eState = AI_STATE::AI_FRONTMOVE;
+		break;
+	case 7:
+		m_eState = AI_STATE::AI_RUSH;
+		break;
+	case 8:
+		m_eState = AI_STATE::AI_RUSH;
+		break;
+	case 9:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	case 10:
+		m_eState = AI_STATE::AI_IDLE;
+		break;
+	}
+}
+
+_bool CIdleState::Dash_CalCul(CEnmu * pEnmu)
+{
+	CCharacters* pTarget = pEnmu->Get_BattleTarget();
+
+	_vector vPlayerPosition = pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vMyPosition = pEnmu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	_vector vUpVector = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+	_vector vPlayerLook = XMVector3Normalize(pEnmu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_LOOK));
+	_vector vTargetLook = XMVector3Normalize(vPlayerPosition - vMyPosition);
+
+	_vector vCross = XMVector3Cross(vPlayerLook, vTargetLook);
+	_vector vDot = XMVector3Dot(vCross, vUpVector);
+
+
+	if (XMVectorGetX(vDot) > 0.f)
+	{
+		m_eState = AI_STATE::AI_DASH_L;
+	}
+	else
+	{
+		m_eState = AI_STATE::AI_DASH_R;
+	}
+
+	//월드 공간의 UP 방향 벡터를 U, 플레이어의 Forward 방향을 F, 플레이어에서 물체를 가르키는 방향을 A라고 했을 때, 
+	//벡터 F와 벡터 A를 외적한다.이 외적한 벡터를 월드 벡터와 내적을 하였을 때, 양수이면 오른쪽 음수이면 왼쪽에 존재하게 된다.
+
+	return true;
 }
 
 CEnmuState* CIdleState::Near_Skill_Setting(CEnmu * pEnmu)
@@ -297,6 +740,8 @@ CEnmuState* CIdleState::Near_Skill_Setting(CEnmu * pEnmu)
 
 
 
+
+
 CEnmuState * CIdleState::Return_AIState(CEnmu * pEnmu)
 {
 	switch (m_eState)
@@ -306,18 +751,42 @@ CEnmuState * CIdleState::Return_AIState(CEnmu * pEnmu)
 		return nullptr;
 		break;
 	case Client::Enmu::CIdleState::AI_BACKMOVE:
+		pEnmu->Get_Transform()->Set_PlayerLookAt(pEnmu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		return new CMoveState(TYPE_START);
 		break;
 	case Client::Enmu::CIdleState::AI_FRONTMOVE:
+		pEnmu->Get_Transform()->Set_PlayerLookAt(pEnmu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		return new CMoveState(TYPE_START);
 		break;
 	case Client::Enmu::CIdleState::AI_ATTACK:
 		return new CEnmuAttack1(TYPE_START);
 		break;
 	case Client::Enmu::CIdleState::AI_GUARD:
+		return new CGuardState();
 		break;
 	case Client::Enmu::CIdleState::AI_SKILL:
 		return Near_Skill_Setting(pEnmu);
 		break;
 	case Client::Enmu::CIdleState::AI_DASH:
+		Dash_CalCul(pEnmu);
+		if (m_eState == AI_STATE::AI_DASH_L)
+		{
+			if (pEnmu->Get_Transform()->Get_Sliding() == false)
+			{
+				return new CDashState(OBJDIR::DIR_RIGHT, false, false);
+			}
+			else
+				return new CDashState(OBJDIR::DIR_LEFT, false, false);
+		}
+		else if (m_eState == AI_STATE::AI_DASH_R)
+		{
+			if (pEnmu->Get_Transform()->Get_Sliding() == false)
+			{
+				return new CDashState(OBJDIR::DIR_LEFT, false, false);
+			}
+			else
+				return new CDashState(OBJDIR::DIR_RIGHT, false, false);
+		}
 		break;
 	case Client::Enmu::CIdleState::AI_DASH_F:
 		break;
@@ -332,6 +801,7 @@ CEnmuState * CIdleState::Return_AIState(CEnmu * pEnmu)
 	case Client::Enmu::CIdleState::AI_JUMP:
 		break;
 	case Client::Enmu::CIdleState::AI_RUSH:
+		return new CTargetRushState(TYPE_START);
 		break;
 	case Client::Enmu::CIdleState::AI_HIT:
 		break;

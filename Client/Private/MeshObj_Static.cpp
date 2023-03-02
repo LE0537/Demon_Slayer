@@ -193,9 +193,17 @@ HRESULT CMeshObj_Static::Render()
 		}
 		else if (false == m_tMyDesc.bAlphaBlend)
 		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-				return E_FAIL;
-		}
+			if (2109 <= m_tMyDesc.iModelIndex)
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 8)))
+					return E_FAIL;
+			}
+			else
+			{
+				if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+					return E_FAIL;
+			}
+		}		
 		else
 		{
 			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))	//	Alphablending
@@ -312,6 +320,10 @@ HRESULT CMeshObj_Static::SetUp_ShaderResources()
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
+		return E_FAIL;
+
+	_matrix matPivot = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+	if (FAILED(m_pShaderCom->Set_RawValue("g_PivotMatrix", &matPivot, sizeof(_float4x4))))
 		return E_FAIL;
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);

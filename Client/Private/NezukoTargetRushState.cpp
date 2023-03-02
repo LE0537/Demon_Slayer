@@ -293,7 +293,7 @@ void CTargetRushState::Move(CNezuko * pNezuko, _float fTimeDelta)
 
 		pNezuko->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pNezuko->Get_BattleTarget()->Get_PlayerInfo().bGuard && pNezuko->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pNezuko->Get_BattleTarget()->Get_PlayerInfo().bGuard && pNezuko->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pNezuko->Get_BattleTarget()->Get_GuardHit(0);
 		}
@@ -361,7 +361,12 @@ CNezukoState * CTargetRushState::CommandCheck(CNezuko * pNezuko)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_J))
@@ -410,7 +415,12 @@ CNezukoState * CTargetRushState::CommandCheck(CNezuko * pNezuko)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_Z))

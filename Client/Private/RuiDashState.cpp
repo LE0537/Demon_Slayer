@@ -29,7 +29,12 @@ CRuiState * CDashState::HandleInput(CRui* pRui)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pRui->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pRui->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
@@ -128,7 +133,12 @@ CRuiState * CDashState::HandleInput(CRui* pRui)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pRui->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pRui->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ

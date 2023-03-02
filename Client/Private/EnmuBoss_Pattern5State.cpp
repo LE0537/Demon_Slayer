@@ -74,6 +74,8 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 
 			if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Get_End(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN5_2))
 			{
+				dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Set_CollBox(false);
+
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_End(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN5_2);
 				return new CEnmuBoss_Pattern5State(STATE_TYPE::TYPE_DEFAULT, m_eParts);
 			}
@@ -82,6 +84,8 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 		{
 			if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Get_End(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN5_2))
 			{
+				dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Set_CollBox(false);
+
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_End(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN5_2);
 				return new CEnmuBoss_Pattern5State(STATE_TYPE::TYPE_DEFAULT, m_eParts);
 			}
@@ -115,6 +119,10 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_Loop(CEnmu_Right_Hand::ANIMID::ANIM_IDLE);
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Right_Hand::ANIMID::ANIM_IDLE, 0.1f);
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_End(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN5_4);
+
+				_vector vRightHandLook = dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->GET_RightHandOriginLook();
+				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Transform()->Set_State(CTransform::STATE_LOOK, vRightHandLook);
+
 				return new CEnmuBoss_Pattern5State(STATE_TYPE::TYPE_START, CEnmuBoss::PARTS::PARTS_LEFT_HAND);
 
 				//return new CIdleState();
@@ -125,6 +133,10 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 			if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Get_End(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN5_4))
 			{
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_End(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN5_4);
+
+				_vector vLeftHandLook = dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->GET_LeftHandOriginLook();
+				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Transform()->Set_State(CTransform::STATE_LOOK, vLeftHandLook);
+
 				return new CIdleState();
 			}
 		}
@@ -146,7 +158,23 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 	{
 		pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Play_Animation(fTimeDelta);
 	}
+	if (m_eStateType == CEnmuBossState::TYPE_END)
+	{
+		m_fDelay += fTimeDelta;
+		if (m_iHit == 0)
+		{
+			CCharacters* m_pTarget = pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_BattleTarget();
 
+
+			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
+				dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Set_CollBox(true);
+			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
+				dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Set_CollBox(true);
+
+			++m_iHit;
+		}
+	
+	}
 	return nullptr;
 }
 
@@ -218,7 +246,7 @@ void CEnmuBoss_Pattern5State::Enter(CEnmuBoss * pEnmuBoss)
 		{
 			CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 			_vector vTargetPos = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Transform()->Set_PlayerLookAt(vTargetPos);
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Transform()->Set_PlayerLookAt(vTargetPos);
 
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Reset_Anim(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN5_2);
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Set_AnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN5_2);

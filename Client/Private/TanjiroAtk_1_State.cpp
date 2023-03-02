@@ -239,8 +239,8 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
-
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+			
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-30 * pTanjiro->Get_PlayerInfo().fPowerUp));
@@ -256,14 +256,14 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				else if(pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
 					//m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * pTanjiro->Get_PlayerInfo().fPowerUp);
-					m_pTarget->Set_Hp(-350);
+					m_pTarget->Set_Hp(-150);
 					if (m_bIsCreate == false)
 					{
 						m_pTarget->Take_Damage(0.0f, false);
 						m_bIsCreate = true;
 					}
 					pTanjiro->Set_Combo(1);
-					pTanjiro->Set_ComboTime(0.f);
+					pTanjiro->Set_ComboTime(0.f); 
 				}
 				if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
@@ -401,8 +401,12 @@ CTanjiroState * CAtk_1_State::CommandCheck(CTanjiro* pTanjiro)
 	case 1:
 		if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
 		{
-			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pTanjiro->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
 
 		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
@@ -447,8 +451,14 @@ CTanjiroState * CAtk_1_State::CommandCheck(CTanjiro* pTanjiro)
 	case 2:
 		if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
 		{
+			if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pTanjiro->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			
 		}
 
 		if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 

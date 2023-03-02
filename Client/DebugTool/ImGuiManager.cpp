@@ -264,6 +264,41 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	static _float3	vDirLightColor = _float3(1.f, 1.f, 1.f);
 	static _float3	vDirLightPower = _float3(0.4f, 0.4f, 0.4f);
 	static _float3	vDirLightSpecular = _float3(1.f, 1.f, 1.f);
+
+	static _int		iLightIndex = 0;
+	static _int		iPreLightIndex = 0;
+	static _float3	vLightPosition = _float3(0.f, 0.f, 0.f);
+	static _float	fLightRange = 1.f;
+	static _float3	vLightColor = _float3(0.f, 0.f, 0.f);
+	static _float3	vLightPower = _float3(0.f, 0.f, 0.f);
+	static _float3	vLightSpecular = _float3(0.f, 0.f, 0.f);
+	static _float4 vPlayerShadowLightPos = _float4(0.f, 0.f, 0.f, 0.f);
+	static _float4 vPlayerShadowLighAt = _float4(0.f, 0.f, 0.f, 0.f);
+
+	//	Level Change
+	static _int		iPreLevel = LEVEL_STATIC;
+	if (g_iLevel != iPreLevel)
+	{
+		const LIGHTDESC* pDirectionalLightDesc = pGameInstance->Get_LightDesc(_int(LIGHTDESC::TYPE_DIRECTIONAL));
+		if (nullptr != pDirectionalLightDesc)
+		{
+			vDirLightDir = *(_float3*)&pDirectionalLightDesc->vDirection;
+			vDirLightColor = *(_float3*)&pDirectionalLightDesc->vDiffuse;
+			vDirLightPower = *(_float3*)&pDirectionalLightDesc->vAmbient;
+			vDirLightSpecular = *(_float3*)&pDirectionalLightDesc->vSpecular;
+		}
+		const LIGHTDESC* pPlayerShadowDesc = pGameInstance->Get_LightDesc(_int(LIGHTDESC::TYPE_BATTLESHADOW));
+		if (nullptr != pPlayerShadowDesc)
+		{
+			vPlayerShadowLightPos = pPlayerShadowDesc->vDirection;
+			vPlayerShadowLighAt = pPlayerShadowDesc->vDiffuse;
+		}
+
+		iPreLevel = g_iLevel;
+	}
+
+
+
 	ImGui::DragFloat3("Dir Light Dir", &vDirLightDir.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
 	ImGui::DragFloat3("Dir Light Color", &vDirLightColor.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
 	ImGui::DragFloat3("Dir Light Power", &vDirLightPower.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
@@ -288,13 +323,6 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 
 
 
-	static _int		iLightIndex = 0;
-	static _int		iPreLightIndex = 0;
-	static _float3	vLightPosition = _float3(0.f, 0.f, 0.f);
-	static _float	fLightRange = 1.f;
-	static _float3	vLightColor = _float3(0.f, 0.f, 0.f);
-	static _float3	vLightPower = _float3(0.f, 0.f, 0.f);
-	static _float3	vLightSpecular = _float3(0.f, 0.f, 0.f);
 	ImGui::DragFloat3("Light Pos", &vLightPosition.x, 2.f, -2000.f, 2000.f, "%.1f", window_flags);
 	ImGui::DragFloat("Light Range", &fLightRange, 0.2f, 0.f, 5000.f, "%.2f", window_flags);
 	ImGui::DragFloat3("Light Color", &vLightColor.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
@@ -408,8 +436,6 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 
 
 
-	static _float4 vPlayerShadowLightPos = _float4(0.f, 0.f, 0.f, 0.f);
-	static _float4 vPlayerShadowLighAt = _float4(0.f, 0.f, 0.f, 0.f);
 	const LIGHTDESC* pPlayerShadowLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
 	if (nullptr != pPlayerShadowLightDesc)
 	{
@@ -2460,6 +2486,8 @@ void CImGuiManager::EnmuBossCharacterList(_uint _iIndex)
 	{
 		
 	}
+
+	ImGui::Text("distance : %f", m_fEnmuBossDist);
 
 }
 

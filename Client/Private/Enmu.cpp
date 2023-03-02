@@ -103,6 +103,7 @@ void CEnmu::Tick(_float fTimeDelta)
 			CEnmuState* pState = new CBattleStartState();
 			m_pEnmuState = m_pEnmuState->ChangeState(this, m_pEnmuState, pState);
 			m_bBattleStart = false;
+			m_bAiMode = true;
 		}
 
 		if (!m_tInfo.bSub && !m_bBattleStart)

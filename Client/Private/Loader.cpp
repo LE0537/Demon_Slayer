@@ -187,6 +187,7 @@
 #include "RuiDadSmallStone.h"
 #include "InteractionUI.h"
 #include "EnmuShoot.h"
+#include "RuiSplColl.h"
 //Ani
 #include "Butterfly.h"
 #include "Deer.h"
@@ -2147,6 +2148,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EnmuShoot"),
 		CEnmuShoot::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiSplColl"),
+		CRuiSplColl::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	//Map
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BattleField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);

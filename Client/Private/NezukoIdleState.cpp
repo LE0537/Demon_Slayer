@@ -32,10 +32,14 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 		switch (pNezuko->Get_i1P())
 		{
 		case 1:
-			if (pGameInstance->Key_Pressing(DIK_E))
+			if (pGameInstance->Key_Pressing(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
 			{
-				//pNezuko->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
@@ -149,6 +153,15 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 
 			break;
 		case 2:
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT) && g_iLevel == LEVEL_GAMEPLAY)
+			{
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
+			}
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

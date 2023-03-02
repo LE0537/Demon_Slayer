@@ -3,7 +3,7 @@
 #include "GameInstance.h"
 #include "Rui_CinemaState.h"
 #include "RuiIdleState.h"
-
+#include "RuiSplColl.h"
 using namespace Rui;
 
 
@@ -25,8 +25,9 @@ CRuiState * CSplSkrStartState::Tick(CRui* pRui, _float fTimeDelta)
 		switch (m_eStateType)
 		{
 		case Client::CRuiState::TYPE_START:
-			if (m_bCollision == true)
+			if (pRui->Get_HitSpl())
 			{
+				pRui->Set_HitSpl(false);
 				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 				pRui->Get_BattleTarget()->Play_Scene();
 				return new CRui_CinemaState(CRui_CinemaState::SCENE_START);
@@ -78,6 +79,36 @@ CRuiState * CSplSkrStartState::Tick(CRui* pRui, _float fTimeDelta)
 
 CRuiState * CSplSkrStartState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
+	CCharacters* m_pTarget = pRui->Get_BattleTarget();
+	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	pRui->Get_Transform()->Set_PlayerLookAt(vLooAt);
+
+	if (m_eStateType == CRuiState::TYPE_START)
+	{
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+		m_fMove += fTimeDelta;
+
+		CRuiSplColl::RUISPLINFO	tInfo;
+		tInfo.pPlayer = pRui;
+		tInfo.pTarget = m_pTarget;
+
+		if (m_iHit < 1)
+		{
+			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+			tInfo.iIndex = 0;
+			if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiSplColl"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+				return nullptr;
+
+
+			RELEASE_INSTANCE(CGameInstance);
+			m_fMove = 0.f;
+			++m_iHit;
+		}
+
+		RELEASE_INSTANCE(CGameInstance);
+	}
+
 	pRui->Get_Model()->Play_Animation(fTimeDelta);
 
 	return nullptr;

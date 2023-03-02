@@ -300,7 +300,7 @@ void CTargetRushState::Move(CRui* pRui, _float fTimeDelta)
 
 		pRui->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pRui->Get_BattleTarget()->Get_PlayerInfo().bGuard && pRui->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pRui->Get_BattleTarget()->Get_PlayerInfo().bGuard && pRui->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pRui->Get_BattleTarget()->Get_GuardHit(0);
 		}
@@ -366,7 +366,12 @@ CRuiState * CTargetRushState::CommandCheck(CRui * pRui)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pRui->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pRui->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_J))
@@ -428,7 +433,12 @@ CRuiState * CTargetRushState::CommandCheck(CRui * pRui)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pRui->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pRui->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_Z))
