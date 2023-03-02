@@ -378,12 +378,13 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			if (true == bCamAttach && m_bLerp && !m_bQuestBattleCam)
 				Set_CamPos();
 
-
-			if (m_pPlayer->Get_PlayerInfo().bSub)
-				m_pPlayer = m_pPlayer->Get_SubChar();
-			if (m_pTarget->Get_PlayerInfo().bSub)
-				m_pTarget = m_pTarget->Get_SubChar();
-
+			if (g_iLevel != LEVEL_BOSSENMU)
+			{
+				if (m_pPlayer->Get_PlayerInfo().bSub)
+					m_pPlayer = m_pPlayer->Get_SubChar();
+				if (m_pTarget->Get_PlayerInfo().bSub)
+					m_pTarget = m_pTarget->Get_SubChar();
+			}
 
 			if (true == bCamAttach && m_bLerp && g_iLevel != LEVEL_BATTLEENMU && g_iLevel != LEVEL_BOSSENMU && !m_bQuestBattleCam)
 				Move_CamPos(fTimeDelta);
@@ -436,7 +437,7 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 		if (m_fStartTime > 4.6f && !m_bBattleSound && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 22.f
 			&& g_iLevel != LEVEL_BOSSENMU)
 		{
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("BattleStart.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("BattleStart.wav"), g_fEffect);
 			m_bBattleSound = true;
 		}
 		if (!m_bBattle)
@@ -471,7 +472,7 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 		if (m_fStartTime > 0.2f && !m_bBattleSound && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 22.f
 			&& g_iLevel != LEVEL_BOSSENMU)
 		{
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("BattleStart.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("BattleStart.wav"), g_fEffect);
 			m_bBattleSound = true;
 		}
 		if (!m_bBattle)

@@ -128,7 +128,7 @@ CTanjiroState * CJumpSkillCommonState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 					_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-40 * pTanjiro->Get_PlayerInfo().fPowerUp));
@@ -280,8 +280,8 @@ void CJumpSkillCommonState::Enter(CTanjiro * pTanjiro)
 	}
 
 
-	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_CommonSkill.wav"), fVOICE);
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_CommonSkill.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_CommonSkill.wav"), g_fVoice);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_CommonSkill.wav"), g_fEffect);
 
 }
 

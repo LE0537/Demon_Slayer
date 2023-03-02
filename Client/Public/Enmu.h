@@ -132,17 +132,17 @@ public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 
 
-private:
+public:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
 	void LateTickState(_float fTimeDelta);
 
 	void   Set_ShadowAlphaIncrease(_bool bShadow) { m_bShadowAlphaIncrease = bShadow; }
 	void   Set_ShadowAlphaDecrease(_bool bShadow) { m_bShadowAlphaDecrease = bShadow; }
-	void   Set_RuiDadHit(_bool bHit) { m_bRuiDadHit = bHit; }
-	_bool  Get_RuiDadHit() const { return m_bRuiDadHit; }
-	void   Set_RuiDadAiMode(_bool bAIMode) { m_bAiMode = bAIMode; }
-	_bool  Get_RuiDadAiMode() const { return m_bAiMode; }
+	void   Set_EnmuHit(_bool bHit) { m_bRuiDadHit = bHit; }
+	_bool  Get_EnmuHit() const { return m_bRuiDadHit; }
+	void   Set_EnmuAiMode(_bool bAIMode) { m_bAiMode = bAIMode; }
+	_bool  Get_EnmuAiMode() const { return m_bAiMode; }
 	_bool  Get_QuestStop() const { return m_bQuestStop; }
 	_bool  Get_Start() const { return m_bStart; }
 	void   Set_Start(_bool bStart) { m_bStart = bStart; }

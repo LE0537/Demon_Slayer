@@ -127,7 +127,7 @@ void CUltStockEff::Tick(_float fTimeDelta)
 			if (m_iUnicCount < pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount)
 			{
 				m_bRenderCheck = true;
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UltNumUp.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UltNumUp.wav"), g_fEffect);
 			}
 			m_iUnicCount = pUI_Manager->Get_1P()->Get_PlayerInfo().iUnicCount;
 		}
@@ -135,7 +135,7 @@ void CUltStockEff::Tick(_float fTimeDelta)
 		{
 			if (m_iUnicCount < pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicCount)
 			{
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UltNumUp.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UltNumUp.wav"), g_fEffect);
 				m_bRenderCheck = true;
 			}
 			m_iUnicCount = pUI_Manager->Get_2P()->Get_PlayerInfo().iUnicCount;

@@ -240,7 +240,7 @@ CShinobuState * CSkill_MoveState::Late_Tick(CShinobu* pShinobu, _float fTimeDelt
 
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-100 * pShinobu->Get_PlayerInfo().fPowerUp));
@@ -260,7 +260,7 @@ CShinobuState * CSkill_MoveState::Late_Tick(CShinobu* pShinobu, _float fTimeDelt
 						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(_int(- 50 * pShinobu->Get_PlayerInfo().fPowerUp));
 						m_pTarget->Take_Damage(0.6f, false);
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_MoveSkill.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_MoveSkill.wav"), g_fEffect);
 						pShinobu->Set_Combo(1);
 						pShinobu->Set_ComboTime(0.f);
 					}
@@ -418,8 +418,8 @@ void CSkill_MoveState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SKILL_MOVE_0, 0.01f);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_SKILL_MOVE_0);
 		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex(), false);
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_MoveSkill.wav"), fVOICE);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_MoveSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_MoveSkill.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_MoveSkill.wav"), g_fEffect);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_SKILL_MOVE_1);
@@ -483,7 +483,12 @@ CShinobuState * CSkill_MoveState::CommandCheck(CShinobu * pShinobu)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pShinobu->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pShinobu->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_J))
@@ -532,7 +537,12 @@ CShinobuState * CSkill_MoveState::CommandCheck(CShinobu * pShinobu)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pShinobu->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pShinobu->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_Z))

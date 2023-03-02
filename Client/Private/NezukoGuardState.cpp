@@ -114,7 +114,7 @@ void CGuardState::Enter(CNezuko* pNezuko)
 	case Client::CNezukoState::TYPE_START:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_GUARD_0);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_GUARD_0);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Guard.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Guard.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_GUARD_1);

@@ -124,7 +124,7 @@ void CTakeDownState::Enter(CShinobu* pShinobu)
 			RELEASE_INSTANCE(CGameInstance);
 			g_bDeathTime = true;
 		}
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Hit_4.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Hit_4.wav"), g_fVoice);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_RETURN_1);

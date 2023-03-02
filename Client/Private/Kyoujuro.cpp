@@ -127,8 +127,13 @@ void CKyoujuro::Tick(_float fTimeDelta)
 {
 	if (!m_bChange)
 	{
-	
+		if (m_bSplSkl)
+		{
+			Check_Spl();
+		}
+
 		m_fEffectStartTime = 0.f;
+
 		if (m_bBattleStart)
 		{
 			CKyoujuroState* pState = new CBattleStartState();
@@ -240,6 +245,8 @@ HRESULT CKyoujuro::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
+		if (i == 8)
+			continue;
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 		if (i == 0 || i == 1)
@@ -257,7 +264,9 @@ HRESULT CKyoujuro::Render()
 				return E_FAIL;
 		}
 	}
-	if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (pUI_Manager->Get_Sel2P() != 8 && g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 	{
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 		if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y
@@ -470,6 +479,7 @@ HRESULT CKyoujuro::Render()
 			}
 		}
 	}
+	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 
 
@@ -709,6 +719,23 @@ void CKyoujuro::Set_Info()
 	m_tInfo.iGuard = m_tInfo.iMaxGuard;
 }
 
+void CKyoujuro::Check_Spl()
+{
+	if (!m_bSplEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO1_SWORD1, this);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SLASH2, &m_WeaponWorld);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO2_PROJ1, this);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO1_SWORD, &m_WeaponWorld);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bSplEffect = true;
+	}
+
+	m_WeaponWorld = *dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
+}
+
 void CKyoujuro::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
 	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_HIT)
@@ -822,7 +849,7 @@ void CKyoujuro::LateTickState(_float fTimeDelta)
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
 
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), g_fEffect);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_fEffectTime = 0.f;

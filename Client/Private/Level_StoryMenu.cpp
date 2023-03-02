@@ -8,6 +8,7 @@
 #include "Level_Menu.h"
 #include "Level_AdvAkaza.h"
 #include "Level_BossEnmu.h"
+#include "SoundMgr.h"
 CLevel_StoryMenu::CLevel_StoryMenu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -24,6 +25,9 @@ HRESULT CLevel_StoryMenu::Initialize()
 	pUI_Manager->Reset_Data();
 	pUI_Manager->Set_MsgOff();
 	RELEASE_INSTANCE(CUI_Manager);
+
+	CSoundMgr::Get_Instance()->BGM_Stop();
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("Adv_Menu.wav"), g_fBGM);
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;

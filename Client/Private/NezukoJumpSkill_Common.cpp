@@ -119,7 +119,7 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 					_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-15 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -222,7 +222,7 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 					_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-15 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -327,7 +327,7 @@ CNezukoState * CJumpSkill_CommmonState::Late_Tick(CNezuko* pNezuko, _float fTime
 					_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-15 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -453,13 +453,13 @@ void CJumpSkill_CommmonState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIMID::ANIM_SKILL_JUMPCOMMON_0);
 		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.01f);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common1.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common2.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common2.wav"), g_fVoice);
 		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common3.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common3.wav"), g_fVoice);
 
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_CommonSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_CommonSkill.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_SKILL_JUMPCOMMON_1);
@@ -474,11 +474,11 @@ void CJumpSkill_CommmonState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.01f);
 		Initialize_value(pNezuko);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common1_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common1_1.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common2_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common2_1.wav"), g_fVoice);
 		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common3_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common3_1.wav"), g_fVoice);
 		break;
 	}
 

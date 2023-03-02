@@ -32,11 +32,12 @@ HRESULT CEnmu_Shield::Initialize(void * pArg)
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	m_pHead = dynamic_cast<CCharacters*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Enmu_Head"))->Get_LayerFront());
+	m_pTanjiro = dynamic_cast<CCharacters*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
 
-
-	//CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
-	//RELEASE_INSTANCE(CGameInstance);
+	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+	RELEASE_INSTANCE(CGameInstance);
 	_vector vPos = { 0.956f, 16.6f, 174.106f,1.f };
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 0.f));
@@ -53,18 +54,39 @@ HRESULT CEnmu_Shield::Initialize(void * pArg)
 
 void CEnmu_Shield::Tick(_float fTimeDelta)
 {
-
+	if (m_tInfo.iHp <= 0.f && m_fHealTime <= 6.f)
+	{
+		if (!m_bTarget)
+		{
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(m_pHead);
+			m_pTanjiro->Set_BattleTarget(m_pHead);
+			RELEASE_INSTANCE(CGameInstance);
+			m_bTarget = true;
+		}
+		m_fHealTime += fTimeDelta;
+	}
+	else if (m_fHealTime > 6.f)
+	{
+		m_tInfo.iHp = m_tInfo.iMaxHp;
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		m_pTanjiro->Set_BattleTarget(this);
+		RELEASE_INSTANCE(CGameInstance);
+		m_bTarget = false;
+		m_fHealTime = 0.f;
+	}
 	//m_pModelCom->Play_Animation(fTimeDelta);
 
-		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("Root");
-		if (nullptr == pSocket)
-			return;
-		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("Root");
+	if (nullptr == pSocket)
+		return;
+	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
-		m_pSphereCom->Update(matColl);
+	m_pSphereCom->Update(matColl);
 
-		HandleInput();
-		TickState(fTimeDelta);
+	HandleInput();
+	TickState(fTimeDelta);
 
 
 
@@ -260,8 +282,8 @@ HRESULT CEnmu_Shield::Ready_Components()
 
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
-	ColliderDesc.vScale = _float3(160.f, 160.f, 160.f);
-	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
+	ColliderDesc.vScale = _float3(400.f, 400.f, 400.f);
+	ColliderDesc.vPosition = _float3(0.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;
 

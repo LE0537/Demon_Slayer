@@ -264,7 +264,7 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 					vPos.m128_f32[1] = 0.f;
 					m_pTarget->Get_Transform()->LookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-50 * pAkaza->Get_PlayerInfo().fPowerUp));
@@ -374,7 +374,7 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 					_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-50 * pAkaza->Get_PlayerInfo().fPowerUp));
@@ -483,8 +483,8 @@ void CSkill_DestoryState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_SKILL_DESTROY_0);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SKILL_DESTROY_0, 0.01f);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SKILL_DESTROY_0);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Destroy.wav"), fEFFECT);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Destroy.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_Destroy.wav"), g_fEffect);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Destroy.wav"), g_fEffect);
 		break;
 	case Client::CAkazaState::TYPE_END:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_SKILL_DESTROY_1);
@@ -517,7 +517,12 @@ CAkazaState * CSkill_DestoryState::CommandCheck(CAkaza * pAkaza)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pAkaza->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pAkaza->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_J))
@@ -584,7 +589,12 @@ CAkazaState * CSkill_DestoryState::CommandCheck(CAkaza * pAkaza)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pAkaza->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pAkaza->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_Z))

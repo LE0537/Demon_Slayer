@@ -90,7 +90,7 @@ CTanjiroState * CJumpMoveAttackState::Late_Tick(CTanjiro * pTanjiro, _float fTim
 
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-30 * pTanjiro->Get_PlayerInfo().fPowerUp));
@@ -217,12 +217,12 @@ void CJumpMoveAttackState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIMID::ANIM_JUMP_MOVE_ATTACK_0);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_JUMP_MOVE_ATTACK_0, 0.01f);
 		pTanjiro->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_JumpMoveAttack.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_JumpMoveAttack.wav"), g_fEffect);
 		
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_JumpMoveAttack_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_JumpMoveAttack_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_JumpMoveAttack_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_JumpMoveAttack_1.wav"), g_fVoice);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_JUMP_MOVE_ATTACK_1);

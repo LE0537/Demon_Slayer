@@ -64,8 +64,8 @@ CRuiDadState * CMoveState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 CRuiDadState * CMoveState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
-	if(pRuiDad->Get_RuiDadAiMode() == true)
-		Move(pRuiDad, fTimeDelta);
+	/*if(pRuiDad->Get_RuiDadAiMode() == false)
+		Move(pRuiDad, fTimeDelta);*/
 
 
 	pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
@@ -217,7 +217,11 @@ CRuiDadState* CMoveState::AIMove(CRuiDad * pRuiDad, OBJDIR eDir, _float fTimeDel
 	fContinueTime += fTimeDelta;
 
 	if (fContinueTime >= 1.4f)
+	{
+		fContinueTime = 0.f;
+		bSetLook = false;
 		return new CIdleState();
+	}
 
 	return nullptr;
 

@@ -98,7 +98,7 @@ CAkazaState * CAdvSkill_MoveState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-50 * pAkaza->Get_PlayerInfo().fPowerUp));
@@ -194,7 +194,7 @@ CAkazaState * CAdvSkill_MoveState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-90 * pAkaza->Get_PlayerInfo().fPowerUp));
@@ -330,8 +330,8 @@ void CAdvSkill_MoveState::Enter(CAkaza* pAkaza)
 		m_fDistance = XMVectorGetX(XMVector3Length(vTargetPosition - vMyPosition));
 		m_vTargetPosition = XMVector3Normalize(vTargetPosition - vMyPosition);
 		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_FriendMove.wav"), fEFFECT);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SpMoveAttack.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_FriendMove.wav"), g_fEffect);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SpMoveAttack.wav"), g_fEffect);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_ADVSKILL_MOVE_1);
@@ -346,7 +346,7 @@ void CAdvSkill_MoveState::Enter(CAkaza* pAkaza)
 		m_vVelocity.y = 0.f;
 		m_vVelocity.z = 1.f;
 		if (pAkaza->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_SpMoveAttack.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_SpMoveAttack.wav"), g_fEffect);
 		break;
 	case Client::CAkazaState::TYPE_END:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_ADVSKILL_MOVE_2);

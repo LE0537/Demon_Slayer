@@ -37,13 +37,15 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 		switch (pShinobu->Get_i1P())
 		{
 		case 1:
-			if (pGameInstance->Key_Pressing(DIK_E))
+			if (pGameInstance->Key_Pressing(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
 			{
-				//pShinobu->Get_BattleTarget()->Play_Scene();
-				//return new CShinobu_CinemaState(CShinobu_CinemaState::SCENE_START);
-				return new CSplSkrStartState(TYPE_START);
-			}
+				if (pShinobu->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pShinobu->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
 
+				}
+			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
 			{
@@ -132,6 +134,15 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 			}
 			break;
 		case 2:
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT) && g_iLevel == LEVEL_GAMEPLAY)
+			{
+				if (pShinobu->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pShinobu->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
+			}
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

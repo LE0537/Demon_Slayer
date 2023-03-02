@@ -26,7 +26,8 @@ HRESULT CLevel_GameResult::Initialize()
 	pUIManager->Add_BattleResult();
 	RELEASE_INSTANCE(CUI_Manager);
 
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("CharSel.wav"), fBGM);
+	CSoundMgr::Get_Instance()->BGM_Stop();
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("Result.wav"), g_fBGM);
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;

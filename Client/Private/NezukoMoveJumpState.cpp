@@ -259,7 +259,7 @@ void CMoveJumpState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_JUMP_START);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_JUMP_START, 0.01f);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_JUMP_START);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_JUMP_LOOP);
@@ -270,7 +270,7 @@ void CMoveJumpState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_JUMP_END);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_JUMP_END, 0.01f);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_JUMP_END);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), g_fEffect);
 		break;
 	}
 

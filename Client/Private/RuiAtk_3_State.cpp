@@ -255,7 +255,7 @@ CRuiState * CAtk_3_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-30 * pRui->Get_PlayerInfo().fPowerUp));
@@ -361,7 +361,7 @@ CRuiState * CAtk_3_State::Late_Tick(CRui* pRui, _float fTimeDelta)
 				_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-30 * pRui->Get_PlayerInfo().fPowerUp));
@@ -439,22 +439,22 @@ void CAtk_3_State::Enter(CRui* pRui)
 	_uint iRand = rand() % 6;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_1.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_2.wav"), g_fVoice);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_3.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_3.wav"), g_fVoice);
 	else if (iRand == 3)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack2_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack2_1.wav"), g_fVoice);
 	else if (iRand == 4)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack2_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack2_2.wav"), g_fVoice);
 	else if (iRand == 5)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack2_3.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack2_3.wav"), g_fVoice);
 
 	if (pRui->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_Attack_2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_Attack_2.wav"), g_fEffect);
 	else
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Attack_2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Attack_2.wav"), g_fEffect);
 
 }
 
@@ -479,7 +479,12 @@ CRuiState * CAtk_3_State::CommandCheck(CRui * pRui)
 		if (pGameInstance->Key_Pressing(DIK_E))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pRui->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pRui->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
 
 		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
@@ -542,7 +547,12 @@ CRuiState * CAtk_3_State::CommandCheck(CRui * pRui)
 		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pRui->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pRui->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
 
 		if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 

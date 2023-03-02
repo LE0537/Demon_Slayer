@@ -112,7 +112,7 @@ CAkazaState * CJumpSkill_MoveState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 				_vector vPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-40 * pAkaza->Get_PlayerInfo().fPowerUp));
@@ -236,11 +236,11 @@ void CJumpSkill_MoveState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.2f);
 		Initialize_MoveValue(pAkaza);
 		Initialize_value(pAkaza);
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Punch.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Punch.wav"), g_fVoice);
 		if (pAkaza->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_MoveAttack.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_MoveAttack.wav"), g_fEffect);
 		else
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_MoveAttack.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_MoveAttack.wav"), g_fEffect);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_SKILL_JUMPMOVE_1);

@@ -230,6 +230,7 @@
     <ClInclude Include="..\Public\Akaza_CinemaState.h" />
     <ClInclude Include="..\Public\AngryState.h" />
     <ClInclude Include="..\public\BaseAtk.h" />
+    <ClInclude Include="..\Public\BattleDialog.h" />
     <ClInclude Include="..\public\BigBird.h" />
     <ClInclude Include="..\public\Bird.h" />
     <ClInclude Include="..\Public\BtlFixedImg.h" />
@@ -309,6 +310,7 @@
     <ClInclude Include="..\Public\RuiHitCinema_Nezuko.h" />
     <ClInclude Include="..\Public\RuiHitCinema_Shinobu.h" />
     <ClInclude Include="..\Public\RuiHitCinema_Tanjiro.h" />
+    <ClInclude Include="..\public\RuiSplColl.h" />
     <ClInclude Include="..\Public\RuiSplSkrStartState.h" />
     <ClInclude Include="..\Public\RuiSister.h" />
     <ClInclude Include="..\Public\ShinobuHitCinema_Akaza.h" />
@@ -726,6 +728,7 @@
     <ClCompile Include="..\Private\Akaza_CinemaState.cpp" />
     <ClCompile Include="..\Private\AngryState.cpp" />
     <ClCompile Include="..\private\BaseAtk.cpp" />
+    <ClCompile Include="..\Private\BattleDialog.cpp" />
     <ClCompile Include="..\private\BigBird.cpp" />
     <ClCompile Include="..\private\Bird.cpp" />
     <ClCompile Include="..\Private\BtlFixedImg.cpp" />
@@ -803,6 +806,7 @@
     <ClCompile Include="..\Private\RuiHitCinema_Nezuko.cpp" />
     <ClCompile Include="..\Private\RuiHitCinema_Shinobu.cpp" />
     <ClCompile Include="..\Private\RuiHitCinema_Tanjiro.cpp" />
+    <ClCompile Include="..\private\RuiSplColl.cpp" />
     <ClCompile Include="..\Private\RuiSplSkrStartState.cpp" />
     <ClCompile Include="..\Private\RuiSister.cpp" />
     <ClCompile Include="..\Private\ShinobuHitCinema_Akaza.cpp" />

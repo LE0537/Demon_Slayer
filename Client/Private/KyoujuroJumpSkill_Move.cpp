@@ -115,7 +115,7 @@ CKyoujuroState * CJumpSkill_MoveState::Late_Tick(CKyoujuro * pKyojuro, _float fT
 				_vector vPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-30 * pKyojuro->Get_PlayerInfo().fPowerUp));
@@ -142,7 +142,7 @@ CKyoujuroState * CJumpSkill_MoveState::Late_Tick(CKyoujuro * pKyojuro, _float fT
 					}
 					else
 						m_pTarget->Take_Damage(0.3f, false);
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), g_fEffect);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);
 				}
@@ -253,8 +253,8 @@ void CJumpSkill_MoveState::Enter(CKyoujuro * pKyojuro)
 	m_vVelocity.z = 0.f;
 	m_vPosition.y = XMVectorGetY(pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_DashSlash.wav"), fVOICE);
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_MoveSkill.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_DashSlash.wav"), g_fVoice);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_MoveSkill.wav"), g_fEffect);
 }
 
 void CJumpSkill_MoveState::Exit(CKyoujuro * pKyojuro)

@@ -1501,6 +1501,12 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Shinobu">
       <UniqueIdentifier>{14868ebd-37de-49a6-96ba-569f55979641}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\17.RuiSplColl">
+      <UniqueIdentifier>{2148009f-94a1-4e7d-9a18-483732b7ab13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\96.MsgUI\Dialog">
+      <UniqueIdentifier>{d05b2261-0e6c-4b37-99b4-99461ed64b8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2988,6 +2994,12 @@
     <ClInclude Include="..\public\RuiHead.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\03.RuiHead</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RuiSplColl.h">
+      <Filter>05.CollBox\17.RuiSplColl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\BattleDialog.h">
+      <Filter>03.UI\96.MsgUI\Dialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4441,6 +4453,12 @@
     </ClCompile>
     <ClCompile Include="..\private\RuiHead.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\03.RuiHead</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RuiSplColl.cpp">
+      <Filter>05.CollBox\17.RuiSplColl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BattleDialog.cpp">
+      <Filter>03.UI\96.MsgUI\Dialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

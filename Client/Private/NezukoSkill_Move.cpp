@@ -264,7 +264,7 @@ CNezukoState * CSkill_MoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-60 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -340,7 +340,7 @@ CNezukoState * CSkill_MoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-60 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -364,7 +364,7 @@ CNezukoState * CSkill_MoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 					dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
 					dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pNezuko->Get_Renderer());
 					RELEASE_INSTANCE(CGameInstance);
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_MoveSkill.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_MoveSkill.wav"), g_fEffect);
 					pNezuko->Set_Combo(1);
 					pNezuko->Set_ComboTime(0.f);
 				}
@@ -500,13 +500,13 @@ void CSkill_MoveState::Enter(CNezuko* pNezuko)
 			m_bLook = true;
 
 			if (iRand == 0)
-				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill1.wav"), fVOICE);
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill1.wav"), g_fVoice);
 			else if (iRand == 1)
-				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill2.wav"), fVOICE);
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill2.wav"), g_fVoice);
 			else if (iRand == 2)
-				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill3.wav"), fVOICE);
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill3.wav"), g_fVoice);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Move_Skill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Move_Skill.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_SKILL_MOVE_1);
@@ -562,7 +562,12 @@ CNezukoState * CSkill_MoveState::CommandCheck(CNezuko * pNezuko)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_J))
@@ -611,7 +616,12 @@ CNezukoState * CSkill_MoveState::CommandCheck(CNezuko * pNezuko)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_Z))

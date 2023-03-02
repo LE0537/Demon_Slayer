@@ -233,7 +233,7 @@ CTanjiroState * CAtk_1_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-40 * pTanjiro->Get_PlayerInfo().fPowerUp));
@@ -255,6 +255,7 @@ CTanjiroState * CAtk_1_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 				}
 				if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_SE_Hit_Attack_0.wav"), g_fEffect);
 					_int iDest = rand() % 5;
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					switch (iDest)
@@ -337,7 +338,7 @@ void CAtk_1_KaguraState::Enter(CTanjiro * pTanjiro)
 
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_KAGURA_ATTACK_1);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_KAGURA_ATTACK_1);
-
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_SE_Attack_0.wav"), g_fEffect);
 }
 
 void CAtk_1_KaguraState::Exit(CTanjiro * pTanjiro)
@@ -366,7 +367,12 @@ CTanjiroState * CAtk_1_KaguraState::CommandCheck(CTanjiro * pTanjiro)
 			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pTanjiro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
@@ -412,7 +418,12 @@ CTanjiroState * CAtk_1_KaguraState::CommandCheck(CTanjiro * pTanjiro)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pTanjiro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 

@@ -105,7 +105,7 @@ CShinobuState * CAtk_3_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-30 * pShinobu->Get_PlayerInfo().fPowerUp));
@@ -128,7 +128,7 @@ CShinobuState * CAtk_3_State::Late_Tick(CShinobu* pShinobu, _float fTimeDelta)
 				}
 
 				CSoundMgr::Get_Instance()->Effect_Stop(SOUND_EFFECT);
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_Attack_2.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_Attack_2.wav"), g_fEffect);
 
 				_int iDest = rand() % 5;
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -212,13 +212,13 @@ void CAtk_3_State::Enter(CShinobu* pShinobu)
 	_uint iRand = rand() % 3;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Attack3_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Attack3_1.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Attack3_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Attack3_2.wav"), g_fVoice);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Attack3_3.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Attack3_3.wav"), g_fVoice);
 
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Attack_2.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Attack_2.wav"), g_fEffect);
 
 }
 
@@ -244,7 +244,12 @@ CShinobuState * CAtk_3_State::CommandCheck(CShinobu * pShinobu)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pShinobu->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pShinobu->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
@@ -290,7 +295,12 @@ CShinobuState * CAtk_3_State::CommandCheck(CShinobu * pShinobu)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pShinobu->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pShinobu->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 

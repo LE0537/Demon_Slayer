@@ -151,7 +151,7 @@ HRESULT CLevel_BattleEnmu::Initialize()
 	RELEASE_INSTANCE(CUI_Manager);
 
 	CSoundMgr::Get_Instance()->BGM_Stop();
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), g_fBGM);
 
 
 
@@ -194,10 +194,13 @@ void CLevel_BattleEnmu::Tick(_float fTimeDelta)
 			m_fNextLevelTime += fTimeDelta;
 			if (m_fNextLevelTime > 3.f)
 			{
+				pUIManager->Set_Sel1P(0);
+				pUIManager->Set_Sel1P_2(4);
+				pUIManager->Set_Sel2P(8);
+				pUIManager->Set_Sel2P_2(99);
 				if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
 					return;
 			}
-
 		}
 
 

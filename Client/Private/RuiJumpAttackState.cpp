@@ -86,7 +86,7 @@ CRuiState * CJumpAttackState::Late_Tick(CRui* pRui, _float fTimeDelta)
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-30 * pRui->Get_PlayerInfo().fPowerUp));
@@ -197,16 +197,16 @@ void CJumpAttackState::Enter(CRui* pRui)
 		pRui->Set_AnimIndex(CRui::ANIM_JUMPATTACK);
 		pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_1.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_2.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_2.wav"), g_fVoice);
 		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_3.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_3.wav"), g_fVoice);
 
 		if (pRui->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_Attack_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_Attack_0.wav"), g_fEffect);
 		else
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Attack_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Attack_0.wav"), g_fEffect);
 
 		break;
 	case Client::CRuiState::TYPE_LOOP:

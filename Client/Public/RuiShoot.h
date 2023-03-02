@@ -36,7 +36,7 @@ private:
 	_bool		   m_bHit = false;
 	_bool		   m_bEffectDead = false;
 
-	_float			m_fEffectCreateTime = 0.f;
+	_float			m_g_fEffectCreateTime = 0.f;
 
 public:
 	static CRuiShoot* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

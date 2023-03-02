@@ -22,7 +22,13 @@ public:
 private:
 	CEnmuBoss::PARTS m_eParts;
 
+	_float m_fTime = 0.f;
+	_float m_fDelay = 0.f;
+	_float m_fMove = 0.f;
+	_int   m_iHit = 0;
+	_bool  m_bHit = false;
 
+	_vector m_vOriginLook;
 };
 END
 END

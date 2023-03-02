@@ -28,9 +28,17 @@ HRESULT CRuiBigBall::Initialize(void * pArg)
 
 	_vector vLook = m_ShootInfo.pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	vLook.m128_f32[1] += 1.5f;
-
-	_vector vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	vPos.m128_f32[1] += 1.5f;
+	_vector vPos;
+	if (m_ShootInfo.iType == 0)
+	{
+		vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		vPos.m128_f32[1] += 1.5f;
+	}
+	else if (m_ShootInfo.iType == 1)
+	{
+		vPos = XMLoadFloat4(&m_ShootInfo.vMyPos);
+		vPos += XMVector3Normalize(vLook - vPos) * 1.f;
+	}
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransformCom->LookAt(vLook);
 
@@ -70,14 +78,18 @@ void CRuiBigBall::Late_Tick(_float fTimeDelta)
 
 	if (pMyCollider->Collision(pTargetCollider) && !m_bHit)
 	{
-		_vector vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-		//vPos.m128_f32[1] = 0.f;
-		m_ShootInfo.pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
-
-		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard && m_ShootInfo.pTarget->Get_PlayerInfo().iGuard > 0)
+		if (m_ShootInfo.iType == 0)
+		{
+			_vector vPos = m_ShootInfo.pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			m_ShootInfo.pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
+		}
+		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard && m_ShootInfo.pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			m_ShootInfo.pTarget->Get_GuardHit(0);
-			m_ShootInfo.pTarget->Set_GuardHp(_int(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
+			if (m_ShootInfo.iType == 0)
+				m_ShootInfo.pTarget->Set_GuardHp(_int(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
+			else
+				m_ShootInfo.pTarget->Set_GuardHp(-30);
 			if (m_ShootInfo.pTarget->Get_PlayerInfo().iGuard <= 0)
 			{
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -89,7 +101,10 @@ void CRuiBigBall::Late_Tick(_float fTimeDelta)
 		}
 		else
 		{
-			m_ShootInfo.pTarget->Set_Hp(_int(-60 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
+			if (m_ShootInfo.iType == 0)
+				m_ShootInfo.pTarget->Set_Hp(_int(-60 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
+			else
+				m_ShootInfo.pTarget->Set_Hp(-60);
 			m_ShootInfo.pTarget->Take_Damage(0.1f, false);
 			m_ShootInfo.pTarget->Get_BattleTarget()->Set_Combo(1);
 			m_ShootInfo.pTarget->Get_BattleTarget()->Set_ComboTime(0.f);

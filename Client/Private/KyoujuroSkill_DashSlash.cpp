@@ -231,7 +231,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 			{
 				_vector vPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-50 * pKyojuro->Get_PlayerInfo().fPowerUp));
@@ -248,7 +248,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 				{
 					m_pTarget->Set_Hp(_int(-25 * pKyojuro->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.2f, false);
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), g_fEffect);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);
 				}
@@ -344,7 +344,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 				_vector vPos = pKyojuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-50 * pKyojuro->Get_PlayerInfo().fPowerUp));
@@ -365,7 +365,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pKyojuro->Get_Renderer());
 					//m_pTarget->Take_Damage(0.25f, false);
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), g_fEffect);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);
 				}
@@ -461,8 +461,8 @@ void CSkill_DashSlashState::Enter(CKyoujuro * pKyojuro)
 	pKyojuro->Set_AnimIndex(CKyoujuro::ANIM_SKILL_DASHSLASH);
 	pKyojuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH);
 	pKyojuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH, 0.2f);
-	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_DashSlash.wav"), fVOICE);
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_MoveSkill.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_DashSlash.wav"), g_fVoice);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_MoveSkill.wav"), g_fEffect);
 }
 
 void CSkill_DashSlashState::Exit(CKyoujuro * pKyojuro)
@@ -489,7 +489,12 @@ CKyoujuroState * CSkill_DashSlashState::CommandCheck(CKyoujuro * pKyoujuro)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pKyoujuro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pKyoujuro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
@@ -535,7 +540,12 @@ CKyoujuroState * CSkill_DashSlashState::CommandCheck(CKyoujuro * pKyoujuro)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pKyoujuro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pKyoujuro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 

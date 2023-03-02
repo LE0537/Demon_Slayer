@@ -60,7 +60,7 @@ void CMenuCursor::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_UP))
 	{
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), g_fEffect);
 		m_pMenuChar->Set_PosSetCheck(false);
 		m_pMenuChar->Set_StartCheck(true);
 		if (m_fX != 55.f && m_fY != 167.f)
@@ -71,7 +71,7 @@ void CMenuCursor::Tick(_float fTimeDelta)
 	}
 	else if (pGameInstance->Key_Down(DIK_DOWN))
 	{
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), g_fEffect);
 		m_pMenuChar->Set_PosSetCheck(false);
 		m_pMenuChar->Set_StartCheck(true);
 		if (m_fX != 75.f && m_fY != 252.f)
@@ -83,7 +83,7 @@ void CMenuCursor::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_E))
 	{
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickMenuButton.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickMenuButton.wav"), g_fEffect);
 		if (m_fX == 75.f && m_fY == 252.f)
 			m_bSelectVS = true;
 		else if(m_fX == 55.f && m_fY == 167.f)

@@ -13,15 +13,15 @@ class CEffect : public CGameObj
 {
 public:
 	typedef struct EffectInfo {
-		_uint										iMoveType;						
+		_uint                              iMoveType;
 
-		_float										fEffectStartTime;
-		_float										fEffectLifeTime;
+		_float                              fEffectStartTime;
+		_float                              fEffectLifeTime;
 
-		_float3										vPosition;
-		_float3										vRotation;
+		_float3                              vPosition;
+		_float3                              vRotation;
 
-		_bool										bRoof;
+		_bool                              bRoof;
 
 	}EFFECT_INFO;
 
@@ -58,35 +58,35 @@ private:
 	HRESULT Ready_Parts();
 
 private:
-	//char										m_szEffectName[MAX_PATH];
+	//char                              m_szEffectName[MAX_PATH];
 
-	_int											m_iEffectNum = -1; //보류
+	_int                                 m_iEffectNum = -1; //보류
 
-	_float											m_fEffectTime = 0.f;
-	_float											m_fEffectStartTime = 0.f;
+	_float                                 m_fEffectTime = 0.f;
+	_float                                 m_fEffectStartTime = 0.f;
 
-	_float4											m_vDestination;
+	_float4                                 m_vDestination;
 
-	_float4x4										m_CombinedWorldMatrix;
-	_float4x4*										m_ParentWorldMatrix;
+	_float4x4                              m_CombinedWorldMatrix;
+	_float4x4*                              m_ParentWorldMatrix;
 
-	EFFECT_INFO										m_EffectInfo;
+	EFFECT_INFO                              m_EffectInfo;
 
-	_bool											m_bStart;
-	_bool											m_bLateStart = true;
-	_bool											m_bInvisible = false;
+	_bool                                 m_bStart;
+	_bool                                 m_bLateStart = true;
+	_bool                                 m_bInvisible = false;
 
-	CGameObj*										m_pTarget;
+	CGameObj*                              m_pTarget;
 
-	vector<class CEffect_Texture*>					m_Textures;
-	vector<class CEffect_Mesh*>						m_Meshes;
-	vector<class CEffect_Particle*>					m_Particle;
-	vector<class CEffect_Particle_New*>				m_NewParticle;
+	vector<class CEffect_Texture*>               m_Textures;
+	vector<class CEffect_Mesh*>                  m_Meshes;
+	vector<class CEffect_Particle*>               m_Particle;
+	vector<class CEffect_Particle_New*>            m_NewParticle;
 
-	vector<CEffect_Texture::TEXTURE_INFO>			m_TextureInfo;
-	vector<CEffect_Mesh::MESH_INFO>					m_MeshInfo;
-	vector<CEffect_Particle::PARTICLE_INFO>			m_ParticleInfo;
-	vector<CEffect_Particle_New::PARTICLE_INFO>		m_NewParticleInfo;
+	vector<CEffect_Texture::TEXTURE_INFO>         m_TextureInfo;
+	vector<CEffect_Mesh::MESH_INFO>               m_MeshInfo;
+	vector<CEffect_Particle::PARTICLE_INFO>         m_ParticleInfo;
+	vector<CEffect_Particle_New::PARTICLE_INFO>      m_NewParticleInfo;
 
 public:
 	static CEffect* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, _uint Effect_Num, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo

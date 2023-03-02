@@ -231,7 +231,7 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-30 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -335,7 +335,7 @@ CNezukoState * CAtk_4_State::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-30 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -449,16 +449,16 @@ void CAtk_4_State::Enter(CNezuko* pNezuko)
 	_uint iRand = rand() % 3;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_1.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_2.wav"), g_fVoice);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_3.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_3.wav"), g_fVoice);
 
 	if (pNezuko->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_Attack_3.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_Attack_3.wav"), g_fEffect);
 	else
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Attack_3.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Attack_3.wav"), g_fEffect);
 }
 
 void CAtk_4_State::Exit(CNezuko* pNezuko)
@@ -481,7 +481,12 @@ CNezukoState * CAtk_4_State::CommandCheck(CNezuko * pNezuko)
 		if (pGameInstance->Key_Pressing(DIK_E))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pNezuko->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
 
 		if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
@@ -527,7 +532,12 @@ CNezukoState * CAtk_4_State::CommandCheck(CNezuko * pNezuko)
 		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pNezuko->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
 
 		if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 

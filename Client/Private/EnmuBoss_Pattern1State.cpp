@@ -2,13 +2,14 @@
 #include "..\Public\EnmuBoss_Pattern1State.h"
 #include "EnmuBossIdleState.h"
 #include "GameInstance.h"
-
+#include "Effect_Manager.h"
 #include "Enmu_Chaos_Head.h"
 #include "Enmu_Shield.h"
 #include "Enmu_Right_Hand.h"
 #include "Enmu_Left_Hand.h"
 #include "Enmu_Chok.h"
-
+#include "RuiBigBall.h"
+#include "EnmuBoss.h"
 using namespace EnmuBoss;
 
 CEnmuBoss_Pattern1State::CEnmuBoss_Pattern1State(STATE_TYPE eType, CEnmuBoss::PARTS eParts)
@@ -141,6 +142,42 @@ CEnmuBossState * CEnmuBoss_Pattern1State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 		pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Play_Animation(fTimeDelta);
 	}
 
+	if (m_eStateType == CEnmuBossState::TYPE_DEFAULT)
+	{
+		if (m_iHit == 0)
+		{
+			CCharacters* m_pTarget = nullptr;
+			if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_BattleTarget()->Get_PlayerInfo().iHp > 0)
+				m_pTarget = pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_BattleTarget();
+			else if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_BattleTarget()->Get_PlayerInfo().iHp <= 0)
+				m_pTarget = pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_BattleTarget();
+
+			CRuiBigBall::RUIBIGBALLINFO	tInfo;
+
+			tInfo.pTarget = m_pTarget;
+			tInfo.iType = 1;
+			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
+				tInfo.vMyPos = dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Check_CollPos();
+			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
+				tInfo.vMyPos = dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Check_CollPos();
+
+
+			CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
+
+			if (FAILED(pGameInstance2->Add_GameObject(TEXT("Prototype_GameObject_RuiBigBall"), LEVEL_STATIC, TEXT("Layer_CollBox"), &tInfo)))
+				return nullptr;
+
+			RELEASE_INSTANCE(CGameInstance);
+
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			//	pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMU_SKILL_BALLSTART, pEnmu);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_fDelay = 0.f;
+			++m_iHit;
+		}
+	}
 	return nullptr;
 }
 

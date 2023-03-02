@@ -114,7 +114,7 @@ CNezukoState * CJumpSkill_MoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDel
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-50 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -190,7 +190,7 @@ CNezukoState * CJumpSkill_MoveState::Late_Tick(CNezuko* pNezuko, _float fTimeDel
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-50 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -310,11 +310,11 @@ void CJumpSkill_MoveState::Enter(CNezuko* pNezuko)
 		m_fOriginPosY = pNezuko->Get_NavigationHeight().y;
 
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill1.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill2.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill2.wav"), g_fVoice);
 		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill3.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_MoveSkill3.wav"), g_fVoice);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_SKILL_MOVE_1);

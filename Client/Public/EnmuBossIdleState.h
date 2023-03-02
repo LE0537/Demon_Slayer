@@ -7,6 +7,11 @@ BEGIN(EnmuBoss)
 class CIdleState : public CEnmuBossState
 {
 public:
+	enum AI_RANGE { RANGE_IN,  RANGE_OUT, RANGE_END };
+	enum AI_PATTERN {PATTERN_1, PATTERN_2, PATTERN_3, PATTERN_4, PATTERN_5, PATTERN_6, PATTERN_END};
+
+
+public:
 	CIdleState();
 
 	virtual CEnmuBossState* HandleInput(CEnmuBoss* pEnmuBoss) override;
@@ -16,6 +21,20 @@ public:
 
 	virtual void Enter(CEnmuBoss* pEnmuBoss) override;
 	virtual void Exit(CEnmuBoss* pEnmuBoss) override;
+
+
+
+private:
+	void Update_AI_Near(CEnmuBoss* pEnmuBoss);
+	void Update_AI_Out(CEnmuBoss* pEnmuBoss);
+
+	CEnmuBossState* Return_AIState(CEnmuBoss* pEnmuBoss);
+
+
+private:
+	_float m_fDelay = 0.f;
+	AI_RANGE m_eRange = RANGE_END;
+	AI_PATTERN m_ePattern = PATTERN_END;
 
 
 };

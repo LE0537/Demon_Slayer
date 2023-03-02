@@ -40,9 +40,14 @@ CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 
 		if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
 		{
-			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pTanjiro->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
+
 
 		if (pGameInstance->Key_Down(DIK_J))
 		{
@@ -53,7 +58,7 @@ CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 			else
 				return new CAtk_1_State();
 		}
-			
+
 
 		if (pGameInstance->Key_Pressing(DIK_W)) // ¾Õ
 		{
@@ -113,7 +118,12 @@ CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 		if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
-			return new CSplSkrStartState(TYPE_START);
+			if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+			{
+				pTanjiro->Set_UnicCount(-1);
+				return new CSplSkrStartState(TYPE_START);
+
+			}
 		}
 
 		if (pGameInstance->Key_Down(DIK_Z))
@@ -278,11 +288,11 @@ void CTargetRushState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_TARGET_RUSH_0, 0.01f);
 		pTanjiro->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_TargetRush_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_TargetRush_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_TargetRush_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_TargetRush_1.wav"), g_fVoice);
 
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), g_fEffect);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_TARGET_RUSH_1);
@@ -316,8 +326,11 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		vTargetPosition = XMVectorSet(-0.012f, 16.6f, 181.f, 1.f);
 	}
 
-	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+	m_vTargetPosition = XMVectorSetY(m_vTargetPosition, pTanjiro->Get_NavigationHeight().y);
 	m_vTargetPosition = XMVector3Normalize(vTargetPosition - vMyPosition);
+
+	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
 
 
 
@@ -330,12 +343,16 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 
 	_vector vCurrentPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-	_vector vPosition = XMVectorSet(m_vPosition.x, XMVectorGetY(vCurrentPos), m_vPosition.z, 1.f);
+	_vector vPosition = XMVectorSet(m_vPosition.x, pTanjiro->Get_NavigationHeight().y, m_vPosition.z, 1.f);
 
 	//if (fDistance <= 3.f)
 	//{
 	//	m_bNextAnim = true;
 	//}
+
+	if (fDistance <= 2.f)
+		m_bNextAnim = true;
+
 
 	if (g_iLevel == 12)
 	{
@@ -343,7 +360,7 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		{
 			m_bNextAnim = true;
 
-			if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().bGuard && pTanjiro->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+			if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().bGuard && pTanjiro->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 			{
 				pTanjiro->Get_BattleTarget()->Get_GuardHit(0);
 
@@ -366,7 +383,7 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 			pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 
 	}
-	
+
 	else if (pTanjiro->Get_SphereCollider()->Collision(pTanjiro->Get_BattleTarget()->Get_SphereCollider()))
 	{
 		m_bNextAnim = true;
@@ -374,10 +391,10 @@ void CTargetRushState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 
 		pTanjiro->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().bGuard && pTanjiro->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().bGuard && pTanjiro->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pTanjiro->Get_BattleTarget()->Get_GuardHit(0);
-		
+
 		}
 		else
 		{
@@ -461,7 +478,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 					if (pTanjiro->Get_KaguraMode() == true)
 						return new CKaguraSkill_MoveState();
 					else
-					return new CSkill_WaterMillState(TYPE_START); // move skill
+						return new CSkill_WaterMillState(TYPE_START); // move skill
 				}
 				else
 				{
@@ -473,7 +490,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 					if (pTanjiro->Get_KaguraMode() == true)
 						return new CKaguraSkill_CommonState();
 					else
-					return new CSkill_CommonState();
+						return new CSkill_CommonState();
 				}
 			}
 		}
@@ -500,7 +517,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 					if (pTanjiro->Get_KaguraMode() == true)
 						return new CKaguraSkill_SphereState();
 					else
-					return new CSkill_WindMillState(TYPE_START);
+						return new CSkill_WindMillState(TYPE_START);
 				}
 				else if (pGameInstance->Key_Pressing(DIK_LEFT) || pGameInstance->Key_Pressing(DIK_RIGHT) || pGameInstance->Key_Pressing(DIK_UP) || pGameInstance->Key_Pressing(DIK_DOWN))
 				{
@@ -511,7 +528,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 					if (pTanjiro->Get_KaguraMode() == true)
 						return new CKaguraSkill_MoveState();
 					else
-					return new CSkill_WaterMillState(TYPE_START); // move skill
+						return new CSkill_WaterMillState(TYPE_START); // move skill
 				}
 				else
 				{
@@ -522,7 +539,7 @@ CTanjiroState * CTargetRushState::CommandCheck(CTanjiro * pTanjiro)
 					if (pTanjiro->Get_KaguraMode() == true)
 						return new CKaguraSkill_CommonState();
 					else
-					return new CSkill_CommonState();
+						return new CSkill_CommonState();
 				}
 			}
 		}

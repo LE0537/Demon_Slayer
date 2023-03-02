@@ -53,7 +53,7 @@ void CAngryState::Enter(CRuiDad * pRuiDad)
 	pRuiDad->Get_Model()->Set_Loop(0, false);
 	pRuiDad->Get_Model()->Set_LinearTime(0, 0.01f);
 	if(g_iLevel == LEVEL_GAMEPLAY)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Roar.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Roar.wav"), g_fVoice);
 }
 
 void CAngryState::Exit(CRuiDad * pRuiDad)

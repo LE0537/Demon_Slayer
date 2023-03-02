@@ -168,6 +168,7 @@ private:
 	HRESULT Ready_Parts();
 	HRESULT Ready_Parts2();
 	void	Set_Info();
+	void    Check_Spl();
 
 public:
 	virtual void  Take_Damage(_float _fPow,_bool _bJumpHit = 0);

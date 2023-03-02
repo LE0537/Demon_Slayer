@@ -71,7 +71,7 @@ CRuiState * CAdvSkill_MoveState::Late_Tick(CRui * pRui, _float fTimeDelta)
 					_vector vPos = pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-150 * pRui->Get_PlayerInfo().fPowerUp));
@@ -150,12 +150,12 @@ void CAdvSkill_MoveState::Enter(CRui * pRui)
 	pRui->Get_Model()->Set_Loop(CRui::ANIM_ADVSKILL_MOVE);
 	pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_FriendAdvMove.wav"), fVOICE);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_FriendAdvMove.wav"), g_fVoice);
 
 	if (pRui->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_SpMoveSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_SpMoveSkill.wav"), g_fEffect);
 	else
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), g_fEffect);
 }
 
 void CAdvSkill_MoveState::Exit(CRui * pRui)

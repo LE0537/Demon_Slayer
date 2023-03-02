@@ -95,11 +95,11 @@ void CTargetRushState::Enter(CRuiDad* pRuiDad)
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_RUSH_1);
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_RUSH_1);
 		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIMID::ANIM_RUSH_1, true);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_RushSkill.wav"), fEFFECT);	
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_RushSkill.wav"), g_fEffect);	
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_RushSkill_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_RushSkill_0.wav"), g_fVoice);
 		else
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_RushSkill_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_RushSkill_1.wav"), g_fVoice);
 		Initialize_value(pRuiDad);
 		break;
 	case Client::CRuiDadState::TYPE_END:
@@ -151,7 +151,7 @@ void CTargetRushState::Move(CRuiDad* pRuiDad, _float fTimeDelta)
 
 		pRuiDad->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pRuiDad->Get_BattleTarget()->Get_PlayerInfo().bGuard && pRuiDad->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pRuiDad->Get_BattleTarget()->Get_PlayerInfo().bGuard && pRuiDad->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pRuiDad->Get_BattleTarget()->Get_GuardHit(0);
 		}

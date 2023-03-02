@@ -261,11 +261,11 @@ void CSkill_ShootNetState::Enter(CRui* pRui)
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_SKILL_SHOOTNET_0);
 		pRui->Get_Model()->Set_LinearTime(CRui::ANIM_SKILL_SHOOTNET_0, 0.01f);
 		pRui->Set_AnimIndex(CRui::ANIM_SKILL_SHOOTNET_0);
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_ShootNet.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_ShootNet.wav"), g_fVoice);
 		if (pRui->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_MoveSkill.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_MoveSkill.wav"), g_fEffect);
 		else
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_MoveSkill.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_MoveSkill.wav"), g_fEffect);
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_SKILL_SHOOTNET_1);
@@ -303,7 +303,12 @@ CRuiState * CSkill_ShootNetState::CommandCheck(CRui * pRui)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pRui->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pRui->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_I)) // 스킬 키 
@@ -361,7 +366,12 @@ CRuiState * CSkill_ShootNetState::CommandCheck(CRui * pRui)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pRui->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pRui->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_X)) // 스킬 키 

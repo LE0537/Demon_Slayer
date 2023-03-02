@@ -150,7 +150,7 @@ void CGuardAdvState::Enter(CKyoujuro* pKyoujuro)
 	pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_GUARD_ADV);
 	pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_GUARD_ADV);
 
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_GuardAdv.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_GuardAdv.wav"), g_fEffect);
 
 }
 

@@ -27,7 +27,12 @@ CTanjiroState * CDashState::HandleInput(CTanjiro * pTanjiro)
 			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pTanjiro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 
@@ -128,7 +133,12 @@ CTanjiroState * CDashState::HandleInput(CTanjiro * pTanjiro)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pTanjiro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ¾Õ
@@ -437,16 +447,16 @@ void CDashState::Enter(CTanjiro * pTanjiro)
 
 	_uint iRand = rand() % 3;
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_0.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_0.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_1.wav"), g_fVoice);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_2.wav"), g_fVoice);
 
 	if(iIndex == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_DashFirst.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_DashFirst.wav"), g_fEffect);
 	else if(iIndex == 2)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_DashSecond.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_DashSecond.wav"), g_fEffect);
 }
 
 void CDashState::Exit(CTanjiro * pTanjiro)

@@ -30,12 +30,14 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 		switch (pKyoujuro->Get_i1P())
 		{
 		case 1:
-
-			if (pGameInstance->Key_Pressing(DIK_E))
+			if (pGameInstance->Key_Pressing(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
 			{
-				pKyoujuro->Get_BattleTarget()->Play_Scene();
-				return new CKyoujuro_CinemaState(CKyoujuro_CinemaState::CINEMASCENE::SCENE_START);
-				return new CSplSkrStartState(TYPE_START);
+				if (pKyoujuro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pKyoujuro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Pressing(DIK_W)) // ╬у
@@ -119,6 +121,15 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 			}
 			break;
 		case 2:
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT) && g_iLevel == LEVEL_GAMEPLAY)
+			{
+				if (pKyoujuro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pKyoujuro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
+			}
 			if (pGameInstance->Key_Pressing(DIK_UP)) // ╬у
 			{
 				if (pGameInstance->Key_Pressing(DIK_LEFT)) // аб

@@ -241,7 +241,7 @@ void CTargetRushState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_TARGET_RUSH_0);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_TARGET_RUSH_0, 0.01f);
 		pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), g_fEffect);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_TARGET_RUSH_1);
@@ -295,7 +295,7 @@ void CTargetRushState::Move(CShinobu* pShinobu, _float fTimeDelta)
 
 		pShinobu->Get_BattleTarget()->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (pShinobu->Get_BattleTarget()->Get_PlayerInfo().bGuard && pShinobu->Get_BattleTarget()->Get_PlayerInfo().iGuard > 0)
+		if (pShinobu->Get_BattleTarget()->Get_PlayerInfo().bGuard && pShinobu->Get_BattleTarget()->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			pShinobu->Get_BattleTarget()->Get_GuardHit(0);
 		}
@@ -357,7 +357,12 @@ CShinobuState * CTargetRushState::CommandCheck(CShinobu * pShinobu)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pShinobu->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pShinobu->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_J))
@@ -406,7 +411,12 @@ CShinobuState * CTargetRushState::CommandCheck(CShinobu * pShinobu)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pShinobu->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pShinobu->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_Z))

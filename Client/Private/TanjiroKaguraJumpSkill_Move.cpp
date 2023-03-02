@@ -90,7 +90,7 @@ CTanjiroState * CKaguraJumpSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _floa
 			_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-			if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+			if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 			{
 				m_pTarget->Get_GuardHit(0);
 				m_pTarget->Set_GuardHp(_int(-50 * pTanjiro->Get_PlayerInfo().fPowerUp));
@@ -110,7 +110,7 @@ CTanjiroState * CKaguraJumpSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _floa
 				pTanjiro->Set_Combo(1);
 				pTanjiro->Set_ComboTime(0.f);
 			}
-
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_Hit.wav"), g_fEffect);
 			_int iDest = rand() % 5;
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			switch (iDest)
@@ -158,7 +158,7 @@ CTanjiroState * CKaguraJumpSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _floa
 			_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 			m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-			if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+			if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 			{
 				m_pTarget->Get_GuardHit(0);
 				m_pTarget->Set_GuardHp(_int(-50 * pTanjiro->Get_PlayerInfo().fPowerUp));
@@ -178,7 +178,7 @@ CTanjiroState * CKaguraJumpSkill_MoveState::Late_Tick(CTanjiro * pTanjiro, _floa
 				pTanjiro->Set_Combo(1);
 				pTanjiro->Set_ComboTime(0.f);
 			}
-
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_Hit.wav"), g_fEffect);
 			_int iDest = rand() % 5;
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			switch (iDest)
@@ -263,6 +263,7 @@ void CKaguraJumpSkill_MoveState::Enter(CTanjiro * pTanjiro)
 	pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_SKILL_KAGURA_MOVE);
 	pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_SKILL_KAGURA_MOVE, 0.01f);
 	Initialize_value(pTanjiro);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_SE_MoveSkill.wav"), g_fEffect);
 }
 
 void CKaguraJumpSkill_MoveState::Exit(CTanjiro * pTanjiro)

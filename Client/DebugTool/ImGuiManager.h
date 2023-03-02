@@ -99,7 +99,7 @@ public:
 	void		Set_CurrentPosition(_float3 vPosition) { m_vCurrentPosition = vPosition; };
 	void		Character_Compare_Frame(_uint _iIndex);
 	void		Character_Set_Frame(_uint _iIndex);
-
+	void		Set_Distance(_float fDist) { m_fEnmuBossDist = fDist; }
 	// EnmuBossLevel
 
 	void		EnmuBossAnimDebug();
@@ -121,7 +121,7 @@ private:
 	int m_iUsingEndFrame = m_iFrame;
 	_float m_fDuration = 0.f;
 	_float m_fCurrentDuration = 0.f;
-
+	_float m_fEnmuBossDist = 0.f;
 	_bool m_bReset = false;
 	_float3 m_vCurrentPosition;
 

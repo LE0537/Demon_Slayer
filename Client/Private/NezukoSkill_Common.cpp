@@ -275,7 +275,7 @@ CNezukoState * CSkill_CommonState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta
 					_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-40 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -391,7 +391,7 @@ CNezukoState * CSkill_CommonState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta
 					_vector vPos = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-50 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -497,7 +497,12 @@ CNezukoState * CSkill_CommonState::CommandCheck(CNezuko * pNezuko)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_J))
@@ -546,7 +551,12 @@ CNezukoState * CSkill_CommonState::CommandCheck(CNezuko * pNezuko)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_Z))
@@ -613,13 +623,13 @@ void CSkill_CommonState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SKILL_COMMON_0, 0.01f);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_SKILL_COMMON_0);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common1.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common2.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common2.wav"), g_fVoice);
 		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common3.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common3.wav"), g_fVoice);
 
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_CommonSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_CommonSkill.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_SKILL_COMMON_1);
@@ -628,7 +638,7 @@ void CSkill_CommonState::Enter(CNezuko* pNezuko)
 		if (pNezuko->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
 		{
 			CSoundMgr::Get_Instance()->Effect_Stop(SOUND_EFFECT);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_CommonSkill.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_CommonSkill.wav"), g_fEffect);
 		}
 		break;
 	case Client::CNezukoState::TYPE_END:
@@ -636,11 +646,11 @@ void CSkill_CommonState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SKILL_COMMON_2, 0.01f);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_SKILL_COMMON_2);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common1_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common1_1.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common2_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common2_1.wav"), g_fVoice);
 		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common3_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Common3_1.wav"), g_fVoice);
 		break;
 	}
 

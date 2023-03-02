@@ -87,7 +87,7 @@ CKyoujuroState * CJumpMoveAttackState::Late_Tick(CKyoujuro* pKyoujuro, _float fT
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-30 * pKyoujuro->Get_PlayerInfo().fPowerUp));
@@ -112,7 +112,7 @@ CKyoujuroState * CJumpMoveAttackState::Late_Tick(CKyoujuro* pKyoujuro, _float fT
 					pKyoujuro->Set_ComboTime(0.f);
 				}
 
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_JumpMoveAttack.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_JumpMoveAttack.wav"), g_fEffect);
 
 				_int iDest = rand() % 5;
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -204,7 +204,7 @@ void CJumpMoveAttackState::Enter(CKyoujuro* pKyoujuro)
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_JUMP_MOVE_ATTACK_0);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_JUMP_MOVE_ATTACK_0, 0.01f);
 		pKyoujuro->Get_Transform()->Set_PlayerLookAt(pKyoujuro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_JumpMoveAttack.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_JumpMoveAttack.wav"), g_fEffect);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_JUMP_MOVE_ATTACK_1);

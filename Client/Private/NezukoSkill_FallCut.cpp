@@ -248,7 +248,7 @@ CNezukoState * CSkill_FallCutState::Late_Tick(CNezuko* pNezuko, _float fTimeDelt
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-150 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -274,7 +274,7 @@ CNezukoState * CSkill_FallCutState::Late_Tick(CNezuko* pNezuko, _float fTimeDelt
 					dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pNezuko->Get_Renderer());
 					RELEASE_INSTANCE(CGameInstance);
 
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_JumpMoveAttack_0.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_JumpMoveAttack_0.wav"), g_fEffect);
 					pNezuko->Set_Combo(1);
 					pNezuko->Set_ComboTime(0.f);
 				}
@@ -392,7 +392,7 @@ void CSkill_FallCutState::Enter(CNezuko* pNezuko)
 		m_vVelocity.y = 10.f;
 		m_vVelocity.z = 0.f;
 		m_fGravity = 0.f;
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_JumpMoveAttack.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_JumpMoveAttack.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_SKILL_FALLCUT_1);
@@ -416,7 +416,7 @@ void CSkill_FallCutState::Enter(CNezuko* pNezuko)
 			m_bLookPos = true;
 		}
 		m_fGravity = 15.81f;
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_FallCut.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_FallCut.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_END:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIM_SKILL_FALLCUT_2);
@@ -559,7 +559,12 @@ CNezukoState * CSkill_FallCutState::CommandCheck(CNezuko * pNezuko)
 			if (pGameInstance->Key_Pressing(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_J))
@@ -608,7 +613,12 @@ CNezukoState * CSkill_FallCutState::CommandCheck(CNezuko * pNezuko)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
-				return new CSplSkrStartState(TYPE_START);
+				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pNezuko->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
 			}
 
 			if (pGameInstance->Key_Down(DIK_Z))

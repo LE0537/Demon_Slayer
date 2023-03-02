@@ -1,7 +1,7 @@
 #pragma once
 
 #include "KyoujuroState.h"
-
+#include "BaseAtk.h"
 
 BEGIN(Client)
 BEGIN(Kyoujuro)
@@ -25,7 +25,14 @@ private:
 
 private:
 	_bool m_bCollision = false;
+	CBaseAtk*	m_pCollBox = nullptr;
 
+	_bool m_bAtkCombo = false;
+	_float m_fTime = 0.f;
+	_float m_fComboDelay = 0.f;
+	_float m_fMove = 0.f;
+	_bool  m_bHit = false;
+	_bool  m_bEffect = false;
 };
 
 END

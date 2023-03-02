@@ -61,7 +61,7 @@ void CSelMapCursor::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_A))
 	{
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), g_fEffect);
 		if (m_iFrameNum != 0)
 		{
 			--m_iFrameNum;
@@ -77,7 +77,7 @@ void CSelMapCursor::Tick(_float fTimeDelta)
 	}
 	else if (pGameInstance->Key_Down(DIK_D))
 	{
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), g_fEffect);
 		if (m_iFrameNum != 1)
 		{
 			++m_iFrameNum;
@@ -94,7 +94,7 @@ void CSelMapCursor::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_E))
 	{
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickCharSelButton.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickCharSelButton.wav"), g_fEffect);
 		pUI_Manager->Set_SelMapNum(m_iFrameNum);
 		m_bMapSelectCheck = true;
 	}

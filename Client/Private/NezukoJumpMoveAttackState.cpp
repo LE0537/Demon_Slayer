@@ -88,7 +88,7 @@ CNezukoState * CJumpMoveAttackState::Late_Tick(CNezuko* pNezuko, _float fTimeDel
 
 				m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+				if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 				{
 					m_pTarget->Get_GuardHit(0);
 					m_pTarget->Set_GuardHp(_int(-30 * pNezuko->Get_PlayerInfo().fPowerUp));
@@ -103,7 +103,7 @@ CNezukoState * CJumpMoveAttackState::Late_Tick(CNezuko* pNezuko, _float fTimeDel
 				}
 				else
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_JumpMoveAttack_0.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_JumpMoveAttack_0.wav"), g_fEffect);
 					CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.2f);
 					RELEASE_INSTANCE(CGameInstance);
@@ -202,7 +202,7 @@ void CJumpMoveAttackState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIMID::ANIM_JUMP_MOVE_ATTACK_0);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_JUMP_MOVE_ATTACK_0, 0.01f);
 		pNezuko->Get_Transform()->Set_PlayerLookAt(pNezuko->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_JumpMoveAttack.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_JumpMoveAttack.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_JUMP_MOVE_ATTACK_1);

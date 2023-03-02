@@ -16,6 +16,7 @@
 #include "TanjiroTargetRushState.h"
 #include "TanjiroJumpState.h"
 #include "TanjiroAtk_1_State.h"
+#include "TanjiroSplSkrStartState.h"
 using namespace Tanjiro;
 
 
@@ -262,7 +263,7 @@ CTanjiroState * CSkill_WaterMillState::Late_Tick(CTanjiro * pTanjiro, _float fTi
 					_vector vPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 					m_pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().iGuard > 0)
+					if (m_pTarget->Get_PlayerInfo().bGuard && m_pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
 						m_pTarget->Get_GuardHit(0);
 						m_pTarget->Set_GuardHp(_int(-50 * pTanjiro->Get_PlayerInfo().fPowerUp));
@@ -362,8 +363,8 @@ void CSkill_WaterMillState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_SKILL_WATERMILL_0);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_SKILL_WATERMILL_0, 0.01f);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_WATERMILL_0);
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_WaterMill.wav"), fVOICE);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_WaterMill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_WaterMill.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_WaterMill.wav"), g_fEffect);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_SKILL_WATERMILL_1);
@@ -408,6 +409,16 @@ CTanjiroState * CSkill_WaterMillState::CommandCheck(CTanjiro * pTanjiro)
 		switch (pTanjiro->Get_i1P())
 		{
 		case 1:
+			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
+			{
+				if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pTanjiro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
+			}
+
 			if (pGameInstance->Key_Down(DIK_J))
 				return new CAtk_1_State();
 
@@ -451,6 +462,16 @@ CTanjiroState * CSkill_WaterMillState::CommandCheck(CTanjiro * pTanjiro)
 			}
 			break;
 		case 2:
+			if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
+			{
+				if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
+				{
+					pTanjiro->Set_UnicCount(-1);
+					return new CSplSkrStartState(TYPE_START);
+
+				}
+			}
+
 			if (pGameInstance->Key_Down(DIK_Z))
 				return new CAtk_1_State();
 

@@ -46,7 +46,7 @@ CRuiState * CGuardHitState::Tick(CRui* pRui, _float fTimeDelta)
 				pRui->Set_bGuard(false);
 				return new CIdleState();
 			}
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Guard.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Guard.wav"), g_fEffect);
 			break;
 		case Client::CRuiState::TYPE_LOOP:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());

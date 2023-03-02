@@ -78,14 +78,14 @@ void CRuiShoot::Tick(_float fTimeDelta)
 	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
 	m_fDeadTime += fTimeDelta;
 
-	m_fEffectCreateTime += fTimeDelta;
-	if (0.1f < m_fEffectCreateTime)
+	m_g_fEffectCreateTime += fTimeDelta;
+	if (0.1f < m_g_fEffectCreateTime)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 		//pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_SHOTNET_COLEVERYTIME, this);
 		RELEASE_INSTANCE(CEffect_Manager);
 
-		m_fEffectCreateTime = 0.f;
+		m_g_fEffectCreateTime = 0.f;
 	}
 
 	//if (m_fDeadTime > 3.9f)
@@ -113,7 +113,7 @@ void CRuiShoot::Late_Tick(_float fTimeDelta)
 		vPos.m128_f32[1] = 0.f;
 		m_ShootInfo.pTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 
-		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard && m_ShootInfo.pTarget->Get_PlayerInfo().iGuard > 0)
+		if (m_ShootInfo.pTarget->Get_PlayerInfo().bGuard && m_ShootInfo.pTarget->Get_PlayerInfo().fGuardTime <= 0.f)
 		{
 			m_ShootInfo.pTarget->Get_GuardHit(0);
 			m_ShootInfo.pTarget->Set_GuardHp(_int(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));

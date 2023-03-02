@@ -78,6 +78,9 @@ private:
 	CCollider*				m_pAABBCom = nullptr;
 	CCollider*				m_pOBBCom = nullptr;
 	_float					m_fEffectTime = 0.f;
+	CCharacters*			m_pHead = nullptr;
+	CCharacters*			m_pTanjiro = nullptr;
+
 private:
 	ANIMID m_eAnimID;
 
@@ -95,7 +98,8 @@ private:
 	_bool					m_bQuestStart = false;
 	_bool					m_bQuestStop = false;
 
-
+	_float		m_fHealTime = 0.f;
+	_bool		m_bTarget = false;
 public:
 	static CEnmu_Shield* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
