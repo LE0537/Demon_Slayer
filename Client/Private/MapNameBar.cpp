@@ -111,22 +111,25 @@ void CMapNameBar::Tick(_float fTimeDelta)
 					}
 					else if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
 					{
-						switch (pUI_Manager->Get_MsgCount())
+						if (!pUI_Manager->Get_QuestStartCheck())
 						{
-						case 0:
-							pUI_Manager->Set_MsgOn();
-							pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
-							pUI_Manager->Set_Msg(TEXT("큭.. 냄새가 지독해, 무거워...! 이 바람 속에서 혈귀 냄새가 이렇게까지...!!"));
-							break;
-						case 1:
-							pUI_Manager->Set_Msg(TEXT("혈귀는 바람이 불어오는 쪽... 선두 차량인가? 앞으로 가보자"));
-							break;
-						default:
-							pUI_Manager->Set_MsgOff();
-							pUI_Manager->Set_QuestStartCheck(true);
-							pUI_Manager->Set_MainQuestOn();
-							pUI_Manager->Reset_MsgCount();
-							break;
+							switch (pUI_Manager->Get_MsgCount())
+							{
+							case 0:
+								pUI_Manager->Set_MsgOn();
+								pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
+								pUI_Manager->Set_Msg(TEXT("큭.. 냄새가 지독해, 무거워...! 이 바람 속에서 혈귀 냄새가 이렇게까지...!!"));
+								break;
+							case 1:
+								pUI_Manager->Set_Msg(TEXT("혈귀는 바람이 불어오는 쪽... 선두 차량인가? 앞으로 가보자"));
+								break;
+							default:
+								pUI_Manager->Set_MsgOff();
+								pUI_Manager->Set_QuestStartCheck(true);
+								pUI_Manager->Set_MainQuestOn();
+								pUI_Manager->Reset_MsgCount();
+								break;
+							}
 						}
 					}
 					RELEASE_INSTANCE(CGameInstance);
