@@ -54,7 +54,7 @@ HRESULT CEnmu_Shield::Initialize(void * pArg)
 
 void CEnmu_Shield::Tick(_float fTimeDelta)
 {
-	if (m_tInfo.iHp <= 0.f)
+	if (m_tInfo.iHp <= 0.f && m_fHealTime <= 6.f)
 	{
 		if (!m_bTarget)
 		{
@@ -69,6 +69,7 @@ void CEnmu_Shield::Tick(_float fTimeDelta)
 	}
 	else if (m_fHealTime > 6.f)
 	{
+
 		m_bFree = false;
 		m_tInfo.iHp = m_tInfo.iMaxHp;
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
@@ -76,7 +77,6 @@ void CEnmu_Shield::Tick(_float fTimeDelta)
 		m_pTanjiro->Set_BattleTarget(this);
 		RELEASE_INSTANCE(CGameInstance);
 		m_bTarget = false;
-
 		m_fHealTime = 0.f;
 	}
 	//m_pModelCom->Play_Animation(fTimeDelta);

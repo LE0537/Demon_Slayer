@@ -5,6 +5,9 @@
 #include "Camera_Dynamic.h"
 #include "Layer.h"
 #include"Effect_Manager.h"
+#include "Terrain.h"
+#include "MeshObj_Static.h"
+#include "MeshObj_Static_Inst.h"
 
 using namespace Kyoujuro;
 
@@ -22,6 +25,7 @@ CKyoujuroState * CKyoujuro_CinemaState::HandleInput(CKyoujuro * pKyoujuro)
 
 CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
+
 	_float fValue = 0.f;
 	switch (m_eScene)
 	{
@@ -107,6 +111,7 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_SPLSKL_END))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_SPLSKL_END);
+
 			return new CIdleState();
 		}
 		break;
@@ -114,7 +119,7 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		break;
 	}
 
-	
+
 
 	return nullptr;
 }
@@ -134,6 +139,40 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 	pKyoujuro->Set_SplSkl(true);
 
 	CGameInstance* pGameInstance = nullptr;
+	if (m_eScene == CKyoujuro_CinemaState::SCENE_START)
+	{
+		pGameInstance = GET_INSTANCE(CGameInstance);
+
+		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(true);
+		list<CGameObject*> plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+		list<CGameObject*> plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+		for (auto& iterMesh : plistMesh)
+		{
+			dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(true);
+		}
+		for (auto& iterMeshinst : plistMeshInst)
+		{
+			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(true);
+		}
+		RELEASE_INSTANCE(CGameInstance);
+	}
+	else if (m_eScene == CKyoujuro_CinemaState::SCENE_END)
+	{
+		pGameInstance = GET_INSTANCE(CGameInstance);
+
+		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(false);
+		list<CGameObject*> plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+		list<CGameObject*> plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+		for (auto& iterMesh : plistMesh)
+		{
+			dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(false);
+		}
+		for (auto& iterMeshinst : plistMeshInst)
+		{
+			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(false);
+		}
+		RELEASE_INSTANCE(CGameInstance);
+	}
 	switch (m_eScene)
 	{
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_START: {
@@ -156,11 +195,12 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 
 		pGameInstance = GET_INSTANCE(CGameInstance);
 		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_RGK_START);
-		
+
+		RELEASE_INSTANCE(CGameInstance);
 
 		break;
-	}
-	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_0: {
+	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_0:
+
 		pKyoujuro->Get_BattleTarget()->Set_SceneRender(false);
 		pKyoujuro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);
 		pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro_CinemaState::ANIM_SCENE_0);

@@ -93,26 +93,28 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 void CMeshObj_Static::Late_Tick(_float fTimeDelta)
 {
 	__super::Late_Tick(fTimeDelta);
+	if (!m_bRender)
+	{
+		CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+		_matrix		matWorld = m_pTransformCom->Get_WorldMatrix();
 
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-	_matrix		matWorld = m_pTransformCom->Get_WorldMatrix();
-	
-	if (m_tMyDesc.iModelIndex == 2101 || m_tMyDesc.iModelIndex == 2102
-		|| m_tMyDesc.iModelIndex == 2103 || m_tMyDesc.iModelIndex == 2108)
-	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
-	}
-	else if (nullptr != m_pRendererCom)
-	{
-		if (false == m_tMyDesc.bAlphaBlend)
+		if (m_tMyDesc.iModelIndex == 2101 || m_tMyDesc.iModelIndex == 2102
+			|| m_tMyDesc.iModelIndex == 2103 || m_tMyDesc.iModelIndex == 2108)
+		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-		else
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
+		}
+		else if (nullptr != m_pRendererCom)
+		{
+			if (false == m_tMyDesc.bAlphaBlend)
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			else
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
 
+		}
+
+		RELEASE_INSTANCE(CGameInstance);
 	}
-
-	RELEASE_INSTANCE(CGameInstance);
 }
 
 HRESULT CMeshObj_Static::Render()

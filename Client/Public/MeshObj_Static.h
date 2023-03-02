@@ -38,7 +38,8 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
-
+public:
+	void	Set_SplRender(_bool _bRender) { m_bRender = _bRender; }
 private:
 	CModel*		m_pModelCom = nullptr;
 
@@ -46,7 +47,7 @@ private:
 	MESHOBJ_STATIC_DESC			m_tMyDesc;
 	_bool		m_bRenderShadow = true;
 	_float4x4	m_matProjOrigin;
-
+	_bool			m_bRender = false;
 	_float		m_fFrustumRadiusRatio = 1.f;
 	_bool     m_bNonAlpha = false;
 private:
