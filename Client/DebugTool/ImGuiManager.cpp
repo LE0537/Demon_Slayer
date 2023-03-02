@@ -62,7 +62,7 @@ HRESULT CImGuiManager::Initialize(ID3D11Device * pDevice, ID3D11DeviceContext * 
 
 
 
-	for (_uint i = 0; i < 40; ++i)
+	for (_uint i = 0; i < 250; ++i)
 	{
 		m_strCamFiles[i] = new char[MAX_PATH];
 	}
@@ -694,6 +694,14 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		((CCamera_Dynamic*)m_pCamera)->Set_Pos(vPos);
 	}
 
+	ImGui::SameLine();
+	if (ImGui::Button("LookAt", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)) &&
+		1 < m_iNumCam[eChoice])
+	{
+		_float3 vPos = _float3(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2]);
+		((CTransform*)(m_pCamera->Find_Component(L"Com_Transform")))->LookAt(XMVectorSetW(XMLoadFloat3(&vPos), 1.f));
+	}
+
 
 
 
@@ -954,6 +962,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	static char strCamActionName[MAX_PATH][10] = { "Tan1", "Tan2", "Tan3", "Tan4", "Tan5",
 		"RuiStt", "Rui0", "Rui1", "Rui2", "Rui3" , "Rui4" , "Rui5" ,
 		"RgkStt", "Rgk0", "Rgk1", "Rgk2", "Rgk3" , "Rgk4" , "Rgk5" , "Rgk6", "Rgk7" , "Rgk8",
+		"AkzStt", "Akz0", "Akz1", "Akz2", "Akz3" , "Akz4" , "Akz5" , "Akz6", "Akz7",
 	};
 	static _int iCameraActionIndex = 0;
 	if (ImGui::CollapsingHeader("Setting Actions"))

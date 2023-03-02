@@ -175,6 +175,16 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("kyojuro_7"))) return E_FAIL;	//	7	
 	if (FAILED(Ready_CutScene("kyojuro_8"))) return E_FAIL;	//	8
 
+	if (FAILED(Ready_CutScene("akaza_Start"))) return E_FAIL;
+	if (FAILED(Ready_CutScene("akaza_0"))) return E_FAIL;	//	0
+	if (FAILED(Ready_CutScene("akaza_1"))) return E_FAIL;	//	1
+	if (FAILED(Ready_CutScene("akaza_2"))) return E_FAIL;	//	2
+	if (FAILED(Ready_CutScene("akaza_3"))) return E_FAIL;	//	3
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	4
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	5	
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	6
+	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	7	
+
 	//Story
 	if (FAILED(Ready_StoryScene("RuiDadStart"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("RuiDadBattle"))) return E_FAIL;
@@ -238,14 +248,14 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			//if (pGameInstance->Key_Pressing(DIK_RIGHT))
 			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
-			if (pGameInstance->Key_Pressing(DIK_UP))
-				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_DOWN))
-				m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_LEFT))
-				m_pTransform->Go_Left(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_RIGHT))
-				m_pTransform->Go_Right(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_UP))
+			//	m_pTransform->Go_Straight(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_DOWN))
+			//	m_pTransform->Go_Backward(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_LEFT))
+			//	m_pTransform->Go_Left(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_RIGHT))
+			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 			if (pGameInstance->Key_Pressing(DIK_NUMPAD8))
 				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
@@ -1489,6 +1499,22 @@ _bool CCamera_Dynamic::CutScene(CUTSCENE eCutScene, _float fTimeDelta)
 			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
 		break;
 	case CUTSCENE_RGK_8:
+		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
+		break;
+
+		//	Akaza
+	case CUTSCENE_AKZ_START:
+	case CUTSCENE_AKZ_0:
+	case CUTSCENE_AKZ_1:
+	case CUTSCENE_AKZ_2:
+	case CUTSCENE_AKZ_3:
+	case CUTSCENE_AKZ_4:
+	case CUTSCENE_AKZ_5:
+	case CUTSCENE_AKZ_6:
+		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
+			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
+		break;
+	case CUTSCENE_AKZ_7:
 		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
 		break;
 	}
