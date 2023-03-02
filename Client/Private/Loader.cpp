@@ -1738,6 +1738,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion2_Sword1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion2_Aura1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion2_Aura2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion3_Ground1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion4_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion4_BG2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion4_Player1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion5_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion5_Fire1"));
 
 		pEffect_Manager->Load_Effect(TEXT("Fade"));
 

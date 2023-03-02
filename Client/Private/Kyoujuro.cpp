@@ -734,6 +734,12 @@ void CKyoujuro::Check_Spl()
 	}
 
 	m_WeaponWorld = *dynamic_cast<CKyoujuroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
+
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+	_float4x4 SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	_float4x4 pParentWorldMatrix = *m_pTransformCom->Get_World4x4Ptr();
+
+	XMStoreFloat4x4(&m_WeaponWorld2, (pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
 }
 
 void CKyoujuro::Take_Damage(_float _fPow, _bool _bJumpHit)
