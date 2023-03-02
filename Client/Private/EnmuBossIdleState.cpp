@@ -7,7 +7,7 @@
 #include "Enmu_Right_Hand.h"
 #include "Enmu_Left_Hand.h"
 #include "Enmu_Chok.h"
-
+#include "Camera_Dynamic.h"
 #include "EnmuBoss_Pattern1State.h"
 #include "EnmuBoss_Pattern2State.h"
 #include "EnmuBoss_Pattern3State.h"
@@ -16,7 +16,7 @@
 #include "EnmuBoss_Pattern6State.h"
 #include "Tanjiro.h"
 #include "Layer.h"
-
+#include "Tanjiro.h"
 #include "ImGuiManager.h"
 
 using namespace EnmuBoss;
@@ -29,23 +29,18 @@ CIdleState::CIdleState()
 CEnmuBossState * CIdleState::HandleInput(CEnmuBoss* pEnmuBoss)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-	
-	if (pGameInstance->Get_Instance()->Key_Down(DIK_1)) // 파동 날리기 왼손 오른손 랜덤 필요
-		return new CEnmuBoss_Pattern1State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
-	if (pGameInstance->Get_Instance()->Key_Down(DIK_2)) // 촉수 두번 속도 빠르게 해야될듯
-		return new CEnmuBoss_Pattern2State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
-	if (pGameInstance->Get_Instance()->Key_Down(DIK_3)) // 범위 넓은 공격 
-		return new CEnmuBoss_Pattern3State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
-	if (pGameInstance->Get_Instance()->Key_Down(DIK_4)) // 주먹 
-		return new CEnmuBoss_Pattern4State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
-	if (pGameInstance->Get_Instance()->Key_Down(DIK_5)) // 주먹 내려찍기
-		return new CEnmuBoss_Pattern5State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
-	if (pGameInstance->Get_Instance()->Key_Down(DIK_6)) // 촉수 7초
-		return new CEnmuBoss_Pattern6State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
-
 
 	if (pEnmuBoss->Get_Start() == false)
 	{
+		if (!m_bStop)
+		{
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_BATTLE_BOSSENMU);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+			RELEASE_INSTANCE(CGameInstance);
+			m_bStop = true;
+			dynamic_cast<CTanjiro*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_BattleTarget())->Set_Stop(true);
+		}
 		if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Get_End(46) &&
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Get_End(45))
 		{
@@ -61,7 +56,7 @@ CEnmuBossState * CIdleState::HandleInput(CEnmuBoss* pEnmuBoss)
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_End(45);
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_End(5);
 
-				pEnmuBoss->Set_Start();
+				pEnmuBoss->Set_Start(true);
 
 				return new CIdleState();
 			}
@@ -72,48 +67,53 @@ CEnmuBossState * CIdleState::HandleInput(CEnmuBoss* pEnmuBoss)
 	}
 		
 
-
-
-	CCharacters* pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront());
-	_vector vTargetPosition = pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-	_vector vMyPosition = pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
-
-	CImGuiManager::Get_Instance()->Set_Distance(fDistance);
-
-	if (fDistance <= 25.f) { m_eRange = RANGE_IN; }
-	else { m_eRange = RANGE_OUT; }
-
-
-	switch (m_eRange)
+	if (pEnmuBoss->Get_Time() > 10.f)
 	{
-	case Client::EnmuBoss::CIdleState::RANGE_IN:
-		Update_AI_Near(pEnmuBoss);
-		break;
-	case Client::EnmuBoss::CIdleState::RANGE_OUT:
-		Update_AI_Out(pEnmuBoss);
-		break;
-	case Client::EnmuBoss::CIdleState::RANGE_END:
-		break;
-	default:
-		break;
+		if (!m_bPlay)
+		{
+			m_bPlay = true;
+			dynamic_cast<CTanjiro*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_BattleTarget())->Set_Stop(false);
+		}
+		CCharacters* pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		_vector vTargetPosition = pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vMyPosition = pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+		_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
+		CImGuiManager::Get_Instance()->Set_Distance(fDistance);
+
+		if (fDistance <= 25.f) { m_eRange = RANGE_IN; }
+		else { m_eRange = RANGE_OUT; }
+
+
+		switch (m_eRange)
+		{
+		case Client::EnmuBoss::CIdleState::RANGE_IN:
+			Update_AI_Near(pEnmuBoss);
+			break;
+		case Client::EnmuBoss::CIdleState::RANGE_OUT:
+			Update_AI_Out(pEnmuBoss);
+			break;
+		case Client::EnmuBoss::CIdleState::RANGE_END:
+			break;
+		default:
+			break;
+		}
+
+
+
+
+		if (m_fDelay >= 1.f)
+		{
+			m_fDelay = 0.f;
+			return Return_AIState(pEnmuBoss);
+		}
+		else
+		{
+			return nullptr;
+		}
 	}
-
-
-
-
-	if (m_fDelay >= 1.f)
-	{
-		m_fDelay = 0.f;
-		return Return_AIState(pEnmuBoss);
-	}
-	else
-	{
-		return nullptr;
-	}
-
-
+	return nullptr;
 }
 
 CEnmuBossState * CIdleState::Tick(CEnmuBoss* pEnmuBoss, _float fTimeDelta)

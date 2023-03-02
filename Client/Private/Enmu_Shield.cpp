@@ -35,7 +35,7 @@ HRESULT CEnmu_Shield::Initialize(void * pArg)
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	m_pHead = dynamic_cast<CCharacters*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Enmu_Head"))->Get_LayerFront());
 	m_pTanjiro = dynamic_cast<CCharacters*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
-
+	m_pBattleTarget = m_pTanjiro;
 	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 	RELEASE_INSTANCE(CGameInstance);
 	_vector vPos = { 0.956f, 16.6f, 174.106f,1.f };

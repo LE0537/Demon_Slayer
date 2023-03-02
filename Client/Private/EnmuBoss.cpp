@@ -50,6 +50,7 @@ void CEnmuBoss::Set_ToolState(_uint iPartsIndex, _uint iAnimIndex, _uint iAnimIn
 
 void CEnmuBoss::BossEnmu_Tick(_float fTimeDelta)
 {
+	m_fTime += fTimeDelta;
 	HandleInput();
 	TickState(fTimeDelta);
 

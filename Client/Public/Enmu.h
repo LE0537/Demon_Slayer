@@ -187,7 +187,8 @@ private:
 	_bool					m_bQuestStop = false;
 	class CEnmuState*		m_pEnmuState = nullptr;
 
-
+	_float					m_fStartTime = 0.f;
+	_bool					m_bAiBattleStart = false;
 public:
 	static CEnmu* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

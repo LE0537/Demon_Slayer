@@ -1328,6 +1328,10 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 				{
 					m_bQuest3 = true;
 					m_bStop = true;
+					CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_ENMU);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QusetCam();
+					RELEASE_INSTANCE(CGameInstance);
 				}
 			}
 			else if (!m_bQuest3MSG && m_bQuest3)

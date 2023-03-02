@@ -485,8 +485,24 @@ void CRui::StorySpl(_float fTimeDelta)
 {
 	//2페이즈 가는 연출 딜레이
 	m_fStoryTime += fTimeDelta;
-	if (m_fStoryTime > 10.f)
+
+	if (!m_bStoryPos && m_fStoryTime > 2.5f)
 	{
+		m_bStoryPos = true;
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, 0.f, 56.1f, 1.f));
+		m_pTransformCom->Set_PlayerLookAt(XMVectorSet(56.56f, 0.f, 50.03f, 1.f));
+		m_pBattleTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, 0.f, 50.03f, 1.f));
+		m_pBattleTarget->Get_Transform()->Set_PlayerLookAt(XMVectorSet(50.5183f, 0.f, 56.1f, 1.f));
+		dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(true);
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_RUI);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+		RELEASE_INSTANCE(CGameInstance);
+	}
+
+	if (m_fStoryTime > 15.f)
+	{
+		dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
 		dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_StoryRuiSpl(true);
 		m_pBattleTarget->Play_Scene();
 		CRuiState* pState = new CRui_CinemaState(CRui_CinemaState::CINEMASCENE::SCENE_START);

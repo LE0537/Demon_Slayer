@@ -72,10 +72,10 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
 			break;
 		case 1:
-			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -500.f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -300.f, 1.f));
 			break;
 		case 2:
-			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 500.f, 1.f));
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -600.f, 1.f));
 			break;
 		default:
 			break;
@@ -269,7 +269,7 @@ HRESULT CMeshObj_Static_Inst::Ready_Components()
 	CTransform::TRANSFORMDESC tTransformDesc;
 	ZeroMemory(&tTransformDesc, sizeof(CTransform::TRANSFORMDESC));
 	tTransformDesc.fRotationPerSec = XMConvertToRadians(90.f);
-	tTransformDesc.fSpeedPerSec = 100.f;
+	tTransformDesc.fSpeedPerSec = 200.f;
 
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &tTransformDesc)))
@@ -537,8 +537,24 @@ void CMeshObj_Static_Inst::Move_Mesh(_float fTimeDelta)
 	case 2082:
 	case 2083:
 		m_pTransformCom->Go_StraightNoNavi(fTimeDelta);
-		if (550.f < XMVectorGetZ(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)))
-			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -800.f, 1.f));
+
+		switch (m_tMyDesc.iTypeNum)
+		{
+		case 0:
+			if (350.f < XMVectorGetZ(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)))
+				m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
+			break;
+		case 1:
+			if (50.f < XMVectorGetZ(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)))
+				m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -300.f, 1.f));
+			break;
+		case 2:
+			if (-250.f < XMVectorGetZ(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)))
+				m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(0.f, 0.f, -600.f, 1.f));
+			break;
+		default:
+			break;
+		}
 		break;
 	default:
 		break;
