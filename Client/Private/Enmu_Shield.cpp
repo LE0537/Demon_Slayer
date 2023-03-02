@@ -63,11 +63,14 @@ void CEnmu_Shield::Tick(_float fTimeDelta)
 			m_pTanjiro->Set_BattleTarget(m_pHead);
 			RELEASE_INSTANCE(CGameInstance);
 			m_bTarget = true;
+			m_bFree = true;
 		}
 		m_fHealTime += fTimeDelta;
 	}
 	else if (m_fHealTime > 6.f)
 	{
+
+		m_bFree = false;
 		m_tInfo.iHp = m_tInfo.iMaxHp;
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
@@ -223,6 +226,22 @@ void CEnmu_Shield::HandleInput()
 
 void CEnmu_Shield::TickState(_float fTimeDelta)
 {
+	if (m_bHit == true)
+	{
+		if (m_pModelCom->Get_End(6))
+		{
+			m_pModelCom->Set_End(6);
+
+			m_iAnimIndex = 2;
+			m_pModelCom->Set_CurrentAnimIndex(2);
+			m_pModelCom->Set_Loop(2, true);
+			m_pModelCom->Set_LinearTime(2, 0.1f);
+
+			m_bHit = false;
+		}
+	}
+
+
 
 }
 
@@ -319,23 +338,48 @@ void CEnmu_Shield::Set_Info()
 void CEnmu_Shield::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
 
+	m_pModelCom->Reset_Anim(6);
+
+	m_iAnimIndex = 6;
+	m_pModelCom->Set_CurrentAnimIndex(6);
+	m_pModelCom->Set_Loop(6);
+	m_pModelCom->Set_LinearTime(6, 0.1f);
+	m_bHit = true;
+
 }
 
 void CEnmu_Shield::Get_GuardHit(_int eType)
 {
 
+	
+
 }
 
 void CEnmu_Shield::Player_TakeDown(_float _fPow, _bool _bJump)
 {
+	
+		m_pModelCom->Reset_Anim(6);
 
+		m_iAnimIndex = 6;
+		m_pModelCom->Set_CurrentAnimIndex(6);
+		m_pModelCom->Set_Loop(6);
+		m_pModelCom->Set_LinearTime(6, 0.1f);
+		m_bHit = true;
+	
 
 }
 
 void CEnmu_Shield::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
 
+		m_pModelCom->Reset_Anim(6);
 
+		m_iAnimIndex = 6;
+		m_pModelCom->Set_CurrentAnimIndex(6);
+		m_pModelCom->Set_Loop(6);
+		m_pModelCom->Set_LinearTime(6, 0.1f);
+		m_bHit = true;
+	
 }
 
 void CEnmu_Shield::Play_Scene()

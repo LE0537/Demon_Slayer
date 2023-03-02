@@ -12,6 +12,8 @@
 #include "Tanjiro.h"
 #include "Layer.h"
 
+#include "EnmuBoss_Hit.h"
+
 using namespace EnmuBoss;
 
 CEnmuBoss_Pattern2State::CEnmuBoss_Pattern2State(STATE_TYPE eType, CEnmuBoss::PARTS eParts)
@@ -22,6 +24,10 @@ CEnmuBoss_Pattern2State::CEnmuBoss_Pattern2State(STATE_TYPE eType, CEnmuBoss::PA
 
 CEnmuBossState * CEnmuBoss_Pattern2State::HandleInput(CEnmuBoss * pEnmuBoss)
 {
+	if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_PlayerInfo().iHp <= 0)
+	{
+		return new CEnmuBoss_Hit(CEnmuBossState::STATE_TYPE::TYPE_START, CEnmuBoss::PARTS::PARTS_SHIELD);
+	}
 
 	return nullptr;
 }

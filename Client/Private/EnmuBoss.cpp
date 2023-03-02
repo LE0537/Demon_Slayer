@@ -10,7 +10,7 @@
 
 #include "EnmuBossToolState.h"
 #include "EnmuBossIdleState.h"
-
+#include "EnmuBoss_Hit.h"
 
 
 IMPLEMENT_SINGLETON(CEnmuBoss)
@@ -71,10 +71,12 @@ void CEnmuBoss::HandleInput()
 
 void CEnmuBoss::TickState(_float fTimeDelta)
 {
+
 	CEnmuBossState* pNewState = m_pEnmuBossState->Tick(this, fTimeDelta);
 
 	if (pNewState)
 		m_pEnmuBossState = m_pEnmuBossState->ChangeState(this, m_pEnmuBossState, pNewState);
+
 }
 
 void CEnmuBoss::LateTickState(_float fTimeDelta)

@@ -94,8 +94,7 @@ private:
 
 	_bool					m_bQuestStart = false;
 	_bool					m_bQuestStop = false;
-
-
+	_bool	m_bHit = false;
 public:
 	static CEnmu_Chaos_Head* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
