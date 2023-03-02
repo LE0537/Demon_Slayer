@@ -1504,6 +1504,9 @@
     <Filter Include="05.CollBox\17.RuiSplColl">
       <UniqueIdentifier>{2148009f-94a1-4e7d-9a18-483732b7ab13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Hit">
+      <UniqueIdentifier>{f58a921f-2b47-4dc2-900e-c8f61f632848}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2994,6 +2997,9 @@
     <ClInclude Include="..\public\RuiSplColl.h">
       <Filter>05.CollBox\17.RuiSplColl</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\EnmuBoss_Hit.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Hit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4450,6 +4456,9 @@
     </ClCompile>
     <ClCompile Include="..\private\RuiSplColl.cpp">
       <Filter>05.CollBox\17.RuiSplColl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EnmuBoss_Hit.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Hit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

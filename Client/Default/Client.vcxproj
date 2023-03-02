@@ -262,6 +262,7 @@
     <ClInclude Include="..\Public\EnmuBossIdleState.h" />
     <ClInclude Include="..\Public\EnmuBossState.h" />
     <ClInclude Include="..\Public\EnmuBossToolState.h" />
+    <ClInclude Include="..\Public\EnmuBoss_Hit.h" />
     <ClInclude Include="..\Public\EnmuBoss_Pattern1State.h" />
     <ClInclude Include="..\Public\EnmuBoss_Pattern2State.h" />
     <ClInclude Include="..\Public\EnmuBoss_Pattern3State.h" />
@@ -759,6 +760,7 @@
     <ClCompile Include="..\Private\EnmuBoss.cpp" />
     <ClCompile Include="..\Private\EnmuBossIdleState.cpp" />
     <ClCompile Include="..\Private\EnmuBossToolState.cpp" />
+    <ClCompile Include="..\Private\EnmuBoss_Hit.cpp" />
     <ClCompile Include="..\Private\EnmuBoss_Pattern1State.cpp" />
     <ClCompile Include="..\Private\EnmuBoss_Pattern2State.cpp" />
     <ClCompile Include="..\Private\EnmuBoss_Pattern3State.cpp" />

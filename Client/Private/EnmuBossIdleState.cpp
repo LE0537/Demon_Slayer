@@ -55,8 +55,8 @@ CEnmuBossState * CIdleState::HandleInput(CEnmuBoss* pEnmuBoss)
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_Loop(5, false);
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_LinearTime(5, 0.1f);
 
-			if(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Get_End(5))
-			{ 
+			if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Get_End(5))
+			{
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_End(46);
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_End(45);
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_End(5);
@@ -70,7 +70,7 @@ CEnmuBossState * CIdleState::HandleInput(CEnmuBoss* pEnmuBoss)
 
 		return nullptr;
 	}
-		
+
 
 
 
@@ -379,7 +379,7 @@ CEnmuBossState * CIdleState::Return_AIState(CEnmuBoss * pEnmuBoss)
 	case Client::EnmuBoss::CIdleState::PATTERN_1:
 		if (iRandom == 1)
 			return new CEnmuBoss_Pattern1State(TYPE_START, CEnmuBoss::PARTS::PARTS_RIGHT_HAND);
-		else
+		else if(iRandom ==21)
 			return new CEnmuBoss_Pattern1State(TYPE_START, CEnmuBoss::PARTS::PARTS_LEFT_HAND);
 		break;
 	case Client::EnmuBoss::CIdleState::PATTERN_2:
