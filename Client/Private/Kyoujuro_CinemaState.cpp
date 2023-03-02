@@ -174,6 +174,8 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO2_BG, pKyoujuro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO2_SWORD1, pKyoujuro->Get_WeaponWorld());
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO2_AURA1, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO2_AURA2, pKyoujuro);
+
 		RELEASE_INSTANCE(CEffect_Manager);
 
 		break;

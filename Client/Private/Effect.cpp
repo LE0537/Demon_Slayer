@@ -288,6 +288,8 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_REN_MO2_BG:
 	case CEffect_Manager::EFF_SPL_REN_MO2_SWORD1:
 	case CEffect_Manager::EFF_SPL_REN_MO2_AURA1:
+	case CEffect_Manager::EFF_SPL_REN_MO2_AURA2:
+	case CEffect_Manager::EFF_FADE:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			if (m_bLateStart) {
 				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {
