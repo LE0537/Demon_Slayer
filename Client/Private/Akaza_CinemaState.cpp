@@ -14,8 +14,8 @@ CAkaza_CinemaState::CAkaza_CinemaState(CINEMASCENE eScene)
 
 CAkazaState * CAkaza_CinemaState::HandleInput(CAkaza * pAkaza)
 {
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	CAkazaState* pState = nullptr;
+	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	if (pGameInstance->Key_Down(DIK_F3) && !pAkaza->Get_StoryKey())
 		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_START);
 	if (pGameInstance->Key_Down(DIK_F4) && !pAkaza->Get_StoryKey())
@@ -37,7 +37,7 @@ CAkazaState * CAkaza_CinemaState::HandleInput(CAkaza * pAkaza)
 	RELEASE_INSTANCE(CGameInstance);
 
 	if (nullptr != pState)
-		pAkaza->Get_BattleTarget()->Play_Scene();
+		pAkaza->Get_BattleTarget()->Play_Scene();*/
 
 
 	return pState;

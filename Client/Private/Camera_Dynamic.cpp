@@ -180,10 +180,9 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("akaza_1"))) return E_FAIL;	//	1
 	if (FAILED(Ready_CutScene("akaza_2"))) return E_FAIL;	//	2
 	if (FAILED(Ready_CutScene("akaza_3"))) return E_FAIL;	//	3
-	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	4
-	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	5	
-	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	6
-	if (FAILED(Ready_CutScene("test"))) return E_FAIL;	//	7	
+	if (FAILED(Ready_CutScene("akaza_4"))) return E_FAIL;	//	4
+	if (FAILED(Ready_CutScene("akaza_5"))) return E_FAIL;	//	5	
+	if (FAILED(Ready_CutScene("akaza_6"))) return E_FAIL;	//	6
 
 	//Story
 	if (FAILED(Ready_StoryScene("RuiDadStart"))) return E_FAIL;
@@ -1511,11 +1510,10 @@ _bool CCamera_Dynamic::CutScene(CUTSCENE eCutScene, _float fTimeDelta)
 	case CUTSCENE_AKZ_3:
 	case CUTSCENE_AKZ_4:
 	case CUTSCENE_AKZ_5:
-	case CUTSCENE_AKZ_6:
 		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
 			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
 		break;
-	case CUTSCENE_AKZ_7:
+	case CUTSCENE_AKZ_6:
 		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
 		break;
 	}

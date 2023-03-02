@@ -602,7 +602,7 @@ void CRui::Play_Scene()
 	case Client::CCharacters::PLAYER_RUI:
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
-		pGameInstance = GET_INSTANCE(CGameInstance);
+		/*pGameInstance = GET_INSTANCE(CGameInstance);
 		if (pGameInstance->Key_Down(DIK_F3))
 			pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_START);
 		else if (pGameInstance->Key_Down(DIK_F7))
@@ -619,7 +619,7 @@ void CRui::Play_Scene()
 		RELEASE_INSTANCE(CGameInstance);
 		if(nullptr != pState)
 			m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
-		break;
+		break;*/
 
 		pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_START);
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);

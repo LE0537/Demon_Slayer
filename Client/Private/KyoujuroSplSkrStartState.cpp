@@ -212,13 +212,13 @@ void CSplSkrStartState::Enter(CKyoujuro* pKyoujuro)
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_SPLSKL_START_0);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_SPLSKL_START_0);
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_START_0);
-		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_START_0, 0.1f);
+		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_START_0, 0.01f);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_SPLSKL_START_1);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_SPLSKL_START_1);
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_START_1);
-		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_START_1, 0.1f);
+		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_START_1, 0.01f);
 		break;
 	case Client::CKyoujuroState::TYPE_END:
 		break;

@@ -19,6 +19,9 @@
 #include "Enmu_Chok.h"
 #include "Enmu_Shield.h"
 
+#include "MeshObj_Static.h"
+#include "MeshObj_Static_Inst.h"
+#include "Terrain.h"
 #include "EnmuBoss.h"
 
 IMPLEMENT_SINGLETON(CImGuiManager)
@@ -782,9 +785,9 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		--iPreCamIndex[eChoice];
 	}
 
-	ImGui::DragFloat("At Length", &fAtSphereLength, 0.01f, 0.1f, 1000.f, "%.2f");
+	ImGui::DragFloat("Length", &fAtSphereLength, 0.01f, 0.1f, 1000.f, "%.2f");
 
-	if (ImGui::Button("At Length Push", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)))
+	if (ImGui::Button("push Length_", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)))
 	{
 		if (eChoice == CAM_AT)
 		{
@@ -867,6 +870,28 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 		iObjSize[eChoice] = (_int)m_vecCamObjects[eChoice].size();
 		m_iNumCam[eChoice] = (_int)m_vecCam[eChoice].size();
+	}
+
+
+
+	static _bool bRenderObjs = true;
+	static _bool bPreRenderObjs = true;
+	ImGui::Checkbox("Obj Render", &bRenderObjs);
+	if (bPreRenderObjs != bRenderObjs)
+	{
+		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(!bRenderObjs);
+		list<CGameObject*> plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+		list<CGameObject*> plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+		for (auto& iterMesh : plistMesh)
+		{
+			dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(!bRenderObjs);
+		}
+		for (auto& iterMeshinst : plistMeshInst)
+		{
+			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(!bRenderObjs);
+		}
+
+		bPreRenderObjs = bRenderObjs;
 	}
 
 

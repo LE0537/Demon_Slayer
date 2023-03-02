@@ -215,13 +215,13 @@ void CSplSkrStartState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_SPLSKL_START_0);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SPLSKL_START_0);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_SPLSKL_START_0);
-		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_START_0, 0.1f);
+		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_START_0, 0.01f);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_SPLSKL_START_1);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SPLSKL_START_1);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_SPLSKL_START_1);
-		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_START_1, 0.1f);
+		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_START_1, 0.01f);
 		break;
 	case Client::CAkazaState::TYPE_END:
 		break;
