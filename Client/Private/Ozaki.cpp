@@ -57,7 +57,7 @@ void COzaki::Late_Tick(_float fTimeDelta)
 	{
 		if (fDist < 30.f)
 		{
-			Check_Event();
+			Check_Event(fTimeDelta);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 			m_pModelCom->Play_Animation(fTimeDelta);
@@ -204,7 +204,7 @@ HRESULT COzaki::Ready_Components()
 
 	return S_OK;
 }
-void COzaki::Check_Event()
+void COzaki::Check_Event(_float fTimeDelta)
 {
 	_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
@@ -251,40 +251,54 @@ void COzaki::Check_Event()
 				pUIManager->Set_Msg(TEXT("어,얼른 계급이 높은 사람을 데려와 줘..."));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Ozaki_Dialog_00.wav"), fVOICE);
+					CSoundMgr::Get_Instance()->PlayDialog(TEXT("Ozaki_Dialog_00.wav"), g_fDialog);
 					m_bSoundCheck = true;
 				}
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgCount(1);
 				break;
 			case 1:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
 				pUIManager->Set_Msg(TEXT("안 그러면 전부 죽어버리게 될 거야!"));
 				if (m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Ozaki_Dialog_01.wav"), fVOICE);
+					CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+					CSoundMgr::Get_Instance()->PlayDialog(TEXT("Ozaki_Dialog_01.wav"), g_fDialog);
 					m_bSoundCheck = false;
 				}
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgCount(1);
 				break;
 			case 2:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 오자키"));
 				pUIManager->Set_Msg(TEXT("부탁이야...."));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Ozaki_Dialog_02.wav"), fVOICE);
+					CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+					CSoundMgr::Get_Instance()->PlayDialog(TEXT("Ozaki_Dialog_02.wav"), g_fDialog);
 					m_bSoundCheck = true;
 				}
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgCount(1);
 				break;
 			case 3:
-				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUIManager->Set_Msg(TEXT("지원 요청을 하고 제가 주변을 살피고 올게요!"));
+				m_fMsgTime += fTimeDelta;
+				if (m_fMsgTime >= 2.f)
+				{
+					pUIManager->Set_MsgCount(1);
+					m_fMsgTime = 0.f;
+				}
+				break;
+			default:
+				pUIManager->Set_MsgOff();
 				pUIManager->Set_QuestCount(1);
 				pUIManager->Set_ClearCheck(true, 1);
 				pUIManager->Set_RescueCount(2);
 				m_bMsgEnd = true;
-				break;
-			default:
+
 				break;
 			}
 		}

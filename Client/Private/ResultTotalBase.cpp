@@ -94,7 +94,7 @@ HRESULT CResultTotalBase::Render()
 	{
 		if (!m_bSound)
 		{
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), g_fEffect);
 			m_bSound = true;
 		}
 		dynamic_cast<CRankIcon*>(pUI_Manager->Get_RankIcon())->Set_ZoomStart(true);

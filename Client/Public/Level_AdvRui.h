@@ -41,6 +41,7 @@ private:
 	HRESULT Load_Smell_3(char* pFileName);
 	HRESULT Load_Smell_4(char* pFileName);
 	HRESULT	Check_Smell();
+	
 
 private:
 	_bool			 m_bCreateUI = false;

@@ -84,7 +84,7 @@ void COniSpecialSkillBar::Tick(_float fTimeDelta)
 		{
 			if (!m_bSound)
 			{
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), g_fEffect);
 				m_bSound = true;
 			}
 			m_fSpecialSkillBar = 500.f;
@@ -112,7 +112,7 @@ void COniSpecialSkillBar::Tick(_float fTimeDelta)
 				m_fSpecialSkillBar = 500.f;
 				if (!m_bSound)
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), g_fEffect);
 					m_bSound = true;
 				}
 			}

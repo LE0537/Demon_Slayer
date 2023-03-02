@@ -77,7 +77,7 @@ public:
 private:
 	CModel*					m_pModelCom = nullptr;
 
-	_float					m_fEffectTime = 0.f;
+	_float					m_g_fEffectTime = 0.f;
 private:
 	ANIMID m_eAnimID;
 

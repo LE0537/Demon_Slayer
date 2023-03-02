@@ -33,7 +33,8 @@ private:
 	_bool							m_bFadeCheck = false;
 	_bool							m_bOnCheck = false;
 	_bool							m_bMsgOnCheck = false;
-
+	_bool							m_bSound = false;
+	_bool							m_bSoundEnd = false;
 public:
 	static CMapNameBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

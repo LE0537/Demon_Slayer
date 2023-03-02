@@ -258,7 +258,7 @@ CShinobuState * CSkill_UpperState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 						RELEASE_INSTANCE(CGameInstance);
 
 						//m_pTarget->Take_Damage(0.6f, true);
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_UpperSkill.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_UpperSkill.wav"), g_fEffect);
 						pShinobu->Set_Combo(1);
 						pShinobu->Set_ComboTime(0.f);
 					}
@@ -379,8 +379,8 @@ void CSkill_UpperState::Enter(CShinobu* pShinobu)
 		m_vVelocity.z = 0.f;
 		m_fGravity = 0.f;
 		pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Upper.wav"), fVOICE);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_UpperSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Upper.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_UpperSkill.wav"), g_fEffect);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_JUMP_LOOP);

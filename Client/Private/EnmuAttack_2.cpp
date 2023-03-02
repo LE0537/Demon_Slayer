@@ -223,14 +223,14 @@ void CEnmuAttack2::Enter(CEnmu* pEnmu)
 	pEnmu->Set_AnimIndex(CEnmu::ANIM_ATTACK_2);
 	pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_ATTACK_2, 0.01f);
 	pEnmu->Get_Model()->Set_Loop(pEnmu->Get_AnimIndex());
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Attack_1.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Attack_1.wav"), g_fEffect);
 
 	_uint iRand = rand() % 2;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Enmu_Attack1_0.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Enmu_Attack1_0.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Enmu_Attack1_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Enmu_Attack1_1.wav"), g_fVoice);
 }
 
 void CEnmuAttack2::Exit(CEnmu* pEnmu)

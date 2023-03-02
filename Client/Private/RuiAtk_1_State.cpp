@@ -366,17 +366,17 @@ void CAtk_1_State::Enter(CRui* pRui)
 	_uint iRand = rand() % 3;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_1.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_2.wav"), g_fVoice);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_3.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Attack1_3.wav"), g_fVoice);
 
 	
 	if(pRui->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_Attack_0.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_Attack_0.wav"), g_fEffect);
 	else
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Attack_0.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Attack_0.wav"), g_fEffect);
 }
 
 void CAtk_1_State::Exit(CRui* pRui)

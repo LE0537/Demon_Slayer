@@ -107,7 +107,7 @@ HRESULT CAkaza::Initialize(void * pArg)
 void CAkaza::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	m_fEffectStartTime = 0.f;
+	m_g_fEffectStartTime = 0.f;
 
 	if (m_bBattleStart)
 	{
@@ -294,17 +294,17 @@ void CAkaza::LateTickState(_float fTimeDelta)
 	if (pNewState)
 		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pNewState);
 	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_MOVE)
-		m_fEffectTime += fTimeDelta;
-	if (m_fEffectTime > 0.3f)
+		m_g_fEffectTime += fTimeDelta;
+	if (m_g_fEffectTime > 0.3f)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
 
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), g_fEffect);
 
 		RELEASE_INSTANCE(CEffect_Manager);
-		m_fEffectTime = 0.f;
+		m_g_fEffectTime = 0.f;
 	}
 }
 

@@ -54,7 +54,7 @@ public:
 private:
 	CModel*					m_pModelCom = nullptr;
 
-	_float					m_fEffectTime = 0.f;
+	_float					m_g_fEffectTime = 0.f;
 	_bool					m_bQuestStart = false;
 	_bool					m_bQuestStop = false;
 
@@ -69,6 +69,7 @@ private:
 	_bool                   m_bSetPos = false;
 
 	_bool					m_bSoundCheck = false;
+	_bool					m_bIsPlaying = false;
 public:
 	static CMurata* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

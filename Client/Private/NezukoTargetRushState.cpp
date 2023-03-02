@@ -239,7 +239,7 @@ void CTargetRushState::Enter(CNezuko * pNezuko)
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIMID::ANIM_TARGET_RUSH_0);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_TARGET_RUSH_0, 0.01f);
 		pNezuko->Get_Transform()->Set_PlayerLookAt(pNezuko->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_TARGET_RUSH_1);

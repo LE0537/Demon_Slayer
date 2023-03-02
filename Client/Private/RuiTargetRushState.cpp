@@ -174,7 +174,7 @@ CRuiState * CTargetRushState::Tick(CRui* pRui, _float fTimeDelta)
 		{
 		case Client::CRuiState::TYPE_START: 
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), g_fEffect);
 			return new CTargetRushState(TYPE_LOOP);
 			break;
 		case Client::CRuiState::TYPE_LOOP: 

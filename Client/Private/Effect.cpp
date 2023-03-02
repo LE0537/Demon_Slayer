@@ -121,9 +121,9 @@ void CEffect::Tick(_float fTimeDelta)
 		return;
 	}
 
-	m_fEffectTime += fTimeDelta;
+	m_g_fEffectTime += fTimeDelta;
 
-	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
+	if (m_g_fEffectTime > m_EffectInfo.g_fEffectStartTime) {
 		
 		if (m_bStart) {
 			if (m_pTarget != nullptr) {
@@ -170,7 +170,7 @@ void CEffect::Tick(_float fTimeDelta)
 		for (auto& pParticle : m_NewParticle)
 			pParticle->Tick(fTimeDelta);
 
-		if (m_fEffectTime > m_EffectInfo.fEffectStartTime + m_EffectInfo.fEffectLifeTime) {
+		if (m_g_fEffectTime > m_EffectInfo.g_fEffectStartTime + m_EffectInfo.g_fEffectLifeTime) {
 			Set_Dead();
 
 			for (auto& pTex : m_Textures)
@@ -196,7 +196,7 @@ void CEffect::Late_Tick(_float fTimeDelta)
 
 	if(EFFMOVE_MATRIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType && m_pTarget != nullptr
 		&& EFFMOVE_MATRIX2 != m_EffectInfo.iMoveType)
-		m_fEffectStartTime += m_pTarget->Get_EffectTime();
+		m_g_fEffectStartTime += m_pTarget->Get_EffectTime();
 
 	switch (m_iEffectNum) {
 	case CEffect_Manager::EFF_HIT:
@@ -276,7 +276,7 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_RUI_MO4_REDWEB2:
 	case CEffect_Manager::EFF_SPL_RUI_MO4_TREADL1:
 	case CEffect_Manager::EFF_SPL_RUI_MO4_TREADR1:
-		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
+		if (m_g_fEffectTime > m_EffectInfo.g_fEffectStartTime) {
 			if (m_bLateStart) {
 				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {
 					_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
@@ -315,31 +315,31 @@ void CEffect::Late_Tick(_float fTimeDelta)
 		}
 		break;
 	default:
-		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
+		if (m_g_fEffectTime > m_EffectInfo.g_fEffectStartTime) {
 			int i = 0;
 			for (auto& pTex : m_Textures) {
-				if(m_fEffectStartTime >= m_EffectInfo.fEffectStartTime + m_TextureInfo[i].fStartTime)
+				if(m_g_fEffectStartTime >= m_EffectInfo.g_fEffectStartTime + m_TextureInfo[i].fStartTime)
 					pTex->Late_Tick(fTimeDelta);
 				i++;
 			}
 
 			i = 0;
 			for (auto& pMesh : m_Meshes) {
-				if (m_fEffectStartTime >= m_EffectInfo.fEffectStartTime + m_MeshInfo[i].fStartTime)
+				if (m_g_fEffectStartTime >= m_EffectInfo.g_fEffectStartTime + m_MeshInfo[i].fStartTime)
 					pMesh->Late_Tick(fTimeDelta);
 				i++;
 			}
 
 			i = 0;
 			for (auto& pParticle : m_Particle) {
-				if (m_fEffectStartTime >= m_EffectInfo.fEffectStartTime + m_ParticleInfo[i].fStartTime)
+				if (m_g_fEffectStartTime >= m_EffectInfo.g_fEffectStartTime + m_ParticleInfo[i].fStartTime)
 					pParticle->Late_Tick(fTimeDelta);
 				i++;
 			}
 
 			i = 0;
 			for (auto& pParticle : m_NewParticle) {
-				if (m_fEffectStartTime >= m_EffectInfo.fEffectStartTime + m_NewParticleInfo[i].fStartTime)
+				if (m_g_fEffectStartTime >= m_EffectInfo.g_fEffectStartTime + m_NewParticleInfo[i].fStartTime)
 					pParticle->Late_Tick(fTimeDelta);
 				i++;
 			}

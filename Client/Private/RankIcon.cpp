@@ -107,7 +107,7 @@ void CRankIcon::Tick(_float fTimeDelta)
 	{
 		if (!m_bSound)
 		{
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_RankIcon.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_RankIcon.wav"), g_fEffect);
 			m_bSound = true;
 		}
 		if (m_fSizeX >= m_ThrowUIinfo.vScale.x * 0.5f && m_fSizeY >= m_ThrowUIinfo.vScale.y * 0.5f && !m_bMinusCheck)
@@ -134,7 +134,7 @@ void CRankIcon::Tick(_float fTimeDelta)
 		{
 			if (!m_bSound)
 			{
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_RankIcon.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_RankIcon.wav"), g_fEffect);
 				m_bSound = true;
 			}
 			m_fFadeTime += 0.05f;

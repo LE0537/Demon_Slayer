@@ -58,7 +58,7 @@ void CAdcMenuCursor::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_RIGHT))
 	{
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), g_fEffect);
 		if (m_iFrameNum == 1)
 			m_iFrameNum = 0;
 		else 
@@ -66,7 +66,7 @@ void CAdcMenuCursor::Tick(_float fTimeDelta)
 	}
 	else if (pGameInstance->Key_Down(DIK_LEFT))
 	{
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), g_fEffect);
 		if (m_iFrameNum == 0)
 			m_iFrameNum = 1;
 		else
@@ -82,7 +82,7 @@ void CAdcMenuCursor::Tick(_float fTimeDelta)
 	if (pGameInstance->Key_Down(DIK_E))
 	{
 		pUI_Manager->Set_AdvMenuSelCheck(true);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_AdvMenuSel.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_AdvMenuSel.wav"), g_fEffect);
 	}
 
 	pUI_Manager->Set_AdvStageNum(m_iFrameNum);

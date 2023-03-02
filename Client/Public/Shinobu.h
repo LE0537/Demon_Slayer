@@ -212,7 +212,7 @@ private:
 	_int					m_iSkillHit = 0;
 	_int					m_iWaterMillHit = 0;
 	_int					m_iWindMillHit = 0;
-	_float					m_fEffectTime = 0.f;
+	_float					m_g_fEffectTime = 0.f;
 
 	_bool					m_bRender = true;
 private:

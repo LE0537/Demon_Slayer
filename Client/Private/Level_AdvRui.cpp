@@ -13,6 +13,7 @@
 #include "Tanjiro.h"
 #include "Characters.h"
 #include "ImGuiManager.h"
+#include "SoundMgr.h"
 
 unsigned int APIENTRY Thread_AdvRui(void* pArg)
 {
@@ -105,6 +106,16 @@ HRESULT CLevel_AdvRui::Initialize()
 	if (FAILED(Load_Smell_1("RuiSmell1")))
 		return E_FAIL;
 
+	if (!pUI_Manager->Get_SaveStory())
+	{
+		CSoundMgr::Get_Instance()->BGM_Stop();
+		CSoundMgr::Get_Instance()->PlayBGM(TEXT("Adv_Rui.wav"), g_fBGM);
+	}
+	else
+	{
+		CSoundMgr::Get_Instance()->BGM_Stop();
+		CSoundMgr::Get_Instance()->PlayBGM(TEXT("Adv_Rui2.wav"), g_fBGM);
+	}
 	
 	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
 	m_pRendererCom = (CRenderer*)pOut;

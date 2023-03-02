@@ -247,7 +247,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 				{
 					m_pTarget->Set_Hp(_int(-25 * pKyojuro->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.2f, false);
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), g_fEffect);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);
 				}
@@ -364,7 +364,7 @@ CKyoujuroState * CSkill_DashSlashState::Late_Tick(CKyoujuro * pKyojuro, _float f
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pKyojuro->Get_Renderer());
 					//m_pTarget->Take_Damage(0.25f, false);
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), g_fEffect);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);
 				}
@@ -460,8 +460,8 @@ void CSkill_DashSlashState::Enter(CKyoujuro * pKyojuro)
 	pKyojuro->Set_AnimIndex(CKyoujuro::ANIM_SKILL_DASHSLASH);
 	pKyojuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH);
 	pKyojuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_SKILL_DASHSLASH, 0.2f);
-	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_DashSlash.wav"), fVOICE);
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_MoveSkill.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_DashSlash.wav"), g_fVoice);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_MoveSkill.wav"), g_fEffect);
 }
 
 void CSkill_DashSlashState::Exit(CKyoujuro * pKyojuro)

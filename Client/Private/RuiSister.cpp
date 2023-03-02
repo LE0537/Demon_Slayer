@@ -39,7 +39,7 @@ HRESULT CRuiSister::Initialize(void * pArg)
 	m_pBattleTarget = tCharacterDesc.pSubChar;
 	m_pModelCom->Set_CurrentAnimIndex(0);
 
-	_vector vPos = { -860.374f,92.52f,-68.017f,1.f };
+	_vector vPos = { -857.833557f, 92.5277939f, -59.4967270f, 1.f };
 	
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
@@ -81,7 +81,7 @@ void CRuiSister::Late_Tick(_float fTimeDelta)
 
 	if (pGameInstance->IsInFrustum(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION), 10.f))
 	{
-		if (fDist < 60.f)
+		if (fDist < 200.f)
 		{
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 			m_pModelCom->Play_Animation(fTimeDelta);

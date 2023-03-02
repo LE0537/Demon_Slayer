@@ -347,64 +347,80 @@ void CMurata::Check_Event()
 				pUIManager->Set_Msg(TEXT("무슨일이 있었던거에요?"));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_02.wav"), fVOICE);
+					CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_02.wav"), g_fDialog);
 					m_bSoundCheck = true;
 				}
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgCount(1);
 				break;
 			case 1:
-				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 				pUIManager->Set_Msg(TEXT("까, 까마귀한테 지령을 전달받고....!"));
 				if (m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_03.wav"), fVOICE);
+					CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+					CSoundMgr::Get_Instance()->PlayDialog(TEXT("Murata_Dialog_03.wav"), g_fDialog);
 					m_bSoundCheck = false;
 				}
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgCount(1);
 				break;
 			case 2:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 				pUIManager->Set_Msg(TEXT("대원 열 명이 이곳에 왔어"));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_04.wav"), fVOICE);
+					CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+					CSoundMgr::Get_Instance()->PlayDialog(TEXT("Murata_Dialog_04.wav"), g_fDialog);
 					m_bSoundCheck = true;
 				}
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgCount(1);
 				break;
 			case 3:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 				pUIManager->Set_Msg(TEXT("산에 들어온 지 얼마 지나지 않았는데... 대원들... 대원들끼리...."));
 				if (m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_05.wav"), fVOICE);
+					CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+					CSoundMgr::Get_Instance()->PlayDialog(TEXT("Murata_Dialog_05.wav"), g_fDialog);
 					m_bSoundCheck = false;
 				}
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgCount(1);
 				break;
 			case 4:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 				pUIManager->Set_Msg(TEXT("칼부림이 시작돼서...!!"));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_06.wav"), fVOICE);
+					CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+					CSoundMgr::Get_Instance()->PlayDialog(TEXT("Murata_Dialog_06.wav"), g_fDialog);
 					m_bSoundCheck = true;
 				}
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgCount(1);
 				break;
 			case 5:
-				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUIManager->Set_Msg(TEXT("진정하세요. 남은 대원들은 제가 빨리 찾아볼게요"));
 				if (m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_03.wav"), fVOICE);
+					CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+					CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_03.wav"), g_fDialog);
 					m_bSoundCheck = false;
 				}
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgCount(1);
+				break;
+			default:
+				pUIManager->Set_MsgOff();
 				pUIManager->Set_QuestCount(1);
 				pUIManager->Set_MainQuestOn();
 				m_bMsgEnd = true;
-				break;
-			default:
 				break;
 			}
 		}

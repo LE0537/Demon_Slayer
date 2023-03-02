@@ -102,7 +102,7 @@ HRESULT CResultScoreBar::Render()
 		{
 			if (!m_bSound)
 			{
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), g_fEffect);
 				m_bSound = true;
 			}
 			if(!m_ThrowUIinfo.bPlyCheck)
@@ -119,7 +119,7 @@ HRESULT CResultScoreBar::Render()
 		{
 			if (!m_bSound)
 			{
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), g_fEffect);
 				m_bSound = true;
 			}
 			if (!m_ThrowUIinfo.bPlyCheck)
@@ -136,7 +136,7 @@ HRESULT CResultScoreBar::Render()
 		{
 			if (!m_bSound)
 			{
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), g_fEffect);
 				m_bSound = true;
 			}
 			if (!m_ThrowUIinfo.bPlyCheck)
@@ -153,7 +153,7 @@ HRESULT CResultScoreBar::Render()
 		{
 			if (!m_bSound)
 			{
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), g_fEffect);
 				m_bSound = true;
 			}
 			if (!m_ThrowUIinfo.bPlyCheck)
@@ -170,7 +170,7 @@ HRESULT CResultScoreBar::Render()
 		{
 			if (!m_bSound)
 			{
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), g_fEffect);
 				m_bSound = true;
 			}
 			if (!m_ThrowUIinfo.bPlyCheck)

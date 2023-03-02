@@ -139,7 +139,7 @@ CShinobuState * CJumpMoveSkillState::Late_Tick(CShinobu* pShinobu, _float fTimeD
 				{
 					m_pTarget->Set_Hp(_int(-30 * pShinobu->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.5f, false);
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_MoveSkill.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_MoveSkill.wav"), g_fEffect);
 					pShinobu->Set_Combo(1);
 					pShinobu->Set_ComboTime(0.f);
 				}
@@ -255,7 +255,7 @@ CShinobuState * CJumpMoveSkillState::Late_Tick(CShinobu* pShinobu, _float fTimeD
 						RELEASE_INSTANCE(CGameInstance);
 						m_pTarget->Set_Hp(_int(-50 * pShinobu->Get_PlayerInfo().fPowerUp));
 						m_pTarget->Take_Damage(0.6f, false);
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_MoveSkill.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_MoveSkill.wav"), g_fEffect);
 						pShinobu->Set_Combo(1);
 						pShinobu->Set_ComboTime(0.f);
 					}
@@ -412,8 +412,8 @@ void CJumpMoveSkillState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_0);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_0, 0.01f);
 		pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_MoveSkill.wav"), fVOICE);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_MoveSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_MoveSkill.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_MoveSkill.wav"), g_fEffect);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_JUMP_SKILL_MOVE_1);

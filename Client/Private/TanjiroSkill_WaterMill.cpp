@@ -362,8 +362,8 @@ void CSkill_WaterMillState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_SKILL_WATERMILL_0);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_SKILL_WATERMILL_0, 0.01f);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_WATERMILL_0);
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_WaterMill.wav"), fVOICE);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_WaterMill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_WaterMill.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_WaterMill.wav"), g_fEffect);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_SKILL_WATERMILL_1);

@@ -119,7 +119,7 @@ void CTakeDownState::Enter(CNezuko* pNezuko)
 			RELEASE_INSTANCE(CGameInstance);
 			g_bDeathTime = true;
 		}
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Hit_3.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Hit_3.wav"), g_fVoice);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_RETURN_1);
@@ -144,18 +144,18 @@ void CTakeDownState::Enter(CNezuko* pNezuko)
 	//_uint iRand = rand() % 4;
 
 	//if (iRand == 0)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_1.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_1.wav"), g_fEffect);
 	//else if (iRand == 1)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_2.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_2.wav"), g_fEffect);
 	//else if (iRand == 2)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_3.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_3.wav"), g_fEffect);
 	//else if (iRand == 3)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_4.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_4.wav"), g_fEffect);
 
 	//if (iRand == 0)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), g_fEffect);
 	//else if (iRand == 1)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), g_fEffect);
 }
 
 

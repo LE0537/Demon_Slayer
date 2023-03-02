@@ -205,7 +205,7 @@ private:
 	CGameObject*			m_pTrail = nullptr;
 
 
-	_float					m_fEffectTime = 0.f;
+	_float					m_g_fEffectTime = 0.f;
 
 	_float					m_StoryTime = 0.f;
 private:

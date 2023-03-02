@@ -7,6 +7,7 @@
 #include "Component.h"
 #include "PipeLine.h"
 #include "GameInstance.h"
+#include "SoundMgr.h"
 
 CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent(pDevice, pContext)
@@ -386,6 +387,7 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 		{
 			if (false == m_bMapGrayScale)
 			{
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_SmellOni.wav"), 1.f);
 				m_bMapGrayScale = !m_bMapGrayScale;
 				m_fMapGrayScaleTime = 0.f;
 

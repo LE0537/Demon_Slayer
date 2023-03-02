@@ -43,7 +43,7 @@ public:
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
-	void Check_Event();
+	void Check_Event(_float fTimeDelta);
 
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
@@ -54,12 +54,14 @@ public:
 private:
 	CModel*					m_pModelCom = nullptr;
 
-	_float					m_fEffectTime = 0.f;
+	_float					m_g_fEffectTime = 0.f;
 	_bool					m_bQuestStop = false;
 	_bool					m_MsgReset = false;
 	_bool					m_bMsgStart = false;
 	_bool					m_bMsgEnd = false;
 	_bool					m_bSoundCheck = false;
+	_bool					m_bIsPlaying = false;
+	_float					m_fMsgTime = 0.f;
 public:
 	static COzaki* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

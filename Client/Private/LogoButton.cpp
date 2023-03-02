@@ -68,7 +68,7 @@ void CLogoButton::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_UP))
 	{
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), g_fEffect);
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_iImgNum = 1;
 		else if (m_ThrowUIinfo.iLayerNum == 1)
@@ -76,7 +76,7 @@ void CLogoButton::Tick(_float fTimeDelta)
 	}
 	else if (pGameInstance->Key_Down(DIK_DOWN))
 	{
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CursorMove.wav"), g_fEffect);
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_iImgNum = 0;
 		else if (m_ThrowUIinfo.iLayerNum == 1)
@@ -85,7 +85,7 @@ void CLogoButton::Tick(_float fTimeDelta)
 
 	if (pGameInstance->Key_Down(DIK_E))
 	{
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickLogoButton.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickLogoButton.wav"), g_fEffect);
 		if (m_ThrowUIinfo.iLayerNum == 0 && m_iImgNum == 1)
 		{
 			Add_InkEff();

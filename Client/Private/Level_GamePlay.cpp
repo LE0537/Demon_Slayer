@@ -115,7 +115,11 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
 
-	
+	if (!pUIManager->Get_BattleTypeCheck() && pUIManager->Get_SaveStory())
+	{
+		if (FAILED(Battle_Dialog(TEXT("Layer_Dialog"))))
+			return E_FAIL;
+	}
 
 	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
 	m_pRendererCom = (CRenderer*)pOut;
@@ -155,8 +159,11 @@ HRESULT CLevel_GamePlay::Initialize()
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 
-	//CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
-
+	if (pUIManager->Get_BattleTypeCheck())
+	{
+		CSoundMgr::Get_Instance()->BGM_Stop();
+		CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), g_fBGM);
+	}
 	return S_OK;
 }
 
@@ -491,12 +498,16 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_GAMEPLAY, TEXT("Layer_RuiDad"), &tCharacterDesc2p)))
 			return E_FAIL;
+		CSoundMgr::Get_Instance()->BGM_Stop();
+		CSoundMgr::Get_Instance()->PlayBGM(TEXT("Battle_RuiDad.wav"), g_fBGM);
 		break;
 	case 7:
 		tCharacterDesc2p.i1P2P = 11;
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
 			return E_FAIL;
+		CSoundMgr::Get_Instance()->BGM_Stop();
+		CSoundMgr::Get_Instance()->PlayBGM(TEXT("Battle_Rui.wav"), g_fBGM);
 		break;
 	default:
 		break;
@@ -833,6 +844,19 @@ HRESULT CLevel_GamePlay::Load_Map(const _tchar* pLayerTag, char * pFileName)
 		return E_FAIL;
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Battle_Dialog(const _tchar * pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BattleDialog"), g_iLevel, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }

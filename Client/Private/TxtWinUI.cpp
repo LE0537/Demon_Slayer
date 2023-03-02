@@ -57,7 +57,7 @@ void CTxtWinUI::Tick(_float fTimeDelta)
 	{
 		if (!m_bSound)
 		{
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ResultWinIcon.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ResultWinIcon.wav"), g_fEffect);
 			m_bSound = true;
 		}
 	}

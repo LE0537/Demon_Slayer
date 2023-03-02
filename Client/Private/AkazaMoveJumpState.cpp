@@ -274,7 +274,7 @@ void CMoveJumpState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_JUMP_START);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_JUMP_START, 0.01f);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_JUMP_START);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), g_fEffect);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_JUMP_LOOP);
@@ -284,7 +284,7 @@ void CMoveJumpState::Enter(CAkaza* pAkaza)
 	case Client::CAkazaState::TYPE_END:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_JUMP_END);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_JUMP_END, 0.01f);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), g_fEffect);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_JUMP_END);
 		break;
 	}

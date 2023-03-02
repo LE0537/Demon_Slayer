@@ -30,6 +30,7 @@ void CSoundMgr::Initialize()
 
 	LoadEffectFile();
 	LoadVoiceFile();
+	LoadDialogFile();
 	LoadBGMFile();
 }
 void CSoundMgr::Free()
@@ -48,6 +49,52 @@ void CSoundMgr::Free()
 void CSoundMgr::SetSoundVolume(CHANNELID _Channel, float fVolume)
 {
 	m_Channel[_Channel]->setVolume(fVolume);
+}
+
+void CSoundMgr::Mute_BGM()
+{
+	m_Channel[SOUND_BGM]->setMute(true);
+}
+
+void CSoundMgr::Mute_Effect()
+{
+	m_Channel[SOUND_EFFECT]->setMute(true);
+}
+
+void CSoundMgr::Mute_Voice()
+{
+	m_Channel[SOUND_VOICE]->setMute(true);
+}
+
+void CSoundMgr::Mute_Dialog()
+{
+	m_Channel[SOUND_DIALOG]->setMute(true);
+}
+
+void CSoundMgr::Listen_BGM()
+{
+	m_Channel[SOUND_BGM]->setMute(false);
+}
+
+void CSoundMgr::Listen_Effect()
+{
+	m_Channel[SOUND_EFFECT]->setMute(false);
+}
+
+void CSoundMgr::Listen_Voice()
+{
+	m_Channel[SOUND_VOICE]->setMute(false);
+}
+
+void CSoundMgr::Listen_Dialog()
+{
+	m_Channel[SOUND_DIALOG]->setMute(false);
+}
+
+_bool CSoundMgr::Dialog_End(_bool* bCheck)
+{
+	m_Channel[SOUND_DIALOG]->isPlaying(bCheck);
+	return *bCheck;
 }
 
 void CSoundMgr::PlayEffect(TCHAR * pSoundKey, float fVolume)
@@ -84,11 +131,29 @@ void CSoundMgr::PlayVoice(TCHAR * pSoundKey, float fVolume)
 	m_System->update();
 }
 
+void CSoundMgr::PlayDialog(TCHAR * pSoundKey, float fVolume)
+{
+	map<TCHAR*, FMOD::Sound*>::iterator iter;
+
+	iter = find_if(m_mapSound.begin(), m_mapSound.end(), [&](auto& iter)->bool
+	{
+		return !lstrcmp(pSoundKey, iter.first);
+	});
+
+	if (iter == m_mapSound.end())
+		return;
+
+	m_System->playSound(iter->second, 0, false, &m_Channel[SOUND_DIALOG]);
+	m_Channel[SOUND_DIALOG]->setVolume(fVolume);
+	m_System->update();
+}
+
 void CSoundMgr::BGM_Stop()
 {
 	m_Channel[SOUND_BGM]->stop();
 	m_Channel[SOUND_EFFECT]->stop();
 	m_Channel[SOUND_VOICE]->stop();
+	m_Channel[SOUND_DIALOG]->stop();
 }
 
 void CSoundMgr::Effect_Stop(CHANNELID eType)
@@ -112,6 +177,16 @@ void CSoundMgr::PlayBGM(TCHAR * pSoundKey, float fVolume)
 	m_Channel[SOUND_BGM]->setMode(FMOD_LOOP_NORMAL);
 	m_Channel[SOUND_BGM]->setVolume(fVolume);
 	m_System->update();
+
+	//if (controlType == FMOD_CHANNELCONTROL_CHANNEL&&callbackType == FMOD_CHANNELCONTROL_CALLBACK_END) {
+	//	//se ? un singolo channel ? non un channel group e se la callback ? chiamata quanto ? finita la riproduzione del suono
+
+	//	FMOD::Channel*channel = (FMOD::Channel*)channelControl;
+
+	//	std::cout << "Chiamata n: " << ++currentCall << std::endl;
+	//}
+
+
 }
 
 void CSoundMgr::LoadBGMFile()
@@ -180,6 +255,38 @@ void CSoundMgr::LoadVoiceFile()
 
 	m_System->update();
 
+}
+void CSoundMgr::LoadDialogFile()
+{
+	_finddatai64_t fd;
+	intptr_t hFile;
+
+	char szCurPath[128] = "../../Client/Sound/Dialog/";
+	char szFullPath[128] = "";
+	hFile = _findfirsti64("../../Client/Sound/Dialog/*.*", &fd);
+
+	do {
+		strcpy_s(szFullPath, szCurPath);
+
+		strcat_s(szFullPath, fd.name);
+
+		FMOD::Sound*     m_Sound = nullptr;
+
+		Result = m_System->createSound(szFullPath, FMOD_LOOP_OFF, 0, &m_Sound);
+
+		int iLength = (_int)strlen(fd.name) + 1;
+
+		TCHAR* pSoundKey = new TCHAR[iLength];
+		ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
+
+		MultiByteToWideChar(CP_ACP, 0, fd.name, iLength, pSoundKey, iLength);
+
+		m_mapSound.emplace(pSoundKey, m_Sound);
+
+	} while (_findnexti64(hFile, &fd) == 0);
+	_findclose(hFile);
+
+	m_System->update();
 }
 void CSoundMgr::LoadEffectFile()
 {

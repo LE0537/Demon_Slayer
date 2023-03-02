@@ -15,8 +15,8 @@ public:
 	typedef struct EffectInfo {
 		_uint										iMoveType;						
 
-		_float										fEffectStartTime;
-		_float										fEffectLifeTime;
+		_float										g_fEffectStartTime;
+		_float										g_fEffectLifeTime;
 
 		_float3										vPosition;
 		_float3										vRotation;
@@ -62,8 +62,8 @@ private:
 
 	_int											m_iEffectNum = -1; //º¸·ù
 
-	_float											m_fEffectTime = 0.f;
-	_float											m_fEffectStartTime = 0.f;
+	_float											m_g_fEffectTime = 0.f;
+	_float											m_g_fEffectStartTime = 0.f;
 
 	_float4											m_vDestination;
 

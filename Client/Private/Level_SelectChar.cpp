@@ -27,7 +27,8 @@ HRESULT CLevel_SelectChar::Initialize()
 
 	RELEASE_INSTANCE(CUI_Manager);
 
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("CharSel.wav"), fBGM);
+	CSoundMgr::Get_Instance()->BGM_Stop();
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("CharSel.wav"), g_fBGM);
 	
 	return S_OK;
 }

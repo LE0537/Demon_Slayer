@@ -128,7 +128,7 @@ CRuiDadState * CSkill_RushState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 					if (pRuiDad->Get_BattleTarget()->Get_GodMode() == false)
 					{
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Hit_RushSkill.wav"), fEFFECT);
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Hit_RushSkill.wav"), g_fEffect);
 						_int iDest = rand() % 5;
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 						switch (iDest)
@@ -234,11 +234,11 @@ void CSkill_RushState::Enter(CRuiDad* pRuiDad)
 		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_SKILL2_1, 0.01f);
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_SKILL2_1);
 		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_SKILL2_1, true);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_RushSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_RushSkill.wav"), g_fEffect);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_RushSkill_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_RushSkill_0.wav"), g_fVoice);
 		else
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_RushSkill_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_RushSkill_1.wav"), g_fVoice);
 		Initialize_value(pRuiDad);
 		break;
 	case Client::CRuiDadState::TYPE_END:

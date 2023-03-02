@@ -187,7 +187,7 @@ void CTanjiro::Tick(_float fTimeDelta)
 	if (!m_bChange)
 	{
 		__super::Tick(fTimeDelta);
-		m_fEffectStartTime = 0.f;
+		m_g_fEffectStartTime = 0.f;
 
 		if (m_bBattleStart)
 		{
@@ -264,9 +264,6 @@ void CTanjiro::Tick(_float fTimeDelta)
 		m_iState = m_pTanjiroState->Get_TanjiroState();
 	}
 }
-
-
-
 
 void CTanjiro::Late_Tick(_float fTimeDelta)
 {
@@ -356,7 +353,7 @@ HRESULT CTanjiro::Render()
 					return E_FAIL;
 			}
 		}
-
+	
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 		if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y
 			&& -50000.f == XMVectorGetX(m_pSubChar->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
@@ -590,6 +587,7 @@ HRESULT CTanjiro::Render()
 					return E_FAIL;
 			}
 		}
+		
 	}
 	RELEASE_INSTANCE(CGameInstance);
 
@@ -898,14 +896,16 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
-				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_00.wav"), fVOICE);
+				CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_00.wav"), g_fDialog);
 				pUIManager->Set_ClearCheck(true, 0);
 			}
 		}
 		else if (!m_bQuest1MSG && m_bQuest1)
 		{
-			if (!pUIManager->Get_MsgOnOff())
+			CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+			if (!m_bIsPlaying)
 			{
+				pUIManager->Set_MsgOff();
 				m_bStop = false;
 				m_bQuest1MSG = true;
 			}
@@ -927,7 +927,8 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 				pUIManager->Set_Msg(TEXT("흐갸아아악~타스케테~"));
-				CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_00.wav"), fVOICE);
+				CSoundMgr::Get_Instance()->PlayDialog(TEXT("Murata_Dialog_00.wav"), g_fDialog);
+				//pUIManager->Set_MsgOff();
 			}
 		}
 		else if (!m_bQuest2MSG && m_bQuest1)
@@ -942,54 +943,64 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("귀살대원 '계'급 탄지로 입니다.지원 왔습니다."));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_01.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_01.wav"), g_fDialog);
 						m_bSoundCheck = true;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 1:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 					pUIManager->Set_Msg(TEXT("앗! 지원군이 왔구나! 엥? 뭐라고? '계'급이라고?"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_01.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Murata_Dialog_01.wav"), g_fDialog);
 						m_bSoundCheck = false;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 2:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 					pUIManager->Set_Msg(TEXT("왜 '주'가 아닌 거야?"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_02.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Murata_Dialog_02.wav"), g_fDialog);
 						m_bSoundCheck = true;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 3:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("귀살대원 무라타"));
 					pUIManager->Set_Msg(TEXT("계 같은 건 몇 명이 와도 똑같아!! 무의미해!!"));
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 4:
-					pUIManager->Set_MsgOn();
-					pUIManager->Set_MsgName(TEXT("아빠 거미"));
-					pUIManager->Set_Msg(TEXT("으캬아야아"));
-					if (m_bSoundCheck)
-					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dialog_00.wav"), fVOICE);
-						m_bSoundCheck = false;
-					}
-					break;
-				case 5:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("아빠 거미"));
 					pUIManager->Set_Msg(TEXT("내 가족에게 접근하지 마라!!"));
-					pUIManager->Set_MainQuestOff();
-					m_bQuest2_1MSG = true;
+					if (m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("RuiDad_Dialog_00.wav"), g_fDialog);
+						m_bSoundCheck = false;
+					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					//	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_High(m_pRendererCom);
 					break;
 				default:
+					pUIManager->Set_MainQuestOff();
+					m_bQuest2_1MSG = true;
+					pUIManager->Set_MsgOff();
 					break;
 				}
 			}
@@ -1003,6 +1014,12 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 			{
 				pUIManager->Reset_MsgCount();
 				m_bQuest2_2MSG = true;
+			}
+			else if (!m_bQuest2_2MSG && pUIManager->Get_MsgOnOff())
+			{
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgOff();
 			}
 		}
 	}
@@ -1039,132 +1056,176 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("뭘 보고 있어? 구경거리가 아니야"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Dialog_00.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->BGM_Stop();
+						CSoundMgr::Get_Instance()->PlayBGM(TEXT("Rui_Meeting.wav"), g_fBGM);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Rui_Dialog_00.wav"), g_fDialog);
 						m_bSoundCheck = true;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 1:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 					pUIManager->Set_Msg(TEXT("...무슨 짓이야? 동료 사이 아니였어?"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_06.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_06.wav"), g_fDialog);
 						m_bSoundCheck = false;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 2:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("루이"));
 					pUIManager->Set_Msg(TEXT("동료? 그런 얄팍한 것과 같은 취급하지 마"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Dialog_01.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Rui_Dialog_01.wav"), g_fDialog);
 						m_bSoundCheck = true;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 3:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("루이"));
 					pUIManager->Set_Msg(TEXT("우린 가족이다. 강한 인연으로 묶여 있어"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Dialog_02.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Rui_Dialog_02.wav"), g_fDialog);
 						m_bSoundCheck = false;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 4:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("루이"));
 					pUIManager->Set_Msg(TEXT("그리고 이건 나와 누나의 문제야"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Dialog_03.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Rui_Dialog_03.wav"), g_fDialog);
 						m_bSoundCheck = true;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 5:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("루이"));
 					pUIManager->Set_Msg(TEXT("쓸데없이 참견한다면 토막 내 주겠어"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Dialog_04.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Rui_Dialog_04.wav"), g_fDialog);
 						m_bSoundCheck = false;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 6:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-					pUIManager->Set_Msg(TEXT("가족도 동료도 강한 인연으로 묶여 있으면\n 어느쪽이든 똑같이 소중해"));
+					pUIManager->Set_Msg(TEXT("가족도 동료도 강한 인연으로 묶여 있으면 어느쪽이든 똑같이 소중해"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_07.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_07.wav"), g_fDialog);
 						m_bSoundCheck = true;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 7:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 					pUIManager->Set_Msg(TEXT("그리고 강한 인연으로 엮인 자에겐 신뢰의 냄새가 나!"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_08.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_08.wav"), g_fDialog);
 						m_bSoundCheck = false;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 8:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 					pUIManager->Set_Msg(TEXT("하지만 너희들에게선 공포와 증오와 혐오의 냄새만 나!"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_09.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_09.wav"), g_fDialog);
 						m_bSoundCheck = true;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 9:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 					pUIManager->Set_Msg(TEXT("이런 건 인연이라고 안 해! 모조품...."));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_10.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_10.wav"), g_fDialog);
 						m_bSoundCheck = false;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 10:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 					pUIManager->Set_Msg(TEXT("가짜다!"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_11.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_11.wav"), g_fDialog);
 						m_bSoundCheck = true;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 11:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("루이"));
 					pUIManager->Set_Msg(TEXT("너...지금... 뭐라고 했어?"));
 					if (m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Dialog_05.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->BGM_Stop();
+						CSoundMgr::Get_Instance()->PlayBGM(TEXT("Adv_Menu.wav"), g_fBGM);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Rui_Dialog_05.wav"), g_fDialog);
 						m_bSoundCheck = false;
 					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 12:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 					pUIManager->Set_Msg(TEXT("몇 번이고 말해주마!! 너의 인연은... 가짜다!!"));
 					if (!m_bSoundCheck)
 					{
-						CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_12.wav"), fVOICE);
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_12.wav"), g_fDialog);
 						m_bSoundCheck = true;
 					}
-					m_bQuest3_1MSG = true;
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				default:
+					pUIManager->Set_MsgOff();
+					pUIManager->Reset_MsgCount();
+					m_bQuest3_1MSG = true;
 					break;
 				}
 			}
@@ -1214,24 +1275,20 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 					pUIManager->Set_Msg(TEXT("우마이!!   우마이!!"));
 					break;
 				case 1:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-					pUIManager->Set_Msg(TEXT("염주???"));
+					pUIManager->Set_Msg(TEXT("보고! 귀살!!"));
 					break;
 				case 2:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("렌고쿠 쿄주로"));
 					pUIManager->Set_Msg(TEXT("열차안 사람들은 내가 지킬테니 너는 혈귀를 찾아 죽여!"));
-
 					break;
 				case 3:
-					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 					pUIManager->Set_Msg(TEXT("알겠어요! 사람들을 부탁합니다."));
-
-					m_bQuest2_1MSG = true;
 					break;
 				default:
+					pUIManager->Set_MsgOff();
+					m_bQuest2_1MSG = true;
 					break;
 				}
 			}
@@ -1276,7 +1333,6 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 						}
 						break;
 					case 1:
-						pUIManager->Set_MsgOn();
 						pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
 						pUIManager->Set_Msg(TEXT("십이귀월?!"));
 						if (m_bSoundCheck)
@@ -1286,7 +1342,6 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 						}
 						break;
 					case 2:
-						pUIManager->Set_MsgOn();
 						pUIManager->Set_MsgName(TEXT("엔무"));
 						pUIManager->Set_Msg(TEXT("옥상으로 따라와!"));
 						if (!m_bSoundCheck)
@@ -1296,7 +1351,6 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 						}
 						break;
 					case 3:
-						pUIManager->Set_MsgOn();
 						pUIManager->Set_MsgName(TEXT("정석훈"));
 						pUIManager->Set_Msg(TEXT("저 녀석이 내 구슬을 훔쳐갔어!"));
 						if (m_bSoundCheck)
@@ -1304,9 +1358,11 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dialog_00.wav"), fVOICE);
 							m_bSoundCheck = false;
 						}
-						m_bQuest3_1MSG = true;
+						
 						break;
 					default:
+						pUIManager->Set_MsgOff();
+						m_bQuest3_1MSG = true;
 						break;
 					}
 				}
@@ -1327,7 +1383,6 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
 }
-
 
 void CTanjiro::HandleInput(_float fTimeDelta)
 {
@@ -1354,17 +1409,17 @@ void CTanjiro::LateTickState(_float fTimeDelta)
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pNewState);
 
 	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_MOVE)
-		m_fEffectTime += fTimeDelta;
-	if (m_fEffectTime > 0.3f)
+		m_g_fEffectTime += fTimeDelta;
+	if (m_g_fEffectTime > 0.3f)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
 
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), g_fEffect);
 
 		RELEASE_INSTANCE(CEffect_Manager);
-		m_fEffectTime = 0.f;
+		m_g_fEffectTime = 0.f;
 	}
 }
 HRESULT CTanjiro::Ready_Parts()

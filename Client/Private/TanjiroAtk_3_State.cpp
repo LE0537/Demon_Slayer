@@ -355,29 +355,29 @@ void CAtk_3_State::Enter(CTanjiro * pTanjiro)
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_ATTACK_3);
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack3_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack3_1.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack3_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack3_2.wav"), g_fVoice);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack3_3.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack3_3.wav"), g_fVoice);
 
 	if (pTanjiro->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
 	{
 		_uint iRand2 = rand() % 5;
 
 		if (iRand2 == 0)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_0.wav"), g_fEffect);
 		else if (iRand2 == 1)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_1.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_1.wav"), g_fEffect);
 		else if (iRand2 == 2)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_2.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_2.wav"), g_fEffect);
 		else if (iRand2 == 3)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_3.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_3.wav"), g_fEffect);
 		else if (iRand2 == 4)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_4.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Sword_Hit_4.wav"), g_fEffect);
 	}
 	else
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_Attack_3.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_Attack_3.wav"), g_fEffect);
 }
 
 void CAtk_3_State::Exit(CTanjiro * pTanjiro)
