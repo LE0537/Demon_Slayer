@@ -189,6 +189,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_StoryScene("RuiDadBattle"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("RuiStart"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("RuiDead"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("ADV_Tanjiro"))) return E_FAIL;
 
 	if (g_iLevel == LEVEL_BOSSENMU)
 	{

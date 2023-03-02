@@ -580,7 +580,7 @@ CTanjiroState * CUpperHitState::KnockBackState(CTanjiro * pTanjiro, _float fTime
 
 CTanjiroState * CUpperHitState::BoundState(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-
+	CGameInstance* pGameInstance = nullptr;
 	if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 	{
 		switch (m_eStateType)
@@ -630,13 +630,23 @@ CTanjiroState * CUpperHitState::BoundState(CTanjiro * pTanjiro, _float fTimeDelt
 		Bound_Player(pTanjiro, fTimeDelta);
 		if (m_bStop == true)
 		{
+			if (!m_bStoryCam && pTanjiro->Get_StoryRuiSpl())
+			{
+				_vector vTargetLookAt = pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				pTanjiro->Get_Transform()->Set_PlayerLookAt(vTargetLookAt);
+				pGameInstance = GET_INSTANCE(CGameInstance);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_TANJIRO);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+				RELEASE_INSTANCE(CGameInstance);
+				m_bStoryCam = true;
+			}
 			m_fDelay += fTimeDelta;
-			if (m_fDelay >= 4.f && !m_bTrue && pTanjiro->Get_StoryRuiSpl())
+			if (m_fDelay >= 10.f && !m_bTrue && pTanjiro->Get_StoryRuiSpl())
 			{
 				m_bTrue = true;
 				pTanjiro->Set_StoryPowerUp();
 			}
-			if (m_fDelay >= 5.f && pTanjiro->Get_StoryRuiSpl())
+			if (m_fDelay >= 11.f && pTanjiro->Get_StoryRuiSpl())
 			{
 				pTanjiro->Set_StoryRuiSpl(false);
 				dynamic_cast<CRui*>(pTanjiro->Get_BattleTarget())->Set_StoryDelay(3.f);
