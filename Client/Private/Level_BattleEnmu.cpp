@@ -201,7 +201,6 @@ void CLevel_BattleEnmu::Tick(_float fTimeDelta)
 				if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
 					return;
 			}
-
 		}
 
 
