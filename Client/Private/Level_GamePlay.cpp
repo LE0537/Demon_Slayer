@@ -97,7 +97,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
 
-	if (FAILED(Load_Map(L"Layer_BackGround", "11_Map_Rui")))
+	if (FAILED(Load_Map(L"Layer_Terrain", "11_Map_Rui")))
 		return E_FAIL;
 
 	if (pUIManager->Get_SelMapNum() == 0)

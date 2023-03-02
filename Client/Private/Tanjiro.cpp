@@ -360,7 +360,9 @@ HRESULT CTanjiro::Render()
 					return E_FAIL;
 			}
 		}
-		if (g_iLevel != LEVEL_BATTLEENMU && g_iLevel != LEVEL_BOSSENMU)
+		CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+		if (g_iLevel != LEVEL_BATTLEENMU && g_iLevel != LEVEL_BOSSENMU && pUI_Manager->Get_Sel2P() != 8)
 		{
 			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 			if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y
@@ -573,6 +575,7 @@ HRESULT CTanjiro::Render()
 				}
 			}
 		}
+		RELEASE_INSTANCE(CUI_Manager);
 	}
 	else
 	{

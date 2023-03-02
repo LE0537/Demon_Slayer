@@ -75,11 +75,13 @@ void CTerrain::Tick(_float fTimeDelta)
 void CTerrain::Late_Tick(_float fTimeDelta)
 {
 	__super::Late_Tick(fTimeDelta);
+	if (!m_bRender)
+	{
+		if (nullptr != m_pRendererCom)
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 
-	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
-	Compute_CamDistance(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+		Compute_CamDistance(m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+	}
 }
 
 HRESULT CTerrain::Render()
