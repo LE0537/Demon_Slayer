@@ -391,8 +391,8 @@ void CSkill_WindMillState::Enter(CTanjiro * pTanjiro)
 		m_vVelocity.x = 0.f;
 		m_vVelocity.y = 10.f;
 		m_vVelocity.z = 0.f;
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_WindMill.wav"), fVOICE);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_WindMill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_WindMill.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_WindMill.wav"), g_fEffect);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_WINDMILL_1);

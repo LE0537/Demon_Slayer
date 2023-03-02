@@ -1504,6 +1504,12 @@
     <Filter Include="05.CollBox\17.RuiSplColl">
       <UniqueIdentifier>{2148009f-94a1-4e7d-9a18-483732b7ab13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\96.MsgUI\Dialog">
+      <UniqueIdentifier>{d05b2261-0e6c-4b37-99b4-99461ed64b8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\02.Map\06.Train">
+      <UniqueIdentifier>{074049a2-8622-4ff6-a46f-e06c390c7177}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -2994,6 +3000,12 @@
     <ClInclude Include="..\public\RuiSplColl.h">
       <Filter>05.CollBox\17.RuiSplColl</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BattleDialog.h">
+      <Filter>03.UI\96.MsgUI\Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Train_Head.h">
+      <Filter>02.GameObjects\02.Map\06.Train</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4450,6 +4462,12 @@
     </ClCompile>
     <ClCompile Include="..\private\RuiSplColl.cpp">
       <Filter>05.CollBox\17.RuiSplColl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BattleDialog.cpp">
+      <Filter>03.UI\96.MsgUI\Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Train_Head.cpp">
+      <Filter>02.GameObjects\02.Map\06.Train</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

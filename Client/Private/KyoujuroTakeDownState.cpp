@@ -122,7 +122,7 @@ void CTakeDownState::Enter(CKyoujuro* pKyoujuro)
 			RELEASE_INSTANCE(CGameInstance);
 			g_bDeathTime = true;
 		}
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Hit_3.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Hit_3.wav"), g_fVoice);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_HIT_DMG_RETURN_1);

@@ -25,8 +25,6 @@ HRESULT CLevel_SelectMap::Initialize()
 	pUIManager->Add_Select_Map();
 
 	RELEASE_INSTANCE(CUI_Manager);
-
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("CharSel.wav"), fBGM);
 	
 	return S_OK;
 }

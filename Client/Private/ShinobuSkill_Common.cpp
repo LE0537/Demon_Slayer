@@ -246,7 +246,7 @@ CShinobuState * CSkill_CommonState::Late_Tick(CShinobu* pShinobu, _float fTimeDe
 					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(_int(-15 * pShinobu->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.1f, false);
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_GuardHit.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_GuardHit.wav"), g_fEffect);
 					pShinobu->Set_Combo(1);
 					pShinobu->Set_ComboTime(0.f);
 				}
@@ -324,7 +324,7 @@ CShinobuState * CSkill_CommonState::Late_Tick(CShinobu* pShinobu, _float fTimeDe
 					RELEASE_INSTANCE(CGameInstance);
 					m_pTarget->Set_Hp(_int(-30 * pShinobu->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.7f, false);
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_GuardHit.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_GuardHit.wav"), g_fEffect);
 					pShinobu->Set_Combo(1);
 					pShinobu->Set_ComboTime(0.f);
 				}
@@ -420,9 +420,9 @@ void CSkill_CommonState::Enter(CShinobu* pShinobu)
 	pShinobu->Set_AnimIndex(CShinobu::ANIM_SKILL_COMMON_2);
 	pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 
-	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Common.wav"), fVOICE);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Common.wav"), g_fVoice);
 
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_CommonSkill.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_CommonSkill.wav"), g_fEffect);
 }
 
 void CSkill_CommonState::Exit(CShinobu* pShinobu)

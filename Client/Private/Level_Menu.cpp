@@ -29,8 +29,8 @@ HRESULT CLevel_Menu::Initialize()
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
-
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("ModeSel.wav"), fBGM);
+	CSoundMgr::Get_Instance()->BGM_Stop();
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("ModeSel.wav"), g_fBGM);
 	return S_OK;
 }
 

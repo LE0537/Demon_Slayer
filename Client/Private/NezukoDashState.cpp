@@ -285,7 +285,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_F);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_F, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_F);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		else if (iIndex == 2)
 		{
@@ -293,7 +293,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_B);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_B, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_B);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		break;
 	case Client::DIR_LEFT:
@@ -303,7 +303,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_L_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_L_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		else if (iIndex == 2)
 		{
@@ -311,7 +311,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_R_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_R_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		break;
 	case Client::DIR_RIGHT:
@@ -321,7 +321,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_R_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_R_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		else if (iIndex == 2)
 		{
@@ -329,7 +329,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_L_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_L_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		break;
 	case Client::DIR_BACK:
@@ -339,7 +339,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_B);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_B, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_B);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		else if (iIndex == 2)
 		{
@@ -347,7 +347,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_F);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_F, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_F);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		break;
 	case Client::DIR_LF:
@@ -357,7 +357,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_L_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_L_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		else if (iIndex == 2)
 		{
@@ -365,7 +365,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_R_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_R_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		break;
 	case Client::DIR_RF:
@@ -375,7 +375,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_R_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_R_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		else if (iIndex == 2)
 		{
@@ -383,7 +383,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_L_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_L_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		break;
 	case Client::DIR_LB:
@@ -393,7 +393,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_L_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_L_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		else if (iIndex == 2)
 		{
@@ -401,7 +401,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_R_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_R_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		break;
 	case Client::DIR_RB:
@@ -411,7 +411,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_R_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_R_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_R_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		else if (iIndex == 2)
 		{
@@ -419,7 +419,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_L_01);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_L_01, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_L_01);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_0.wav"), g_fEffect);
 		}
 		break;
 	case Client::DIR_LEFT_DASH:
@@ -429,7 +429,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_L_02);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_L_02, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_L_02);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_1.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_1.wav"), g_fEffect);
 		}
 		else if (iIndex == 2)
 		{
@@ -437,7 +437,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_R_02);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_R_02, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_R_02);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_1.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_1.wav"), g_fEffect);
 		}
 		break;
 	case Client::DIR_RIGHT_DASH:
@@ -447,7 +447,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_R_02);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_R_02, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_R_02);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_1.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_1.wav"), g_fEffect);
 		}
 		else if (iIndex == 2)
 		{
@@ -455,7 +455,7 @@ void CDashState::Enter(CNezuko* pNezuko)
 			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_DASH_L_02);
 			pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIMID::ANIM_DASH_L_02, 0.01f);
 			pNezuko->Set_AnimIndex(CNezuko::ANIM_DASH_L_02);
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_1.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Dash_1.wav"), g_fEffect);
 		}
 		break;
 	case Client::DIR_STOP:

@@ -84,43 +84,55 @@ void CMapNameBar::Tick(_float fTimeDelta)
 				m_iMoveCount = 0;
 				m_fFadeTime = 0.f;
 				m_bOnCheck = true;
+				
 				if (!m_bMsgOnCheck)
 				{
+					CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 					if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVRUI)
 					{
 						pUI_Manager->Set_MsgOn();
 						pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
 						pUI_Manager->Set_Msg(TEXT("(킁킁.. 이..냄새는... 뭐지..?)"));
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_04.wav"), fEFFECT);
-						pUI_Manager->Set_QuestStartCheck(true);
-						pUI_Manager->Set_MainQuestOn();
-						m_bMsgOnCheck = true;
-					
-					}
-					else if(m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
-					{
-						switch (pUI_Manager->Get_MsgCount())
+						if (!m_bSound)
 						{
-						case 0:
-							pUI_Manager->Set_MsgOn();
-							pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
-							pUI_Manager->Set_Msg(TEXT("큭.. 냄새가 지독해, 무거워...! 이 바람 속에서 혈귀 냄새가 이렇게까지...!!"));
-							break;
-						case 1:
-							pUI_Manager->Set_MsgOn();
-							pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
-							pUI_Manager->Set_Msg(TEXT("혈귀는 바람이 불어오는 쪽... 선두 차량인가? 앞으로 가보자"));
+							m_bSound = true;
+							CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_04.wav"), g_fDialog);
+						}
+						CSoundMgr::Get_Instance()->Dialog_End(&m_bSoundEnd);
+
+						if (!m_bSoundEnd)
+						{
+							pUI_Manager->Set_MsgOff();
 							pUI_Manager->Set_QuestStartCheck(true);
 							pUI_Manager->Set_MainQuestOn();
-							pUI_Manager->Reset_MsgCount();
 							m_bMsgOnCheck = true;
-							break;
-						default:
-							break;
+						}
+
+					}
+					else if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
+					{
+						if (!pUI_Manager->Get_QuestStartCheck())
+						{
+							switch (pUI_Manager->Get_MsgCount())
+							{
+							case 0:
+								pUI_Manager->Set_MsgOn();
+								pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
+								pUI_Manager->Set_Msg(TEXT("큭.. 냄새가 지독해, 무거워...! 이 바람 속에서 혈귀 냄새가 이렇게까지...!!"));
+								break;
+							case 1:
+								pUI_Manager->Set_Msg(TEXT("혈귀는 바람이 불어오는 쪽... 선두 차량인가? 앞으로 가보자"));
+								break;
+							default:
+								pUI_Manager->Set_MsgOff();
+								pUI_Manager->Set_QuestStartCheck(true);
+								pUI_Manager->Set_MainQuestOn();
+								pUI_Manager->Reset_MsgCount();
+								break;
+							}
 						}
 					}
-
-					
+					RELEASE_INSTANCE(CGameInstance);
 				}
 			}
 		}

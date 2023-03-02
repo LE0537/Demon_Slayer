@@ -272,7 +272,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 
 					//if (!m_bHit)
 					m_pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_UPPER, 10.f, 15.f, 2.f);
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), g_fEffect);
 					//m_pTarget->Take_Damage(0.8f, true);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);
@@ -390,7 +390,7 @@ CKyoujuroState * CSkill_DoubleUpperState::Late_Tick(CKyoujuro * pKyojuro, _float
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
 					dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pKyojuro->Get_Renderer());
 					RELEASE_INSTANCE(CGameInstance);
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_CommonSkill.wav"), g_fEffect);
 					pKyojuro->Set_Combo(1);
 					pKyojuro->Set_ComboTime(0.f);
 					m_pTarget->Set_Hp(_int(-50 * pKyojuro->Get_PlayerInfo().fPowerUp));
@@ -499,8 +499,8 @@ void CSkill_DoubleUpperState::Enter(CKyoujuro * pKyojuro)
 	pKyojuro->Get_Model()->Set_Loop(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER);
 	pKyojuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIMID::ANIM_SKILL_DOUBLEUPPER, 0.2f);
 
-	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_DoubleUpper.wav"), fVOICE);
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_DubleUpperSkill.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_DoubleUpper.wav"), g_fVoice);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_DubleUpperSkill.wav"), g_fEffect);
 }
 CKyoujuroState* CSkill_DoubleUpperState::Jump(CKyoujuro* pKyoujuro, _float fTimeDelta)
 {

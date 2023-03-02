@@ -201,9 +201,9 @@ void CHitState::Enter(CEnmu* pEnmu)
 	_uint iRand = rand() % 2;
 
 	//if (iRand == 0)
-	//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Hit_1.wav"), fVOICE);
+	//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Hit_1.wav"), g_fVoice);
 	//else if (iRand == 1)
-	//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Hit_2.wav"), fVOICE);
+	//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Hit_2.wav"), g_fVoice);
 
 }
 
@@ -371,11 +371,11 @@ void CHitState::Set_HitState(CEnmu* pEnmu)
 	_uint iRand = rand() % 3;
 
 	if(iRand == 0)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_Hit_0.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_Hit_0.wav"), g_fEffect);
 	else if(iRand == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_Hit_1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_Hit_1.wav"), g_fEffect);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_Hit_2.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_Hit_2.wav"), g_fEffect);
 
 
 }

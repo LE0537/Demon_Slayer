@@ -101,7 +101,7 @@ CNezukoState * CJumpAttackState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 				}
 				else
 				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_JumpAttack.wav"), fEFFECT);
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_JumpAttack.wav"), g_fEffect);
 					m_pTarget->Set_Hp(_int(-pNezuko->Get_PlayerInfo().iDmg * pNezuko->Get_PlayerInfo().fPowerUp));
 					m_pTarget->Take_Damage(0.5f, true);
 					pNezuko->Set_Combo(1);
@@ -197,7 +197,7 @@ void CJumpAttackState::Enter(CNezuko* pNezuko)
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_JUMPATTACK);
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIMID::ANIM_JUMPATTACK, false);
 		pNezuko->Get_Transform()->Set_PlayerLookAt(pNezuko->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_JumpAttack.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_JumpAttack.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_JUMP_LOOP_END);

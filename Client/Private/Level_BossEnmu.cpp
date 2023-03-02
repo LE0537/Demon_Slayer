@@ -150,7 +150,7 @@ HRESULT CLevel_BossEnmu::Initialize()
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), g_fBGM);
 
 	CEnmuBoss::Get_Instance()->Initialize();
 
@@ -840,6 +840,15 @@ HRESULT CLevel_BossEnmu::Load_StaticObjects(char * pFileName)
 							ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects");
 							continue;
 						}
+					}
+					continue;
+					break;
+				case 2098:
+					tMeshObj_StaticDesc.iTypeNum = i;
+					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_Train_Head", LEVEL_BOSSENMU, L"Layer_Enmu_Neck", &tMeshObj_StaticDesc)))
+					{
+						ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects");
+						continue;
 					}
 					continue;
 					break;

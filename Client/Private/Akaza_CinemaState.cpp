@@ -2,6 +2,8 @@
 #include "..\Public\Akaza_CinemaState.h"
 #include "GameInstance.h"
 #include "AkazaIdleState.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 
 using namespace Akaza;
 
@@ -12,9 +14,33 @@ CAkaza_CinemaState::CAkaza_CinemaState(CINEMASCENE eScene)
 
 CAkazaState * CAkaza_CinemaState::HandleInput(CAkaza * pAkaza)
 {
+	CAkazaState* pState = nullptr;
+	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	if (pGameInstance->Key_Down(DIK_F3) && !pAkaza->Get_StoryKey())
+		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_START);
+	if (pGameInstance->Key_Down(DIK_F4) && !pAkaza->Get_StoryKey())
+		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_0);
+	if (pGameInstance->Key_Down(DIK_F5) && !pAkaza->Get_StoryKey())
+		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_1);
+	if (pGameInstance->Key_Down(DIK_F6) && !pAkaza->Get_StoryKey())
+		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_2);
+	if (pGameInstance->Key_Down(DIK_F7) && !pAkaza->Get_StoryKey())
+		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_3);
+	if (pGameInstance->Key_Down(DIK_F8) && !pAkaza->Get_StoryKey())
+		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_4);
+	if (pGameInstance->Key_Down(DIK_F9) && !pAkaza->Get_StoryKey())
+		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_5);
+	if (pGameInstance->Key_Down(DIK_CAPSLOCK) && !pAkaza->Get_StoryKey())
+		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_6);
+	if (pGameInstance->Key_Down(DIK_PGUP) && !pAkaza->Get_StoryKey())
+		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_7);
+	RELEASE_INSTANCE(CGameInstance);
+
+	if (nullptr != pState)
+		pAkaza->Get_BattleTarget()->Play_Scene();*/
 
 
-	return nullptr;
+	return pState;
 }
 
 CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
@@ -112,6 +138,7 @@ CAkazaState * CAkaza_CinemaState::Late_Tick(CAkaza * pAkaza, _float fTimeDelta)
 
 void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 {
+	CGameInstance* pGameInstance = nullptr;
 	switch (m_eScene)
 	{
 	case Client::Akaza::CAkaza_CinemaState::SCENE_START:
@@ -126,6 +153,11 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_START);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_START, 0.01f);
 		pAkaza->Set_SplSkl(true);
+
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_AKZ_START);
+		RELEASE_INSTANCE(CGameInstance);
+
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_0:
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);

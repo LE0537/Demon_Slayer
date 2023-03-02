@@ -158,6 +158,7 @@ void CUI_Manager::Add_P1_PersonHpUI()
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
 	m_iChangeBarLayerNum = 0;
+	m_iKeyLayerNum = 0;
 }
 
 void CUI_Manager::Add_P1_OniHpUI()
@@ -185,6 +186,7 @@ void CUI_Manager::Add_P1_OniHpUI()
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
 	m_iOniSepcialBarLayerNum = 0;
+	m_iKeyLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_PersonHpUI()
@@ -213,6 +215,7 @@ void CUI_Manager::Add_P2_PersonHpUI()
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
 	m_iChangeBarLayerNum = 0;
+	m_iKeyLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_OniHpUI()
@@ -240,6 +243,7 @@ void CUI_Manager::Add_P2_OniHpUI()
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
 	m_iOniSepcialBarLayerNum = 0;
+	m_iKeyLayerNum = 0;
 }
 
 void CUI_Manager::Add_P1_PersonHpUI_Level_Enmu()
@@ -268,6 +272,7 @@ void CUI_Manager::Add_P1_PersonHpUI_Level_Enmu()
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
 	m_iChangeBarLayerNum = 0;
+	m_iKeyLayerNum = 0;
 }
 
 void CUI_Manager::Add_P1_OniHpUI_Level_Enmu()
@@ -295,6 +300,7 @@ void CUI_Manager::Add_P1_OniHpUI_Level_Enmu()
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
 	m_iOniSepcialBarLayerNum = 0;
+	m_iKeyLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_PersonHpUI_Level_Enmu()
@@ -323,6 +329,7 @@ void CUI_Manager::Add_P2_PersonHpUI_Level_Enmu()
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
 	m_iChangeBarLayerNum = 0;
+	m_iKeyLayerNum = 0;
 }
 
 void CUI_Manager::Add_P2_OniHpUI_Level_Enmu()
@@ -350,6 +357,7 @@ void CUI_Manager::Add_P2_OniHpUI_Level_Enmu()
 	m_iCharNameLayerNum = 0;
 	m_iCharIconLayerNum = 0;
 	m_iOniSepcialBarLayerNum = 0;
+	m_iKeyLayerNum = 0;
 }
 
 void CUI_Manager::Add_Select_CharUI()
@@ -842,8 +850,10 @@ HRESULT CUI_Manager::Add_Btl_PlayerUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		break;
 	case 21:
+		iter.iLayerNum = m_iKeyLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_KeyUI"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))
 			return E_FAIL;
+		++m_iKeyLayerNum;
 		break;
 	case 22: // 사람 얼티밋 게이지 베이스 10 
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BtlFixedImg"), iter.iLevelIndex, TEXT("Layer_UI"), &iter)))

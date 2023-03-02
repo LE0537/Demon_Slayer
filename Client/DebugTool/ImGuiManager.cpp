@@ -19,6 +19,9 @@
 #include "Enmu_Chok.h"
 #include "Enmu_Shield.h"
 
+#include "MeshObj_Static.h"
+#include "MeshObj_Static_Inst.h"
+#include "Terrain.h"
 #include "EnmuBoss.h"
 
 IMPLEMENT_SINGLETON(CImGuiManager)
@@ -62,7 +65,7 @@ HRESULT CImGuiManager::Initialize(ID3D11Device * pDevice, ID3D11DeviceContext * 
 
 
 
-	for (_uint i = 0; i < 40; ++i)
+	for (_uint i = 0; i < 250; ++i)
 	{
 		m_strCamFiles[i] = new char[MAX_PATH];
 	}
@@ -694,6 +697,14 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		((CCamera_Dynamic*)m_pCamera)->Set_Pos(vPos);
 	}
 
+	ImGui::SameLine();
+	if (ImGui::Button("LookAt", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)) &&
+		1 < m_iNumCam[eChoice])
+	{
+		_float3 vPos = _float3(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2]);
+		((CTransform*)(m_pCamera->Find_Component(L"Com_Transform")))->LookAt(XMVectorSetW(XMLoadFloat3(&vPos), 1.f));
+	}
+
 
 
 
@@ -774,9 +785,9 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		--iPreCamIndex[eChoice];
 	}
 
-	ImGui::DragFloat("At Length", &fAtSphereLength, 0.01f, 0.1f, 1000.f, "%.2f");
+	ImGui::DragFloat("Length", &fAtSphereLength, 0.01f, 0.1f, 1000.f, "%.2f");
 
-	if (ImGui::Button("At Length Push", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)))
+	if (ImGui::Button("push Length_", ImVec2(ImGui::GetWindowWidth() * 0.20f, 20.f)))
 	{
 		if (eChoice == CAM_AT)
 		{
@@ -859,6 +870,28 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 
 		iObjSize[eChoice] = (_int)m_vecCamObjects[eChoice].size();
 		m_iNumCam[eChoice] = (_int)m_vecCam[eChoice].size();
+	}
+
+
+
+	static _bool bRenderObjs = true;
+	static _bool bPreRenderObjs = true;
+	ImGui::Checkbox("Obj Render", &bRenderObjs);
+	if (bPreRenderObjs != bRenderObjs)
+	{
+		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(!bRenderObjs);
+		list<CGameObject*> plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+		list<CGameObject*> plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+		for (auto& iterMesh : plistMesh)
+		{
+			dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(!bRenderObjs);
+		}
+		for (auto& iterMeshinst : plistMeshInst)
+		{
+			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(!bRenderObjs);
+		}
+
+		bPreRenderObjs = bRenderObjs;
 	}
 
 
@@ -954,6 +987,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	static char strCamActionName[MAX_PATH][10] = { "Tan1", "Tan2", "Tan3", "Tan4", "Tan5",
 		"RuiStt", "Rui0", "Rui1", "Rui2", "Rui3" , "Rui4" , "Rui5" ,
 		"RgkStt", "Rgk0", "Rgk1", "Rgk2", "Rgk3" , "Rgk4" , "Rgk5" , "Rgk6", "Rgk7" , "Rgk8",
+		"AkzStt", "Akz0", "Akz1", "Akz2", "Akz3" , "Akz4" , "Akz5" , "Akz6", "Akz7",
 	};
 	static _int iCameraActionIndex = 0;
 	if (ImGui::CollapsingHeader("Setting Actions"))

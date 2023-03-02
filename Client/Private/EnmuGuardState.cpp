@@ -93,7 +93,7 @@ void CGuardState::Enter(CEnmu* pEnmu)
 	case Client::CEnmuState::TYPE_START:
 		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_GUARD_0);
 		pEnmu->Set_AnimIndex(CEnmu::ANIM_GUARD_0);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Guard.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Guard.wav"), g_fEffect);
 		break;
 	case Client::CEnmuState::TYPE_LOOP:
 		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_GUARD_1);

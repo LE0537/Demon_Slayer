@@ -218,13 +218,13 @@ void CSplSkrStartState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_SPLSKL_START_0);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_SPLSKL_START_0);
 		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_SPLSKL_START_0);
-		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SPLSKL_START_0, 0.1f);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SPLSKL_START_0, 0.01f);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_SPLSKL_START_1);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_SPLSKL_START_1);
 		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_SPLSKL_START_1);
-		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SPLSKL_START_1, 0.1f);
+		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SPLSKL_START_1, 0.01f);
 		break;
 	case Client::CShinobuState::TYPE_CHANGE:
 		break;

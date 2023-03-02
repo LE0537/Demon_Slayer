@@ -539,7 +539,7 @@ void CRui::LateTickState(_float fTimeDelta)
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
 
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), g_fEffect);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_fEffectTime = 0.f;
@@ -602,35 +602,29 @@ void CRui::Play_Scene()
 	case Client::CCharacters::PLAYER_RUI:
 		break;
 	case Client::CCharacters::PLAYER_AKAZA:
+		/*pGameInstance = GET_INSTANCE(CGameInstance);
+		if (pGameInstance->Key_Down(DIK_F3))
+			pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_START);
+		else if (pGameInstance->Key_Down(DIK_F7))
+			pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_0);
+		else if (pGameInstance->Key_Down(DIK_CAPSLOCK))
+			pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_1);
+		else if (pGameInstance->Key_Down(DIK_PGUP))
+			pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_2);
+		else if (pGameInstance->Key_Down(DIK_F8))
+		{
+		}
+		else
+			pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_START);
+		RELEASE_INSTANCE(CGameInstance);
+		if(nullptr != pState)
+			m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+		break;*/
+
 		pState = new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_START);
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		break;
 	case Client::CCharacters::PLAYER_NEZUKO:
-		pGameInstance = GET_INSTANCE(CGameInstance);
-		if (pGameInstance->Key_Down(DIK_F3))
-			pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_START);
-		else if (pGameInstance->Key_Down(DIK_F4))
-			pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_0);
-		else if (pGameInstance->Key_Down(DIK_F5))
-			pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_1);
-		else if (pGameInstance->Key_Down(DIK_F6))
-			pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_2);
-		else if (pGameInstance->Key_Down(DIK_F7))
-			pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_3);
-		else if (pGameInstance->Key_Down(DIK_F8))
-			pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_4);
-		else if (pGameInstance->Key_Down(DIK_F9))
-			pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_5);
-		else if (pGameInstance->Key_Down(DIK_CAPSLOCK))
-			pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_6);
-		else if (pGameInstance->Key_Down(DIK_PGUP))
-			pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_7);
-		else
-			pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_START);
-		RELEASE_INSTANCE(CGameInstance);
-		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
-		break;
-
 		pState = new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_START);
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		break;

@@ -214,25 +214,25 @@ void CSplSkrStartState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_SPLSKL_START_0);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_SPLSKL_START_0);
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_SPLSKL_START_0);
-		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_START_0, 0.1f);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_START_0, 0.01f);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_SPLSKL_START_1);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_SPLSKL_START_1);
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_SPLSKL_START_1);
-		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_START_1, 0.1f);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_START_1, 0.01f);
 		break;
 	case Client::CNezukoState::TYPE_END:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_SPLSKL_START_2);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_SPLSKL_START_2);
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_SPLSKL_START_2);
-		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_START_2, 0.1f);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_START_2, 0.01f);
 		break;
 	case Client::CNezukoState::TYPE_DEFAULT:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_SPLSKL_START_3);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_SPLSKL_START_3);
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_SPLSKL_START_3);
-		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_START_3, 0.1f);
+		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_START_3, 0.01f);
 		break;
 	case Client::CNezukoState::TYPE_CHANGE:
 		break;

@@ -67,12 +67,12 @@ void CQuiestSubBase::Tick(_float fTimeDelta)
 		if (!m_bBaseOn)
 		{
 			m_bBaseOn = true;
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_QuestOn.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_QuestOn.wav"), g_fEffect);
 		}
 		else
 		{
 			m_bBaseOn = false;
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_QuestOff.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_QuestOff.wav"), g_fEffect);
 		}
 	}
 

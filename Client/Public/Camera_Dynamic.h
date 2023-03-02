@@ -22,8 +22,9 @@ public:
 	enum CUTSCENE{ CUTSCENE_TAN_SPC_1, CUTSCENE_TAN_SPC_2, CUTSCENE_TAN_SPC_3, CUTSCENE_TAN_SPC_4, CUTSCENE_TAN_SPC_5, 
 		CUTSCENE_RUI_SPC_START, CUTSCENE_RUI_SPC_0, CUTSCENE_RUI_SPC_1, CUTSCENE_RUI_SPC_2, CUTSCENE_RUI_SPC_3, CUTSCENE_RUI_SPC_4, CUTSCENE_RUI_SPC_5, 
 		CUTSCENE_RGK_START, CUTSCENE_RGK_0, CUTSCENE_RGK_1, CUTSCENE_RGK_2, CUTSCENE_RGK_3, CUTSCENE_RGK_4, CUTSCENE_RGK_5, CUTSCENE_RGK_6, CUTSCENE_RGK_7, CUTSCENE_RGK_8,
+		CUTSCENE_AKZ_START, CUTSCENE_AKZ_0, CUTSCENE_AKZ_1, CUTSCENE_AKZ_2, CUTSCENE_AKZ_3, CUTSCENE_AKZ_4, CUTSCENE_AKZ_5, CUTSCENE_AKZ_6,
 		CUTSCENE_END};
-	enum STORYSCENE { STORYSCENE_RUIDAD_START, STORYSCENE_RUIDAD_BATTLE, STORYSCENE_RUI_START, STORYSCENE_RUI_DEAD,STORYSCENE_END };
+	enum STORYSCENE { STORYSCENE_RUIDAD_START, STORYSCENE_RUIDAD_BATTLE, STORYSCENE_RUI_START, STORYSCENE_RUI_DEAD, STORYSCENE_ADV_TANJIRO,STORYSCENE_END };
 private:
 	CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCamera_Dynamic(const CCamera_Dynamic& rhs);
@@ -104,7 +105,6 @@ private:
 private:/*For.ActionCam*/
 	_bool	CutScene(CUTSCENE eCutScene, _float fTimeDelta);
 	_bool	StoryScene(STORYSCENE eCutScene, _float fTimeDelta);
-	_bool	CutScene_Test(_float fTimeDelta);
 	
 	HRESULT Ready_CutScene(char* pFileName);
 	HRESULT Ready_StoryScene(char* pFileName);
@@ -186,6 +186,7 @@ private:
 	_float		m_fCullTime = 0.f;
 
 	std::vector<_float2>					m_vecMotionBlur;
+	std::vector<std::vector<_float4>>		m_vecCamUp;
 	std::vector<std::vector<_float4>>		m_vecCamEye;
 	std::vector<std::vector<_float4>>		m_vecCamAt;
 	std::vector<std::vector<_float>>		m_vecCamTime;

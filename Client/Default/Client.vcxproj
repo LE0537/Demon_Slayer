@@ -230,6 +230,7 @@
     <ClInclude Include="..\Public\Akaza_CinemaState.h" />
     <ClInclude Include="..\Public\AngryState.h" />
     <ClInclude Include="..\public\BaseAtk.h" />
+    <ClInclude Include="..\Public\BattleDialog.h" />
     <ClInclude Include="..\public\BigBird.h" />
     <ClInclude Include="..\public\Bird.h" />
     <ClInclude Include="..\Public\BtlFixedImg.h" />
@@ -640,6 +641,7 @@
     <ClInclude Include="..\Public\TargetCircle.h" />
     <ClInclude Include="..\Public\Terrain.h" />
     <ClInclude Include="..\public\TrainNPC.h" />
+    <ClInclude Include="..\public\Train_Head.h" />
     <ClInclude Include="..\Public\TxtWinLight.h" />
     <ClInclude Include="..\Public\TxtWinUI.h" />
     <ClInclude Include="..\public\UI.h" />
@@ -727,6 +729,7 @@
     <ClCompile Include="..\Private\Akaza_CinemaState.cpp" />
     <ClCompile Include="..\Private\AngryState.cpp" />
     <ClCompile Include="..\private\BaseAtk.cpp" />
+    <ClCompile Include="..\Private\BattleDialog.cpp" />
     <ClCompile Include="..\private\BigBird.cpp" />
     <ClCompile Include="..\private\Bird.cpp" />
     <ClCompile Include="..\Private\BtlFixedImg.cpp" />
@@ -1128,6 +1131,7 @@
     <ClCompile Include="..\Private\TargetCircle.cpp" />
     <ClCompile Include="..\Private\Terrain.cpp" />
     <ClCompile Include="..\private\TrainNPC.cpp" />
+    <ClCompile Include="..\private\Train_Head.cpp" />
     <ClCompile Include="..\Private\TxtWinLight.cpp" />
     <ClCompile Include="..\Private\TxtWinUI.cpp" />
     <ClCompile Include="..\private\UI.cpp" />

@@ -113,6 +113,7 @@ private:
 	CCharacters* m_pTanjiro = nullptr;
 	_bool					m_bIsCreate = false;
 	_bool					m_bHit = false;
+
 private:
 	ANIMID m_eAnimID;
 

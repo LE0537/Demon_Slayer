@@ -12,7 +12,7 @@ CHitCinema_Akaza::CHitCinema_Akaza(CINEMASCENE eScene)
 
 CRuiState * CHitCinema_Akaza::HandleInput(CRui* pRui)
 {
-	
+
 
 	return nullptr;
 }
@@ -23,36 +23,24 @@ CRuiState * CHitCinema_Akaza::Tick(CRui* pRui, _float fTimeDelta)
 	switch (m_eScene)
 	{
 	case Client::Rui::CHitCinema_Akaza::SCENE_START:
-		if (pRui->Get_Model()->Get_End(CHitCinema_Akaza::ANIM_SCENE_DMG_010))
+		if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_050)
 		{
-			pRui->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_010);
-
-			if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_050)
-			{
-				return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_0);
-			}
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_0);
 		}
 		break;
 	case Client::Rui::CHitCinema_Akaza::SCENE_0:
-		if (pRui->Get_Model()->Get_End(CHitCinema_Akaza::ANIM_SCENE_DMG_050))
+		if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_080)
 		{
-			pRui->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_050);
-
-			if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_080)
-			{
-				return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_1);
-			}
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_1);
 		}
 		break;
 	case Client::Rui::CHitCinema_Akaza::SCENE_1:
-		if (pRui->Get_Model()->Get_End(CHitCinema_Akaza::ANIM_SCENE_DMG_080))
+		if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_090)
 		{
 			pRui->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_080);
-
-			if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_090)
-			{
-				return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_2);
-			}
+			return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_2);
 		}
 		break;
 	case Client::Rui::CHitCinema_Akaza::SCENE_2:

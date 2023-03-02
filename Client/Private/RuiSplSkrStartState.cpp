@@ -125,7 +125,7 @@ void CSplSkrStartState::Enter(CRui* pRui)
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_SPLSKL_START_0);
 		pRui->Set_AnimIndex(CRui::ANIM_SPLSKL_START_0);
 		pRui->Get_Model()->Set_Loop(CRui::ANIM_SPLSKL_START_0);
-		pRui->Get_Model()->Set_LinearTime(CRui::ANIM_SPLSKL_START_0, 0.1f);
+		pRui->Get_Model()->Set_LinearTime(CRui::ANIM_SPLSKL_START_0, 0.01f);
 		break;
 	case Client::CRuiState::TYPE_END:
 		break;

@@ -92,11 +92,11 @@ void CDashState::Enter(CRuiDad* pRuiDad)
 			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIMID::ANIM_DASH_B, 0.01f);
 			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_DASH_B);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), g_fEffect);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), g_fVoice);
 		break;
 	case Client::DIR_LEFT:
 		if (iIndex == 1)
@@ -113,12 +113,12 @@ void CDashState::Enter(CRuiDad* pRuiDad)
 			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIMID::ANIM_DASH_R, 0.01f);
 			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_DASH_R);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), g_fEffect);
 	
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), g_fVoice);
 		break;
 	case Client::DIR_RIGHT:
 		if (iIndex == 1)
@@ -135,11 +135,11 @@ void CDashState::Enter(CRuiDad* pRuiDad)
 			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIMID::ANIM_DASH_L, 0.01f);
 			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_DASH_L);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), g_fEffect);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), g_fVoice);
 		break;
 	case Client::DIR_BACK:
 		if (iIndex == 1)
@@ -156,12 +156,12 @@ void CDashState::Enter(CRuiDad* pRuiDad)
 			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIMID::ANIM_DASH_F, 0.01f);
 			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_DASH_F);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), g_fEffect);
 		
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), g_fVoice);
 		break;
 	case Client::DIR_LF:
 		if (iIndex == 1)
@@ -178,11 +178,11 @@ void CDashState::Enter(CRuiDad* pRuiDad)
 			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIMID::ANIM_DASH_R, 0.01f);
 			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_DASH_R);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), g_fEffect);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), g_fVoice);
 		break;
 	case Client::DIR_RF:
 		if (iIndex == 1)
@@ -199,11 +199,11 @@ void CDashState::Enter(CRuiDad* pRuiDad)
 			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIMID::ANIM_DASH_L, 0.01f);
 			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_DASH_L);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), g_fEffect);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), g_fVoice);
 		break;
 	case Client::DIR_LB:
 		if (iIndex == 1)
@@ -220,11 +220,11 @@ void CDashState::Enter(CRuiDad* pRuiDad)
 			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIMID::ANIM_DASH_R, 0.01f);
 			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_DASH_R);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), g_fEffect);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), g_fVoice);
 		break;
 	case Client::DIR_RB:
 		if (iIndex == 1)
@@ -241,11 +241,11 @@ void CDashState::Enter(CRuiDad* pRuiDad)
 			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIMID::ANIM_DASH_L, 0.01f);
 			pRuiDad->Set_AnimIndex(CRuiDad::ANIM_DASH_L);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_Dash.wav"), g_fEffect);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dash_1.wav"), g_fVoice);
 		break;
 	case Client::DIR_STOP:
 		break;

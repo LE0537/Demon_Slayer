@@ -75,7 +75,7 @@ private:/*For.CamAction*/
 	CGameObject*				m_pCamera = nullptr;
 		
 	_uint						m_iNumCamFiles = 0;
-	char*						m_strCamFiles[40];
+	char*						m_strCamFiles[250];
 	_int						m_iNumCam[CAM_END] = { 0, };
 
 	vector<_float4>				m_vecCam[CAM_END];

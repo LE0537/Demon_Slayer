@@ -306,7 +306,7 @@ CKyoujuroState * CAtk_4_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 					m_bHit = true;
 				}
 				CSoundMgr::Get_Instance()->Effect_Stop(SOUND_EFFECT);
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_Attack_3.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_Hit_Attack_3.wav"), g_fEffect);
 			}
 		}
 	}
@@ -335,13 +335,13 @@ void CAtk_4_State::Enter(CKyoujuro * pKyoujuro)
 	_uint iRand = rand() % 3;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Attack4_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Attack4_1.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Attack4_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Attack4_2.wav"), g_fVoice);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Attack4_3.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Attack4_3.wav"), g_fVoice);
 
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Attack_3.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Attack_3.wav"), g_fEffect);
 }
 
 void CAtk_4_State::Exit(CKyoujuro * pKyoujuro)

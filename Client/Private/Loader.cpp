@@ -45,6 +45,7 @@
 #include "ShinobuWeaponMenu.h"
 #include "TanjiroWeapon2.h"
 #include "RuiHead.h"
+#include "Train_Head.h"
 //UI
 #include "HpBar.h"
 #include "HpBarBack.h"
@@ -161,6 +162,7 @@
 #include "MapNameBar.h"
 #include "Adv_ResultBase.h"
 #include "FadeUIEff.h"
+#include "BattleDialog.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -388,7 +390,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Mask_Chara_%d.png"), 4))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_KeyUI"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/kb_U_00.png"), 1))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Key_%d.png"), 2))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltStockNum"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Lang_Num_Stock.png"), 1))))
@@ -1841,6 +1843,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CRuiSister::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Train_Head"),
+		CTrain_Head::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	//PivotMatrix = XMMatrixScaling(0.03f, 0.03f, 0.03f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
 
 
@@ -2192,6 +2197,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BattleDialog"),
+		CBattleDialog::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ResultUI"),
 		CAdv_ResultBase::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

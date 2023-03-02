@@ -127,8 +127,8 @@ void CJumpSkill_CommonState::Enter(CRui* pRui)
 		//vPosition += XMVectorSet(0.3f, 0.3f, 0.3f, 0.f);
 		pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
 		pRui->Get_Transform()->LookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Commonn.wav"), fVOICE);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_CommonSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Commonn.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_CommonSkill.wav"), g_fEffect);
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIM_JUMPSKILL_1);
@@ -158,7 +158,7 @@ void CJumpSkill_CommonState::Enter(CRui* pRui)
 	}
 
 	if (pRui->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_CommonSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_Hit_CommonSkill.wav"), g_fEffect);
 
 }
 

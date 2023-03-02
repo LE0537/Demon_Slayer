@@ -213,11 +213,11 @@ void CHitState::Enter(CTanjiro * pTanjiro)
 	_uint iRand = rand() % 3;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_1.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_2.wav"), g_fVoice);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_3.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_3.wav"), g_fVoice);
 }
 
 

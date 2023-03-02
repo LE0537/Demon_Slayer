@@ -275,8 +275,8 @@ void CSkill_JumpDropState::Enter(CRuiDad* pRuiDad)
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_SKILL3_0);
 		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_SKILL3_0);
 	//	m_fOriginPosY = pRuiDad->Get_BattleTarget()->Get_NavigationHeight().y;
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_JumpDrpoSkill.wav"), fEFFECT);
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_JumpDropSkill.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_JumpDrpoSkill.wav"), g_fEffect);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_JumpDropSkill.wav"), g_fVoice);
 		m_vVelocity.x = 0.f;
 		m_vVelocity.y = 30.f;
 		m_vVelocity.z = 0.f;
@@ -305,7 +305,7 @@ void CSkill_JumpDropState::Enter(CRuiDad* pRuiDad)
 		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_SKILL3_2, 0.01f);
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_SKILL3_2);
 		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_SKILL3_2);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_JumpDrpoSkill1.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiDad_SE_JumpDrpoSkill1.wav"), g_fEffect);
 
 		CGameInstance*		pGameInstance2 = GET_INSTANCE(CGameInstance);
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.4f);

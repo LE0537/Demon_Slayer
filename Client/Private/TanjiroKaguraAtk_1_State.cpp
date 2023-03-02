@@ -255,6 +255,7 @@ CTanjiroState * CAtk_1_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 				}
 				if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_SE_Hit_Attack_0.wav"), g_fEffect);
 					_int iDest = rand() % 5;
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					switch (iDest)
@@ -337,7 +338,7 @@ void CAtk_1_KaguraState::Enter(CTanjiro * pTanjiro)
 
 	pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_KAGURA_ATTACK_1);
 	pTanjiro->Set_AnimIndex(CTanjiro::ANIM_KAGURA_ATTACK_1);
-
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_SE_Attack_0.wav"), g_fEffect);
 }
 
 void CAtk_1_KaguraState::Exit(CTanjiro * pTanjiro)
