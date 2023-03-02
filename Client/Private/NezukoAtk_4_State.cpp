@@ -449,16 +449,16 @@ void CAtk_4_State::Enter(CNezuko* pNezuko)
 	_uint iRand = rand() % 3;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_1.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_2.wav"), g_fVoice);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_3.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Attack4_3.wav"), g_fVoice);
 
 	if (pNezuko->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_Attack_3.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_Attack_3.wav"), g_fEffect);
 	else
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Attack_3.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Attack_3.wav"), g_fEffect);
 }
 
 void CAtk_4_State::Exit(CNezuko* pNezuko)

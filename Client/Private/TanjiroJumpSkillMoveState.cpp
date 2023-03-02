@@ -222,8 +222,8 @@ void CJumpSkillMoveState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SKILL_JUMPMOVE_0);
 		pTanjiro->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_SKILL_WATERMILL_0, 0.01f);
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_WaterMill.wav"), fVOICE);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_WaterMill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_WaterMill.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_WaterMill.wav"), g_fEffect);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SKILL_JUMPMOVE_1);

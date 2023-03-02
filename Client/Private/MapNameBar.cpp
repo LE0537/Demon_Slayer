@@ -84,20 +84,32 @@ void CMapNameBar::Tick(_float fTimeDelta)
 				m_iMoveCount = 0;
 				m_fFadeTime = 0.f;
 				m_bOnCheck = true;
+				
 				if (!m_bMsgOnCheck)
 				{
+					CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 					if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVRUI)
 					{
 						pUI_Manager->Set_MsgOn();
 						pUI_Manager->Set_MsgName(TEXT("Ä«¸¶µµ ÅºÁö·Î"));
 						pUI_Manager->Set_Msg(TEXT("(Å¯Å¯.. ÀÌ..³¿»õ´Â... ¹¹Áö..?)"));
-						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Dialog_04.wav"), fEFFECT);
-						pUI_Manager->Set_QuestStartCheck(true);
-						pUI_Manager->Set_MainQuestOn();
-						m_bMsgOnCheck = true;
-					
+						if (!m_bSound)
+						{
+							m_bSound = true;
+							CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_04.wav"), g_fDialog);
+						}
+						CSoundMgr::Get_Instance()->Dialog_End(&m_bSoundEnd);
+
+						if (!m_bSoundEnd)
+						{
+							pUI_Manager->Set_MsgOff();
+							pUI_Manager->Set_QuestStartCheck(true);
+							pUI_Manager->Set_MainQuestOn();
+							m_bMsgOnCheck = true;
+						}
+
 					}
-					else if(m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
+					else if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
 					{
 						switch (pUI_Manager->Get_MsgCount())
 						{
@@ -107,20 +119,17 @@ void CMapNameBar::Tick(_float fTimeDelta)
 							pUI_Manager->Set_Msg(TEXT("Åª.. ³¿»õ°¡ Áöµ¶ÇØ, ¹«°Å¿ö...! ÀÌ ¹Ù¶÷ ¼Ó¿¡¼­ Ç÷±Í ³¿»õ°¡ ÀÌ·¸°Ô±îÁö...!!"));
 							break;
 						case 1:
-							pUI_Manager->Set_MsgOn();
-							pUI_Manager->Set_MsgName(TEXT("Ä«¸¶µµ ÅºÁö·Î"));
 							pUI_Manager->Set_Msg(TEXT("Ç÷±Í´Â ¹Ù¶÷ÀÌ ºÒ¾î¿À´Â ÂÊ... ¼±µÎ Â÷·®ÀÎ°¡? ¾ÕÀ¸·Î °¡º¸ÀÚ"));
+							break;
+						default:
+							pUI_Manager->Set_MsgOff();
 							pUI_Manager->Set_QuestStartCheck(true);
 							pUI_Manager->Set_MainQuestOn();
 							pUI_Manager->Reset_MsgCount();
-							m_bMsgOnCheck = true;
-							break;
-						default:
 							break;
 						}
 					}
-
-					
+					RELEASE_INSTANCE(CGameInstance);
 				}
 			}
 		}

@@ -92,7 +92,7 @@ void CDashState::Enter(CEnmu* pEnmu)
 			pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_DASH_B, 0.01f);
 			pEnmu->Set_AnimIndex(CEnmu::ANIM_DASH_B);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), g_fEffect);
 		break;
 	case Client::DIR_LEFT:
 		if (iIndex == 1)
@@ -109,7 +109,7 @@ void CDashState::Enter(CEnmu* pEnmu)
 			pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_DASH_R, 0.01f);
 			pEnmu->Set_AnimIndex(CEnmu::ANIM_DASH_R);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), g_fEffect);
 		break;
 	case Client::DIR_RIGHT:
 		if (iIndex == 1)
@@ -126,7 +126,7 @@ void CDashState::Enter(CEnmu* pEnmu)
 			pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_DASH_L, 0.01f);
 			pEnmu->Set_AnimIndex(CEnmu::ANIM_DASH_L);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), g_fEffect);
 		break;
 	case Client::DIR_BACK:
 		if (iIndex == 1)
@@ -143,7 +143,7 @@ void CDashState::Enter(CEnmu* pEnmu)
 			pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_DASH_F, 0.01f);
 			pEnmu->Set_AnimIndex(CEnmu::ANIM_DASH_F);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), g_fEffect);
 		break;
 	case Client::DIR_LF:
 		if (iIndex == 1)
@@ -160,7 +160,7 @@ void CDashState::Enter(CEnmu* pEnmu)
 			pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_DASH_R, 0.01f);
 			pEnmu->Set_AnimIndex(CEnmu::ANIM_DASH_R);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), g_fEffect);
 		break;
 	case Client::DIR_RF:
 		if (iIndex == 1)
@@ -177,7 +177,7 @@ void CDashState::Enter(CEnmu* pEnmu)
 			pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_DASH_L, 0.01f);
 			pEnmu->Set_AnimIndex(CEnmu::ANIM_DASH_L);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), g_fEffect);
 		break;
 	case Client::DIR_LB:
 		if (iIndex == 1)
@@ -194,7 +194,7 @@ void CDashState::Enter(CEnmu* pEnmu)
 			pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_DASH_R, 0.01f);
 			pEnmu->Set_AnimIndex(CEnmu::ANIM_DASH_R);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), g_fEffect);
 		break;
 	case Client::DIR_RB:
 		if (iIndex == 1)
@@ -211,7 +211,7 @@ void CDashState::Enter(CEnmu* pEnmu)
 			pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_DASH_L, 0.01f);
 			pEnmu->Set_AnimIndex(CEnmu::ANIM_DASH_L);
 		}
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash&Jump.wav"), g_fEffect);
 		break;
 	case Client::DIR_STOP:
 		break;

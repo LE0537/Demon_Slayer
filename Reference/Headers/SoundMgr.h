@@ -35,14 +35,25 @@ public:
 	void PlayBGM(TCHAR* pSoundKey, float fVolume);
 	void PlayEffect(TCHAR * pSoundKey, float fVolume);
 	void PlayVoice(TCHAR * pSoundKey, float fVolume);
+	void PlayDialog(TCHAR * pSoundKey, float fVolume);
 	void BGM_Stop();
 	void Effect_Stop(CHANNELID eType);
 	void Free();
 	void SetSoundVolume(CHANNELID  _Channel, float fVolume);
+	void Mute_BGM();
+	void Mute_Effect();
+	void Mute_Voice();
+	void Mute_Dialog();
+	void Listen_BGM();
+	void Listen_Effect();
+	void Listen_Voice();
+	void Listen_Dialog();
+	_bool Dialog_End(_bool* bCheck);
 private:
 	void LoadBGMFile();
 	void LoadEffectFile();
 	void LoadVoiceFile();
+	void LoadDialogFile();
 private:
 	static CSoundMgr* m_pInstance;
 

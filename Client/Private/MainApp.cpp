@@ -28,6 +28,10 @@ int		    	g_iLevel = 0;
 bool			g_bThread = false;
 bool			g_bDeathTime = false;
 float			g_fFar = 1800.f;
+float			g_fBGM = 0.7f;
+float			g_fEffect = 0.8f;
+float			g_fVoice = 0.7f;
+float			g_fDialog = 1.f;
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())

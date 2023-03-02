@@ -122,7 +122,7 @@ void CGuardHitState::Enter(CEnmu* pEnmu)
 		pEnmu->Set_AnimIndex(CEnmu::ANIM_GUARDHIT_0);
 		pEnmu->Get_Model()->Set_Loop(CEnmu::ANIM_GUARDHIT_0);
 		pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIM_GUARDHIT_0, 0.01f);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_GaurdHit.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_GaurdHit.wav"), g_fEffect);
 		break;
 	case Client::CEnmuState::TYPE_LOOP:
 		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_GUARDHIT_0);

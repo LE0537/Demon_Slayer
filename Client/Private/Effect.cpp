@@ -69,7 +69,7 @@ HRESULT CEffect::Initialize(void * pArg)
 		else
 			m_pTarget = (CGameObj*)pArg;
 	}
-	
+
 	_float3 vRadian;
 	vRadian.x = XMConvertToRadians(m_EffectInfo.vRotation.x);
 	vRadian.y = XMConvertToRadians(m_EffectInfo.vRotation.y);
@@ -124,7 +124,7 @@ void CEffect::Tick(_float fTimeDelta)
 	m_fEffectTime += fTimeDelta;
 
 	if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
-		
+
 		if (m_bStart) {
 			if (m_pTarget != nullptr) {
 				if (m_EffectInfo.iMoveType == EFFMOVE_ZERO) {
@@ -147,7 +147,7 @@ void CEffect::Tick(_float fTimeDelta)
 			}
 		}
 		else {
-			if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO && m_EffectInfo.iMoveType != EFFMOVE_MATRIXPIX 
+			if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO && m_EffectInfo.iMoveType != EFFMOVE_MATRIXPIX
 				&& m_EffectInfo.iMoveType != EFFMOVE_MATRIX && m_EffectInfo.iMoveType != EFFMOVE_MATRIX2
 				&& m_pTarget != nullptr) {
 				_matrix vTargetPos = m_pTarget->Get_Transform()->Get_WorldMatrix();
@@ -156,7 +156,7 @@ void CEffect::Tick(_float fTimeDelta)
 				XMStoreFloat4x4(&m_CombinedWorldMatrix, vPos * vTargetPos);
 			}
 		}
-		
+
 
 		for (auto& pTex : m_Textures)
 			pTex->Tick(fTimeDelta);
@@ -194,7 +194,7 @@ void CEffect::Late_Tick(_float fTimeDelta)
 		return;
 	}
 
-	if(EFFMOVE_MATRIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType && m_pTarget != nullptr
+	if (EFFMOVE_MATRIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType && m_pTarget != nullptr
 		&& EFFMOVE_MATRIX2 != m_EffectInfo.iMoveType)
 		m_fEffectStartTime += m_pTarget->Get_EffectTime();
 
@@ -332,7 +332,7 @@ void CEffect::Late_Tick(_float fTimeDelta)
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			int i = 0;
 			for (auto& pTex : m_Textures) {
-				if(m_fEffectStartTime >= m_EffectInfo.fEffectStartTime + m_TextureInfo[i].fStartTime)
+				if (m_fEffectStartTime >= m_EffectInfo.fEffectStartTime + m_TextureInfo[i].fStartTime)
 					pTex->Late_Tick(fTimeDelta);
 				i++;
 			}
@@ -361,7 +361,7 @@ void CEffect::Late_Tick(_float fTimeDelta)
 		break;
 	}
 
-	
+
 }
 
 void CEffect::Set_ParentWorldMatrix(_matrix ParentMat)
@@ -380,7 +380,7 @@ void CEffect::Set_ParentWorldMatrix(_matrix ParentMat)
 HRESULT CEffect::Ready_Components()
 {
 	/* For.Com_Transform */
-	CTransform::TRANSFORMDESC		TransformDesc;
+	CTransform::TRANSFORMDESC      TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
 
 	TransformDesc.fSpeedPerSec = 5.f;
@@ -394,21 +394,21 @@ HRESULT CEffect::Ready_Components()
 
 HRESULT CEffect::Ready_Parts()
 {
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CGameInstance*      pGameInstance = GET_INSTANCE(CGameInstance);
 
 	// 咆胶贸 积己
 	for (auto TexInfo : m_TextureInfo) {
-		CGameObject*		pTexture = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectTexture"));
+		CGameObject*      pTexture = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectTexture"));
 
 		static_cast<CEffect_Texture*>(pTexture)->Set_Parents(this);
 		static_cast<CEffect_Texture*>(pTexture)->Set_TexInfo(TexInfo);
 
 		m_Textures.push_back((CEffect_Texture*)pTexture);
 	}
-	
+
 	// 皋浆 积己
 	for (auto MeshInfo : m_MeshInfo) {
-		CGameObject*		pMesh = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectMesh"));
+		CGameObject*      pMesh = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectMesh"));
 
 		static_cast<CEffect_Mesh*>(pMesh)->Set_Parents(this);
 		static_cast<CEffect_Mesh*>(pMesh)->Set_MeshInfo(MeshInfo);
@@ -418,7 +418,7 @@ HRESULT CEffect::Ready_Parts()
 
 	// 颇萍努 积己
 	for (auto ParticleInfo : m_ParticleInfo) {
-		CGameObject*		pParticle = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectParticle"));
+		CGameObject*      pParticle = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectParticle"));
 
 		static_cast<CEffect_Particle*>(pParticle)->Set_Parents(this);
 		static_cast<CEffect_Particle*>(pParticle)->Set_ParticleInfo(ParticleInfo);
@@ -428,7 +428,7 @@ HRESULT CEffect::Ready_Parts()
 
 	// New颇萍努 积己
 	for (auto ParticleInfo : m_NewParticleInfo) {
-		CGameObject*		pParticle = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectParticleNew"));
+		CGameObject*      pParticle = pGameInstance->Clone_GameObject(TEXT("Prototype_GameObject_EffectParticleNew"));
 
 		static_cast<CEffect_Particle_New*>(pParticle)->Set_Parents(this);
 		static_cast<CEffect_Particle_New*>(pParticle)->Set_ParticleInfo(ParticleInfo);
@@ -444,7 +444,7 @@ HRESULT CEffect::Ready_Parts()
 CEffect * CEffect::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, _uint Effect_Num, EFFECT_INFO EffectInfo, vector<CEffect_Texture::TEXTURE_INFO> TextureInfo
 	, vector<CEffect_Mesh::MESH_INFO> MeshInfo, vector<CEffect_Particle::PARTICLE_INFO> ParticleInfo, vector<CEffect_Particle_New::PARTICLE_INFO> NewParticleInfo)
 {
-	CEffect*	pInstance = new CEffect(pDevice, pContext);
+	CEffect*   pInstance = new CEffect(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype(EffectInfo, TextureInfo, Effect_Num, MeshInfo, ParticleInfo, NewParticleInfo)))
 	{
@@ -457,7 +457,7 @@ CEffect * CEffect::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext
 
 CGameObject * CEffect::Clone(void * pArg)
 {
-	CGameObject*	pInstance = new CEffect(*this);
+	CGameObject*   pInstance = new CEffect(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{

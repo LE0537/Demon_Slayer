@@ -447,16 +447,16 @@ void CDashState::Enter(CTanjiro * pTanjiro)
 
 	_uint iRand = rand() % 3;
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_0.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_0.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_1.wav"), g_fVoice);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Spirited_2.wav"), g_fVoice);
 
 	if(iIndex == 1)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_DashFirst.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_DashFirst.wav"), g_fEffect);
 	else if(iIndex == 2)
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_DashSecond.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_DashSecond.wav"), g_fEffect);
 }
 
 void CDashState::Exit(CTanjiro * pTanjiro)

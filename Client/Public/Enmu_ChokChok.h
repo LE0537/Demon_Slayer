@@ -79,6 +79,7 @@ private:
 	CCollider*				m_pOBBCom = nullptr;
 	_bool					m_bIsCreate = false;
 	_float					m_fEffectTime = 0.f;
+
 private:
 	ANIMID m_eAnimID;
 

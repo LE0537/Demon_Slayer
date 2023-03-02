@@ -241,7 +241,7 @@ void CTargetRushState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIMID::ANIM_TARGET_RUSH_0);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIMID::ANIM_TARGET_RUSH_0, 0.01f);
 		pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), g_fEffect);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_TARGET_RUSH_1);

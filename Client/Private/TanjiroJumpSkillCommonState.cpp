@@ -280,8 +280,8 @@ void CJumpSkillCommonState::Enter(CTanjiro * pTanjiro)
 	}
 
 
-	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_CommonSkill.wav"), fVOICE);
-	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_CommonSkill.wav"), fEFFECT);
+	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_CommonSkill.wav"), g_fVoice);
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_CommonSkill.wav"), g_fEffect);
 
 }
 

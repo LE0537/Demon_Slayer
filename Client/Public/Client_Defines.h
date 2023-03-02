@@ -15,9 +15,10 @@ namespace Client
 #include <time.h>
 #include <queue>
 // Client_Defines.h
-#define fBGM	0.7f
-#define fEFFECT 1.0f
-#define fVOICE 1.f
+//#define fBGM	0.7f
+//#define g_fEffect 1.0f
+//#define g_fVoice 0.7f
+//#define g_fDialog 1.0f
 extern HWND			g_hWnd;
 extern HINSTANCE	g_hInst;
 extern bool			g_bDebug;
@@ -26,5 +27,10 @@ extern int			g_iLevel;
 extern bool         g_bThread;
 extern bool			g_bDeathTime;
 extern float		g_fFar;
+extern float		g_fBGM;
+extern float		g_fEffect;
+extern float		g_fVoice;
+extern float		g_fDialog;
+
 
 using namespace Client;

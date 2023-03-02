@@ -223,6 +223,8 @@ private:
 	void Set_Shadow();
 	void Check_QuestEvent(_float fTimeDelta);
 	void Check_QuestTrainEvent(_float fTimeDelta);
+
+	
 private:
 	void HandleInput(_float fTimeDelta);
 	void TickState(_float fTimeDelta);
@@ -261,13 +263,17 @@ private:
 	_bool					m_bQuest3_1MSG = false;
 	_bool					m_bQuest3_2MSG = false;
 	_bool					m_bSoundCheck = false;
+	_bool					m_bIsPlaying = false;
+	wstring					m_szMsg = TEXT("");
 
 	_int					m_iAnimIndex = 0;
 	_bool					m_fPowerTime = 0.f;
 	_bool					m_bStoryRuiSpl = false;
+
 	_bool				    m_bStorySpl = false;
 	_float					m_fStoryTime = 0.f;
 	_bool					m_bStorySplEnd = false;
+
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

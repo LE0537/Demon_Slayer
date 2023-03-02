@@ -121,7 +121,7 @@ void CGuardHitState::Enter(CNezuko* pNezuko)
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_GUARD_HIT_0);
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_GUARD_HIT_0);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_GUARD_HIT_0, 0.01f);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_GuardHit.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_GuardHit.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_GUARD_HIT_1);

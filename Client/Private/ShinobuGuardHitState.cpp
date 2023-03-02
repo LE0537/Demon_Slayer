@@ -114,7 +114,7 @@ void CGuardHitState::Enter(CShinobu* pShinobu)
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_GUARD_HIT_0);
 		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_GUARD_HIT_0);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_GUARD_HIT_0, 0.01f);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_GuardHit.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_GuardHit.wav"), g_fEffect);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_GUARD_HIT_1);

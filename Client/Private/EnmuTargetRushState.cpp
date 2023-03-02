@@ -105,7 +105,7 @@ void CTargetRushState::Enter(CEnmu* pEnmu)
 		pEnmu->Get_Model()->Set_Loop(CEnmu::ANIMID::ANIM_TARGET_RUSH_0);
 		pEnmu->Get_Model()->Set_LinearTime(CEnmu::ANIMID::ANIM_TARGET_RUSH_0, 0.01f);
 		pEnmu->Get_Transform()->Set_PlayerLookAt(pEnmu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Enmu_SE_Dash.wav"), g_fEffect);
 		break;
 	case Client::CEnmuState::TYPE_LOOP:
 		pEnmu->Get_Model()->Set_CurrentAnimIndex(CEnmu::ANIMID::ANIM_TARGET_RUSH_1);

@@ -96,7 +96,7 @@ void CMsgTextBase::Tick(_float fTimeDelta)
 	{
 		if (!m_bSound)
 		{
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_DontSel.wav"), g_fEffect);
 			m_bSound = true;
 		}
 		m_iMoveCount += 1;
@@ -111,10 +111,8 @@ void CMsgTextBase::Tick(_float fTimeDelta)
 
 		if (pGameInstance->Key_Down(DIK_RETURN))
 		{
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CharSelCancel.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_CharSelCancel.wav"), g_fEffect);
 			pUI_Manager->Set_MsgCount(1);
-
-			pUI_Manager->Set_MsgOff();
 		}
 	}
 	else

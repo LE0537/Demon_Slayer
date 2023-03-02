@@ -159,11 +159,11 @@ void CHitState::Enter(CRuiDad* pRuiDad)
 			pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_HIT_FREE_0, false);
 			pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_HIT_FREE_0, 0.01f);
 			if (iRand == 0)
-				CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_0.wav"), fVOICE);
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_0.wav"), g_fVoice);
 			else if(iRand == 1)
-				CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_1.wav"), fVOICE);
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_1.wav"), g_fVoice);
 			else if (iRand == 2)
-				CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_2.wav"), fVOICE);
+				CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_2.wav"), g_fVoice);
 			break;
 		case Client::CRuiDadState::TYPE_LOOP:
 			pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_HIT_FREE_1);

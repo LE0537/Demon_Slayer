@@ -136,7 +136,7 @@ void CTakeDownState::Enter(CAkaza* pAkaza)
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT_DMG_RETURN_0);
 		pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_4.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_4.wav"), g_fVoice);
 		break;
 	case Client::CAkazaState::TYPE_CHANGE:
 		break;
@@ -149,18 +149,18 @@ void CTakeDownState::Enter(CAkaza* pAkaza)
 	//_uint iRand = rand() % 4;
 
 	//if (iRand == 0)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_1.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_1.wav"), g_fEffect);
 	//else if (iRand == 1)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_2.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_2.wav"), g_fEffect);
 	//else if (iRand == 2)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_3.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_3.wav"), g_fEffect);
 	//else if (iRand == 3)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_4.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_Hit1_4.wav"), g_fEffect);
 
 	//if (iRand == 0)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff1.wav"), g_fEffect);
 	//else if (iRand == 1)
-	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), fEFFECT);
+	//	CSoundMgr::Get_Instance()->PlayEffect(TEXT("FightEff2.wav"), g_fEffect);
 }
 
 
