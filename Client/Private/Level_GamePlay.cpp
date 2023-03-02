@@ -261,7 +261,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 				m_fNextLevelTime += fTimeDelta;
 				if (m_fNextLevelTime > 15.f && !pUIManager->Get_AdvResult())
 					pUIManager->Set_FadeIn();
-				else if (pUIManager->Get_AdvResult() && pUIManager->Get_StroyEventEnd())
+				else if (pUIManager->Get_AdvResult())
 				{
 					pUIManager->Set_AdvResult(false);
 					pUIManager->Set_FadeOut();

@@ -64,8 +64,8 @@ CRuiDadState * CMoveState::Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 
 CRuiDadState * CMoveState::Late_Tick(CRuiDad* pRuiDad, _float fTimeDelta)
 {
-	if(pRuiDad->Get_RuiDadAiMode() == false)
-		Move(pRuiDad, fTimeDelta);
+	/*if(pRuiDad->Get_RuiDadAiMode() == false)
+		Move(pRuiDad, fTimeDelta);*/
 
 
 	pRuiDad->Get_Model()->Play_Animation(fTimeDelta);
