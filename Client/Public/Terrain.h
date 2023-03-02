@@ -39,7 +39,8 @@ public:
 private:
 	CTexture*					m_pTerrain_TextureCom[TYPE_END] = { nullptr };
 	CVIBuffer_NewTerrain*		m_pNew_VIBufferCom = nullptr;
-
+public:
+	void	Set_SplRender(_bool _bRender) { m_bRender = _bRender; }
 
 private:
 	_uint			m_iPassIndex = 0;
@@ -49,7 +50,7 @@ private:
 	_uint			m_iNumVerticesZ = 0;
 
 	OPTION			m_eOption = OP_END;
-
+	_bool			m_bRender = false;
 private:
 	HRESULT Ready_Components(void* pArg);
 	HRESULT SetUp_ShaderResources();

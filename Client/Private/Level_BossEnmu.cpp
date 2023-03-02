@@ -203,7 +203,7 @@ void CLevel_BossEnmu::Tick(_float fTimeDelta)
 			if (m_fNextLevelTime > 5.f)
 			{
 				pUIManager->Set_SelMapNum(1);
-				pUIManager->Set_Sel1P(0);
+				pUIManager->Set_Sel1P(1);
 				pUIManager->Set_Sel1P_2(4);
 				pUIManager->Set_Sel2P(8);
 				pUIManager->Set_Sel2P_2(99);
