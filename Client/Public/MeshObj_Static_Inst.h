@@ -38,7 +38,8 @@ public:
 	virtual void Late_Tick(_float fTimeDelta);
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
-
+public:
+	void	Set_SplRender(_bool _bRender) { m_bRender = _bRender; }
 private:
 	CModel*		m_pModelCom = nullptr;
 	vector<VTXMATRIX>		m_vecMatrix;
@@ -50,7 +51,7 @@ private:
 private:
 	MESHOBJ_STATIC_INSTANCING_DESC			m_tMyDesc;
 	_bool		m_bRenderShadow = true;
-
+	_bool			m_bRender = false;
 	_bool		m_bInit = false;
 	_float4x4	m_matProjOrigin;
 
