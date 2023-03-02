@@ -57,7 +57,7 @@ void CGoto::Late_Tick(_float fTimeDelta)
 	{
 		if (fDist < 30.f)
 		{
-			Check_Event();
+			Check_Event(fTimeDelta);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 			m_pModelCom->Play_Animation(fTimeDelta);
@@ -153,7 +153,7 @@ HRESULT CGoto::Render_ShadowDepth()
 
 	return S_OK;
 }
-void CGoto::Check_Event()
+void CGoto::Check_Event(_float fTimeDelta)
 {
 	_vector vTargetPos = m_pBattleTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
@@ -200,53 +200,68 @@ void CGoto::Check_Event()
 				pUIManager->Set_Msg(TEXT("À¸À¸...À¸À¹...µµ,µµ¿ÍÁà...."));
 				if (!m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Goto_Dialog_00.wav"), fVOICE);
+					CSoundMgr::Get_Instance()->PlayDialog(TEXT("Goto_Dialog_00.wav"), g_fDialog);
 					m_bSoundCheck = true;
 				}
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgCount(1);
 				break;
 			case 1:
-				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("Ä«¸¶µµ ÅºÁö·Î"));
 				pUIManager->Set_Msg(TEXT("±¦Âú¾Æ?"));
 				if (m_bSoundCheck)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Goto_Dialog_05.wav"), fVOICE);
+					CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+					CSoundMgr::Get_Instance()->PlayDialog(TEXT("Goto_Dialog_05.wav"), g_fDialog);
 					m_bSoundCheck = false;
 				}
+				CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+				if (!m_bIsPlaying)
+					pUIManager->Set_MsgCount(1);
 				break;
 			case 2:
-				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("±Í»ì´ë¿ø °íÅä"));
 				pUIManager->Set_Msg(TEXT("¾öÃ» °­ÇÑ Ç÷±ÍÇÑÅ× ´çÇß¾î..."));
-				if (!m_bSoundCheck)
+				m_fMsgTime += fTimeDelta;
+				if (m_fMsgTime >= 2.f)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Goto_Dialog_00.wav"), fVOICE);
-					m_bSoundCheck = true;
+					pUIManager->Set_MsgCount(1);
+					m_fMsgTime = 0.f;
 				}
 				break;
 			case 3:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("±Í»ì´ë¿ø °íÅä"));
 				pUIManager->Set_Msg(TEXT("±× Ç÷±Í°¡ ³Ê¹« ½Ú ³ª¸ÓÁö ³» ÀÏ·ûµµµµ ºÎ·¯Á³¾î..."));
+				m_fMsgTime += fTimeDelta;
+				if (m_fMsgTime >= 2.f)
+				{
+					pUIManager->Set_MsgCount(1);
+					m_fMsgTime = 0.f;
+				}
 				break;
 			case 4:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("±Í»ì´ë¿ø °íÅä"));
 				pUIManager->Set_Msg(TEXT("±× ³à¼®À» Á¶½ÉÇØ¾ß ÇØ... À¸À¹..."));
-				if (m_bSoundCheck)
+				m_fMsgTime += fTimeDelta;
+				if (m_fMsgTime >= 2.f)
 				{
-					CSoundMgr::Get_Instance()->PlayVoice(TEXT("Goto_Dialog_00.wav"), fVOICE);
-					m_bSoundCheck = false;
+					pUIManager->Set_MsgCount(1);
+					m_fMsgTime = 0.f;
 				}
 				break;
 			case 5:
-				pUIManager->Set_MsgOn();
 				pUIManager->Set_MsgName(TEXT("Ä«¸¶µµ ÅºÁö·Î"));
 				pUIManager->Set_Msg(TEXT("(Á¤½ÅÀ» ÀÒÀº°Í °°´Ù...)"));
-				pUIManager->Set_RescueCount(1);
-				m_bMsgEnd = true;
+				m_fMsgTime += fTimeDelta;
+				if (m_fMsgTime >= 2.f)
+				{
+					pUIManager->Set_MsgCount(1);
+					m_fMsgTime = 0.f;
+				}
 				break;
 			default:
+				pUIManager->Set_MsgOff();
+				pUIManager->Set_RescueCount(1);
+				m_bMsgEnd = true;
 				break;
 			}
 		}

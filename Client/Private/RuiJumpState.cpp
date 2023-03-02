@@ -80,7 +80,7 @@ CRuiState * CJumpState::Tick(CRui * pRui, _float fTimeDelta)
 		case Client::CRuiState::TYPE_START:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpStart.wav"), g_fEffect);
 
 			return new CJumpState(STATE_TYPE::TYPE_LOOP, m_fCurrentPosY, m_fJumpTime);
 			break;
@@ -92,7 +92,7 @@ CRuiState * CJumpState::Tick(CRui * pRui, _float fTimeDelta)
 		case Client::CRuiState::TYPE_END:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_JumpEnd.wav"), g_fEffect);
 
 			return new CIdleState(STATE_ID::STATE_JUMP);
 			break;

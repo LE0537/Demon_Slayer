@@ -202,9 +202,9 @@ void CHitState::Enter(CNezuko* pNezuko)
 	_uint iRand = rand() % 2;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Hit_1.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Hit_1.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Hit_2.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Hit_2.wav"), g_fVoice);
 
 }
 

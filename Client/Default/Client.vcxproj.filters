@@ -1507,6 +1507,9 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Hit">
       <UniqueIdentifier>{f58a921f-2b47-4dc2-900e-c8f61f632848}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\96.MsgUI\Dialog">
+      <UniqueIdentifier>{d05b2261-0e6c-4b37-99b4-99461ed64b8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3000,6 +3003,9 @@
     <ClInclude Include="..\Public\EnmuBoss_Hit.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Hit</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\BattleDialog.h">
+      <Filter>03.UI\96.MsgUI\Dialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4459,6 +4465,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\EnmuBoss_Hit.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Hit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\BattleDialog.cpp">
+      <Filter>03.UI\96.MsgUI\Dialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

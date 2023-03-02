@@ -121,13 +121,13 @@ void CGuardHitState::Enter(CRuiDad* pRuiDad)
 		pRuiDad->Set_AnimIndex(CRuiDad::ANIM_GUARDHIT_0);
 		pRuiDad->Get_Model()->Set_Loop(CRuiDad::ANIM_GUARDHIT_0);
 		pRuiDad->Get_Model()->Set_LinearTime(CRuiDad::ANIM_GUARDHIT_0, 0.01f);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_GuardHit.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_GuardHit.wav"), g_fEffect);
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_1.wav"), g_fVoice);
 		else if (iRand == 2)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_2.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Hit_2.wav"), g_fVoice);
 		break;
 	case Client::CRuiDadState::TYPE_LOOP:
 		pRuiDad->Get_Model()->Set_CurrentAnimIndex(CRuiDad::ANIMID::ANIM_GUARDHIT_0);

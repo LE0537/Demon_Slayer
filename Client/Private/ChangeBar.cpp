@@ -104,7 +104,7 @@ void CChangeBar::Tick(_float fTimeDelta)
 		{
 			if (!m_bSound)
 			{
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), fEFFECT);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), g_fEffect);
 				m_bSound = true;
 			}
 			m_fTime = 469.17f;
@@ -121,10 +121,12 @@ void CChangeBar::Tick(_float fTimeDelta)
 				m_bCurPerBarCheck = true;
 			}
 			if (m_fFriendBar <= 500.f)
+			{
 				m_fTime = 500.f;
+				m_bSound = false;
+			}
 			if (m_fFriendBar < 1000)
 			{
-				m_bSound = false;
 				m_fTime -= 0.06166f;
 
 				if (!m_ThrowUIinfo.bPlyCheck)
@@ -132,14 +134,14 @@ void CChangeBar::Tick(_float fTimeDelta)
 				else
 					pUI_Manager->Get_2P()->Set_FriendSkillBar(1.f);
 
+				if (!m_bSound && m_fTime <= 469.17f)
+				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), g_fEffect);
+					m_bSound = true;
+				}
 			}
 			else if (m_fFriendBar >= 1000.f)
 			{
-				if (!m_bSound)
-				{
-					CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ChangeBar.wav"), fEFFECT);
-					m_bSound = true;
-				}
 				m_fTime = 469.17f;
 				m_bCurPerBarCheck = false;
 			}

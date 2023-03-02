@@ -288,11 +288,11 @@ void CTargetRushState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIMID::ANIM_TARGET_RUSH_0, 0.01f);
 		pTanjiro->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		if (iRand == 0)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_TargetRush_0.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_TargetRush_0.wav"), g_fVoice);
 		else if (iRand == 1)
-			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_TargetRush_1.wav"), fVOICE);
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_TargetRush_1.wav"), g_fVoice);
 
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_TargetRush.wav"), g_fEffect);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_TARGET_RUSH_1);

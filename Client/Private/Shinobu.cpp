@@ -683,7 +683,7 @@ void CShinobu::LateTickState(_float fTimeDelta)
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_RUN, this);
 
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("SE_Walk.wav"), g_fEffect);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_fEffectTime = 0.f;

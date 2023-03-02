@@ -115,7 +115,7 @@ void CGuardHitState::Enter(CAkaza* pAkaza)
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_GUARD_HIT_0);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_GUARD_HIT_0);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_GUARD_HIT_0, 0.01f);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_GuardHit.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_GuardHit.wav"), g_fEffect);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_GUARD_HIT_1);

@@ -382,6 +382,7 @@ private:
 	CUI::RESULTINFO					m_ResultInfo;
 	RANKINFO						m_RankInfo[2];
 
+	_uint							m_iKeyLayerNum = 0;
 	_uint							m_iCharIconLayerNum = 0;
 	_uint							m_iCharNameLayerNum = 0;
 	_uint							m_iCharFrameLayerNum = 0;

@@ -151,7 +151,7 @@ HRESULT CLevel_BattleEnmu::Initialize()
 	RELEASE_INSTANCE(CUI_Manager);
 
 	CSoundMgr::Get_Instance()->BGM_Stop();
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), g_fBGM);
 
 
 

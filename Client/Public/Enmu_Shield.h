@@ -84,6 +84,7 @@ private:
 	_float					m_fEffectTime = 0.f;
 	CCharacters*			m_pHead = nullptr;
 	CCharacters*			m_pTanjiro = nullptr;
+
 private:
 	ANIMID m_eAnimID;
 

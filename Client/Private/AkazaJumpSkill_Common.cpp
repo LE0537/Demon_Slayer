@@ -151,10 +151,10 @@ void CJumpSkill_CommmonState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_SKILL_JUMPCOMMON_0);
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_JumpShoot.wav"), fVOICE);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_CommonSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_JumpShoot.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_CommonSkill.wav"), g_fEffect);
 		if(pAkaza->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_CommonSkill.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_CommonSkill.wav"), g_fEffect);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_SKILL_JUMPCOMMON_1);
@@ -167,9 +167,9 @@ void CJumpSkill_CommmonState::Enter(CAkaza* pAkaza)
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SKILL_JUMPCOMMON_2);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIMID::ANIM_SKILL_JUMPCOMMON_2);
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.01f);
-		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_CommonSkill.wav"), fEFFECT);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_CommonSkill.wav"), g_fEffect);
 		if (pAkaza->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_CommonSkill.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_CommonSkill.wav"), g_fEffect);
 		Initialize_value(pAkaza);
 		break;
 

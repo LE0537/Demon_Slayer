@@ -236,11 +236,11 @@ void CJumpSkill_MoveState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.2f);
 		Initialize_MoveValue(pAkaza);
 		Initialize_value(pAkaza);
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Punch.wav"), fVOICE);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_Punch.wav"), g_fVoice);
 		if (pAkaza->Get_BattleTarget()->Get_TargetState() == STATE_HIT)
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_MoveAttack.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_MoveAttack.wav"), g_fEffect);
 		else
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_MoveAttack.wav"), fEFFECT);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_MoveAttack.wav"), g_fEffect);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_SKILL_JUMPMOVE_1);

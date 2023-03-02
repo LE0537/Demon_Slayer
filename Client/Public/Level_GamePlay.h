@@ -41,6 +41,7 @@ public:
 
 	HRESULT Load_StaticObjects(char* pFileName);
 	HRESULT Load_Map(const _tchar* pLayerTag, char* pFileName);
+	HRESULT	Battle_Dialog(const _tchar* pLayerTag);
 
 	CRITICAL_SECTION Get_CriticalSection() {
 		return m_CriticalSection;

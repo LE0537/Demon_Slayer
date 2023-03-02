@@ -111,6 +111,7 @@ private:
 	_bool					m_bIsCreate = false;
 	_bool					m_bHit = false;
 	_bool	m_bCollBox = false;
+
 private:
 	ANIMID m_eAnimID;
 

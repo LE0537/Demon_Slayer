@@ -150,7 +150,7 @@ HRESULT CLevel_BossEnmu::Initialize()
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), fBGM);
+	CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), g_fBGM);
 
 	CEnmuBoss::Get_Instance()->Initialize();
 
