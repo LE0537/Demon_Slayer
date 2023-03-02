@@ -335,7 +335,7 @@ HRESULT CTanjiro::Render()
 	//m_pNavigationCom->Render();
 
 	_uint		iNumMeshes = 0;
-	if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA )
+	if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 	{
 		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 
@@ -597,7 +597,7 @@ HRESULT CTanjiro::Render()
 					return E_FAIL;
 			}
 		}
-		
+
 	}
 
 
@@ -1372,7 +1372,7 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dialog_00.wav"), fVOICE);
 							m_bSoundCheck = false;
 						}
-						
+
 						break;
 					default:
 						pUIManager->Set_MsgOff();
@@ -1563,12 +1563,12 @@ void CTanjiro::Check_Spl()
 void CTanjiro::StorySpl(_float fTimeDelta)
 {
 
-		dynamic_cast<CRui*>(m_pBattleTarget)->Set_StoryDead();
-		m_pBattleTarget->Play_Scene();
-		CTanjiroState* pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);
-		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
-		m_bStorySpl = false;
-		m_bStorySplEnd = true;
+	dynamic_cast<CRui*>(m_pBattleTarget)->Set_StoryDead();
+	m_pBattleTarget->Play_Scene();
+	CTanjiroState* pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+	m_bStorySpl = false;
+	m_bStorySplEnd = true;
 
 }
 CTanjiro * CTanjiro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

@@ -51,6 +51,7 @@ private:
 	_float m_fDelay = 0.f;
 	_bool  m_bStop = false;
 	_bool  m_bTrue = false;
+	_bool  m_bStoryCam = false;
 };
 END
 END

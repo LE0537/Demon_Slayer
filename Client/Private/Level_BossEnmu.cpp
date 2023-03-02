@@ -843,6 +843,15 @@ HRESULT CLevel_BossEnmu::Load_StaticObjects(char * pFileName)
 					}
 					continue;
 					break;
+				case 2098:
+					tMeshObj_StaticDesc.iTypeNum = i;
+					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_Train_Head", LEVEL_BOSSENMU, L"Layer_Enmu_Neck", &tMeshObj_StaticDesc)))
+					{
+						ERR_MSG(L"Failed to Load : StaticObj - Add GameObjects");
+						continue;
+					}
+					continue;
+					break;
 				default:
 					break;
 				}

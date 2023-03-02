@@ -45,6 +45,7 @@
 #include "ShinobuWeaponMenu.h"
 #include "TanjiroWeapon2.h"
 #include "RuiHead.h"
+#include "Train_Head.h"
 //UI
 #include "HpBar.h"
 #include "HpBarBack.h"
@@ -1836,6 +1837,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CRuiSister::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Train_Head"),
+		CTrain_Head::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	//PivotMatrix = XMMatrixScaling(0.03f, 0.03f, 0.03f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
 
 
