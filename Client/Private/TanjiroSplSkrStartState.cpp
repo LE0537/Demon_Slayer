@@ -225,6 +225,8 @@ void CSplSkrStartState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SPLSKL_START_0);
 		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_SPLSKL_START_0);
 		pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_SPLSKL_START_0, 0.1f);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_SplSkrStart.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_SplSkr_Start.wav"), g_fEffect);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SPLSKL_START_1);

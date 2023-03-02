@@ -126,6 +126,8 @@ void CSplSkrStartState::Enter(CRui* pRui)
 		pRui->Set_AnimIndex(CRui::ANIM_SPLSKL_START_0);
 		pRui->Get_Model()->Set_Loop(CRui::ANIM_SPLSKL_START_0);
 		pRui->Get_Model()->Set_LinearTime(CRui::ANIM_SPLSKL_START_0, 0.1f);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_SplSkr_Start.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SplSkr_Start.wav"), g_fEffect);
 		break;
 	case Client::CRuiState::TYPE_END:
 		break;
