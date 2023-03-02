@@ -30,9 +30,10 @@ CEnmuBossState * CEnmuBoss_Hit::Tick(CEnmuBoss * pEnmuBoss, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CEnmuBossState::TYPE_START:
-		if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Get_End(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_AnimIndex()))
+		if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Get_End(3))
+			
 		{
-			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Set_End(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_AnimIndex());
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_End(3);
 			return new CEnmuBoss_Hit(STATE_TYPE::TYPE_LOOP, m_eParts);
 		}
 
@@ -44,9 +45,9 @@ CEnmuBossState * CEnmuBoss_Hit::Tick(CEnmuBoss * pEnmuBoss, _float fTimeDelta)
 			return new CEnmuBoss_Hit(STATE_TYPE::TYPE_END, m_eParts);
 		break;
 	case Client::CEnmuBossState::TYPE_END:
-		if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Get_End(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_AnimIndex()))
+		if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Get_End(5))
 		{
-			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_Model()->Set_End(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_AnimIndex());
+			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_End(5);
 			return new CIdleState();
 		}
 		break;

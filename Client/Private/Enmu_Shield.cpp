@@ -226,7 +226,7 @@ void CEnmu_Shield::HandleInput()
 
 void CEnmu_Shield::TickState(_float fTimeDelta)
 {
-	if (m_bHit == true && m_bFree == false)
+	if (m_bHit == true)
 	{
 		if (m_pModelCom->Get_End(6))
 		{
@@ -240,7 +240,7 @@ void CEnmu_Shield::TickState(_float fTimeDelta)
 			m_bHit = false;
 		}
 	}
-	
+
 
 
 }
@@ -337,36 +337,27 @@ void CEnmu_Shield::Set_Info()
 
 void CEnmu_Shield::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
-	if (m_bFree == false)
-	{
-		m_pModelCom->Reset_Anim(6);
 
-		m_iAnimIndex = 6;
-		m_pModelCom->Set_CurrentAnimIndex(6);
-		m_pModelCom->Set_Loop(6);
-		m_pModelCom->Set_LinearTime(6, 0.1f);
-		m_bHit = true;
-	}
+	m_pModelCom->Reset_Anim(6);
+
+	m_iAnimIndex = 6;
+	m_pModelCom->Set_CurrentAnimIndex(6);
+	m_pModelCom->Set_Loop(6);
+	m_pModelCom->Set_LinearTime(6, 0.1f);
+	m_bHit = true;
+
 }
 
 void CEnmu_Shield::Get_GuardHit(_int eType)
 {
-	if (m_bFree == false)
-	{
-		m_pModelCom->Reset_Anim(6);
 
-		m_iAnimIndex = 6;
-		m_pModelCom->Set_CurrentAnimIndex(6);
-		m_pModelCom->Set_Loop(6);
-		m_pModelCom->Set_LinearTime(6, 0.1f);
-		m_bHit = true;
-	}
+	
+
 }
 
 void CEnmu_Shield::Player_TakeDown(_float _fPow, _bool _bJump)
 {
-	if (m_bFree == false)
-	{
+	
 		m_pModelCom->Reset_Anim(6);
 
 		m_iAnimIndex = 6;
@@ -374,16 +365,21 @@ void CEnmu_Shield::Player_TakeDown(_float _fPow, _bool _bJump)
 		m_pModelCom->Set_Loop(6);
 		m_pModelCom->Set_LinearTime(6, 0.1f);
 		m_bHit = true;
-	}
+	
 
 }
 
 void CEnmu_Shield::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
-	m_iAnimIndex = 3;
-	m_pModelCom->Set_CurrentAnimIndex(3);
-	m_pModelCom->Set_Loop(3);
-	m_pModelCom->Set_LinearTime(3, 0.1f);
+
+		m_pModelCom->Reset_Anim(6);
+
+		m_iAnimIndex = 6;
+		m_pModelCom->Set_CurrentAnimIndex(6);
+		m_pModelCom->Set_Loop(6);
+		m_pModelCom->Set_LinearTime(6, 0.1f);
+		m_bHit = true;
+	
 }
 
 void CEnmu_Shield::Play_Scene()

@@ -10,6 +10,7 @@
 #include "Enmu_Chok.h"
 #include "RuiBigBall.h"
 #include "EnmuBoss.h"
+#include "EnmuBoss_Hit.h"
 using namespace EnmuBoss;
 
 CEnmuBoss_Pattern1State::CEnmuBoss_Pattern1State(STATE_TYPE eType, CEnmuBoss::PARTS eParts)
@@ -20,6 +21,11 @@ CEnmuBoss_Pattern1State::CEnmuBoss_Pattern1State(STATE_TYPE eType, CEnmuBoss::PA
 
 CEnmuBossState * CEnmuBoss_Pattern1State::HandleInput(CEnmuBoss * pEnmuBoss)
 {
+
+	if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_PlayerInfo().iHp <= 0)
+	{
+		  return new CEnmuBoss_Hit(CEnmuBossState::STATE_TYPE::TYPE_START, CEnmuBoss::PARTS::PARTS_SHIELD);
+	}
 
 	return nullptr;
 }
