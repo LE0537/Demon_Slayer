@@ -189,6 +189,9 @@ public:
 	
 	CUI*	Get_FadeUI() { return m_pFadeUI; }
 	void	Set_FadeUI(CUI* pTarget) { m_pFadeUI = pTarget; }
+
+	CUI*	Get_DialogUI() { return m_pDialog; }
+	void	Set_DialogUI(CUI* pTarget) { m_pDialog = pTarget; }
 	
 	_uint   Get_Sel1P() { return m_i1p; }
 	void	Set_Sel1P(_uint _i1p) { m_i1p = _i1p; }
@@ -377,6 +380,7 @@ private:
 	CUI*							m_pSelMapCursor = nullptr;
 	CUI*							m_pMsgTextBase = nullptr;
 	CUI*							m_pFadeUI = nullptr;
+	CUI*							m_pDialog = nullptr;
 
 	CUI::THROWUIINFO				m_ThrowInfo;
 	CUI::RESULTINFO					m_ResultInfo;

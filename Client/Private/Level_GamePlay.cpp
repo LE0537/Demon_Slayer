@@ -256,7 +256,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 						return;
 				}
 			}
-			if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && pUIManager->Get_2P()->Get_PlayerInfo().strName == TEXT("아카자"))
+			else if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && pUIManager->Get_2P()->Get_PlayerInfo().strName == TEXT("아카자"))
 			{
 				m_fNextLevelTime += fTimeDelta;
 				if (m_fNextLevelTime > 15.f && !pUIManager->Get_AdvResult())
@@ -270,7 +270,6 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 				}
 			}
 		}
-
 
 		RELEASE_INSTANCE(CUI_Manager);
 		RELEASE_INSTANCE(CGameInstance);

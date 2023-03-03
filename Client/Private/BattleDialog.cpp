@@ -29,6 +29,12 @@ HRESULT CBattleDialog::Initialize(void * pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
 
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	pUI_Manager->Set_DialogUI(this);
+
+	RELEASE_INSTANCE(CUI_Manager);
+
 	return S_OK;
 }
 
@@ -67,8 +73,12 @@ HRESULT CBattleDialog::Render()
 	m_pShaderCom->Begin(0);
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-	if (!pUI_Manager->Get_StroyEvent(0) && !pUI_Manager->Get_BattleTypeCheck() && m_g_fDialogStartTime >= 3.f && pUI_Manager->Get_2P()->Get_PlayerInfo().strName == TEXT("루이"))
+	if (!pUI_Manager->Get_StroyEvent(0) && !pUI_Manager->Get_BattleTypeCheck() && m_g_fDialogStartTime >= 3.f && pUI_Manager->Get_2P()->Get_PlayerInfo().strName == TEXT("루이") && !m_bDialogCheck)
 		Battle_RuiDialog();
+	else if (pUI_Manager->Get_StroyEvent(0) && !pUI_Manager->Get_StroyEvent(1) && !pUI_Manager->Get_BattleTypeCheck() && pUI_Manager->Get_2P()->Get_PlayerInfo().strName == TEXT("루이") && !m_bDialog3Start)
+		Battle_RuiDialog2();
+	else if (m_bDialog3Start)
+		Battle_RuiDialog3();
 
 	RELEASE_INSTANCE(CUI_Manager);
 
@@ -191,13 +201,34 @@ void CBattleDialog::Battle_RuiDialog()
 			}
 		}
 		break;
-	case 6:
-		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iHp <= pUI_Manager->Get_2P()->Get_PlayerInfo().iMaxHp * 0.1f)
+	default:
+		CSoundMgr::Get_Instance()->Listen_Voice();
+		pUI_Manager->Reset_MsgCount();
+		g_fEffect = 0.8f;
+		g_fVoice = 0.7f;
+		m_bDialogCheck = true;
+		break;
+	}
+
+
+	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
+}
+
+void CBattleDialog::Battle_RuiDialog2()
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	switch (pUI_Manager->Get_MsgCount())
+	{
+	case 0:
+		if (m_bDialogSwitch)
 		{
 			g_fEffect = 0.4f;
 			g_fVoice = 0.f;
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("[루이]"), XMVectorSet(350.f, 540.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("이봐, 실의 강도가 이게 끝이라고 생각한 거야?"), XMVectorSet(460.f, 595.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("[루이]"), XMVectorSet(350.f, 540.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("이봐, 실의 강도가 이게 끝이라고 생각한 거야?"), XMVectorSet(460.f, 595.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 			if (!m_bSoundCheck)
 			{
 				CSoundMgr::Get_Instance()->PlayDialog(TEXT("BattleRui_Dialog_6.wav"), g_fDialog);
@@ -209,13 +240,16 @@ void CBattleDialog::Battle_RuiDialog()
 			{
 				m_bFontFadeCheck = false;
 				if (m_fFontFade <= 0.f)
+				{
 					pUI_Manager->Set_MsgCount(1);
+					m_bDialogSwitch = false;
+				}
 			}
 		}
 		break;
-	case 7:
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("[루이]"), XMVectorSet(350.f, 540.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("넌 이제 됐어. 잘 가라"), XMVectorSet(460.f, 595.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+	case 1:
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("[루이]"), XMVectorSet(350.f, 540.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("넌 이제 됐어. 잘 가라"), XMVectorSet(460.f, 595.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 		if (m_bSoundCheck)
 		{
 			CSoundMgr::Get_Instance()->PlayDialog(TEXT("BattleRui_Dialog_7.wav"), g_fDialog);
@@ -228,15 +262,133 @@ void CBattleDialog::Battle_RuiDialog()
 			m_bFontFadeCheck = false;
 			if (m_fFontFade <= 0.f)
 				pUI_Manager->Set_MsgCount(1);
+		
 		}
 		break;
 	default:
-		CSoundMgr::Get_Instance()->Listen_Voice();
+		//pUI_Manager->Reset_MsgCount();
 		g_fEffect = 0.8f;
 		g_fVoice = 0.7f;
 		break;
 	}
+	
+	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CUI_Manager);
+}
 
+void CBattleDialog::Battle_RuiDialog3()
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	switch (pUI_Manager->Get_MsgCount())
+	{
+	case 0:
+		if (!m_bSoundValumCheck)
+		{
+			g_fBGM -= 0.05f;
+			g_fEffect -= 0.05f;
+			g_fVoice -= 0.05f;
+
+			if (g_fBGM <= 0.f)
+				g_fBGM = 0.f;
+			if (g_fEffect <= 0.f)
+				g_fEffect = 0.f;
+			if (g_fVoice <= 0.f)
+				g_fVoice = 0.f;
+			if (g_fVoice <= 0.f && g_fVoice <= 0.f && g_fVoice <= 0.f)
+			{
+				g_fBGM = 0.7f;
+				g_fEffect = 0.4f;
+				CSoundMgr::Get_Instance()->Effect_Stop(SOUND_BGM);
+				CSoundMgr::Get_Instance()->PlayBGM(TEXT("Tanjiro_noUta.wav"), g_fBGM);
+				m_bSoundValumCheck = true;
+			}
+		}
+
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("[카마도 탄쥬로]"), XMVectorSet(350.f, 540.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("탄지로, 호흡이다. 호흡을 가다듬고..."), XMVectorSet(460.f, 595.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		if (!m_bSoundCheck)
+		{
+			CSoundMgr::Get_Instance()->PlayDialog(TEXT("BattleRui_Dialog2_0.wav"), g_fDialog);
+			m_bSoundCheck = true;
+			m_bFontFadeCheck = true;
+		}
+		CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+		if (!m_bIsPlaying)
+		{
+			m_bFontFadeCheck = false;
+			if (m_fFontFade <= 0.f)
+				pUI_Manager->Set_MsgCount(1);
+		}
+		break;
+	case 1:
+		m_bSoundValumCheck = false;
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("[카마도 탄쥬로]"), XMVectorSet(350.f, 540.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("히노카미 님이 되는 거야"), XMVectorSet(460.f, 595.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		if (m_bSoundCheck)
+		{
+			CSoundMgr::Get_Instance()->PlayDialog(TEXT("BattleRui_Dialog2_1.wav"), g_fDialog);
+			m_bSoundCheck = false;
+			m_bFontFadeCheck = true;
+		}
+		CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+		if (!m_bIsPlaying)
+		{
+			m_bFontFadeCheck = false;
+			if (m_fFontFade <= 0.f)
+				pUI_Manager->Set_MsgCount(1);
+		}
+		break;
+	case 2:
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("[카마도 탄지로]"), XMVectorSet(350.f, 540.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("진정해, 감정적으로 굴지 마!"), XMVectorSet(460.f, 595.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		if (!m_bSoundCheck)
+		{
+			CSoundMgr::Get_Instance()->PlayDialog(TEXT("BattleRui_Dialog2_2.wav"), g_fDialog);
+			m_bSoundCheck = true;
+			m_bFontFadeCheck = true;
+		}
+		CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+		if (!m_bIsPlaying)
+		{
+			m_bFontFadeCheck = false;
+			if (m_fFontFade <= 0.f)
+				pUI_Manager->Set_MsgCount(1);
+		}
+		break;
+	case 3:
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("[카마도 탄지로]"), XMVectorSet(350.f, 540.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("집중해라! 호흡을 가다듬어라!"), XMVectorSet(460.f, 595.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		if (m_bSoundCheck)
+		{
+			CSoundMgr::Get_Instance()->PlayDialog(TEXT("BattleRui_Dialog2_3.wav"), g_fDialog);
+			m_bSoundCheck = false;
+			m_bFontFadeCheck = true;
+		}
+		CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+		if (!m_bIsPlaying)
+		{
+			m_bFontFadeCheck = false;
+			if (m_fFontFade <= 0.f)
+				pUI_Manager->Set_MsgCount(1);
+		}
+		break;
+	default:
+		//pUI_Manager->Reset_MsgCount();
+		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iHp <= pUI_Manager->Get_2P()->Get_PlayerInfo().iMaxHp * 0.5f)
+		{
+			if (!m_bSoundCheck)
+			{
+				CSoundMgr::Get_Instance()->Effect_Stop(SOUND_BGM);
+				CSoundMgr::Get_Instance()->PlayBGM(TEXT("Tanjiro_noUta2.wav"), g_fBGM);
+				m_bSoundCheck = true;
+			}
+		}
+		g_fEffect = 0.8f;
+		g_fVoice = 0.7f;
+		break;
+	}
 
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
