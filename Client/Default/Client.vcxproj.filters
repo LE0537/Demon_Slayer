@@ -1516,6 +1516,18 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train">
       <UniqueIdentifier>{9e67cf96-6304-487c-8489-3aeb1b51a382}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AiState">
+      <UniqueIdentifier>{0a1500f9-0591-45f9-b8af-becdebe3d7ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene">
+      <UniqueIdentifier>{04fe17e0-a623-426e-808f-b15f16c4b6bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene\SceneState">
+      <UniqueIdentifier>{65879c81-07fd-4e33-b8f8-049521126941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene\SceneState\Scene">
+      <UniqueIdentifier>{46a50b50-e2a9-424c-bf4c-93e0d945604f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3018,6 +3030,18 @@
     <ClInclude Include="..\Public\TanjiroTrain_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\AkazaAiState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AiState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaScene.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaSceneState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene\SceneState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SceneState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene\SceneState\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4486,6 +4510,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroTrain_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaAiState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AiState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaScene.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SceneState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene\SceneState\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

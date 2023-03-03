@@ -190,7 +190,7 @@ CEnmuBossState * CEnmuBoss_Pattern1State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 void CEnmuBoss_Pattern1State::Enter(CEnmuBoss * pEnmuBoss)
 {
 	
-
+	m_eStateId = STATE_ATK_1;
 
 	switch (m_eStateType)
 	{

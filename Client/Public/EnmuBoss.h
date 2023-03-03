@@ -44,6 +44,8 @@ public:
 	_bool Get_Start() const { return m_bStart; }
 	void Set_Start(_bool _bStart) { m_bStart = _bStart; }
 
+	_uint Get_BossState();
+
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);

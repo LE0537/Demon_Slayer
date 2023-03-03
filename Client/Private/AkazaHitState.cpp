@@ -122,6 +122,7 @@ CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	else if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_HIT_DMG_RETURN_1))
 	{
 		pAkaza->Get_Model()->Set_End(CAkaza::ANIM_HIT_DMG_RETURN_1);
+
 		return new CIdleState(STATE_HIT);
 	}
 

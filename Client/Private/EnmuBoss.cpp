@@ -61,6 +61,12 @@ void CEnmuBoss::BossEnmu_LateTick(_float fTimeDelta)
 	LateTickState(fTimeDelta);
 }
 
+_uint CEnmuBoss::Get_BossState()
+{
+	if(m_pEnmuBossState != nullptr)
+		return m_pEnmuBossState->Get_EnmuBossState();
+}
+
 void CEnmuBoss::HandleInput()
 {
 	CEnmuBossState* pNewState = m_pEnmuBossState->HandleInput(this);

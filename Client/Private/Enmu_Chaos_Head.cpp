@@ -234,7 +234,7 @@ void CEnmu_Chaos_Head::TickState(_float fTimeDelta)
 			m_pModelCom->Set_LinearTime(2, 0.1f);
 		}
 
-		if (m_pModelCom->Get_End(2))
+		if (m_pModelCom->Get_End(2) && m_tInfo.iHp >= 0)
 		{
 			m_pModelCom->Set_End(2);
 
@@ -246,6 +246,8 @@ void CEnmu_Chaos_Head::TickState(_float fTimeDelta)
 			m_bHit = false;
 		}
 	}
+
+	m_iState = CEnmuBoss::Get_Instance()->Get_BossState();
 
 }
 
@@ -343,6 +345,7 @@ void CEnmu_Chaos_Head::Set_Info()
 
 void CEnmu_Chaos_Head::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+
 	m_pModelCom->Reset_Anim(0);
 
 	m_iAnimIndex = 0;

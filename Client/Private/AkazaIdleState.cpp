@@ -15,6 +15,7 @@
 
 #include "Akaza_CinemaState.h"
 #include "AkazaSplSkrStartState.h"
+#include "AkazaAiState.h"
 using namespace Akaza;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -298,6 +299,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 
 	}
 
+
 	return nullptr;
 }
 
@@ -316,7 +318,12 @@ CAkazaState * CIdleState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 			return new CIdleState(STATE_IDLE);
 		}
 	}
-	return nullptr;
+
+	if (pAkaza->Get_IsAIMode() == true)
+		return new CAkazaAIState();
+	else
+		return nullptr;
+
 }
 
 CAkazaState * CIdleState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)

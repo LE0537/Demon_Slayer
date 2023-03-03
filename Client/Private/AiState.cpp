@@ -210,6 +210,8 @@ void CAiState::Update_TargetState(CRui* pRui)
 		if (fDistance <= 15.f) { m_eRange = RANGE_NEAR; }
 		else { m_eRange = RANGE_FAR; }
 	}
+	
+
 
 
 }
@@ -520,9 +522,6 @@ void CAiState::Update_NearAttack()
 		m_eState = AI_STATE::AI_DASH;
 		break;
 	}
-
-
-
 }
 
 void CAiState::Update_NearMove()

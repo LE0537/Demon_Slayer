@@ -14,6 +14,7 @@
 #include "AkazaTargetRushState.h"
 #include "AkazaJumpState.h"
 #include "AkazaSplSkrStartState.h"
+#include "AkazaAiState.h"
 using namespace Akaza;
 
 
@@ -184,6 +185,29 @@ CAkazaState * CAtk_1_State::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	m_fTime += fTimeDelta * 60;
 	m_fComboDelay += fTimeDelta * 60;
 	//printf_s("AttackTime : %f \n", (_float)m_fTime);
+
+
+	if (pAkaza->Get_IsAIMode() == true)
+	{
+		_vector vTargetPosition = pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		_vector vMyPosition = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+		_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
+
+		if (pAkaza->Get_TargetState() == 7 || fDistance <= 15.f)
+			m_bAtkCombo = true;
+		else
+		{
+			if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_ATTACK_1))
+			{
+				pAkaza->Get_Model()->Set_End(CAkaza::ANIM_ATTACK_1);
+				return new CAkazaAIState();
+			}
+		}
+
+	}
+
+
 
 
 	if (m_bAtkCombo == true && m_fTime >= 40.f)
