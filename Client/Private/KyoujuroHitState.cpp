@@ -370,6 +370,35 @@ void CHitState::Set_HitState(CKyoujuro* pKyoujuro)
 	}
 
 
+	if (iHit < 12 && pKyoujuro->Get_BattleTarget()->Get_SubChar()->Get_Change() == false)
+	{
+		std::random_device RandomDevice;
+		std::mt19937 gen(RandomDevice());
+		std::uniform_int_distribution<int> RandomPattern(1, 3);
+		int iRandom = RandomPattern(gen);
+
+		switch (iRandom)
+		{
+		case 1:
+			pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_HIT_DMG_F);
+			pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_HIT_DMG_F);
+			pKyoujuro->Get_Model()->Set_Loop(pKyoujuro->Get_AnimIndex());
+			pKyoujuro->Get_Model()->Set_LinearTime(pKyoujuro->Get_AnimIndex(), 0.2f);
+			break;
+		case 2:
+			pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_HIT_DMG_L);
+			pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_HIT_DMG_L);
+			pKyoujuro->Get_Model()->Set_Loop(pKyoujuro->Get_AnimIndex());
+			pKyoujuro->Get_Model()->Set_LinearTime(pKyoujuro->Get_AnimIndex(), 0.2f);
+			break;
+		case 3:
+			pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_HIT_DMG_R);
+			pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_HIT_DMG_R);
+			pKyoujuro->Get_Model()->Set_Loop(pKyoujuro->Get_AnimIndex());
+			pKyoujuro->Get_Model()->Set_LinearTime(pKyoujuro->Get_AnimIndex(), 0.2f);
+			break;
+		}
+	}
 }
 void CHitState::Set_JumpHitState(CKyoujuro* pKyoujuro)
 {

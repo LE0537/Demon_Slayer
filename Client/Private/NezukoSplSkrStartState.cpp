@@ -43,17 +43,8 @@ CNezukoState * CSplSkrStartState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 			return new CSplSkrStartState(TYPE_DEFAULT);
 			break;
 		case Client::CNezukoState::TYPE_DEFAULT:
-			if (m_bCollision == true)
-			{
-				pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-				pNezuko->Get_BattleTarget()->Play_Scene();
-				return new CNezuko_CinemaState(CNezuko_CinemaState::SCENE_START);
-			}
-			else
-			{
-				pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-				return new CIdleState();
-			}
+			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+			return new CIdleState();
 			break;
 		case Client::CNezukoState::TYPE_CHANGE:
 			break;
@@ -79,6 +70,12 @@ CNezukoState * CSplSkrStartState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 			Move(pNezuko, fTimeDelta);
 		break;
 	case Client::CNezukoState::TYPE_DEFAULT:
+		if (m_bCollision == true)
+		{
+			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+			pNezuko->Get_BattleTarget()->Play_Scene();
+			return new CNezuko_CinemaState(CNezuko_CinemaState::SCENE_START);
+		}
 		break;
 	case Client::CNezukoState::TYPE_CHANGE:
 		break;

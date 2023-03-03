@@ -32,8 +32,6 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 	case 1:
 		if (pGameInstance->Key_Pressing(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
 		{
-			//	pAkaza->Set_UnicCount(1);
-
 			if (pAkaza->Get_PlayerInfo().iUnicCount > 0)
 			{
 				pAkaza->Set_UnicCount(-1);

@@ -15,29 +15,6 @@ CAkaza_CinemaState::CAkaza_CinemaState(CINEMASCENE eScene)
 CAkazaState * CAkaza_CinemaState::HandleInput(CAkaza * pAkaza)
 {
 	CAkazaState* pState = nullptr;
-	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	if (pGameInstance->Key_Down(DIK_F3) && !pAkaza->Get_StoryKey())
-		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_START);
-	if (pGameInstance->Key_Down(DIK_F4) && !pAkaza->Get_StoryKey())
-		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_0);
-	if (pGameInstance->Key_Down(DIK_F5) && !pAkaza->Get_StoryKey())
-		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_1);
-	if (pGameInstance->Key_Down(DIK_F6) && !pAkaza->Get_StoryKey())
-		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_2);
-	if (pGameInstance->Key_Down(DIK_F7) && !pAkaza->Get_StoryKey())
-		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_3);
-	if (pGameInstance->Key_Down(DIK_F8) && !pAkaza->Get_StoryKey())
-		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_4);
-	if (pGameInstance->Key_Down(DIK_F9) && !pAkaza->Get_StoryKey())
-		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_5);
-	if (pGameInstance->Key_Down(DIK_CAPSLOCK) && !pAkaza->Get_StoryKey())
-		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_6);
-	if (pGameInstance->Key_Down(DIK_PGUP) && !pAkaza->Get_StoryKey())
-		pState = new CAkaza_CinemaState(CAkaza_CinemaState::CINEMASCENE::SCENE_7);
-	RELEASE_INSTANCE(CGameInstance);
-
-	if (nullptr != pState)
-		pAkaza->Get_BattleTarget()->Play_Scene();*/
 
 
 	return pState;

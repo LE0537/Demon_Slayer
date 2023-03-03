@@ -2,6 +2,8 @@
 #include "..\Public\Nezuko_CinemaState.h"
 #include "NezukoIdleState.h"
 #include "GameInstance.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 
 using namespace Nezuko;
 
@@ -12,7 +14,36 @@ CNezuko_CinemaState::CNezuko_CinemaState(CINEMASCENE eScene)
 
 CNezukoState * CNezuko_CinemaState::HandleInput(CNezuko * pNezuko)
 {
-	return nullptr;
+	CNezukoState* pState = nullptr;
+	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	if (pGameInstance->Key_Down(DIK_F3) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_START);
+	if (pGameInstance->Key_Down(DIK_F4) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_0);
+	if (pGameInstance->Key_Down(DIK_F5) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_1);
+	if (pGameInstance->Key_Down(DIK_F6) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_2);
+	if (pGameInstance->Key_Down(DIK_F7) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_3);
+	if (pGameInstance->Key_Down(DIK_F8) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_4);
+	if (pGameInstance->Key_Down(DIK_F9) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_5);
+	if (pGameInstance->Key_Down(DIK_CAPSLOCK) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_6);
+	if (pGameInstance->Key_Down(DIK_PGUP) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_7);
+	if (pGameInstance->Key_Down(DIK_PGDN) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_8);
+	if (pGameInstance->Key_Down(DIK_END) && !pNezuko->Get_StoryKey())
+		pState = new CNezuko_CinemaState(CNezuko_CinemaState::CINEMASCENE::SCENE_9);
+	RELEASE_INSTANCE(CGameInstance);
+
+	if (nullptr != pState)
+		pNezuko->Get_BattleTarget()->Play_Scene();*/
+
+	return pState;
 }
 
 CNezukoState * CNezuko_CinemaState::Tick(CNezuko * pNezuko, _float fTimeDelta)
@@ -114,7 +145,7 @@ CNezukoState * CNezuko_CinemaState::Tick(CNezuko * pNezuko, _float fTimeDelta)
 CNezukoState * CNezuko_CinemaState::Late_Tick(CNezuko * pNezuko, _float fTimeDelta)
 {
 
-		pNezuko->Get_Model()->Play_Animation_Skill(fTimeDelta);
+	pNezuko->Get_Model()->Play_Animation_Skill(fTimeDelta);
 
 
 	return nullptr;
@@ -122,6 +153,7 @@ CNezukoState * CNezuko_CinemaState::Late_Tick(CNezuko * pNezuko, _float fTimeDel
 
 void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 {
+	CGameInstance* pGameInstance = nullptr;
 	switch (m_eScene)
 	{
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_START:
@@ -135,6 +167,10 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_START));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_START);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_START, 0.01f);
+
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_NZK_START);
+		RELEASE_INSTANCE(CGameInstance);
 
 		pNezuko->Set_SplSkl(true);
 		break;
@@ -232,7 +268,7 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 	default:
 		break;
 	}
-	
+
 
 
 }

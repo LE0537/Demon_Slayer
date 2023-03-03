@@ -370,6 +370,35 @@ void CHitState::Set_HitState(CAkaza* pAkaza)
 	}
 
 
+	if (iHit < 12 && pAkaza->Get_BattleTarget()->Get_SubChar()->Get_Change() == false)
+	{
+		std::random_device RandomDevice;
+		std::mt19937 gen(RandomDevice());
+		std::uniform_int_distribution<int> RandomPattern(1, 3);
+		int iRandom = RandomPattern(gen);
+
+		switch (iRandom)
+		{
+		case 1:
+			pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_HIT_DMG_F);
+			pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT_DMG_F);
+			pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
+			pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.2f);
+			break;
+		case 2:
+			pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_HIT_DMG_L);
+			pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT_DMG_L);
+			pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
+			pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.2f);
+			break;
+		case 3:
+			pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_HIT_DMG_R);
+			pAkaza->Set_AnimIndex(CAkaza::ANIM_HIT_DMG_R);
+			pAkaza->Get_Model()->Set_Loop(pAkaza->Get_AnimIndex());
+			pAkaza->Get_Model()->Set_LinearTime(pAkaza->Get_AnimIndex(), 0.2f);
+			break;
+		}
+	}
 }
 void CHitState::Set_JumpHitState(CAkaza* pAkaza)
 {

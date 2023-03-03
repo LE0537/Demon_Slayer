@@ -158,7 +158,6 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("rui_Start"))) return E_FAIL;
 	if (FAILED(Ready_CutScene("rui_0"))) return E_FAIL;
 	if (FAILED(Ready_CutScene("rui_1"))) return E_FAIL;
-
 	if (FAILED(Ready_CutScene("rui_2"))) return E_FAIL;	//	2
 	if (FAILED(Ready_CutScene("rui_3"))) return E_FAIL;	//	3
 	if (FAILED(Ready_CutScene("rui_4"))) return E_FAIL;	//	4
@@ -184,7 +183,23 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("akaza_5"))) return E_FAIL;	//	5	
 	if (FAILED(Ready_CutScene("akaza_6"))) return E_FAIL;	//	6
 
-	//Story
+	//	Nezuko
+	if (FAILED(Ready_CutScene("nezuko_Start"))) return E_FAIL;
+	if (FAILED(Ready_CutScene("nezuko_0"))) return E_FAIL;	//	0
+	if (FAILED(Ready_CutScene("nezuko_1"))) return E_FAIL;	//	1
+	if (FAILED(Ready_CutScene("nezuko_2"))) return E_FAIL;	//	2
+	if (FAILED(Ready_CutScene("nezuko_3"))) return E_FAIL;	//	3
+	if (FAILED(Ready_CutScene("nezuko_4"))) return E_FAIL;	//	4
+	if (FAILED(Ready_CutScene("nezuko_5"))) return E_FAIL;	//	5	
+	if (FAILED(Ready_CutScene("nezuko_6"))) return E_FAIL;	//	6
+	if (FAILED(Ready_CutScene("nezuko_7"))) return E_FAIL;	//	7
+	if (FAILED(Ready_CutScene("nezuko_8"))) return E_FAIL;	//	8	
+	if (FAILED(Ready_CutScene("nezuko_9_0"))) return E_FAIL;	//	9_1
+	if (FAILED(Ready_CutScene("nezuko_9_1"))) return E_FAIL;	//	9_2
+
+	///////////////////////////
+	// Story //////////////////
+	///////////////////////////
 	if (FAILED(Ready_StoryScene("RuiDadStart"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("RuiDadBattle"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("RuiStart"))) return E_FAIL;
@@ -1515,6 +1530,25 @@ _bool CCamera_Dynamic::CutScene(CUTSCENE eCutScene, _float fTimeDelta)
 			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
 		break;
 	case CUTSCENE_AKZ_6:
+		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
+		break;
+
+		//	Nezuko
+	case CUTSCENE_NZK_START:
+	case CUTSCENE_NZK_0:
+	case CUTSCENE_NZK_1:
+	case CUTSCENE_NZK_2:
+	case CUTSCENE_NZK_3:
+	case CUTSCENE_NZK_4:
+	case CUTSCENE_NZK_5:
+	case CUTSCENE_NZK_6:
+	case CUTSCENE_NZK_7:
+	case CUTSCENE_NZK_8:
+	case CUTSCENE_NZK_9_0:
+		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
+			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
+		break;
+	case CUTSCENE_NZK_9_1:
 		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
 		break;
 	}

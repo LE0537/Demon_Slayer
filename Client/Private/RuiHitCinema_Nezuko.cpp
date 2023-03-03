@@ -20,80 +20,52 @@ CRuiState * CHitCinema_Nezuko::Tick(CRui* pRui, _float fTimeDelta)
 	switch (m_eScene)
 	{
 	case Client::Rui::CHitCinema_Nezuko::SCENE_START:
-		if (pRui->Get_Model()->Get_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_010))
+		if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_030)
 		{
 			pRui->Get_Model()->Set_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_010);
-
-			if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_030)
-			{
-				return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_0);
-			}
+			return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_0);
 		}
 		break;
 	case Client::Rui::CHitCinema_Nezuko::SCENE_0:
-		if (pRui->Get_Model()->Get_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_030))
+		if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_040)
 		{
 			pRui->Get_Model()->Set_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_030);
-
-			if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_040)
-			{
-				return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_1);
-			}
+			return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_1);
 		}
 		break;
 	case Client::Rui::CHitCinema_Nezuko::SCENE_1:
-		if (pRui->Get_Model()->Get_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_040))
+		if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_050)
 		{
 			pRui->Get_Model()->Set_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_040);
-
-			if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_050)
-			{
-				return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_2);
-			}
+			return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_2);
 		}
 		break;
 	case Client::Rui::CHitCinema_Nezuko::SCENE_2:
-		if (pRui->Get_Model()->Get_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_050))
+		if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_060)
 		{
 			pRui->Get_Model()->Set_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_050);
-
-			if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_060)
-			{
-				return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_3);
-			}
+			return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_3);
 		}
 		break;
 	case Client::Rui::CHitCinema_Nezuko::SCENE_3:
-		if (pRui->Get_Model()->Get_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_060))
+		if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_080)
 		{
 			pRui->Get_Model()->Set_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_060);
-
-			if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_080)
-			{
-				return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_4);
-			}
+			return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_4);
 		}
 		break;
 	case Client::Rui::CHitCinema_Nezuko::SCENE_4:
-		if (pRui->Get_Model()->Get_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_080))
+		if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_100)
 		{
 			pRui->Get_Model()->Set_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_080);
-
-			if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_100)
-			{
-				return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_5);
-			}
+			return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_5);
 		}
 		break;
 	case Client::Rui::CHitCinema_Nezuko::SCENE_5:
-		if (pRui->Get_Model()->Get_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_100))
+		if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_110)
 		{
 			pRui->Get_Model()->Set_End(CHitCinema_Nezuko::ANIM_SCENE_DMG_100);
-
-			if (pRui->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_110)
-			{
-				return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_6);
-			}
+			return new CHitCinema_Nezuko(CHitCinema_Nezuko::SCENE_6);
 		}
 		break;
 	case Client::Rui::CHitCinema_Nezuko::SCENE_6:

@@ -368,6 +368,35 @@ void CHitState::Set_HitState(CNezuko* pNezuko)
 	}
 
 
+	if (iHit < 12 && pNezuko->Get_BattleTarget()->Get_SubChar()->Get_Change() == false)
+	{
+		std::random_device RandomDevice;
+		std::mt19937 gen(RandomDevice());
+		std::uniform_int_distribution<int> RandomPattern(1, 3);
+		int iRandom = RandomPattern(gen);
+
+		switch (iRandom)
+		{
+		case 1:
+			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_F);
+			pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_F);
+			pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+			pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+			break;
+		case 2:
+			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_L);
+			pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_L);
+			pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+			pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+			break;
+		case 3:
+			pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_R);
+			pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_R);
+			pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
+			pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
+			break;
+		}
+	}
 }
 void CHitState::Set_JumpHitState(CNezuko* pNezuko)
 {
