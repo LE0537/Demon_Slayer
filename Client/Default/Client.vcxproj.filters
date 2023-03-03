@@ -3018,7 +3018,8 @@
     <ClInclude Include="..\public\Train_Head.h">
       <Filter>02.GameObjects\02.Map\06.Train</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Effect_AnimMesh.h" />
+    <ClInclude Include="..\Public\Effect_AnimMesh.h">
+      <Filter>04.Effect\05.Effect_AnimMesh</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TanjiroTrain_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
@@ -4489,7 +4490,8 @@
     <ClCompile Include="..\private\Train_Head.cpp">
       <Filter>02.GameObjects\02.Map\06.Train</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Effect_AnimMesh.cpp" />
+    <ClCompile Include="..\Private\Effect_AnimMesh.cpp">
+      <Filter>04.Effect\05.Effect_AnimMesh</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroTrain_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
