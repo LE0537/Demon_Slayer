@@ -144,7 +144,8 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		pGameInstance = GET_INSTANCE(CGameInstance);
 		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_TAN_SPC_1);
 		RELEASE_INSTANCE(CGameInstance);
-
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_SplSkr.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_SplSkr.wav"), g_fEffect);
 		break;
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_0: {
 		pTanjiro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);

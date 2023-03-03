@@ -35,8 +35,8 @@ private:
 	_float m_fDelay = 0.f;
 	AI_RANGE m_eRange = RANGE_END;
 	AI_PATTERN m_ePattern = PATTERN_END;
-
-
+	_bool m_bStop = false;
+	_bool m_bPlay = false;
 };
 END
 END

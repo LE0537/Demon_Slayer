@@ -42,7 +42,7 @@ public:
 	void BossEnmu_LateTick(_float fTimeDelta);
 
 	_bool Get_Start() const { return m_bStart; }
-	void Set_Start() { m_bStart = true; }
+	void Set_Start(_bool _bStart) { m_bStart = _bStart; }
 
 private:
 	void HandleInput();
@@ -51,13 +51,13 @@ private:
 
 public:
 	vector<CCharacters*> Get_EnmuPartsList() { return m_EnmuParts; }
-
+	_float Get_Time() { return m_fTime; }
 private:	
 	vector<CCharacters*> m_EnmuParts;
 	class CEnmuBossState* m_pEnmuBossState = nullptr;
 
 	_bool m_bStart = false;
-
+	_float m_fTime = 0.f;
 public:
 	virtual void Free() override;
 };

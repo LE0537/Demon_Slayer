@@ -72,7 +72,8 @@ void CEnmu_Chaos_Head::Tick(_float fTimeDelta)
 	m_pSphereCom->Update(matColl);
 
 
-
+	HandleInput();
+	TickState(fTimeDelta);
 
 
 
@@ -221,6 +222,30 @@ void CEnmu_Chaos_Head::HandleInput()
 
 void CEnmu_Chaos_Head::TickState(_float fTimeDelta)
 {
+	if (m_bHit == true)
+	{
+		if (m_pModelCom->Get_End(0))
+		{
+			m_pModelCom->Set_End(0);
+
+			m_iAnimIndex = 2;
+			m_pModelCom->Set_CurrentAnimIndex(2);
+			m_pModelCom->Set_Loop(2);
+			m_pModelCom->Set_LinearTime(2, 0.1f);
+		}
+
+		if (m_pModelCom->Get_End(2))
+		{
+			m_pModelCom->Set_End(2);
+
+			m_iAnimIndex = 3;
+			m_pModelCom->Set_CurrentAnimIndex(3);
+			m_pModelCom->Set_Loop(3, true);
+			m_pModelCom->Set_LinearTime(3, 0.1f);
+
+			m_bHit = false;
+		}
+	}
 
 }
 
@@ -318,23 +343,43 @@ void CEnmu_Chaos_Head::Set_Info()
 
 void CEnmu_Chaos_Head::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
+	m_pModelCom->Reset_Anim(0);
+
+	m_iAnimIndex = 0;
+	m_pModelCom->Set_CurrentAnimIndex(0);
+	m_pModelCom->Set_Loop(0);
+	m_pModelCom->Set_LinearTime(0, 0.1f);
+	m_bHit = true;
 
 }
 
 void CEnmu_Chaos_Head::Get_GuardHit(_int eType)
 {
 
+
 }
 
 void CEnmu_Chaos_Head::Player_TakeDown(_float _fPow, _bool _bJump)
 {
+	m_pModelCom->Reset_Anim(0);
 
+	m_iAnimIndex = 0;
+	m_pModelCom->Set_CurrentAnimIndex(0);
+	m_pModelCom->Set_Loop(0);
+	m_pModelCom->Set_LinearTime(0, 0.1f);
+	m_bHit = true;
 
 }
 
 void CEnmu_Chaos_Head::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
+	m_pModelCom->Reset_Anim(0);
 
+	m_iAnimIndex = 0;
+	m_pModelCom->Set_CurrentAnimIndex(0);
+	m_pModelCom->Set_Loop(0);
+	m_pModelCom->Set_LinearTime(0, 0.1f);
+	m_bHit = true;
 
 }
 

@@ -55,6 +55,10 @@ public:
 	_bool  Get_Tick() const { return m_bTick; }
 	void   Set_Tick(_bool bTick) { m_bTick = bTick; }
 
+
+	_bool Get_Free() const { return m_bFree; }
+	void Set_Free(_bool bFree) { m_bFree; }
+
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
@@ -100,6 +104,9 @@ private:
 
 	_float		m_fHealTime = 0.f;
 	_bool		m_bTarget = false;
+
+	_bool		m_bFree = false;
+	_bool		m_bHit = false;
 public:
 	static CEnmu_Shield* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

@@ -1504,6 +1504,9 @@
     <Filter Include="05.CollBox\17.RuiSplColl">
       <UniqueIdentifier>{2148009f-94a1-4e7d-9a18-483732b7ab13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Hit">
+      <UniqueIdentifier>{f58a921f-2b47-4dc2-900e-c8f61f632848}</UniqueIdentifier>
+    </Filter>
     <Filter Include="03.UI\96.MsgUI\Dialog">
       <UniqueIdentifier>{d05b2261-0e6c-4b37-99b4-99461ed64b8b}</UniqueIdentifier>
     </Filter>
@@ -1512,6 +1515,9 @@
     </Filter>
     <Filter Include="04.Effect\05.Effect_AnimMesh">
       <UniqueIdentifier>{d54993e1-ed1a-4418-8175-f4119b9636dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train">
+      <UniqueIdentifier>{9e67cf96-6304-487c-8489-3aeb1b51a382}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3003,6 +3009,9 @@
     <ClInclude Include="..\public\RuiSplColl.h">
       <Filter>05.CollBox\17.RuiSplColl</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\EnmuBoss_Hit.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Hit</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\BattleDialog.h">
       <Filter>03.UI\96.MsgUI\Dialog</Filter>
     </ClInclude>
@@ -3010,6 +3019,10 @@
       <Filter>02.GameObjects\02.Map\06.Train</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect_AnimMesh.h" />
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroTrain_CinemaState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4467,6 +4480,9 @@
     <ClCompile Include="..\private\RuiSplColl.cpp">
       <Filter>05.CollBox\17.RuiSplColl</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\EnmuBoss_Hit.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\02.Enmu_Chaos\05.EnmuBoss\EnmuBossState\Hit</Filter>
+    </ClCompile>
     <ClCompile Include="..\Private\BattleDialog.cpp">
       <Filter>03.UI\96.MsgUI\Dialog</Filter>
     </ClCompile>
@@ -4474,6 +4490,10 @@
       <Filter>02.GameObjects\02.Map\06.Train</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_AnimMesh.cpp" />
+    </ClCompile>
+    <ClCompile Include="..\Private\TanjiroTrain_CinemaState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

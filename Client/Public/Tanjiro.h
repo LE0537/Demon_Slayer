@@ -185,6 +185,8 @@ public:
 	virtual void  Play_Scene();
 
 public:
+	void Set_JumpState(_float fJumpHeight, _float fJumpTime, _float fJumpTimer);
+
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 	_int Get_WaterMillHit() { return m_iWaterMillHit; }
 	void Set_WaterMillHit() { ++m_iWaterMillHit; }

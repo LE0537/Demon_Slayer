@@ -213,6 +213,7 @@ private:
 	_float					m_fEffectTime = 0.f;
 
 	_float					m_StoryTime = 0.f;
+	_bool					m_bStoryPos = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
