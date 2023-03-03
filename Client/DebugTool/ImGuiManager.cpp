@@ -2548,7 +2548,7 @@ void CImGuiManager::Free()
 		m_vecCamObjects[j].clear();
 	}
 
-	for (_uint i = 0; i < 40; ++i)
+	for (_uint i = 0; i < 250; ++i)
 	{
 		Safe_Delete_Array(m_strCamFiles[i]);
 	}

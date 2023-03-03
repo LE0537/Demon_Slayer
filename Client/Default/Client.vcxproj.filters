@@ -1510,6 +1510,9 @@
     <Filter Include="02.GameObjects\02.Map\06.Train">
       <UniqueIdentifier>{074049a2-8622-4ff6-a46f-e06c390c7177}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Effect\05.Effect_AnimMesh">
+      <UniqueIdentifier>{d54993e1-ed1a-4418-8175-f4119b9636dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3006,6 +3009,7 @@
     <ClInclude Include="..\public\Train_Head.h">
       <Filter>02.GameObjects\02.Map\06.Train</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_AnimMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4469,6 +4473,7 @@
     <ClCompile Include="..\private\Train_Head.cpp">
       <Filter>02.GameObjects\02.Map\06.Train</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\Effect_AnimMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

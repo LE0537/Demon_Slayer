@@ -8,6 +8,7 @@
 #include "Terrain.h"
 #include "MeshObj_Static.h"
 #include "MeshObj_Static_Inst.h"
+#include "Effect_AnimMesh.h"
 
 using namespace Kyoujuro;
 
@@ -281,6 +282,16 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro_CinemaState::ANIM_SCENE_4));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro_CinemaState::ANIM_SCENE_4);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_4, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO6_BG, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO6_HIT, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO6_HITBG, pKyoujuro);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO4_PLAYER, pKyoujuro->Get_WeaponWorld2());
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
 	}
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_5: {
@@ -291,6 +302,15 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro_CinemaState::ANIM_SCENE_5));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro_CinemaState::ANIM_SCENE_5);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_5, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO7_BG1, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO7_FIRE1, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO7_FIRE2, pKyoujuro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
 	}
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_6: {
@@ -309,6 +329,35 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro_CinemaState::ANIM_SCENE_7));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro_CinemaState::ANIM_SCENE_7);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_7, 0.01f);
+
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		
+		CEffect_AnimMesh::ANIM_MESH_INFO MeshInfo;
+
+		MeshInfo.fLifeTime = 2.f;
+		MeshInfo.fStartTime = 0.f;
+		wcscpy_s(MeshInfo.m_szMeshName, TEXT("Prototype_Component_Model_Rengoku_Spl_078_FlameTrail01_11"));
+		wcscpy_s(MeshInfo.szMeshDiffuse, TEXT("Prototype_Component_Texture_FireTest"));
+		wcscpy_s(MeshInfo.szMeshDissolve, TEXT(""));
+		wcscpy_s(MeshInfo.szMeshMask, TEXT(""));
+		MeshInfo.vPosition = _float3(0.f, 1.f, 0.f);
+		MeshInfo.vRotation = _float3(0.f, 0.f, 0.f);
+		MeshInfo.pParents = pKyoujuro;
+
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_EffectAnimMesh"), LEVEL_GAMEPLAY, TEXT("Layer_Effect"), &MeshInfo);
+
+		RELEASE_INSTANCE(CGameInstance);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_BOOM, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_GROUND, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_PROJ1, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_PORJ2, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_TONEIDO, pKyoujuro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
 	}
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_8: {
@@ -319,6 +368,13 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro_CinemaState::ANIM_SCENE_8));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro_CinemaState::ANIM_SCENE_8);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_8, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO10_FLASH, pKyoujuro->Get_WeaponWorld());
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
 	}
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_END:
