@@ -140,6 +140,7 @@ CShinobuState * CSplSkrStartState::Late_Tick(CShinobu* pShinobu, _float fTimeDel
 					}
 					if (pShinobu->Get_BattleTarget()->Get_GodMode() == false)
 					{
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Hit_SplSkr.wav"), g_fEffect);
 						_int iDest = rand() % 5;
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 						switch (iDest)
@@ -219,6 +220,8 @@ void CSplSkrStartState::Enter(CShinobu* pShinobu)
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_SPLSKL_START_0);
 		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_SPLSKL_START_0);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SPLSKL_START_0, 0.1f);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_SplSkr_Start.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_SplSkr_Start.wav"), g_fEffect);
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_SPLSKL_START_1);

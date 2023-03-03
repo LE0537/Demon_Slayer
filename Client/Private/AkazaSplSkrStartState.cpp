@@ -138,6 +138,7 @@ CAkazaState * CSplSkrStartState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 					}
 					if (pAkaza->Get_BattleTarget()->Get_GodMode() == false)
 					{
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_SplSkr.wav"), g_fEffect);
 						_int iDest = rand() % 5;
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 						switch (iDest)
@@ -216,6 +217,8 @@ void CSplSkrStartState::Enter(CAkaza* pAkaza)
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SPLSKL_START_0);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_SPLSKL_START_0);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_START_0, 0.1f);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_SplSkr_Start.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SplSkr_Start.wav"), g_fEffect);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_SPLSKL_START_1);

@@ -126,6 +126,8 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_START);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_START, 0.01f);
 		pAkaza->Set_SplSkl(true);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_SplSkr.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SplSkr.wav"), g_fEffect);
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_0:
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);
