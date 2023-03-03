@@ -214,6 +214,8 @@ private:
 
 	_float					m_StoryTime = 0.f;
 	_bool					m_bStoryPos = false;
+	_bool					m_bIsPlaying = false;
+
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
