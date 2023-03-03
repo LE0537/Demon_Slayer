@@ -111,7 +111,8 @@ void CRui_CinemaState::Enter(CRui * pRui)
 		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_RUI_SPC_START);
 
 		RELEASE_INSTANCE(CGameInstance);
-
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_SplSkr.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SplSkr.wav"), g_fEffect);
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_0:
 	{
