@@ -100,6 +100,8 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Get_Model()->Set_Loop(CShinobu_CinemaState::ANIM_SCENE_START);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu_CinemaState::ANIM_SCENE_START, 0.01f);
 		pShinobu->Set_SplSkl(true);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_SplSkr.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_SplSkr.wav"), g_fEffect);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_0:
 		pShinobu->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);

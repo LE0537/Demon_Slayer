@@ -32,7 +32,7 @@
 #include "Rui.h"
 #include "Data_Manager.h"
 
-
+#include "TanjiroTrain_CinemaState.h"
 #include "Level_Loading.h"
 
 using namespace Tanjiro;
@@ -765,6 +765,12 @@ void CTanjiro::Play_Scene()
 	}
 }
 
+void CTanjiro::Set_JumpState(_float fJumpHeight, _float fJumpTime, _float fJumpTimer)
+{
+	CTanjiroState* pState = new CTrain_CinemaState(CTrain_CinemaState::SCENE_START, fJumpHeight, fJumpTime, fJumpTimer, 0.f);
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+}
+
 void CTanjiro::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
 {
 	CTanjiroState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CTanjiroState::STATE_TYPE>(iTypeIndex), bIsContinue);
@@ -1328,6 +1334,10 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 				{
 					m_bQuest3 = true;
 					m_bStop = true;
+					CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_ENMU);
+					dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QusetCam();
+					RELEASE_INSTANCE(CGameInstance);
 				}
 			}
 			else if (!m_bQuest3MSG && m_bQuest3)
@@ -1365,8 +1375,8 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 						}
 						break;
 					case 3:
-						pUIManager->Set_MsgName(TEXT("Á¤¼®ÈÆ"));
-						pUIManager->Set_Msg(TEXT("Àú ³à¼®ÀÌ ³» ±¸½½À» ÈÉÃÄ°¬¾î!"));
+						pUIManager->Set_MsgName(TEXT("ÀÌÀçÈÆ"));
+						pUIManager->Set_Msg(TEXT("»êµé°í"));
 						if (m_bSoundCheck)
 						{
 							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dialog_00.wav"), fVOICE);

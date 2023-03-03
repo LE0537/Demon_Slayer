@@ -213,6 +213,8 @@ void CSplSkrStartState::Enter(CKyoujuro* pKyoujuro)
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_SPLSKL_START_0);
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_START_0);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_START_0, 0.01f);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_SplSkr_Start.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_SplSkr_Start.wav"), g_fEffect);
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_SPLSKL_START_1);

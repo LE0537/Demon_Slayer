@@ -18,6 +18,7 @@
 #include "HinoCami_CinemaState.h"
 #include "ImGuiManager.h"
 #include "TanjiroSplSkrStartState.h"
+#include "TanjiroTrain_CinemaState.h"
 using namespace Tanjiro;
 
 
@@ -47,6 +48,15 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 		switch (pTanjiro->Get_i1P())
 		{
 		case 1:
+			if (pGameInstance->Key_Down(DIK_HOME))
+				return new CTrain_CinemaState(CTrain_CinemaState::SCENE_START);
+			if (pGameInstance->Key_Down(DIK_PGDN))
+			{
+				pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-0.435f, 16.413f, 212.616f, 1.f));
+			}
+			
+
+
 			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey() && g_iLevel == LEVEL_GAMEPLAY)
 			{
 				if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)

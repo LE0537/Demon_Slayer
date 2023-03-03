@@ -1892,6 +1892,7 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 	ImGui::Text("%f %f %f", m_vCurrentPosition.x, m_vCurrentPosition.y, m_vCurrentPosition.z);
 
 
+
 }
 
 
@@ -2524,7 +2525,18 @@ void CImGuiManager::EnmuBossCharacterList(_uint _iIndex)
 	}
 
 	ImGui::Text("distance : %f", m_fEnmuBossDist);
+	ImGui::Text("campos : x: %f y: %f z : %f", m_vCameraPosition.x, m_vCameraPosition.y, m_vCameraPosition.z);
 
+
+
+	static float vjumpset[3];
+	ImGui::InputFloat3("jumpset", vjumpset);
+	ImGui::SameLine();
+	if (ImGui::Button("JumpSetButton"))
+	{
+		CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+		dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, L"Layer_Tanjiro")->Get_LayerFront())->Set_JumpState(vjumpset[0], vjumpset[1], vjumpset[2]);
+	}
 }
 
 void CImGuiManager::Free()
@@ -2550,7 +2562,7 @@ void CImGuiManager::Free()
 		m_vecCamObjects[j].clear();
 	}
 
-	for (_uint i = 0; i < 40; ++i)
+	for (_uint i = 0; i < 250; ++i)
 	{
 		Safe_Delete_Array(m_strCamFiles[i]);
 	}

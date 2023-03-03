@@ -173,6 +173,9 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 		RELEASE_INSTANCE(CGameInstance);
 
 		pNezuko->Set_SplSkl(true);
+
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_SplSkr.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_SplSkr.wav"), g_fEffect);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_0:
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);

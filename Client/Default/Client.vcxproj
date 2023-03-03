@@ -251,6 +251,7 @@
     <ClInclude Include="..\Public\ComboHitTxt.h" />
     <ClInclude Include="..\Public\ComboNum.h" />
     <ClInclude Include="..\public\Door.h" />
+    <ClInclude Include="..\Public\Effect_AnimMesh.h" />
     <ClInclude Include="..\Public\Effect_Particle_New.h" />
     <ClInclude Include="..\public\Deer.h" />
     <ClInclude Include="..\public\Deer2.h" />
@@ -263,6 +264,7 @@
     <ClInclude Include="..\Public\EnmuBossIdleState.h" />
     <ClInclude Include="..\Public\EnmuBossState.h" />
     <ClInclude Include="..\Public\EnmuBossToolState.h" />
+    <ClInclude Include="..\Public\EnmuBoss_Hit.h" />
     <ClInclude Include="..\Public\EnmuBoss_Pattern1State.h" />
     <ClInclude Include="..\Public\EnmuBoss_Pattern2State.h" />
     <ClInclude Include="..\Public\EnmuBoss_Pattern3State.h" />
@@ -635,6 +637,7 @@
     <ClInclude Include="..\Public\TanjiroTakeDownState.h" />
     <ClInclude Include="..\Public\TanjiroTargetRushState.h" />
     <ClInclude Include="..\Public\TanjiroToolState.h" />
+    <ClInclude Include="..\Public\TanjiroTrain_CinemaState.h" />
     <ClInclude Include="..\Public\TanjiroUpperHitState.h" />
     <ClInclude Include="..\Public\TanjiroWeapon.h" />
     <ClInclude Include="..\public\TanjiroWeapon2.h" />
@@ -751,6 +754,7 @@
     <ClCompile Include="..\Private\ComboHitTxt.cpp" />
     <ClCompile Include="..\Private\ComboNum.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
+    <ClCompile Include="..\Private\Effect_AnimMesh.cpp" />
     <ClCompile Include="..\Private\Effect_Particle_New.cpp" />
     <ClCompile Include="..\private\Deer.cpp" />
     <ClCompile Include="..\private\Deer2.cpp" />
@@ -762,6 +766,7 @@
     <ClCompile Include="..\Private\EnmuBoss.cpp" />
     <ClCompile Include="..\Private\EnmuBossIdleState.cpp" />
     <ClCompile Include="..\Private\EnmuBossToolState.cpp" />
+    <ClCompile Include="..\Private\EnmuBoss_Hit.cpp" />
     <ClCompile Include="..\Private\EnmuBoss_Pattern1State.cpp" />
     <ClCompile Include="..\Private\EnmuBoss_Pattern2State.cpp" />
     <ClCompile Include="..\Private\EnmuBoss_Pattern3State.cpp" />
@@ -1125,6 +1130,7 @@
     <ClCompile Include="..\Private\TanjiroTakeDownState.cpp" />
     <ClCompile Include="..\Private\TanjiroTargetRushState.cpp" />
     <ClCompile Include="..\Private\TanjiroToolState.cpp" />
+    <ClCompile Include="..\Private\TanjiroTrain_CinemaState.cpp" />
     <ClCompile Include="..\Private\TanjiroUpperHitState.cpp" />
     <ClCompile Include="..\Private\TanjiroWeapon.cpp" />
     <ClCompile Include="..\private\TanjiroWeapon2.cpp" />

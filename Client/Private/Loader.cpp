@@ -168,6 +168,7 @@
 #include "Effect_Manager.h"
 #include "Effect_Texture.h"
 #include "Effect_Mesh.h"
+#include "Effect_AnimMesh.h"
 #include "Effect_Particle.h"
 #include "Effect_Particle_New.h"
 //CollBox
@@ -1004,7 +1005,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 99))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 107))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -1373,6 +1374,13 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_GroundRock1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_GroundRock1.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_GroundRock2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_GroundRock2.fbx", PivotMatrix)))) return E_FAIL;
 
+		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_Tornado"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin//Effect/Mesh/Rengoku/Spl/Rengoku_Spl_Tornado.fbx", PivotMatrix)))) return E_FAIL;
+		PivotMatrix = XMMatrixScaling(0.02f, 0.02f, 0.02f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_FlameTrail01_11"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_078_FlameTrail01_11.fbx", PivotMatrix))))
+			return E_FAIL;
+
+		PivotMatrix = XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
 #pragma endregion Effect Model
 
 #pragma region Effect Object
@@ -1382,6 +1390,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectMesh"),
 			CEffect_Mesh::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectAnimMesh"),
+			CEffect_AnimMesh::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectParticle"),
 			CEffect_Particle::Create(m_pDevice, m_pContext))))
@@ -1740,6 +1751,24 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion2_Sword1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion2_Aura1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion2_Aura2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion3_Ground1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion4_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion4_BG2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion4_Player1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion5_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion5_Fire1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion6_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion6_Hit"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion6_HitBG"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion7_BG"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion7_Fire1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion7_Fire2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion9_Boom"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion9_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion9_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion9_Proj2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion9_Toneido"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion10_Flash"));
 
 		pEffect_Manager->Load_Effect(TEXT("Fade"));
 

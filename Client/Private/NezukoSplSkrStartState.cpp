@@ -133,6 +133,7 @@ CNezukoState * CSplSkrStartState::Late_Tick(CNezuko* pNezuko, _float fTimeDelta)
 				}
 				if (pNezuko->Get_BattleTarget()->Get_GodMode() == false)
 				{
+					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_Hit_SplSkr.wav"), g_fEffect);
 					_int iDest = rand() % 5;
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					switch (iDest)
@@ -212,6 +213,8 @@ void CSplSkrStartState::Enter(CNezuko* pNezuko)
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_SPLSKL_START_0);
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_SPLSKL_START_0);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_START_0, 0.01f);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_SplSkr_Start.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_SplSkr_Start.wav"), g_fEffect);
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_SPLSKL_START_1);

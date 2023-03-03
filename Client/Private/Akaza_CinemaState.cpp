@@ -130,10 +130,12 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_START);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_START, 0.01f);
 		pAkaza->Set_SplSkl(true);
-
 		pGameInstance = GET_INSTANCE(CGameInstance);
 		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_AKZ_START);
 		RELEASE_INSTANCE(CGameInstance);
+
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_SplSkr.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SplSkr.wav"), g_fEffect);
 
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_0:

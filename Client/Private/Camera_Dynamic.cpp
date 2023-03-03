@@ -205,8 +205,12 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_StoryScene("RuiStart"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("RuiDead"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("ADV_Tanjiro"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("ADV_Rui"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("ADV_Enmu"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("Battle_Enmu"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("Battle_EnmuBoss"))) return E_FAIL;
 
-	if (g_iLevel == LEVEL_BOSSENMU)
+	if (g_iLevel == LEVEL_BOSSENMU || g_iLevel == LEVEL_BATTLEENMU)
 	{
 		m_bStart = true;
 		m_bLerp = true;
@@ -254,23 +258,14 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 				fSpeed *= 10.f;
 
-			//if (pGameInstance->Key_Pressing(DIK_UP))
-			//	m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_DOWN))
-			//	m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_LEFT))
-			//	m_pTransform->Go_Left(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_RIGHT))
-			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
-
-			//if (pGameInstance->Key_Pressing(DIK_UP))
-			//	m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_DOWN))
-			//	m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_LEFT))
-			//	m_pTransform->Go_Left(fTimeDelta * fSpeed);
-			//if (pGameInstance->Key_Pressing(DIK_RIGHT))
-			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_UP))
+				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_DOWN))
+				m_pTransform->Go_Backward(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_LEFT))
+				m_pTransform->Go_Left(fTimeDelta * fSpeed);
+			if (pGameInstance->Key_Pressing(DIK_RIGHT))
+				m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 			if (pGameInstance->Key_Pressing(DIK_NUMPAD8))
 				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
@@ -360,7 +355,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			if (m_fStartTime > 3.f && g_iLevel != LEVEL_BOSSENMU)
 				m_bStart = true;
 #else
-			if (!m_bLerp && m_fStartTime > 1.5f && g_iLevel != LEVEL_BOSSENMU)
+			if (!m_bLerp && m_fStartTime > 1.5f && g_iLevel != LEVEL_BOSSENMU && g_iLevel != LEVEL_BATTLEENMU)
 			{
 				m_CameraDesc.fFovy = XMConvertToRadians(25.f);
 				//m_bStart = true;
@@ -380,7 +375,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 				m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
 				m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 			}
-			if (m_fStartTime > 1.f && g_iLevel != LEVEL_BOSSENMU)
+			if (m_fStartTime > 1.f && g_iLevel != LEVEL_BOSSENMU && g_iLevel != LEVEL_BATTLEENMU)
 				m_bStart = true;
 #endif
 		
@@ -474,7 +469,7 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 			Check_Model();
 		}
 		if (m_fStartTime > 0.2f && !m_bEffect && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 25.f
-			&& g_iLevel != LEVEL_BOSSENMU)
+			&& g_iLevel != LEVEL_BOSSENMU && g_iLevel != LEVEL_BATTLEENMU)
 		{
 
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -485,7 +480,7 @@ void CCamera_Dynamic::Late_Tick(_float fTimeDelta)
 			m_bEffect = true;
 		}
 		if (m_fStartTime > 0.2f && !m_bBattleSound && m_bStartBattle && ((CModel*)m_pPlayer->Find_Component(TEXT("Com_Model")))->Get_CurrentTime_Index(m_iAnimIndex) > 22.f
-			&& g_iLevel != LEVEL_BOSSENMU)
+			&& g_iLevel != LEVEL_BOSSENMU && g_iLevel != LEVEL_BATTLEENMU)
 		{
 			CSoundMgr::Get_Instance()->PlayEffect(TEXT("BattleStart.wav"), g_fEffect);
 			m_bBattleSound = true;
