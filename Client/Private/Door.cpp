@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include "Data_Manager.h"
 #include "UI_Manager.h"
+#include "Tanjiro.h"
+#include "Layer.h"
 CDoor::CDoor(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObj(pDevice, pContext)
 {
@@ -239,6 +241,8 @@ void CDoor::Move_Mesh(_float fTimeDelta)
 
 	if (fDist < 3.f)
 	{
+		if(!m_bTurn && m_fTurnAngle < 80.f)
+			dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Set_Stop(true);
 		m_bColCheck = true;
 		if (!m_bUICreat)
 		{
@@ -295,6 +299,7 @@ void CDoor::Move_Mesh(_float fTimeDelta)
 			m_bInteractionCheck = false;
 			m_bUICreat = false;
 			m_bKeyDownCheck = false;
+			dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Set_Stop(false);
 		}
 		
 	}

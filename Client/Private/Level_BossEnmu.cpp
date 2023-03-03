@@ -19,6 +19,7 @@
 #include "ImGuiManager.h"
 #include "Layer.h"
 #include "Level_GamePlay.h"
+#include "Tanjiro.h"
 unsigned int APIENTRY Thread_BossEnmu(void* pArg)
 {
 	CLevel_BossEnmu*		pLoader = (CLevel_BossEnmu*)pArg;
@@ -199,8 +200,24 @@ void CLevel_BossEnmu::Tick(_float fTimeDelta)
 
 		if (m_pEnmu->Get_PlayerInfo().iHp <= 0)
 		{
+			m_fTime += fTimeDelta;
+			if (!m_bCinema)
+			{
+				m_bCinema = true;
+				pGameInstance = GET_INSTANCE(CGameInstance);
+				dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Set_BossEnmu_Dead(true);
+				RELEASE_INSTANCE(CGameInstance);
+			}
+			else if (m_fTime > 0.7f && m_bCinema && !m_bCinema2)
+			{
+				m_bCinema2 = true;
+				pGameInstance = GET_INSTANCE(CGameInstance);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_BOSSENMU_DEAD);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+				RELEASE_INSTANCE(CGameInstance);
+			}
 			m_fNextLevelTime += fTimeDelta;
-			if (m_fNextLevelTime > 5.f)
+			if (m_fNextLevelTime > 17.f)//아카자 넘어가는 딜레이
 			{
 				pUIManager->Set_SelMapNum(1);
 				pUIManager->Set_Sel1P(1);

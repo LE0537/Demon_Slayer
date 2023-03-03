@@ -194,6 +194,8 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_StoryScene("ADV_Enmu"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("Battle_Enmu"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("Battle_EnmuBoss"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("EnmuBoss_Dead"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("EnmuBoss_Dead2"))) return E_FAIL;
 
 	if (g_iLevel == LEVEL_BOSSENMU || g_iLevel == LEVEL_BATTLEENMU)
 	{
@@ -1423,6 +1425,11 @@ void CCamera_Dynamic::QuestBattleCam(_float fTimeDelta)
 {
 	m_bQuestBattleCam = StoryScene(m_eStoryScene, fTimeDelta);
 	
+	if (m_eStoryScene == STORYSCENE_BOSSENMU_DEAD && m_bQuestBattleCam == false)
+	{
+		Set_StoryScene(CCamera_Dynamic::STORYSCENE_BOSSENMU_DEAD2);
+		Set_QuestBattleCam(true);
+	}
 }
 
 void CCamera_Dynamic::Blur_VeryLow(CRenderer* _pRenderer)

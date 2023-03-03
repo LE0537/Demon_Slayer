@@ -64,7 +64,13 @@ private:
 	_float m_fJumpSpeed = 40.f; // 점프 속도
 
 	_float m_fDelay = 0.f;
+	_float m_fTime = 0.f;
+	_bool  m_bEffect = false;
+	_bool  m_bEffect2 = false;
+	_bool  m_bSlow = false;
+	_bool  m_bTrain_Neck = false;
 
+	_bool m_bTrue = false;
 };
 
 END

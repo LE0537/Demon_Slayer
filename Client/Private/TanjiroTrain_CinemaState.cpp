@@ -7,6 +7,7 @@
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "UI_Manager.h"
+#include "Train_Head.h"
 using namespace Tanjiro;
 
 CTrain_CinemaState::CTrain_CinemaState(CINEMASCENE eScene)
@@ -33,7 +34,9 @@ CTanjiroState * CTrain_CinemaState::HandleInput(CTanjiro * pTanjiro)
 
 CTanjiroState * CTrain_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
-
+	CGameInstance* pGameInstance = nullptr;
+	CEffect_Manager* pEffectManger = nullptr;
+	pTanjiro->Set_EffectTime(fTimeDelta);
 
 	switch (m_eScene)
 	{
@@ -105,7 +108,12 @@ CTanjiroState * CTrain_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		}
 
 		if (m_fDelay >= 1.5f)
+		{
+			pGameInstance = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CTrain_Head*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Enmu_Neck"))->Get_LayerFront())->Set_ModelNum();
+			RELEASE_INSTANCE(CGameInstance);
 			return new CTrain_CinemaState(SCENE_5);
+		}
 		break;
 	case Client::Tanjiro::CTrain_CinemaState::SCENE_5:
 
@@ -121,17 +129,19 @@ CTanjiroState * CTrain_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIM_IDLE);
 			pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_IDLE,true);
 			pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_IDLE, 0.02f);
+		
 		}
-
+	
 		if (m_fDelay >= 1.5f)
 			return new CTrain_CinemaState(SCENE_6);
+		
 		break;
 	case Client::Tanjiro::CTrain_CinemaState::SCENE_6:
 		if (pTanjiro->Get_AnimIndex() == CTanjiro::ANIM_IDLE)
 		{
 			m_fDelay += fTimeDelta;
 		}
-
+		m_fTime += fTimeDelta;
 		if (pTanjiro->Get_Model()->Get_End(CTrain_CinemaState::ANIM_SCENE_6))
 		{
 			pTanjiro->Get_Model()->Set_End(CTrain_CinemaState::ANIM_SCENE_6);
@@ -140,19 +150,24 @@ CTanjiroState * CTrain_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_IDLE, true);
 			pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_IDLE, 0.02f);
 		}
-
+		if (m_fTime > 0.5f && !m_bTrain_Neck)
+		{
+			m_bTrain_Neck = true;
+			pGameInstance = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CTrain_Head*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Enmu_Neck"))->Get_LayerFront())->Set_ModelNum();
+			RELEASE_INSTANCE(CGameInstance);
+		}
 		if (m_fDelay >= 1.5f)
 			return new CTrain_CinemaState(SCENE_7);
-
-			//return new CTrain_CinemaState(SCENE_7);
+		
 		break;
 	case Client::Tanjiro::CTrain_CinemaState::SCENE_7:
 		if (pTanjiro->Get_AnimIndex() == CTanjiro::ANIM_IDLE)
 		{
 			m_fDelay += fTimeDelta;
 		}
-
-
+		if(m_bTrue)
+			m_fTime += fTimeDelta;
 		if (pTanjiro->Get_Model()->Get_End(CTrain_CinemaState::ANIM_SCENE_7))
 		{
 			pTanjiro->Get_Model()->Set_End(CTrain_CinemaState::ANIM_SCENE_7);
@@ -162,13 +177,29 @@ CTanjiroState * CTrain_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			pTanjiro->Get_Model()->Set_LinearTime(CTanjiro::ANIM_IDLE, 0.02f);
 
 		}
-
-
-		if (m_fDelay >= 1.5f)
+		if (g_bDeathTime && m_fTime > 1.f)
 		{
-			pTanjiro->Get_Transform()->Turn2(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_RIGHT), -90.f);
-			return new CIdleState();
+			g_bDeathTime = false;
+			pTanjiro->Set_BossEnmu_Dead(false);
+			pTanjiro->Get_Transform()->Turn2(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_RIGHT), -120.f);
+		
 		}
+		else if (m_fTime > 2.f)
+		{
+			if (!m_bEffect2)
+			{
+
+				pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_MAIN1, pTanjiro);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_MAIN2, pTanjiro);
+
+				RELEASE_INSTANCE(CEffect_Manager);
+				m_bEffect2 = true;
+			}
+		}
+		//return new CIdleState();
+		
 
 		break;
 	case Client::Tanjiro::CTrain_CinemaState::SCENE_END:
@@ -178,14 +209,93 @@ CTanjiroState * CTrain_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	}
 
 
+	if (!m_bSlow && m_eScene == CTrain_CinemaState::SCENE_7)
+	{
+		g_bDeathTime = true;
+		m_bSlow = true;
+	}
+	else if (m_eScene == CTrain_CinemaState::SCENE_7)
+	{
 
-
-
+	}
 	return nullptr;
 }
 
 CTanjiroState * CTrain_CinemaState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
+	CGameInstance* pGameInstance = nullptr;
+	CEffect_Manager* pEffectManger = nullptr;
+	switch (m_eScene)
+	{
+	case Client::Tanjiro::CTrain_CinemaState::SCENE_START:
+		if (!m_bEffect)
+		{
+			pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+		break;
+	case Client::Tanjiro::CTrain_CinemaState::SCENE_2:
+		if (!m_bEffect)
+		{
+			pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_UP, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+		break;
+	case Client::Tanjiro::CTrain_CinemaState::SCENE_5:
+		if (!m_bEffect)
+		{
+		
+
+			pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOCOMMON1, pTanjiro);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOCOMMON2, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+		break;
+	case Client::Tanjiro::CTrain_CinemaState::SCENE_6:
+		if (!m_bEffect)
+		{
+		
+
+			pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOMOVE1, pTanjiro);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOMOVE2, pTanjiro);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOMOVE3, pTanjiro);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOMOVE4, pTanjiro);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOMOVE5, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
+		break;
+	case Client::Tanjiro::CTrain_CinemaState::SCENE_7:
+		if (!m_bEffect)
+		{
+			pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_MAIN1, pTanjiro);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_MAIN2, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+			m_bTrue = true;
+		}
+		break;
+	default:
+		break;
+	}
 
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
@@ -199,6 +309,7 @@ void CTrain_CinemaState::Enter(CTanjiro * pTanjiro)
 	switch (m_eScene)
 	{
 	case Client::Tanjiro::CTrain_CinemaState::SCENE_START:
+		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(1.4582f, 16.609f, 180.9894f, 1.f));
 		Initialize_JumpState(pTanjiro, XMVectorSet(7.011f, 27.244f, 167.110f, 1.f));
 	
 		pTanjiro->Get_Model()->Reset_Anim(CTrain_CinemaState::ANIM_SCENE_START);
@@ -206,6 +317,7 @@ void CTrain_CinemaState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTrain_CinemaState::ANIM_SCENE_START);
 		pTanjiro->Get_Model()->Set_Loop(CTrain_CinemaState::ANIM_SCENE_START);
 		pTanjiro->Get_Model()->Set_LinearTime(CTrain_CinemaState::ANIM_SCENE_START, 0.01f);
+
 		break;
 	case Client::Tanjiro::CTrain_CinemaState::SCENE_0:
 		Initialize_JumpState(pTanjiro, XMVectorSet(7.011f, 27.244f, 167.110f, 1.f));
@@ -214,6 +326,7 @@ void CTrain_CinemaState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTrain_CinemaState::ANIM_SCENE_0);
 		pTanjiro->Get_Model()->Set_Loop(CTrain_CinemaState::ANIM_SCENE_0, true);
 		pTanjiro->Get_Model()->Set_LinearTime(CTrain_CinemaState::ANIM_SCENE_0, 0.01f);
+	
 		break;
 	case Client::Tanjiro::CTrain_CinemaState::SCENE_1:
 		pTanjiro->Get_Model()->Reset_Anim(CTrain_CinemaState::ANIM_SCENE_1);
@@ -229,6 +342,7 @@ void CTrain_CinemaState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTrain_CinemaState::ANIM_SCENE_2);
 		pTanjiro->Get_Model()->Set_Loop(CTrain_CinemaState::ANIM_SCENE_2);
 		pTanjiro->Get_Model()->Set_LinearTime(CTrain_CinemaState::ANIM_SCENE_2, 0.01f);
+	
 		break;
 	case Client::Tanjiro::CTrain_CinemaState::SCENE_3:
 		Initialize_JumpState(pTanjiro, XMVectorSet(-0.153f, 5.795f, 159.317f, 1.f));
@@ -253,6 +367,7 @@ void CTrain_CinemaState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTrain_CinemaState::ANIM_SCENE_5);
 		pTanjiro->Get_Model()->Set_Loop(CTrain_CinemaState::ANIM_SCENE_5);
 		pTanjiro->Get_Model()->Set_LinearTime(CTrain_CinemaState::ANIM_SCENE_5, 0.01f);
+
 		break;
 	case Client::Tanjiro::CTrain_CinemaState::SCENE_6:
 		pTanjiro->Get_Model()->Reset_Anim(CTrain_CinemaState::ANIM_SCENE_6);
@@ -260,6 +375,7 @@ void CTrain_CinemaState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTrain_CinemaState::ANIM_SCENE_6);
 		pTanjiro->Get_Model()->Set_Loop(CTrain_CinemaState::ANIM_SCENE_6);
 		pTanjiro->Get_Model()->Set_LinearTime(CTrain_CinemaState::ANIM_SCENE_6, 0.2f);
+
 		break;
 	case Client::Tanjiro::CTrain_CinemaState::SCENE_7:
 		pTanjiro->Get_Model()->Reset_Anim(CTrain_CinemaState::ANIM_SCENE_7);
@@ -271,6 +387,7 @@ void CTrain_CinemaState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTrain_CinemaState::ANIM_SCENE_7);
 		pTanjiro->Get_Model()->Set_Loop(CTrain_CinemaState::ANIM_SCENE_7);
 		pTanjiro->Get_Model()->Set_LinearTime(CTrain_CinemaState::ANIM_SCENE_7, 0.1f);
+
 		break;
 	case Client::Tanjiro::CTrain_CinemaState::SCENE_END:
 		break;
@@ -329,6 +446,16 @@ void CTrain_CinemaState::Jump(CTanjiro * pTanjiro, _float fTimeDelta)
 		vPosition = XMVectorSetW(vPosition, 1.f);
 		m_bNextAnim = true;
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vPosition);
+
+		if (!m_bEffect)
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_JUMP_DOWN, pTanjiro);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+			m_bEffect = true;
+		}
 	}
 
 
