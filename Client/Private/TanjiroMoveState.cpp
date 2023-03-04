@@ -619,13 +619,13 @@ void CMoveState::Move(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (!pTanjiro->Get_StoryKey())
 			pTanjiro->Get_Transform()->Set_RotationY(270.f + fCamAngle);
 		else
-			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-3.f));
+			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(-5.f));
 		break;
 	case Client::DIR_RIGHT:
 		if (!pTanjiro->Get_StoryKey())
 			pTanjiro->Get_Transform()->Set_RotationY(90.f + fCamAngle);
 		else
-			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(3.f));
+			pTanjiro->Get_Transform()->Turn2(XMVectorSet(0.f, 1.f, 0.f, 0.f), XMConvertToRadians(5.f));
 		break;
 	case Client::DIR_BACK:
 		if (!pTanjiro->Get_StoryKey())

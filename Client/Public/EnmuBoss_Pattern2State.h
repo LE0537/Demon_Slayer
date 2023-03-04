@@ -22,7 +22,7 @@ private:
 
 private:
 	CEnmuBoss::PARTS m_eParts;
-
+	_int   m_iHit = 0;
 
 };
 END

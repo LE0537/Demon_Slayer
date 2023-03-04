@@ -1540,6 +1540,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\AkazaScene">
       <UniqueIdentifier>{48ce84c0-67d2-41d1-8bd7-849cf8dc39f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\18.StoneSphere">
+      <UniqueIdentifier>{3e503fd2-55df-4afe-8243-36c453747683}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3066,6 +3069,9 @@
     <ClInclude Include="..\Public\AkazaAkazaScene.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\AkazaScene</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\StoneSphere.h">
+      <Filter>05.CollBox\18.StoneSphere</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4555,6 +4561,9 @@
     </ClCompile>
     <ClCompile Include="..\private\AkazaAkazaScene.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\AkazaScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\StoneSphere.cpp">
+      <Filter>05.CollBox\18.StoneSphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

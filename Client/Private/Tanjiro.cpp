@@ -194,8 +194,45 @@ void CTanjiro::Tick(_float fTimeDelta)
 	{
 		HandleInput(fTimeDelta);
 		TickState(fTimeDelta);
+		CHierarchyNode*		pSocket = nullptr;
+		_matrix			matColl;
+		if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+		{
+			pSocket = m_pModelADVCom->Get_BonePtr("C_Spine_3");
+			if (nullptr == pSocket)
+				return;
+			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelADVCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+		}
+		else
+		{
+			pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
 
 
+			if (nullptr == pSocket)
+				return;
+			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+		}
+		m_pSphereCom->Update(matColl);
+
+		if (g_iLevel == LEVEL_ADVRUI)
+		{
+			Set_Shadow();
+			Check_QuestEvent(fTimeDelta);
+		}
+		else if (g_iLevel == LEVEL_ADVAKAZA ||
+			g_iLevel == LEVEL_BATTLEENMU ||
+			g_iLevel == LEVEL_BOSSENMU)
+		{
+			Set_Shadow();
+			Check_QuestTrainEvent(fTimeDelta);
+		}
+	}
+
+	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
+		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE ||
+		m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP_ATTACK || m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_SKILL_KAGURA_COMMON)
+	{
+		m_tInfo.bJump = true;
 	}
 	else
 	{
@@ -851,8 +888,11 @@ HRESULT CTanjiro::Ready_Components()
 	/* For.Com_Transform */
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
-
-	TransformDesc.fSpeedPerSec = 15.f;
+	if (g_iLevel == LEVEL_ADVRUI)
+		TransformDesc.fSpeedPerSec = 20.f;
+	else
+		TransformDesc.fSpeedPerSec = 15.f;
+	
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
@@ -871,8 +911,11 @@ HRESULT CTanjiro::Ready_Components()
 	CCollider::COLLIDERDESC		ColliderDesc;
 
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
+	if(g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+		ColliderDesc.vScale = _float3(80.f, 80.f, 80.f);
+	else
+		ColliderDesc.vScale = _float3(130.f, 130.f, 130.f);
 
-	ColliderDesc.vScale = _float3(130.f, 130.f, 130.f);
 	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;

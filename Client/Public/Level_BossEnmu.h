@@ -41,7 +41,7 @@ public:
 
 	HRESULT Load_StaticObjects(char* pFileName);
 	HRESULT Load_Map(const _tchar* pLayerTag, char* pFileName);
-
+	HRESULT	Create_Wind(_float fTimeDelta);
 	CRITICAL_SECTION Get_CriticalSection() {
 		return m_CriticalSection;
 	}
@@ -70,6 +70,9 @@ private:
 	_bool					m_bCinema = false;
 	_bool					m_bCinema2 = false;
 	_float					m_fTime = 0.f;
+
+	_bool					m_bEffect = false;
+	_float					m_fEffectTime = 1.f;
 public:
 	static CLevel_BossEnmu* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual void Free() override;

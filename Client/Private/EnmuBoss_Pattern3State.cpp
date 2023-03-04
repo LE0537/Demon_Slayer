@@ -12,6 +12,7 @@
 #include "Tanjiro.h"
 #include "Layer.h"
 #include "EnmuBoss_Hit.h"
+#include "Effect_Manager.h"
 using namespace EnmuBoss;
 
 CEnmuBoss_Pattern3State::CEnmuBoss_Pattern3State(STATE_TYPE eType, CEnmuBoss::PARTS eParts)
@@ -122,7 +123,24 @@ CEnmuBossState * CEnmuBoss_Pattern3State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 
 CEnmuBossState * CEnmuBoss_Pattern3State::Late_Tick(CEnmuBoss * pEnmuBoss, _float fTimeDelta)
 {
+	if (m_eStateType == CEnmuBossState::TYPE_START)
+	{
+		if (m_iHit == 0)
+		{
+			++m_iHit;
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			/*	if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT3_FLASH, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
+			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT3_FLASH, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
+			*/
+
+			//pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT3_GROUND, dynamic_cast<CEnmu_Chaos_Head*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]));
+
+			RELEASE_INSTANCE(CEffect_Manager);
+		}
+	}
 	for (_uint i = 0; i < pEnmuBoss->Get_EnmuPartsList().size(); ++i)
 	{
 		pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Play_Animation(fTimeDelta);

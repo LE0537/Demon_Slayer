@@ -331,6 +331,7 @@
     <ClInclude Include="..\Public\Skill2_EnmuState.h" />
     <ClInclude Include="..\Public\Skill3_EnmuState.h" />
     <ClInclude Include="..\Public\TanjiroAkazaScene.h" />
+    <ClInclude Include="..\public\StoneSphere.h" />
     <ClInclude Include="..\public\TanjiroSplSkrStartState.h" />
     <ClInclude Include="..\Public\TanjiroHitCinema_Akaza.h" />
     <ClInclude Include="..\Public\TanjiroHitCinema_Kyoujuro.h" />
@@ -837,6 +838,7 @@
     <ClCompile Include="..\Private\Skill2_EnmuState.cpp" />
     <ClCompile Include="..\Private\Skill3_EnmuState.cpp" />
     <ClCompile Include="..\private\TanjiroAkazaScene.cpp" />
+    <ClCompile Include="..\private\StoneSphere.cpp" />
     <ClCompile Include="..\private\TanjiroSplSkrStartState.cpp" />
     <ClCompile Include="..\Private\TanjiroHitCinema_Akaza.cpp" />
     <ClCompile Include="..\Private\TanjiroHitCinema_Kyoujuro.cpp" />

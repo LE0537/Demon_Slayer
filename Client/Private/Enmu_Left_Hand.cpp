@@ -65,6 +65,8 @@ void CEnmu_Left_Hand::Tick(_float fTimeDelta)
 
 	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
+	XMStoreFloat4x4(&m_WeaponWorld, matColl);
+
 	m_pOBBCom->Update(matColl);
 }
 

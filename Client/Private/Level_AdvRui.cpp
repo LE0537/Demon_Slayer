@@ -171,6 +171,9 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 			DeleteCriticalSection(&m_CriticalSection);
 			m_bTread = true;
 		}
+
+		Create_Stone(fTimeDelta);
+
 		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
@@ -1756,6 +1759,28 @@ HRESULT CLevel_AdvRui::Check_Smell()
 
 	return S_OK;
 }
+
+HRESULT CLevel_AdvRui::Create_Stone(_float fTimeDelta)
+{
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_fCreateStoneTime += fTimeDelta;
+	if (m_fCreateStoneTime > 1.f && m_iStoneIndex < 12)
+	{
+		_int iDest = rand() % 3;
+
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneSphere"), LEVEL_ADVRUI, TEXT("Layer_Stone"),&iDest)))
+			return E_FAIL;
+
+		m_fCreateStoneTime = 0.f;
+		++m_iStoneIndex;
+	}
+	
+
+	RELEASE_INSTANCE(CGameInstance);
+	return S_OK;
+}
+
 
 CLevel_AdvRui * CLevel_AdvRui::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 {

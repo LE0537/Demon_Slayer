@@ -147,7 +147,24 @@ CEnmuBossState * CEnmuBoss_Pattern1State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 	{
 		pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Play_Animation(fTimeDelta);
 	}
+	if (m_eStateType == CEnmuBossState::TYPE_START)
+	{
+		if (m_iHit == 0)
+		{
+			++m_iHit;
+			_vector vEffectPos;
+			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
+				vEffectPos = XMLoadFloat4(&dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Check_CollPos());
+			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
+				vEffectPos = XMLoadFloat4(&dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Check_CollPos());
 
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			
+			//pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT1_FLASH,&vEffectPos);
+
+			RELEASE_INSTANCE(CEffect_Manager);
+		}
+	}
 	if (m_eStateType == CEnmuBossState::TYPE_DEFAULT)
 	{
 		if (m_iHit == 0)
@@ -175,11 +192,7 @@ CEnmuBossState * CEnmuBoss_Pattern1State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 
 			RELEASE_INSTANCE(CGameInstance);
 
-			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-			//	pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMU_SKILL_BALLSTART, pEnmu);
-
-			RELEASE_INSTANCE(CEffect_Manager);
+		
 			m_fDelay = 0.f;
 			++m_iHit;
 		}
