@@ -131,15 +131,6 @@ void CUpperHitState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
 		break;
 	}
-
-	_uint iRand = rand() % 3;
-
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Hit_1.wav"), g_fVoice);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Hit_2.wav"), g_fVoice);
-	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_Hit_3.wav"), g_fVoice);
 }
 
 

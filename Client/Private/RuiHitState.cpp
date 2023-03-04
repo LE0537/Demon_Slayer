@@ -205,17 +205,14 @@ void CHitState::Enter(CRui* pRui)
 	pRui->Set_RuiHit(true);
 
 
-	_uint iRand = rand() % 4;
+	_uint iRand = rand() % 3;
 
 	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_1.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Hit_1.wav"), g_fVoice);
 	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_2.wav"), g_fVoice);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Hit_2.wav"), g_fVoice);
 	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_3.wav"), g_fVoice);
-	else if (iRand == 3)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_4.wav"), g_fVoice);
-
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_Hit_3.wav"), g_fVoice);
 }
 
 

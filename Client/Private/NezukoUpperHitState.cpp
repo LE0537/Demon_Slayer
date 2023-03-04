@@ -130,13 +130,6 @@ void CUpperHitState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
 		break;
 	}
-
-	_uint iRand = rand() % 2;
-
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Hit_1.wav"), g_fVoice);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_Hit_2.wav"), g_fVoice);
 }
 
 
