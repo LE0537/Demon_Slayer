@@ -382,8 +382,8 @@ void CHitState::Set_HitState(CTanjiro * pTanjiro)
 
 	}
 
-
-	if (iHit < 12 && pTanjiro->Get_BattleTarget()->Get_SubChar()->Get_Change() == false)
+	
+	if (iHit < 12 && pTanjiro->Get_BattleTarget()->Get_SubChar() != nullptr && pTanjiro->Get_BattleTarget()->Get_SubChar()->Get_Change() == false)
 	{
 		std::random_device RandomDevice;
 		std::mt19937 gen(RandomDevice());

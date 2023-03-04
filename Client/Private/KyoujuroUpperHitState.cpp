@@ -133,13 +133,6 @@ void CUpperHitState::Enter(CKyoujuro* pKyoujuro)
 		pKyoujuro->Get_Model()->Set_LinearTime(pKyoujuro->Get_AnimIndex(), 0.2f);
 		break;
 	}
-
-	_uint iRand = rand() % 2;
-
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Hit_1.wav"), g_fVoice);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_Hit_2.wav"), g_fVoice);
 }
 
 
