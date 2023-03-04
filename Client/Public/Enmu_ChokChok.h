@@ -103,6 +103,7 @@ private:
 	_float m_fMove = 0.f;
 	_bool  m_bHit = false;
 	CCharacters* m_pTanjiro = nullptr;
+
 public:
 	static CEnmu_ChokChok* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

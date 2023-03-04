@@ -1519,6 +1519,9 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train">
       <UniqueIdentifier>{9e67cf96-6304-487c-8489-3aeb1b51a382}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\18.StoneSphere">
+      <UniqueIdentifier>{3e503fd2-55df-4afe-8243-36c453747683}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3024,6 +3027,9 @@
     <ClInclude Include="..\Public\TanjiroTrain_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\StoneSphere.h">
+      <Filter>05.CollBox\18.StoneSphere</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4495,6 +4501,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroTrain_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\StoneSphere.cpp">
+      <Filter>05.CollBox\18.StoneSphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

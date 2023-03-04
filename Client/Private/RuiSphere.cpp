@@ -70,7 +70,7 @@ void CRuiSphere::Late_Tick(_float fTimeDelta)
 {
 	m_fMove += fTimeDelta;
 
-	if (m_fMove < 0.6f && m_fMove > 1.1f)
+	if (m_fMove < 0.6f)
 	{
 		m_fDelay += fTimeDelta;
 		if (m_fDelay > 0.13f && m_iHit < 4)

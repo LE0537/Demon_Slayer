@@ -44,12 +44,18 @@ HRESULT CEnmu_ChokChok::Initialize(void * pArg)
 	m_pTanjiro = dynamic_cast<CCharacters*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	
+	//pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT2_CHOK,&m_vOriginPosition);
+
+	RELEASE_INSTANCE(CEffect_Manager);
 	return S_OK;
 }
 
 void CEnmu_ChokChok::Tick(_float fTimeDelta)
 {
-
+	
 	if (m_pModelCom->Get_End(0))
 	{
 		m_pModelCom->Set_End(0);
