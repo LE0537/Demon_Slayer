@@ -20,6 +20,7 @@ public:
 
 private:
 	_float m_fTime = 0.f;
+	_float m_fGuardTime = 0.f;
 };
 END
 END

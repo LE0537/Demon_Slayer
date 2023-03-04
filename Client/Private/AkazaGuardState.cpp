@@ -53,6 +53,7 @@ CAkazaState * CGuardState::HandleInput(CAkaza* pAkaza)
 
 CAkazaState * CGuardState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
+	m_fGuardTime += fTimeDelta;
 
 	pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_GUARD_0);
 	//pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_GUARD_1);
@@ -61,29 +62,64 @@ CAkazaState * CGuardState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_GUARD_1, 0.01f);
 	pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_GUARD_2, 0.0f);
 
-	
-
-	if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
-	{  
+	if (pAkaza->Get_IsAIMode() == true)
+	{
 		switch (m_eStateType)
 		{
 		case Client::CAkazaState::TYPE_START:
-			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			return new CGuardState(STATE_TYPE::TYPE_LOOP);
+			if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+			{
+				pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+				return new CGuardState(STATE_TYPE::TYPE_LOOP);
+			}
 			break;
 		case Client::CAkazaState::TYPE_LOOP:
+			m_fGuardTime += fTimeDelta;
+
+			if(m_fGuardTime >= 1.f)
+				return new CGuardState(STATE_TYPE::TYPE_END);
 			break;
 		case Client::CAkazaState::TYPE_END:
-			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			return new CIdleState();
+			if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+			{
+				pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+
+				return new CIdleState();
+			}
 			break;
 		case Client::CAkazaState::TYPE_DEFAULT:
 			break;
 		default:
 			break;
 		}
-		pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
 	}
+	else
+	{
+		if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+		{
+			switch (m_eStateType)
+			{
+			case Client::CAkazaState::TYPE_START:
+				pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+				return new CGuardState(STATE_TYPE::TYPE_LOOP);
+				break;
+			case Client::CAkazaState::TYPE_LOOP:
+				break;
+			case Client::CAkazaState::TYPE_END:
+				pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+				return new CIdleState();
+				break;
+			case Client::CAkazaState::TYPE_DEFAULT:
+				break;
+			default:
+				break;
+			}
+			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+		}
+	}
+
+
+
 
 
 	return nullptr;

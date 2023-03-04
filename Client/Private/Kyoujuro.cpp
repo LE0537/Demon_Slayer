@@ -23,6 +23,9 @@
 #include "KyoujuroHitCinema_Rui.h"
 #include "KyoujuroHitCinema_Shinobu.h"
 #include "KyoujuroHitCinema_Tanjiro.h"
+#include "KyoujuroAkazaScene.h"
+
+#include "Tanjiro.h"
 using namespace Kyoujuro;
 
 #include "UI_Manager.h"
@@ -134,7 +137,9 @@ void CKyoujuro::Tick(_float fTimeDelta)
 
 		m_fEffectStartTime = 0.f;
 
-		if (m_bBattleStart)
+		CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+		if (m_bBattleStart && dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_AkazaScene() == false)
 		{
 			CKyoujuroState* pState = new CBattleStartState();
 			m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
@@ -816,6 +821,12 @@ void CKyoujuro::Play_Scene()
 	}
 }
 
+
+void CKyoujuro::Play_AkazaScene()
+{
+	CKyoujuroState* pState = new CKyoujuroAkazaScene(CKyoujuroState::TYPE_START);
+	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+}
 
 void CKyoujuro::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
 {
