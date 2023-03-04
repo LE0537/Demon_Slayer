@@ -122,7 +122,7 @@ HRESULT CEffect_AnimMesh::Ready_Components()
 		return E_FAIL;
 
 	_tchar			szRealPath[MAX_PATH];
-	wcscpy_s(szRealPath, m_pInfo.szMeshType);
+	//wcscpy_s(szRealPath, m_pInfo.szMeshType);
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_FlameTrail01_11"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;

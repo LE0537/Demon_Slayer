@@ -351,11 +351,13 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_BOOM, pKyoujuro);
+		_vector vPos = XMVectorSet(-12.f, 0.f, 80.f, 1.f);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_BOOM, &vPos);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_GROUND, pKyoujuro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_PROJ1, pKyoujuro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_PORJ2, pKyoujuro);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_TONEIDO, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO9_TONEIDO, &vPos);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 

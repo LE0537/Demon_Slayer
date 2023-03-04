@@ -55,6 +55,8 @@ HRESULT CEffect::Initialize(void * pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	_vector vPos;
+
 	if (nullptr != pArg) {
 		if (EFFMOVE_TARGET == m_EffectInfo.iMoveType) {
 			m_pTarget = (CGameObj*)pArg;
@@ -65,6 +67,9 @@ HRESULT CEffect::Initialize(void * pArg)
 		}
 		else if (EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {
 			m_ParentWorldMatrix = (_float4x4*)pArg;
+		}
+		else if (EFFMOVE_POS == m_EffectInfo.iMoveType) {
+			vPos = *(_vector*)pArg;
 		}
 		else
 			m_pTarget = (CGameObj*)pArg;
@@ -77,7 +82,13 @@ HRESULT CEffect::Initialize(void * pArg)
 
 	m_pTransformCom->RotationAll(vRadian);
 
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
+	if (EFFMOVE_POS == m_EffectInfo.iMoveType) {
+		vPos = vPos + XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 0.f);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+	}
+	else {
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_EffectInfo.vPosition.x, m_EffectInfo.vPosition.y, m_EffectInfo.vPosition.z, 1.f));
+	}
 
 	if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {
 		_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
@@ -87,6 +98,9 @@ HRESULT CEffect::Initialize(void * pArg)
 		mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
 
 		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParentWorld);
+	}
+	else if (EFFMOVE_POS == m_EffectInfo.iMoveType) {
+		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix());
 	}
 	else {
 		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
@@ -140,7 +154,8 @@ void CEffect::Tick(_float fTimeDelta)
 
 					XMStoreFloat4x4(&m_CombinedWorldMatrix, vPos * vTargetPos);
 				}
-				else if (EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIX2 != m_EffectInfo.iMoveType) {
+				else if (EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIX2 != m_EffectInfo.iMoveType
+					&& EFFMOVE_POS != m_EffectInfo.iMoveType) {
 					XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * m_pTarget->Get_Transform()->Get_WorldMatrix());
 				}
 				m_bStart = false;
@@ -148,7 +163,7 @@ void CEffect::Tick(_float fTimeDelta)
 		}
 		else {
 			if (m_EffectInfo.iMoveType != EFFMOVE_NONE && m_EffectInfo.iMoveType != EFFMOVE_ZERO && m_EffectInfo.iMoveType != EFFMOVE_MATRIXPIX
-				&& m_EffectInfo.iMoveType != EFFMOVE_MATRIX && m_EffectInfo.iMoveType != EFFMOVE_MATRIX2
+				&& m_EffectInfo.iMoveType != EFFMOVE_MATRIX && m_EffectInfo.iMoveType != EFFMOVE_MATRIX2 && EFFMOVE_POS != m_EffectInfo.iMoveType
 				&& m_pTarget != nullptr) {
 				_matrix vTargetPos = m_pTarget->Get_Transform()->Get_WorldMatrix();
 				_matrix vPos = m_pTransformCom->Get_WorldMatrix();
@@ -195,7 +210,7 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	}
 
 	if (EFFMOVE_MATRIX != m_EffectInfo.iMoveType && EFFMOVE_MATRIXPIX != m_EffectInfo.iMoveType && m_pTarget != nullptr
-		&& EFFMOVE_MATRIX2 != m_EffectInfo.iMoveType)
+		&& EFFMOVE_MATRIX2 != m_EffectInfo.iMoveType && EFFMOVE_POS != m_EffectInfo.iMoveType)
 		m_fEffectStartTime += m_pTarget->Get_EffectTime();
 
 	switch (m_iEffectNum) {
@@ -308,6 +323,22 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_REN_MO9_PORJ2:
 	case CEffect_Manager::EFF_SPL_REN_MO9_TONEIDO:
 	case CEffect_Manager::EFF_SPL_REN_MO10_FLASH:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT1_FLASH:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT2_CHOK:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT2_FLASH:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT2_GROUND:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT3_FLASH:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT3_GROUND:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASH:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT4_HAND:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT4_GROUND:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT5_GROUND:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT5_GROUND2:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT5_HAND:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT2_FLASH2:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT3_FLASH2:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASH2:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			if (m_bLateStart) {
 				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {

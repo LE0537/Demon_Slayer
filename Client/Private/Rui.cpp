@@ -19,6 +19,7 @@
 #include "RuiTakeDownState.h"
 #include "RuiUpperHitState.h"
 #include "Tanjiro.h"
+#include "BattleDialog.h"
 // 오의히트
 #include "RuiHitCinema_Tanjiro.h"
 #include "RuiHitCinema_Akaza.h"
@@ -485,6 +486,7 @@ void CRui::StorySpl(_float fTimeDelta)
 {
 	//2페이즈 가는 연출 딜레이
 	m_fStoryTime += fTimeDelta;
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
 	if (!m_bStoryPos && m_fStoryTime > 2.5f)
 	{
@@ -494,13 +496,14 @@ void CRui::StorySpl(_float fTimeDelta)
 		m_pBattleTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, 0.f, 50.03f, 1.f));
 		m_pBattleTarget->Get_Transform()->Set_PlayerLookAt(XMVectorSet(50.5183f, 0.f, 56.1f, 1.f));
 		dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(true);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_DialogOn();
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_RUI);
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
 		RELEASE_INSTANCE(CGameInstance);
 	}
-
-	if (m_fStoryTime > 15.f)
+	
+	if(pUI_Manager->Get_MsgCount() > 1)
 	{
 		dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
 		dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_StoryRuiSpl(true);
@@ -509,7 +512,11 @@ void CRui::StorySpl(_float fTimeDelta)
 		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
 		m_bStorySpl = false;
 		m_fStoryTime = 0.f;
+		pUI_Manager->Reset_MsgCount();
 	}
+
+	RELEASE_INSTANCE(CUI_Manager);
+	
 }
 
 _bool CRui::Get_RuiHit()

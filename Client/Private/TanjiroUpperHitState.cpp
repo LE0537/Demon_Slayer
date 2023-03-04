@@ -5,6 +5,8 @@
 #include "Layer.h"
 #include "Camera_Dynamic.h"
 #include "Rui.h"
+#include "BattleDialog.h"
+#include "UI_Manager.h"
 using namespace Tanjiro;
 
 CUpperHitState::CUpperHitState(CTanjiro::HIT_TYPE eHitType, STATE_TYPE eType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower, _float fJumpTime)
@@ -639,6 +641,7 @@ CTanjiroState * CUpperHitState::BoundState(CTanjiro * pTanjiro, _float fTimeDelt
 				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
 				RELEASE_INSTANCE(CGameInstance);
 				m_bStoryCam = true;
+				dynamic_cast<CBattleDialog*>(CUI_Manager::Get_Instance()->Get_DialogUI())->Set_Dialog3On();
 			}
 			m_fDelay += fTimeDelta;
 			if (m_fDelay >= 10.f && !m_bTrue && pTanjiro->Get_StoryRuiSpl())

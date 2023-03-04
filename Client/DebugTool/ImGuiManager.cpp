@@ -539,14 +539,14 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 	//	Eye, At Interface
 	ImGui::DragFloat3("Position", f3Movement_Pos, 0.05f);
 	_float fSpeed = 0.01f;
-	if (pGameInstance->Key_Pressing(DIK_LSHIFT))
-		fSpeed = -0.01f;
-	if (pGameInstance->Key_Down(DIK_1))
-		f3Movement_Pos[0] += fSpeed;
-	if (pGameInstance->Key_Down(DIK_2))
-		f3Movement_Pos[1] += fSpeed;
-	if (pGameInstance->Key_Down(DIK_3))
-		f3Movement_Pos[2] += fSpeed;
+	//if (pGameInstance->Key_Pressing(DIK_LSHIFT))
+	//	fSpeed = -0.01f;
+	//if (pGameInstance->Key_Down(DIK_1))
+	//	f3Movement_Pos[0] += fSpeed;
+	//if (pGameInstance->Key_Down(DIK_2))
+	//	f3Movement_Pos[1] += fSpeed;
+	//if (pGameInstance->Key_Down(DIK_3))
+	//	f3Movement_Pos[2] += fSpeed;
 	if (0 < m_iNumCam[eChoice] && 0 != iCamIndex[eChoice])
 	{
 		m_vecCamObjects[eChoice][(iCamIndex[eChoice] - 1)]->Set_Pos(f3Movement_Pos[0], f3Movement_Pos[1], f3Movement_Pos[2]);

@@ -23,7 +23,7 @@ public:
 	_uint Get_ModelIndex() { return m_tMyDesc.iModelIndex; }
 
 	_bool Get_Turn() { return m_bTurn; }
-
+	void Set_ModelNum() { ++m_iModelNum; }
 private:
 	CTrain_Head(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CTrain_Head(const CTrain_Head& rhs);

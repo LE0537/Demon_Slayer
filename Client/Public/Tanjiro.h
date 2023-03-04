@@ -219,6 +219,10 @@ public:
 	_bool   Get_StorySpl() { return m_bStorySpl; }
 	void	Set_StorySplEnd() { m_bStorySplEnd = true; }
 	_bool   Get_StorySplEnd() { return m_bStorySplEnd; }
+
+	void	Set_BossEnmu_Dead(_bool _bEnmuBoss) { m_bBossEnmu_Dead = _bEnmuBoss; }
+	_bool   Get_BossEnmu_Dead() { return m_bBossEnmu_Dead; }
+	
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -276,6 +280,7 @@ private:
 	_float					m_fStoryTime = 0.f;
 	_bool					m_bStorySplEnd = false;
 
+	_bool					m_bBossEnmu_Dead = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

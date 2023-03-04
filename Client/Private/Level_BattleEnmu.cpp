@@ -192,7 +192,7 @@ void CLevel_BattleEnmu::Tick(_float fTimeDelta)
 		if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
 		{
 			m_fNextLevelTime += fTimeDelta;
-			if (m_fNextLevelTime > 3.f)
+			if (m_fNextLevelTime > 10.f) //엔무 보스 넘어가기전 딜레이 
 			{
 				pUIManager->Set_Sel1P(0);
 				pUIManager->Set_Sel1P_2(4);
