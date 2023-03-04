@@ -339,6 +339,8 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_ENMUBOSS_PAT2_FLASH2:
 	case CEffect_Manager::EFF_ENMUBOSS_PAT3_FLASH2:
 	case CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASH2:
+	case CEffect_Manager::EFF_TRAIN_WIND:
+	case CEffect_Manager::EFF_TRAIN_SMOKE:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			if (m_bLateStart) {
 				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {

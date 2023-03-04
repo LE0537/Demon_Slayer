@@ -1788,7 +1788,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Hand"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Wind"));
 
-
+		pEffect_Manager->Load_Effect(TEXT("Train_Smoke"));
+		pEffect_Manager->Load_Effect(TEXT("Train_Wind"));
 		pEffect_Manager->Load_Effect(TEXT("Fade"));
 
 		RELEASE_INSTANCE(CEffect_Manager);
