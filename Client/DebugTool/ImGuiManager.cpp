@@ -989,6 +989,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		"RgkStt", "Rgk0", "Rgk1", "Rgk2", "Rgk3" , "Rgk4" , "Rgk5" , "Rgk6", "Rgk7" , "Rgk8",
 		"AkzStt", "Akz0", "Akz1", "Akz2", "Akz3" , "Akz4" , "Akz5" , "Akz6",
 		"NzkStt", "Nzk0", "Nzk1", "Nzk2", "Nzk3" , "Nzk4" , "Nzk5" , "Nzk6", "Nzk7", "Nzk8", "Nzk9_0", "Nzk9_1",
+		"SnbStt", "Snb0", "Snb1", "Snb2", "Snb3"
 	};
 	static _int iCameraActionIndex = 0;
 	if (ImGui::CollapsingHeader("Setting Actions"))
@@ -998,23 +999,11 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		ImGui::SliderFloat("Full Time", &fSettingTime, 0.f, (_float)(m_vecCamTime.size() - 1), "%f");
 		if (0.f > fSettingTime)
 			fSettingTime = 0.f;
-/*
-		if (pGameInstance->Key_Down(DIK_F3) ||
-			pGameInstance->Key_Down(DIK_F4) ||
-			pGameInstance->Key_Down(DIK_F5) ||
-			pGameInstance->Key_Down(DIK_F6) ||
-			pGameInstance->Key_Down(DIK_F7) ||
-			pGameInstance->Key_Down(DIK_F8) ||
-			pGameInstance->Key_Down(DIK_F9) ||			
-			pGameInstance->Key_Down(DIK_CAPSLOCK) ||
-			pGameInstance->Key_Down(DIK_PGUP) ||
-			pGameInstance->Key_Down(DIK_PGDN) ||
-			pGameInstance->Key_Down(DIK_END))
-			m_bCutScene = true;
-*/
+
 		//	Play CutScene
 		if (ImGui::Button("Play", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
 			m_bCutScene = true;
+
 		((CCamera_Dynamic*)m_pCamera)->Start_CutScene(m_bCutScene, CCamera_Dynamic::CUTSCENE_END);
 		if (m_iNumCam[CAM_EYE] == m_iNumCam[CAM_AT] &&
 			m_iNumCam[CAM_EYE] == m_iNumCamTime + 1 &&

@@ -382,34 +382,36 @@ void CHitState::Set_HitState(CTanjiro * pTanjiro)
 
 	}
 
-	
-	if (iHit < 12 && pTanjiro->Get_BattleTarget()->Get_SubChar() != nullptr && pTanjiro->Get_BattleTarget()->Get_SubChar()->Get_Change() == false)
+	if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().bOni == false)
 	{
-		std::random_device RandomDevice;
-		std::mt19937 gen(RandomDevice());
-		std::uniform_int_distribution<int> RandomPattern(1, 3);
-		int iRandom = RandomPattern(gen);
-
-		switch (iRandom)
+		if (iHit < 12 && pTanjiro->Get_BattleTarget()->Get_SubChar()->Get_Change() == false)
 		{
-		case 1:
-			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_HIT_DMG_F);
-			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_HIT_DMG_F);
-			pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
-			pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.2f);
-			break;
-		case 2:
-			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_HIT_DMG_L);
-			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_HIT_DMG_L);
-			pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
-			pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.2f);
-			break;
-		case 3:
-			pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_HIT_DMG_R);
-			pTanjiro->Set_AnimIndex(CTanjiro::ANIM_HIT_DMG_R);
-			pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
-			pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.2f);
-			break;
+			std::random_device RandomDevice;
+			std::mt19937 gen(RandomDevice());
+			std::uniform_int_distribution<int> RandomPattern(1, 3);
+			int iRandom = RandomPattern(gen);
+
+			switch (iRandom)
+			{
+			case 1:
+				pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_HIT_DMG_F);
+				pTanjiro->Set_AnimIndex(CTanjiro::ANIM_HIT_DMG_F);
+				pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
+				pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.2f);
+				break;
+			case 2:
+				pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_HIT_DMG_L);
+				pTanjiro->Set_AnimIndex(CTanjiro::ANIM_HIT_DMG_L);
+				pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
+				pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.2f);
+				break;
+			case 3:
+				pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_HIT_DMG_R);
+				pTanjiro->Set_AnimIndex(CTanjiro::ANIM_HIT_DMG_R);
+				pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
+				pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.2f);
+				break;
+			}
 		}
 	}
 }

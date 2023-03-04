@@ -2,6 +2,8 @@
 #include "..\Public\Shinobu_CinemaState.h"
 #include "GameInstance.h"
 #include "ShinobuIdleState.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 
 
 using namespace Shinobu;
@@ -13,7 +15,9 @@ CShinobu_CinemaState::CShinobu_CinemaState(CINEMASCENE eScene)
 
 CShinobuState * CShinobu_CinemaState::HandleInput(CShinobu * pShinobu)
 {
-	return nullptr;
+	CShinobuState* pState = nullptr;
+	
+	return pState;
 }
 
 CShinobuState * CShinobu_CinemaState::Tick(CShinobu * pShinobu, _float fTimeDelta)
@@ -78,7 +82,7 @@ CShinobuState * CShinobu_CinemaState::Tick(CShinobu * pShinobu, _float fTimeDelt
 
 CShinobuState * CShinobu_CinemaState::Late_Tick(CShinobu * pShinobu, _float fTimeDelta)
 {
-	
+
 	pShinobu->Get_Model()->Play_Animation_Skill(fTimeDelta);
 
 	return nullptr;
@@ -86,6 +90,7 @@ CShinobuState * CShinobu_CinemaState::Late_Tick(CShinobu * pShinobu, _float fTim
 
 void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 {
+	CGameInstance* pGameInstance = nullptr;
 	switch (m_eScene)
 	{
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_START:
@@ -100,6 +105,11 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Get_Model()->Set_Loop(CShinobu_CinemaState::ANIM_SCENE_START);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu_CinemaState::ANIM_SCENE_START, 0.01f);
 		pShinobu->Set_SplSkl(true);
+
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_SNB_START);
+		RELEASE_INSTANCE(CGameInstance);
+
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_SplSkr.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_SplSkr.wav"), g_fEffect);
 		break;
@@ -110,6 +120,7 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Set_AnimIndex(static_cast<CShinobu::ANIMID>(CShinobu_CinemaState::ANIM_SCENE_0));
 		pShinobu->Get_Model()->Set_Loop(CShinobu_CinemaState::ANIM_SCENE_0);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu_CinemaState::ANIM_SCENE_0, 0.01f);
+		pShinobu->Get_BattleTarget()->Set_SceneRender(false);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_1:
 		pShinobu->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_030);
@@ -118,6 +129,7 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Set_AnimIndex(static_cast<CShinobu::ANIMID>(CShinobu_CinemaState::ANIM_SCENE_1));
 		pShinobu->Get_Model()->Set_Loop(CShinobu_CinemaState::ANIM_SCENE_1);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu_CinemaState::ANIM_SCENE_1, 0.01f);
+		pShinobu->Get_BattleTarget()->Set_SceneRender(true);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_2:
 		pShinobu->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_040);
@@ -144,14 +156,14 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SPLSKL_END, 0.01f);
 
 
-		 m_fBoundPower = 20.f;
-		 m_fJumpPower = 30.f;
-		 m_fKnockBackPower = 8.f;
+		m_fBoundPower = 20.f;
+		m_fJumpPower = 30.f;
+		m_fKnockBackPower = 8.f;
 		break;
 	default:
 		break;
 	}
-	
+
 
 }
 

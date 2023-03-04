@@ -231,13 +231,17 @@ HRESULT CEffect_Texture::Render()
 		return E_FAIL;
 
 	if (m_TextureInfo.iShader == CEffect::SHADER_DISTORTION) {
-		m_pShaderCom->Begin(3);
-		m_pVIBufferCom->Render();
+		if(true == m_TextureInfo.bUseFlowMap)
+			m_pShaderCom->Begin(9);
+		else
+			m_pShaderCom->Begin(3);
 		return S_OK;
 	}
 	if (m_TextureInfo.iShader == CEffect::SHADER_GRAYSCALE) {
-		m_pShaderCom->Begin(4);
-		m_pVIBufferCom->Render();
+		if (true == m_TextureInfo.bUseFlowMap)
+			m_pShaderCom->Begin(10);
+		else
+			m_pShaderCom->Begin(4);
 		return S_OK;
 	}
 

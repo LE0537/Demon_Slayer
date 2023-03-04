@@ -323,36 +323,38 @@ void CHitState::Set_HitState(CShinobu* pShinobu)
 
 	}
 
-	if (iHit < 12 && pShinobu->Get_BattleTarget()->Get_SubChar()->Get_Change() == false)
+	if (pShinobu->Get_BattleTarget()->Get_PlayerInfo().bOni == false)
 	{
-		std::random_device RandomDevice;
-		std::mt19937 gen(RandomDevice());
-		std::uniform_int_distribution<int> RandomPattern(1, 3);
-		int iRandom = RandomPattern(gen);
-
-		switch (iRandom)
+		if (iHit < 12 && pShinobu->Get_BattleTarget()->Get_SubChar()->Get_Change() == false)
 		{
-		case 1:
-			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_F);
-			pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_F);
-			pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
-			pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
-			break;
-		case 2:
-			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_L);
-			pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_L);
-			pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
-			pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
-			break;
-		case 3:
-			pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_R);
-			pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_R);
-			pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
-			pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
-			break;
+			std::random_device RandomDevice;
+			std::mt19937 gen(RandomDevice());
+			std::uniform_int_distribution<int> RandomPattern(1, 3);
+			int iRandom = RandomPattern(gen);
+
+			switch (iRandom)
+			{
+			case 1:
+				pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_F);
+				pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_F);
+				pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+				pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+				break;
+			case 2:
+				pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_L);
+				pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_L);
+				pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+				pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+				break;
+			case 3:
+				pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_R);
+				pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_R);
+				pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
+				pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
+				break;
+			}
 		}
 	}
-
 }
 void CHitState::Set_JumpHitState(CShinobu* pShinobu)
 {
