@@ -107,7 +107,14 @@ void CMapNameBar::Tick(_float fTimeDelta)
 							pUI_Manager->Set_MainQuestOn();
 							m_bMsgOnCheck = true;
 						}
-
+						else if (pGameInstance->Key_Down(DIK_RETURN))
+						{
+							CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+							pUI_Manager->Set_MsgOff();
+							pUI_Manager->Set_QuestStartCheck(true);
+							pUI_Manager->Set_MainQuestOn();
+							m_bMsgOnCheck = true;
+						}
 					}
 					else if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
 					{
@@ -118,10 +125,30 @@ void CMapNameBar::Tick(_float fTimeDelta)
 							case 0:
 								pUI_Manager->Set_MsgOn();
 								pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
-								pUI_Manager->Set_Msg(TEXT("큭.. 냄새가 지독해, 무거워...! 이 바람 속에서 혈귀 냄새가 이렇게까지...!!"));
+								pUI_Manager->Set_Msg(TEXT("(큭.. 냄새가 지독해, 무거워...! 이 바람 속에서 혈귀 냄새가 이렇게까지...!!)"));
+								if (!m_bSoundCheck)
+								{
+									m_bSoundCheck = true;
+									CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_00.wav"), g_fDialog);
+								}
+								CSoundMgr::Get_Instance()->Dialog_End(&m_bSoundEnd);
+								if (!m_bSoundEnd)
+									pUI_Manager->Set_MsgCount(1);
+								else if(pGameInstance->Key_Down(DIK_RETURN))
+									pUI_Manager->Set_MsgCount(1);
 								break;
 							case 1:
 								pUI_Manager->Set_Msg(TEXT("혈귀는 바람이 불어오는 쪽... 선두 차량인가? 앞으로 가보자"));
+								if (m_bSoundCheck)
+								{
+									m_bSoundCheck = false;
+									CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_01.wav"), g_fDialog);
+								} 
+								CSoundMgr::Get_Instance()->Dialog_End(&m_bSoundEnd);
+								if (!m_bSoundEnd)
+									pUI_Manager->Set_MsgCount(1);
+								else if (pGameInstance->Key_Down(DIK_RETURN))
+									pUI_Manager->Set_MsgCount(1);
 								break;
 							default:
 								pUI_Manager->Set_MsgOff();

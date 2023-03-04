@@ -110,9 +110,9 @@ void CQuiestMainBase::Tick(_float fTimeDelta)
 		{
 		case 0: m_szMainQuest = TEXT("열차 안을 조사하자");
 			break;
-		case 1: m_szMainQuest = TEXT("염주를 찾아보자");
+		case 1: m_szMainQuest = TEXT("'주'급 귀살 대원을 찾자");
 			break;
-		case 2: m_szMainQuest = TEXT("하현1 혈귀를 찾자");
+		case 2: m_szMainQuest = TEXT("열차 앞 혈귀를 처치하라");
 			break;
 		case 3: m_szMainQuest = TEXT("");
 			break;
