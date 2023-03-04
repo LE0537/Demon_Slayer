@@ -1770,6 +1770,25 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion9_Toneido"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion10_Flash"));
 
+		//Enmu_Boss
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat1_Flash"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat2_Chok"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat2_Flash"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat2_Flash2"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat2_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat3_Flash"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat3_Flash2"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat3_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat4_Flash"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat4_Flash2"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat4_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat4_Hand"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Ground2"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Hand"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Wind"));
+
+
 		pEffect_Manager->Load_Effect(TEXT("Fade"));
 
 		RELEASE_INSTANCE(CEffect_Manager);
