@@ -47,6 +47,7 @@ private:
 	_bool					m_bDialogCheck = false;
 	_bool					m_bSoundValumCheck = 0.f;
 	_bool					m_bDialog3Start = false;
+	_float					m_fDelay = 0.f;
 
 public:
 	static CBattleDialog* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

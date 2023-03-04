@@ -194,6 +194,8 @@
     <ClInclude Include="..\Public\Akaza.h" />
     <ClInclude Include="..\Public\AkazaAdvSkill_Common.h" />
     <ClInclude Include="..\Public\AkazaAdvSkill_Move.h" />
+    <ClInclude Include="..\Public\AkazaAiState.h" />
+    <ClInclude Include="..\Public\AkazaAkazaScene.h" />
     <ClInclude Include="..\Public\AkazaAtk_1_State.h" />
     <ClInclude Include="..\Public\AkazaAtk_2_State.h" />
     <ClInclude Include="..\Public\AkazaAtk_3_State.h" />
@@ -217,6 +219,8 @@
     <ClInclude Include="..\Public\AkazaJumpState.h" />
     <ClInclude Include="..\Public\AkazaMoveJumpState.h" />
     <ClInclude Include="..\Public\AkazaMoveState.h" />
+    <ClInclude Include="..\Public\AkazaScene.h" />
+    <ClInclude Include="..\Public\AkazaSceneState.h" />
     <ClInclude Include="..\public\AkazaShoot.h" />
     <ClInclude Include="..\Public\AkazaSkill_Destroy.h" />
     <ClInclude Include="..\Public\AkazaSkill_Punch.h" />
@@ -293,6 +297,7 @@
     <ClInclude Include="..\Public\FeedArrow.h" />
     <ClInclude Include="..\public\Goto.h" />
     <ClInclude Include="..\Public\HinoCami_CinemaState.h" />
+    <ClInclude Include="..\Public\KyoujuroAkazaScene.h" />
     <ClInclude Include="..\Public\KyoujuroHitCinema_Akaza.h" />
     <ClInclude Include="..\Public\AkazaHitCinema_Kyoujuro.h" />
     <ClInclude Include="..\Public\KyoujuroHitCinema_Nezuko.h" />
@@ -315,6 +320,7 @@
     <ClInclude Include="..\public\RuiSplColl.h" />
     <ClInclude Include="..\Public\RuiSplSkrStartState.h" />
     <ClInclude Include="..\Public\RuiSister.h" />
+    <ClInclude Include="..\Public\SceneState.h" />
     <ClInclude Include="..\Public\ShinobuHitCinema_Akaza.h" />
     <ClInclude Include="..\Public\ShinobuHitCinema_Kyoujuro.h" />
     <ClInclude Include="..\Public\ShinobuHitCinema_Nezuko.h" />
@@ -324,6 +330,7 @@
     <ClInclude Include="..\Public\Skill1_EnmuState.h" />
     <ClInclude Include="..\Public\Skill2_EnmuState.h" />
     <ClInclude Include="..\Public\Skill3_EnmuState.h" />
+    <ClInclude Include="..\Public\TanjiroAkazaScene.h" />
     <ClInclude Include="..\public\TanjiroSplSkrStartState.h" />
     <ClInclude Include="..\Public\TanjiroHitCinema_Akaza.h" />
     <ClInclude Include="..\Public\TanjiroHitCinema_Kyoujuro.h" />
@@ -697,6 +704,8 @@
     <ClCompile Include="..\Private\Akaza.cpp" />
     <ClCompile Include="..\Private\AkazaAdvSkill_Common.cpp" />
     <ClCompile Include="..\Private\AkazaAdvSkill_Move.cpp" />
+    <ClCompile Include="..\Private\AkazaAiState.cpp" />
+    <ClCompile Include="..\private\AkazaAkazaScene.cpp" />
     <ClCompile Include="..\Private\AkazaAtk_1_State.cpp" />
     <ClCompile Include="..\Private\AkazaAtk_2_State.cpp" />
     <ClCompile Include="..\Private\AkazaAtk_3_State.cpp" />
@@ -720,6 +729,7 @@
     <ClCompile Include="..\Private\AkazaJumpState.cpp" />
     <ClCompile Include="..\Private\AkazaMoveJumpState.cpp" />
     <ClCompile Include="..\Private\AkazaMoveState.cpp" />
+    <ClCompile Include="..\Private\AkazaScene.cpp" />
     <ClCompile Include="..\private\AkazaShoot.cpp" />
     <ClCompile Include="..\Private\AkazaSkill_Destroy.cpp" />
     <ClCompile Include="..\Private\AkazaSkill_Punch.cpp" />
@@ -794,6 +804,7 @@
     <ClCompile Include="..\Private\FeedArrow.cpp" />
     <ClCompile Include="..\private\Goto.cpp" />
     <ClCompile Include="..\Private\HinoCami_CinemaState.cpp" />
+    <ClCompile Include="..\Private\KyoujuroAkazaScene.cpp" />
     <ClCompile Include="..\Private\KyoujuroHitCinema_Akaza.cpp" />
     <ClCompile Include="..\Private\AkazaHitCinema_Kyoujuro.cpp" />
     <ClCompile Include="..\Private\KyoujuroHitCinema_Nezuko.cpp" />
@@ -815,6 +826,7 @@
     <ClCompile Include="..\private\RuiSplColl.cpp" />
     <ClCompile Include="..\Private\RuiSplSkrStartState.cpp" />
     <ClCompile Include="..\Private\RuiSister.cpp" />
+    <ClCompile Include="..\Private\SceneState.cpp" />
     <ClCompile Include="..\Private\ShinobuHitCinema_Akaza.cpp" />
     <ClCompile Include="..\Private\ShinobuHitCinema_Kyoujuro.cpp" />
     <ClCompile Include="..\Private\ShinobuHitCinema_Nezuko.cpp" />
@@ -824,6 +836,7 @@
     <ClCompile Include="..\Private\Skill1_EnmuState.cpp" />
     <ClCompile Include="..\Private\Skill2_EnmuState.cpp" />
     <ClCompile Include="..\Private\Skill3_EnmuState.cpp" />
+    <ClCompile Include="..\private\TanjiroAkazaScene.cpp" />
     <ClCompile Include="..\private\TanjiroSplSkrStartState.cpp" />
     <ClCompile Include="..\Private\TanjiroHitCinema_Akaza.cpp" />
     <ClCompile Include="..\Private\TanjiroHitCinema_Kyoujuro.cpp" />

@@ -34,8 +34,6 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 		case 1:
 			if (pGameInstance->Key_Pressing(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
 			{
-				//	pNezuko->Set_UnicCount(1);
-
 				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
 				{
 					pNezuko->Set_UnicCount(-1);

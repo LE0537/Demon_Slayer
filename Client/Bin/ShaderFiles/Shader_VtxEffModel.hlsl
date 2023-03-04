@@ -244,6 +244,7 @@ struct PS_EFFECT_OUT
 {
 	float4		vColor : SV_TARGET0;
 	float4		vGlowColor : SV_TARGET1;
+	float4		vEffect : SV_TARGET2;
 };
 
 PS_EFFECT_OUT PS_EFF_MAIN(PS_EFFECT_IN In)
@@ -260,6 +261,8 @@ PS_EFFECT_OUT PS_EFF_MAIN(PS_EFFECT_IN In)
 
 	Out.vColor.a = saturate(saturate(g_bUseColor * (g_vColor.a * fTexAlpha))
 		+ saturate((1 - g_bUseColor) * (fTexAlpha)) - fDissolveAlpha);
+
+	Out.vEffect = Out.vColor;
 
 	if (Out.vColor.a < 0.03f)
 		discard;
@@ -295,6 +298,8 @@ PS_EFFECT_OUT PS_EFF_COLORBLEND(PS_EFFECT_IN In)
 	Out.vColor.a = Out.vColor.a * saturate((1 - g_bUseMask) + vMaskTexture.r);
 
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
+	Out.vEffect = Out.vColor;
+
 
 	if (Out.vColor.a < 0.03f)
 		discard;
@@ -332,6 +337,8 @@ PS_EFFECT_OUT PS_EFF_COLORTEST(PS_EFFECT_IN In)
 		discard;
 
 	Out.vColor.a = 1.f;
+	Out.vEffect = Out.vColor;
+
 
 	return Out;
 }
@@ -413,6 +420,7 @@ PS_EFFECT_OUT PS_ALPHAGLOW(PS_EFFECT_IN In)
 
 	Out.vColor.a = Out.vColor.a * saturate((1 - g_bUseMask) + vMaskTexture.r);
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
+	Out.vEffect = Out.vColor;
 
 	if (Out.vColor.a <= 0.03f)
 		discard;
@@ -480,6 +488,7 @@ PS_EFFECT_OUT PS_FLOWMAP(PS_FLOWMAP_IN In)
 
 	Out.vColor.a = Out.vColor.a * saturate((1 - g_bUseMask) + vMaskTexture.r);
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
+	Out.vEffect = Out.vColor;
 
 	if (Out.vColor.a < 0.1f)
 		discard;

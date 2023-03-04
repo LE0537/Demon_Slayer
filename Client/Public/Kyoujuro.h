@@ -178,6 +178,7 @@ public:
 	virtual void  Play_Scene();
 
 public:
+	void Play_AkazaScene();
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:
 	CModel*					m_pModelCom = nullptr;

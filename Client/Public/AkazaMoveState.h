@@ -24,7 +24,7 @@ public:
 
 private:
 	void Move(CAkaza* pAkaza, _float fTimeDelta);
-
+	CAkazaState* AIMove(CAkaza* pAkaza, OBJDIR eDir, _float fTimeDelta);
 
 private:
 	OBJDIR	m_eDirection = OBJDIR::DIR_END;

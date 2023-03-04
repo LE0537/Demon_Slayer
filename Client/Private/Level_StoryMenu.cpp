@@ -57,7 +57,8 @@ void CLevel_StoryMenu::Tick(_float fTimeDelta)
 				return;
 			break;
 		case 1:
-			if (FAILED(pGameInstance->Open_Level(LEVEL_ADVAKAZA, CLevel_AdvAkaza::Create(m_pDevice, m_pContext))))
+			if (FAILED(pGameInstance->Open_Level(LEVEL_ADVAKAZA, 
+				CLevel_AdvAkaza::Create(m_pDevice, m_pContext))))
 				return;
 			//if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
 			//	return;

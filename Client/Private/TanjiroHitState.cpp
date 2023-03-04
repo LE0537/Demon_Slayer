@@ -382,7 +382,7 @@ void CHitState::Set_HitState(CTanjiro * pTanjiro)
 
 	}
 
-	if (pTanjiro->Get_BattleTarget()->Get_SubChar() != nullptr)
+	if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().bOni == false)
 	{
 		if (iHit < 12 && pTanjiro->Get_BattleTarget()->Get_SubChar()->Get_Change() == false)
 		{

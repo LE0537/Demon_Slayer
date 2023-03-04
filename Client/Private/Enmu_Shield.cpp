@@ -243,6 +243,8 @@ void CEnmu_Shield::TickState(_float fTimeDelta)
 
 
 
+	m_iState = CEnmuBoss::Get_Instance()->Get_BossState();
+
 }
 
 void CEnmu_Shield::LateTickState(_float fTimeDelta)

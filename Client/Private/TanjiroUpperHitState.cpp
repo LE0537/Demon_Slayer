@@ -135,17 +135,6 @@ void CUpperHitState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.2f);
 		break;
 	}
-
-	_uint iRand = rand() % 4;
-
-	if (iRand == 0)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_1.wav"), g_fVoice);
-	else if (iRand == 1)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_2.wav"), g_fVoice);
-	else if (iRand == 2)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_3.wav"), g_fVoice);
-	else if (iRand == 3)
-		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Hit1_4.wav"), g_fVoice);
 }
 
 
