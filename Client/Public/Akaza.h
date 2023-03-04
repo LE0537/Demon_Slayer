@@ -188,7 +188,7 @@ public:
 
 	_bool Get_IsDashPattern() const { return m_bDashPattern; }
 	void Set_DashPatten(_bool bPattern) {m_bDashPattern = bPattern;}
-
+	void Play_AkazaScene();
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:

@@ -16,6 +16,9 @@
 #include "Akaza_CinemaState.h"
 #include "AkazaSplSkrStartState.h"
 #include "AkazaAiState.h"
+
+#include "Tanjiro.h"
+#include "Layer.h"
 using namespace Akaza;
 
 CIdleState::CIdleState(STATE_ID eState)
@@ -28,6 +31,12 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	pAkaza->Set_bGuard(false);
 	pAkaza->Set_SplSkl(false);
+
+	if (pGameInstance->Key_Down(DIK_HOME))
+	{
+		dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Play_AkazaScene();
+	}
+
 	switch (pAkaza->Get_i1P())
 	{
 	case 1:

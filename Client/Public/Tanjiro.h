@@ -185,6 +185,8 @@ public:
 	virtual void  Play_Scene();
 
 public:
+	void Play_AkazaScene();
+
 	void Set_JumpState(_float fJumpHeight, _float fJumpTime, _float fJumpTimer);
 
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
@@ -219,6 +221,9 @@ public:
 	_bool   Get_StorySpl() { return m_bStorySpl; }
 	void	Set_StorySplEnd() { m_bStorySplEnd = true; }
 	_bool   Get_StorySplEnd() { return m_bStorySplEnd; }
+
+	_bool Get_AkazaScene() const { return m_bAkazaScene; }
+	void Set_AkazaScene() { m_bAkazaScene = false; }
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -275,6 +280,8 @@ private:
 	_bool				    m_bStorySpl = false;
 	_float					m_fStoryTime = 0.f;
 	_bool					m_bStorySplEnd = false;
+
+	_bool					m_bAkazaScene = false;
 
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;

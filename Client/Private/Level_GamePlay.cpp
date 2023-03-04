@@ -494,6 +494,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &tCharacterDesc2p)))
 			return E_FAIL;
+
+		tCharacterDesc2p.i1P2P = 33;
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &tCharacterDesc2p)))
+			return E_FAIL;
 		break;
 	case 4:
 		tCharacterDesc2p.bSub = false;

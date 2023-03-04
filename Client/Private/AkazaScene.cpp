@@ -19,30 +19,7 @@ HRESULT CAkazaScene::Initialize()
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-	for (_uint i = 0; i < m_AkazaSceneList.size(); ++i)
-	{
-		if (m_AkazaSceneList[i]->Get_PlayerInfo().strName == L"¾ÆÄ«ÀÚ")
-		{
-			pAkaza = m_AkazaSceneList[i];
-		}
-
-		if (m_AkazaSceneList[i]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
-		{
-			pKyoujuro = m_AkazaSceneList[i];
-		}
-
-		if (m_AkazaSceneList[i]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
-		{
-			pTanjiro = m_AkazaSceneList[i];
-		}
-
-	}
 	
-	m_AkazaSceneList.clear();
-
-	m_AkazaSceneList.push_back(pTanjiro);
-	m_AkazaSceneList.push_back(pKyoujuro);
-	m_AkazaSceneList.push_back(pAkaza);
 
 
 	CAkazaSceneState* pState = new CSceneState(CSceneState::SCENE_0);

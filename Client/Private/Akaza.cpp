@@ -21,7 +21,10 @@
 #include "AkazaHitCinema_Rui.h"
 #include "AkazaHitCinema_Shinobu.h"
 #include "AkazaHitCinema_Tanjiro.h"
+#include "AkazaAkazaScene.h"
 #include "AkazaAiState.h"
+
+#include "Tanjiro.h"
 using namespace Akaza;
 
 
@@ -103,6 +106,7 @@ HRESULT CAkaza::Initialize(void * pArg)
 
 	CAkazaState* pState = new CIdleState();
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+
 	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_AKAZA;
 	Set_Info();
 	return S_OK;
@@ -113,7 +117,11 @@ void CAkaza::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 	m_fEffectStartTime = 0.f;
 
-	if (m_bBattleStart)
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	
+
+	if (m_bBattleStart && dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_AkazaScene() == false)
 	{
 		CAkazaState* pState = new CBattleStartState();
 		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
@@ -293,6 +301,12 @@ void CAkaza::Boss_Tick(_float fTimeDelta)
 		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pNewState);
 	}
 
+}
+
+void CAkaza::Play_AkazaScene()
+{
+	CAkazaState* pState = new CAkazaAkazaScene(CAkazaState::TYPE_START);
+	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 }
 
 void CAkaza::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
