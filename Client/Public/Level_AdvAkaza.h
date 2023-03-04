@@ -49,7 +49,7 @@ private:
 	_bool					m_isFinished = false;
 	_bool					m_bTread = false;
 	_bool                   m_bThread = false;
-
+	_float					m_fEffectTime = 1.f;
 	_bool					m_bEffect = false;
 private:
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;

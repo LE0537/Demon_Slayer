@@ -174,7 +174,7 @@ CEnmuBossState * CEnmuBoss_Pattern4State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 			++m_iHit;
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-	/*		if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
+			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
 			{
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASH, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_GROUND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
@@ -185,7 +185,7 @@ CEnmuBossState * CEnmuBoss_Pattern4State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASH, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_GROUND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_HAND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
-			}*/
+			}
 
 			RELEASE_INSTANCE(CEffect_Manager);
 		}

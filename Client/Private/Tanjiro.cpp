@@ -281,12 +281,23 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 			TickState(fTimeDelta);
 
-			CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
-			if (nullptr == pSocket)
-				return;
-			_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+			CHierarchyNode*		pSocket = nullptr;
+			_matrix			matColl;
+			if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+			{
+				pSocket = m_pModelADVCom->Get_BonePtr("C_Spine_3");
+				if (nullptr == pSocket)
+					return;
+				matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelADVCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+			}
+			else
+			{
+				pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
 
-
+				if (nullptr == pSocket)
+					return;
+				matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+			}
 
 			m_pSphereCom->Update(matColl);
 

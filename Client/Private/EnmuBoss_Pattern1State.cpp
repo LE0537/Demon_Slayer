@@ -160,7 +160,7 @@ CEnmuBossState * CEnmuBoss_Pattern1State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			
-			//pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT1_FLASH,&vEffectPos);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT1_FLASH,&vEffectPos);
 
 			RELEASE_INSTANCE(CEffect_Manager);
 		}

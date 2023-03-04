@@ -20,7 +20,7 @@
 #include "Layer.h"
 #include "Level_GamePlay.h"
 #include "Tanjiro.h"
-#include "Effect_Manager.h"
+
 unsigned int APIENTRY Thread_BossEnmu(void* pArg)
 {
 	CLevel_BossEnmu*		pLoader = (CLevel_BossEnmu*)pArg;
@@ -913,21 +913,21 @@ HRESULT CLevel_BossEnmu::Load_Map(const _tchar* pLayerTag, char * pFileName)
 
 HRESULT CLevel_BossEnmu::Create_Wind(_float fTimeDelta)
 {
-	//CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-	//if (!m_bEffect)
-	//{
-	//	pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_SMOKE, &XMVectorSet(-0.051f,17.682f,122.145f,1.f));
-	//	m_bEffect = true;
-	//}
-	//m_fEffectTime += fTimeDelta;
-	//if (m_fEffectTime > 1.f)
-	//{
-	//	pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 201.444f, 1.f));
-	//	pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 283.29f, 1.f));
-	//	pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 365.78f, 1.f));
-	//	m_fEffectTime = 0.f;
-	//}
-	//RELEASE_INSTANCE(CEffect_Manager);
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	if (!m_bEffect)
+	{
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_SMOKE, &XMVectorSet(-0.051f,17.682f,122.145f,1.f));
+		m_bEffect = true;
+	}
+	m_fEffectTime += fTimeDelta;
+	if (m_fEffectTime > 1.f)
+	{
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 201.444f, 1.f));
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 283.29f, 1.f));
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 365.78f, 1.f));
+		m_fEffectTime = 0.f;
+	}
+	RELEASE_INSTANCE(CEffect_Manager);
 	return S_OK;
 }
 
