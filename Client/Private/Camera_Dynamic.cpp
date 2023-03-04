@@ -45,38 +45,42 @@ void CCamera_Dynamic::Start_CutScene(_bool bTrueisPlay, CUTSCENE eCutScene)
 
 _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float4> vecLookAts, vector<_float> vecUseTime, _float * pOut, _float fTimeDelta)
 {
+	//	사용하기 전 판정하고, 사용하고 난 후 Out에 시간만큼 더함.
+	//	이 후 다시 들어왔을 때, 더해졌던 Out을 판정하고 사용함.
+	//	이유 : 0번째 구체 위치를 사용하기 위함 + vecUseTime에 0초가 있을 경우, 1번은 들어가는 경우가 있는데 이를 방지하기 위함.
 	_int iSize = (_int)vecPositions.size();
 
 	if (iSize < 4 ||
 		(iSize != (_int)vecLookAts.size() || iSize != (_int)vecUseTime.size() + 1))
 		return false;
 
+	m_fCullTime = *pOut;
+	//	처음 들어온 데이터 사용.
+
 	_float	fUsedTime = m_fCullTime;
 	_int	iFrame = max(_int(m_fCullTime), 0) + 1;				//	현재 프레임. 첫 번째는 읽지않음.(None)
 	_float	fDecimal = max(m_fCullTime, 0.f) - (iFrame - 1);
 
+
+	if (0.f == vecUseTime[iFrame])	//	부여된 시간이 0이면 스킵 ( 깔끔한 루트를 위한 구체는 스킵함. )
+	{
+		while (true)
+		{
+			++iFrame;
+			*pOut += 1.f;
+			m_fCullTime = *pOut;
+
+			if (0.f != vecUseTime[iFrame] ||
+				iFrame >= (_int)vecUseTime.size())
+				break;
+		}
+	}
 
 	if (iFrame + 1 >= iSize)		//	끝 Check
 	{
 		m_fCullTime = *pOut = 0.f;
 		return false;
 	}
-
-	if (0.f == vecUseTime[iFrame])	//	부여된 시간이 0이면 스킵 ( 깔끔한 루트를 위한 구체는 스킵함. )
-	{
-		while (true)
-		{
-			if (0.f != vecUseTime[iFrame] ||
-				iFrame >= (_int)vecUseTime.size())
-				break;
-
-			++iFrame;
-		}
-	}
-
-	*pOut += min((fTimeDelta) / (vecUseTime[iFrame]), 1.f);
-
-	m_fCullTime = *pOut;
 
 
 	fDecimal = max(m_fCullTime, 0.f) - (iFrame - 1);
@@ -100,6 +104,8 @@ _bool CCamera_Dynamic::Play_CutScene(vector<_float4> vecPositions, vector<_float
 	vCamAt = XMVectorCatmullRom(vAt[0], vAt[1], vAt[2], vAt[3], fRatio);
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vCamPos);
 	m_pTransform->LookAt(vCamAt);
+
+	*pOut += min((fTimeDelta) / (vecUseTime[iFrame]), 1.f);
 
 	return true;
 }
@@ -169,7 +175,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("kyojuro_2"))) return E_FAIL;	//	2
 	if (FAILED(Ready_CutScene("kyojuro_3"))) return E_FAIL;	//	3
 	if (FAILED(Ready_CutScene("kyojuro_4"))) return E_FAIL;	//	4
-	if (FAILED(Ready_CutScene("kyojuro_5"))) return E_FAIL;	//	5	
+	if (FAILED(Ready_CutScene("kyojuro_5_New"))) return E_FAIL;	//	5	
 	if (FAILED(Ready_CutScene("kyojuro_6"))) return E_FAIL;	//	6
 	if (FAILED(Ready_CutScene("kyojuro_7"))) return E_FAIL;	//	7	
 	if (FAILED(Ready_CutScene("kyojuro_8"))) return E_FAIL;	//	8
@@ -196,6 +202,15 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_CutScene("nezuko_8"))) return E_FAIL;	//	8	
 	if (FAILED(Ready_CutScene("nezuko_9_0"))) return E_FAIL;	//	9_1
 	if (FAILED(Ready_CutScene("nezuko_9_1"))) return E_FAIL;	//	9_2
+
+	//	Shinobu
+	if (FAILED(Ready_CutScene("shinobu_Start"))) return E_FAIL;
+	if (FAILED(Ready_CutScene("shinobu_0"))) return E_FAIL;	//	0
+	if (FAILED(Ready_CutScene("shinobu_1"))) return E_FAIL;	//	1
+	if (FAILED(Ready_CutScene("shinobu_2"))) return E_FAIL;	//	2
+	if (FAILED(Ready_CutScene("shinobu_3"))) return E_FAIL;	//	3
+
+
 
 	///////////////////////////
 	// Story //////////////////
@@ -1544,6 +1559,18 @@ _bool CCamera_Dynamic::CutScene(CUTSCENE eCutScene, _float fTimeDelta)
 			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
 		break;
 	case CUTSCENE_NZK_9_1:
+		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
+		break;
+
+		//	Shinobu
+	case CUTSCENE_SNB_START:
+	case CUTSCENE_SNB_0:
+	case CUTSCENE_SNB_1:
+	case CUTSCENE_SNB_2:
+		if (false == Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta))
+			Start_CutScene(m_bCutScene, (CUTSCENE)((_int)eCutScene + 1));
+		break;
+	case CUTSCENE_SNB_3:
 		m_bCutScene = Play_CutScene(m_vecCamEye[eCutScene], m_vecCamAt[eCutScene], m_vecCamTime[eCutScene], &m_fCurrentCutSceneTime, fTimeDelta);
 		break;
 	}

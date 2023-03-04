@@ -39,7 +39,7 @@ void CEffect_AnimMesh::Tick(_float fTimeDelta)
 	m_fTime += fTimeDelta;
 
 	if (m_fTime > m_pInfo.fLifeTime + m_pInfo.fStartTime) {
-		//Set_Dead();
+		Set_Dead();
 	}
 }
 

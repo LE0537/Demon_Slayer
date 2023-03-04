@@ -846,7 +846,6 @@ PS_OUT PS_EXCEPT(PS_IN In)
 		discard;
 
 	Out.vColor = vColor;
-	Out.vColor.a = 1.f;
 
 	return Out;
 }
@@ -880,8 +879,8 @@ BlendState BS_Blend
 {
 	BlendEnable[0] = true;
 
-	SrcBlend = one;
-	DestBlend = one;
+	SrcBlend = src_alpha;
+	DestBlend = inv_Src_Alpha;
 	BlendOp = add;
 };
 DepthStencilState DSS_Default

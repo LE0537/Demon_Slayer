@@ -308,6 +308,7 @@ struct PS_OUT
 {
 	float4		vColor : SV_TARGET0;
 	float4		vGlowColor : SV_TARGET1;
+	float4		vEffect : SV_TARGET2;
 };
 
 /* 이렇게 만들어진 픽셀을 PS_MAIN함수의 인자로 던진다. */
@@ -318,6 +319,7 @@ PS_OUT PS_MAIN(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	Out.vEffect = Out.vColor;
 
 	if (Out.vColor.a < 0.5f)
 		discard;
@@ -346,6 +348,7 @@ PS_OUT PS_COLORBLEND(PS_IN In)
 	//Out.vColor.a = saturate(Out.vColor.a - ((g_fTime - In.fStartTime - fFullTime * g_fAlphaRatio) / (fFullTime * (1 - g_fAlphaRatio))));
 
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
+	Out.vEffect = Out.vColor;
 
 	if (Out.vColor.a < 0.03f)
 		discard;
@@ -367,6 +370,7 @@ PS_OUT PS_COLORTEST(PS_IN In)
 	Out.vColor.a = saturate(saturate(g_bUseColor * (In.vColor.a * fTexAlpha)) + saturate((1 - g_bUseColor) * (fTexAlpha)));
 
 	Out.vGlowColor.a = Out.vColor.a * g_bGlow;
+	Out.vEffect = Out.vColor;
 
 	if (Out.vColor.a <= 0.1f)
 		discard;
