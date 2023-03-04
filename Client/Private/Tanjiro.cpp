@@ -1272,7 +1272,40 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	if (!pUIManager->Get_SaveStory())
 	{
-		if (!m_bQuest1)
+		if (!m_bStory)
+		{
+			_vector vQuestStart = { 0.414626598f, 5.70602703f, 382.156799f,1.f };
+			_float fDistStart = XMVectorGetX(XMVector3Length(vQuestStart - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+
+			if (fDistStart < 3.f)
+			{
+				m_bStory = true;
+				m_bStop = true;
+			}
+		}
+		else if (m_bStory && pUIManager->Get_MsgOnOff())
+		{
+			switch (pUIManager->Get_MsgCount())
+			{
+			case 0:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("사람들이 잠들어 있다..."));
+				break;
+			case 1:
+				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+				pUIManager->Set_Msg(TEXT("혈귀가 수를 쓴 거야"));
+				break;
+			default:
+				pUIManager->Reset_MsgCount();
+				pUIManager->Set_MsgOff();
+				break;
+			}
+		}
+		else if(m_bStory && !pUIManager->Get_MsgOnOff())
+			m_bStop = false;
+
+		if (!m_bQuest1 && m_bStory)
 		{
 			_vector vQuest1 = { 4.862f, 5.747f,283.194f,1.f };
 			_float fDist1 = XMVectorGetX(XMVector3Length(vQuest1 - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
@@ -1406,6 +1439,10 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 	}
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
+}
+
+void CTanjiro::Check_StartTrainEvent(_float fTimeDelta)
+{
 }
 
 void CTanjiro::HandleInput(_float fTimeDelta)
