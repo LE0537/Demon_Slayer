@@ -3,6 +3,9 @@
 #include "GameInstance.h"
 #include "SceneState.h"
 #include "Layer.h"
+#include "Tanjiro.h"
+#include "Kyoujuro.h"
+#include "Akaza.h"
 
 IMPLEMENT_SINGLETON(CAkazaScene)
 
@@ -16,18 +19,35 @@ HRESULT CAkazaScene::Initialize()
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
+	for (_uint i = 0; i < m_AkazaSceneList.size(); ++i)
+	{
+		if (m_AkazaSceneList[i]->Get_PlayerInfo().strName == L"¾ÆÄ«ÀÚ")
+		{
+			pAkaza = m_AkazaSceneList[i];
+		}
 
-	CCharacters* pTanjiro = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, L"Layer_Tanjiro")->Get_LayerFront();
-	CCharacters* pKyoujuro = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, L"Layer_Kyoujuro")->Get_LayerFront();
-	CCharacters* pAkaza = (CCharacters*)pGameInstance->Find_Layer(LEVEL_GAMEPLAY, L"Layer_Akaza")->Get_LayerFront();
+		if (m_AkazaSceneList[i]->Get_PlayerInfo().strName == L"ÄìÁÖ·Î")
+		{
+			pKyoujuro = m_AkazaSceneList[i];
+		}
 
-	Add_Character(pTanjiro);
-	Add_Character(pKyoujuro);
-	Add_Character(pAkaza);
+		if (m_AkazaSceneList[i]->Get_PlayerInfo().strName == L"ÅºÁö·Î")
+		{
+			pTanjiro = m_AkazaSceneList[i];
+		}
 
-	CAkazaSceneState* pState = new CSceneState(CSceneState::TYPE_START);
+	}
+	
+	m_AkazaSceneList.clear();
+
+	m_AkazaSceneList.push_back(pTanjiro);
+	m_AkazaSceneList.push_back(pKyoujuro);
+	m_AkazaSceneList.push_back(pAkaza);
+
+
+	CAkazaSceneState* pState = new CSceneState(CSceneState::SCENE_0);
 	m_pAkazaSceneState = m_pAkazaSceneState->ChangeState(this, m_pAkazaSceneState, pState);
-
+	
 
 	return S_OK;
 }
@@ -40,7 +60,7 @@ HRESULT CAkazaScene::Add_Character(CCharacters * pCharacter)
 	else if (pCharacter != nullptr)
 		m_AkazaSceneList.push_back(pCharacter);
 
-	int a = 0;
+	int a = 0;	
 
 
 	return S_OK;
