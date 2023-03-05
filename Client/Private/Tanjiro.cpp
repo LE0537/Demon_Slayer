@@ -192,6 +192,12 @@ void CTanjiro::Tick(_float fTimeDelta)
 {
 	if (m_i1p == 33)
 	{
+		m_bDeadTime += fTimeDelta;
+		if (m_bDeadTime >= 17.f)
+		{
+			Set_Dead();
+			return;
+		}
 		HandleInput(fTimeDelta);
 		TickState(fTimeDelta);
 		CHierarchyNode*		pSocket = nullptr;

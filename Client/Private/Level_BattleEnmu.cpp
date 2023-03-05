@@ -18,45 +18,7 @@
 #include "Level_BossEnmu.h"
 #include "ImGuiManager.h"
 
-unsigned int APIENTRY Thread_BattleEnmu(void* pArg)
-{
-	CLevel_BattleEnmu*		pLoader = (CLevel_BattleEnmu*)pArg;
 
-	EnterCriticalSection(&pLoader->Get_CriticalSection());
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	pUIManager->Add_Loading();
-
-	_float ThreadTime = 0.f;
-	_float ThreadDelay = 0.f;
-	_bool  m_bTreadStop = true;
-	while (m_bTreadStop)
-	{
-		pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
-		ThreadTime += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_Default"));
-
-		if (ThreadTime >= 1.0f / 60.0f)
-		{
-			ThreadTime = 0.f;
-			pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
-			ThreadDelay += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60"));
-
-			pUIManager->Tick_Loading(pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60")));
-			if (ThreadDelay > 3.f)
-			{
-				m_bTreadStop = false;
-				break;
-			}
-		}
-	}
-	pUIManager->Set_LoadingDead();
-	RELEASE_INSTANCE(CGameInstance);
-	RELEASE_INSTANCE(CUI_Manager);
-	LeaveCriticalSection(&pLoader->Get_CriticalSection());
-	pLoader->Set_Finished();
-	g_bThread = false;
-	return 0;
-}
 CLevel_BattleEnmu::CLevel_BattleEnmu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -67,20 +29,10 @@ HRESULT CLevel_BattleEnmu::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 	g_iLevel = LEVEL_BATTLEENMU;
-	g_bThread = true;
+
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-	CoInitializeEx(nullptr, 0);
-
-	InitializeCriticalSection(&m_CriticalSection);
-
-	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
-	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
-
-	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, Thread_BattleEnmu, this, 0, nullptr);
-	if (0 == m_hThread)
-		return E_FAIL;
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
 	g_fFar = 1800.f;
 
@@ -162,55 +114,39 @@ void CLevel_BattleEnmu::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	if (m_isFinished)
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	Create_Wind(fTimeDelta);
+	if (!m_bCreateUI)
 	{
-		if (!m_bTread)
-		{
-			WaitForSingleObject(m_hThread, INFINITE);
+		pUIManager->Add_P1_PersonHpUI_Level_Enmu();
+		pUIManager->Add_P2_OniHpUI_Level_Enmu();
+		pUIManager->Add_P1_Combo_Enmu();
+		pUIManager->Add_P2_Combo_Enmu();
+		pUIManager->Add_AdvBattleUI();
+		pUIManager->Add_AdvResult((LEVEL)g_iLevel);
 
-			CloseHandle(m_hThread);
-
-			DeleteCriticalSection(&m_CriticalSection);
-			m_bTread = true;
-		}
-		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-		Create_Wind(fTimeDelta);
-		if (!m_bCreateUI)
-		{
-			pUIManager->Add_P1_PersonHpUI_Level_Enmu();
-			pUIManager->Add_P2_OniHpUI_Level_Enmu();
-			pUIManager->Add_P1_Combo_Enmu();
-			pUIManager->Add_P2_Combo_Enmu();
-			pUIManager->Add_AdvBattleUI();
-			pUIManager->Add_AdvResult((LEVEL)g_iLevel);
-
-			m_bCreateUI = true;
-		}
-
-
-		if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
-		{
-			m_fNextLevelTime += fTimeDelta;
-			if (m_fNextLevelTime > 10.f) //엔무 보스 넘어가기전 딜레이 
-			{
-				pUIManager->Set_Sel1P(0);
-				pUIManager->Set_Sel1P_2(4);
-				pUIManager->Set_Sel2P(8);
-				pUIManager->Set_Sel2P_2(99);
-				if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
-					return;
-			}
-		}
-
-
-
-
-
-
-		RELEASE_INSTANCE(CUI_Manager);
-		RELEASE_INSTANCE(CGameInstance);
+		m_bCreateUI = true;
 	}
+
+
+	if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
+	{
+		m_fNextLevelTime += fTimeDelta;
+		if (m_fNextLevelTime > 10.f) //엔무 보스 넘어가기전 딜레이 
+		{
+			pUIManager->Set_Sel1P(0);
+			pUIManager->Set_Sel1P_2(4);
+			pUIManager->Set_Sel2P(8);
+			pUIManager->Set_Sel2P_2(99);
+			if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
+				return;
+		}
+	}
+
+	RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CGameInstance);
+
 }
 
 void CLevel_BattleEnmu::Late_Tick(_float fTimeDelta)
@@ -887,7 +823,7 @@ HRESULT CLevel_BattleEnmu::Create_Wind(_float fTimeDelta)
 	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 	if (!m_bEffect)
 	{
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_SMOKE, &XMVectorSet(-0.051f,17.682f,122.145f,1.f));
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_SMOKE, &XMVectorSet(-0.051f, 17.682f, 122.145f, 1.f));
 		m_bEffect = true;
 	}
 	m_fEffectTime += fTimeDelta;

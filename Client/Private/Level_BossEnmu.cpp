@@ -21,46 +21,6 @@
 #include "Level_GamePlay.h"
 #include "Tanjiro.h"
 
-unsigned int APIENTRY Thread_BossEnmu(void* pArg)
-{
-	CLevel_BossEnmu*		pLoader = (CLevel_BossEnmu*)pArg;
-
-	EnterCriticalSection(&pLoader->Get_CriticalSection());
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	pUIManager->Add_Loading();
-
-	_float ThreadTime = 0.f;
-	_float ThreadDelay = 0.f;
-	_bool  m_bTreadStop = true;
-	while (m_bTreadStop)
-	{
-		pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
-		ThreadTime += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_Default"));
-
-		if (ThreadTime >= 1.0f / 60.0f)
-		{
-			ThreadTime = 0.f;
-			pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
-			ThreadDelay += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60"));
-
-			pUIManager->Tick_Loading(pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60")));
-			if (ThreadDelay > 3.f)
-			{
-				m_bTreadStop = false;
-				break;
-			}
-		}
-	}
-	pUIManager->Set_LoadingDead();
-
-	RELEASE_INSTANCE(CGameInstance);
-	RELEASE_INSTANCE(CUI_Manager);
-	LeaveCriticalSection(&pLoader->Get_CriticalSection());
-	pLoader->Set_Finished();
-	g_bThread = false;
-	return 0;
-}
 CLevel_BossEnmu::CLevel_BossEnmu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -71,20 +31,9 @@ HRESULT CLevel_BossEnmu::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 	g_iLevel = LEVEL_BOSSENMU;
-	g_bThread = true;
 
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-	CoInitializeEx(nullptr, 0);
-
-	InitializeCriticalSection(&m_CriticalSection);
-
-	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
-	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
-
-	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, Thread_BossEnmu, this, 0, nullptr);
-	if (0 == m_hThread)
-		return E_FAIL;
 
 	g_fFar = 1800.f;
 
@@ -164,77 +113,66 @@ void CLevel_BossEnmu::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	if (m_isFinished)
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	Create_Wind(fTimeDelta);
+	if (!m_bCreateUI)
 	{
-		if (!m_bTread)
-		{
-			WaitForSingleObject(m_hThread, INFINITE);
+		_bool bOniCheck = pUIManager->P1_Oni_Check();
+		if (!bOniCheck)
+			pUIManager->Add_P1_PersonHpUI_Level_Enmu();
+		else
+			pUIManager->Add_P1_OniHpUI_Level_Enmu();
 
-			CloseHandle(m_hThread);
+		bOniCheck = pUIManager->P2_Oni_Check();
+		if (!bOniCheck)
+			pUIManager->Add_P2_PersonHpUI_Level_Enmu();
+		else
+			pUIManager->Add_P2_OniHpUI_Level_Enmu();
 
-			DeleteCriticalSection(&m_CriticalSection);
-			m_bTread = true;
-		}
-		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-		Create_Wind(fTimeDelta);
-		if (!m_bCreateUI)
-		{
-			_bool bOniCheck = pUIManager->P1_Oni_Check();
-			if (!bOniCheck)
-				pUIManager->Add_P1_PersonHpUI_Level_Enmu();
-			else
-				pUIManager->Add_P1_OniHpUI_Level_Enmu();
+		/*	pUIManager->Add_BattleUI_Enmu();
+		pUIManager->Add_P1_Combo_Enmu();
+		pUIManager->Add_P2_Combo_Enmu();*/
 
-			bOniCheck = pUIManager->P2_Oni_Check();
-			if (!bOniCheck)
-				pUIManager->Add_P2_PersonHpUI_Level_Enmu();
-			else
-				pUIManager->Add_P2_OniHpUI_Level_Enmu();
-
-			/*	pUIManager->Add_BattleUI_Enmu();
-			pUIManager->Add_P1_Combo_Enmu();
-			pUIManager->Add_P2_Combo_Enmu();*/
-
-			m_bCreateUI = true;
-		}
-
-		if (m_pEnmu->Get_PlayerInfo().iHp <= 0)
-		{
-			m_fTime += fTimeDelta;
-			if (!m_bCinema)
-			{
-				m_bCinema = true;
-				pGameInstance = GET_INSTANCE(CGameInstance);
-				dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Set_BossEnmu_Dead(true);
-				RELEASE_INSTANCE(CGameInstance);
-			}
-			else if (m_fTime > 0.7f && m_bCinema && !m_bCinema2)
-			{
-				m_bCinema2 = true;
-				pGameInstance = GET_INSTANCE(CGameInstance);
-				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_BOSSENMU_DEAD);
-				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
-				RELEASE_INSTANCE(CGameInstance);
-			}
-			m_fNextLevelTime += fTimeDelta;
-			if (m_fNextLevelTime > 17.f)//아카자 넘어가는 딜레이
-			{
-				pUIManager->Set_SelMapNum(1);
-				pUIManager->Set_Sel1P(1);
-				pUIManager->Set_Sel1P_2(4);
-				pUIManager->Set_Sel2P(8);
-				pUIManager->Set_Sel2P_2(99);
-				if (FAILED(pGameInstance->Open_Level(LEVEL_GAMEPLAY, CLevel_GamePlay::Create(m_pDevice, m_pContext))))
-					return;
-			}
-		}
-
-
-
-		RELEASE_INSTANCE(CUI_Manager);
-		RELEASE_INSTANCE(CGameInstance);
+		m_bCreateUI = true;
 	}
+
+	if (m_pEnmu->Get_PlayerInfo().iHp <= 0)
+	{
+		m_fTime += fTimeDelta;
+		if (!m_bCinema)
+		{
+			m_bCinema = true;
+			pGameInstance = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Set_BossEnmu_Dead(true);
+			RELEASE_INSTANCE(CGameInstance);
+		}
+		else if (m_fTime > 0.7f && m_bCinema && !m_bCinema2)
+		{
+			m_bCinema2 = true;
+			pGameInstance = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_BOSSENMU_DEAD);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+			RELEASE_INSTANCE(CGameInstance);
+		}
+		m_fNextLevelTime += fTimeDelta;
+		if (m_fNextLevelTime > 17.f)//아카자 넘어가는 딜레이
+		{
+			pUIManager->Set_SelMapNum(1);
+			pUIManager->Set_Sel1P(1);
+			pUIManager->Set_Sel1P_2(4);
+			pUIManager->Set_Sel2P(8);
+			pUIManager->Set_Sel2P_2(99);
+			if (FAILED(pGameInstance->Open_Level(LEVEL_GAMEPLAY, CLevel_GamePlay::Create(m_pDevice, m_pContext))))
+				return;
+		}
+	}
+
+
+
+	RELEASE_INSTANCE(CUI_Manager);
+	RELEASE_INSTANCE(CGameInstance);
+
 }
 
 void CLevel_BossEnmu::Late_Tick(_float fTimeDelta)
@@ -916,17 +854,17 @@ HRESULT CLevel_BossEnmu::Create_Wind(_float fTimeDelta)
 	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 	if (!m_bEffect)
 	{
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_SMOKE, &XMVectorSet(-0.051f,17.682f,122.145f,1.f));
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_SMOKE, &XMVectorSet(-0.051f, 17.682f, 122.145f, 1.f));
 		m_bEffect = true;
 	}
-	m_fEffectTime += fTimeDelta;
-	if (m_fEffectTime > 1.f)
-	{
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 201.444f, 1.f));
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 283.29f, 1.f));
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 365.78f, 1.f));
-		m_fEffectTime = 0.f;
-	}
+	//m_fEffectTime += fTimeDelta;
+	//if (m_fEffectTime > 1.f)
+	//{
+	//	pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 201.444f, 1.f));
+	//	pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 283.29f, 1.f));
+	//	pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 365.78f, 1.f));
+	//	m_fEffectTime = 0.f;
+	//}
 	RELEASE_INSTANCE(CEffect_Manager);
 	return S_OK;
 }

@@ -197,6 +197,7 @@ private:
 
 	_bool					m_bSplWeapon = false;
 	_bool					m_bWeaponTurn = false;
+
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);

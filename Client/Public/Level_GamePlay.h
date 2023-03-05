@@ -62,6 +62,8 @@ private:
 	_bool		m_bCreateUI = false;
 
 	_float      m_fNextLevelTime = 0.f;
+	_bool		m_bCheckADVAkaza = false;
+	_bool					m_bCinema = false;
 private:
 	HANDLE					m_hThread = 0;
 	CRITICAL_SECTION		m_CriticalSection;

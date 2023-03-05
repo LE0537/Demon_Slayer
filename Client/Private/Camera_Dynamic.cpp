@@ -226,6 +226,8 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_StoryScene("Battle_EnmuBoss"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("EnmuBoss_Dead"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("EnmuBoss_Dead2"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("ADV_Akaza1"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("ADV_Akaza2"))) return E_FAIL;
 
 	if (g_iLevel == LEVEL_BOSSENMU || g_iLevel == LEVEL_BATTLEENMU)
 	{
@@ -275,13 +277,13 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 				fSpeed *= 10.f;
 
-			if (pGameInstance->Key_Pressing(DIK_UP))
+			if (pGameInstance->Key_Pressing(DIK_W))
 				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_DOWN))
+			if (pGameInstance->Key_Pressing(DIK_S))
 				m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_LEFT))
+			if (pGameInstance->Key_Pressing(DIK_A))
 				m_pTransform->Go_Left(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_RIGHT))
+			if (pGameInstance->Key_Pressing(DIK_D))
 				m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 			if (pGameInstance->Key_Pressing(DIK_NUMPAD8))
@@ -392,7 +394,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 				m_pTransform->LookAt(XMLoadFloat4(&m_vLerpLook));
 				m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);
 			}
-			if (m_fStartTime > 1.f && g_iLevel != LEVEL_BOSSENMU && g_iLevel != LEVEL_BATTLEENMU)
+			if (m_fStartTime > 1.f && g_iLevel != LEVEL_BOSSENMU && g_iLevel != LEVEL_BATTLEENMU && !m_bADVAKaza)
 				m_bStart = true;
 #endif
 		
@@ -1458,6 +1460,11 @@ void CCamera_Dynamic::QuestBattleCam(_float fTimeDelta)
 	if (m_eStoryScene == STORYSCENE_BOSSENMU_DEAD && m_bQuestBattleCam == false)
 	{
 		Set_StoryScene(CCamera_Dynamic::STORYSCENE_BOSSENMU_DEAD2);
+		Set_QuestBattleCam(true);
+	}
+	if (m_eStoryScene == STORYSCENE_ADV_AKAZA && m_bQuestBattleCam == false)
+	{
+		Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_AKAZA2);
 		Set_QuestBattleCam(true);
 	}
 }

@@ -25,7 +25,7 @@ public:
 	_bool Get_Finished() const {
 		return m_isFinished;
 	}
-private:
+public:
 	HRESULT Ready_Lights();
 	HRESULT Ready_Layer_Player(const _tchar* pLayerTag);
 
@@ -37,6 +37,9 @@ private:
 	HRESULT Load_Map(const _tchar* pLayerTag, char* pFileName);
 
 	HRESULT	Create_Wind(_float fTimeDelta);
+
+	void Set_Renderer(CRenderer* _pRenderer) { m_pRendererCom = _pRenderer; }
+	CRenderer* Get_Renderer() { return m_pRendererCom; }
 private:
 	_bool			 m_bCreateUI = false;
 
@@ -48,7 +51,6 @@ private:
 	CRITICAL_SECTION		m_CriticalSection;
 	_bool					m_isFinished = false;
 	_bool					m_bTread = false;
-	_bool                   m_bThread = false;
 	_float					m_fEffectTime = 1.f;
 	_bool					m_bEffect = false;
 private:

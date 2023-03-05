@@ -20,38 +20,70 @@ unsigned int APIENTRY Thread_AdvRui(void* pArg)
 	CLevel_AdvRui*		pLoader = (CLevel_AdvRui*)pArg;
 
 	EnterCriticalSection(&pLoader->Get_CriticalSection());
+
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	pUIManager->Add_Loading();
 
-	_float ThreadTime = 0.f;
-	_float ThreadDelay = 0.f;
-	_bool  m_bTreadStop = true;
-	while (m_bTreadStop)
-	{
-		pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
-		ThreadTime += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_Default"));
+	pLoader->Ready_Lights();
+	g_fLoading = 10.f;
+	pLoader->Ready_Layer_Camera(TEXT("Layer_Camera"));
+	g_fLoading = 20.f;
+	pLoader->Ready_Layer_Player(TEXT("Layer_Player"));
+	g_fLoading = 40.f;
+	pLoader->Ready_Layer_BackGround(TEXT("Layer_BackGround"));
+	g_fLoading = 50.f;
+	pLoader->Load_StaticObjects("RuiStory");
+	g_fLoading = 70.f;
+	pLoader->Load_Weed("Weed");
+	g_fLoading = 80.f;
+	pLoader->Load_Smell_1("RuiSmell1");
+	g_fLoading = 100.f;
+	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
+	pLoader->Set_Renderer((CRenderer*)pOut);
 
-		if (ThreadTime >= 1.0f / 60.0f)
-		{
-			ThreadTime = 0.f;
-			pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
-			ThreadDelay += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60"));
 
-			pUIManager->Tick_Loading(pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60")));
-			if (ThreadDelay > 3.f)
-			{
-				m_bTreadStop = false;
-				break;
-			}
-		}
-	}
-	pUIManager->Set_LoadingDead();
+	_float fValue[CRenderer::VALUE_END] = { 0.07f, 0.12f, 0.1f, 55.f, 80.f, 0.83f, 0.7f, 1.36f, 0.4f, 1.f, 20.f, 100.f, 0.05f, 2.2f, 0.1f, 0.85f, 1.f };
+
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.07f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.12f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.1f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 55.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 80.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.83f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.7f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 100.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 2.2f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.1f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.85f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
+	pLoader->Get_Renderer()->Set_Far(g_fFar);
+
+	for (_int i = 0; i < CRenderer::VALUE_END; ++i)
+		CImGuiManager::Get_Instance()->Setting_PostProcessingValue(i, fValue[i]);
+
 	RELEASE_INSTANCE(CGameInstance);
-	RELEASE_INSTANCE(CUI_Manager);
+
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
 	pLoader->Set_Finished();
 	g_bThread = false;
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	pUIManager->Set_LoadingDead();
+	
+	if (!pUIManager->Get_SaveStory())
+	{
+		CSoundMgr::Get_Instance()->BGM_Stop();
+		CSoundMgr::Get_Instance()->PlayBGM(TEXT("Adv_Rui.wav"), g_fBGM);
+	}
+	else
+	{
+		CSoundMgr::Get_Instance()->BGM_Stop();
+		CSoundMgr::Get_Instance()->PlayBGM(TEXT("Adv_Rui2.wav"), g_fBGM);
+	}
+	RELEASE_INSTANCE(CUI_Manager);
 	return 0;
 }
 CLevel_AdvRui::CLevel_AdvRui(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -66,14 +98,13 @@ HRESULT CLevel_AdvRui::Initialize()
 
 	g_bThread = true;
 	g_iLevel = LEVEL_ADVRUI;
+
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	pUI_Manager->Add_Loading();
+
 	CoInitializeEx(nullptr, 0);
 
 	InitializeCriticalSection(&m_CriticalSection);
-
-	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
-	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
 
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, Thread_AdvRui, this, 0, nullptr);
 	if (0 == m_hThread)
@@ -86,73 +117,6 @@ HRESULT CLevel_AdvRui::Initialize()
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
-
-	if (FAILED(Ready_Lights()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
-		return E_FAIL;
-
-	if (FAILED(Load_StaticObjects("RuiStory")))
-		return E_FAIL;
-	if (FAILED(Load_Weed("Weed")))
-		return E_FAIL;
-	if (FAILED(Load_Smell_1("RuiSmell1")))
-		return E_FAIL;
-
-	if (!pUI_Manager->Get_SaveStory())
-	{
-		CSoundMgr::Get_Instance()->BGM_Stop();
-		CSoundMgr::Get_Instance()->PlayBGM(TEXT("Adv_Rui.wav"), g_fBGM);
-	}
-	else
-	{
-		CSoundMgr::Get_Instance()->BGM_Stop();
-		CSoundMgr::Get_Instance()->PlayBGM(TEXT("Adv_Rui2.wav"), g_fBGM);
-	}
-	
-	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
-	m_pRendererCom = (CRenderer*)pOut;
-
-	if (nullptr == m_pRendererCom)
-	{
-		RELEASE_INSTANCE(CGameInstance);
-		return E_FAIL;
-	} 
-
-	_float fValue[CRenderer::VALUE_END] = { 0.07f, 0.12f, 0.1f, 55.f, 80.f, 0.83f, 0.7f, 1.36f, 0.4f, 1.f, 20.f, 100.f, 0.05f, 2.2f, 0.1f, 0.85f, 1.f };
-
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.07f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.12f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.1f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 55.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 80.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.83f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.7f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 100.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 2.2f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.1f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.85f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
-	m_pRendererCom->Set_Far(g_fFar);
-
-	for (_int i = 0; i < CRenderer::VALUE_END; ++i)
-		CImGuiManager::Get_Instance()->Setting_PostProcessingValue(i, fValue[i]);
-
-	RELEASE_INSTANCE(CGameInstance);
-
-	
 
 	return S_OK;
 }

@@ -16,44 +16,90 @@
 
 #include "Effect_Manager.h"
 #include "ImGuiManager.h"
-
+#include "Layer.h"
 unsigned int APIENTRY Thread_GamePlay(void* pArg)
 {
 	CLevel_GamePlay*		pLoader = (CLevel_GamePlay*)pArg;
 
 	EnterCriticalSection(&pLoader->Get_CriticalSection());
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	pUIManager->Add_Loading();
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 
-	_float ThreadTime = 0.f;
-	_float ThreadDelay = 0.f;
-	_bool  m_bTreadStop = true;
-	while (m_bTreadStop)
+	pUIManager->Set_CharNameUIZero();
+
+	pLoader->Ready_Lights();
+	g_fLoading = 10.f;
+	pLoader->Ready_Layer_Camera(TEXT("Layer_Camera"));
+	g_fLoading = 30.f;
+	pLoader->Ready_Layer_Player(TEXT("Layer_Player"));
+	g_fLoading = 40.f;
+	pLoader->Ready_Layer_BackGround(TEXT("Layer_BackGround"));
+	g_fLoading = 50.f;
+	pLoader->Load_Map(L"Layer_Terrain", "11_Map_Rui");
+	g_fLoading = 60.f;
+	if (pUIManager->Get_SelMapNum() == 0)
 	{
-		pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
-		ThreadTime += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_Default"));
-
-		if (ThreadTime >= 1.0f / 60.0f)
-		{
-			ThreadTime = 0.f;
-			pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
-			ThreadDelay += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60"));
-
-			pUIManager->Tick_Loading(pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60")));
-			if (ThreadDelay > 3.f)
-			{
-				m_bTreadStop = false;
-				break;
-			}
-		}
+		pLoader->Load_StaticObjects("11_Rui");
 	}
-	pUIManager->Set_LoadingDead();
+	else if (pUIManager->Get_SelMapNum() == 1)
+	{
+		pLoader->Load_StaticObjects("TrainBattle");
+	}
+	g_fLoading = 80.f;
+
+	pLoader->Ready_Layer_Effect(TEXT("Layer_Effect"));
+
+	if (!pUIManager->Get_BattleTypeCheck() && pUIManager->Get_SaveStory())
+	{
+		pLoader->Battle_Dialog(TEXT("Layer_Dialog"));
+	}
+	g_fLoading = 100.f;
+	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
+	pLoader->Set_Renderer((CRenderer*)pOut);
+
+
+	_float fValue[CRenderer::VALUE_END] = { 0.15f, 0.2f ,0.15f ,70.f ,74.f ,0.85f, 0.2f, 1.36f,0.4f, 1.f,20.f, 300.f, 0.05f, 2.8f, 0.4f, 0.7f, 1.f, 0.1f, 15.f };
+
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.15f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.2f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.15f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 70.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 74.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.85f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.2f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 300.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 2.8f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.4f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.7f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.1f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
+	pLoader->Get_Renderer()->Set_Far(g_fFar);
+
+	for (_int i = 0; i < CRenderer::VALUE_END; ++i)
+		CImGuiManager::Get_Instance()->Setting_PostProcessingValue(i, fValue[i]);
+
+	if (pUIManager->Get_BattleTypeCheck())
+	{
+		CSoundMgr::Get_Instance()->BGM_Stop();
+		CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), g_fBGM);
+	}
+
 	RELEASE_INSTANCE(CGameInstance);
-	RELEASE_INSTANCE(CUI_Manager);
+	
+
+
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
 	pLoader->Set_Finished();
 	g_bThread = false;
+	pUIManager->Set_LoadingDead();
+	RELEASE_INSTANCE(CUI_Manager);
 	return 0;
 }
 CLevel_GamePlay::CLevel_GamePlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -67,15 +113,14 @@ HRESULT CLevel_GamePlay::Initialize()
 		return E_FAIL;
 	g_iLevel = LEVEL_GAMEPLAY;
 	g_bThread = true;
-
+	g_fLoading = 0.f;
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+
+	pUIManager->Add_Loading();
+
 	CoInitializeEx(nullptr, 0);
 
 	InitializeCriticalSection(&m_CriticalSection);
-
-	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
-	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
 
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, Thread_GamePlay, this, 0, nullptr);
 	if (0 == m_hThread)
@@ -83,87 +128,10 @@ HRESULT CLevel_GamePlay::Initialize()
 
 	g_fFar = 1800.f;
 
-	pUIManager->Set_CharNameUIZero();
 
-	if (FAILED(Ready_Lights()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
-		return E_FAIL;
-
-	if (FAILED(Load_Map(L"Layer_Terrain", "11_Map_Rui")))
-		return E_FAIL;
-
-	if (pUIManager->Get_SelMapNum() == 0)
-	{
-		if (FAILED(Load_StaticObjects("11_Rui")))
-			return E_FAIL;
-	}
-	else if (pUIManager->Get_SelMapNum() == 1)
-	{
-		if (FAILED(Load_StaticObjects("TrainBattle")))
-			return E_FAIL;
-	}
-
-
-	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
-		return E_FAIL;
-
-	if (!pUIManager->Get_BattleTypeCheck() && pUIManager->Get_SaveStory())
-	{
-		if (FAILED(Battle_Dialog(TEXT("Layer_Dialog"))))
-			return E_FAIL;
-	}
-
-	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
-	m_pRendererCom = (CRenderer*)pOut;
-
-	if (nullptr == m_pRendererCom)
-	{
-		RELEASE_INSTANCE(CGameInstance);
-		return E_FAIL;
-	}
-
-	_float fValue[CRenderer::VALUE_END] = { 0.15f, 0.2f ,0.15f ,70.f ,74.f ,0.85f, 0.2f, 1.36f,0.4f, 1.f,20.f, 300.f, 0.05f, 2.8f, 0.4f, 0.7f, 1.f, 0.1f, 15.f };
-
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.15f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.2f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.15f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 70.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 74.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.85f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.2f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 300.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 2.8f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.7f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.1f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
-	m_pRendererCom->Set_Far(g_fFar);
-
-	for (_int i = 0; i < CRenderer::VALUE_END; ++i)
-		CImGuiManager::Get_Instance()->Setting_PostProcessingValue(i, fValue[i]);
-
-	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);
 
-	if (pUIManager->Get_BattleTypeCheck())
-	{
-		CSoundMgr::Get_Instance()->BGM_Stop();
-		CSoundMgr::Get_Instance()->PlayBGM(TEXT("PlayerBattle.wav"), g_fBGM);
-	}
+
 	return S_OK;
 }
 
@@ -181,6 +149,17 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 
 			DeleteCriticalSection(&m_CriticalSection);
 			m_bTread = true;
+		}
+		if (m_bCheckADVAkaza)
+		{
+			if (!m_bCinema)
+			{
+				m_bCinema = true;
+				CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_AKAZA);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+				RELEASE_INSTANCE(CGameInstance);
+			}
 		}
 		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
@@ -482,20 +461,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		break;
 	case 2:
 		tCharacterDesc2p.bSub = false;
-		//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Enmu"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
-		//	return E_FAIL;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
 			return E_FAIL;
-		//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_GAMEPLAY, TEXT("Layer_Rui"), &tCharacterDesc2p)))
-		//	return E_FAIL;
 		break;
 	case 3:
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &tCharacterDesc2p)))
-			return E_FAIL;
-
-		tCharacterDesc2p.i1P2P = 33;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	case 4:
@@ -528,6 +499,13 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		tCharacterDesc2p.i1P2P = 2;
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &tCharacterDesc2p)))
+			return E_FAIL;
+		m_bCheckADVAkaza = true;
+		tCharacterDesc2p.i1P2P = 33;
+
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_ADVAkaza();
+
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &tCharacterDesc2p)))
 			return E_FAIL;
 		break;
 	default:
