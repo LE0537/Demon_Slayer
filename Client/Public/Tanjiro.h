@@ -236,6 +236,7 @@ private:
 	void Set_Shadow();
 	void Check_QuestEvent(_float fTimeDelta);
 	void Check_QuestTrainEvent(_float fTimeDelta);
+	void Check_StartTrainEvent(_float fTimeDelta);
 
 	
 private:
@@ -265,6 +266,8 @@ private:
 	_float					m_fTest = 0.f;
 	//Quest
 	_bool					m_bStop = false;
+	_bool					m_bStory = false;
+	_bool					m_bStoryStartCheck = false;
 	_bool					m_bQuest1 = false;
 	_bool					m_bQuest1MSG = false;
 	_bool					m_bQuest2 = false;
