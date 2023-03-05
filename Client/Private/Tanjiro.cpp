@@ -35,6 +35,8 @@
 #include "TanjiroTrain_CinemaState.h"
 #include "Level_Loading.h"
 
+#include "TanjiroAkazaScene.h"
+
 using namespace Tanjiro;
 
 
@@ -71,7 +73,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 	m_WeaponWorld = *dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
 
-	if (m_i1p != 10 && m_i1p != 20)
+	if (m_i1p != 10 && m_i1p != 20 && m_i1p != 33)
 	{
 		if (g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
 		{
@@ -164,11 +166,19 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		RELEASE_INSTANCE(CGameInstance);
 		m_i1p = 1;
 	}
+	
+	else if (m_i1p == 33)
+	{
+		Play_AkazaScene();
+
+	}
+
+	if (m_i1p != 33)
+	{
+		CTanjiroState* pState = new CIdleState();
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+	}
 	Set_Info();
-	CTanjiroState* pState = new CIdleState();
-	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
-
-
 	CImGuiManager::Get_Instance()->Add_LiveCharacter(this);
 
 
@@ -180,58 +190,28 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 void CTanjiro::Tick(_float fTimeDelta)
 {
-
-	_float4 vPos;
-	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
-
-	if (!m_bChange)
+	if (m_i1p == 33)
 	{
-		if (m_bStorySpl)
-			StorySpl(fTimeDelta);
-		__super::Tick(fTimeDelta);
-		m_fEffectStartTime = 0.f;
-
-		if (m_bBattleStart)
-		{
-			if (g_iLevel != LEVEL_BOSSENMU)
-			{
-				CTanjiroState* pState = new CBattleStartState();
-				m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
-			}
-			m_bBattleStart = false;
-		}
-
-		m_fDelta = fTimeDelta;
-		if (m_tInfo.fHitTime > 0.f)
-			m_tInfo.fHitTime -= fTimeDelta;
-		if (m_fChangeDelay > 0.f)
-			m_fChangeDelay -= fTimeDelta;
-		if (m_tInfo.fGuardTime > 0.f)
-			m_tInfo.fGuardTime -= fTimeDelta;
-		if (m_tInfo.fPowerUpTime > 0.f)
-		{
-			m_tInfo.fPowerUpTime -= fTimeDelta;
-			if (m_tInfo.fPowerUpTime <= 0.f)
-			{
-				m_tInfo.fPowerUp = 1.f;
-				m_tInfo.iPowerIndex = 0;
-				m_bIsKagura = false;
-			}
-		}
-		if (m_tInfo.iPowerIndex == 2)
-			m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
-		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub && !m_bStop)
-			HandleInput(fTimeDelta);
-
+		HandleInput(fTimeDelta);
 		TickState(fTimeDelta);
+		CHierarchyNode*		pSocket = nullptr;
+		_matrix			matColl;
+		if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+		{
+			pSocket = m_pModelADVCom->Get_BonePtr("C_Spine_3");
+			if (nullptr == pSocket)
+				return;
+			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelADVCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+		}
+		else
+		{
+			pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
 
-		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
-		if (nullptr == pSocket)
-			return;
-		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
-
-
+			if (nullptr == pSocket)
+				return;
+			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+		}
 		m_pSphereCom->Update(matColl);
 
 		if (g_iLevel == LEVEL_ADVRUI)
@@ -256,22 +236,111 @@ void CTanjiro::Tick(_float fTimeDelta)
 	}
 	else
 	{
-		m_tInfo.bJump = false;
-	}
 
-	if (m_pTransformCom->Get_Jump() == true)
-		m_tInfo.bJump = true;
+		_float4 vPos;
+		XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+
+		if (!m_bChange)
+		{
+			if (m_bStorySpl)
+				StorySpl(fTimeDelta);
+			__super::Tick(fTimeDelta);
+			m_fEffectStartTime = 0.f;
+
+			if (m_bBattleStart && m_i1p != 33)
+			{
+				if (g_iLevel != LEVEL_BOSSENMU)
+				{
+					CTanjiroState* pState = new CBattleStartState();
+					m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+				}
+				m_bBattleStart = false;
+			}
+
+			m_fDelta = fTimeDelta;
+			if (m_tInfo.fHitTime > 0.f)
+				m_tInfo.fHitTime -= fTimeDelta;
+			if (m_fChangeDelay > 0.f)
+				m_fChangeDelay -= fTimeDelta;
+			if (m_tInfo.fGuardTime > 0.f)
+				m_tInfo.fGuardTime -= fTimeDelta;
+			if (m_tInfo.fPowerUpTime > 0.f)
+			{
+				m_tInfo.fPowerUpTime -= fTimeDelta;
+				if (m_tInfo.fPowerUpTime <= 0.f)
+				{
+					m_tInfo.fPowerUp = 1.f;
+					m_tInfo.iPowerIndex = 0;
+					m_bIsKagura = false;
+				}
+			}
+			if (m_tInfo.iPowerIndex == 2)
+				m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
+			if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub && !m_bStop)
+				HandleInput(fTimeDelta);
+
+			TickState(fTimeDelta);
+
+			CHierarchyNode*		pSocket = nullptr;
+			_matrix			matColl;
+			if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+			{
+				pSocket = m_pModelADVCom->Get_BonePtr("C_Spine_3");
+				if (nullptr == pSocket)
+					return;
+				matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelADVCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+			}
+			else
+			{
+				pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+
+				if (nullptr == pSocket)
+					return;
+				matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+			}
+
+			m_pSphereCom->Update(matColl);
+
+			if (g_iLevel == LEVEL_ADVRUI)
+			{
+				Set_Shadow();
+				Check_QuestEvent(fTimeDelta);
+			}
+			else if (g_iLevel == LEVEL_ADVAKAZA ||
+				g_iLevel == LEVEL_BATTLEENMU ||
+				g_iLevel == LEVEL_BOSSENMU)
+			{
+				Set_Shadow();
+				Check_QuestTrainEvent(fTimeDelta);
+			}
+		}
+
+		if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
+			|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE ||
+			m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP_ATTACK || m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_SKILL_KAGURA_COMMON)
+		{
+			m_tInfo.bJump = true;
+		}
+		else
+		{
+			m_tInfo.bJump = false;
+		}
+
+		if (m_pTransformCom->Get_Jump() == true)
+			m_tInfo.bJump = true;
 
 
-	if (m_pTanjiroState != nullptr)
-	{
-		m_iState = m_pTanjiroState->Get_TanjiroState();
+		if (m_pTanjiroState != nullptr)
+		{
+			m_iState = m_pTanjiroState->Get_TanjiroState();
+		}
+
 	}
 }
 
 void CTanjiro::Late_Tick(_float fTimeDelta)
 {
-	if (!m_bChange)
+	if (!m_bChange || m_i1p == 33)
 	{
 		LateTickState(fTimeDelta);
 		if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
@@ -360,7 +429,7 @@ HRESULT CTanjiro::Render()
 
 		CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-		if (g_iLevel != LEVEL_BATTLEENMU && g_iLevel != LEVEL_BOSSENMU && pUI_Manager->Get_Sel2P() != 8)
+		if (g_iLevel != LEVEL_BATTLEENMU && g_iLevel != LEVEL_BOSSENMU && pUI_Manager->Get_Sel2P() != 8 && m_i1p != 33)
 		{
 			_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
 			if (!m_tInfo.bChange && m_fChangeDelay <= 0.f && vPos.m128_f32[1] <= m_pNavigationCom->Get_NavigationHeight().y
@@ -765,6 +834,14 @@ void CTanjiro::Play_Scene()
 	}
 }
 
+void CTanjiro::Play_AkazaScene()
+{
+	m_bAkazaScene = true;
+
+	CTanjiroState* pState = new CTanjiroAkazaScene();
+	m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+}
+
 void CTanjiro::Set_JumpState(_float fJumpHeight, _float fJumpTime, _float fJumpTimer)
 {
 	CTanjiroState* pState = new CTrain_CinemaState(CTrain_CinemaState::SCENE_START, fJumpHeight, fJumpTime, fJumpTimer, 0.f);
@@ -822,8 +899,11 @@ HRESULT CTanjiro::Ready_Components()
 	/* For.Com_Transform */
 	CTransform::TRANSFORMDESC		TransformDesc;
 	ZeroMemory(&TransformDesc, sizeof(CTransform::TRANSFORMDESC));
-
-	TransformDesc.fSpeedPerSec = 15.f;
+	if (g_iLevel == LEVEL_ADVRUI)
+		TransformDesc.fSpeedPerSec = 20.f;
+	else
+		TransformDesc.fSpeedPerSec = 15.f;
+	
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
@@ -842,8 +922,11 @@ HRESULT CTanjiro::Ready_Components()
 	CCollider::COLLIDERDESC		ColliderDesc;
 
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
+	if(g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+		ColliderDesc.vScale = _float3(80.f, 80.f, 80.f);
+	else
+		ColliderDesc.vScale = _float3(130.f, 130.f, 130.f);
 
-	ColliderDesc.vScale = _float3(130.f, 130.f, 130.f);
 	ColliderDesc.vPosition = _float3(-30.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_SPHERE"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_SPHERE"), (CComponent**)&m_pSphereCom, &ColliderDesc)))
 		return E_FAIL;

@@ -65,7 +65,7 @@ CEnmuBossState * CEnmuBoss_Pattern6State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 
 			std::random_device RandomDevice;
 			std::mt19937 gen(RandomDevice());
-			std::uniform_int_distribution<int> RandomPattern(1, 6);
+			std::uniform_int_distribution<int> RandomPattern(3, 10);
 			int iRandom = RandomPattern(gen);
 
 			vTargetPos += XMVectorSet(iRandom, 0.f, iRandom, 0.f);
@@ -127,7 +127,7 @@ CEnmuBossState * CEnmuBoss_Pattern6State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 void CEnmuBoss_Pattern6State::Enter(CEnmuBoss * pEnmuBoss)
 {
 
-
+	m_eStateId = STATE_ATK_1;
 
 	switch (m_eStateType)
 	{

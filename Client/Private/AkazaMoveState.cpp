@@ -14,6 +14,7 @@
 #include "AkazaAdvSkill_Move.h"
 #include "Effect_Manager.h"
 #include "AkazaSplSkrStartState.h"
+#include "AkazaAiState.h"
 using namespace Akaza;
 
 
@@ -381,29 +382,66 @@ CAkazaState * CMoveState::HandleInput(CAkaza* pAkaza)
 CAkazaState * CMoveState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
 
-	if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+	//if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+	//{
+	//	switch (m_eStateType)
+	//	{
+	//	case Client::CAkazaState::TYPE_START:
+	//		pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+	//		return new CMoveState(m_eDirection, TYPE_START);
+	//		break;
+	//	case Client::CAkazaState::TYPE_LOOP:
+	//		pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+	//		return new CIdleState();
+	//		break;
+	//	case Client::CAkazaState::TYPE_DEFAULT:
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//	pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+	//}
+
+	//return nullptr;
+
+	if (pAkaza->Get_IsAIMode() == false)
 	{
-		switch (m_eStateType)
+		if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
 		{
-		case Client::CAkazaState::TYPE_START:
+			switch (m_eStateType)
+			{
+			case Client::CAkazaState::TYPE_START:
+				return new CMoveState(m_eDirection, TYPE_START);
+				break;
+			case Client::CAkazaState::TYPE_LOOP:
+				pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+				return new CIdleState();
+				break;
+			case Client::CAkazaState::TYPE_DEFAULT:
+				break;
+			default:
+				break;
+			}
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			return new CMoveState(m_eDirection, TYPE_START);
-			break;
-		case Client::CAkazaState::TYPE_LOOP:
-			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			return new CIdleState();
-			break;
-		case Client::CAkazaState::TYPE_DEFAULT:
-			break;
-		default:
-			break;
 		}
-		pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+	}
+	else
+	{
+		if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+		{
+			switch (m_eStateType)
+			{
+			case Client::CAkazaState::TYPE_START:
+				return AIMove(pAkaza, m_eDirection, fTimeDelta);
+
+			}
+			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+		}
+		return AIMove(pAkaza, m_eDirection, fTimeDelta);
 	}
 
+
 	return nullptr;
-
-
 }
 
 CAkazaState * CMoveState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
@@ -525,4 +563,52 @@ void CMoveState::Move(CAkaza* pAkaza, _float fTimeDelta)
 	}
 	
 	RELEASE_INSTANCE(CGameInstance);
+}
+
+CAkazaState * CMoveState::AIMove(CAkaza * pAkaza, OBJDIR eDir, _float fTimeDelta)
+{
+
+	static _float fContinueTime = 0.f;
+	static _bool bSetLook = false;
+
+	if (bSetLook == false)
+	{
+		//pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		bSetLook = true;
+	}
+
+	_vector vTargetPosition = pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_vector vMyPosition = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	_float fDistance = XMVectorGetX(XMVector3Length(vTargetPosition - vMyPosition));
+
+	switch (eDir)
+	{
+	case Client::DIR_STRAIGHT:
+		pAkaza->Get_Transform()->Go_Straight(fTimeDelta, pAkaza->Get_NavigationCom());
+		break;
+	case Client::DIR_LEFT:
+		pAkaza->Get_Transform()->Go_Left(fTimeDelta, pAkaza->Get_NavigationCom());
+		break;
+	case Client::DIR_RIGHT:
+		pAkaza->Get_Transform()->Go_Right(fTimeDelta, pAkaza->Get_NavigationCom());
+		break;
+	case Client::DIR_BACK:
+		pAkaza->Get_Transform()->Go_Backward(fTimeDelta, pAkaza->Get_NavigationCom());
+		break;
+	}
+
+	fContinueTime += fTimeDelta;
+
+	if (fContinueTime >= 1.4f || fDistance >= 6.f)
+	{
+		fContinueTime = 0.f;
+		bSetLook = false;
+
+		if (pAkaza->Get_IsFarAI() == true)
+			return new CAtk_1_State();
+		else
+			return new CAkazaAIState();
+	}
+
+	return nullptr;
 }

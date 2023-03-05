@@ -36,7 +36,7 @@ private:
 	HRESULT Load_StaticObjects(char* pFileName);
 	HRESULT Load_Map(const _tchar* pLayerTag, char* pFileName);
 
-
+	HRESULT	Create_Wind(_float fTimeDelta);
 private:
 	_bool			 m_bCreateUI = false;
 
@@ -49,6 +49,8 @@ private:
 	_bool					m_isFinished = false;
 	_bool					m_bTread = false;
 	_bool                   m_bThread = false;
+	_float					m_fEffectTime = 1.f;
+	_bool					m_bEffect = false;
 private:
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
 	CLevel_GamePlay::CHARACTERDESC	      tCharacterDesc;

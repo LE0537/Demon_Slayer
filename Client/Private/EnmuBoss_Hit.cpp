@@ -48,7 +48,9 @@ CEnmuBossState * CEnmuBoss_Hit::Tick(CEnmuBoss * pEnmuBoss, _float fTimeDelta)
 		if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Get_End(5))
 		{
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_End(5);
-			return new CIdleState();
+
+			if(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_PlayerInfo().iHp >= 0)
+				return new CIdleState();
 		}
 		break;
 	case Client::CEnmuBossState::TYPE_DEFAULT:

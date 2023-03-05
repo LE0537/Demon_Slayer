@@ -17,7 +17,7 @@
 #include "Level_BattleEnmu.h"
 #include "ImGuiManager.h"
 #include "Level_BossEnmu.h"
-
+#include "Effect_Manager.h"
 unsigned int APIENTRY Thread_AdvAkaza(void* pArg)
 {
 	CLevel_AdvAkaza*		pLoader = (CLevel_AdvAkaza*)pArg;
@@ -172,6 +172,7 @@ void CLevel_AdvAkaza::Tick(_float fTimeDelta)
 		}
 		CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+		Create_Wind(fTimeDelta);
 		if (pUIManager->Get_EnmuBattle())
 		{
 			pUIManager->Set_Sel1P(0);
@@ -184,7 +185,7 @@ void CLevel_AdvAkaza::Tick(_float fTimeDelta)
 
 
 			//if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
-			//	return;
+				//return;
 
 		}
 		RELEASE_INSTANCE(CUI_Manager);
@@ -669,6 +670,26 @@ HRESULT CLevel_AdvAkaza::Load_Map(const _tchar* pLayerTag, char * pFileName)
 {
 
 
+	return S_OK;
+}
+
+HRESULT CLevel_AdvAkaza::Create_Wind(_float fTimeDelta)
+{
+	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+	if (!m_bEffect)
+	{
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_SMOKE, &XMVectorSet(-0.051f,17.682f,122.145f,1.f));
+		m_bEffect = true;
+	}
+	m_fEffectTime += fTimeDelta;
+	if (m_fEffectTime > 1.f)
+	{
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 201.444f, 1.f));
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 283.29f, 1.f));
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_WIND, &XMVectorSet(-0.52f, 16.7f, 365.78f, 1.f));
+		m_fEffectTime = 0.f;
+	}
+	RELEASE_INSTANCE(CEffect_Manager);
 	return S_OK;
 }
 

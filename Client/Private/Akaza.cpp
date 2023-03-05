@@ -21,6 +21,10 @@
 #include "AkazaHitCinema_Rui.h"
 #include "AkazaHitCinema_Shinobu.h"
 #include "AkazaHitCinema_Tanjiro.h"
+#include "AkazaAkazaScene.h"
+#include "AkazaAiState.h"
+
+#include "Tanjiro.h"
 using namespace Akaza;
 
 
@@ -54,7 +58,7 @@ HRESULT CAkaza::Initialize(void * pArg)
 
 	m_tInfo.bSub = tCharacterDesc.bSub;
 	m_bChange = tCharacterDesc.bSub;
-	if (!m_tInfo.bSub)
+	if (!m_tInfo.bSub && m_i1p != 11)
 	{
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		*(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar) = this;
@@ -73,10 +77,27 @@ HRESULT CAkaza::Initialize(void * pArg)
 		RELEASE_INSTANCE(CGameInstance);
 
 	}
-	else
+	else if(m_i1p != 11)
 	{
 		m_pSubChar = *(CCharacters**)(&((CLevel_GamePlay::CHARACTERDESC*)pArg)->pSubChar);
 		m_pSubChar->Set_SubChar(this);
+
+	}
+
+
+	if (m_i1p == 11)
+	{
+		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
+		RELEASE_INSTANCE(CGameInstance);
+		_vector vPos = { 64.f, 0.f, 38.5f,1.f };
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+
+		m_pNavigationCom->Find_CurrentCellIndex(vPos);
+
+		m_tInfo.bSub = tCharacterDesc.bSub;
+		m_bChange = tCharacterDesc.bSub;
+		CUI_Manager::Get_Instance()->Set_2P(this);
 
 	}
 
@@ -85,6 +106,7 @@ HRESULT CAkaza::Initialize(void * pArg)
 
 	CAkazaState* pState = new CIdleState();
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+
 	m_ePlayerType = CCharacters::PLAYER_TYPE::PLAYER_AKAZA;
 	Set_Info();
 	return S_OK;
@@ -95,33 +117,53 @@ void CAkaza::Tick(_float fTimeDelta)
 	__super::Tick(fTimeDelta);
 	m_fEffectStartTime = 0.f;
 
-	if (m_bBattleStart)
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	
+
+	if (m_bBattleStart && dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_AkazaScene() == false)
 	{
 		CAkazaState* pState = new CBattleStartState();
 		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 		m_bBattleStart = false;
+
+		if (m_i1p == 11)
+			m_bAiState = true;
+
 	}
 
-	m_fDelta = fTimeDelta;
-	if (m_tInfo.fHitTime > 0.f)
-		m_tInfo.fHitTime -= fTimeDelta;
-	if (m_tInfo.fGuardTime > 0.f)
-		m_tInfo.fGuardTime -= fTimeDelta;
-	if (m_tInfo.fPowerUpTime > 0.f)
+	if (m_bAiState == true)
 	{
-		m_tInfo.fPowerUpTime -= fTimeDelta;
-		if (m_tInfo.fPowerUpTime <= 0.f)
-		{
-			m_tInfo.fPowerUp = 1.f;
-			m_tInfo.iPowerIndex = 0;
-		}
+		
+		Boss_Tick(fTimeDelta);
 	}
-	if (m_tInfo.iPowerIndex == 2)
-		m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
-	if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
-		HandleInput();
 
-	TickState(fTimeDelta);
+	else
+	{
+		m_fDelta = fTimeDelta;
+		if (m_tInfo.fHitTime > 0.f)
+			m_tInfo.fHitTime -= fTimeDelta;
+		if (m_tInfo.fGuardTime > 0.f)
+			m_tInfo.fGuardTime -= fTimeDelta;
+		if (m_tInfo.fPowerUpTime > 0.f)
+		{
+			m_tInfo.fPowerUpTime -= fTimeDelta;
+			if (m_tInfo.fPowerUpTime <= 0.f)
+			{
+				m_tInfo.fPowerUp = 1.f;
+				m_tInfo.iPowerIndex = 0;
+			}
+		}
+		if (m_tInfo.iPowerIndex == 2)
+			m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
+		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
+			HandleInput();
+	}
+
+		TickState(fTimeDelta);
+	
+
+
 
 	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
 	if (nullptr == pSocket)
@@ -247,6 +289,24 @@ HRESULT CAkaza::Render_ShadowDepth()
 
 
 	return S_OK;
+}
+
+void CAkaza::Boss_Tick(_float fTimeDelta)
+{
+	CAkazaAIState* pNewState = (CAkazaAIState*)m_pAkazaState->HandleInput(this);
+
+	if (pNewState)
+	{
+	
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pNewState);
+	}
+
+}
+
+void CAkaza::Play_AkazaScene()
+{
+	CAkazaState* pState = new CAkazaAkazaScene(CAkazaState::TYPE_START);
+	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 }
 
 void CAkaza::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)

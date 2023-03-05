@@ -170,6 +170,8 @@ public:
 	virtual HRESULT Render();
 	virtual HRESULT Render_ShadowDepth();
 
+	void Boss_Tick(_float fTimeDelta);
+
 
 public:
 	//	CTransform* Get_Transfrom() const { return m_pTransformCom; }
@@ -177,6 +179,16 @@ public:
 
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
+	void	Set_AiMode(_bool _bAiMode) { m_bAiState = _bAiMode; }
+	_bool   Get_IsAIMode() const { return m_bAiState; }
+
+
+	_bool Get_IsFarAI() const { return m_bFarAI; }
+	void Set_FarAI(_bool bAi) { m_bFarAI = bAi; }
+
+	_bool Get_IsDashPattern() const { return m_bDashPattern; }
+	void Set_DashPatten(_bool bPattern) {m_bDashPattern = bPattern;}
+	void Play_AkazaScene();
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:
@@ -201,6 +213,10 @@ private:
 	CCollider*				m_pAABBCom = nullptr;
 	CCollider*				m_pOBBCom = nullptr;
 	_float					m_fEffectTime = 0.f;
+
+	_bool					m_bAiState = false;
+	_bool					m_bFarAI = false;
+	_bool					m_bDashPattern = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

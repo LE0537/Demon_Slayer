@@ -6,6 +6,7 @@
 #include "AkazaMoveState.h"
 #include "Effect_Manager.h"
 #include "AkazaSplSkrStartState.h"
+#include "AkazaAiState.h"
 using namespace Akaza;
 
 CDashState::CDashState(OBJDIR eDir, _bool bSecondJump, _bool bJump)
@@ -238,7 +239,15 @@ CAkazaState * CDashState::HandleInput(CAkaza* pAkaza)
 
 CAkazaState * CDashState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 {
-
+	if (pAkaza->Get_IsAIMode() == true)
+	{
+		if (pAkaza->Get_Model()->Get_End(pAkaza->Get_AnimIndex()))
+		{
+			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+			pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+			return new CAkazaAIState();
+		}
+	}
 
 
 
@@ -259,7 +268,7 @@ void CDashState::Enter(CAkaza* pAkaza)
 {
 	m_eStateId = STATE_ID::STATE_DASH;
 
-	if (!m_bTrue)
+	if (!m_bTrue && pAkaza->Get_IsAIMode() == false)
 	{
 		_float fCamAngle = pAkaza->Get_CamAngle();
 		iIndex = pAkaza->Get_iTargetIndex();
@@ -276,6 +285,13 @@ void CDashState::Enter(CAkaza* pAkaza)
 		}
 		m_bTrue = true;
 	}
+
+	if (pAkaza->Get_IsAIMode() == true)
+	{
+		iIndex = pAkaza->Get_iTargetIndex();
+		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+	}
+
 
 	switch (m_eDir)
 	{

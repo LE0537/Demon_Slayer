@@ -12,7 +12,7 @@
 #include "Tanjiro.h"
 #include "Layer.h"
 #include "EnmuBoss_Hit.h"
-
+#include "Effect_Manager.h"
 using namespace EnmuBoss;
 
 CEnmuBoss_Pattern5State::CEnmuBoss_Pattern5State(STATE_TYPE eType, CEnmuBoss::PARTS eParts)
@@ -73,8 +73,6 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 	case Client::CEnmuBossState::TYPE_END:
 		if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
 		{
-
-
 			if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Get_End(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN5_2))
 			{
 				dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Set_CollBox(false);
@@ -156,7 +154,27 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 
 CEnmuBossState * CEnmuBoss_Pattern5State::Late_Tick(CEnmuBoss * pEnmuBoss, _float fTimeDelta)
 {
+	if (m_eStateType == CEnmuBossState::TYPE_START)
+	{
+		if (m_iHit == 0)
+		{
+			++m_iHit;
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
+			{
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_HAND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
+			}
+			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
+			{
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_HAND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
+			}
+
+			RELEASE_INSTANCE(CEffect_Manager);
+		}
+	}
 	for (_uint i = 0; i < pEnmuBoss->Get_EnmuPartsList().size(); ++i)
 	{
 		pEnmuBoss->Get_EnmuPartsList()[i]->Get_Model()->Play_Animation(fTimeDelta);
@@ -168,12 +186,20 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 		{
 			CCharacters* m_pTarget = pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_BattleTarget();
 
-
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
+			{
 				dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Set_CollBox(true);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_GROUND2, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
+			}
 			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
+			{
 				dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Set_CollBox(true);
-
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_GROUND2, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
+			}
+			RELEASE_INSTANCE(CEffect_Manager);
 			++m_iHit;
 		}
 	
@@ -183,7 +209,7 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 
 void CEnmuBoss_Pattern5State::Enter(CEnmuBoss * pEnmuBoss)
 {
-	
+	m_eStateId = STATE_ATK_1;
 
 
 	switch (m_eStateType)

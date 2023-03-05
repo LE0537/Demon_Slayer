@@ -85,8 +85,6 @@ public:
 	void	Set_CollBox(_bool _bTrue) { m_bCollBox = _bTrue; }
 	_float4    Check_CollPos();
 
-
-
 	_vector GET_RightHandOriginLook() { return m_vOriginalLook; }
 private:
 	void HandleInput();

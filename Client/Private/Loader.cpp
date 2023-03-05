@@ -191,6 +191,7 @@
 #include "InteractionUI.h"
 #include "EnmuShoot.h"
 #include "RuiSplColl.h"
+#include "StoneSphere.h"
 //Ani
 #include "Butterfly.h"
 #include "Deer.h"
@@ -1788,7 +1789,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Hand"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Wind"));
 
-
+		pEffect_Manager->Load_Effect(TEXT("Train_Smoke"));
+		pEffect_Manager->Load_Effect(TEXT("Train_Wind"));
 		pEffect_Manager->Load_Effect(TEXT("Fade"));
 
 		RELEASE_INSTANCE(CEffect_Manager);
@@ -2206,6 +2208,13 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiSplColl"),
 		CRuiSplColl::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_StoneSphere"),
+	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/StoneSphere/StoneSphere.fbx", PivotMatrix))))
+	return E_FAIL;
+//	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TanjiroWeapon2"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StoneSphere"),
+		CStoneSphere::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 	//Map
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BattleField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);

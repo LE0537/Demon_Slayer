@@ -42,6 +42,7 @@ private:
 	HRESULT Load_Smell_4(char* pFileName);
 	HRESULT	Check_Smell();
 	
+	HRESULT	Create_Stone(_float fTimeDelta);
 
 private:
 	_bool			 m_bCreateUI = false;
@@ -56,6 +57,10 @@ private:
 	CRITICAL_SECTION		m_CriticalSection;
 	_bool					m_isFinished = false;
 	_bool					m_bTread = false;
+
+	_float					m_fCreateStoneTime = 0.f;
+	_int					m_iStoneIndex = 0;
+	
 private:
 	CCamera_Dynamic::CAMERADESC_DERIVED			CameraDesc;
 	CLevel_GamePlay::CHARACTERDESC	      tCharacterDesc;

@@ -1878,8 +1878,8 @@ void CImGuiManager::CharacterAnimationList(_uint _iIndex)
 	ImGui::Text("%d", m_iFrame);
 
 
-	ImGui::Text("%f %f %f", m_vCurrentPosition.x, m_vCurrentPosition.y, m_vCurrentPosition.z);
-
+	ImGui::Text("%f %f %f", XMVectorGetX(m_vecObjList[0]->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)), XMVectorGetY(m_vecObjList[0]->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)), XMVectorGetZ(m_vecObjList[0]->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)));
+	ImGui::Text("%f %f %f", XMVectorGetX(m_vecObjList[1]->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)), XMVectorGetY(m_vecObjList[1]->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)), XMVectorGetZ(m_vecObjList[1]->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)));
 
 
 }

@@ -1519,6 +1519,30 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train">
       <UniqueIdentifier>{9e67cf96-6304-487c-8489-3aeb1b51a382}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AiState">
+      <UniqueIdentifier>{0a1500f9-0591-45f9-b8af-becdebe3d7ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene">
+      <UniqueIdentifier>{04fe17e0-a623-426e-808f-b15f16c4b6bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene\SceneState">
+      <UniqueIdentifier>{65879c81-07fd-4e33-b8f8-049521126941}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene\SceneState\Scene">
+      <UniqueIdentifier>{46a50b50-e2a9-424c-bf4c-93e0d945604f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\AkazaScene">
+      <UniqueIdentifier>{7ea85cb2-f034-448d-a56a-1fed47b99362}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\AkazaScene">
+      <UniqueIdentifier>{e5fdd595-4a0b-47fb-a243-475f517f743e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\AkazaScene">
+      <UniqueIdentifier>{48ce84c0-67d2-41d1-8bd7-849cf8dc39f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.CollBox\18.StoneSphere">
+      <UniqueIdentifier>{3e503fd2-55df-4afe-8243-36c453747683}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3024,6 +3048,30 @@
     <ClInclude Include="..\Public\TanjiroTrain_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\AkazaAiState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AiState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaScene.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaSceneState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene\SceneState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\SceneState.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene\SceneState\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\TanjiroAkazaScene.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\AkazaScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\KyoujuroAkazaScene.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\AkazaScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\AkazaAkazaScene.h">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\AkazaScene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\StoneSphere.h">
+      <Filter>05.CollBox\18.StoneSphere</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4495,6 +4543,27 @@
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroTrain_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\CinemaState\Train</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaAiState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AiState</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\AkazaScene.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\SceneState.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\07.AkazaScene\SceneState\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TanjiroAkazaScene.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\AkazaScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\KyoujuroAkazaScene.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\AkazaScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AkazaAkazaScene.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\AkazaScene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\StoneSphere.cpp">
+      <Filter>05.CollBox\18.StoneSphere</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
