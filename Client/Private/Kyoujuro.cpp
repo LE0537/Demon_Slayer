@@ -139,12 +139,16 @@ void CKyoujuro::Tick(_float fTimeDelta)
 
 		CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
-		if (m_bBattleStart && dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_AkazaScene() == false)
+		if (!dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Get_ADVAkaza())
 		{
-			CKyoujuroState* pState = new CBattleStartState();
-			m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
-			m_bBattleStart = false;
+			if (m_bBattleStart)
+			{
+				CKyoujuroState* pState = new CBattleStartState();
+				m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+				m_bBattleStart = false;
+			}
 		}
+	
 		__super::Tick(fTimeDelta);
 		m_fDelta = fTimeDelta;
 		if (m_tInfo.fHitTime > 0.f)

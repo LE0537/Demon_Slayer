@@ -24,7 +24,7 @@ CAkazaState * CAkazaAkazaScene::Tick(CAkaza * pAkaza, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CAkazaState::TYPE_START:
-		if (m_fSceneTimer >= 3.f)
+		if (m_fSceneTimer >= 7.5f)
 			return new CAkazaAkazaScene(TYPE_LOOP);
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
@@ -51,7 +51,7 @@ CAkazaState * CAkazaAkazaScene::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		if (m_bNextAnim == true)
 			m_fSceneTimer += fTimeDelta;
 
-		if (m_fSceneTimer >= 3.f)
+		if (m_fSceneTimer >= 5.f)
 			return new CAkazaAkazaScene(TYPE_DEFAULT);
 		break;
 	case Client::CAkazaState::TYPE_DEFAULT:

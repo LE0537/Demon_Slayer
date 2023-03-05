@@ -2154,10 +2154,10 @@ void CUI_Manager::Tick_Loading(_float fTimeDelta)
 	{
 		iter->Late_Tick(fTimeDelta);
 	}
-	//for (auto& iter : m_listLoading)
-	//{
-	//	iter->Render();
-	//}
+	/*for (auto& iter : m_listLoading)
+	{
+		iter->Render();
+	}*/
 	RELEASE_INSTANCE(CGameInstance);
 }
 

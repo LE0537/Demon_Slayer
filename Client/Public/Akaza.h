@@ -189,6 +189,7 @@ public:
 	_bool Get_IsDashPattern() const { return m_bDashPattern; }
 	void Set_DashPatten(_bool bPattern) {m_bDashPattern = bPattern;}
 	void Play_AkazaScene();
+
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:
@@ -217,6 +218,9 @@ private:
 	_bool					m_bAiState = false;
 	_bool					m_bFarAI = false;
 	_bool					m_bDashPattern = false;
+
+	_float					m_fAiTime = 0.f;
+	_bool					m_bAiTrue = false;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

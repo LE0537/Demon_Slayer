@@ -141,7 +141,7 @@ HRESULT CQuiestSubBase::Render()
 		if (m_ThrowUIinfo.iLayerNum == 0)
 			m_szQuest = TEXT("열차 안을 조사하기");
 		else if (m_ThrowUIinfo.iLayerNum == 1)
-			m_szQuest = TEXT("염주 렌고쿠 쿄쥬로 찾기");
+			m_szQuest = TEXT("'염주' 귀살대원 찾기");
 		else if (m_ThrowUIinfo.iLayerNum == 2)
 			m_szQuest = TEXT("하현1 혈귀 처치");
 		else if (m_ThrowUIinfo.iLayerNum == 3)
