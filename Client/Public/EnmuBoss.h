@@ -47,6 +47,12 @@ public:
 	_uint Get_BossState();
 	void Set_Position(_fvector vPosition) { m_vTargetPosition = vPosition; }
 	_vector Get_Position() const { return m_vTargetPosition; }
+
+	_bool Get_Pattern1() const { return m_bPattern1; }
+	_bool Get_Pattern2() const { return m_bPattern2; }
+
+	void Set_Pattern1() { m_bPattern1 = true; }
+	void Set_Pattern2() { m_bPattern2 = true; }
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
@@ -62,6 +68,8 @@ private:
 	_bool m_bStart = false;
 	_float m_fTime = 0.f;
 	_vector m_vTargetPosition;
+	_bool m_bPattern1 = false;
+	_bool m_bPattern2 = false;
 public:
 	virtual void Free() override;
 };

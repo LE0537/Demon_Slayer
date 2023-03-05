@@ -112,7 +112,7 @@ void CEnmu::Tick(_float fTimeDelta)
 		if (!m_bAiBattleStart)
 		{
 			m_fStartTime += fTimeDelta;
-			if (m_fStartTime > 7.5f)
+			if (m_fStartTime > 27.5f)
 			{
 				m_bAiBattleStart = true;
 				m_bAiMode = true;

@@ -187,7 +187,7 @@ void CHitState::Enter(CKyoujuro* pKyoujuro)
 	}
 	else
 	{
-		if (pKyoujuro->Get_NavigationHeight().y < XMVectorGetY(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		if (pKyoujuro->Get_NavigationHeight().y + 0.1f < XMVectorGetY(pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
 		{
 			m_bHitPlayerJump = true;
 			Set_JumpHitState(pKyoujuro);

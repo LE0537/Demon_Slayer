@@ -145,7 +145,7 @@ void CTargetRushState::Move(CEnmu* pEnmu, _float fTimeDelta)
 
 	_vector vCurrentPos = pEnmu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-	_vector vPosition = XMVectorSet(m_vPosition.x, pEnmu->Get_NavigationHeight().y, m_vPosition.z, 1.f);
+	_vector vPosition = XMVectorSet(m_vPosition.x, pEnmu->Get_NavigationHeight().y + 0.1f, m_vPosition.z, 1.f);
 
 	//if (fDistance <= 3.f)
 	//{

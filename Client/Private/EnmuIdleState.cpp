@@ -48,6 +48,36 @@ CEnmuState * CIdleState::HandleInput(CEnmu* pEnmu)
 	}
 
 
+	if (m_fDashDelay >= 0.2f)
+	{
+		if (pEnmu->Get_DashPattern() == false)
+		{
+			Dash_CalCul(pEnmu);
+			pEnmu->Set_DashPattern(true);
+
+			if (m_eRange != RANGE_NEAR)
+				return new CDashState(OBJDIR::DIR_STRAIGHT, false, false);
+
+			if (m_eState == AI_DASH_L)
+				return new CDashState(OBJDIR::DIR_LEFT, false, false);
+			else if (m_eState == AI_DASH_R)
+				return new CDashState(OBJDIR::DIR_RIGHT, false, false);
+
+
+		}
+
+
+		std::random_device RandomDevice;
+		std::mt19937 gen(RandomDevice());
+		std::uniform_int_distribution<int> RandomPattern(1, 10);
+		int iRandom = RandomPattern(gen);
+
+		if (iRandom == 5)
+			pEnmu->Set_DashPattern(false);
+
+		m_fDashDelay = 0.f;
+	}
+
 	//if (pGameInstance->Get_Instance()->Key_Down(DIK_1))
 	//	return new CEnmuAttack1(TYPE_START);
 
@@ -77,7 +107,7 @@ CEnmuState * CIdleState::HandleInput(CEnmu* pEnmu)
 CEnmuState * CIdleState::Tick(CEnmu* pEnmu, _float fTimeDelta)
 {
 	m_fDelay += fTimeDelta;
-
+	m_fDashDelay += fTimeDelta;
 	return nullptr;
 }
 

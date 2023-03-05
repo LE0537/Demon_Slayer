@@ -10,6 +10,7 @@
 #include "ImGuiManager.h"
 #include "EnmuBoss.h"
 #include "Effect_Manager.h"
+#include "Tanjiro.h"
 CEnmu_ChokChok::CEnmu_ChokChok(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
 {
@@ -37,6 +38,8 @@ HRESULT CEnmu_ChokChok::Initialize(void * pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 1.f));
+	CGameInstance* pGameInstance1 = CGameInstance::Get_Instance();
+	m_vOriginPosition = XMVectorSetY(m_vOriginPosition, dynamic_cast<CTanjiro*>(pGameInstance1->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_NavigationHeight().y);
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, m_vOriginPosition);
 	m_pModelCom->Set_CurrentAnimIndex(0);
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
@@ -108,7 +111,9 @@ void CEnmu_ChokChok::Late_Tick(_float fTimeDelta)
 
 					if (m_bIsCreate == false)
 					{
-						m_pTanjiro->Take_Damage(0.0f, false);
+						m_pTanjiro->Set_GodMode(true);
+						m_pTanjiro->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 0.f);
+						//m_pTanjiro->Take_Damage(0.0f, false);
 						m_bIsCreate = true;
 					}
 			

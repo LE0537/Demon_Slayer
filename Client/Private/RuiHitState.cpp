@@ -190,7 +190,7 @@ void CHitState::Enter(CRui* pRui)
 	}
 	else
 	{
-		if (pRui->Get_NavigationHeight().y < XMVectorGetY(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		if (pRui->Get_NavigationHeight().y + 0.1f < XMVectorGetY(pRui->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
 		{
 			m_bHitPlayerJump = true;
 			Set_JumpHitState(pRui);

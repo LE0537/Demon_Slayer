@@ -70,7 +70,7 @@ private:
 	_float		m_fAIPatternDelay = 0.f;
 	_float		m_fTime = 0.f;
 	_uint		m_iTargetState = 0;
-
+	_float		m_fDashDelay = 0.f;
 };
 END
 END

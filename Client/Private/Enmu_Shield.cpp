@@ -237,6 +237,8 @@ void CEnmu_Shield::TickState(_float fTimeDelta)
 			m_pModelCom->Set_Loop(2, true);
 			m_pModelCom->Set_LinearTime(2, 0.1f);
 
+			Set_GodMode(false);
+
 			m_bHit = false;
 		}
 	}

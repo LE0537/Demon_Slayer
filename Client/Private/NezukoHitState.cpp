@@ -186,7 +186,7 @@ void CHitState::Enter(CNezuko* pNezuko)
 	else
 	{
 
-		if (pNezuko->Get_NavigationHeight().y < XMVectorGetY(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		if (pNezuko->Get_NavigationHeight().y + 0.1f < XMVectorGetY(pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
 		{
 			m_bHitPlayerJump = true;
 			Set_JumpHitState(pNezuko);

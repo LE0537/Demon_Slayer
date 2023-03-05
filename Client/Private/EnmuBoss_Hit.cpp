@@ -30,6 +30,8 @@ CEnmuBossState * CEnmuBoss_Hit::Tick(CEnmuBoss * pEnmuBoss, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CEnmuBossState::TYPE_START:
+
+
 		if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Get_End(3))
 			
 		{
@@ -47,6 +49,11 @@ CEnmuBossState * CEnmuBoss_Hit::Tick(CEnmuBoss * pEnmuBoss, _float fTimeDelta)
 	case Client::CEnmuBossState::TYPE_END:
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Set_GodMode(true);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Set_GodMode(true);
+
+		m_fDuration += fTimeDelta;
+
+		if(m_fDuration >= 3.f)
+			return new CIdleState();
 
 		if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Get_End(5))
 		{

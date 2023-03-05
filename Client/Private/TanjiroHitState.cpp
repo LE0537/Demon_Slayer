@@ -198,7 +198,7 @@ void CHitState::Enter(CTanjiro * pTanjiro)
 
 	else
 	{
-		if (pTanjiro->Get_NavigationHeight().y < XMVectorGetY(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		if (pTanjiro->Get_NavigationHeight().y + 0.1f < XMVectorGetY(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
 		{
 			m_bHitPlayerJump = true;
 			Set_JumpHitState(pTanjiro);

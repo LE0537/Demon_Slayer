@@ -37,6 +37,8 @@ private:
 	AI_PATTERN m_ePattern = PATTERN_END;
 	_bool m_bStop = false;
 	_bool m_bPlay = false;
+	_bool m_bPattern1 = false;
+	_bool m_bPattern2 = false;
 };
 END
 END

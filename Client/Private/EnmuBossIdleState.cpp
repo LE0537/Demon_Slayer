@@ -123,6 +123,11 @@ CEnmuBossState * CIdleState::Tick(CEnmuBoss* pEnmuBoss, _float fTimeDelta)
 {
 	m_fDelay += fTimeDelta;
 
+
+
+
+
+
 	return nullptr;
 }
 
@@ -328,7 +333,7 @@ void CIdleState::Update_AI_Out(CEnmuBoss * pEnmuBoss)
 {
 	std::random_device RandomDevice;
 	std::mt19937 gen(RandomDevice());
-	std::uniform_int_distribution<int> RandomPattern(1, 10);
+	std::uniform_int_distribution<int> RandomPattern(1, 9);
 	int iRandom = RandomPattern(gen);
 
 	switch (iRandom)
@@ -376,6 +381,22 @@ CEnmuBossState * CIdleState::Return_AIState(CEnmuBoss * pEnmuBoss)
 	std::mt19937 gen(RandomDevice());
 	std::uniform_int_distribution<int> RandomPattern(1, 2);
 	int iRandom = RandomPattern(gen);
+
+	if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_PlayerInfo().iHp < 0)
+		return nullptr;
+
+	if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_PlayerInfo().iHp <= 600 && pEnmuBoss->Get_Pattern1() == false)
+	{
+		m_ePattern = PATTERN_6;
+		pEnmuBoss->Set_Pattern1();
+	}
+
+	if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_PlayerInfo().iHp <= 250 && pEnmuBoss->Get_Pattern2() == false)
+	{
+		m_ePattern = PATTERN_6;
+		pEnmuBoss->Set_Pattern2();
+	}
+
 
 	switch (m_ePattern)
 	{

@@ -137,7 +137,7 @@ void CHitState::Enter(CShinobu* pShinobu)
 	else
 	{
 
-		if (pShinobu->Get_NavigationHeight().y < XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
+		if (pShinobu->Get_NavigationHeight().y + 0.1f < XMVectorGetY(pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION)))
 		{
 			m_bHitPlayerJump = true;
 			Set_JumpHitState(pShinobu);

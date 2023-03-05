@@ -243,6 +243,8 @@ void CEnmu_Chaos_Head::TickState(_float fTimeDelta)
 			m_pModelCom->Set_Loop(3, true);
 			m_pModelCom->Set_LinearTime(3, 0.1f);
 
+			Set_GodMode(false);
+			
 			m_bHit = false;
 		}
 	}

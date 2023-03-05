@@ -150,11 +150,16 @@ public:
 	_bool  Get_Tick() const { return m_bTick; }
 	void   Set_Tick(_bool bTick) { m_bTick = bTick; }
 
+	_bool Get_DashPattern() const { return m_bDashPattern; }
+	void Set_DashPattern(_bool bPattern) { m_bDashPattern = bPattern; }
+
+
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
 
 	void	Set_Info();
+
 
 
 public:
@@ -189,6 +194,7 @@ private:
 
 	_float					m_fStartTime = 0.f;
 	_bool					m_bAiBattleStart = false;
+	_bool					m_bDashPattern = false;
 public:
 	static CEnmu* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
