@@ -371,7 +371,7 @@ HRESULT CRenderer::Add_RenderGroup_Front(RENDERGROUP eRenderGroup, CGameObject *
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel)
+HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel, _bool bLoading)
 {
 	m_fMapGrayScaleTime += fTimeDelta;
 	if (7.f < m_fMapGrayScaleTime)
@@ -407,8 +407,11 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
-	if (FAILED(Render_StaticShadowDepth()))
-		return E_FAIL;
+	if (false == bLoading)
+	{
+		if (FAILED(Render_StaticShadowDepth()))
+			return E_FAIL;
+	}
 	if (FAILED(Render_ShadowDepth()))
 		return E_FAIL;
 

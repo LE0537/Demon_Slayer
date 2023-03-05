@@ -27,7 +27,7 @@ public:
 public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
 	HRESULT Add_RenderGroup_Front(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
-	HRESULT Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel);
+	HRESULT Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel, _bool bLoading);
 
 public:
 	HRESULT Add_Debug(class CComponent* pDebugCom);

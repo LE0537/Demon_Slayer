@@ -106,7 +106,10 @@ VS_NORMALOUT VS_NORMAL(VS_IN In)
 	Out.vProjPos = Out.vPosition;
 	vector vWorldPos = mul(vPosition, g_WorldMatrix);
 	Out.vWorld = vWorldPos;
-	Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), g_WorldMatrix)).xyz;
+
+	vector		vTangent = mul(vector(In.vTangent, 0.f), BoneMatrix);
+	vTangent = normalize(mul(vTangent, g_WorldMatrix));
+	Out.vTangent = vTangent;
 	Out.vBinormal = cross(Out.vNormal, Out.vTangent);
 
 	return Out;
