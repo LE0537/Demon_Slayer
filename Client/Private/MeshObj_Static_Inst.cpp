@@ -124,7 +124,17 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 	//}
 
 	//RELEASE_INSTANCE(CGameInstance);
-	
+
+	//	ÀÜµð ¹Ù¶÷¿¡ Èçµé¸²
+	if (2031 <= m_tMyDesc.iModelIndex &&
+		2036 >= m_tMyDesc.iModelIndex)
+	{
+		m_fWindTime += fTimeDelta * 0.1f;
+		if (20.f < m_fWindTime)
+			m_fWindTime = 0.f;
+	}
+
+
 	if (g_iLevel == LEVEL_ADVAKAZA)
 	{
 		if (true == m_bRenderShadow)
@@ -170,18 +180,7 @@ HRESULT CMeshObj_Static_Inst::Render()
 
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
-
-	//	Test
-	if (2031 <= m_tMyDesc.iModelIndex &&
-		2036 >= m_tMyDesc.iModelIndex)
-	{
-		m_fWindTime += 1.f / 600.f;
-		if (20.f < m_fWindTime)
-			m_fWindTime = 0.f;
-	}
-	//	Test end
-
-
+	
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
