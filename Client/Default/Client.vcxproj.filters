@@ -3365,9 +3365,6 @@
     <ClCompile Include="..\Private\2pMainOnBase.cpp">
       <Filter>03.UI\03.SelectChar\Main\2PMain</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Akaza.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\KyoujuroMoveState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClCompile>
@@ -4564,6 +4561,9 @@
     </ClCompile>
     <ClCompile Include="..\private\StoneSphere.cpp">
       <Filter>05.CollBox\18.StoneSphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Akaza.cpp">
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

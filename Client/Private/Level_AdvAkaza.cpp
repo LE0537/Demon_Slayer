@@ -23,38 +23,56 @@ unsigned int APIENTRY Thread_AdvAkaza(void* pArg)
 	CLevel_AdvAkaza*		pLoader = (CLevel_AdvAkaza*)pArg;
 
 	EnterCriticalSection(&pLoader->Get_CriticalSection());
+
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	pUIManager->Add_Loading();
 
-	_float ThreadTime = 0.f;
-	_float ThreadDelay = 0.f;
-	_bool  m_bTreadStop = true;
-	while (m_bTreadStop)
-	{
-		pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
-		ThreadTime += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_Default"));
+	pLoader->Ready_Lights();
+	g_fLoading = 10.f;
+	pLoader->Ready_Layer_Camera(TEXT("Layer_Camera"));
+	g_fLoading = 40.f;
+	pLoader->Ready_Layer_Player(TEXT("Layer_Player"));
+	g_fLoading = 60.f;
+	pLoader->Ready_Layer_BackGround(TEXT("Layer_BackGround"));
+	g_fLoading = 80.f;
+	pLoader->Load_StaticObjects("TrainMap");
+	g_fLoading = 100.f;
+	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
+	pLoader->Set_Renderer((CRenderer*)pOut);
+	
+	_float fValue[CRenderer::VALUE_END] = { 1.f, 0.37f ,0.1f ,182.f ,1571.f ,0.142f ,0.f ,1.36f,0.4f,1.f,20.f,20.f,0.07f,0.257f,0.2f,0.4f,0.1f,0.3f,15.f,0.f,0.f };
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 1.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.37f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.1f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 182.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 1571.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.142f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 20.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.07f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 0.257f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.2f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.4f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 0.1f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
+	pLoader->Get_Renderer()->Set_Far(g_fFar);
 
-		if (ThreadTime >= 1.0f / 60.0f)
-		{
-			ThreadTime = 0.f;
-			pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
-			ThreadDelay += pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60"));
+	for (_int i = 0; i < CRenderer::VALUE_END; ++i)
+		CImGuiManager::Get_Instance()->Setting_PostProcessingValue(i, fValue[i]);
 
-			pUIManager->Tick_Loading(pGameInstance->Get_TimeDelta(TEXT("ThreadTimer_60")));
-			if (ThreadDelay > 3.f)
-			{
-				m_bTreadStop = false;
-				break;
-			}
-		}
-	}
-	pUIManager->Set_LoadingDead();
 	RELEASE_INSTANCE(CGameInstance);
-	RELEASE_INSTANCE(CUI_Manager);
+
+
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
 	pLoader->Set_Finished();
 	g_bThread = false;
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	pUIManager->Set_LoadingDead();
+	RELEASE_INSTANCE(CUI_Manager);
 	return 0;
 }
 CLevel_AdvAkaza::CLevel_AdvAkaza(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
@@ -68,15 +86,13 @@ HRESULT CLevel_AdvAkaza::Initialize()
 		return E_FAIL;
 	g_iLevel = LEVEL_ADVAKAZA;
 	g_bThread = true;
-
+	g_fLoading = 0.f;
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	pUI_Manager->Add_Loading();
+
 	CoInitializeEx(nullptr, 0);
 
 	InitializeCriticalSection(&m_CriticalSection);
-
-	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
-	pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
 
 	m_hThread = (HANDLE)_beginthreadex(nullptr, 0, Thread_AdvAkaza, this, 0, nullptr);
 	if (0 == m_hThread)
@@ -90,57 +106,6 @@ HRESULT CLevel_AdvAkaza::Initialize()
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Lights()))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
-		return E_FAIL;
-
-	if (FAILED(Load_StaticObjects("TrainMap")))
-		return E_FAIL;
-	
-
-	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
-	m_pRendererCom = (CRenderer*)pOut;
-
-	if (nullptr == m_pRendererCom)
-	{
-		RELEASE_INSTANCE(CGameInstance);
-		return E_FAIL;
-	}
-
-	_float fValue[CRenderer::VALUE_END] = { 1.f, 0.37f ,0.1f ,182.f ,1571.f ,0.142f ,0.f ,1.36f,0.4f,1.f,20.f,20.f,0.07f,0.257f,0.2f,0.4f,0.1f,0.3f,15.f,0.f,0.f };
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 1.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.37f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.1f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 182.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 1571.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.142f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 20.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.07f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 0.257f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.2f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 0.1f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
-	m_pRendererCom->Set_Far(g_fFar);
-
-	for(_int i = 0; i < CRenderer::VALUE_END; ++i)
-		CImGuiManager::Get_Instance()->Setting_PostProcessingValue(i, fValue[i]);
-
-	RELEASE_INSTANCE(CGameInstance);
 
 	
 
@@ -150,15 +115,7 @@ HRESULT CLevel_AdvAkaza::Initialize()
 void CLevel_AdvAkaza::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-	if (!m_isFinished && !m_bThread)
-	{
-		CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
-		m_bThread = true;
-		pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_Default"));
-		pGameInstance->Update_TimeDelta(TEXT("ThreadTimer_60"));
 
-		RELEASE_INSTANCE(CGameInstance);
-	}
 	if (m_isFinished)
 	{
 		if (!m_bTread)
@@ -676,11 +633,11 @@ HRESULT CLevel_AdvAkaza::Load_Map(const _tchar* pLayerTag, char * pFileName)
 HRESULT CLevel_AdvAkaza::Create_Wind(_float fTimeDelta)
 {
 	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-	if (!m_bEffect)
-	{
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_SMOKE, &XMVectorSet(-0.051f,17.682f,122.145f,1.f));
-		m_bEffect = true;
-	}
+	//if (!m_bEffect)
+	//{
+	//	pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_SMOKE, &XMVectorSet(-0.051f,17.682f,122.145f,1.f));
+	//	m_bEffect = true;
+	//}
 	m_fEffectTime += fTimeDelta;
 	if (m_fEffectTime > 1.f)
 	{

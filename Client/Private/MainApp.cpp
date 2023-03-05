@@ -32,6 +32,7 @@ float			g_fBGM = 0.7f;
 float			g_fEffect = 0.8f;
 float			g_fVoice = 0.7f;
 float			g_fDialog = 1.f;
+float			g_fLoading = 0.f;
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())
@@ -104,6 +105,13 @@ void CMainApp::Tick(_float fTimeDelta)
 		m_pGameInstance->Tick_Engine(fTimeDelta);
 
 		m_fTimeAcc += fTimeDelta;
+		m_fTimeDelta = fTimeDelta;
+	}
+	else if (g_bThread)
+	{
+		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+		pUIManager->Tick_Loading(fTimeDelta);
+		RELEASE_INSTANCE(CUI_Manager);
 		m_fTimeDelta = fTimeDelta;
 	}
 }

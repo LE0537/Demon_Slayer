@@ -292,7 +292,7 @@ private:
 
 	_bool					m_bAkazaScene = false;
 
-
+	_float					m_bDeadTime = 0.f;
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;

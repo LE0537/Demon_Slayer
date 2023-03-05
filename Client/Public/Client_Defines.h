@@ -31,6 +31,6 @@ extern float		g_fBGM;
 extern float		g_fEffect;
 extern float		g_fVoice;
 extern float		g_fDialog;
-
+extern float        g_fLoading;
 
 using namespace Client;

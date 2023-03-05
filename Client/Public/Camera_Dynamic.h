@@ -27,7 +27,8 @@ public:
 		CUTSCENE_SNB_START, CUTSCENE_SNB_0, CUTSCENE_SNB_1, CUTSCENE_SNB_2, CUTSCENE_SNB_3,
 		CUTSCENE_END};
 	enum STORYSCENE { STORYSCENE_RUIDAD_START, STORYSCENE_RUIDAD_BATTLE, STORYSCENE_RUI_START, STORYSCENE_RUI_DEAD, STORYSCENE_ADV_TANJIRO, STORYSCENE_ADV_RUI, STORYSCENE_ADV_ENMU, 
-		STORYSCENE_BATTLE_ENMU, STORYSCENE_BATTLE_BOSSENMU, STORYSCENE_BOSSENMU_DEAD, STORYSCENE_BOSSENMU_DEAD2, STORYSCENE_END };
+		STORYSCENE_BATTLE_ENMU, STORYSCENE_BATTLE_BOSSENMU, STORYSCENE_BOSSENMU_DEAD, STORYSCENE_BOSSENMU_DEAD2, 
+		STORYSCENE_ADV_AKAZA, STORYSCENE_ADV_AKAZA2,STORYSCENE_END };
 private:
 	CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CCamera_Dynamic(const CCamera_Dynamic& rhs);
@@ -83,8 +84,9 @@ public:
 	_bool Get_QuestBattleCam() { return m_bQuestBattleCam; }
 	void Set_QuestBattleCam(_bool _bQuestCam) { m_bQuestBattleCam = _bQuestCam; }
 	void Set_StoryScene(STORYSCENE _eCutScene) { m_eStoryScene = _eCutScene; m_bStoryScene = true; }
-
-private:
+	void Set_ADVAkaza() { m_bADVAKaza = true; m_bStart = true; m_bLerp = true;}
+	_bool Get_ADVAkaza() { return m_bADVAKaza; }
+private:									
 	//Shake
 	void Check_Shake(_float fTimeDelta);
 	void Camera_ShakeDown(_float fTimeDelta);
@@ -176,7 +178,7 @@ private:
 	_float m_fBattleAngle = 0.f;
 	_float m_fBattleCamY = 0.f;
 	_float m_fBattleCamZ = 0.f;
-
+	_bool  m_bADVAKaza = false;
 	//	CamAction
 	CRenderer*	m_pRendererCom = nullptr;
 

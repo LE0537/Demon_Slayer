@@ -116,22 +116,28 @@ void CAkaza::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	m_fEffectStartTime = 0.f;
-
+	if (!m_bAiTrue && m_i1p == 11)
+	{
+		m_fAiTime += fTimeDelta;
+		if (m_fAiTime > 18.f)
+		{
+			m_bAiState = true;
+			m_bAiTrue = true;
+		}
+	}
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 	
-
-	if (m_bBattleStart && dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_AkazaScene() == false)
+	if (!dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Get_ADVAkaza())
 	{
-		CAkazaState* pState = new CBattleStartState();
-		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
-		m_bBattleStart = false;
-
-		if (m_i1p == 11)
-			m_bAiState = true;
-
+		if (m_bBattleStart)
+		{
+			CAkazaState* pState = new CBattleStartState();
+			m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+			m_bBattleStart = false;
+		}
 	}
-
+	
 	if (m_bAiState == true)
 	{
 		
