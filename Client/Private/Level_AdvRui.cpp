@@ -41,25 +41,29 @@ unsigned int APIENTRY Thread_AdvRui(void* pArg)
 	pLoader->Set_Renderer((CRenderer*)pOut);
 
 
-	_float fValue[CRenderer::VALUE_END] = { 0.07f, 0.12f, 0.1f, 55.f, 80.f, 0.83f, 0.7f, 1.36f, 0.4f, 1.f, 20.f, 100.f, 0.05f, 2.2f, 0.1f, 0.85f, 1.f };
-
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.07f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.12f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.1f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 55.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 80.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.83f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.7f);
+	_float fValue[CRenderer::VALUE_END] = { 0.f, 0.1f, 0.15f, 46.f, 151.f, 0.635f, 0.32f, 1.36f, 0.4f, 1.f, 20.f, 100.f, 0.05f, 1.f, 0.4f, 0.5f, 2.f, 0.6f, 1.f, 0.3f, 15.f, 0.f, 0.f, 0.07f };
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.1f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.15f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 46.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 151.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.635f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.32f);
 	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
 	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
 	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
 	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
 	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 100.f);
 	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 2.2f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.1f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.85f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.4f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_TESTLENGTH), 0.5f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_MINUS), 2.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.6f);
 	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
+	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWPOWER), 0.07f);
 	pLoader->Get_Renderer()->Set_Far(g_fFar);
 
 	for (_int i = 0; i < CRenderer::VALUE_END; ++i)
@@ -223,7 +227,6 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 	LightDesc.eType = LIGHTDESC::TYPE_RUISHADOW;
 	LightDesc.vDirection = _float4(-10.f, 150.f, -10.f, 1.f);
 	LightDesc.vDiffuse = _float4(60.f, -20.f, 60.f, 1.f);
-
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 
 	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
@@ -246,7 +249,7 @@ HRESULT CLevel_AdvRui::Ready_Lights()
 	LightDesc.eType = LIGHTDESC::TYPE_DIRECTIONAL;
 	XMStoreFloat4(&LightDesc.vDirection, XMVector3Normalize(vLook));
 	LightDesc.vDiffuse = _float4(1.f, 1.f, 1.f, 1.f);
-	LightDesc.vAmbient = _float4(0.4f, 0.4f, 0.4f, 1.f);
+	LightDesc.vAmbient = _float4(0.1f, 0.25f, 0.4f, 1.f);
 	LightDesc.vSpecular = _float4(1.f, 1.f, 1.f, 1.f);
 
 	pLightDesc = pGameInstance->Get_LightDesc(LIGHTDESC::TYPE_DIRECTIONAL);

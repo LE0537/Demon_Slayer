@@ -2,7 +2,6 @@
 #include "Client_Shader_Defines.hpp"
 
 matrix			g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
-matrix			g_PivotMatrix;
 texture2D		g_DiffuseTexture;
 texture2D		g_NormalTexture;
 
@@ -26,6 +25,8 @@ float			g_iMulUV_V;
 float			g_fCurrentTime;
 
 float		g_fFar;
+
+float		g_fWindTime = 0.f;
 
 struct VS_IN
 {
@@ -65,8 +66,7 @@ VS_OUT VS_MAIN(VS_IN In)
 
 	vector		vPosition = mul(vector(In.vPosition, 1.f), TransformMatrix);
 
-	vector vNormal = normalize(mul(vector(In.vNormal, 0.f), g_PivotMatrix));
-	vNormal = normalize(mul(vNormal, TransformMatrix));
+	vector vNormal = normalize(mul(vector(In.vNormal, 0.f), TransformMatrix));
 
 	Out.vPosition = mul(vPosition, matWVP);
 	Out.vNormal = vNormal;
@@ -75,14 +75,13 @@ VS_OUT VS_MAIN(VS_IN In)
 	vector vWorldPos = mul(vPosition, g_WorldMatrix);
 	Out.vWorld = vWorldPos;
 
-	Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), g_PivotMatrix)).xyz;
-	Out.vTangent = normalize(mul(Out.vTangent, TransformMatrix));
+	Out.vTangent = normalize(mul(In.vTangent, TransformMatrix));
 	Out.vBinormal = cross(Out.vNormal, Out.vTangent);
 
 	return Out;
 }
 
-VS_OUT VS_MAIN_NONBIN(VS_IN In)
+VS_OUT VS_WIND(VS_IN In)
 {
 	VS_OUT		Out = (VS_OUT)0;
 
@@ -92,8 +91,12 @@ VS_OUT VS_MAIN_NONBIN(VS_IN In)
 	matWVP = mul(matWV, g_ProjMatrix);
 
 	float4x4	TransformMatrix = float4x4(In.vRight, In.vUp, In.vLook, In.vTranslation);
-
 	vector		vPosition = mul(vector(In.vPosition, 1.f), TransformMatrix);
+
+	float2	vNoiseUV = float2(frac(vPosition.x / 10.f), frac(vPosition.z / 10.f)) + g_fWindTime;
+	vector	vNoiseMap = g_NoiseTexture.SampleLevel(LinearSampler, vNoiseUV, 0);
+	vPosition.x += (pow(max(0.f, In.vPosition.y), 2.f) * ((vNoiseMap * 2.f) - 1.f));
+	vPosition.z += (pow(max(0.f, In.vPosition.y), 2.f) * ((vNoiseMap * 2.f) - 1.f));
 
 	vector vNormal = normalize(mul(vector(In.vNormal, 0.f), TransformMatrix));
 
@@ -104,7 +107,7 @@ VS_OUT VS_MAIN_NONBIN(VS_IN In)
 	vector vWorldPos = mul(vPosition, g_WorldMatrix);
 	Out.vWorld = vWorldPos;
 
-	Out.vTangent = normalize(mul(vector(In.vTangent, 0.f), TransformMatrix)).xyz;
+	Out.vTangent = normalize(mul(In.vTangent, TransformMatrix));
 	Out.vBinormal = cross(Out.vNormal, Out.vTangent);
 
 	return Out;
@@ -134,8 +137,7 @@ VS_FLOWMAP_OUT VS_FLOWMAP(VS_IN In)
 
 	vector		vPosition = mul(vector(In.vPosition, 1.f), TransformMatrix);
 
-	vector vNormal = normalize(mul(vector(In.vNormal, 0.f), g_PivotMatrix));
-	vNormal = normalize(mul(vNormal, TransformMatrix));
+	vector vNormal = normalize(mul(vector(In.vNormal, 0.f), TransformMatrix));
 
 	Out.vPosition = mul(vPosition, matWVP);
 	Out.vNormal = vNormal;
@@ -196,9 +198,9 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	vNormal = vNormal * 2.f - 1.f;
 
-	float3x3	WorldMatrix = float3x3(In.vTangent, In.vBinormal, vNormal);
+	float3x3	WorldMatrix = float3x3(In.vTangent, In.vBinormal, In.vNormal.xyz);
 
-	vNormal = mul(In.vNormal, WorldMatrix);
+	vNormal = mul(vNormal, WorldMatrix);
 
 	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(vNormal * 0.5f + 0.5f, 0.f);
@@ -314,13 +316,13 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_SMELL();
 	}
 
-	pass NonBinary		//	3
+	pass Wind		//	3
 	{
 		SetRasterizerState(RS_Effect);
 		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
 		SetDepthStencilState(DSS_Default, 0);
 
-		VertexShader = compile vs_5_0 VS_MAIN_NONBIN();
+		VertexShader = compile vs_5_0 VS_WIND();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
