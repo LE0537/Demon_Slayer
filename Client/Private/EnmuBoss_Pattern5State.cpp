@@ -163,13 +163,15 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 
 			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
 			{
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_HAND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_FLASH, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Get_WeaponWorld());
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_HAND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Get_WeaponWorld());
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Get_WeaponWorld());
 			}
 			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
 			{
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_HAND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_HAND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_FLASH, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
 			}
 
 			RELEASE_INSTANCE(CEffect_Manager);
@@ -190,14 +192,16 @@ CEnmuBossState * CEnmuBoss_Pattern5State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
 			{
 				dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Set_CollBox(true);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_GROUND2, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
+				//pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_FLASH, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Get_WeaponWorld());
+				//pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Get_WeaponWorld());
+				//pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_GROUND2, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Get_WeaponWorld());
 			}
 			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
 			{
 				dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Set_CollBox(true);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_GROUND2, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
+				//pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_FLASH, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
+				//pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
+				//pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT5_GROUND2, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
 			}
 			RELEASE_INSTANCE(CEffect_Manager);
 			++m_iHit;
