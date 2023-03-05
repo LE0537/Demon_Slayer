@@ -30,6 +30,9 @@ CEnmuBossState * CIdleState::HandleInput(CEnmuBoss* pEnmuBoss)
 {
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
+	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Set_GodMode(false);
+	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Set_GodMode(false);
+
 	if (pEnmuBoss->Get_Start() == false)
 	{
 		if (!m_bStop)

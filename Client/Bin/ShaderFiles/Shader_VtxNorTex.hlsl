@@ -163,7 +163,7 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	/* -1 ~ 1 => 0 ~ 1*/
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 0.f);
-	Out.vWorldPos = In.vWorldPos / g_fFar;
+	Out.vWorldPos = In.vWorldPos;
 
 	return Out;
 }
@@ -198,10 +198,10 @@ PS_OUT PS_FILTER(PS_IN In)
 	vNormal = vNormal * 2.f - 1.f;
 	vNormal = vector(vNormal.xyz * 0.5f + 0.5f, 0.f);
 
-	Out.vNormal = vNormal;
+	Out.vNormal = In.vNormal;
 
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fFar, 0.f, 0.f);
-	Out.vWorldPos = In.vWorldPos / g_fFar;
+	Out.vWorldPos = In.vWorldPos;
 
 	if (Out.vDiffuse.a < 0.5f)
 		discard;

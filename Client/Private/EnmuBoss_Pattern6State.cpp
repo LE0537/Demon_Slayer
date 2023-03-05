@@ -63,16 +63,21 @@ CEnmuBossState * CEnmuBoss_Pattern6State::Tick(CEnmuBoss * pEnmuBoss, _float fTi
 			CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 			_vector vTargetPos = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-			std::random_device RandomDevice;
-			std::mt19937 gen(RandomDevice());
-			std::uniform_int_distribution<int> RandomPattern(3, 10);
-			int iRandom = RandomPattern(gen);
+			std::random_device RandomDevice1;
+			std::mt19937 gen1(RandomDevice1());
+			std::uniform_int_distribution<int> RandomPattern1(3, 10);
+			int iRandom1 = RandomPattern1(gen1);
 
-			vTargetPos += XMVectorSet(iRandom, 0.f, iRandom, 0.f);
+			std::random_device RandomDevice2;
+			std::mt19937 gen2(RandomDevice2());
+			std::uniform_int_distribution<int> RandomPattern2(3, 10);
+			int iRandom2 = RandomPattern2(gen2);
+
+			vTargetPos += XMVectorSet(iRandom1, 0.f, iRandom2, 0.f);
 
 			Create_Chok(vTargetPos);
 
-			m_fCurrentDuration = 0.f;
+			m_fCurrentDuration = 0.f; 
 		}
 
 

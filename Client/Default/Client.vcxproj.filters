@@ -1543,6 +1543,15 @@
     <Filter Include="05.CollBox\18.StoneSphere">
       <UniqueIdentifier>{3e503fd2-55df-4afe-8243-36c453747683}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza">
+      <UniqueIdentifier>{8bdf596b-0c92-4aa4-86f6-abd290ea47cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza\AkazaBody">
+      <UniqueIdentifier>{1ffcb3e9-0a6f-4124-91a3-5c91129de65d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza\AkazaLeg">
+      <UniqueIdentifier>{bb816d54-6ca6-43d8-a904-8cd243ccfa5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3072,6 +3081,12 @@
     <ClInclude Include="..\public\StoneSphere.h">
       <Filter>05.CollBox\18.StoneSphere</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\AkazaBody.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza\AkazaBody</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AkazaLeg.h">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza\AkazaLeg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4564,6 +4579,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Akaza.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AkazaBody.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza\AkazaBody</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AkazaLeg.cpp">
+      <Filter>02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza\AkazaLeg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

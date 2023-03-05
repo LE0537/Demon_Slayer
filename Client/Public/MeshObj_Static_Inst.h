@@ -55,6 +55,11 @@ private:
 	_bool		m_bInit = false;
 	_float4x4	m_matProjOrigin;
 
+private:/*For.Wind*/
+	CTexture*	m_pNoiseTextureCom = nullptr;
+	_float		m_fWindTime = 0.f;
+
+
 private:
 	HRESULT Delete_Component(const _tchar* pComponentTag);
 

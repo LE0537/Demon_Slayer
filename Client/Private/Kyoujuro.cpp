@@ -24,8 +24,10 @@
 #include "KyoujuroHitCinema_Shinobu.h"
 #include "KyoujuroHitCinema_Tanjiro.h"
 #include "KyoujuroAkazaScene.h"
-
+#include "Kyoujuro_CinemaState.h"
+#include "KyoujuroSplSkrStartState.h"
 #include "Tanjiro.h"
+#include "Akaza.h"
 using namespace Kyoujuro;
 
 #include "UI_Manager.h"
@@ -130,6 +132,8 @@ void CKyoujuro::Tick(_float fTimeDelta)
 {
 	if (!m_bChange)
 	{
+		if (m_bStorySpl)
+			StorySpl(fTimeDelta);
 		if (m_bSplSkl)
 		{
 			Check_Spl();
@@ -168,7 +172,7 @@ void CKyoujuro::Tick(_float fTimeDelta)
 		}
 		if (m_tInfo.iPowerIndex == 2)
 			m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
-		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
+		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub && !m_bStop2)
 			HandleInput();
 
 		TickState(fTimeDelta);
@@ -876,6 +880,15 @@ void CKyoujuro::LateTickState(_float fTimeDelta)
 		m_fEffectTime = 0.f;
 	}
 
+}
+void CKyoujuro::StorySpl(_float fTimeDelta)
+{
+	dynamic_cast<CAkaza*>(m_pBattleTarget)->Set_StoryDead();
+	m_pBattleTarget->Play_Scene();
+	CKyoujuroState* pState = new CSplSkrStartState(CSplSkrStartState::TYPE_START);
+	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+	m_bStorySpl = false;
+	m_bStorySplEnd = true;
 }
 CKyoujuro * CKyoujuro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {

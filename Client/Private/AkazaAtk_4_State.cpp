@@ -171,7 +171,7 @@ CAkazaState * CAtk_4_State::HandleInput(CAkaza* pAkaza)
 	}
 
 
-	return nullptr;
+	return CommandCheck(pAkaza);
 }
 
 CAkazaState * CAtk_4_State::Tick(CAkaza* pAkaza, _float fTimeDelta)
