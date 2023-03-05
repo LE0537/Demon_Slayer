@@ -267,6 +267,7 @@ private:
 	//Quest
 	_bool					m_bStop = false;
 	_bool					m_bStory = false;
+	_bool					m_bStoryStartCheck = false;
 	_bool					m_bQuest1 = false;
 	_bool					m_bQuest1MSG = false;
 	_bool					m_bQuest2 = false;

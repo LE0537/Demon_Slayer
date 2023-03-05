@@ -1355,38 +1355,43 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	if (!pUIManager->Get_SaveStory())
 	{
-		if (!m_bStory)
+		if (!m_bStoryStartCheck)
 		{
-			_vector vQuestStart = { 0.414626598f, 5.70602703f, 382.156799f,1.f };
-			_float fDistStart = XMVectorGetX(XMVector3Length(vQuestStart - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+			if (!m_bStory)
+			{
+				_vector vQuestStart = { 0.414626598f, 5.70602703f, 382.156799f,1.f };
+				_float fDistStart = XMVectorGetX(XMVector3Length(vQuestStart - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
 
-			if (fDistStart < 3.f)
+				if (fDistStart < 3.f)
+				{
+					m_bStory = true;
+					pUIManager->Reset_MsgCount();
+					m_bStop = true;
+				}
+			}
+			else if (m_bStory)
 			{
-				m_bStory = true;
-				m_bStop = true;
+				switch (pUIManager->Get_MsgCount())
+				{
+				case 0:
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("사람들이 잠들어 있다..."));
+					break;
+				case 1:
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("혈귀가 수를 쓴 거야"));
+					break;
+				default:
+					pUIManager->Reset_MsgCount();
+					pUIManager->Set_MsgOff();
+					m_bStop = false;
+					m_bStoryStartCheck = true;
+					break;
+				}
 			}
 		}
-		else if (m_bStory && pUIManager->Get_MsgOnOff())
-		{
-			switch (pUIManager->Get_MsgCount())
-			{
-			case 0:
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("사람들이 잠들어 있다..."));
-				break;
-			case 1:
-				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("혈귀가 수를 쓴 거야"));
-				break;
-			default:
-				pUIManager->Reset_MsgCount();
-				pUIManager->Set_MsgOff();
-				break;
-			}
-		}
-		else if(m_bStory && !pUIManager->Get_MsgOnOff())
-			m_bStop = false;
+		
 
 		if (!m_bQuest1 && m_bStory)
 		{
@@ -1408,19 +1413,107 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 				case 0:
 					pUIManager->Set_MsgOn();
 					pUIManager->Set_MsgName(TEXT("렌고쿠 쿄주로"));
-					pUIManager->Set_Msg(TEXT("우마이!!   우마이!!"));
+					pUIManager->Set_Msg(TEXT("카마도 소년!"));
+					if (!m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_02.wav"), g_fDialog);
+						m_bSoundCheck = true;
+					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 1:
 					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-					pUIManager->Set_Msg(TEXT("보고! 귀살!!"));
+					pUIManager->Set_Msg(TEXT("렌고쿠 씨!"));
+					if (m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_03.wav"), g_fDialog);
+						m_bSoundCheck = false;
+					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 2:
 					pUIManager->Set_MsgName(TEXT("렌고쿠 쿄주로"));
-					pUIManager->Set_Msg(TEXT("열차안 사람들은 내가 지킬테니 너는 혈귀를 찾아 죽여!"));
+					pUIManager->Set_Msg(TEXT("여기 오는 길에 꽤나 참격을 날리며 왔으니"));
+					if (!m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_04.wav"), g_fDialog);
+						m_bSoundCheck = true;
+					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				case 3:
-					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-					pUIManager->Set_Msg(TEXT("알겠어요! 사람들을 부탁합니다."));
+					pUIManager->Set_MsgName(TEXT("렌고쿠 쿄주로"));
+					pUIManager->Set_Msg(TEXT("혈귀도 재생하는 데 시간이 걸리겠지만 여유는 없다!!"));
+					if (m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_05.wav"), g_fDialog);
+						m_bSoundCheck = false;
+					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
+					break;
+				case 4:
+					pUIManager->Set_MsgName(TEXT("렌고쿠 쿄주로"));
+					pUIManager->Set_Msg(TEXT("간단히 말하지! 이 기차는 8량 편성이다!"));
+					if (!m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_06.wav"), g_fDialog);
+						m_bSoundCheck = true;
+					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
+					break;
+				case 5:
+					pUIManager->Set_MsgName(TEXT("렌고쿠 쿄주로"));
+					pUIManager->Set_Msg(TEXT("나는 후방 5량을 지키도록 하지!"));
+					if (m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_07.wav"), g_fDialog);
+						m_bSoundCheck = false;
+					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
+					break;
+				case 6:
+					pUIManager->Set_MsgName(TEXT("렌고쿠 쿄주로"));
+					pUIManager->Set_Msg(TEXT("나머지 3량은 너와 네 여동생이 지킨다!"));
+					if (!m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_08.wav"), g_fDialog);
+						m_bSoundCheck = true;
+					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
+					break;
+				case 7:
+					pUIManager->Set_MsgName(TEXT("렌고쿠 쿄주로"));
+					pUIManager->Set_Msg(TEXT("나도 혈귀를 찾으며 싸우겠다!\n너도 마음을 다잡아라!"));
+					if (m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_09.wav"), g_fDialog);
+						m_bSoundCheck = false;
+					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
 					break;
 				default:
 					pUIManager->Set_MsgOff();
@@ -1465,40 +1558,94 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 					case 0:
 						pUIManager->Set_MsgOn();
 						pUIManager->Set_MsgName(TEXT("엔무"));
-						pUIManager->Set_Msg(TEXT("뭐야?! 너 어떻게 잠에서 깬거지?"));
+						pUIManager->Set_Msg(TEXT("꿈꾸면서 죽을 수 있다는 건 참 행복한 일이지"));
 						if (!m_bSoundCheck)
 						{
-							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Dialog_01.wav"), fVOICE);
+							CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+							CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_10.wav"), g_fDialog);
 							m_bSoundCheck = true;
 						}
+						CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+						if (!m_bIsPlaying)
+							pUIManager->Set_MsgCount(1);
 						break;
 					case 1:
-						pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-						pUIManager->Set_Msg(TEXT("십이귀월?!"));
+						pUIManager->Set_MsgName(TEXT("엔무"));
+						pUIManager->Set_Msg(TEXT("아무리 강한 혈귀 사냥꾼이라도 마찬가지야"));
 						if (m_bSoundCheck)
 						{
-							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_01.wav"), fVOICE);
+							CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+							CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_11.wav"), g_fDialog);
 							m_bSoundCheck = false;
 						}
+						CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+						if (!m_bIsPlaying)
+							pUIManager->Set_MsgCount(1);
 						break;
 					case 2:
 						pUIManager->Set_MsgName(TEXT("엔무"));
-						pUIManager->Set_Msg(TEXT("옥상으로 따라와!"));
+						pUIManager->Set_Msg(TEXT("인간의 원동력은 마음이고 정신이지"));
 						if (!m_bSoundCheck)
 						{
-							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("Murata_Dialog_02.wav"), fVOICE);
+							CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+							CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_12.wav"), g_fDialog);
 							m_bSoundCheck = true;
 						}
+						CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+						if (!m_bIsPlaying)
+							pUIManager->Set_MsgCount(1);
 						break;
 					case 3:
-						pUIManager->Set_MsgName(TEXT("이재훈"));
-						pUIManager->Set_Msg(TEXT("산들고"));
+						pUIManager->Set_MsgName(TEXT("엔무"));
+						pUIManager->Set_Msg(TEXT("'정신의 핵'을 파괴하면 되는 거야\n그럼 살아있는 시체가 돼서 죽이는 것도 간단하지"));
 						if (m_bSoundCheck)
 						{
-							//	CSoundMgr::Get_Instance()->PlayVoice(TEXT("RuiDad_Dialog_00.wav"), fVOICE);
+							CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+							CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_13.wav"), g_fDialog);
 							m_bSoundCheck = false;
 						}
-
+						CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+						if (!m_bIsPlaying)
+							pUIManager->Set_MsgCount(1);
+						break;
+					case 4:
+						pUIManager->Set_MsgName(TEXT("엔무"));
+						pUIManager->Set_Msg(TEXT("인간의 마음 따위는 모두 똑같아\n유리 세공품처럼 무르고 약하거든"));
+						if (!m_bSoundCheck)
+						{
+							CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+							CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_14.wav"), g_fDialog);
+							m_bSoundCheck = true;
+						}
+						CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+						if (!m_bIsPlaying)
+							pUIManager->Set_MsgCount(1);
+						break;
+					case 5:
+						pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+						pUIManager->Set_Msg(TEXT("인간의 마음속을 더러운 발로 짓밟지 마!!"));
+						if (m_bSoundCheck)
+						{
+							CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+							CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_15.wav"), g_fDialog);
+							m_bSoundCheck = false;
+						}
+						CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+						if (!m_bIsPlaying)
+							pUIManager->Set_MsgCount(1);
+						break;
+					case 6:
+						pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+						pUIManager->Set_Msg(TEXT("난 널 용서 못 해!!"));
+						if (!m_bSoundCheck)
+						{
+							CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+							CSoundMgr::Get_Instance()->PlayDialog(TEXT("MugenTrain_Dialog_16.wav"), g_fDialog);
+							m_bSoundCheck = true;
+						}
+						CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+						if (!m_bIsPlaying)
+							pUIManager->Set_MsgCount(1);
 						break;
 					default:
 						pUIManager->Set_MsgOff();
