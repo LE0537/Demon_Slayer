@@ -157,10 +157,13 @@ public:
 
 	ANIMID Get_AnimIndex() const { return m_eAnimID; }
 	void   Set_AnimIndex(ANIMID iAnimIndex) { m_eAnimID = iAnimIndex; }
-
+	void	Set_StorySplEnd() { m_bStorySplEnd = true; }
+	_bool   Get_StorySplEnd() { return m_bStorySplEnd; }
 	void   Set_SplWeapon(_bool _bTrue) { m_bSplWeapon = _bTrue; }
 	void   Reset_SplWeapon();
 	_bool  Get_SplWeapon() { return m_bSplWeapon; }
+	void	Set_Stop(_bool _bStop) { m_bStop2 = _bStop; }
+	
 private:
 	HRESULT SetUp_ShaderResources();
 	HRESULT Ready_Components();
@@ -178,6 +181,8 @@ public:
 	virtual void  Play_Scene();
 
 public:
+	void	Set_StorySpl() { m_bStorySpl = true; }
+	_bool   Get_StorySpl() { return m_bStorySpl; }
 	void Play_AkazaScene();
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:
@@ -197,13 +202,16 @@ private:
 
 	_bool					m_bSplWeapon = false;
 	_bool					m_bWeaponTurn = false;
-
+	_bool				    m_bStorySpl = false;
+	_float					m_fStoryTime = 0.f;
+	_bool					m_bStorySplEnd = false;
+	_bool					m_bStop2 = false;
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
 	void LateTickState(_float fTimeDelta);
 
-
+	void    StorySpl(_float fTimeDelta);
 private:
 	OBJDIR m_eDirection = OBJDIR::DIR_END;
 	ANIMID m_eAnimID = ANIMID::ANIM_END;
