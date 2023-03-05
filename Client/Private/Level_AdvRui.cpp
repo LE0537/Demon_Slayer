@@ -97,6 +97,7 @@ HRESULT CLevel_AdvRui::Initialize()
 		return E_FAIL;
 
 	g_bThread = true;
+	g_fLoading = 0.f;
 	g_iLevel = LEVEL_ADVRUI;
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);

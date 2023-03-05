@@ -86,7 +86,7 @@ HRESULT CLevel_AdvAkaza::Initialize()
 		return E_FAIL;
 	g_iLevel = LEVEL_ADVAKAZA;
 	g_bThread = true;
-
+	g_fLoading = 0.f;
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	pUI_Manager->Add_Loading();
 
@@ -633,11 +633,11 @@ HRESULT CLevel_AdvAkaza::Load_Map(const _tchar* pLayerTag, char * pFileName)
 HRESULT CLevel_AdvAkaza::Create_Wind(_float fTimeDelta)
 {
 	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-	if (!m_bEffect)
-	{
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_SMOKE, &XMVectorSet(-0.051f,17.682f,122.145f,1.f));
-		m_bEffect = true;
-	}
+	//if (!m_bEffect)
+	//{
+	//	pEffectManger->Create_Effect(CEffect_Manager::EFF_TRAIN_SMOKE, &XMVectorSet(-0.051f,17.682f,122.145f,1.f));
+	//	m_bEffect = true;
+	//}
 	m_fEffectTime += fTimeDelta;
 	if (m_fEffectTime > 1.f)
 	{
