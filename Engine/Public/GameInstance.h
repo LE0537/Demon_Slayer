@@ -24,7 +24,7 @@ private:
 
 public: /* For.Engine */
 	HRESULT Initialize_Engine(HINSTANCE hInst, _uint iNumLevels, const GRAPHIC_DESC& GraphicDesc, ID3D11Device** ppDevice, ID3D11DeviceContext** ppContext);
-	void Tick_Engine(_float fTimeDelta);
+	void Tick_Engine(_float fTimeDelta, _bool* _pThread);
 
 	void Clear(_uint iLevelIndex);
 	HRESULT LightClear();

@@ -164,12 +164,12 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (0 == m_hThread)
 		return E_FAIL;
 
-	g_fFar = 1800.f;
 
+	g_fFar = 1800.f;
 
 	RELEASE_INSTANCE(CUI_Manager);
 
-
+	
 	return S_OK;
 }
 
@@ -225,9 +225,9 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			else
 			{
 				pUIManager->Add_P1_PersonHpUI();
-				pUIManager->Add_P2_OniHpUI();
+				//pUIManager->Add_P2_OniHpUI();
 				pUIManager->Add_P1_Combo();
-				pUIManager->Add_P2_Combo();
+				//pUIManager->Add_P2_Combo();
 				pUIManager->Add_AdvBattleUI();
 				pUIManager->Add_AdvResult(LEVEL_GAMEPLAY);
 			}
@@ -550,14 +550,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		CSoundMgr::Get_Instance()->PlayBGM(TEXT("Battle_Rui.wav"), g_fBGM);
 		break;
 	case 8:
-		tCharacterDesc2p.i1P2P = 2;
+		tCharacterDesc2p.i1P2P = 11;
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &tCharacterDesc2p)))
 			return E_FAIL;
 		m_bCheckADVAkaza = true;
 		tCharacterDesc2p.i1P2P = 33;
 
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_ADVAkaza();
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_ADVAkaza();
 
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &tCharacterDesc2p)))
 			return E_FAIL;

@@ -221,7 +221,7 @@ void CAkaza::Tick(_float fTimeDelta)
 void CAkaza::Late_Tick(_float fTimeDelta)
 {
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	if (m_i1p == 11 && !pUIManager->Get_StroyEventEnd())
+	if (!pUIManager->Get_StroyEventEnd())
 	{
 		LateTickState(fTimeDelta);
 

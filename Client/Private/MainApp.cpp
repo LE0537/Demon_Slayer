@@ -102,7 +102,7 @@ void CMainApp::Tick(_float fTimeDelta)
 	{
 		m_pImGuiManager->Tick(fTimeDelta);
 
-		m_pGameInstance->Tick_Engine(fTimeDelta);
+		m_pGameInstance->Tick_Engine(fTimeDelta,&g_bThread);
 
 		m_fTimeAcc += fTimeDelta;
 		m_fTimeDelta = fTimeDelta;
