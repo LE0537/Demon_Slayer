@@ -228,13 +228,16 @@ void CTanjiro::Tick(_float fTimeDelta)
 		}
 	}
 
+
 	if (m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP
 		|| m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_CHANGE ||
 		m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_JUMP_ATTACK || m_pTanjiroState->Get_TanjiroState() == CTanjiroState::STATE_SKILL_KAGURA_COMMON)
 	{
 		m_tInfo.bJump = true;
 	}
-	else
+
+
+	if (m_i1p != 33)
 	{
 
 		_float4 vPos;
@@ -336,6 +339,10 @@ void CTanjiro::Tick(_float fTimeDelta)
 		}
 
 	}
+
+
+
+
 }
 
 void CTanjiro::Late_Tick(_float fTimeDelta)

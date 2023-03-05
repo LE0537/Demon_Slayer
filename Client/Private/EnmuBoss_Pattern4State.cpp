@@ -176,12 +176,21 @@ CEnmuBossState * CEnmuBoss_Pattern4State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 
 			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
 			{
+				CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+				_vector vTargetPos = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Transform()->Set_PlayerLookAt(vTargetPos);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASH, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Get_WeaponWorld());
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_GROUND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]));
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_HAND, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Get_WeaponWorld());
+				pEnmuBoss->Set_Position(vTargetPos);
 			}
 			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
 			{
+				CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+				_vector vTargetPos = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+				pEnmuBoss->Set_Position(vTargetPos);
+				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Transform()->Set_PlayerLookAt(vTargetPos);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASH, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_GROUND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_HAND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
@@ -270,10 +279,7 @@ void CEnmuBoss_Pattern4State::Enter(CEnmuBoss * pEnmuBoss)
 		// RIGHT_HAND
 		if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
 	{
-		CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-		_vector vTargetPos = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Transform()->Set_PlayerLookAt(vTargetPos);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Transform()->Set_PlayerLookAt(pEnmuBoss->Get_Position());
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Reset_Anim(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_2);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Set_AnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_2);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_2);
@@ -284,9 +290,7 @@ void CEnmuBoss_Pattern4State::Enter(CEnmuBoss * pEnmuBoss)
 	else if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
 	{
 		CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-		_vector vTargetPos = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Transform()->Set_PlayerLookAt(vTargetPos);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Transform()->Set_PlayerLookAt(pEnmuBoss->Get_Position());
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Reset_Anim(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_2);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Set_AnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN4_2);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN4_2);

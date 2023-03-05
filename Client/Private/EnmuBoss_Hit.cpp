@@ -45,6 +45,9 @@ CEnmuBossState * CEnmuBoss_Hit::Tick(CEnmuBoss * pEnmuBoss, _float fTimeDelta)
 			return new CEnmuBoss_Hit(STATE_TYPE::TYPE_END, m_eParts);
 		break;
 	case Client::CEnmuBossState::TYPE_END:
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Set_GodMode(true);
+		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Set_GodMode(true);
+
 		if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Get_End(5))
 		{
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_End(5);

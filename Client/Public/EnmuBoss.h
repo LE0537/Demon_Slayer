@@ -45,7 +45,8 @@ public:
 	void Set_Start(_bool _bStart) { m_bStart = _bStart; }
 
 	_uint Get_BossState();
-
+	void Set_Position(_fvector vPosition) { m_vTargetPosition = vPosition; }
+	_vector Get_Position() const { return m_vTargetPosition; }
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);
@@ -60,6 +61,7 @@ private:
 
 	_bool m_bStart = false;
 	_float m_fTime = 0.f;
+	_vector m_vTargetPosition;
 public:
 	virtual void Free() override;
 };
