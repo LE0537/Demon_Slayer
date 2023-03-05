@@ -77,6 +77,9 @@ int			g_iMotionBlurY;
 float			g_fMotionBlurPowerX;
 float			g_fMotionBlurPowerY;
 
+float			g_fShadowPower;
+float			g_fRayTestLength;
+
 const float		g_fWeight[13] =
 {
 	0.0561f, 0.1353f, 0.278f, 0.4868f, 0.7261f, 0.9231f, 1.0f,
@@ -260,15 +263,15 @@ PS_OUT_LIGHT PS_MAIN_LIGHT_DIRECTIONAL(PS_IN In)
 	{
 		float fDot = (step(g_fPlayerShadowValue, saturate(dot(normalize(g_vLightDir) * -1.f, normalize(vNormal)))) * 0.7f) + 0.3f;
 
-
-		Out.vShade = g_vLightDiffuse * ((fDot + 0.4f) + (g_vLightAmbient * g_vMtrlAmbient));
+		vector	vPlayerLightAmbient = 0.4f;
+		Out.vShade = g_vLightDiffuse * ((fDot + 0.4f) + (vPlayerLightAmbient * g_vMtrlAmbient));
 	}
 	else
 	{
 		float fDot = saturate(dot(normalize(g_vLightDir) * -1.f, normalize(vNormal)));
 
 
-		Out.vShade = g_vLightDiffuse * g_fEnvLightValue * ((fDot + 0.4f) + (g_vLightAmbient * g_vMtrlAmbient));
+		Out.vShade = g_vLightDiffuse * g_fEnvLightValue * ((fDot) + (g_vLightAmbient * g_vMtrlAmbient));
 		//Out.vShade = g_vLightDiffuse * g_fEnvLightValue * (saturate(dot(normalize(g_vLightDir2) * -1.f, normalize(vNormal))) + (g_vLightAmbient * g_vMtrlAmbient));
 	}
 
@@ -368,22 +371,22 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	vector			vWorldPos = vWorld;
 
-	/* 투영 공간상의 위치를 구했다. */
-	/* 투영 공간 == 로컬점의위치 * 월드행렬 * 뷰행렬 * 투영행렬 / w */
-	vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
-	vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
-	vWorldPos.z = vDepthDesc.r;
-	vWorldPos.w = 1.0f;
-
-	/* 로컬점의위치 * 월드행렬 * 뷰행렬 * 투영행렬 */
-	vWorldPos *= fViewZ;
-
-	/* 뷰 공간상의 위치르 ㄹ구한다. */
-	/* 로컬점의위치 * 월드행렬 * 뷰행렬  */
-	vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
-
-	/* 로컬점의위치 * 월드행렬   */
-	vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
+	///* 투영 공간상의 위치를 구했다. */
+	///* 투영 공간 == 로컬점의위치 * 월드행렬 * 뷰행렬 * 투영행렬 / w */
+	//vWorldPos.x = In.vTexUV.x * 2.f - 1.f;
+	//vWorldPos.y = In.vTexUV.y * -2.f + 1.f;
+	//vWorldPos.z = vDepthDesc.r;
+	//vWorldPos.w = 1.0f;
+	//
+	///* 로컬점의위치 * 월드행렬 * 뷰행렬 * 투영행렬 */
+	//vWorldPos *= fViewZ;
+	//
+	///* 뷰 공간상의 위치르 ㄹ구한다. */
+	///* 로컬점의위치 * 월드행렬 * 뷰행렬  */
+	//vWorldPos = mul(vWorldPos, g_ProjMatrixInv);
+	//
+	///* 로컬점의위치 * 월드행렬   */
+	//vWorldPos = mul(vWorldPos, g_ViewMatrixInv);
 
 
 	vector		vWorldPos_Every = mul(vWorldPos, g_matLightView);
@@ -412,8 +415,8 @@ PS_OUT PS_MAIN_BLEND(PS_IN In)
 
 	vector	vPlayer = g_PlayerTexture.Sample(LinearSampler, In.vTexUV);
 	bool		bPlayerDrew = all(vPlayer.a);		//	Player를 그리면 1
-	Out.vColor -= max(step(vShadowDepthInfo_Once.x * g_fFar, vWorldPos_Once.z - 0.1f) * vector(0.2f, 0.2f, 0.2f, 0.f),
-		step(vShadowDepthInfo.x * g_fFar, vWorldPos_Every.z - g_fShadowTestLength) * vector(0.2f, 0.2f, 0.2f, 0.f) * (1.f - bPlayerDrew));
+	Out.vColor -= max(step(vShadowDepthInfo_Once.x * g_fFar, vWorldPos_Once.z - g_fShadowTestLength) * g_fShadowPower,
+		step(vShadowDepthInfo.x * g_fFar, vWorldPos_Every.z - g_fShadowTestLength) * g_fShadowPower * (1.f - bPlayerDrew));
 
 
 	//=============================  Fog  =============================
@@ -682,14 +685,16 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 	//	vector		vViewPos_InLight = mul(vWorldPos, g_matLightView);
 	//	matrix		matLightVP = mul(g_matLightView, g_matLightProj);
 
-	float		fNumSamples = 120.f;
+	float		fNumSamples = min(120.f, length(vWorldPos - g_vCamPosition) / g_fRayTestLength);
 	int			iValue = fNumSamples;
 
 	vector		vLightDir = -g_vLightPos;
 
 	for (int i = 0; i < fNumSamples; ++i)
 	{
-		vector		vRayPos = vWorldPos + (i * normalize(g_vCamPosition - vWorldPos) * 0.2f);
+		vector		vRayPos = g_vCamPosition + (i * normalize(vWorldPos - g_vCamPosition) * g_fRayTestLength);
+		//vector		vRayPos = vWorldPos + (i * normalize(g_vCamPosition - vWorldPos) * g_fRayTestLength);
+
 		vector		vWorldPos_InLight = mul(vRayPos, g_matLightView);
 
 		vector		vUVPos = mul(vWorldPos_InLight, g_StaticShadowProj);
@@ -704,9 +709,9 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 		}
 	}
 
-	float		fLightPower = 0.3f;
+	float		fLightPower = 0.3f * all(vWorldPos.a);
 
-	iValue = max(0, iValue);
+	iValue = min(max(0, iValue), fNumSamples / 3.f);
 
 	Out.vColor.rgb = fLightPower * (iValue / fNumSamples);
 	Out.vColor.a = 1.f;

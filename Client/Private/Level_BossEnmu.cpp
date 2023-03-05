@@ -120,7 +120,7 @@ HRESULT CLevel_BossEnmu::Initialize()
 		return E_FAIL;
 	}
 
-	_float fValue[CRenderer::VALUE_END] = { 0.25f, 0.35f ,0.6f ,1.f ,370.f ,1.f ,0.85f ,1.36f,0.4f,1.f,20.f,20.f,0.07f,1.2f,0.1f,0.6f,0.1f,0.3f,15.f,0.f,0.f };
+	_float fValue[CRenderer::VALUE_END] = { 0.25f, 0.35f ,0.6f ,1.f ,370.f ,1.f ,0.85f ,1.36f,0.4f,1.f,20.f,20.f,0.07f,1.2f,0.1f,0.5f, 2.f, 0.6f,0.1f,0.3f,15.f,0.f,0.f ,0.07f};
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.25f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.35f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.6f);
@@ -136,10 +136,13 @@ HRESULT CLevel_BossEnmu::Initialize()
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.07f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.2f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.1f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_TESTLENGTH), 0.5f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_MINUS), 2.f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.6f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 0.1f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
 	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
+	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWPOWER), 0.07f);
 	m_pRendererCom->Set_Far(g_fFar);
 
 	for (_int i = 0; i < CRenderer::VALUE_END; ++i)

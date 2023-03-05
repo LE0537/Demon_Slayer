@@ -460,15 +460,15 @@ HRESULT CMeshInstance::Bin_Create_VertexBuffer_NonAnimModel(DATA_BINMESH * pAIMe
 	for (_uint i = 0; i < m_iNumVertices; ++i)
 	{
 		pVertices[i] = pAIMesh->pNonAnimVertices[i];
-		memcpy(&pVertices[i].vPosition, &pAIMesh->pNonAnimVertices[i], sizeof(_float3));
+		memcpy(&pVertices[i].vPosition, &pAIMesh->pNonAnimVertices[i].vPosition, sizeof(_float3));
 		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
 
-		memcpy(&pVertices[i].vNormal, &pAIMesh->pNonAnimVertices[i], sizeof(_float3));
+		memcpy(&pVertices[i].vNormal, &pAIMesh->pNonAnimVertices[i].vNormal, sizeof(_float3));
 		XMStoreFloat3(&pVertices[i].vNormal, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix));
-		/*
-		memcpy(&pVertices[i].vTexUV, &pAIMesh->mTextureCoords[0][i], sizeof(_float2));
-		memcpy(&pVertices[i].vTangent, &m_pAIMesh->mTangents[i], sizeof(_float3));
-		*/
+		
+		memcpy(&pVertices[i].vTexUV, &pAIMesh->pNonAnimVertices[i].vTexUV, sizeof(_float2));
+		memcpy(&pVertices[i].vTangent, &pAIMesh->pNonAnimVertices[i].vTangent, sizeof(_float3));
+		
 	}
 
 	ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));

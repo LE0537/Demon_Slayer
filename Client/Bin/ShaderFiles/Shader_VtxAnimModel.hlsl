@@ -9,6 +9,10 @@ matrix			g_BoneMatrices[630];
 
 float		g_fFar;
 
+texture2D		g_DissolveTexture;
+vector			g_vDissolveColor;
+float			g_fDeadTimeRatio;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -186,9 +190,9 @@ PS_OUT PS_NORMAL(PS_NORMALIN In)
 
 	vNormal = vNormal * 2.f - 1.f;
 
-	float3x3	WorldMatrix = float3x3(In.vTangent, In.vBinormal, vNormal);
+	float3x3	WorldMatrix = float3x3(In.vTangent, In.vBinormal, In.vNormal.xyz);
 
-	vNormal = mul(In.vNormal, WorldMatrix);
+	vNormal = mul(vNormal, WorldMatrix);
 
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(vNormal * 0.5f + 0.5f, 0.f);
@@ -228,6 +232,27 @@ PS_OUT PS_MASK(PS_IN In)
 	
 	return Out;
 }
+
+PS_OUT PS_DISSOLVE(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	
+	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fFar, 0.f, 0.1f);
+	Out.vDrawPlayer = Out.vDiffuse;
+	Out.vWorld = In.vWorld /*/ g_fFar*/;
+
+	Out.vDiffuse.a = (g_DissolveTexture.Sample(LinearSampler, In.vTexUV)).r - g_fDeadTimeRatio;
+	float	fTest = pow(1.f - Out.vDiffuse.a, 7);
+	Out.vDiffuse.rgb += fTest;
+
+	if (Out.vDiffuse.a <= 0.01f)
+		discard;
+
+	return Out;
+}
+
 technique11 DefaultTechnique
 {
 	pass Default //0

@@ -238,6 +238,12 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	ImGui::DragFloat("LightShaft", &m_fPostProcessingValue[CRenderer::VALUE_LIGHTSHAFT], 0.001f, -3.f, 10.f, "%.3f");
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("LightShaft_TestLength", &m_fPostProcessingValue[CRenderer::VALUE_LIGHTSHAFT_TESTLENGTH], 0.02f, 0.01f, 10.f, "%.2f");
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("LightShaft_Minus", &m_fPostProcessingValue[CRenderer::VALUE_LIGHTSHAFT_MINUS], 1.f, 1.f, 20.f, "%.1f");
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
 	ImGui::DragFloat("LightPower", &m_fPostProcessingValue[CRenderer::VALUE_LIGHTPOWER], 0.001f, -3.f, 10.f, "%.3f");
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
@@ -248,6 +254,10 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
 	ImGui::DragFloat("MapGrayScaleMaxTime", &m_fPostProcessingValue[CRenderer::VALUE_MAPGRAYSCALETIME], 0.1f, 0.f, 100.f, "%.1f");
+
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.60f);
+	ImGui::DragFloat("Shadow power", &m_fPostProcessingValue[CRenderer::VALUE_SHADOWPOWER], 0.001f, 0.f, 1.f, "%.3f");
+
 	if (0.f > m_fPostProcessingValue[CRenderer::VALUE_MAPGRAYSCALETIME])
 		m_fPostProcessingValue[CRenderer::VALUE_MAPGRAYSCALETIME] = 0.f;
 
@@ -275,8 +285,13 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	static _float3	vLightColor = _float3(0.f, 0.f, 0.f);
 	static _float3	vLightPower = _float3(0.f, 0.f, 0.f);
 	static _float3	vLightSpecular = _float3(0.f, 0.f, 0.f);
+
 	static _float4 vPlayerShadowLightPos = _float4(0.f, 0.f, 0.f, 0.f);
 	static _float4 vPlayerShadowLighAt = _float4(0.f, 0.f, 0.f, 0.f);
+	static _float4 vPlayerFol_ShadowLightPos = _float4(0.f, 0.f, 0.f, 0.f);
+	static _float4 vPlayerFol_ShadowLighAt = _float4(0.f, 0.f, 0.f, 0.f);
+	static _float4 vObjectShadowLightPos = _float4(0.f, 0.f, 0.f, 0.f);
+	static _float4 vObjectShadowLighAt = _float4(0.f, 0.f, 0.f, 0.f);
 
 	//	Level Change
 	static _int		iPreLevel = LEVEL_STATIC;
@@ -290,11 +305,23 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 			vDirLightPower = *(_float3*)&pDirectionalLightDesc->vAmbient;
 			vDirLightSpecular = *(_float3*)&pDirectionalLightDesc->vSpecular;
 		}
-		const LIGHTDESC* pPlayerShadowDesc = pGameInstance->Get_LightDesc(_int(LIGHTDESC::TYPE_BATTLESHADOW));
+		const LIGHTDESC* pPlayerShadowDesc = pGameInstance->Get_ShadowLightDesc(_int(LIGHTDESC::TYPE_RUISHADOW));
 		if (nullptr != pPlayerShadowDesc)
 		{
 			vPlayerShadowLightPos = pPlayerShadowDesc->vDirection;
 			vPlayerShadowLighAt = pPlayerShadowDesc->vDiffuse;
+		}
+		const LIGHTDESC* pPlayerFol_ShadowDesc = pGameInstance->Get_ShadowLightDesc(_int(LIGHTDESC::TYPE_FIELDSHADOW));
+		if (nullptr != pPlayerFol_ShadowDesc)
+		{
+			vPlayerFol_ShadowLightPos = pPlayerFol_ShadowDesc->vDirection;
+			vPlayerFol_ShadowLighAt = pPlayerFol_ShadowDesc->vDiffuse;
+		}
+		const LIGHTDESC* pObjectShadowDesc = pGameInstance->Get_ShadowLightDesc(_int(LIGHTDESC::TYPE_BATTLESHADOW));
+		if (nullptr != pObjectShadowDesc)
+		{
+			vObjectShadowLightPos = pObjectShadowDesc->vDirection;
+			vObjectShadowLighAt = pObjectShadowDesc->vDiffuse;
 		}
 
 		iPreLevel = g_iLevel;
@@ -302,6 +329,7 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 
 
 
+	ImGui::Text("Directional Light");
 	ImGui::DragFloat3("Dir Light Dir", &vDirLightDir.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
 	ImGui::DragFloat3("Dir Light Color", &vDirLightColor.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
 	ImGui::DragFloat3("Dir Light Power", &vDirLightPower.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
@@ -326,6 +354,7 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 
 
 
+	ImGui::Text("Point Light");
 	ImGui::DragFloat3("Light Pos", &vLightPosition.x, 2.f, -2000.f, 2000.f, "%.1f", window_flags);
 	ImGui::DragFloat("Light Range", &fLightRange, 0.2f, 0.f, 5000.f, "%.2f", window_flags);
 	ImGui::DragFloat3("Light Color", &vLightColor.x, 0.001f, 0.f, 1.f, "%.3f", window_flags);
@@ -439,18 +468,34 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 
 
 
+	ImGui::Text("Player NonFollow Light");
 	const LIGHTDESC* pPlayerShadowLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
 	if (nullptr != pPlayerShadowLightDesc)
 	{
 		LIGHTDESC tLightDesc = *pPlayerShadowLightDesc;
 		memcpy(&vPlayerShadowLightPos, &tLightDesc.vDirection.x, sizeof(_float4));
-		_vector vLook = XMVectorSetW(XMLoadFloat4(&tLightDesc.vDiffuse) - XMLoadFloat3(&vDirLightDir), 1.f);
+		_vector vLook = XMVectorSetW(XMLoadFloat4(&tLightDesc.vDiffuse) + XMLoadFloat3(&vDirLightDir), 1.f);
 		memcpy(&vPlayerShadowLighAt, &vLook, sizeof(_float4));
 
 		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.8f);
-		ImGui::DragFloat3("Player Shadow pos", &vPlayerShadowLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");
+		ImGui::DragFloat3("Player(NonFol) Shadow pos", &vPlayerShadowLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");
 
 		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW, vPlayerShadowLightPos, vPlayerShadowLighAt);
+	}
+
+	ImGui::Text("Player Follow Light");
+	const LIGHTDESC* pPlayerFolShadowLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW);
+	if (nullptr != pPlayerFolShadowLightDesc)
+	{
+		LIGHTDESC tLightDesc = *pPlayerFolShadowLightDesc;
+		memcpy(&vPlayerShadowLightPos, &tLightDesc.vDirection.x, sizeof(_float4));
+		_vector vLook = XMVectorSetW(XMLoadFloat4(&tLightDesc.vDiffuse) + XMLoadFloat3(&vDirLightDir), 1.f);
+		memcpy(&vPlayerShadowLighAt, &vLook, sizeof(_float4));
+
+		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.8f);
+		ImGui::DragFloat3("Player(NonFol) Shadow pos", &vPlayerShadowLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");
+
+		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW, vPlayerShadowLightPos, vPlayerShadowLighAt);
 	}
 
 
@@ -459,20 +504,19 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 
 
 
-	static _float4 vShadowLightPos = _float4(0.f, 0.f, 0.f, 0.f);
-	static _float4 vShadowLighAt = _float4(0.f, 0.f, 0.f, 0.f);
+	ImGui::Text("Objects Light");
 	const LIGHTDESC* pShadowLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW);
 	if (nullptr != pShadowLightDesc)
 	{
 		LIGHTDESC tLightDesc = *pShadowLightDesc;
-		memcpy(&vShadowLightPos, &tLightDesc.vDirection.x, sizeof(_float4));
-		_vector vLook = XMVectorSetW(XMLoadFloat4(&tLightDesc.vDiffuse) - XMLoadFloat3(&vDirLightDir), 1.f);
+		memcpy(&vObjectShadowLightPos, &tLightDesc.vDirection.x, sizeof(_float4));
+		_vector vLook = XMVectorSetW(XMLoadFloat4(&tLightDesc.vDiffuse) + XMLoadFloat3(&vDirLightDir), 1.f);
 		memcpy(&vPlayerShadowLighAt, &vLook, sizeof(_float4));
 
 		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.8f);
-		ImGui::DragFloat3("Shadow pos", &vShadowLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");
+		ImGui::DragFloat3("Shadow pos", &vObjectShadowLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");
 
-		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, vShadowLightPos, vShadowLighAt);
+		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW, vObjectShadowLightPos, vObjectShadowLighAt);
 	}
 
 
