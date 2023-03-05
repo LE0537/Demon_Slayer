@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "..\Public\KyoujuroAkazaScene.h"
 #include "GameInstance.h"
-
+#include "KyoujuroIdleState.h"
 
 using namespace Kyoujuro;
 
@@ -33,6 +33,7 @@ CKyoujuroState * CKyoujuroAkazaScene::Tick(CKyoujuro * pKyoujuro, _float fTimeDe
 			pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_IDLE, 0.01f);
 			pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_IDLE);
 			pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_IDLE, true);
+			return new CIdleState();
 		}
 
 		break;

@@ -17,6 +17,8 @@
 #include "Effect_Manager.h"
 #include "ImGuiManager.h"
 #include "Layer.h"
+#include "Kyoujuro.h"
+#include "Akaza.h"
 unsigned int APIENTRY Thread_GamePlay(void* pArg)
 {
 	CLevel_GamePlay*		pLoader = (CLevel_GamePlay*)pArg;
@@ -237,7 +239,17 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			}
 			else if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && pUIManager->Get_2P()->Get_PlayerInfo().strName == TEXT("¾ÆÄ«ÀÚ"))
 			{
-				m_fNextLevelTime += fTimeDelta;
+				if(pUIManager->Get_StroyEventEnd())
+					m_fNextLevelTime += fTimeDelta;
+
+				if (!m_bCinemaEnd)
+				{
+					CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CAkaza*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Akaza"))->Get_LayerFront())->Set_AiMode(false);
+					dynamic_cast<CKyoujuro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Kyoujuro"))->Get_LayerFront())->Set_StorySpl();
+					RELEASE_INSTANCE(CGameInstance);
+					m_bCinemaEnd = true;
+				}
 				if (m_fNextLevelTime > 15.f && !pUIManager->Get_AdvResult())
 					pUIManager->Set_FadeIn();
 				else if (pUIManager->Get_AdvResult())

@@ -34,6 +34,8 @@
 #include "Enmu_Left_Hand.h"
 #include "Enmu_Chok.h"
 #include "Enmu_ChokChok.h"
+#include "AkazaBody.h"
+#include "AkazaLeg.h"
 //parts
 #include "KyoujuroWeapon.h"
 #include "KyoujuroSheath.h"
@@ -1872,12 +1874,19 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		COzaki::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
-	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Goto"),
-	//	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Goto/Goto.fbx", PivotMatrix))))
-	//	return E_FAIL;
 	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Goto"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Goto"),
 		CGoto::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("AkazaBody"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AkazaBody"),
+		CAkazaBody::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("AkazaLeg"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_AkazaLeg"),
+		CAkazaLeg::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 
 	/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_RuiSister"),
