@@ -36,8 +36,11 @@ HRESULT CAkazaBody::Initialize(void * pArg)
 
 
 	_vector vPos = *(_vector*)pArg;
+	vPos.m128_f32[1] += 0.3f;
+	m_vOriginPosition = vPos;
+	vPos.m128_f32[1] += 20.f;
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	m_pTransformCom->Turn2(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(90.f));
+	m_pTransformCom->Turn2(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(180.f));
 
 	m_pModelCom->Set_CurrentAnimIndex(0);
 
@@ -46,10 +49,30 @@ HRESULT CAkazaBody::Initialize(void * pArg)
 
 void CAkazaBody::Tick(_float fTimeDelta)
 {
+	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	if (pGameInstance->Key_Down(DIK_T))
+	{
+		vPos.m128_f32[1] = m_vOriginPosition.m128_f32[1] + 20.f;
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+ 	}
+	RELEASE_INSTANCE(CGameInstance);
+	m_DelayTime += fTimeDelta;
+	if (m_DelayTime > 4.f)
+	{
+		if (vPos.m128_f32[1] > m_vOriginPosition.m128_f32[1])
+		{
+			vPos.m128_f32[1] -= 25.f * fTimeDelta;
+			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		}
+	}
 	m_pModelCom->Play_Animation(fTimeDelta);
 
 	HandleInput();
 	TickState(fTimeDelta);
+
+	
 
 }
 

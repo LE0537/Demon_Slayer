@@ -111,7 +111,8 @@ void CUpperHitState::Enter(CAkaza* pAkaza)
 			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Zoom(CCamera_Dynamic::ZOOM_LOW);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstanceCam->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Blur_Low(pAkaza->Get_Renderer());
 			RELEASE_INSTANCE(CGameInstance);
-			g_bDeathTime = true;
+		
+			//	g_bDeathTime = true;
 		}
 		break;
 	case Client::CAkazaState::TYPE_LOOP:

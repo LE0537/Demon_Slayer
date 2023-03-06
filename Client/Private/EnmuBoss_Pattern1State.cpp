@@ -226,6 +226,8 @@ void CEnmuBoss_Pattern1State::Enter(CEnmuBoss * pEnmuBoss)
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_Loop(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN1_0);
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN1_0, 0.1f);
 		}
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_MoveSkill.wav"), g_fEffect);
+		CSoundMgr::Get_Instance()->PlayVoice(TEXT("BossEnmu_Pattern_0.wav"), g_fVoice);
 		break;
 	case Client::CEnmuBossState::TYPE_LOOP:
 		// RIGHT_HAND

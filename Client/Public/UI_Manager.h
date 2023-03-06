@@ -436,7 +436,7 @@ private:
 	
 	_bool							m_bAdvMenuSelCheck = false;
 
-	_bool							m_bLevelResultOn = false;
+	_bool							m_bLevelResultOn = false; 
 	_bool							m_bLevelMenu = false;
 
 	_bool							m_bBattleTypeCheck = false;

@@ -225,9 +225,9 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			else
 			{
 				pUIManager->Add_P1_PersonHpUI();
-				//pUIManager->Add_P2_OniHpUI();
+				pUIManager->Add_P2_OniHpUI();
 				pUIManager->Add_P1_Combo();
-				//pUIManager->Add_P2_Combo();
+				pUIManager->Add_P2_Combo();
 				pUIManager->Add_AdvBattleUI();
 				pUIManager->Add_AdvResult(LEVEL_GAMEPLAY);
 			}
@@ -260,7 +260,7 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 					return;
 				}
 			}
-			else if(pUIManager->Get_StroyEventEnd())
+			else if(pUIManager->Get_StroyEventEnd() && pUIManager->Get_2P()->Get_PlayerInfo().strName == TEXT("·çÀÌ"))
 			{
 				m_fNextLevelTime += fTimeDelta;
 				if (m_fNextLevelTime > 15.f && !pUIManager->Get_AdvResult())
@@ -285,8 +285,9 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 					dynamic_cast<CKyoujuro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Kyoujuro"))->Get_LayerFront())->Set_StorySpl();
 					RELEASE_INSTANCE(CGameInstance);
 					m_bCinemaEnd = true;
+					g_bDeathTime = false;
 				}
-				if (m_fNextLevelTime > 15.f && !pUIManager->Get_AdvResult())
+				if (m_fNextLevelTime > 12.f && !pUIManager->Get_AdvResult())
 					pUIManager->Set_FadeIn();
 				else if (pUIManager->Get_AdvResult())
 				{

@@ -20,6 +20,30 @@ CKyoujuro_CinemaState::CKyoujuro_CinemaState(CINEMASCENE eScene)
 CKyoujuroState * CKyoujuro_CinemaState::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CKyoujuroState* pState = nullptr;
+	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	if(pGameInstance->Key_Down(DIK_F3))
+		pState = new CKyoujuro_CinemaState(SCENE_START);
+	if (pGameInstance->Key_Down(DIK_F4))
+		pState = new CKyoujuro_CinemaState(SCENE_0);
+	if (pGameInstance->Key_Down(DIK_F5))
+		pState = new CKyoujuro_CinemaState(SCENE_1);
+	if (pGameInstance->Key_Down(DIK_F6))
+		pState = new CKyoujuro_CinemaState(SCENE_2);
+	if (pGameInstance->Key_Down(DIK_F7))
+		pState = new CKyoujuro_CinemaState(SCENE_3);
+	if (pGameInstance->Key_Down(DIK_F8))
+		pState = new CKyoujuro_CinemaState(SCENE_4);
+	if (pGameInstance->Key_Down(DIK_F9))
+		pState = new CKyoujuro_CinemaState(SCENE_5);
+	if (pGameInstance->Key_Down(DIK_CAPSLOCK))
+		pState = new CKyoujuro_CinemaState(SCENE_6);
+	if (pGameInstance->Key_Down(DIK_PGUP))
+		pState = new CKyoujuro_CinemaState(SCENE_7);
+	if (pGameInstance->Key_Down(DIK_PGDN))
+		pState = new CKyoujuro_CinemaState(SCENE_8);
+
+	RELEASE_INSTANCE(CGameInstance);*/
+
 
 	return pState;
 }
@@ -123,6 +147,10 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_SPLSKL_END);
 
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_AKAZA_DEAD);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+			RELEASE_INSTANCE(CGameInstance);
 			return new CIdleState();
 		}
 		break;

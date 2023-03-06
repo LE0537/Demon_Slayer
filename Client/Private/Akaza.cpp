@@ -206,9 +206,9 @@ void CAkaza::Tick(_float fTimeDelta)
 
 			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AkazaLeg"), LEVEL_GAMEPLAY, TEXT("Layer_AkazaBody"), &vPos)))
 				return;
-			vPos.m128_f32[0] -= 5.f;
+			vPos.m128_f32[0] += 5.f;
 			vPos.m128_f32[1] += 0.5f;
-			vPos.m128_f32[2] -= 5.f;
+			vPos.m128_f32[2] += 5.f;
 			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AkazaBody"), LEVEL_GAMEPLAY, TEXT("Layer_AkazaBody"), &vPos)))
 				return ;
 		
