@@ -236,9 +236,19 @@ PS_OUT PS_MASK(PS_IN In)
 	return Out;
 }
 
-PS_OUT PS_DISSOLVE(PS_IN In)
+struct PS_GLOWOUT
 {
-	PS_OUT		Out = (PS_OUT)0;
+	float4		vDiffuse : SV_TARGET0;
+	float4		vNormal : SV_TARGET1;
+	float4		vDepth : SV_TARGET2;
+	float4		vGlow : SV_TARGET3;
+	float4		vDrawPlayer : SV_TARGET4;	//	Player, AnimMode 혹은 Effect 를 따로 그려둠.
+	float4		vWorld : SV_TARGET5;
+};
+
+PS_GLOWOUT PS_ONI_DISSOLVE(PS_IN In)
+{
+	PS_GLOWOUT		Out = (PS_OUT)0;
 	
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
@@ -247,8 +257,13 @@ PS_OUT PS_DISSOLVE(PS_IN In)
 	Out.vWorld = In.vWorld /*/ g_fFar*/;
 
 	Out.vDiffuse.a = (g_DissolveTexture.Sample(LinearSampler, In.vTexUV)).r - g_fDeadTimeRatio;
-	float	fTest = pow(1.f - Out.vDiffuse.a, 7);
-	Out.vDiffuse.rgb += fTest;
+	float	fDissolvingValue = Out.vDiffuse.a + 0.1f;
+	
+	if (Out.vDiffuse.a < fDissolvingValue)
+	{
+		Out.vDiffuse.rgb = float3(1.f, 0.3f, 0.f);
+		Out.vGlow = float3(1.f, 1.f, 0.f);
+	}
 
 	if (Out.vDiffuse.a <= 0.01f)
 		discard;
@@ -308,5 +323,15 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_RUI();
+	}
+	pass Oni_Dissolve	//	5
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_ONI_DISSOLVE();
 	}
 }
