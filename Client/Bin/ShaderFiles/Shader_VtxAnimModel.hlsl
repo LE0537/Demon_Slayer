@@ -248,7 +248,7 @@ struct PS_GLOWOUT
 
 PS_GLOWOUT PS_ONI_DISSOLVE(PS_IN In)
 {
-	PS_GLOWOUT		Out = (PS_OUT)0;
+	PS_GLOWOUT		Out = (PS_GLOWOUT)0;
 	
 	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
@@ -262,7 +262,8 @@ PS_GLOWOUT PS_ONI_DISSOLVE(PS_IN In)
 	if (Out.vDiffuse.a < fDissolvingValue)
 	{
 		Out.vDiffuse.rgb = float3(1.f, 0.3f, 0.f);
-		Out.vGlow = float3(1.f, 1.f, 0.f);
+		Out.vGlow.rgb = float3(1.f, 1.f, 0.f);
+		Out.vGlow.a = 1.f;
 	}
 
 	if (Out.vDiffuse.a <= 0.01f)
