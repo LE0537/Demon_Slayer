@@ -195,6 +195,7 @@ void CEffect_Particle_New::Set_ParticleInfo(PARTICLE_INFO ParticleInfo)
 
 	_matrix mtrParents = XMLoadFloat4x4(&m_pParents->Get_CombinedWorldMatrix());
 	XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
+	XMStoreFloat4x4(&m_ParentsMtr, mtrParents);
 
 	m_pVIBufferCom->Reset(m_ParticleInfo.iMaxParticleNumber, m_ParticleInfo.fLifeTime, m_ParticleInfo.fSpeed, m_ParticleInfo.vParticleSize, m_ParticleInfo.iShape, m_ParticleInfo.fAngle,
 		m_ParticleInfo.fRadius, m_ParticleInfo.vSize, m_ParticleInfo.vParticleRotation, m_ParticleInfo.vColor, m_ParticleInfo.fDuration, m_ParticleInfo.fShotTime, m_ParticleInfo.iOneParticleNumber

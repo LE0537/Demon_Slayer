@@ -341,6 +341,30 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASH2:
 	case CEffect_Manager::EFF_TRAIN_WIND:
 	case CEffect_Manager::EFF_TRAIN_SMOKE:
+	case CEffect_Manager::EFF_SPL_AKA_MO1_HIT:
+	case CEffect_Manager::EFF_SPL_AKA_MO2_GROUND:
+	case CEffect_Manager::EFF_SPL_AKA_MO3_GROUND:
+	case CEffect_Manager::EFF_SPL_AKA_MO5_DASH1:
+	case CEffect_Manager::EFF_SPL_AKA_MO5_HAND1:
+	case CEffect_Manager::EFF_SPL_AKA_MO5_HIT1:
+	case CEffect_Manager::EFF_SPL_AKA_MO5_HIT2:
+	case CEffect_Manager::EFF_SPL_AKA_MO5_KICK1:
+	case CEffect_Manager::EFF_SPL_AKA_MO5_RUN1:
+	case CEffect_Manager::EFF_SPL_AKA_MO6_PROJ1:
+	case CEffect_Manager::EFF_SPL_AKA_MO6_SLASH1:
+	case CEffect_Manager::EFF_SPL_AKA_MO6_SLASH2:
+	case CEffect_Manager::EFF_SPL_AKA_MO7_BACKLIGHT:
+	case CEffect_Manager::EFF_SPL_AKA_MO7_BG1:
+	case CEffect_Manager::EFF_SPL_AKA_MO7_BG2:
+	case CEffect_Manager::EFF_SPL_AKA_MO7_HAND:
+	case CEffect_Manager::EFF_SPL_AKA_MO7_HAND2:
+	case CEffect_Manager::EFF_SPL_AKA_MO7_HAND3:
+	case CEffect_Manager::EFF_SPL_AKA_MO7_PROJ1:
+	case CEffect_Manager::EFF_SPL_AKA_MO8_BG1:
+	case CEffect_Manager::EFF_SPL_AKA_MO8_HAND1:
+	case CEffect_Manager::EFF_SPL_AKA_MO8_PROJ1:
+	case CEffect_Manager::EFF_SPL_AKA_MO9_AURA1:
+	case CEffect_Manager::EFF_SPL_AKA_MO9_BG1:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			if (m_bLateStart) {
 				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {

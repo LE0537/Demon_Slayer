@@ -1011,7 +1011,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 107))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 108))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -1034,6 +1034,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Tanjiro_Hinokami_Action", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Rui_Action", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Rengoku_Action", "../Bin/Resources/Effect/Texture/");
+		Load_Texture("Akaza_Action", "../Bin/Resources/Effect/Texture/");
 
 		Load_Texture("Shock", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Slash", "../Bin/Resources/Effect/Mesh/MeshTexture/");
@@ -1794,6 +1795,32 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Hand"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Wind"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Flash"));
+
+		//아카자 오의
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion1_Hit"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion2_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion3_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Dash1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Hand1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Hit1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Hit2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Kick1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Run1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion6_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion6_Slash1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion6_Slash2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_BackLight"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_BG2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_Hand"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_Hand2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_Hand3"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion8_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion8_Hand1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion8_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_Aura1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_BG1"));
 
 		pEffect_Manager->Load_Effect(TEXT("Train_Smoke"));
 		pEffect_Manager->Load_Effect(TEXT("Train_Wind"));

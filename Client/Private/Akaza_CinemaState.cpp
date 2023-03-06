@@ -7,6 +7,7 @@
 #include "Terrain.h"
 #include "MeshObj_Static.h"
 #include "MeshObj_Static_Inst.h"
+#include "Effect_Manager.h"
 
 using namespace Akaza;
 
@@ -198,15 +199,23 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SplSkr.wav"), g_fEffect);
 
 		break;
-	case Client::Akaza::CAkaza_CinemaState::SCENE_0:
+	case Client::Akaza::CAkaza_CinemaState::SCENE_0: {
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);
 		pAkaza->Get_Model()->Reset_Anim(CAkaza_CinemaState::ANIM_SCENE_0);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza_CinemaState::ANIM_SCENE_0);
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza_CinemaState::ANIM_SCENE_0));
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_0);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_0, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO2_GROUND, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
-	case Client::Akaza::CAkaza_CinemaState::SCENE_1:
+	}
+	case Client::Akaza::CAkaza_CinemaState::SCENE_1: {
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_030);
 		pAkaza->Get_Model()->Reset_Anim(CAkaza_CinemaState::ANIM_SCENE_1);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza_CinemaState::ANIM_SCENE_1);
@@ -228,8 +237,16 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(true);
 		}
 		RELEASE_INSTANCE(CGameInstance);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO3_GROUND, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
-	case Client::Akaza::CAkaza_CinemaState::SCENE_2:
+	}
+	case Client::Akaza::CAkaza_CinemaState::SCENE_2: 
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_040);
 		pAkaza->Get_Model()->Reset_Anim(CAkaza_CinemaState::ANIM_SCENE_2);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza_CinemaState::ANIM_SCENE_2);
@@ -237,7 +254,7 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_2);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_2, 0.01f);
 		break;
-	case Client::Akaza::CAkaza_CinemaState::SCENE_3:
+	case Client::Akaza::CAkaza_CinemaState::SCENE_3: {
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_050);
 		pAkaza->Get_Model()->Reset_Anim(CAkaza_CinemaState::ANIM_SCENE_3);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza_CinemaState::ANIM_SCENE_3);
@@ -259,8 +276,20 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(false);
 		}
 		RELEASE_INSTANCE(CGameInstance);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_DASH1, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_HAND1, pAkaza->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_HIT1, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_HIT2, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_KICK1, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_RUN1, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Akaza::CAkaza_CinemaState::SCENE_4:
+	}
+	case Client::Akaza::CAkaza_CinemaState::SCENE_4: {
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_060);
 		pAkaza->Get_Model()->Reset_Anim(CAkaza_CinemaState::ANIM_SCENE_4);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza_CinemaState::ANIM_SCENE_4);
@@ -269,8 +298,17 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_4, 0.01f);
 
 		pAkaza->Get_BattleTarget()->Set_SceneRender(false);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO6_PROJ1, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO6_SLASH1, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO6_SLASH2, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Akaza::CAkaza_CinemaState::SCENE_5:
+	}
+	case Client::Akaza::CAkaza_CinemaState::SCENE_5: {
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_070);
 		pAkaza->Get_Model()->Reset_Anim(CAkaza_CinemaState::ANIM_SCENE_5);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza_CinemaState::ANIM_SCENE_5);
@@ -292,8 +330,22 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(true);
 		}
 		RELEASE_INSTANCE(CGameInstance);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_BACKLIGHT, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_HAND, pAkaza->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_HAND2, pAkaza->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_HAND3, pAkaza->Get_WeaponWorld2());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_BG1, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_BG2, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_PROJ1, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
-	case Client::Akaza::CAkaza_CinemaState::SCENE_6:
+	}
+	case Client::Akaza::CAkaza_CinemaState::SCENE_6: {
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_080);
 		pAkaza->Get_Model()->Reset_Anim(CAkaza_CinemaState::ANIM_SCENE_6);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza_CinemaState::ANIM_SCENE_6);
@@ -305,8 +357,17 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pGameInstance = GET_INSTANCE(CGameInstance);
 		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(true);
 		RELEASE_INSTANCE(CGameInstance);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_BG1, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_HAND1, pAkaza->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_PROJ1, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Akaza::CAkaza_CinemaState::SCENE_7:
+	}
+	case Client::Akaza::CAkaza_CinemaState::SCENE_7: {
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_090);
 		pAkaza->Get_Model()->Reset_Anim(CAkaza_CinemaState::ANIM_SCENE_7);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza_CinemaState::ANIM_SCENE_7);
@@ -318,8 +379,17 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pGameInstance = GET_INSTANCE(CGameInstance);
 		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(true);
 		RELEASE_INSTANCE(CGameInstance);
+
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_AURA1, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_BG1, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Akaza::CAkaza_CinemaState::SCENE_8:
+	}
+	case Client::Akaza::CAkaza_CinemaState::SCENE_8: {
 		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pAkaza->Get_NavigationHeight().y, 56.1f, 1.f));
 		pAkaza->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pAkaza->Get_NavigationHeight().y, 50.03f, 1.f));
 
@@ -329,7 +399,9 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza::ANIM_SPLSKL_END));
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_SPLSKL_END);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_END, 0.01f);
+
 		break;
+	}
 	case Client::Akaza::CAkaza_CinemaState::SCENE_END:
 		break;
 	default:

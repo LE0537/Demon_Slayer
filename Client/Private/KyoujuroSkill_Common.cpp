@@ -431,7 +431,7 @@ CKyoujuroState * CSkill_CommonState::Late_Tick(CKyoujuro * pKyojuro, _float fTim
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_5TIGER_CHARGE, pKyojuro);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_5TIGER_CHARGE, pKyojuro);
 		//pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_5TIGER_MAIN, &m_pEffect);
 
 		RELEASE_INSTANCE(CEffect_Manager);
