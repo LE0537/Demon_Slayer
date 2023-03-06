@@ -171,14 +171,17 @@ HRESULT CChangeBar::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	//if(!m_ThrowUIinfo.bPlyCheck)
-
 	m_pShaderCom->Begin(23);
 
-	if(m_ThrowUIinfo.iLevelIndex != LEVEL_BATTLEENMU)
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (pUI_Manager->Get_BattleTypeCheck())
 		m_pVIBufferCom->Render();
 
-	return S_OK;
+	if (!pUI_Manager->Get_BattleTypeCheck() && (m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName == TEXT("루이") || m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName == TEXT("아빠 거미")))
+		m_pVIBufferCom->Render();
+
+	RELEASE_INSTANCE(CUI_Manager);	return S_OK;
 }
 
 HRESULT CChangeBar::Ready_Components()

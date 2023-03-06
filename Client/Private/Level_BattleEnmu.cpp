@@ -122,10 +122,10 @@ void CLevel_BattleEnmu::Tick(_float fTimeDelta)
 	Create_Wind(fTimeDelta);
 	if (!m_bCreateUI)
 	{
-		pUIManager->Add_P1_PersonHpUI_Level_Enmu();
-		pUIManager->Add_P2_OniHpUI_Level_Enmu();
-		pUIManager->Add_P1_Combo_Enmu();
-		pUIManager->Add_P2_Combo_Enmu();
+		pUIManager->Add_P1_PersonHpUI();
+		pUIManager->Add_P2_OniHpUI();
+		pUIManager->Add_P1_Combo();
+		pUIManager->Add_P2_Combo();
 		pUIManager->Add_AdvBattleUI();
 		pUIManager->Add_AdvResult((LEVEL)g_iLevel);
 

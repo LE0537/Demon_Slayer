@@ -2,7 +2,7 @@
 
 #include "Engine_Defines.h"
 #include "EnmuBoss.h"
-
+#include "SoundMgr.h"
 
 BEGIN(Client)
 

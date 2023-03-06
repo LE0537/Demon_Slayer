@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ChangeIcon.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CChangeIcon::CChangeIcon(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -73,8 +74,15 @@ HRESULT CChangeIcon::Render()
 	else
 		m_pShaderCom->Begin(1);
 
-	if (m_ThrowUIinfo.iLevelIndex != LEVEL_BATTLEENMU)
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	if (pUI_Manager->Get_BattleTypeCheck())
 		m_pVIBufferCom->Render();
+
+	if (!pUI_Manager->Get_BattleTypeCheck() && (m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName == TEXT("루이") || m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName == TEXT("아빠 거미")))
+		m_pVIBufferCom->Render();
+
+	RELEASE_INSTANCE(CUI_Manager);
 
 	return S_OK;
 }

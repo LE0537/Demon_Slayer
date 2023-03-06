@@ -116,7 +116,7 @@ void CMapNameBar::Tick(_float fTimeDelta)
 							m_bMsgOnCheck = true;
 						}
 					}
-					else if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
+				/*	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_ADVAKAZA)
 					{
 						if (!pUI_Manager->Get_QuestStartCheck())
 						{
@@ -158,7 +158,7 @@ void CMapNameBar::Tick(_float fTimeDelta)
 								break;
 							}
 						}
-					}
+					}*/
 					RELEASE_INSTANCE(CGameInstance);
 				}
 			}
