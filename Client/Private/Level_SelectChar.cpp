@@ -19,6 +19,7 @@ CLevel_SelectChar::CLevel_SelectChar(ID3D11Device* pDevice, ID3D11DeviceContext*
 
 HRESULT CLevel_SelectChar::Initialize()
 {
+	g_iLevel == LEVEL_SELECTCHAR;
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 

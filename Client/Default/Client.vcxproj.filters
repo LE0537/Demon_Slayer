@@ -1552,6 +1552,21 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Shinobu">
       <UniqueIdentifier>{14868ebd-37de-49a6-96ba-569f55979641}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.MiniGame">
+      <UniqueIdentifier>{7ee81a6f-81d7-4dfa-8a07-1b94c2c9b1c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.MiniGame\Player">
+      <UniqueIdentifier>{9159f80f-1407-4d84-a70a-c9903c341a62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.MiniGame\Monster">
+      <UniqueIdentifier>{8a2a8be7-3755-4215-a903-82b4174a0fb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.MiniGame\Item">
+      <UniqueIdentifier>{7dc2c009-58e5-46db-a513-eb141055da42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.MiniGame\Tail">
+      <UniqueIdentifier>{267124f3-cc72-4195-b473-1c2703ea29e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3087,6 +3102,18 @@
     <ClInclude Include="..\public\AkazaLeg.h">
       <Filter>02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza\AkazaLeg</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Mini_Player.h">
+      <Filter>06.MiniGame\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Item.h">
+      <Filter>06.MiniGame\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Mini_Monster.h">
+      <Filter>06.MiniGame\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Mini_Tail.h">
+      <Filter>06.MiniGame\Tail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4585,6 +4612,18 @@
     </ClCompile>
     <ClCompile Include="..\private\AkazaLeg.cpp">
       <Filter>02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza\AkazaLeg</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mini_Player.cpp">
+      <Filter>06.MiniGame\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Item.cpp">
+      <Filter>06.MiniGame\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mini_Monster.cpp">
+      <Filter>06.MiniGame\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mini_Tail.cpp">
+      <Filter>06.MiniGame\Tail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

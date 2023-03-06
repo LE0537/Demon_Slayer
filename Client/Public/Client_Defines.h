@@ -32,5 +32,6 @@ extern float		g_fEffect;
 extern float		g_fVoice;
 extern float		g_fDialog;
 extern float        g_fLoading;
+extern bool			g_bMiniGame;
 
 using namespace Client;

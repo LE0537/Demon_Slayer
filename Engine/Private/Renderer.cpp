@@ -8,7 +8,7 @@
 #include "PipeLine.h"
 #include "GameInstance.h"
 #include "SoundMgr.h"
-
+int g_iLevelNum = 0;
 CRenderer::CRenderer(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CComponent(pDevice, pContext)
 	, m_pTarget_Manager(CTarget_Manager::Get_Instance())
@@ -373,6 +373,7 @@ HRESULT CRenderer::Add_RenderGroup_Front(RENDERGROUP eRenderGroup, CGameObject *
 
 HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel, _bool bLoading)
 {
+	g_iLevelNum = _iLevel;
 	m_fMapGrayScaleTime += fTimeDelta;
 	if (7.f < m_fMapGrayScaleTime)
 	{

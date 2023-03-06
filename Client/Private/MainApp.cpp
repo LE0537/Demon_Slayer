@@ -33,6 +33,7 @@ float			g_fEffect = 0.8f;
 float			g_fVoice = 0.7f;
 float			g_fDialog = 1.f;
 float			g_fLoading = 0.f;
+bool			g_bMiniGame = false;
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())
@@ -74,11 +75,11 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pGameInstance->Add_Fonts(m_pDevice, m_pContext, TEXT("Font_Nexon"), TEXT("../Bin/Resources/Fonts/DemonSlayer.spritefont"))))
 		return E_FAIL;
-
-#ifdef _DEBUG
-	if (FAILED(Open_DebugCMD()))
-		return E_FAIL;
-#endif // DEBUG
+//
+//#ifdef _DEBUG
+//	if (FAILED(Open_DebugCMD()))
+//		return E_FAIL;
+//#endif // DEBUG
 
 	if (FAILED(m_pImGuiManager->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
@@ -296,6 +297,8 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingShojiRight"),
 		CLoadingShojiR::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	
 
 	Safe_AddRef(m_pRenderer);
 

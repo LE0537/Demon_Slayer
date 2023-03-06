@@ -299,6 +299,7 @@
     <ClInclude Include="..\Public\FeedArrow.h" />
     <ClInclude Include="..\public\Goto.h" />
     <ClInclude Include="..\Public\HinoCami_CinemaState.h" />
+    <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\Public\KyoujuroAkazaScene.h" />
     <ClInclude Include="..\Public\KyoujuroHitCinema_Akaza.h" />
     <ClInclude Include="..\Public\AkazaHitCinema_Kyoujuro.h" />
@@ -307,6 +308,9 @@
     <ClInclude Include="..\Public\KyoujuroHitCinema_Shinobu.h" />
     <ClInclude Include="..\Public\KyoujuroHitCinema_Tanjiro.h" />
     <ClInclude Include="..\Public\KyoujuroSplSkrStartState.h" />
+    <ClInclude Include="..\public\Mini_Monster.h" />
+    <ClInclude Include="..\public\Mini_Player.h" />
+    <ClInclude Include="..\public\Mini_Tail.h" />
     <ClInclude Include="..\Public\NezukoHitCinema_Akaza.h" />
     <ClInclude Include="..\Public\NezukoHitCinema_Kyoujuro.h" />
     <ClInclude Include="..\Public\NezukoHitCinema_Rui.h" />
@@ -809,6 +813,7 @@
     <ClCompile Include="..\Private\FeedArrow.cpp" />
     <ClCompile Include="..\private\Goto.cpp" />
     <ClCompile Include="..\Private\HinoCami_CinemaState.cpp" />
+    <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\Private\KyoujuroAkazaScene.cpp" />
     <ClCompile Include="..\Private\KyoujuroHitCinema_Akaza.cpp" />
     <ClCompile Include="..\Private\AkazaHitCinema_Kyoujuro.cpp" />
@@ -817,6 +822,9 @@
     <ClCompile Include="..\Private\KyoujuroHitCinema_Shinobu.cpp" />
     <ClCompile Include="..\Private\KyoujuroHitCinema_Tanjiro.cpp" />
     <ClCompile Include="..\Private\KyoujuroSplSkrStartState.cpp" />
+    <ClCompile Include="..\private\Mini_Monster.cpp" />
+    <ClCompile Include="..\private\Mini_Player.cpp" />
+    <ClCompile Include="..\private\Mini_Tail.cpp" />
     <ClCompile Include="..\Private\NezukoHitCinema_Akaza.cpp" />
     <ClCompile Include="..\Private\NezukoHitCinema_Kyoujuro.cpp" />
     <ClCompile Include="..\Private\NezukoHitCinema_Rui.cpp" />

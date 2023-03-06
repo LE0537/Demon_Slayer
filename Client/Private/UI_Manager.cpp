@@ -472,7 +472,7 @@ void CUI_Manager::Add_Loading()
 		m_ThrowInfo.vPos = iter.vPos;
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.vScale = iter.vScale;
-		m_ThrowInfo.iLevelIndex = LEVEL_LOADING;
+		m_ThrowInfo.iLevelIndex = g_iLevel;
 
 		LOADING_DATALIST.push_back(m_ThrowInfo);
 	}
