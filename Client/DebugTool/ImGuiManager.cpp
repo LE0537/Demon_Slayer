@@ -1048,7 +1048,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 		if (ImGui::Button("Play", ImVec2(ImGui::GetWindowWidth() * 0.2f, 20.f)))
 			m_bCutScene = true;
 
-		if (pGameInstance->Key_Down(DIK_F3) ||
+		/*if (pGameInstance->Key_Down(DIK_F3) ||
 			pGameInstance->Key_Down(DIK_F4) || 
 			pGameInstance->Key_Down(DIK_F5) ||
 			pGameInstance->Key_Down(DIK_F6) ||
@@ -1058,7 +1058,7 @@ void CImGuiManager::Camera_Action(_float fTimeDelta)
 			pGameInstance->Key_Down(DIK_CAPSLOCK) ||
 			pGameInstance->Key_Down(DIK_PGUP) ||
 			pGameInstance->Key_Down(DIK_PGDN))
-			m_bCutScene = true;
+			m_bCutScene = true;*/
 
 		((CCamera_Dynamic*)m_pCamera)->Start_CutScene(m_bCutScene, CCamera_Dynamic::CUTSCENE_END);
 		if (m_iNumCam[CAM_EYE] == m_iNumCam[CAM_AT] &&

@@ -20,7 +20,7 @@ CKyoujuro_CinemaState::CKyoujuro_CinemaState(CINEMASCENE eScene)
 CKyoujuroState * CKyoujuro_CinemaState::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CKyoujuroState* pState = nullptr;
-	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	if(pGameInstance->Key_Down(DIK_F3))
 		pState = new CKyoujuro_CinemaState(SCENE_START);
 	if (pGameInstance->Key_Down(DIK_F4))
@@ -42,7 +42,7 @@ CKyoujuroState * CKyoujuro_CinemaState::HandleInput(CKyoujuro * pKyoujuro)
 	if (pGameInstance->Key_Down(DIK_PGDN))
 		pState = new CKyoujuro_CinemaState(SCENE_8);
 
-	RELEASE_INSTANCE(CGameInstance);
+	RELEASE_INSTANCE(CGameInstance);*/
 
 
 	return pState;
