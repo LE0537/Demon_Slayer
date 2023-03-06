@@ -31,137 +31,177 @@ HRESULT CEnmu_ChokChok::Initialize(void * pArg)
 
 	if (pArg != nullptr)
 	{
-		memcpy(&m_vOriginPosition, (_vector*)(pArg), sizeof(m_vOriginPosition));
+		m_tChokChokInfo.bEffect = ((CHOKCHOK*)(pArg))->bEffect;
+		m_tChokChokInfo.vPosition = ((CHOKCHOK*)(pArg))->vPosition;
+
+		//memcpy(&m_vOriginPosition, (_vector*)(pArg), sizeof(m_vOriginPosition));
 	}
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 1.f));
-	CGameInstance* pGameInstance1 = CGameInstance::Get_Instance();
-	m_vOriginPosition = XMVectorSetY(m_vOriginPosition, dynamic_cast<CTanjiro*>(pGameInstance1->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_NavigationHeight().y);
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, m_vOriginPosition);
-	m_pModelCom->Set_CurrentAnimIndex(0);
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	if (m_tChokChokInfo.bEffect == true)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-	m_pTanjiro = dynamic_cast<CCharacters*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT2_GROUND, &m_tChokChokInfo.vPosition);
 
-	RELEASE_INSTANCE(CGameInstance);
+		RELEASE_INSTANCE(CEffect_Manager);
+	}
+	else
+	{
+		m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 1.f));
+		CGameInstance* pGameInstance1 = CGameInstance::Get_Instance();
+		m_tChokChokInfo.vPosition = XMVectorSetY(m_tChokChokInfo.vPosition, dynamic_cast<CTanjiro*>(pGameInstance1->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_NavigationHeight().y);
+		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, m_tChokChokInfo.vPosition);
+		m_pModelCom->Set_CurrentAnimIndex(0);
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-	
-	//pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT2_CHOK,&m_vOriginPosition);
+		m_pTanjiro = dynamic_cast<CCharacters*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
 
-	RELEASE_INSTANCE(CEffect_Manager);
+		RELEASE_INSTANCE(CGameInstance);
+
+
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT2_CHOK, &m_tChokChokInfo.vPosition);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+	}
+
+
 	return S_OK;
 }
 
 void CEnmu_ChokChok::Tick(_float fTimeDelta)
 {
-	
-	if (m_pModelCom->Get_End(0))
+	if (m_tChokChokInfo.bEffect == true)
 	{
-		m_pModelCom->Set_End(0);
-		m_bDead = true;
+		m_fTime += fTimeDelta;
+
+		if (m_fTime >= 0.3f)
+		{
+			CEnmu_ChokChok::CHOKCHOK tInfo{};
+			ZeroMemory(&tInfo, sizeof(tInfo));
+			tInfo.bEffect = false;
+			tInfo.vPosition = m_tChokChokInfo.vPosition;
+			CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+			pGameInstance->Add_GameObject(L"Prototype_GameObject_Enmu_ChokChok", g_iLevel, L"Layer_ChokChok", &tInfo);
+			m_bDead = true;
+		}
+
 	}
+	else
+	{
+
+		if (m_pModelCom->Get_End(0))
+		{
+			m_pModelCom->Set_End(0);
+			m_bDead = true;
+		}
 
 
-	HandleInput();
-	TickState(fTimeDelta);
-	m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
+		HandleInput();
+		TickState(fTimeDelta);
+		m_pOBBCom->Update(m_pTransformCom->Get_WorldMatrix());
+	}
 
 }
 
 void CEnmu_ChokChok::Late_Tick(_float fTimeDelta)
 {
-	m_pModelCom->Play_Animation(fTimeDelta);
-	LateTickState(fTimeDelta);
-
-	m_fMove += fTimeDelta;
-
-	if (m_fMove > 0.3f)
+	if (m_tChokChokInfo.bEffect == false)
 	{
-		
-		CCollider*	pTargetCollider = m_pTanjiro->Get_SphereCollider();
+		m_pModelCom->Play_Animation(fTimeDelta);
+		LateTickState(fTimeDelta);
 
-		if (m_fMove < 0.5f && !m_bHit)
+		m_fMove += fTimeDelta;
+
+		if (m_fMove > 0.3f)
 		{
-			if (nullptr == pTargetCollider)
-				return;
 
-			if (m_pOBBCom->Collision(pTargetCollider))
+			CCollider*	pTargetCollider = m_pTanjiro->Get_SphereCollider();
+
+			if (m_fMove < 0.5f && !m_bHit)
 			{
+				if (nullptr == pTargetCollider)
+					return;
 
-				if (m_pTanjiro->Get_PlayerInfo().bGuard && m_pTanjiro->Get_PlayerInfo().fGuardTime <= 0.f)
+				if (m_pOBBCom->Collision(pTargetCollider))
 				{
-					m_pTanjiro->Get_GuardHit(0);
-					m_pTanjiro->Set_GuardHp(-60);
-					if (m_pTanjiro->Get_PlayerInfo().iGuard <= 0)
+
+					if (m_pTanjiro->Get_PlayerInfo().bGuard && m_pTanjiro->Get_PlayerInfo().fGuardTime <= 0.f)
 					{
+						m_pTanjiro->Get_GuardHit(0);
+						m_pTanjiro->Set_GuardHp(-60);
+						if (m_pTanjiro->Get_PlayerInfo().iGuard <= 0)
+						{
+							CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTanjiro);
+							RELEASE_INSTANCE(CEffect_Manager);
+							m_pTanjiro->Set_ResetGuardHp();
+							m_pTanjiro->Set_GuardTime(2.f);
+						}
+					}
+					else if (m_pTanjiro->Get_GodMode() == false)
+					{
+						m_pTanjiro->Set_Hp(-50);
+
+						if (m_bIsCreate == false)
+						{
+							m_pTanjiro->Set_GodMode(true);
+							m_pTanjiro->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 0.f);
+							//m_pTanjiro->Take_Damage(0.0f, false);
+							m_bIsCreate = true;
+						}
+
+					}
+					if (m_pTanjiro->Get_GodMode() == false)
+					{
+						_int iDest = rand() % 5;
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTanjiro);
+						switch (iDest)
+						{
+						case 0:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTanjiro);
+							break;
+						case 1:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTanjiro);
+							break;
+						case 2:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTanjiro);
+							break;
+						case 3:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTanjiro);
+							break;
+						case 4:
+							pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTanjiro);
+							break;
+						default:
+							break;
+						}
+
+
 						RELEASE_INSTANCE(CEffect_Manager);
-						m_pTanjiro->Set_ResetGuardHp();
-						m_pTanjiro->Set_GuardTime(2.f);
+
+						m_bHit = true;
 					}
 				}
-				else if (m_pTanjiro->Get_GodMode() == false)
-				{
-					m_pTanjiro->Set_Hp(-50);
 
-					if (m_bIsCreate == false)
-					{
-						m_pTanjiro->Set_GodMode(true);
-						m_pTanjiro->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 0.f);
-						//m_pTanjiro->Take_Damage(0.0f, false);
-						m_bIsCreate = true;
-					}
-			
-				}
-				if (m_pTanjiro->Get_GodMode() == false)
-				{
-					_int iDest = rand() % 5;
-					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-					switch (iDest)
-					{
-					case 0:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT, m_pTanjiro);
-						break;
-					case 1:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT2, m_pTanjiro);
-						break;
-					case 2:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT3, m_pTanjiro);
-						break;
-					case 3:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT4, m_pTanjiro);
-						break;
-					case 4:
-						pEffectManger->Create_Effect(CEffect_Manager::EFF_HIT5, m_pTanjiro);
-						break;
-					default:
-						break;
-					}
-
-
-					RELEASE_INSTANCE(CEffect_Manager);
-
-					m_bHit = true;
-				}
 			}
-
 		}
-	}
 
 
-	if (m_bRender)
-	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-	}
-	if (g_bCollBox)
-	{
-		m_pRendererCom->Add_Debug(m_pOBBCom);
+		if (m_bRender)
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+		}
+		if (g_bCollBox)
+		{
+			m_pRendererCom->Add_Debug(m_pOBBCom);
+		}
 	}
 
 }
@@ -426,5 +466,5 @@ void CEnmu_ChokChok::Free()
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pOBBCom);
 	Safe_Release(m_pSphereCom);
-	
+
 }

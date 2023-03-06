@@ -354,6 +354,13 @@ CTanjiroState * CIdleState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 	if(pTanjiro->Get_BossEnmu_Dead())
 		return new CTrain_CinemaState(CTrain_CinemaState::SCENE_START);
 
+
+	if (g_iLevel == 12)
+	{
+		_float3 vPos; XMStoreFloat3(&vPos, pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
+		CImGuiManager::Get_Instance()->Set_CurrentPosition(vPos);
+	}
+
 	if (pTanjiro->Get_PlayerInfo().bChange)
 	{
 		return new CChangeState(STATE_TYPE::TYPE_LOOP);

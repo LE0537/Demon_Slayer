@@ -116,15 +116,13 @@ CEnmuBossState * CIdleState::HandleInput(CEnmuBoss* pEnmuBoss)
 			return nullptr;
 		}
 	}
+
 	return nullptr;
 }
 
 CEnmuBossState * CIdleState::Tick(CEnmuBoss* pEnmuBoss, _float fTimeDelta)
 {
 	m_fDelay += fTimeDelta;
-
-
-
 
 
 

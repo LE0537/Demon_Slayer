@@ -2559,9 +2559,7 @@ void CImGuiManager::EnmuBossCharacterList(_uint _iIndex)
 
 	ImGui::Text("distance : %f", m_fEnmuBossDist);
 	ImGui::Text("campos : x: %f y: %f z : %f", m_vCameraPosition.x, m_vCameraPosition.y, m_vCameraPosition.z);
-
-
-
+	ImGui::Text("Tanjiro Position : x: %f y: %f z : %f", m_vCurrentPosition.x, m_vCurrentPosition.y, m_vCurrentPosition.z);
 	static float vjumpset[3];
 	ImGui::InputFloat3("jumpset", vjumpset);
 	ImGui::SameLine();

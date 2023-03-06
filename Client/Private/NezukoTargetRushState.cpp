@@ -268,8 +268,23 @@ void CTargetRushState::Move(CNezuko * pNezuko, _float fTimeDelta)
 
 	_vector vMyPosition = pNezuko->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTargetPosition = pNezuko->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	vMyPosition = XMVectorSetY(vMyPosition, pNezuko->Get_NavigationHeight().y);
+	vTargetPosition = XMVectorSetY(vTargetPosition, pNezuko->Get_BattleTarget()->Get_NavigationHeight().y);
+
+
+
 	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
 	m_vTargetPosition = XMVector3Normalize(vTargetPosition - vMyPosition);
+
+	if (pNezuko->Get_BattleTarget()->Get_Transform()->Get_Jump())
+	{
+		if (fDistance <= 5.f)
+		{
+			m_bNextAnim = true;
+		}
+	}
+
 
 	m_vVelocity.x += fGravity * fTimeDelta;
 	m_vVelocity.y += fGravity * fTimeDelta;

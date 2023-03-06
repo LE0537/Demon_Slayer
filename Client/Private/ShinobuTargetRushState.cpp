@@ -269,8 +269,22 @@ void CTargetRushState::Move(CShinobu* pShinobu, _float fTimeDelta)
 
 	_vector vMyPosition = pShinobu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	_vector vTargetPosition = pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+
+	vMyPosition = XMVectorSetY(vMyPosition, pShinobu->Get_NavigationHeight().y);
+	vTargetPosition = XMVectorSetY(vTargetPosition, pShinobu->Get_BattleTarget()->Get_NavigationHeight().y);
+
+
+
 	_float fDistance = XMVectorGetX(XMVector3Length(vMyPosition - vTargetPosition));
 	m_vTargetPosition = XMVector3Normalize(vTargetPosition - vMyPosition);
+
+	if (pShinobu->Get_BattleTarget()->Get_Transform()->Get_Jump())
+	{
+		if (fDistance <= 5.f)
+		{
+			m_bNextAnim = true;
+		}
+	}
 
 	m_vVelocity.x += fGravity * fTimeDelta;
 	m_vVelocity.y += fGravity * fTimeDelta;

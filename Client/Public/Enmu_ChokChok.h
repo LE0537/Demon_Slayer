@@ -27,6 +27,13 @@ public:
 		ANIM_SKILL_1 = 2,
 		ANIM_IDLE_2 = 3,
 	};
+
+	typedef struct ChokChokDesc
+	{
+		_bool bEffect;
+		_vector vPosition;
+	}CHOKCHOK;
+
 public:
 	CEnmu_ChokChok(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	CEnmu_ChokChok(const CEnmu_ChokChok& rhs);
@@ -103,6 +110,9 @@ private:
 	_float m_fMove = 0.f;
 	_bool  m_bHit = false;
 	CCharacters* m_pTanjiro = nullptr;
+
+
+	CHOKCHOK m_tChokChokInfo;
 
 public:
 	static CEnmu_ChokChok* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

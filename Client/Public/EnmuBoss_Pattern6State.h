@@ -24,6 +24,8 @@ private:
 	CEnmuBoss::PARTS m_eParts;
 
 	_float m_fTime = 0.f;
+	_float m_fCreateTime = 0.f;
+	_bool m_bCreateBool = false;
 };
 END
 END
