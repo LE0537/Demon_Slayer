@@ -89,48 +89,7 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 		Safe_Release(pGameInstance);
 				
 	}
-	else
-	{
-		CLevel*			pNewLevel = nullptr;
 
-		switch (m_eNextLevel)
-		{
-		case LEVEL_SELECTCHAR:
-			pNewLevel = CLevel_SelectChar::Create(m_pDevice, m_pContext);
-			break;
-		case LEVEL_GAMEPLAY:
-			pNewLevel = CLevel_GamePlay::Create(m_pDevice, m_pContext);
-			break;
-		case LEVEL_GAMERESULT:
-			pNewLevel = CLevel_GameResult::Create(m_pDevice, m_pContext);
-			break;
-		case LEVEL_MENU:
-			pNewLevel = CLevel_Menu::Create(m_pDevice, m_pContext);
-			break;
-		case LEVEL_STORYMENU:
-			pNewLevel = CLevel_StoryMenu::Create(m_pDevice, m_pContext);
-			break;
-		case LEVEL_ADVRUI:
-			pNewLevel = CLevel_AdvRui::Create(m_pDevice, m_pContext);
-			break;
-		case LEVEL_SELECTMAP:
-			pNewLevel = CLevel_SelectMap::Create(m_pDevice, m_pContext);
-			break;
-		}
-
-		if (nullptr == pNewLevel)
-			return;
-
-		CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-		if (nullptr == pGameInstance)
-			return;
-		Safe_AddRef(pGameInstance);
-
-		if (FAILED(pGameInstance->Open_Level(m_eNextLevel, pNewLevel)))
-			return;
-
-		Safe_Release(pGameInstance);
-	}
 }
 
 void CLevel_Loading::Late_Tick(_float fTimeDelta)
