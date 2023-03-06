@@ -78,10 +78,19 @@ void CStoneSphere::Late_Tick(_float fTimeDelta)
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 
 	CCollider* m_pPlayerCollBox = m_pPlayer->Get_SphereCollider();
-	if (m_pSphereCom->Collision(m_pPlayerCollBox))
+	if (m_pSphereCom->Collision(m_pPlayerCollBox) && m_pPlayer->Get_StoneHit() <= 0.f)
 	{
-		m_pPlayer->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-556.3474f,53.5169f,-61.9126f,1.f));
-		m_pPlayer->Get_NavigationCom()->Cheak_Cell(XMVectorSet(-556.3474f, 53.5169f, -61.9126f, 1.f));
+		if (m_pPlayer->Get_Heart() > 0)
+		{
+			m_pPlayer->Set_Heart(-1);
+			m_pPlayer->Set_StoneHit(0.7f);
+		}
+		else
+		{
+			m_pPlayer->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-556.3474f, 53.5169f, -61.9126f, 1.f));
+			m_pPlayer->Get_NavigationCom()->Cheak_Cell(XMVectorSet(-556.3474f, 53.5169f, -61.9126f, 1.f));
+			m_pPlayer->Set_Heart(3);
+		}
 	}
 	if (g_bCollBox)
 	{

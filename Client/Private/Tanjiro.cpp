@@ -166,7 +166,7 @@ HRESULT CTanjiro::Initialize(void * pArg)
 		RELEASE_INSTANCE(CGameInstance);
 		m_i1p = 1;
 	}
-	
+
 	else if (m_i1p == 33)
 	{
 		Play_AkazaScene();
@@ -256,6 +256,20 @@ void CTanjiro::Tick(_float fTimeDelta)
 			__super::Tick(fTimeDelta);
 			m_fEffectStartTime = 0.f;
 
+			if (g_iLevel == LEVEL_ADVRUI)
+			{
+				if (m_iStoneHitTime > 0.f)
+				{
+					m_bHitRender = true;
+					if (m_fHitRenderTime > 0.1f)
+					{
+						m_fHitRenderTime = 0.f;
+						m_bHitRender = !m_bHitRender;
+					}
+					m_fHitRenderTime += fTimeDelta;
+					m_iStoneHitTime -= fTimeDelta;
+				}
+			}
 			if (m_bBattleStart && m_i1p != 33)
 			{
 				if (g_iLevel != LEVEL_BOSSENMU)
@@ -372,10 +386,34 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 
 
 		if (!m_bRender && m_bSceneRender)
-
 		{
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			if (g_iLevel == LEVEL_ADVRUI)
+			{
+				if (m_iStoneHitTime > 0.f)
+				{
+					if (!m_bHitRender)
+					{
+						m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+						m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+						dynamic_cast<CTanjiroWeapon2*>(m_pWeapon2)->Set_Render(true);
+						m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon2);
+						m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon2);
+					}
+				}
+				else
+				{
+					m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+					m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+					dynamic_cast<CTanjiroWeapon2*>(m_pWeapon2)->Set_Render(true);
+					m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon2);
+					m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon2);
+				}
+			}
+			else
+			{
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			}
 			if (g_iLevel != LEVEL_ADVRUI && g_iLevel != LEVEL_ADVAKAZA)
 			{
 				dynamic_cast<CTanjiroWeapon*>(m_pWeapon)->Set_Render(true);
@@ -386,12 +424,13 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon);
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pSheath);
 			}
-			else
+			else if (g_iLevel == LEVEL_ADVAKAZA)
 			{
 				dynamic_cast<CTanjiroWeapon2*>(m_pWeapon2)->Set_Render(true);
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon2);
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon2);
 			}
+	
 		}
 
 		if (g_bCollBox)
@@ -916,7 +955,7 @@ HRESULT CTanjiro::Ready_Components()
 		TransformDesc.fSpeedPerSec = 20.f;
 	else
 		TransformDesc.fSpeedPerSec = 15.f;
-	
+
 	TransformDesc.fRotationPerSec = XMConvertToRadians(90.0f);
 
 	if (FAILED(__super::Add_Components(TEXT("Com_Transform"), LEVEL_STATIC, TEXT("Prototype_Component_Transform"), (CComponent**)&m_pTransformCom, &TransformDesc)))
@@ -935,7 +974,7 @@ HRESULT CTanjiro::Ready_Components()
 	CCollider::COLLIDERDESC		ColliderDesc;
 
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
-	if(g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
+	if (g_iLevel == LEVEL_ADVRUI || g_iLevel == LEVEL_ADVAKAZA)
 		ColliderDesc.vScale = _float3(80.f, 80.f, 80.f);
 	else
 		ColliderDesc.vScale = _float3(130.f, 130.f, 130.f);
@@ -1404,7 +1443,7 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 				}
 			}
 		}
-		
+
 
 		if (!m_bQuest1 && m_bStory)
 		{
@@ -1831,6 +1870,7 @@ void CTanjiro::Set_Info()
 	m_tInfo.bChange = false;
 	m_tInfo.iMaxGuard = 500;
 	m_tInfo.iGuard = m_tInfo.iMaxGuard;
+	m_iHeart = 3;
 }
 void CTanjiro::Check_Spl()
 {

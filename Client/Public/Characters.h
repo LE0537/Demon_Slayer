@@ -163,6 +163,10 @@ public:
 
 	_float4x4* Get_WeaponWorld2() { return &m_WeaponWorld2; }
 
+	void Set_Heart(_int _iHeart) { m_iHeart += _iHeart; }
+	_int Get_Heart() { return m_iHeart; }
+	void Set_StoneHit(_float _fStoneHit) { m_iStoneHitTime = _fStoneHit; }
+	_float Get_StoneHit() { return m_iStoneHitTime; }
 protected:
 	PLAYERINFO				m_tInfo;
 	CCharacters*			m_pBattleTarget = nullptr;
@@ -206,6 +210,9 @@ protected:
 	_float4x4				m_WeaponWorld2;
 	_bool					m_bInteractionCheck = false;
 
+	//µ¹±¼·¯°¡À¯
+	_int					m_iHeart = 0;
+	_float					m_iStoneHitTime = 0.f;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

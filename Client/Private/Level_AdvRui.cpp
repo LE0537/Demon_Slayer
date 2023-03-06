@@ -1733,7 +1733,7 @@ HRESULT CLevel_AdvRui::Create_Stone(_float fTimeDelta)
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
 	m_fCreateStoneTime += fTimeDelta;
-	if (m_fCreateStoneTime > 1.f && m_iStoneIndex < 12)
+	if (m_fCreateStoneTime > 1.f && m_iStoneIndex < 16)
 	{
 		_int iDest = rand() % 3;
 
