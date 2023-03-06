@@ -234,6 +234,7 @@ private:
 	_bool m_bStorySpl = false;
 	_float m_fStoryTime = 0.f;
 	_bool  m_bStoryDead = false;
+	_float	m_fDissolve = 0.f;
 	list <class CRuiState*> m_AIStateList;
 public:
 	static CRui* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

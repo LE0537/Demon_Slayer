@@ -192,6 +192,10 @@ void CRui::Tick(_float fTimeDelta)
 
 			m_tInfo.iSkBar += 1000;
 			Boss_Tick(fTimeDelta);
+			CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+			if (pUIManager->Get_StroyEventEnd())
+				m_fDissolve += fTimeDelta * 0.05f;
+			RELEASE_INSTANCE(CUI_Manager);
 		}
 		else
 		{
@@ -237,7 +241,7 @@ void CRui::Tick(_float fTimeDelta)
 	{
 		m_iState = m_pRuiState->Get_RuiState();
 	}
-
+	
 }
 
 void CRui::Late_Tick(_float fTimeDelta)
@@ -278,13 +282,26 @@ HRESULT CRui::Render()
 	
 		if (pUIManager->Get_StroyEventEnd() && (i == 2 || i == 3 || i == 4 || i == 5 || i == 6 || i == 7))
 			continue;
-		
+
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-			return E_FAIL;
-		
+		if (pUIManager->Get_StroyEventEnd() && i == 1)
+		{
+			if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DissolveTexture", m_pTextureCom->Get_SRV(0))))
+				return E_FAIL;
+
+			if (FAILED(m_pShaderCom->Set_RawValue("g_fDeadTimeRatio", &m_fDissolve, sizeof(_float))))
+				return E_FAIL;
+
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 5)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+				return E_FAIL;
+		}
 	}
 	RELEASE_INSTANCE(CUI_Manager);
 
@@ -374,7 +391,8 @@ HRESULT CRui::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Rui"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_Dissolve"), (CComponent**)&m_pTextureCom)))
+		return E_FAIL;
 
 
 	CCollider::COLLIDERDESC		ColliderDesc;

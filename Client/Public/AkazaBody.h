@@ -97,6 +97,7 @@ private:
 
 	_vector	m_vOriginPosition;
 	_float		m_DelayTime = 0.f;
+	_float					m_fDissolve = 0.f;
 public:
 	static CAkazaBody* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

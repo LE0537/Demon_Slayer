@@ -50,14 +50,7 @@ HRESULT CAkazaBody::Initialize(void * pArg)
 void CAkazaBody::Tick(_float fTimeDelta)
 {
 	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
-	if (pGameInstance->Key_Down(DIK_T))
-	{
-		vPos.m128_f32[1] = m_vOriginPosition.m128_f32[1] + 20.f;
-		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
- 	}
-	RELEASE_INSTANCE(CGameInstance);
 	m_DelayTime += fTimeDelta;
 	if (m_DelayTime > 4.f)
 	{
@@ -65,6 +58,10 @@ void CAkazaBody::Tick(_float fTimeDelta)
 		{
 			vPos.m128_f32[1] -= 25.f * fTimeDelta;
 			m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
+		}
+		else
+		{
+			m_fDissolve += fTimeDelta * 0.1f;
 		}
 	}
 	m_pModelCom->Play_Animation(fTimeDelta);
@@ -107,9 +104,14 @@ HRESULT CAkazaBody::Render()
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DissolveTexture", m_pTextureCom->Get_SRV(0))))
 			return E_FAIL;
 
+		if (FAILED(m_pShaderCom->Set_RawValue("g_fDeadTimeRatio", &m_fDissolve, sizeof(_float))))
+			return E_FAIL;
+
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 5)))
+			return E_FAIL;
 	}
 
 
@@ -253,7 +255,8 @@ HRESULT CAkazaBody::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("AkazaBody"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_Dissolve"), (CComponent**)&m_pTextureCom)))
+		return E_FAIL;
 
 
 	return S_OK;

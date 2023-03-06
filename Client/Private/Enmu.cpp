@@ -51,7 +51,7 @@ HRESULT CEnmu::Initialize(void * pArg)
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVAKAZA, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Target(this);
 		RELEASE_INSTANCE(CGameInstance);
 
-		_vector vPos = { -0.287479f,5.701f,196.877f,1.f };
+		_vector vPos = { -0.287479f,5.851f,196.877f,1.f };
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 
 		m_pNavigationCom->Find_CurrentCellIndex(vPos);
