@@ -1770,7 +1770,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion9_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion9_Proj1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion9_Proj2"));
-		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion9_Toneido"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion9_Tornado"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion10_Flash"));
 
 		//Enmu_Boss
