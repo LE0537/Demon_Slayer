@@ -4,6 +4,9 @@
 #include "AkazaIdleState.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "Terrain.h"
+#include "MeshObj_Static.h"
+#include "MeshObj_Static_Inst.h"
 
 using namespace Akaza;
 
@@ -22,6 +25,11 @@ CAkazaState * CAkaza_CinemaState::HandleInput(CAkaza * pAkaza)
 
 CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 {
+	CGameInstance* pGameInstance = nullptr;
+	list<CGameObject*> plistMesh;
+	list<CGameObject*> plistMeshInst;
+	_matrix matColl;
+	_float3 vPos;
 	switch (m_eScene)
 	{
 	case Client::Akaza::CAkaza_CinemaState::SCENE_START:
@@ -46,8 +54,14 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		}
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_2:
+		m_fTime += fTimeDelta;
+		if (1.3f < m_fTime)
+		{
+			pAkaza->Set_SceneRender(false);
+		}
 		if (pAkaza->Get_Model()->Get_End(CAkaza_CinemaState::ANIM_SCENE_2))
 		{
+			pAkaza->Set_SceneRender(true);
 			pAkaza->Get_Model()->Set_End(CAkaza_CinemaState::ANIM_SCENE_2);
 			return new CAkaza_CinemaState(SCENE_3);
 		}
@@ -60,6 +74,28 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		}
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_4:
+		if (4.f < pAkaza->Get_Model()->Get_Duration())
+		{
+			pAkaza->Get_Renderer()->Set_PointBlur(640, 360, 130.f, 0.3f, 0.7f);
+			if (false == m_bRenderObjects)
+			{
+				pGameInstance = GET_INSTANCE(CGameInstance);
+				((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(true);
+				plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+				plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+				for (auto& iterMesh : plistMesh)
+				{
+					dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(true);
+				}
+				for (auto& iterMeshinst : plistMeshInst)
+				{
+					dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(true);
+				}
+				RELEASE_INSTANCE(CGameInstance);
+
+				m_bRenderObjects = true;
+			}
+		}
 		if (pAkaza->Get_Model()->Get_End(CAkaza_CinemaState::ANIM_SCENE_4))
 		{
 			pAkaza->Get_Model()->Set_End(CAkaza_CinemaState::ANIM_SCENE_4);
@@ -67,6 +103,9 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		}
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_5:
+		matColl = pAkaza->Get_Model()->Get_BonePtr("C_Spine_3")->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&pAkaza->Get_Model()->Get_PivotFloat4x4()) * XMLoadFloat4x4(pAkaza->Get_Transform()->Get_World4x4Ptr());
+		XMStoreFloat3(&vPos, matColl.r[3]);
+		pAkaza->Get_Renderer()->Set_PointBlur(vPos, 130.f, 0.2f, 0.5f);
 		if (pAkaza->Get_Model()->Get_End(CAkaza_CinemaState::ANIM_SCENE_5))
 		{
 			pAkaza->Get_Model()->Set_End(CAkaza_CinemaState::ANIM_SCENE_5);
@@ -74,6 +113,9 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		}
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_6:
+		matColl = pAkaza->Get_Model()->Get_BonePtr("C_Spine_3")->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&pAkaza->Get_Model()->Get_PivotFloat4x4()) * XMLoadFloat4x4(pAkaza->Get_Transform()->Get_World4x4Ptr());
+		XMStoreFloat3(&vPos, matColl.r[3]);
+		pAkaza->Get_Renderer()->Set_PointBlur(vPos, 130.f, 0.1f, 0.8f);
 		if (pAkaza->Get_Model()->Get_End(CAkaza_CinemaState::ANIM_SCENE_6))
 		{
 			pAkaza->Get_Model()->Set_End(CAkaza_CinemaState::ANIM_SCENE_6);
@@ -81,17 +123,33 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		}
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_7:
+		matColl = pAkaza->Get_Model()->Get_BonePtr("C_Spine_3")->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&pAkaza->Get_Model()->Get_PivotFloat4x4()) * XMLoadFloat4x4(pAkaza->Get_Transform()->Get_World4x4Ptr());
+		XMStoreFloat3(&vPos, matColl.r[3]);
+		pAkaza->Get_Renderer()->Set_PointBlur(vPos, 130.f, 0.1f, 0.6f);
 		if (pAkaza->Get_Model()->Get_End(CAkaza_CinemaState::ANIM_SCENE_7))
 		{
 			pAkaza->Get_Model()->Set_End(CAkaza_CinemaState::ANIM_SCENE_7);
 			return new CAkaza_CinemaState(SCENE_8);
-			return new CIdleState();
 		}
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_8:
 		if (pAkaza->Get_Model()->Get_End(CAkaza::ANIM_SPLSKL_END))
 		{
 			pAkaza->Get_Model()->Set_End(CAkaza::ANIM_SPLSKL_END);
+
+			pGameInstance = GET_INSTANCE(CGameInstance);
+			((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(false);
+			plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+			plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+			for (auto& iterMesh : plistMesh)
+			{
+				dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(false);
+			}
+			for (auto& iterMeshinst : plistMeshInst)
+			{
+				dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(false);
+			}
+			RELEASE_INSTANCE(CGameInstance);
 
 			return new CIdleState();
 		}
@@ -116,6 +174,8 @@ CAkazaState * CAkaza_CinemaState::Late_Tick(CAkaza * pAkaza, _float fTimeDelta)
 void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 {
 	CGameInstance* pGameInstance = nullptr;
+	list<CGameObject*> plistMesh;
+	list<CGameObject*> plistMeshInst;
 	switch (m_eScene)
 	{
 	case Client::Akaza::CAkaza_CinemaState::SCENE_START:
@@ -153,6 +213,21 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza_CinemaState::ANIM_SCENE_1));
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_1);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_1, 0.01f);
+
+		pAkaza->Get_BattleTarget()->Set_SceneRender(false);
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(true);
+		plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+		plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+		for (auto& iterMesh : plistMesh)
+		{
+			dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(true);
+		}
+		for (auto& iterMeshinst : plistMeshInst)
+		{
+			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(true);
+		}
+		RELEASE_INSTANCE(CGameInstance);
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_2:
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_040);
@@ -169,6 +244,21 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza_CinemaState::ANIM_SCENE_3));
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_3);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_3, 0.01f);
+
+		pAkaza->Get_BattleTarget()->Set_SceneRender(true);
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(false);
+		plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+		plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+		for (auto& iterMesh : plistMesh)
+		{
+			dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(false);
+		}
+		for (auto& iterMeshinst : plistMeshInst)
+		{
+			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(false);
+		}
+		RELEASE_INSTANCE(CGameInstance);
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_4:
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_060);
@@ -177,6 +267,8 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza_CinemaState::ANIM_SCENE_4));
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_4);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_4, 0.01f);
+
+		pAkaza->Get_BattleTarget()->Set_SceneRender(false);
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_5:
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_070);
@@ -185,6 +277,21 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza_CinemaState::ANIM_SCENE_5));
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_5);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_5, 0.01f);
+
+		pAkaza->Get_BattleTarget()->Set_SceneRender(false);
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(true);
+		plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+		plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+		for (auto& iterMesh : plistMesh)
+		{
+			dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(true);
+		}
+		for (auto& iterMeshinst : plistMeshInst)
+		{
+			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(true);
+		}
+		RELEASE_INSTANCE(CGameInstance);
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_6:
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_080);
@@ -193,6 +300,11 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza_CinemaState::ANIM_SCENE_6));
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_6);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_6, 0.01f);
+
+		pAkaza->Get_BattleTarget()->Set_SceneRender(true);
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(true);
+		RELEASE_INSTANCE(CGameInstance);
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_7:
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_090);
@@ -201,6 +313,11 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza_CinemaState::ANIM_SCENE_7));
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_7);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_7, 0.01f);
+
+		pAkaza->Get_BattleTarget()->Set_SceneRender(true);
+		pGameInstance = GET_INSTANCE(CGameInstance);
+		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(true);
+		RELEASE_INSTANCE(CGameInstance);
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_8:
 		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pAkaza->Get_NavigationHeight().y, 56.1f, 1.f));

@@ -105,6 +105,7 @@ void CHitCinema_Akaza::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_LinearTime(CHitCinema_Akaza::ANIM_SCENE_DMG_080, 0.01f);
 		break;
 	case Client::Shinobu::CHitCinema_Akaza::SCENE_2:
+		pShinobu->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pShinobu->Get_Model()->Reset_Anim(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pShinobu->Set_AnimIndex(static_cast<CShinobu::ANIMID>(CHitCinema_Akaza::ANIM_SCENE_DMG_090));

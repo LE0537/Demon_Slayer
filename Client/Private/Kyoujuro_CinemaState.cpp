@@ -20,30 +20,6 @@ CKyoujuro_CinemaState::CKyoujuro_CinemaState(CINEMASCENE eScene)
 CKyoujuroState * CKyoujuro_CinemaState::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CKyoujuroState* pState = nullptr;
-	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	if(pGameInstance->Key_Down(DIK_F3))
-		pState = new CKyoujuro_CinemaState(SCENE_START);
-	if (pGameInstance->Key_Down(DIK_F4))
-		pState = new CKyoujuro_CinemaState(SCENE_0);
-	if (pGameInstance->Key_Down(DIK_F5))
-		pState = new CKyoujuro_CinemaState(SCENE_1);
-	if (pGameInstance->Key_Down(DIK_F6))
-		pState = new CKyoujuro_CinemaState(SCENE_2);
-	if (pGameInstance->Key_Down(DIK_F7))
-		pState = new CKyoujuro_CinemaState(SCENE_3);
-	if (pGameInstance->Key_Down(DIK_F8))
-		pState = new CKyoujuro_CinemaState(SCENE_4);
-	if (pGameInstance->Key_Down(DIK_F9))
-		pState = new CKyoujuro_CinemaState(SCENE_5);
-	if (pGameInstance->Key_Down(DIK_CAPSLOCK))
-		pState = new CKyoujuro_CinemaState(SCENE_6);
-	if (pGameInstance->Key_Down(DIK_PGUP))
-		pState = new CKyoujuro_CinemaState(SCENE_7);
-	if (pGameInstance->Key_Down(DIK_PGDN))
-		pState = new CKyoujuro_CinemaState(SCENE_8);
-
-	RELEASE_INSTANCE(CGameInstance);*/
-
 
 	return pState;
 }
@@ -174,7 +150,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 	pKyoujuro->Set_SplSkl(true);
 
 	CGameInstance* pGameInstance = nullptr;
-	if (m_eScene == CKyoujuro_CinemaState::SCENE_START)
+	if (m_eScene == CKyoujuro_CinemaState::SCENE_0)
 	{
 		pGameInstance = GET_INSTANCE(CGameInstance);
 

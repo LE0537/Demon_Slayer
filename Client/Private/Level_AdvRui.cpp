@@ -42,28 +42,29 @@ unsigned int APIENTRY Thread_AdvRui(void* pArg)
 
 
 	_float fValue[CRenderer::VALUE_END] = { 0.f, 0.1f, 0.15f, 46.f, 151.f, 0.635f, 0.32f, 1.36f, 0.4f, 1.f, 20.f, 100.f, 0.05f, 1.f, 0.4f, 0.5f, 2.f, 0.6f, 1.f, 0.3f, 15.f, 0.f, 0.f, 0.07f };
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.1f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.15f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 46.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 151.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.635f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.32f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 100.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.4f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_TESTLENGTH), 0.5f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_MINUS), 2.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.6f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWPOWER), 0.07f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.1f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.15f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 46.f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 151.f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.635f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.32f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 100.f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.4f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_TESTLENGTH), 0.5f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_MINUS), 2.f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.6f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWPOWER), 0.07f);
+	pLoader->Get_Renderer()->ReturnValue();
 	pLoader->Get_Renderer()->Set_Far(g_fFar);
 
 	for (_int i = 0; i < CRenderer::VALUE_END; ++i)

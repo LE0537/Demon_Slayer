@@ -105,6 +105,7 @@ void CHitCinema_Akaza::Enter(CTanjiro* pTanjiro)
 		pTanjiro->Get_Model()->Set_LinearTime(CHitCinema_Akaza::ANIM_SCENE_DMG_080, 0.01f);
 		break;
 	case Client::Tanjiro::CHitCinema_Akaza::SCENE_2:
+		pTanjiro->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pTanjiro->Get_Model()->Reset_Anim(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pTanjiro->Set_AnimIndex(static_cast<CTanjiro::ANIMID>(CHitCinema_Akaza::ANIM_SCENE_DMG_090));

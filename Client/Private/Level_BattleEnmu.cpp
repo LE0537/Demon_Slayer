@@ -72,28 +72,29 @@ HRESULT CLevel_BattleEnmu::Initialize()
 
 
 	_float fValue[CRenderer::VALUE_END] = { 0.25f, 0.35f ,0.6f ,75.f ,206.f ,1.f ,1.f ,1.36f,0.4f,1.f,20.f,20.f,0.07f,1.4f,0.1f,0.5f, 2.f, 0.4f,0.1f,0.3f,15.f,0.f,0.f, 0.07f };
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.25f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.35f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.6f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 75.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 206.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 1.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 1.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 20.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.07f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.1f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_TESTLENGTH), 0.5f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_MINUS), 2.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.4f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 0.1f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
-	m_pRendererCom->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWPOWER), 0.07f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.25f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.35f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.6f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 75.f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 206.f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 1.f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 1.f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 20.f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.07f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.4f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.1f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_TESTLENGTH), 0.5f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_MINUS), 2.f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.4f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 0.1f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
+	m_pRendererCom->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWPOWER), 0.07f);
+	m_pRendererCom->ReturnValue();
 	m_pRendererCom->Set_Far(g_fFar);
 
 	for (_int i = 0; i < CRenderer::VALUE_END; ++i)

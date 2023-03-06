@@ -44,14 +44,10 @@ CRuiState * CHitCinema_Akaza::Tick(CRui* pRui, _float fTimeDelta)
 		}
 		break;
 	case Client::Rui::CHitCinema_Akaza::SCENE_2:
-		if (pRui->Get_Model()->Get_End(CHitCinema_Akaza::ANIM_SCENE_DMG_090))
+		if (pRui->Get_BattleTarget()->Get_TargetState() == 0)
 		{
 			pRui->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
-
-			//if (pTanjiro->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_030)
-			{
-				return new CIdleState();
-			}
+			return new CIdleState();
 		}
 		break;
 	case Client::Rui::CHitCinema_Akaza::SCENE_3:
@@ -105,6 +101,7 @@ void CHitCinema_Akaza::Enter(CRui* pRui)
 		pRui->Get_Model()->Set_LinearTime(CHitCinema_Akaza::ANIM_SCENE_DMG_080, 0.01f);
 		break;
 	case Client::Rui::CHitCinema_Akaza::SCENE_2:
+		pRui->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pRui->Get_Model()->Reset_Anim(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CHitCinema_Akaza::ANIM_SCENE_DMG_090));
