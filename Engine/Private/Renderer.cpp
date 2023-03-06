@@ -371,7 +371,7 @@ HRESULT CRenderer::Add_RenderGroup_Front(RENDERGROUP eRenderGroup, CGameObject *
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel)
+HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel, _bool bLoading)
 {
 	m_fMapGrayScaleTime += fTimeDelta;
 	if (7.f < m_fMapGrayScaleTime)
@@ -407,8 +407,11 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 
 	if (FAILED(Render_Priority()))
 		return E_FAIL;
-	if (FAILED(Render_StaticShadowDepth()))
-		return E_FAIL;
+	if (false == bLoading)
+	{
+		if (FAILED(Render_StaticShadowDepth()))
+			return E_FAIL;
+	}
 	if (FAILED(Render_ShadowDepth()))
 		return E_FAIL;
 
@@ -942,6 +945,11 @@ HRESULT CRenderer::Render_Blend(_int _iLevel)
 		if (FAILED(m_pShader->Set_RawValue("g_matLightView_Static", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
 			return E_FAIL;
 	}
+	//	그림자의 어두움 정도
+	if (FAILED(m_pShader->Set_RawValue("g_fShadowPower", &m_fValue[VALUE_SHADOWPOWER], sizeof(_float))))
+		return E_FAIL;
+
+
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CPipeLine);
 
@@ -1198,7 +1206,6 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 		return S_OK;
 	}
 
-	_vector	vLightDir = XMLoadFloat4(&pLightDesc->vDiffuse);
 
 
 
@@ -1218,8 +1225,6 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Static_LightDepth"), m_pShader, "g_ShadowDepthTexture_Once")))
 		return E_FAIL;
-	if (FAILED(m_pShader->Set_RawValue("g_vLightDir", &vLightDir, sizeof(_float4))))
-		return E_FAIL;
 
 
 	if (nullptr != pLightDesc)
@@ -1228,6 +1233,9 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 		_vector			vLightAt = XMLoadFloat4(&pLightDesc->vDiffuse);
 		_vector			vLightUp = { 0.f, 1.f, 0.f ,0.f };
 		_matrix			matLightView = XMMatrixLookAtLH(vLightEye, vLightAt, vLightUp);
+		_vector	vLightDir = vLightAt - vLightEye;
+		if (FAILED(m_pShader->Set_RawValue("g_vLightDir", &vLightDir, sizeof(_float4))))
+			return E_FAIL;
 		if (FAILED(m_pShader->Set_RawValue("g_vLightPos", &vLightEye, sizeof(_float4))))
 			return E_FAIL;
 		if (FAILED(m_pShader->Set_RawValue("g_matLightView", &XMMatrixTranspose(matLightView), sizeof(_float4x4))))
@@ -1238,8 +1246,7 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 			return E_FAIL;
 	}
 
-	_float fLightShaftMinus = 1.f;
-	if (FAILED(m_pShader->Set_RawValue("g_fLightShaftMinus", &fLightShaftMinus, sizeof(_float))))
+	if (FAILED(m_pShader->Set_RawValue("g_fLightShaftMinus", &m_fValue[VALUE_LIGHTSHAFT_MINUS], sizeof(_float))))
 		return E_FAIL;
 
 
@@ -1249,6 +1256,8 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 	Set_Viewport(m_fGlowWinCX, m_fGlowWinCY);
 
 	if (FAILED(m_pTarget_Manager->Begin_MRT(m_pContext, TEXT("MRT_LightShaft"), m_pGlowDSV)))
+		return E_FAIL;
+	if (FAILED(m_pShader->Set_RawValue("g_fRayTestLength", &m_fValue[VALUE_LIGHTSHAFT_TESTLENGTH], sizeof(_float))))
 		return E_FAIL;
 
 	m_pShader->Begin(14);		//	LightShaft

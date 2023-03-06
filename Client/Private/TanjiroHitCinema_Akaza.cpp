@@ -12,7 +12,7 @@ CHitCinema_Akaza::CHitCinema_Akaza(CINEMASCENE eScene)
 
 CTanjiroState * CHitCinema_Akaza::HandleInput(CTanjiro* pTanjiro)
 {
-	
+
 
 	return nullptr;
 }
@@ -23,36 +23,24 @@ CTanjiroState * CHitCinema_Akaza::Tick(CTanjiro* pTanjiro, _float fTimeDelta)
 	switch (m_eScene)
 	{
 	case Client::Tanjiro::CHitCinema_Akaza::SCENE_START:
-		if (pTanjiro->Get_Model()->Get_End(CHitCinema_Akaza::ANIM_SCENE_DMG_010))
+		if (pTanjiro->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_050)
 		{
 			pTanjiro->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_010);
-
-			if (pTanjiro->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_050)
-			{
-				return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_0);
-			}
+			return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_0);
 		}
 		break;
 	case Client::Tanjiro::CHitCinema_Akaza::SCENE_0:
-		if (pTanjiro->Get_Model()->Get_End(CHitCinema_Akaza::ANIM_SCENE_DMG_050))
+		if (pTanjiro->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_080)
 		{
 			pTanjiro->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_050);
-
-			if (pTanjiro->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_080)
-			{
-				return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_1);
-			}
+			return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_1);
 		}
 		break;
 	case Client::Tanjiro::CHitCinema_Akaza::SCENE_1:
-		if (pTanjiro->Get_Model()->Get_End(CHitCinema_Akaza::ANIM_SCENE_DMG_080))
+		if (pTanjiro->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_090)
 		{
 			pTanjiro->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_080);
-
-			if (pTanjiro->Get_BattleTarget()->Get_SkillType() == CCharacters::SKILL_TYPE::SKILL_090)
-			{
-				return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_2);
-			}
+			return new CHitCinema_Akaza(CHitCinema_Akaza::SCENE_2);
 		}
 		break;
 	case Client::Tanjiro::CHitCinema_Akaza::SCENE_2:

@@ -116,98 +116,127 @@ void CAkaza::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 	m_fEffectStartTime = 0.f;
-	if (!m_bAiTrue && m_i1p == 11)
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	if (!pUIManager->Get_StroyEventEnd())
 	{
-		m_fAiTime += fTimeDelta;
-		if (m_fAiTime > 18.f)
+		if (!m_bAiTrue && m_i1p == 11)
 		{
-			m_bAiState = true;
-			m_bAiTrue = true;
-		}
-	}
-	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-
-	
-	if (!dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Get_ADVAkaza())
-	{
-		if (m_bBattleStart)
-		{
-			CAkazaState* pState = new CBattleStartState();
-			m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
-			m_bBattleStart = false;
-		}
-	}
-	
-	if (m_bAiState == true)
-	{
-		
-		Boss_Tick(fTimeDelta);
-	}
-
-	else
-	{
-		m_fDelta = fTimeDelta;
-		if (m_tInfo.fHitTime > 0.f)
-			m_tInfo.fHitTime -= fTimeDelta;
-		if (m_tInfo.fGuardTime > 0.f)
-			m_tInfo.fGuardTime -= fTimeDelta;
-		if (m_tInfo.fPowerUpTime > 0.f)
-		{
-			m_tInfo.fPowerUpTime -= fTimeDelta;
-			if (m_tInfo.fPowerUpTime <= 0.f)
+			m_fAiTime += fTimeDelta;
+			if (m_fAiTime > 18.f)
 			{
-				m_tInfo.fPowerUp = 1.f;
-				m_tInfo.iPowerIndex = 0;
+				m_bAiState = true;
+				m_bAiTrue = true;
 			}
 		}
-		if (m_tInfo.iPowerIndex == 2)
-			m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
-		if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
-			HandleInput();
-	}
+		CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+
+		if (!dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Get_ADVAkaza())
+		{
+			if (m_bBattleStart)
+			{
+				CAkazaState* pState = new CBattleStartState();
+				m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+				m_bBattleStart = false;
+			}
+		}
+
+		if (m_bAiState == true)
+		{
+
+			Boss_Tick(fTimeDelta);
+		}
+
+		else
+		{
+			m_fDelta = fTimeDelta;
+			if (m_tInfo.fHitTime > 0.f)
+				m_tInfo.fHitTime -= fTimeDelta;
+			if (m_tInfo.fGuardTime > 0.f)
+				m_tInfo.fGuardTime -= fTimeDelta;
+			if (m_tInfo.fPowerUpTime > 0.f)
+			{
+				m_tInfo.fPowerUpTime -= fTimeDelta;
+				if (m_tInfo.fPowerUpTime <= 0.f)
+				{
+					m_tInfo.fPowerUp = 1.f;
+					m_tInfo.iPowerIndex = 0;
+				}
+			}
+			if (m_tInfo.iPowerIndex == 2)
+				m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
+			if (m_tInfo.fHitTime <= 0.f && !m_tInfo.bSub)
+				HandleInput();
+		}
 
 		TickState(fTimeDelta);
-	
 
 
 
-	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
-	if (nullptr == pSocket)
-		return;
-	_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
 
-	m_pSphereCom->Update(matColl);
+		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+		if (nullptr == pSocket)
+			return;
+		_matrix			matColl = pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&m_pModelCom->Get_PivotFloat4x4()) * XMLoadFloat4x4(m_pTransformCom->Get_World4x4Ptr());
+
+		m_pSphereCom->Update(matColl);
 
 
 
-	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP || m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_CHANGE || m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP_ATTACK)
-		m_tInfo.bJump = true;
-	else
-		m_tInfo.bJump = false;
+		if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP || m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_CHANGE || m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_JUMP_ATTACK)
+			m_tInfo.bJump = true;
+		else
+			m_tInfo.bJump = false;
 
-	if (m_pTransformCom->Get_Jump() == true)
-		m_tInfo.bJump = true;
-	if (m_pAkazaState != nullptr)
-	{
-		m_iState = m_pAkazaState->Get_AkazaState();
+		if (m_pTransformCom->Get_Jump() == true)
+			m_tInfo.bJump = true;
+		if (m_pAkazaState != nullptr)
+		{
+			m_iState = m_pAkazaState->Get_AkazaState();
+		}
 	}
+	else if (pUIManager->Get_StroyEventEnd())
+	{
+		if (!m_bADV_Dead)
+		{
+			m_bADV_Dead = true;
+			CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+			_vector vPos = { 56.56f, 0.f, 50.03f, 1.f };
+
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AkazaLeg"), LEVEL_GAMEPLAY, TEXT("Layer_AkazaBody"), &vPos)))
+				return;
+			vPos.m128_f32[0] -= 5.f;
+			vPos.m128_f32[1] += 0.5f;
+			vPos.m128_f32[2] -= 5.f;
+			if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_AkazaBody"), LEVEL_GAMEPLAY, TEXT("Layer_AkazaBody"), &vPos)))
+				return ;
+		
+			RELEASE_INSTANCE(CGameInstance);
+		}
+	}
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 void CAkaza::Late_Tick(_float fTimeDelta)
 {
-	LateTickState(fTimeDelta);
-
-	if (m_bSceneRender)
+	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+	if (!pUIManager->Get_StroyEventEnd())
 	{
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-	}
+		LateTickState(fTimeDelta);
 
-	if (g_bCollBox)
-	{
-		m_pRendererCom->Add_Debug(m_pSphereCom);
+		if (m_bSceneRender)
+		{
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+		}
+
+		if (g_bCollBox)
+		{
+			m_pRendererCom->Add_Debug(m_pSphereCom);
+		}
 	}
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 HRESULT CAkaza::Render()

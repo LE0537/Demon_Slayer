@@ -17,6 +17,8 @@
 #include "Effect_Manager.h"
 #include "ImGuiManager.h"
 #include "Layer.h"
+#include "Kyoujuro.h"
+#include "Akaza.h"
 unsigned int APIENTRY Thread_GamePlay(void* pArg)
 {
 	CLevel_GamePlay*		pLoader = (CLevel_GamePlay*)pArg;
@@ -59,31 +61,67 @@ unsigned int APIENTRY Thread_GamePlay(void* pArg)
 	pLoader->Set_Renderer((CRenderer*)pOut);
 
 
-	_float fValue[CRenderer::VALUE_END] = { 0.15f, 0.2f ,0.15f ,70.f ,74.f ,0.85f, 0.2f, 1.36f,0.4f, 1.f,20.f, 300.f, 0.05f, 2.8f, 0.4f, 0.7f, 1.f, 0.1f, 15.f };
+	if (pUIManager->Get_SelMapNum() == 0)
+	{
+		_float fValue[CRenderer::VALUE_END] = { 0.15f, 0.2f ,0.15f ,75.f ,87.f ,0.85f, 0.2f, 1.36f,0.4f, 1.f,20.f, 200.f, 0.05f, 1.6f, 0.5f, 1.f, 3.f, 0.7f, 1.f, 0.3f, 15.f, 0.1f };
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.15f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.2f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.15f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 75.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 87.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.85f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.2f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 200.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.6f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.5f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_TESTLENGTH), 1.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_MINUS), 3.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.7f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWPOWER), 0.1f);
+		pLoader->Get_Renderer()->Set_Far(g_fFar);
 
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.15f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.2f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.15f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 70.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 74.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.85f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.2f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 300.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 2.8f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.4f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.7f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.1f);
-	pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
-	pLoader->Get_Renderer()->Set_Far(g_fFar);
+		for (_int i = 0; i < CRenderer::VALUE_END; ++i)
+			CImGuiManager::Get_Instance()->Setting_PostProcessingValue(i, fValue[i]);
+	}
+	else if (pUIManager->Get_SelMapNum() == 1)
+	{
+		_float fValue[CRenderer::VALUE_END] = { 0.11f, 0.15f ,0.3f ,71.f ,171.f ,0.85f, 0.2f, 1.36f,0.4f, 1.f,20.f, 200.f, 0.05f, 1.6f, 0.5f, 1.f, 3.f, 0.55f, 1.f, 0.3f, 15.f, 0.1f };
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.11f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.15f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.3f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGDISTANCE), 71.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGRANGE), 171.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_FOGMINPOWER), 0.85f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_CUBEMAPFOG), 0.2f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AO), 1.36f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_AORADIUS), 0.4f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_GLOWBLURCOUNT), 1.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 200.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.6f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.5f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_TESTLENGTH), 1.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_MINUS), 3.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.55f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 1.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
+		pLoader->Get_Renderer()->Set_Value(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWPOWER), 0.1f);
+		pLoader->Get_Renderer()->Set_Far(g_fFar);
 
-	for (_int i = 0; i < CRenderer::VALUE_END; ++i)
-		CImGuiManager::Get_Instance()->Setting_PostProcessingValue(i, fValue[i]);
+		for (_int i = 0; i < CRenderer::VALUE_END; ++i)
+			CImGuiManager::Get_Instance()->Setting_PostProcessingValue(i, fValue[i]);
+	}
+
 
 	if (pUIManager->Get_BattleTypeCheck())
 	{
@@ -126,12 +164,12 @@ HRESULT CLevel_GamePlay::Initialize()
 	if (0 == m_hThread)
 		return E_FAIL;
 
-	g_fFar = 1800.f;
 
+	g_fFar = 1800.f;
 
 	RELEASE_INSTANCE(CUI_Manager);
 
-
+	
 	return S_OK;
 }
 
@@ -187,9 +225,9 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			else
 			{
 				pUIManager->Add_P1_PersonHpUI();
-				pUIManager->Add_P2_OniHpUI();
+				//pUIManager->Add_P2_OniHpUI();
 				pUIManager->Add_P1_Combo();
-				pUIManager->Add_P2_Combo();
+				//pUIManager->Add_P2_Combo();
 				pUIManager->Add_AdvBattleUI();
 				pUIManager->Add_AdvResult(LEVEL_GAMEPLAY);
 			}
@@ -237,7 +275,17 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 			}
 			else if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0 && pUIManager->Get_2P()->Get_PlayerInfo().strName == TEXT("¾ÆÄ«ÀÚ"))
 			{
-				m_fNextLevelTime += fTimeDelta;
+				if(pUIManager->Get_StroyEventEnd())
+					m_fNextLevelTime += fTimeDelta;
+
+				if (!m_bCinemaEnd)
+				{
+					CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+					dynamic_cast<CAkaza*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Akaza"))->Get_LayerFront())->Set_AiMode(false);
+					dynamic_cast<CKyoujuro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Kyoujuro"))->Get_LayerFront())->Set_StorySpl();
+					RELEASE_INSTANCE(CGameInstance);
+					m_bCinemaEnd = true;
+				}
 				if (m_fNextLevelTime > 15.f && !pUIManager->Get_AdvResult())
 					pUIManager->Set_FadeIn();
 				else if (pUIManager->Get_AdvResult())
@@ -502,14 +550,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 		CSoundMgr::Get_Instance()->PlayBGM(TEXT("Battle_Rui.wav"), g_fBGM);
 		break;
 	case 8:
-		tCharacterDesc2p.i1P2P = 2;
+		tCharacterDesc2p.i1P2P = 11;
 		tCharacterDesc2p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_GAMEPLAY, TEXT("Layer_Akaza"), &tCharacterDesc2p)))
 			return E_FAIL;
 		m_bCheckADVAkaza = true;
 		tCharacterDesc2p.i1P2P = 33;
 
-		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_ADVAkaza();
+		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_ADVAkaza();
 
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &tCharacterDesc2p)))
 			return E_FAIL;

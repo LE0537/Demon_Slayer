@@ -172,7 +172,7 @@ void CUI_Manager::Add_P1_OniHpUI()
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.bPlyCheck = false;
 		m_ThrowInfo.vScale = iter.vScale;
-		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+		m_ThrowInfo.iLevelIndex = g_iLevel;
 
 		P1_O_DATALIST.push_back(m_ThrowInfo);	
 	}
@@ -201,7 +201,7 @@ void CUI_Manager::Add_P2_PersonHpUI()
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.bPlyCheck = true;
 		m_ThrowInfo.vScale = iter.vScale;
-		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+		m_ThrowInfo.iLevelIndex = g_iLevel;
 
 		P2_P_DATALIST.push_back(m_ThrowInfo);
 	}
@@ -229,7 +229,7 @@ void CUI_Manager::Add_P2_OniHpUI()
 		m_ThrowInfo.vRot = iter.vRot;
 		m_ThrowInfo.bPlyCheck = true;
 		m_ThrowInfo.vScale = iter.vScale;
-		m_ThrowInfo.iLevelIndex = LEVEL_GAMEPLAY;
+		m_ThrowInfo.iLevelIndex = g_iLevel;
 
 		P2_O_DATALIST.push_back(m_ThrowInfo);
 	}

@@ -105,6 +105,16 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 			pKyoujuro->Set_SplWeapon(false);
 			pKyoujuro->Reset_SplWeapon();
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro_CinemaState::ANIM_SCENE_8);
+
+			if (pKyoujuro->Get_StorySplEnd())
+			{
+				CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+
+				pUIManager->Set_StroyEventEnd(true);
+
+				RELEASE_INSTANCE(CUI_Manager);
+				pKyoujuro->Set_Stop(true);
+			}
 			return new CKyoujuro_CinemaState(SCENE_END);
 		}
 		break;

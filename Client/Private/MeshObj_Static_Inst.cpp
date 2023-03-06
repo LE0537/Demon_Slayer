@@ -48,11 +48,18 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	{
 		VTXMATRIX	VtxMatrix;
 		memcpy(&VtxMatrix, &m_tMyDesc.pWorld[i], sizeof VtxMatrix);
+		if (2001 <= m_tMyDesc.iModelIndex &&
+			2003 >= m_tMyDesc.iModelIndex)
+		{
+			XMStoreFloat4(&VtxMatrix.vRight,XMLoadFloat4(&VtxMatrix.vRight) * 2.f);
+			XMStoreFloat4(&VtxMatrix.vUp, XMLoadFloat4(&VtxMatrix.vUp) * 2.f);
+			XMStoreFloat4(&VtxMatrix.vLook, XMLoadFloat4(&VtxMatrix.vLook) * 2.f);
+		}
 
 		m_vecMatrix.push_back(VtxMatrix);
 	}
 
-	if(true == m_bRenderShadow)
+	if (true == m_bRenderShadow)
 		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
 
 	_float fFovy = XMConvertToRadians(25.0f);
@@ -61,7 +68,7 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 	_float fFar = g_fFar;
 
 	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
-	
+
 	m_bInit = false;
 
 	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
@@ -118,6 +125,16 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 
 	//RELEASE_INSTANCE(CGameInstance);
 
+	//	ÀÜµð ¹Ù¶÷¿¡ Èçµé¸²
+	if (2031 <= m_tMyDesc.iModelIndex &&
+		2036 >= m_tMyDesc.iModelIndex)
+	{
+		m_fWindTime += fTimeDelta * 0.1f;
+		if (20.f < m_fWindTime)
+			m_fWindTime = 0.f;
+	}
+
+
 	if (g_iLevel == LEVEL_ADVAKAZA)
 	{
 		if (true == m_bRenderShadow)
@@ -163,18 +180,23 @@ HRESULT CMeshObj_Static_Inst::Render()
 
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
-
+	
 	_uint		iNumMeshes = m_pModelCom->Get_NumMeshContainers();
-
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
 			return E_FAIL;
-				
-		if (2106 <= m_tMyDesc.iModelIndex)
+		if (2031 <= m_tMyDesc.iModelIndex &&
+			2036 >= m_tMyDesc.iModelIndex)
 		{
+			if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_NoiseTexture", m_pNoiseTextureCom->Get_SRV(1))))
+				return E_FAIL;
+			if (FAILED(m_pShaderCom->Set_RawValue("g_fFar", &g_fFar, sizeof(_float))))
+				return E_FAIL;
+			if (FAILED(m_pShaderCom->Set_RawValue("g_fWindTime", &m_fWindTime, sizeof(_float))))
+				return E_FAIL;
 			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
 				return E_FAIL;
 		}
@@ -279,6 +301,10 @@ HRESULT CMeshObj_Static_Inst::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Shader"), LEVEL_STATIC, TEXT("Prototype_Component_Shader_VtxModelInstance"), (CComponent**)&m_pShaderCom)))
 		return E_FAIL;
 
+	/* For.Com_NoiseTexture*/
+	if (FAILED(__super::Add_Components(TEXT("Com_NoiseTexture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_Noise_Smell"), (CComponent**)&m_pNoiseTextureCom)))
+		return E_FAIL;
+
 	/* For.Com_Model*/
 	if (FAILED(Ready_ModelComponent()))
 		return E_FAIL;
@@ -292,10 +318,6 @@ HRESULT CMeshObj_Static_Inst::SetUp_ShaderResources()
 		return E_FAIL;
 
 	if (FAILED(m_pShaderCom->Set_RawValue("g_WorldMatrix", &m_pTransformCom->Get_World4x4_TP(), sizeof(_float4x4))))
-		return E_FAIL;
-
-	_matrix matPivot = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
-	if (FAILED(m_pShaderCom->Set_RawValue("g_PivotMatrix", &matPivot, sizeof(_float4x4))))
 		return E_FAIL;
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
@@ -384,9 +406,9 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2051: lstrcpy(pPrototypeTag_Model, L"Wall1_Instancing"); m_fFrustumRadiusRatio = 30.f; break;
 	case 2052: lstrcpy(pPrototypeTag_Model, L"Wall2_Instancing"); m_fFrustumRadiusRatio = 30.f; break;
 
-	case 2053: lstrcpy(pPrototypeTag_Model, L"SpiderWeb1_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
-	case 2054: lstrcpy(pPrototypeTag_Model, L"SpiderWeb2_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
-	case 2055: lstrcpy(pPrototypeTag_Model, L"SpiderWeb3_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
+	case 2053: lstrcpy(pPrototypeTag_Model, L"SpiderWeb1_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2054: lstrcpy(pPrototypeTag_Model, L"SpiderWeb2_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2055: lstrcpy(pPrototypeTag_Model, L"SpiderWeb3_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
 
 	case 2056: lstrcpy(pPrototypeTag_Model, L"Bush1_Instancing"); m_bRenderShadow = false; break;
 	case 2057: lstrcpy(pPrototypeTag_Model, L"Bush2_Instancing"); m_bRenderShadow = false; break;
@@ -596,4 +618,6 @@ void CMeshObj_Static_Inst::Free()
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pModelCom);
 	Safe_Release(m_pRendererCom);
+
+	Safe_Release(m_pNoiseTextureCom);
 }

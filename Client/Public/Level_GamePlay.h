@@ -64,6 +64,7 @@ private:
 	_float      m_fNextLevelTime = 0.f;
 	_bool		m_bCheckADVAkaza = false;
 	_bool					m_bCinema = false;
+	_bool					m_bCinemaEnd = false;
 private:
 	HANDLE					m_hThread = 0;
 	CRITICAL_SECTION		m_CriticalSection;
