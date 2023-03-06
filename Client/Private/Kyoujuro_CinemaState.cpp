@@ -335,6 +335,8 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro_CinemaState::ANIM_SCENE_6));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro_CinemaState::ANIM_SCENE_6);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_6, 0.01f);
+
+		pKyoujuro->Get_Renderer()->Set_Value(CRenderer::VALUE_OUTLINE, 20.f);
 		break;
 	}
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_7: {
@@ -405,7 +407,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_END);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_END, 0.01f);
 
-
+		pKyoujuro->Get_Renderer()->ReturnValue();
 
 		break;
 	default:

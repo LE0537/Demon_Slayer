@@ -63,7 +63,7 @@ unsigned int APIENTRY Thread_GamePlay(void* pArg)
 
 	if (pUIManager->Get_SelMapNum() == 0)
 	{
-		_float fValue[CRenderer::VALUE_END] = { 0.15f, 0.2f ,0.15f ,75.f ,87.f ,0.85f, 0.2f, 1.36f,0.4f, 1.f,20.f, 200.f, 0.05f, 1.6f, 0.5f, 1.f, 3.f, 0.7f, 1.f, 0.3f, 15.f, 0.1f };
+		_float fValue[CRenderer::VALUE_END] = { 0.15f, 0.2f ,0.15f ,75.f ,87.f ,0.85f, 0.2f, 1.36f,0.4f, 1.f,20.f, 200.f, 0.05f, 1.6f, 0.5f, 1.f, 3.f, 0.7f, 1.f, 0.3f, 15.f, 0.f, 0.f, 0.1f };
 		pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 0.15f);
 		pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.2f);
 		pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.15f);

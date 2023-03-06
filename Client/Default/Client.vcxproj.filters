@@ -1447,109 +1447,109 @@
     <Filter Include="02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza\AkazaLeg">
       <UniqueIdentifier>{bb816d54-6ca6-43d8-a904-8cd243ccfa5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro">
       <UniqueIdentifier>{b5e55ae6-1d11-41da-a130-1abb867bcc28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\Sheath">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\Sheath">
       <UniqueIdentifier>{b4871925-76bb-432f-8e57-685c75aab43d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\Weapon">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\Weapon">
       <UniqueIdentifier>{a40c6a1c-96db-431c-be67-67a5fdbdf442}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState">
       <UniqueIdentifier>{5af457d9-d643-46fd-8786-eb12be4d98f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Idle">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle">
       <UniqueIdentifier>{78fcab44-16d9-4e7c-bdd4-de38128a802f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Jump">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump">
       <UniqueIdentifier>{ba389b34-b319-4a61-9b49-470e41f62c68}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Move">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move">
       <UniqueIdentifier>{25b4b8b3-bbc5-4044-bf75-69cac27a658a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Move\MoveJump">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move\MoveJump">
       <UniqueIdentifier>{276d0c91-978d-4ed6-b859-f4463be410bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_1">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_1">
       <UniqueIdentifier>{aed82783-aee7-429c-8f76-d98c037425db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_2">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_2">
       <UniqueIdentifier>{5fe8c000-1964-4089-9559-3971787b84a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_3">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_3">
       <UniqueIdentifier>{a50756df-75d1-428d-ba31-a4798a80fa1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_4">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_4">
       <UniqueIdentifier>{735d8c88-857f-47ff-9e99-cac2977f93d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Hit">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit">
       <UniqueIdentifier>{2f6ae4d9-4e6b-4ae2-8ff4-fcb0b8917f52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Guard">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard">
       <UniqueIdentifier>{b6a0ca98-f4ec-48cc-888c-ccc14f0f7609}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Dash">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash">
       <UniqueIdentifier>{772b995d-4462-442f-b41d-7ccf548daaca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Tool">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Tool">
       <UniqueIdentifier>{ed6166fe-f7c0-4579-9484-da1351a6b58d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill">
       <UniqueIdentifier>{7708309f-7d1e-476e-80d5-a2d38a15b832}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\Common">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\Common">
       <UniqueIdentifier>{1bf3e3b1-cd36-4ff4-be5d-837f0d498384}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\DashSlash">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DashSlash">
       <UniqueIdentifier>{cec25342-11ec-4ffa-87fa-647e81ce47b2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper">
       <UniqueIdentifier>{e21190c1-9328-4668-838f-7976627ab0f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\JumpCommon">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpCommon">
       <UniqueIdentifier>{299afe96-4f68-4bc2-a229-cd3df3b00aed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\JumpMove">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpMove">
       <UniqueIdentifier>{95b19c9d-69a6-4c86-9a17-b42c751820f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Change">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Change">
       <UniqueIdentifier>{6760f552-2abb-40ae-9c92-c690d3ce838f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\JumpAttack">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack">
       <UniqueIdentifier>{a5978d52-8047-47bc-94ad-362a386f2d9c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack">
       <UniqueIdentifier>{59a427b9-4c76-445d-929f-b1fe03875ae7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\BattleStart">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\BattleStart">
       <UniqueIdentifier>{5c33a784-8bf4-463e-ae38-a30761861896}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\TargetRush">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\TargetRush">
       <UniqueIdentifier>{8ea809a3-aef0-4d63-ae15-5ac6c86f501d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\SplSkrStart">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\SplSkrStart">
       <UniqueIdentifier>{cf795ff6-c779-4ea4-8206-f54c846128ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\AkazaScene">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\AkazaScene">
       <UniqueIdentifier>{e5fdd595-4a0b-47fb-a243-475f517f743e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState">
       <UniqueIdentifier>{851a4edb-118c-4c70-97bd-05e8295106cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Akaza">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Akaza">
       <UniqueIdentifier>{d6c5c3c9-4a17-4d5d-9e25-8c655c9546b3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Tanjiro">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Tanjiro">
       <UniqueIdentifier>{e4c9dc2e-e9f0-4a6e-8674-43b5476f730a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Rui">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Rui">
       <UniqueIdentifier>{2aa6da24-aef1-456e-9e36-674e41d66a81}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Nezuko">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Nezuko">
       <UniqueIdentifier>{90baf7a1-527d-41bc-b4bd-f734411abf37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Shinobu">
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Shinobu">
       <UniqueIdentifier>{14868ebd-37de-49a6-96ba-569f55979641}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -1630,7 +1630,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Idle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Kyoujuro.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Tanjiro.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro</Filter>
@@ -1651,10 +1651,10 @@
       <Filter>03.UI\02.Battle\BattleTop\Gague\Deco</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroWeapon.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\Weapon</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroSheath.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\Sheath</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\Sheath</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Characters.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters</Filter>
@@ -1687,19 +1687,19 @@
       <Filter>03.UI\02.Battle\BattleTop\Change\ChangeIcon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroIdleState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Idle</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroJumpState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Jump</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TanjiroMoveJumpState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move\MoveJump</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroMoveJumpState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Move\MoveJump</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move\MoveJump</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TanjiroAtk_1_State.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_1</Filter>
@@ -1714,16 +1714,16 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_4</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroAtk_1_State.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_1</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_1</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroAtk_2_State.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_2</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_2</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroAtk_3_State.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_3</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_3</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroAtk_4_State.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_4</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_4</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Effect.h">
       <Filter>04.Effect</Filter>
@@ -1744,13 +1744,13 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroHitState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Hit</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_SelectChar.h">
       <Filter>01.Levels\03.SelectChar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroGuardState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Guard</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TanjiroGuardState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Guard</Filter>
@@ -1762,10 +1762,10 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Guard</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroGuardHitState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Guard</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroGuardAdvState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Guard</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
     </ClInclude>
     <ClInclude Include="..\DebugTool\imconfig.h">
       <Filter>95.DebugTool\Default</Filter>
@@ -1795,7 +1795,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Dash</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroMoveState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Move</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BaseAtk.h">
       <Filter>05.CollBox\00.BaseAtk</Filter>
@@ -1870,7 +1870,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroDashState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Dash</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\LogoButton.h">
       <Filter>03.UI\00.Logo\Button</Filter>
@@ -1945,16 +1945,16 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\Common</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroToolState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Tool</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Tool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroSkill_Common.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\Common</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\Common</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroSkill_DashSlash.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\DashSlash</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DashSlash</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroSkill_DoubleUpper.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\RuiState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState</Filter>
@@ -2119,10 +2119,10 @@
       <Filter>05.CollBox\07.RuiSphere</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroJumpSkill_Common.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\JumpCommon</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpCommon</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroJumpSkill_Move.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\JumpMove</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpMove</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\TanjiroKaguraAtk_1_State.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_1</Filter>
@@ -2197,7 +2197,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Change</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroChangeState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Change</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Change</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AkazaChangeState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Change</Filter>
@@ -2377,13 +2377,13 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\TargetRush</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroJumpAttackState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\JumpAttack</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroTargetRushState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\TargetRush</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\TargetRush</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroJumpMoveAttackState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AkazaJumpAttackState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\JumpAttack</Filter>
@@ -2410,7 +2410,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\BattleStart</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroBattleSTState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\BattleStart</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\BattleStart</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AkazaBattleSTState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\BattleStart</Filter>
@@ -2620,10 +2620,10 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroUpperHitState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Hit</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroTakeDownState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Hit</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AkazaTakeDownState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
@@ -2770,7 +2770,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Kyoujuro_CinemaState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Nezuko_CinemaState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState</Filter>
@@ -2821,7 +2821,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Kyoujuro</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroHitCinema_Akaza.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Akaza</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Akaza</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\RuiHitCinema_Tanjiro.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro</Filter>
@@ -2854,16 +2854,16 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Nezuko</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroHitCinema_Nezuko.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Nezuko</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Nezuko</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroHitCinema_Rui.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Rui</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Rui</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroHitCinema_Shinobu.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Shinobu</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Shinobu</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroHitCinema_Tanjiro.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Tanjiro</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Tanjiro</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AkazaHitCinema_Nezuko.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Nezuko</Filter>
@@ -3019,7 +3019,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\SplSkrStart</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroSplSkrStartState.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\SplSkrStart</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\SplSkrStart</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\NezukoSplSkrStartState.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\SplSkrStart</Filter>
@@ -3073,7 +3073,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\AkazaScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\KyoujuroAkazaScene.h">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\AkazaScene</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\AkazaScene</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\AkazaAkazaScene.h">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\AkazaScene</Filter>
@@ -3141,7 +3141,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Idle</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Kyoujuro.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroMoveState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move</Filter>
@@ -3162,10 +3162,10 @@
       <Filter>03.UI\02.Battle\BattleTop\Gague\Bar\Hp</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroSheath.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\Sheath</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\Sheath</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroWeapon.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\Weapon</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Characters.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters</Filter>
@@ -3201,10 +3201,10 @@
       <Filter>03.UI\02.Battle\BattleTop\Change\ChangeIcon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroIdleState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Idle</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroJumpState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Jump</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_GamePlay.cpp">
       <Filter>01.Levels\02.GamePlay</Filter>
@@ -3213,7 +3213,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Move\MoveJump</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroMoveJumpState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Move\MoveJump</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move\MoveJump</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroAtk_1_State.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_1</Filter>
@@ -3228,16 +3228,16 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Attack_4</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroAtk_1_State.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_1</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_1</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroAtk_2_State.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_2</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_2</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroAtk_3_State.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_3</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_3</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroAtk_4_State.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Attack_4</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_4</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_GamePlay.cpp">
       <Filter>01.Levels\02.GamePlay</Filter>
@@ -3261,13 +3261,13 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Hit</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroHitState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Hit</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_SelectChar.cpp">
       <Filter>01.Levels\03.SelectChar</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroGuardState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Guard</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroGuardState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Guard</Filter>
@@ -3279,10 +3279,10 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Guard</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroGuardHitState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Guard</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroGuardAdvState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Guard</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard</Filter>
     </ClCompile>
     <ClCompile Include="..\DebugTool\imgui.cpp">
       <Filter>95.DebugTool\Default</Filter>
@@ -3312,7 +3312,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Dash</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroMoveState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Move</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClCompile>
     <ClCompile Include="..\private\BaseAtk.cpp">
       <Filter>05.CollBox\00.BaseAtk</Filter>
@@ -3384,7 +3384,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroDashState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Dash</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\LogoFixedImg.cpp">
       <Filter>03.UI\00.Logo\FixedImg</Filter>
@@ -3459,16 +3459,16 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Skill\Common</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroToolState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Tool</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Tool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroSkill_Common.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\Common</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\Common</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroSkill_DashSlash.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\DashSlash</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DashSlash</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroSkill_DoubleUpper.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\RuiIdleState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Idle</Filter>
@@ -3627,10 +3627,10 @@
       <Filter>05.CollBox\07.RuiSphere</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroJumpSkill_Common.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\JumpCommon</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpCommon</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroJumpSkill_Move.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Skill\JumpMove</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpMove</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\TanjiroKaguraAtk_1_State.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\HinoKamiKagura\Attack_1</Filter>
@@ -3702,7 +3702,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\Change</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroChangeState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Change</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Change</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AkazaChangeState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Change</Filter>
@@ -3891,13 +3891,13 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\TargetRush</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroJumpAttackState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\JumpAttack</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroJumpMoveAttackState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroTargetRushState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\TargetRush</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\TargetRush</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\RuiJumpAttackState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\JumpAttack</Filter>
@@ -3918,7 +3918,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\BattleStart</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroBattleSTState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\BattleStart</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\BattleStart</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AkazaBattleSTState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\BattleStart</Filter>
@@ -4131,10 +4131,10 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\RuiState\Hit</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroTakeDownState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Hit</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroUpperHitState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\Hit</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AkazaTakeDownState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\Hit</Filter>
@@ -4284,7 +4284,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Kyoujuro_CinemaState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Nezuko_CinemaState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\CinemaState</Filter>
@@ -4332,7 +4332,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Kyoujuro</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroHitCinema_Akaza.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Akaza</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Akaza</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\RuiHitCinema_Tanjiro.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Tanjiro</Filter>
@@ -4362,16 +4362,16 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\CinemaState\Shinobu</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroHitCinema_Nezuko.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Nezuko</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Nezuko</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroHitCinema_Rui.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Rui</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Rui</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroHitCinema_Shinobu.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Shinobu</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Shinobu</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroHitCinema_Tanjiro.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\CinemaState\Tanjiro</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Tanjiro</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\AkazaHitCinema_Nezuko.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\CinemaState\Nezuko</Filter>
@@ -4518,7 +4518,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\SplSkrStart</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroSplSkrStartState.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\SplSkrStart</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\SplSkrStart</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\NezukoSplSkrStartState.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\04.Nezuko\NezukoState\SplSkrStart</Filter>
@@ -4569,7 +4569,7 @@
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\00.Tanjiro\TanjiroState\AkazaScene</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\KyoujuroAkazaScene.cpp">
-      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\01.Rui\02.Kyoujuro\KyoujuroState\AkazaScene</Filter>
+      <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\AkazaScene</Filter>
     </ClCompile>
     <ClCompile Include="..\private\AkazaAkazaScene.cpp">
       <Filter>02.GameObjects\99.GameObj\00.Characters\01.Char\03.Akaza\AkazaState\AkazaScene</Filter>
