@@ -258,6 +258,7 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_9, 0.01f);
 		break;
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_END:
+		pNezuko->Get_BattleTarget()->Set_Hp(-400);
 		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pNezuko->Get_NavigationHeight().y, 56.1f, 1.f));
 		pNezuko->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pNezuko->Get_NavigationHeight().y, 50.03f, 1.f));
 
