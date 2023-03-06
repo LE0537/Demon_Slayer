@@ -37,7 +37,7 @@ HRESULT CAkazaLeg::Initialize(void * pArg)
 
 	_vector vPos = *(_vector*)pArg;
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
-	m_pTransformCom->Turn2(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(90.f));
+//	m_pTransformCom->Turn2(XMVectorSet(1.f, 0.f, 0.f, 0.f), XMConvertToRadians(90.f));
 	m_pModelCom->Set_CurrentAnimIndex(0);
 
 	return S_OK;
@@ -45,6 +45,9 @@ HRESULT CAkazaLeg::Initialize(void * pArg)
 
 void CAkazaLeg::Tick(_float fTimeDelta)
 {
+	m_DelayTime += fTimeDelta;
+	if (m_DelayTime > 1.75f)
+		m_bRender = true;
 	m_pModelCom->Play_Animation(fTimeDelta);
 
 	HandleInput();

@@ -88,7 +88,7 @@ private:
 
 	_bool	m_bStart = false;
 	_bool   m_bAiMode = false;
-	_bool   m_bRender = true;
+	_bool   m_bRender = false;
 
 	_bool   m_bTick = false;
 
@@ -96,6 +96,7 @@ private:
 	_bool					m_bQuestStop = false;
 
 	_vector	m_vOriginPosition;
+	_float		m_DelayTime = 0.f;
 
 public:
 	static CAkazaLeg* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
