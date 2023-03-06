@@ -26,6 +26,7 @@ private:
 	_float m_fTime = 0.f;
 	_float m_fCreateTime = 0.f;
 	_bool m_bCreateBool = false;
+	_vector m_vTargetPosition; 
 };
 END
 END

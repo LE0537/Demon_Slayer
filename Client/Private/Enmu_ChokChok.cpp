@@ -44,6 +44,9 @@ HRESULT CEnmu_ChokChok::Initialize(void * pArg)
 	{
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		CGameInstance* pGameInstance1 = CGameInstance::Get_Instance();
+		m_tChokChokInfo.vPosition = XMVectorSetY(m_tChokChokInfo.vPosition, dynamic_cast<CTanjiro*>(pGameInstance1->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_NavigationHeight().y);
+
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT2_GROUND, &m_tChokChokInfo.vPosition);
 
 		RELEASE_INSTANCE(CEffect_Manager);

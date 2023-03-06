@@ -14,6 +14,7 @@
 
 #include "EnmuBoss_Hit.h"
 #include "Effect_Manager.h"
+#include "Enmu_ChokChok.h"
 using namespace EnmuBoss;
 
 CEnmuBoss_Pattern2State::CEnmuBoss_Pattern2State(STATE_TYPE eType, CEnmuBoss::PARTS eParts)
@@ -224,6 +225,11 @@ void CEnmuBoss_Pattern2State::Create_Chok()
 
 	_vector vTargetPos = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-	pGameInstance->Add_GameObject(L"Prototype_GameObject_Enmu_ChokChok", g_iLevel, L"Layer_ChokChok", &vTargetPos);
+	CEnmu_ChokChok::CHOKCHOK tInfo{};
+	ZeroMemory(&tInfo, sizeof(tInfo));
+	tInfo.bEffect = true;
+	tInfo.vPosition = vTargetPos;
+
+	pGameInstance->Add_GameObject(L"Prototype_GameObject_Enmu_ChokChok", g_iLevel, L"Layer_ChokChok", &tInfo);
 }
 
