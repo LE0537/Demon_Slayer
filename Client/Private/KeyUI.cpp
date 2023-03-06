@@ -45,7 +45,7 @@ HRESULT CKeyUI::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-	if (m_ThrowUIinfo.iLayerNum == 0)
+	if (!m_ThrowUIinfo.bPlyCheck)
 		m_iImgNum = 0;
 	else
 		m_iImgNum = 1;
@@ -84,7 +84,7 @@ HRESULT CKeyUI::Render()
 		m_pVIBufferCom->Render();
 	else
 	{
-		if(!m_ThrowUIinfo.bPlyCheck)
+		if(!m_ThrowUIinfo.bPlyCheck && (m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName == TEXT("루이") || m_ThrowUIinfo.pTarget->Get_PlayerInfo().strName == TEXT("아빠 거미")))
 			m_pVIBufferCom->Render();
 	}
 

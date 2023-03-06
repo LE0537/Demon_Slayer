@@ -105,7 +105,7 @@ HRESULT CBtlFixedImg::Render()
 				m_pVIBufferCom->Render();
 		}
 	}
-	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU)
+	else if (m_ThrowUIinfo.iLevelIndex == LEVEL_BATTLEENMU || m_ThrowUIinfo.iLevelIndex == LEVEL_BOSSENMU || (m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY && !pUI_Manager->Get_BattleTypeCheck()))
 	{
 		if(m_ThrowUIinfo.bPlyCheck && m_ThrowUIinfo.iTextureNum != 23 && m_ThrowUIinfo.iTextureNum != 36)
 			m_pVIBufferCom->Render();
