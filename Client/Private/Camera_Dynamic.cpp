@@ -230,6 +230,7 @@ HRESULT CCamera_Dynamic::Initialize(void* pArg)
 	if (FAILED(Ready_StoryScene("EnmuBoss_Dead2"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("ADV_Akaza1"))) return E_FAIL;
 	if (FAILED(Ready_StoryScene("ADV_Akaza2"))) return E_FAIL;
+	if (FAILED(Ready_StoryScene("ADV_Akaza_Dead"))) return E_FAIL;
 
 	if (g_iLevel == LEVEL_BOSSENMU || g_iLevel == LEVEL_BATTLEENMU)
 	{

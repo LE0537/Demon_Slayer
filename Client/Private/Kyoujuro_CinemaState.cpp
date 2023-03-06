@@ -147,6 +147,10 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_SPLSKL_END);
 
+			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_AKAZA_DEAD);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+			RELEASE_INSTANCE(CGameInstance);
 			return new CIdleState();
 		}
 		break;
