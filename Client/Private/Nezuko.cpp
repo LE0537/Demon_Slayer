@@ -636,11 +636,20 @@ void CNezuko::Set_Info()
 
 void CNezuko::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
-	if (m_pNezukoState->Get_NezukoState() == CNezukoState::STATE_HIT)
-		m_pModelCom->Reset_Anim(CNezuko::ANIMID::ANIM_HIT);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CNezukoState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CNezukoState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+	}
 
-	CNezukoState* pState = new CHitState(_fPow, _bJumpHit);
-	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+	else
+	{
+
+		CNezukoState* pState = new CHitState(_fPow, _bJumpHit);
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+	}
 
 }
 
@@ -662,14 +671,36 @@ void CNezuko::Get_GuardHit(_int eType)
 
 void CNezuko::Player_TakeDown(_float _fPow, _bool _bJump)
 {
-	CNezukoState* pState = new CTakeDownState(_fPow, _bJump);
-	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+	if(m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CNezukoState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CNezukoState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+	}
+
+	else
+	{
+		CNezukoState* pState = new CTakeDownState(_fPow, _bJump);
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+	}
 }
 
 void CNezuko::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
-	CNezukoState* pState = new CUpperHitState(eHitType, CNezukoState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
-	m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CNezukoState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CNezukoState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+	}
+
+	else
+	{
+		CNezukoState* pState = new CUpperHitState(eHitType, CNezukoState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
+	}
 }
 
 void CNezuko::Play_Scene()

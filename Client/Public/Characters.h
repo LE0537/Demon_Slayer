@@ -69,13 +69,23 @@ public:
 		_int		iMaxGuard;
 		_int		iGuard;
 		_int		iAccDamage;
+		_int		iAccComboDmg;
 		_float      fGuardTime;
 	}PLAYERINFO;
 
 public:
 	PLAYERINFO Get_PlayerInfo() { return m_tInfo; }
-	void	   Set_Hp(_int _iDmg) { m_tInfo.iHp += _iDmg; m_tInfo.iAccDamage += abs(_iDmg); }
+	void	   Set_Hp(_int _iDmg)
+	{
+		m_tInfo.iHp += _iDmg; 
+		m_tInfo.iAccDamage += abs(_iDmg);  
+		if (m_tInfo.fComboTime > 0) 
+		{
+			m_tInfo.iAccComboDmg += abs(_iDmg);
+		}
+	}
 	void	   Set_AccDmg() { m_tInfo.iAccDamage = 0; }
+	void	   Reset_AccComboDmg() { m_tInfo.iAccComboDmg = 0; }
 	void	   Set_bGuard(_bool _bGuard) { m_tInfo.bGuard = _bGuard; }
 	void	   Set_JumpState(_bool bJump) { m_tInfo.bJump = bJump; }
 	void	   Set_BattleTarget(CCharacters* _BattleTarget) { m_pBattleTarget = _BattleTarget; }

@@ -757,11 +757,20 @@ void CKyoujuro::Check_Spl()
 
 void CKyoujuro::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
-	if (m_pKyoujuroState->Get_TanjiroState() == CKyoujuroState::STATE_HIT)
-		m_pModelCom->Reset_Anim(CKyoujuro::ANIMID::ANIM_HIT);
 
-	CKyoujuroState* pState = new CHitState(_fPow, _bJumpHit);
-	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CKyoujuroState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CKyoujuroState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+	}
+
+	else
+	{
+		CKyoujuroState* pState = new CHitState(_fPow, _bJumpHit);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+	}
 
 }
 void CKyoujuro::Get_GuardHit(_int eType)
@@ -783,14 +792,36 @@ void CKyoujuro::Get_GuardHit(_int eType)
 
 void CKyoujuro::Player_TakeDown(_float _fPow, _bool _bJump)
 {
-	CKyoujuroState* pState = new CTakeDownState(_fPow, _bJump);
-	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CKyoujuroState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CKyoujuroState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+	}
+
+	else
+	{
+		CKyoujuroState* pState = new CTakeDownState(_fPow, _bJump);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+	}
 }
 
 void CKyoujuro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
-	CKyoujuroState* pState = new CUpperHitState(eHitType, CKyoujuroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
-	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CKyoujuroState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CKyoujuroState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+	}
+
+	else
+	{
+		CKyoujuroState* pState = new CUpperHitState(eHitType, CKyoujuroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+	}
 }
 
 void CKyoujuro::Play_Scene()

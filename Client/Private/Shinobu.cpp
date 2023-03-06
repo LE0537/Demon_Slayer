@@ -506,11 +506,20 @@ HRESULT CShinobu::Render_ShadowDepth()
 
 void CShinobu::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
-	if (m_pShinobuState->Get_ShinobuState() == CShinobuState::STATE_HIT)
-		m_pModelCom->Reset_Anim(CShinobu::ANIMID::ANIM_HIT);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CShinobuState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CShinobuState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+	}
 
-	CShinobuState* pState = new CHitState(_fPow, _bJumpHit);
-	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+	else
+	{
+
+		CShinobuState* pState = new CHitState(_fPow, _bJumpHit);
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+	}
 }
 
 void CShinobu::Get_GuardHit(_int eType)
@@ -532,14 +541,36 @@ void CShinobu::Get_GuardHit(_int eType)
 
 void CShinobu::Player_TakeDown(_float _fPow, _bool _bJump)
 {
-	CShinobuState* pState = new CTakeDownState(_fPow, _bJump);
-	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CShinobuState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CShinobuState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+	}
+
+	else
+	{
+		CShinobuState* pState = new CTakeDownState(_fPow, _bJump);
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+	}
 }
 
 void CShinobu::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
-	CShinobuState* pState = new CUpperHitState(eHitType, CShinobuState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
-	m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CShinobuState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CShinobuState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+	}
+
+	else
+	{
+		CShinobuState* pState = new CUpperHitState(eHitType, CShinobuState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
+	}
 }
 
 void CShinobu::Play_Scene()

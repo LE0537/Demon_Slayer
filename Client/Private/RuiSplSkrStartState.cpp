@@ -4,6 +4,8 @@
 #include "Rui_CinemaState.h"
 #include "RuiIdleState.h"
 #include "RuiSplColl.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Rui;
 
 
@@ -25,14 +27,14 @@ CRuiState * CSplSkrStartState::Tick(CRui* pRui, _float fTimeDelta)
 		switch (m_eStateType)
 		{
 		case Client::CRuiState::TYPE_START:
-			if (pRui->Get_HitSpl())
+		/*	if (pRui->Get_HitSpl())
 			{
 				pRui->Set_HitSpl(false);
 				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 				pRui->Get_BattleTarget()->Play_Scene();
 				return new CRui_CinemaState(CRui_CinemaState::SCENE_START);
 			}
-			else
+			else*/
 			{
 				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 				return new CIdleState();
@@ -59,6 +61,50 @@ CRuiState * CSplSkrStartState::Tick(CRui* pRui, _float fTimeDelta)
 	switch (m_eStateType)
 	{
 	case Client::CRuiState::TYPE_START:
+		//if (m_bCollision == true && m_bCreate == false)
+		//{
+		//	m_bPlayScene = true;
+		//	g_bSpecialSkillHit = true;
+		//	m_bCreate = true;
+		//	pTanjiro->Get_BattleTarget()->Take_Damage(0.f, false);
+		//	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+		//	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 1.f);
+		//}
+
+		//if (m_bPlayScene == true)
+		//{
+		//	if (g_bSpecialSkillHit == false)
+		//	{
+		//		pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+		//		pTanjiro->Get_BattleTarget()->Play_Scene();
+		//		return new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);
+		//	}
+		//}
+
+		if (pRui->Get_HitSpl())
+		{
+			pRui->Set_HitSpl(false);
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			m_bPlayScene = true;
+			g_bSpecialSkillHit = true;
+			pRui->Get_BattleTarget()->Take_Damage(0.f, false);
+			CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 1.f);
+		}
+	
+
+		if (m_bPlayScene == true)
+		{
+			if (g_bSpecialSkillHit == false)
+			{
+				pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+				pRui->Get_BattleTarget()->Play_Scene();
+				return new CRui_CinemaState(CRui_CinemaState::SCENE_START);
+			}
+		}
+
+	
+
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		break;
@@ -79,6 +125,8 @@ CRuiState * CSplSkrStartState::Tick(CRui* pRui, _float fTimeDelta)
 
 CRuiState * CSplSkrStartState::Late_Tick(CRui* pRui, _float fTimeDelta)
 {
+
+
 	CCharacters* m_pTarget = pRui->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	pRui->Get_Transform()->Set_PlayerLookAt(vLooAt);

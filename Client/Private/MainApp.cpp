@@ -27,6 +27,7 @@ bool			g_bCollBox = false;
 int		    	g_iLevel = 0;
 bool			g_bThread = false;
 bool			g_bDeathTime = false;
+bool			g_bSpecialSkillHit = false;
 float			g_fFar = 1800.f;
 float			g_fBGM = 0.7f;
 float			g_fEffect = 0.8f;
@@ -97,6 +98,22 @@ void CMainApp::Tick(_float fTimeDelta)
 
 	if(g_bDeathTime == true)
 		fTimeDelta *= 0.2f;
+
+	if (g_bSpecialSkillHit == true)
+		fTimeDelta *= 0.05f;
+
+	if (g_bSpecialSkillHit == true)
+	{
+		static _float fTimeDelay = 0.f;
+		fTimeDelay += 1.f / 60.f;
+
+		if (fTimeDelay >= 1.f)
+		{
+			fTimeDelay = 0.f;
+			g_bSpecialSkillHit = false;
+		}
+	}
+
 
 	if (!g_bThread)
 	{

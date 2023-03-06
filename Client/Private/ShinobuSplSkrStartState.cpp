@@ -4,6 +4,8 @@
 #include "Shinobu_CinemaState.h"
 #include "ShinobuIdleState.h"
 #include "Effect_Manager.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Shinobu;
 
 
@@ -35,13 +37,13 @@ CShinobuState * CSplSkrStartState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 			return new CSplSkrStartState(TYPE_LOOP);
 			break;
 		case Client::CShinobuState::TYPE_LOOP:
-			if (m_bCollision == true)
-			{
-				pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-				pShinobu->Get_BattleTarget()->Play_Scene();
-				return new CShinobu_CinemaState(CShinobu_CinemaState::SCENE_START);
-			}
-			else
+			//if (m_bCollision == true)
+			//{
+			//	pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			//	pShinobu->Get_BattleTarget()->Play_Scene();
+			//	return new CShinobu_CinemaState(CShinobu_CinemaState::SCENE_START);
+			//}
+			//else
 			{
 				pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
 				return new CIdleState();
@@ -74,6 +76,27 @@ CShinobuState * CSplSkrStartState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 
 			if (m_fDuration <= 0.5f)
 				Move(pShinobu, fTimeDelta);
+
+			if (m_bCollision == true && m_bCreate == false)
+			{
+				m_bPlayScene = true;
+				g_bSpecialSkillHit = true;
+				m_bCreate = true;
+				pShinobu->Get_BattleTarget()->Take_Damage(0.f, false);
+				CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 1.f);
+			}
+
+			if (m_bPlayScene == true)
+			{
+				if (g_bSpecialSkillHit == false)
+				{
+					pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+					pShinobu->Get_BattleTarget()->Play_Scene();
+					return new CShinobu_CinemaState(CShinobu_CinemaState::SCENE_START);
+				}
+			}
+
 		}
 
 		break;
