@@ -105,6 +105,7 @@ void CHitCinema_Akaza::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_LinearTime(CHitCinema_Akaza::ANIM_SCENE_DMG_080, 0.01f);
 		break;
 	case Client::Nezuko::CHitCinema_Akaza::SCENE_2:
+		pNezuko->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pNezuko->Get_Model()->Reset_Anim(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CHitCinema_Akaza::ANIM_SCENE_DMG_090));

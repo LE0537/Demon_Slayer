@@ -37,6 +37,8 @@ public:
 
 private:
 	CINEMASCENE m_eScene = SCENE_END;
+	_float		m_fTime = 0.f;
+	_bool		m_bRenderObjects = false;
 
 };
 

@@ -765,14 +765,16 @@ PS_OUT PS_POINTBLUR(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	vector vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	Out.vColor = vDiffuse;
+
 	float2 vBlurDir = In.vTexUV - g_vBlurPoint_Viewport;
 	float fBlurDirPower = abs(vBlurDir.x) + abs(vBlurDir.y);	//	Dir의 전체 크기.
+
 	float2 vBlurDir_Normalize = vBlurDir / fBlurDirPower;		//	정규화. (크기 / 전체 크기)
 
 
-	float	fBlurCount = max(min(g_fPointBlurPower * fBlurDirPower * g_fPointBlurTime, 100), 0);
+	float	fBlurCount = max(min(g_fPointBlurPower * fBlurDirPower * g_fPointBlurTime * max(length(vBlurDir) - ((1.f - g_fPointBlur_MinRatio) * 0.5f), 0.f), 100), 0);
 	float	fBlurTotal = 1.f;
-	Out.vColor = vDiffuse;
 	for (int i = 1; i < fBlurCount / 2; ++i)
 	{
 		float2 vBlurTexUV = In.vTexUV + ((vBlurDir_Normalize * i) / 300.f);
