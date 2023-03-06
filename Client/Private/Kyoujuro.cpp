@@ -885,7 +885,7 @@ void CKyoujuro::StorySpl(_float fTimeDelta)
 {
 	dynamic_cast<CAkaza*>(m_pBattleTarget)->Set_StoryDead();
 	m_pBattleTarget->Play_Scene();
-	CKyoujuroState* pState = new CSplSkrStartState(CSplSkrStartState::TYPE_START);
+	CKyoujuroState* pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::SCENE_START);
 	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 	m_bStorySpl = false;
 	m_bStorySplEnd = true;
