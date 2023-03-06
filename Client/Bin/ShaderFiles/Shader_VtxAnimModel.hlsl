@@ -257,13 +257,13 @@ PS_GLOWOUT PS_ONI_DISSOLVE(PS_IN In)
 	Out.vWorld = In.vWorld /*/ g_fFar*/;
 
 	Out.vDiffuse.a = (g_DissolveTexture.Sample(LinearSampler, In.vTexUV)).r - g_fDeadTimeRatio;
-	float	fDissolvingValue = Out.vDiffuse.a + 0.1f;
+	float	fDissolvingValue = g_fDeadTimeRatio + 0.02f;
 	
 	if (Out.vDiffuse.a < fDissolvingValue)
 	{
-		Out.vDiffuse.rgb = float3(1.f, 0.3f, 0.f);
-		Out.vGlow.rgb = float3(1.f, 1.f, 0.f);
-		Out.vGlow.a = 1.f;
+		Out.vDiffuse.rgb = float3(0.f, 0.f, 0.f);
+		Out.vGlow.rgb = float3(1.f, 0.f, 0.f);
+		Out.vGlow.a = Out.vDiffuse.a;
 	}
 
 	if (Out.vDiffuse.a <= 0.01f)

@@ -54,6 +54,10 @@ void CRuiHead::Tick(_float fTimeDelta)
 		vPos.m128_f32[1] -= 25.f * fTimeDelta;
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	}
+	else
+	{
+		m_fDissolve += fTimeDelta * 0.05f;
+	}
 	m_pBattleTarget->Get_Transform()->Set_PlayerLookAt(vPos);
 }
 
@@ -97,7 +101,13 @@ HRESULT CRuiHead::Render()
 			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 				return E_FAIL;
 
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+			if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DissolveTexture", m_pTextureCom->Get_SRV(0))))
+				return E_FAIL;
+
+			if (FAILED(m_pShaderCom->Set_RawValue("g_fDeadTimeRatio", &m_fDissolve, sizeof(_float))))
+				return E_FAIL;
+
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 5)))
 				return E_FAIL;
 		}
 		else
@@ -215,7 +225,9 @@ HRESULT CRuiHead::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Rui"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_Dissolve"), (CComponent**)&m_pTextureCom)))
+		return E_FAIL;
+	
 	return S_OK;
 }
 
