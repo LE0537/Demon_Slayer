@@ -27,7 +27,7 @@ HRESULT CKyoujuroSkill::Initialize(void * pArg)
 
 	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-	//pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_5TIGER_MAIN, this);
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_5TIGER_MAIN, this);
 	pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_COLL_5TIGER_PARTICLE, this);
 	RELEASE_INSTANCE(CEffect_Manager);
 
