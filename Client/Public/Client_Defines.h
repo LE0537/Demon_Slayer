@@ -33,5 +33,6 @@ extern float		g_fVoice;
 extern float		g_fDialog;
 extern float        g_fLoading;
 extern bool			g_bSpecialSkillHit;
+extern bool			g_bMiniGame;
 
 using namespace Client;

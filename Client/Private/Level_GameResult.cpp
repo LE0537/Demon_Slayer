@@ -18,6 +18,7 @@ CLevel_GameResult::CLevel_GameResult(ID3D11Device* pDevice, ID3D11DeviceContext*
 
 HRESULT CLevel_GameResult::Initialize()
 {
+	g_iLevel == LEVEL_GAMERESULT;
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
@@ -55,6 +56,7 @@ HRESULT CLevel_GameResult::Initialize()
 
 void CLevel_GameResult::Tick(_float fTimeDelta)
 {
+	
 	__super::Tick(fTimeDelta);	
 
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();

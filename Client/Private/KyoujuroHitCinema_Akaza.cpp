@@ -105,6 +105,7 @@ void CHitCinema_Akaza::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_LinearTime(CHitCinema_Akaza::ANIM_SCENE_DMG_080, 0.01f);
 		break;
 	case Client::Kyoujuro::CHitCinema_Akaza::SCENE_2:
+		pKyoujuro->Get_Model()->Set_End(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pKyoujuro->Get_Model()->Reset_Anim(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CHitCinema_Akaza::ANIM_SCENE_DMG_090);
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CHitCinema_Akaza::ANIM_SCENE_DMG_090));

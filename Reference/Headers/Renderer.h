@@ -40,6 +40,17 @@ public:
 			return; 
 		m_fValue[eValueType] = fValue; 
 	}
+	void	Set_OriginValue(VALUETYPE eValueType, _float fValue)
+	{
+		if (eValueType >= VALUE_END)
+			return;
+		m_fOriginValue[eValueType] = fValue;
+	}
+	void	ReturnValue()
+	{
+		for (_int i = 0; i < VALUE_END; ++i)
+			m_fValue[i] = m_fOriginValue[i];
+	}
 	void	AO_OnOff(_bool bTrueisOn) { m_bRenderAO = bTrueisOn; }
 	_bool	Get_MapGrayValue() { return m_bMapGrayScale; }
 	HRESULT		Bind_Target(class CShader* pShader, _tchar* pTargetName, const char* pConstantName);
@@ -85,6 +96,7 @@ private:/* For.Glow*/
 
 private:/* For.PostProcessing Value */
 	_float		m_fValue[VALUE_END] = { 1.f, };
+	_float		m_fOriginValue[VALUE_END] = { 1.f, };
 
 	_bool		m_bRenderAO = false;
 

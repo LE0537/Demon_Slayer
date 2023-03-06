@@ -57,7 +57,8 @@ CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 		}
 		break;
 	case Client::Rui::CRui_CinemaState::SCENE_3:
-		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
+		m_fTime += fTimeDelta;
+		if (3.63f <= m_fTime)
 		{
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 

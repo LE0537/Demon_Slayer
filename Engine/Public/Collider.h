@@ -59,7 +59,7 @@ private:
 
 	_bool					m_isCollision = false;
 
-
+	_float4x4				m_ViewMatrix, m_ProjMatrix;
 private:
 	ID3D11InputLayout*								m_pInputLayout = nullptr;
 	PrimitiveBatch<VertexPositionColor>*			m_pBatch = nullptr;

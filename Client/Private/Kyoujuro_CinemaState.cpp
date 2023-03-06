@@ -20,30 +20,6 @@ CKyoujuro_CinemaState::CKyoujuro_CinemaState(CINEMASCENE eScene)
 CKyoujuroState * CKyoujuro_CinemaState::HandleInput(CKyoujuro * pKyoujuro)
 {
 	CKyoujuroState* pState = nullptr;
-	/*CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-	if(pGameInstance->Key_Down(DIK_F3))
-		pState = new CKyoujuro_CinemaState(SCENE_START);
-	if (pGameInstance->Key_Down(DIK_F4))
-		pState = new CKyoujuro_CinemaState(SCENE_0);
-	if (pGameInstance->Key_Down(DIK_F5))
-		pState = new CKyoujuro_CinemaState(SCENE_1);
-	if (pGameInstance->Key_Down(DIK_F6))
-		pState = new CKyoujuro_CinemaState(SCENE_2);
-	if (pGameInstance->Key_Down(DIK_F7))
-		pState = new CKyoujuro_CinemaState(SCENE_3);
-	if (pGameInstance->Key_Down(DIK_F8))
-		pState = new CKyoujuro_CinemaState(SCENE_4);
-	if (pGameInstance->Key_Down(DIK_F9))
-		pState = new CKyoujuro_CinemaState(SCENE_5);
-	if (pGameInstance->Key_Down(DIK_CAPSLOCK))
-		pState = new CKyoujuro_CinemaState(SCENE_6);
-	if (pGameInstance->Key_Down(DIK_PGUP))
-		pState = new CKyoujuro_CinemaState(SCENE_7);
-	if (pGameInstance->Key_Down(DIK_PGDN))
-		pState = new CKyoujuro_CinemaState(SCENE_8);
-
-	RELEASE_INSTANCE(CGameInstance);*/
-
 
 	return pState;
 }
@@ -178,7 +154,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 	pKyoujuro->Set_SplSkl(true);
 
 	CGameInstance* pGameInstance = nullptr;
-	if (m_eScene == CKyoujuro_CinemaState::SCENE_START)
+	if (m_eScene == CKyoujuro_CinemaState::SCENE_0)
 	{
 		pGameInstance = GET_INSTANCE(CGameInstance);
 
@@ -359,6 +335,8 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro_CinemaState::ANIM_SCENE_6));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro_CinemaState::ANIM_SCENE_6);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_6, 0.01f);
+
+		pKyoujuro->Get_Renderer()->Set_Value(CRenderer::VALUE_OUTLINE, 20.f);
 		break;
 	}
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_7: {
@@ -429,7 +407,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_END);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_END, 0.01f);
 
-
+		pKyoujuro->Get_Renderer()->ReturnValue();
 
 		break;
 	default:
