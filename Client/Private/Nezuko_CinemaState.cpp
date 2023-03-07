@@ -5,7 +5,7 @@
 #include "Camera_Dynamic.h"
 #include "Layer.h"
 #include "BattleDialog.h"
-
+#include "Effect_Manager.h"
 using namespace Nezuko;
 
 CNezuko_CinemaState::CNezuko_CinemaState(CINEMASCENE eScene)
@@ -125,6 +125,11 @@ CNezukoState * CNezuko_CinemaState::Tick(CNezuko * pNezuko, _float fTimeDelta)
 		if (pNezuko->Get_Model()->Get_End(CNezuko_CinemaState::ANIM_SCENE_9))
 		{
 			pNezuko->Get_Model()->Set_End(CNezuko_CinemaState::ANIM_SCENE_9);
+		/*	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_FADE, this);
+
+			RELEASE_INSTANCE(CEffect_Manager);*/
 			return new CNezuko_CinemaState(SCENE_END);
 		}
 		break;

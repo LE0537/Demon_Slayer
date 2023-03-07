@@ -19,9 +19,6 @@
     <Filter Include="01.Levels\00.Loader">
       <UniqueIdentifier>{d34b4313-2969-4649-ac63-5be3b1783f75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\01.Logo">
-      <UniqueIdentifier>{5267b1be-398c-4f1f-8043-c7305aa0e1d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\02.GamePlay">
       <UniqueIdentifier>{35c5c360-0a21-4524-b3bd-78fd1a809214}</UniqueIdentifier>
     </Filter>
@@ -1674,6 +1671,9 @@
     </Filter>
     <Filter Include="06.MiniGame\03.Item">
       <UniqueIdentifier>{7dc2c009-58e5-46db-a513-eb141055da42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\01.Logo">
+      <UniqueIdentifier>{5267b1be-398c-4f1f-8043-c7305aa0e1d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

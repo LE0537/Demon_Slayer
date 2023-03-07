@@ -131,6 +131,11 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		if (pAkaza->Get_Model()->Get_End(CAkaza_CinemaState::ANIM_SCENE_7))
 		{
 			pAkaza->Get_Model()->Set_End(CAkaza_CinemaState::ANIM_SCENE_7);
+	/*		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_FADE, this);
+
+			RELEASE_INSTANCE(CEffect_Manager);*/
 			return new CAkaza_CinemaState(SCENE_8);
 		}
 		break;
