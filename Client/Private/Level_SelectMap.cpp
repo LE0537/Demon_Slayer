@@ -18,7 +18,7 @@ CLevel_SelectMap::CLevel_SelectMap(ID3D11Device* pDevice, ID3D11DeviceContext* p
 
 HRESULT CLevel_SelectMap::Initialize()
 {
-	g_iLevel == LEVEL_SELECTMAP;
+	g_iLevel = LEVEL_SELECTMAP;
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 

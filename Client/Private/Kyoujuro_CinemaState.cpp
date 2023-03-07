@@ -26,7 +26,9 @@ CKyoujuroState * CKyoujuro_CinemaState::HandleInput(CKyoujuro * pKyoujuro)
 
 CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTimeDelta)
 {
-
+	CGameInstance* pGameInstance = nullptr;
+	list<CGameObject*> plistMesh;
+	list<CGameObject*> plistMeshInst;
 	_float fValue = 0.f;
 	switch (m_eScene)
 	{
@@ -38,6 +40,23 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		}
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_0:
+		m_fTime += fTimeDelta;
+		if (1.23f < m_fTime)
+		{
+			pGameInstance = GET_INSTANCE(CGameInstance);
+			((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(true);
+			plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+			plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+			for (auto& iterMesh : plistMesh)
+			{
+				dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(true);
+			}
+			for (auto& iterMeshinst : plistMeshInst)
+			{
+				dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(true);
+			}
+			RELEASE_INSTANCE(CGameInstance);
+		}
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro_CinemaState::ANIM_SCENE_0))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro_CinemaState::ANIM_SCENE_0);
@@ -122,11 +141,15 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_SPLSKL_END))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_SPLSKL_END);
-
-			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_AKAZA_DEAD);
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
-			RELEASE_INSTANCE(CGameInstance);
+			CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+			if (!pUIManager->Get_BattleTypeCheck())
+			{
+				CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_AKAZA_DEAD);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+				RELEASE_INSTANCE(CGameInstance);
+				RELEASE_INSTANCE(CUI_Manager);
+			}
 			return new CIdleState();
 		}
 		break;
@@ -154,24 +177,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 	pKyoujuro->Set_SplSkl(true);
 
 	CGameInstance* pGameInstance = nullptr;
-	if (m_eScene == CKyoujuro_CinemaState::SCENE_0)
-	{
-		pGameInstance = GET_INSTANCE(CGameInstance);
-
-		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(true);
-		list<CGameObject*> plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
-		list<CGameObject*> plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
-		for (auto& iterMesh : plistMesh)
-		{
-			dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(true);
-		}
-		for (auto& iterMeshinst : plistMeshInst)
-		{
-			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(true);
-		}
-		RELEASE_INSTANCE(CGameInstance);
-	}
-	else if (m_eScene == CKyoujuro_CinemaState::SCENE_END)
+	if (m_eScene == CKyoujuro_CinemaState::SCENE_END)
 	{
 		pGameInstance = GET_INSTANCE(CGameInstance);
 
@@ -326,6 +332,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 
 		RELEASE_INSTANCE(CEffect_Manager);
 
+		pKyoujuro->Get_Renderer()->Set_Value(CRenderer::VALUE_OUTLINE, 20.f);
 		break;
 	}
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_6: {
@@ -336,7 +343,6 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro_CinemaState::ANIM_SCENE_6);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_6, 0.01f);
 
-		pKyoujuro->Get_Renderer()->Set_Value(CRenderer::VALUE_OUTLINE, 20.f);
 		break;
 	}
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_7: {
@@ -346,6 +352,8 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro_CinemaState::ANIM_SCENE_7));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro_CinemaState::ANIM_SCENE_7);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_7, 0.01f);
+
+		pKyoujuro->Get_BattleTarget()->Set_SceneRender(false);
 
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 		
@@ -387,11 +395,10 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro_CinemaState::ANIM_SCENE_8));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro_CinemaState::ANIM_SCENE_8);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro_CinemaState::ANIM_SCENE_8, 0.01f);
+		pKyoujuro->Get_BattleTarget()->Set_SceneRender(false);
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_MO10_FLASH, pKyoujuro->Get_WeaponWorld());
-
 		RELEASE_INSTANCE(CEffect_Manager);
 
 		break;
@@ -407,9 +414,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro::ANIM_SPLSKL_END));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_END);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_END, 0.01f);
-
-		pKyoujuro->Get_Renderer()->ReturnValue();
-
+		
 		break;
 	default:
 		break;
@@ -420,5 +425,14 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 
 void CKyoujuro_CinemaState::Exit(CKyoujuro * pKyoujuro)
 {
+	switch (m_eScene)
+	{
+	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_5:
+		pKyoujuro->Get_Renderer()->ReturnValue();
+	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_8:
+		pKyoujuro->Get_BattleTarget()->Set_SceneRender(true);
+	default:
+		break;
+	}
 }
 

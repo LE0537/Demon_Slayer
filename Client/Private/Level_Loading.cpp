@@ -25,7 +25,7 @@ CLevel_Loading::CLevel_Loading(ID3D11Device* pDevice, ID3D11DeviceContext* pCont
 
 HRESULT CLevel_Loading::Initialize(LEVEL eNextLevel)
 {
-	g_iLevel == LEVEL_LOADING;
+	g_iLevel = LEVEL_LOADING;
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 

@@ -15,7 +15,7 @@ CLevel_Menu::CLevel_Menu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CLevel_Menu::Initialize()
 {
-	g_iLevel == LEVEL_MENU;
+	g_iLevel = LEVEL_MENU;
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
