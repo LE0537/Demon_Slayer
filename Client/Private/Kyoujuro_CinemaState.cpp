@@ -146,11 +146,15 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_SPLSKL_END))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_SPLSKL_END);
-
-			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_AKAZA_DEAD);
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
-			RELEASE_INSTANCE(CGameInstance);
+			CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+			if (!pUIManager->Get_BattleTypeCheck())
+			{
+				CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_AKAZA_DEAD);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+				RELEASE_INSTANCE(CGameInstance);
+				RELEASE_INSTANCE(CUI_Manager);
+			}
 			return new CIdleState();
 		}
 		break;
