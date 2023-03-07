@@ -365,6 +365,9 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_AKA_MO8_PROJ1:
 	case CEffect_Manager::EFF_SPL_AKA_MO9_AURA1:
 	case CEffect_Manager::EFF_SPL_AKA_MO9_BG1:
+	case CEffect_Manager::EFF_SPL_AKA_MO4_DIST:
+	case CEffect_Manager::EFF_SPL_AKA_MO9_PROJ1:
+	case CEffect_Manager::EFF_SPL_AKA_MO9_BOOM1:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			if (m_bLateStart) {
 				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {

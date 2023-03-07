@@ -71,7 +71,7 @@ HRESULT CEffect_AnimMesh::Render()
 		if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pDiffuseTextureCom->Get_SRV(0))))
 			return E_FAIL;
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 6)))
 			return E_FAIL;
 	}
 
@@ -97,6 +97,23 @@ HRESULT CEffect_AnimMesh::SetUp_ShaderResources()
 
 
 	RELEASE_INSTANCE(CGameInstance);
+
+	_int iNumU = 3;
+	_int iNumV = 4;
+
+	_float		fAccTime = m_fTime - m_pInfo.fStartTime;
+	_float		fAllLifeTime = m_pInfo.fLifeTime;
+	_float		fAliveTimeRatio = max(fAccTime / fAllLifeTime, 0.f);
+	_int		iTexFrame = _int(fAliveTimeRatio * (iNumU * iNumV));
+	if (iNumU * iNumV == iTexFrame)
+		iTexFrame = iNumU * iNumV - 1;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iFrame", &iTexFrame, sizeof(_int))))
+		return E_FAIL;
+
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumUV_U", &iNumU, sizeof(_int))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_iNumUV_V", &iNumV, sizeof(_int))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -127,7 +144,7 @@ HRESULT CEffect_AnimMesh::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_FlameTrail01_11"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-	if (FAILED(__super::Add_Components(TEXT("Com_DiffuseTexture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireTest"), (CComponent**)&m_pDiffuseTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_DiffuseTexture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_Ren_C78_Rengoku_02_ALL"), (CComponent**)&m_pDiffuseTextureCom)))
 		return E_FAIL;
 
 	/*if (0 != wcscmp(m_pInfo.szMeshDiffuse, TEXT(""))) {

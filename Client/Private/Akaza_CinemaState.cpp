@@ -244,14 +244,22 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 
 		break;
 	}
-	case Client::Akaza::CAkaza_CinemaState::SCENE_2:
+	case Client::Akaza::CAkaza_CinemaState::SCENE_2: {
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_040);
 		pAkaza->Get_Model()->Reset_Anim(CAkaza_CinemaState::ANIM_SCENE_2);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza_CinemaState::ANIM_SCENE_2);
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza_CinemaState::ANIM_SCENE_2));
 		pAkaza->Get_Model()->Set_Loop(CAkaza_CinemaState::ANIM_SCENE_2);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza_CinemaState::ANIM_SCENE_2, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO4_DIST, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
+	}
 	case Client::Akaza::CAkaza_CinemaState::SCENE_3: {
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_050);
 		pAkaza->Get_Model()->Reset_Anim(CAkaza_CinemaState::ANIM_SCENE_3);

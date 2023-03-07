@@ -68,22 +68,7 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 		}
 		m_pTransformCom->Set_Scale(vSize);
 
-		if (!g_bDeathTime) {
-			m_fTurnSpeed += m_MeshInfo.fTurnFalloff;
-			if (m_fTurnSpeed < 0 && m_MeshInfo.fTurn > 0)
-				m_fTurnSpeed = 0.f;
-
-			if (m_fTurnSpeed > 0 && m_MeshInfo.fTurn < 0)
-				m_fTurnSpeed = 0.f;
-
-			if (m_MeshInfo.vTurnDirection.x == 1)
-				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), m_fTurnSpeed);
-			if (m_MeshInfo.vTurnDirection.y == 1)
-				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_fTurnSpeed);
-			if (m_MeshInfo.vTurnDirection.z == 1)
-				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), m_fTurnSpeed);
-		}
-		else if (g_bDeathTime) {
+		if (g_bDeathTime) {
 			m_fTurnSpeed += m_MeshInfo.fTurnFalloff * 0.2f;
 			if (m_fTurnSpeed < 0 && m_MeshInfo.fTurn > 0)
 				m_fTurnSpeed = 0.f;
@@ -97,6 +82,36 @@ void CEffect_Mesh::Tick(_float fTimeDelta)
 				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_fTurnSpeed * 0.2f);
 			if (m_MeshInfo.vTurnDirection.z == 1)
 				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), m_fTurnSpeed * 0.2f);
+		}
+		else if (g_bSpecialSkillHit) {
+			m_fTurnSpeed += m_MeshInfo.fTurnFalloff * 0.05f;
+			if (m_fTurnSpeed < 0 && m_MeshInfo.fTurn > 0)
+				m_fTurnSpeed = 0.f;
+
+			if (m_fTurnSpeed > 0 && m_MeshInfo.fTurn < 0)
+				m_fTurnSpeed = 0.f;
+
+			if (m_MeshInfo.vTurnDirection.x == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), m_fTurnSpeed * 0.05f);
+			if (m_MeshInfo.vTurnDirection.y == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_fTurnSpeed * 0.05f);
+			if (m_MeshInfo.vTurnDirection.z == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), m_fTurnSpeed * 0.05f);
+		}
+		else {
+			m_fTurnSpeed += m_MeshInfo.fTurnFalloff;
+			if (m_fTurnSpeed < 0 && m_MeshInfo.fTurn > 0)
+				m_fTurnSpeed = 0.f;
+
+			if (m_fTurnSpeed > 0 && m_MeshInfo.fTurn < 0)
+				m_fTurnSpeed = 0.f;
+
+			if (m_MeshInfo.vTurnDirection.x == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_RIGHT), m_fTurnSpeed);
+			if (m_MeshInfo.vTurnDirection.y == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_UP), m_fTurnSpeed);
+			if (m_MeshInfo.vTurnDirection.z == 1)
+				m_pTransformCom->Turn(m_pTransformCom->Get_State(CTransform::STATE_LOOK), m_fTurnSpeed);
 		}
 
 		_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);

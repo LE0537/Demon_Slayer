@@ -1804,6 +1804,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion1_Hit"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion2_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion3_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion4_Dist"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Dash1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Hand1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Hit1"));

@@ -619,6 +619,8 @@ void CAkaza::Check_Spl()
 {
 	if (!m_bSplEffect)
 	{
+
+
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO1_HIT, m_pBattleTarget);
