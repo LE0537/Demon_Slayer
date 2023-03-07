@@ -4,6 +4,7 @@
 #include "AkazaIdleState.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "BattleDialog.h"
 
 using namespace Akaza;
 
@@ -116,6 +117,7 @@ CAkazaState * CAkaza_CinemaState::Late_Tick(CAkaza * pAkaza, _float fTimeDelta)
 void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 {
 	CGameInstance* pGameInstance = nullptr;
+	CUI_Manager* pUI_Manager = nullptr;
 	switch (m_eScene)
 	{
 	case Client::Akaza::CAkaza_CinemaState::SCENE_START:
@@ -134,6 +136,10 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_AKZ_START);
 		RELEASE_INSTANCE(CGameInstance);
 
+		pUI_Manager = GET_INSTANCE(CUI_Manager);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplCharNum(3);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplDialogStart(true);
+		RELEASE_INSTANCE(CUI_Manager);
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_SplSkr.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SplSkr.wav"), g_fEffect);
 

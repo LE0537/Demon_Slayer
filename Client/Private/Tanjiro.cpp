@@ -1046,23 +1046,31 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 
 			if (fDist1 < 10.f)
 			{
-				m_bQuest1 = true;
-				m_bStop = true;
-				pUIManager->Set_MsgOn();
-				pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
-				pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
-				CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_00.wav"), g_fDialog);
-				pUIManager->Set_ClearCheck(true, 0);
-			}
-		}
-		else if (!m_bQuest1MSG && m_bQuest1)
-		{
-			CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
-			if (!m_bIsPlaying)
-			{
-				pUIManager->Set_MsgOff();
-				m_bStop = false;
-				m_bQuest1MSG = true;
+				switch (pUIManager->Get_MsgCount())
+				{
+				case 0:
+					m_bStop = true;
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("윽...냄새가 짙어졌어...이 앞에 무언가 있는듯해"));
+					if (!m_bSoundCheck)
+					{
+						CSoundMgr::Get_Instance()->PlayDialog(TEXT("Tanjiro_Dialog_00.wav"), g_fDialog);
+						m_bSoundCheck = true;
+					}
+					CSoundMgr::Get_Instance()->Dialog_End(&m_bIsPlaying);
+					if (!m_bIsPlaying)
+						pUIManager->Set_MsgCount(1);
+					break;
+				default:
+					CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
+					pUIManager->Set_MsgOff();
+					pUIManager->Set_ClearCheck(true, 0);
+					m_bSoundCheck = false;
+					m_bQuest1 = true;
+					m_bStop = false;
+					break;
+				}
 			}
 		}
 		else if (!m_bQuest2)
@@ -1700,6 +1708,7 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 							pUIManager->Set_MsgCount(1);
 						break;
 					default:
+						pUIManager->Reset_MsgCount();
 						pUIManager->Set_MsgOff();
 						m_bQuest3_1MSG = true;
 						break;

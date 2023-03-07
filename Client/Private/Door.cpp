@@ -333,24 +333,20 @@ void CDoor::Event_Check(_float fTimeDelta)
 				pUI_Manager->Set_Msg(TEXT("사람들이 잠들어 있다...?"));
 				break;
 			case 1:
-				pUI_Manager->Set_MsgOn();
 				pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUI_Manager->Set_Msg(TEXT("혈귀가 수를 쓴거야"));
 				break;
 			case 2:
-				pUI_Manager->Set_MsgOn();
 				pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
 				pUI_Manager->Set_Msg(TEXT("어떻게 이토록 강한 혈귀술을..."));
-				pUI_Manager->Reset_MsgCount();
-				m_bEventCheck = true;
 				break;
 			default:
+				m_bEventCheck = true;
+				pUI_Manager->Set_MsgOff();
+				pUI_Manager->Reset_MsgCount();
 				break;
 			}
-
 		}
-		
-		
 	}
 
 	RELEASE_INSTANCE(CUI_Manager);

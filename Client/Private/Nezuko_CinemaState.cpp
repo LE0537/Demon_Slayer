@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "BattleDialog.h"
 
 using namespace Nezuko;
 
@@ -154,6 +155,7 @@ CNezukoState * CNezuko_CinemaState::Late_Tick(CNezuko * pNezuko, _float fTimeDel
 void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 {
 	CGameInstance* pGameInstance = nullptr;
+	CUI_Manager* pUI_Manager = nullptr;
 	switch (m_eScene)
 	{
 	case Client::Nezuko::CNezuko_CinemaState::SCENE_START:
@@ -173,6 +175,11 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 		RELEASE_INSTANCE(CGameInstance);
 
 		pNezuko->Set_SplSkl(true);
+
+		pUI_Manager = GET_INSTANCE(CUI_Manager);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplCharNum(4);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplDialogStart(true);
+		RELEASE_INSTANCE(CUI_Manager);
 
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_SplSkr.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_SplSkr.wav"), g_fEffect);

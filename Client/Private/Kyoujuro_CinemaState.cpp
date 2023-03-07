@@ -9,6 +9,7 @@
 #include "MeshObj_Static.h"
 #include "MeshObj_Static_Inst.h"
 #include "Effect_AnimMesh.h"
+#include "BattleDialog.h"
 
 using namespace Kyoujuro;
 
@@ -178,6 +179,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 	pKyoujuro->Set_SplSkl(true);
 
 	CGameInstance* pGameInstance = nullptr;
+	CUI_Manager* pUI_Manager = nullptr;
 	if (m_eScene == CKyoujuro_CinemaState::SCENE_START)
 	{
 		pGameInstance = GET_INSTANCE(CGameInstance);
@@ -238,6 +240,11 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		RELEASE_INSTANCE(CGameInstance);
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_SplSkr.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_SplSkr.wav"), g_fEffect);
+
+		pUI_Manager = GET_INSTANCE(CUI_Manager);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplCharNum(1);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplDialogStart(true);
+		RELEASE_INSTANCE(CUI_Manager);
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_0:
 

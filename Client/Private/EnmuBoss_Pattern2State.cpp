@@ -160,7 +160,7 @@ void CEnmuBoss_Pattern2State::Enter(CEnmuBoss * pEnmuBoss)
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_Loop(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN2_0);
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN2_0, 0.1f);
 		}
-		//CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_MoveSkill.wav"), g_fEffect);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_SpCommonSkill.wav"), g_fEffect);
 		break;
 	case Client::CEnmuBossState::TYPE_LOOP:
 		// RIGHT_HAND

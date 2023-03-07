@@ -230,6 +230,7 @@ void CEnmuBoss_Pattern4State::Enter(CEnmuBoss * pEnmuBoss)
 {
 	m_eStateId = STATE_ATK_1;
 
+	_uint iRand = rand() % 2;
 
 	switch (m_eStateType)
 	{
@@ -242,6 +243,10 @@ void CEnmuBoss_Pattern4State::Enter(CEnmuBoss * pEnmuBoss)
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_0);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_Loop(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_0);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_0, 0.1f);
+		if(iRand == 0)
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("BossEnmu_Pattern_2.wav"), g_fVoice); //ÆÝÄ¡
+		else
+			CSoundMgr::Get_Instance()->PlayVoice(TEXT("BossEnmu_Pattern_6.wav"), g_fVoice); //ÆÝÄ¡
 	}
 	// LEFT_HAND
 	else if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
@@ -252,7 +257,7 @@ void CEnmuBoss_Pattern4State::Enter(CEnmuBoss * pEnmuBoss)
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_Loop(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN4_0);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN4_0, 0.1f);
 	}
-	CSoundMgr::Get_Instance()->PlayVoice(TEXT("BossEnmu_Pattern_3.wav"), g_fVoice); //ÆÝÄ¡
+	
 	break;
 	case Client::CEnmuBossState::TYPE_LOOP:
 		// RIGHT_HAND
@@ -264,6 +269,7 @@ void CEnmuBoss_Pattern4State::Enter(CEnmuBoss * pEnmuBoss)
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_1);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_Loop(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_1, true);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN4_1, 0.1f);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SpMoveAttack.wav"), g_fEffect); 
 	}
 	// LEFT_HAND
 	else if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
@@ -273,6 +279,7 @@ void CEnmuBoss_Pattern4State::Enter(CEnmuBoss * pEnmuBoss)
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN4_1);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_Loop(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN4_1, true);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN4_1, 0.1f);
+		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SpMoveAttack.wav"), g_fEffect);
 	}
 
 	break;
