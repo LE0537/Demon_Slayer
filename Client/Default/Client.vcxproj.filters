@@ -1675,6 +1675,12 @@
     <Filter Include="01.Levels\01.Logo">
       <UniqueIdentifier>{5267b1be-398c-4f1f-8043-c7305aa0e1d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\93.MGame">
+      <UniqueIdentifier>{c487630d-b658-44af-89c4-995b260210b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\93.MGame\Heart">
+      <UniqueIdentifier>{7a4ce041-0aa0-4b5e-9ec3-7fa7a3c55bdd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3225,6 +3231,9 @@
     <ClInclude Include="..\public\Mini_Result.h">
       <Filter>06.MiniGame\04.Mini_Result</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MGameHeart.h">
+      <Filter>03.UI\93.MGame\Heart</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4738,6 +4747,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Mini_Result.cpp">
       <Filter>06.MiniGame\04.Mini_Result</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MGameHeart.cpp">
+      <Filter>03.UI\93.MGame\Heart</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

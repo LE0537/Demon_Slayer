@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "Camera_Dynamic.h"
 #include "UI_Manager.h"
+#include "MGameHeart.h"
 // state
 #include "TanjiroState.h"
 #include "TanjiroIdleState.h"
@@ -190,6 +191,10 @@ HRESULT CTanjiro::Initialize(void * pArg)
 
 void CTanjiro::Tick(_float fTimeDelta)
 {
+
+	_float4 vPos;
+	XMStoreFloat4(&vPos, m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION));
+
 	if (m_i1p == 33)
 	{
 		m_bDeadTime += fTimeDelta;
@@ -359,10 +364,6 @@ void CTanjiro::Tick(_float fTimeDelta)
 		}
 
 	}
-
-
-
-
 }
 
 void CTanjiro::Late_Tick(_float fTimeDelta)
@@ -1192,6 +1193,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 					break;
 				default:
 					pUIManager->Set_MainQuestOff();
+					pUIManager->Reset_MsgCount();
 					m_bQuest2_1MSG = true;
 					pUIManager->Set_MsgOff();
 					break;
@@ -1218,6 +1220,72 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 	}
 	else
 	{
+		if (!m_bQuestStoneBallMSG)
+		{
+			_vector vStoneMGame = { -556.3474f, 53.5169f, -61.9126f, 1.f };
+			_float fDistStoneMGame = XMVectorGetX(XMVector3Length(vStoneMGame - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+			if (fDistStoneMGame < 10.f)
+			{
+				switch (pUIManager->Get_MsgCount())
+				{
+				case 0:
+					m_bStop = true;
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("큰 바위들이 굴러오고 있어..."));
+					break;
+				case 1:
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("위에서 혈귀 냄새가 나는 것 같아"));
+					break;
+				case 2:
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("조심히 올라가 보자"));
+					break;
+				default:
+					pUIManager->Set_MsgOff();
+					pUIManager->Reset_MsgCount();
+					m_bQuestStoneBallMSG = true;
+					for (_uint i = 0; i < 3; ++i)
+					{
+						dynamic_cast<CMGameHeart*>(pUIManager->Get_HeartUI(i))->Set_RenderOn(true);
+					}
+					m_bStop = false;
+					break;
+				}
+			}
+		}
+		else if (m_bQuestStoneBallMSG && !m_bStoneEnd)
+		{
+			_vector vStoneMGame = { -815.138184f, 92.4922714f, -62.1797104f, 1.f };
+			_float fDistStoneMGame = XMVectorGetX(XMVector3Length(vStoneMGame - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+			if (fDistStoneMGame < 7.f)
+			{
+				switch (pUIManager->Get_MsgCount())
+				{
+				case 0:
+					m_bStop = true;
+					for (_uint i = 0; i < 3; ++i)
+					{
+						dynamic_cast<CMGameHeart*>(pUIManager->Get_HeartUI(i))->Set_RenderOn(false);
+					}
+					pUIManager->Set_MsgOn();
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("휴... 응...?"));
+					break;
+				case 1:
+					pUIManager->Set_MsgName(TEXT("카마도 탄지로"));
+					pUIManager->Set_Msg(TEXT("앞에서 강한 혈귀의 냄새가 난다..."));
+					break;
+				default:
+					pUIManager->Set_MsgOff();
+					pUIManager->Reset_MsgCount();
+					m_bStoneEnd = true;
+					m_bStop = false;
+					break;
+				}
+			}
+		}
 		if (!m_bQuest3)
 		{
 			_vector vQuest = { -834.618f,92.528f,-61.440f,1.f };
@@ -1909,7 +1977,7 @@ void CTanjiro::Set_Info()
 	m_tInfo.bChange = false;
 	m_tInfo.iMaxGuard = 500;
 	m_tInfo.iGuard = m_tInfo.iMaxGuard;
-	m_iHeart = 3;
+	m_iHeart = 2;
 }
 void CTanjiro::Check_Spl()
 {

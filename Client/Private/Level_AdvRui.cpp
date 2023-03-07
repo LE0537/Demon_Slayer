@@ -119,6 +119,9 @@ HRESULT CLevel_AdvRui::Initialize()
 	g_fFar = 1800.f;
 
 	pUI_Manager->Add_Quiest();
+	if (FAILED(Ready_Layer_MGameHeart(TEXT("Layer_MGameHeart"))))
+		return E_FAIL;
+
 	RELEASE_INSTANCE(CUI_Manager);
 
 	if (FAILED(__super::Initialize()))
@@ -375,6 +378,22 @@ HRESULT CLevel_AdvRui::Ready_Layer_BackGround(const _tchar * pLayerTag)
 
 	Safe_Release(pGameInstance);
 
+
+	return S_OK;
+}
+
+HRESULT CLevel_AdvRui::Ready_Layer_MGameHeart(const _tchar * pLayerTag)
+{
+	CGameInstance*			pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	for (_uint i = 0; i < 3; ++i)
+	{
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_MGameHeart"), LEVEL_ADVRUI, pLayerTag, &i)))
+			return E_FAIL;
+	}
+
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }
