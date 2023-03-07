@@ -1681,6 +1681,9 @@
     <Filter Include="03.UI\93.MGame\Heart">
       <UniqueIdentifier>{7a4ce041-0aa0-4b5e-9ec3-7fa7a3c55bdd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\19.RuiBomb">
+      <UniqueIdentifier>{a61593d7-0954-4af1-b3b6-732ef16421c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3234,6 +3237,9 @@
     <ClInclude Include="..\Public\MGameHeart.h">
       <Filter>03.UI\93.MGame\Heart</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RuiBomb.h">
+      <Filter>05.CollBox\19.RuiBomb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4750,6 +4756,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\MGameHeart.cpp">
       <Filter>03.UI\93.MGame\Heart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiBomb.cpp">
+      <Filter>05.CollBox\19.RuiBomb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
