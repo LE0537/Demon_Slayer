@@ -7,6 +7,8 @@
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "UI_Manager.h"
+#include "BattleDialog.h"
+
 using namespace Tanjiro;
 
 CHinoCami_CinemaState::CHinoCami_CinemaState(CINEMASCENE eScene)
@@ -129,6 +131,7 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 {
 	CGameInstance* pGameInstance = nullptr;
 	CEffect_Manager* pEffectManger = nullptr;
+	CUI_Manager* pUI_Manager = nullptr;
 	switch (m_eScene)
 	{
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_START:
@@ -147,6 +150,10 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		RELEASE_INSTANCE(CGameInstance);
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_SplSkr.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_SplSkr.wav"), g_fEffect);
+		pUI_Manager = GET_INSTANCE(CUI_Manager);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplCharNum(0);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplDialogStart(true);
+		RELEASE_INSTANCE(CUI_Manager);
 		break;
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_0: {
 		pTanjiro->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);
@@ -193,6 +200,10 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_MO3_SLASH2, pTanjiro->Get_WeaponWorld());
 
 		RELEASE_INSTANCE(CEffect_Manager);
+
+		pUI_Manager = GET_INSTANCE(CUI_Manager);
+		pUI_Manager->Set_MsgCount(1);
+		RELEASE_INSTANCE(CUI_Manager);
 		break;
 	}
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_2: {
@@ -247,8 +258,8 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_ENDGROUND, pTanjiro);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_HINO_ENDPLAYER, pTanjiro);
 
-
 		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_5:
 		break;

@@ -17,7 +17,7 @@
 #include "Effect_Manager.h"
 #include "Level_BossEnmu.h"
 #include "ImGuiManager.h"
-
+#include "BattleDialog.h"
 
 CLevel_BattleEnmu::CLevel_BattleEnmu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -129,7 +129,8 @@ void CLevel_BattleEnmu::Tick(_float fTimeDelta)
 		pUIManager->Add_P2_Combo();
 		pUIManager->Add_AdvBattleUI();
 		pUIManager->Add_AdvResult((LEVEL)g_iLevel);
-
+		if (FAILED(Battle_Dialog(TEXT("Layer_Dialog"))))
+			return;
 		m_bCreateUI = true;
 	}
 
@@ -137,8 +138,11 @@ void CLevel_BattleEnmu::Tick(_float fTimeDelta)
 	if (pUIManager->Get_2P()->Get_PlayerInfo().iHp <= 0)
 	{
 		m_fNextLevelTime += fTimeDelta;
-		if (m_fNextLevelTime > 10.f) //엔무 보스 넘어가기전 딜레이 
+		if (m_fNextLevelTime >= 2.f)
+			dynamic_cast<CBattleDialog*>(pUIManager->Get_DialogUI())->Set_DialogStart(true);
+		if (dynamic_cast<CBattleDialog*>(pUIManager->Get_DialogUI())->Get_DialogEnd()) //엔무 보스 넘어가기전 딜레이 
 		{
+			pUIManager->Reset_MsgCount();
 			pUIManager->Set_Sel1P(0);
 			pUIManager->Set_Sel1P_2(4);
 			pUIManager->Set_Sel2P(8);
@@ -584,6 +588,19 @@ HRESULT CLevel_BattleEnmu::Ready_Layer_Monster(const _tchar * pLayerTag)
 
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_BATTLEENMU, pLayerTag)))
 	//	return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_BattleEnmu::Battle_Dialog(const _tchar * pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BattleDialog"), g_iLevel, pLayerTag)))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 
