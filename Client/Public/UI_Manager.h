@@ -192,6 +192,9 @@ public:
 
 	CUI*	Get_DialogUI() { return m_pDialog; }
 	void	Set_DialogUI(CUI* pTarget) { m_pDialog = pTarget; }
+
+	CUI*	Get_HeartUI(_uint iLayerNum) { return m_pHeartUI[iLayerNum]; }
+	void	Set_HeartUI(CUI* pTarget, _uint iLayerNum) { m_pHeartUI[iLayerNum] = pTarget; }
 	
 	_uint   Get_Sel1P() { return m_i1p; }
 	void	Set_Sel1P(_uint _i1p) { m_i1p = _i1p; }
@@ -381,6 +384,7 @@ private:
 	CUI*							m_pMsgTextBase = nullptr;
 	CUI*							m_pFadeUI = nullptr;
 	CUI*							m_pDialog = nullptr;
+	CUI*							m_pHeartUI[3] = { nullptr };
 
 	CUI::THROWUIINFO				m_ThrowInfo;
 	CUI::RESULTINFO					m_ResultInfo;

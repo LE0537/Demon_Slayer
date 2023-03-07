@@ -21,8 +21,26 @@ HRESULT CCustomFont::Render(const _tchar* pText, _fvector vPosition, _fvector vC
 	m_pContext->GSSetShader(nullptr, nullptr, 0);
 
 	m_pSprite->Begin();
-
+	_float4 vColorAlpha;
+	XMStoreFloat4(&vColorAlpha, vColor);
+	m_pFont->DrawString(m_pSprite, pText, vPosition + XMVectorSet(1.f, 1.f, 0.f, 0.f), XMVectorSet(0.f, 0.f, 0.f, vColorAlpha.z), 0.f, g_XMZero, vScale);
+	m_pFont->DrawString(m_pSprite, pText, vPosition + XMVectorSet(-1.f, 1.f, 0.f, 0.f), XMVectorSet(0.f, 0.f, 0.f, vColorAlpha.z), 0.f, g_XMZero, vScale);
+	m_pFont->DrawString(m_pSprite, pText, vPosition + XMVectorSet(-1.f, -1.f, 0.f, 0.f), XMVectorSet(0.f, 0.f, 0.f, vColorAlpha.z), 0.f, g_XMZero, vScale);
+	m_pFont->DrawString(m_pSprite, pText, vPosition + XMVectorSet(1.f, -1.f, 0.f, 0.f), XMVectorSet(0.f, 0.f, 0.f, vColorAlpha.z), 0.f, g_XMZero, vScale);
 	m_pFont->DrawString(m_pSprite, pText, vPosition, vColor,0.f,g_XMZero, vScale);
+
+	m_pSprite->End();
+
+	return S_OK;
+}
+
+HRESULT CCustomFont::Render_Default(const _tchar * pText, _fvector vPosition, _fvector vColor, _fvector vScale)
+{
+	m_pContext->GSSetShader(nullptr, nullptr, 0);
+
+	m_pSprite->Begin();
+
+	m_pFont->DrawString(m_pSprite, pText, vPosition, vColor, 0.f, g_XMZero, vScale);
 
 	m_pSprite->End();
 

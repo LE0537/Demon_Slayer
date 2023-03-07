@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include "UI_Manager.h"
 #include "Mini_Tail.h"
+#include "Mini_Result.h"
+#include "Layer.h"
 CMini_Player::CMini_Player(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObj(pDevice, pContext)
 {
@@ -36,8 +38,10 @@ HRESULT CMini_Player::Initialize(void * pArg)
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
-
-
+	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+	m_pResult = dynamic_cast<CMini_Result*>(pGameInstance->Find_Layer(LEVEL_LOADING, TEXT("Layer_MINI_Result"))->Get_LayerFront());
+	m_pResult->Set_Target(this);
+	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
 }
 
@@ -51,8 +55,17 @@ void CMini_Player::Tick(_float fTimeDelta)
 	if (m_bPlayerDead)
 	{
 		CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
+		if (!m_bResultDead)
+		{
+			m_bResultDead = true;
+			m_pResult->Set_PlayerDead(true);
+			if (m_iScore > m_pResult->Get_RankScore())
+				m_pResult->Set_RankScore(m_iScore);
+		}
+		
 		if (pGameInstance->Key_Down(DIK_F))
 		{
+			m_pResult->Set_PlayerDead(false);
 			g_bMiniGame = true;
 		}
 		RELEASE_INSTANCE(CGameInstance);
@@ -262,7 +275,7 @@ void CMini_Player::ConvertToViewPort()
 		m_bPlayerDead = true;
 	else if(m_vPlayerPos.y < 30.f)
 		m_bPlayerDead = true;
-	else if (m_vPlayerPos.y > 690.f)
+	else if (m_vPlayerPos.y > 680.f)
 		m_bPlayerDead = true;
 }
 

@@ -172,7 +172,10 @@ void CAkaza::Tick(_float fTimeDelta)
 		TickState(fTimeDelta);
 
 
-
+		if (m_bSplSkl)
+		{
+			Check_Spl();
+		}
 
 		CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
 		if (nullptr == pSocket)
@@ -610,6 +613,29 @@ void CAkaza::Play_Scene()
 	}
 
 
+}
+
+void CAkaza::Check_Spl()
+{
+	if (!m_bSplEffect)
+	{
+
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO1_HIT, m_pBattleTarget);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bSplEffect = true;
+	}
+
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("L_Hand_1_P1012_V00_C00_Lct");
+	CHierarchyNode*		pSocket2 = m_pModelCom->Get_BonePtr("R_Hand_1_P1012_V00_C00_Lct");
+	_float4x4 SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	_float4x4 pParentWorldMatrix = *m_pTransformCom->Get_World4x4Ptr();
+
+	XMStoreFloat4x4(&m_WeaponWorld, (pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
+	XMStoreFloat4x4(&m_WeaponWorld2, (pSocket2->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
 }
 
 CAkaza * CAkaza::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

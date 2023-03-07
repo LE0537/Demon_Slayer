@@ -455,6 +455,13 @@ HRESULT CGameInstance::Render_Font(const _tchar * pFontTag, const _tchar * pText
 
 	return m_pFont_Manager->Render_Font(pFontTag, pText, vPos, vColor, vScale);
 }
+HRESULT CGameInstance::Render_Font_Defalut(const _tchar * pFontTag, const _tchar * pText, _fvector vPos, _fvector vColor, _fvector vScale)
+{
+	if (nullptr == m_pFont_Manager)
+		return E_FAIL;
+
+	return m_pFont_Manager->Render_Font_Default(pFontTag, pText, vPos, vColor, vScale);
+}
 void CGameInstance::Release_Engine()
 {
 	CSoundMgr::Get_Instance()->Free();

@@ -20,6 +20,7 @@
 #include "Layer.h"
 #include "Level_GamePlay.h"
 #include "Tanjiro.h"
+#include "BattleDialog.h"
 
 CLevel_BossEnmu::CLevel_BossEnmu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
@@ -122,22 +123,10 @@ void CLevel_BossEnmu::Tick(_float fTimeDelta)
 	Create_Wind(fTimeDelta);
 	if (!m_bCreateUI)
 	{
-		_bool bOniCheck = pUIManager->P1_Oni_Check();
-		if (!bOniCheck)
-			pUIManager->Add_P1_PersonHpUI();
-		else
-			pUIManager->Add_P1_OniHpUI();
-
-		bOniCheck = pUIManager->P2_Oni_Check();
-		if (!bOniCheck)
-			pUIManager->Add_P2_PersonHpUI();
-		else
-			pUIManager->Add_P2_OniHpUI();
-
-		/*	pUIManager->Add_BattleUI_Enmu();
-		pUIManager->Add_P1_Combo_Enmu();
-		pUIManager->Add_P2_Combo_Enmu();*/
-
+		pUIManager->Add_P1_PersonHpUI();
+		pUIManager->Add_P2_OniHpUI();
+		if (FAILED(Battle_Dialog(TEXT("Layer_Dialog"))))
+			return;
 		m_bCreateUI = true;
 	}
 
@@ -154,26 +143,30 @@ void CLevel_BossEnmu::Tick(_float fTimeDelta)
 		}
 		else if (m_fTime > 0.7f && m_bCinema && !m_bCinema2 && dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_TargetState() == 0)
 		{
+			dynamic_cast<CBattleDialog*>(pUIManager->Get_DialogUI())->Set_DialogStart(true);
 			m_bCinema2 = true;
 			pGameInstance = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_EnmuGround();
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_BOSSENMU_DEAD);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
 			RELEASE_INSTANCE(CGameInstance);
 		}
-		m_fNextLevelTime += fTimeDelta;
-		if (m_fNextLevelTime > 18.f)//아카자 넘어가는 딜레이
+		
+		if (dynamic_cast<CBattleDialog*>(pUIManager->Get_DialogUI())->Get_DialogEnd())//아카자 넘어가는 딜레이
 		{
-			pUIManager->Set_SelMapNum(1);
-			pUIManager->Set_Sel1P(1);
-			pUIManager->Set_Sel1P_2(4);
-			pUIManager->Set_Sel2P(8);
-			pUIManager->Set_Sel2P_2(99);
-			if (FAILED(pGameInstance->Open_Level(LEVEL_GAMEPLAY, CLevel_GamePlay::Create(m_pDevice, m_pContext))))
-				return;
+			m_fNextLevelTime += fTimeDelta;
+			if (m_fNextLevelTime >= 5.f)
+			{
+				pUIManager->Set_SelMapNum(1);
+				pUIManager->Set_Sel1P(1);
+				pUIManager->Set_Sel1P_2(4);
+				pUIManager->Set_Sel2P(8);
+				pUIManager->Set_Sel2P_2(99);
+				if (FAILED(pGameInstance->Open_Level(LEVEL_GAMEPLAY, CLevel_GamePlay::Create(m_pDevice, m_pContext))))
+					return;
+			}
 		}
 	}
-
-
 
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);
@@ -607,6 +600,19 @@ HRESULT CLevel_BossEnmu::Ready_Layer_Monster(const _tchar * pLayerTag)
 
 	//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Akaza"), LEVEL_BOSSENMU, pLayerTag)))
 	//	return E_FAIL;
+
+	Safe_Release(pGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CLevel_BossEnmu::Battle_Dialog(const _tchar * pLayerTag)
+{
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_BattleDialog"), g_iLevel, pLayerTag)))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 

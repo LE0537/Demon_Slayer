@@ -52,7 +52,7 @@ unsigned int APIENTRY Thread_GamePlay(void* pArg)
 
 	pLoader->Ready_Layer_Effect(TEXT("Layer_Effect"));
 
-	if (!pUIManager->Get_BattleTypeCheck() && pUIManager->Get_SaveStory())
+	if (!pUIManager->Get_BattleTypeCheck())
 	{
 		pLoader->Battle_Dialog(TEXT("Layer_Dialog"));
 	}
@@ -157,7 +157,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
 	pUIManager->Add_Loading();
-
+	
 	CoInitializeEx(nullptr, 0);
 
 	InitializeCriticalSection(&m_CriticalSection);
@@ -223,6 +223,8 @@ void CLevel_GamePlay::Tick(_float fTimeDelta)
 				pUIManager->Add_BattleUI();
 				pUIManager->Add_P1_Combo();
 				pUIManager->Add_P2_Combo();
+				if (FAILED(Battle_Dialog(TEXT("Layer_Dialog"))))
+					return;
 			}
 			else
 			{

@@ -3,7 +3,8 @@
 
 #include "GameInstance.h"
 #include "Data_Manager.h"
-
+#include "Layer.h"
+#include "Camera_Dynamic.h"
 CMeshObj_Static::CMeshObj_Static(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CGameObj(pDevice, pContext)
 {
@@ -317,7 +318,7 @@ HRESULT CMeshObj_Static::SetUp_ShaderResources()
 		return E_FAIL;
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
+	
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
 		return E_FAIL;
 
@@ -506,7 +507,17 @@ void CMeshObj_Static::Move_Mesh(_float fTimeDelta)
 	default:
 		break;
 	}
+	if (g_iLevel == LEVEL_BOSSENMU)
+	{
+		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+		if (m_tMyDesc.iModelIndex == 2113 && dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Get_EnmuGround())
+		{
+			Set_Dead();
+		}
+
+		RELEASE_INSTANCE(CGameInstance);
+	}
 }
 
 CMeshObj_Static * CMeshObj_Static::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)

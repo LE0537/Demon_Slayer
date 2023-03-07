@@ -14,7 +14,7 @@ CLevel_Logo::CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 
 HRESULT CLevel_Logo::Initialize()
 {
-	g_iLevel == LEVEL_LOGO;
+	g_iLevel = LEVEL_LOGO;
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 

@@ -6,6 +6,8 @@
 #include "Layer.h"
 #include "Effect_Manager.h"
 #include "Tanjiro.h"
+#include "BattleDialog.h"
+
 using namespace Rui;
 
 CRui_CinemaState::CRui_CinemaState(CINEMASCENE eScene)
@@ -53,6 +55,11 @@ CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 		if (pRui->Get_Model()->Get_End(pRui->Get_AnimIndex()))
 		{
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+		/*	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_FADE, this);
+
+			RELEASE_INSTANCE(CEffect_Manager);*/
 			return new CRui_CinemaState(CRui_CinemaState::SCENE_3);
 		}
 		break;
@@ -91,6 +98,7 @@ CRuiState * CRui_CinemaState::Late_Tick(CRui * pRui, _float fTimeDelta)
 void CRui_CinemaState::Enter(CRui * pRui)
 {
 	CGameInstance* pGameInstance = nullptr;
+	CUI_Manager* pUI_Manager = nullptr;
 	switch (m_eScene)
 	{
 	case Client::Rui::CRui_CinemaState::SCENE_START:
@@ -112,6 +120,10 @@ void CRui_CinemaState::Enter(CRui * pRui)
 		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_RUI_SPC_START);
 
 		RELEASE_INSTANCE(CGameInstance);
+		pUI_Manager = GET_INSTANCE(CUI_Manager);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplCharNum(2);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplDialogStart(true);
+		RELEASE_INSTANCE(CUI_Manager);
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_SplSkr.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SplSkr.wav"), g_fEffect);
 		break;

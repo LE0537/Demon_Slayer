@@ -194,6 +194,7 @@
 #include "EnmuShoot.h"
 #include "RuiSplColl.h"
 #include "StoneSphere.h"
+#include "MGameHeart.h"
 //Ani
 #include "Butterfly.h"
 #include "Deer.h"
@@ -211,6 +212,7 @@
 #include "RuiSister.h"
 //CamAction
 #include "CamLine.h"
+#include "RuiBomb.h"
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -261,6 +263,7 @@ unsigned int APIENTRY Thread_Main(void* pArg)
 
 HRESULT CLoader::Initialize(LEVEL eNextLevel)
 {
+	g_fLoading = 0.f;
 	CoInitializeEx(nullptr, 0);
 
 	m_eNextLevel = eNextLevel;
@@ -294,12 +297,20 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma region BattleUI
 		/* 텍스쳐 로딩 중. */
 		lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MGameHeart"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MGame/Heart.png"), 1))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MiniGame"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/MiniGame/%d.png"), 9))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/MiniGame/%d.png"), 11))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Dissolve"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Dissolve/%d.png"), 3))))
 			return E_FAIL;
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_NezukoMask"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Meshes/Anim/NezukoMask/%d.png"), 3))))
+			return E_FAIL;
+		g_fLoading = 3.f;
 		//Battle
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeFrame"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Gauge_Frame_%d.png"), 4))))
@@ -470,6 +481,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Enmu_Normal"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Meshes/Anim/Normal/%d.png"), 4))))
 			return E_FAIL;
+		g_fLoading = 10.f;
 #pragma region SelectUI
 		//SelectChar
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MaskWindowLeft"),
@@ -551,7 +563,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/SelectChar_UI/CharSel_Bg_Gara.png"), 1))))
 			return E_FAIL;
 
-
+		g_fLoading = 15.f;
 #pragma endregion SelectUI
 
 #pragma region LogoTitleUI
@@ -624,7 +636,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ButtonEff"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/UIEff/Xef_Base00.png"), 1)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Fade"), CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/UIEff/Fade.png"), 1)))) return E_FAIL;
 #pragma endregion UIEff
-
+		g_fLoading = 20.f;
 #pragma region LoadingUI
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingFixedImg"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Loading/Fixed_%d.png"), 4))))
@@ -657,7 +669,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 	}
 #pragma endregion UI
-
+	g_fLoading = 25.f;
 
 	/* 모델 로딩 중. */
 	lstrcpy(m_szLoadingText, TEXT("                     모델 로딩 중."));
@@ -884,6 +896,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, L"Prototype_Component_Model_RuiMap", CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Meshes/NonAnim/static/RuiMap/RuiMap.fbx", PivotMatrix))))
 		//	return E_FAIL;
 
+
+		g_fLoading = 35.f;
 		//	MeshObj_Static
 		/*For.Prototype_GameObject_MeshObj_Static */
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MeshObj_Static"),
@@ -972,7 +986,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CMeshObj_Smell_Inst::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-
+		g_fLoading = 45.f;
 		PivotMatrix = XMMatrixIdentity();
 	}
 #pragma endregion Static Objects
@@ -1015,14 +1029,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 107))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 108))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Noise"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/NoiseTest.png"), 1))))
 			return E_FAIL;
-
+		g_fLoading = 48.f;
 #pragma region Effect Texture
 
 		Load_Texture("Hit_Effect", "../Bin/Resources/Effect/Texture/");
@@ -1038,6 +1052,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Tanjiro_Hinokami_Action", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Rui_Action", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Rengoku_Action", "../Bin/Resources/Effect/Texture/");
+		Load_Texture("Akaza_Action", "../Bin/Resources/Effect/Texture/");
+
+		g_fLoading = 55.f;
 
 		Load_Texture("Shock", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Slash", "../Bin/Resources/Effect/Mesh/MeshTexture/");
@@ -1057,7 +1074,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Enmu", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 		Load_Texture("Shinobu_Spl", "../Bin/Resources/Effect/Mesh/MeshTexture/");
 
-
+		g_fLoading = 60.f;
 #pragma endregion Eeffect Texture
 
 #pragma region Effect Model
@@ -1139,6 +1156,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Water_6_Wind2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Water/6/Water_6_Wind2.fbx", PivotMatrix)))) return E_FAIL;
 
+		g_fLoading = 65.f;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ring_RuiSkl3_1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Ring_RuiSkl3_1.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ring_RuiSkl3_2"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Rui/Ring_RuiSkl3_2.fbx", PivotMatrix)))) return E_FAIL;
@@ -1261,7 +1279,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			CTargetCircle::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 
-
+		g_fLoading = 70.f;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Blow1"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_Blow1.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_CrossPlane"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu/Shinobu_CrossPlane.fbx", PivotMatrix)))) return E_FAIL;
@@ -1398,6 +1416,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_FlameTrail01_11"),
 			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_078_FlameTrail01_11.fbx", PivotMatrix))))
 			return E_FAIL;
+
+		g_fLoading = 75.f;
 
 		PivotMatrix = XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
 #pragma endregion Effect Model
@@ -1808,6 +1828,35 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Wind"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Flash"));
 
+		//아카자 오의
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion1_Hit"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion2_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion3_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion4_Dist"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Dash1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Hand1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Hit1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Hit2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Kick1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion5_Run1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion6_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion6_Slash1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion6_Slash2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_BackLight"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_BG2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_Hand"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_Hand2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_Hand3"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion7_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion8_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion8_Hand1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion8_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_Aura1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_Boom1"));
+
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_1"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_2"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_3"));
@@ -1825,7 +1874,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma endregion Effect Object
 	}
 #pragma endregion Effect
-
+	g_fLoading = 80.f;
 	/* 카메라 객체 */
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Camera_Dynamic"),
 		CCamera_Dynamic::Create(m_pDevice, m_pContext))))
@@ -2140,7 +2189,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Box"),
 	//	CBox::Create(m_pDevice, m_pContext))))
 	//	return E_FAIL;
-
+	g_fLoading = 90.f;
 	_matrix PivotMatrix2 = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
 	//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_KyoujuroWeaponMenu"),
 	//CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/KyoujuroWeapon(Menu)/KyoujuroWeapon(Menu).fbx", PivotMatrix2))))
@@ -2251,6 +2300,13 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_StoneSphere"),
 		CStoneSphere::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiBomb"),
+		CRuiBomb::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
+
+	
+
 	//Map
 	//CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("BattleField"), LEVEL_STATIC, CData_Manager::DATA_NONANIM);
 	//if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BattleField"),
@@ -2280,9 +2336,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Navigation_Enmu_Navi"),
 		CNavigation::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Map/Navigation/Enmu_Navi.nav")))))
 		return E_FAIL;
-
+	g_fLoading = 95.f;
 #pragma region UI객체
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MGameHeart"),
+		CMGameHeart::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BattleDialog"),
 		CBattleDialog::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
@@ -2635,7 +2694,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		CChangeBar::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
 #pragma endregion UI객체
-
+	g_fLoading = 100.f;
 	lstrcpy(m_szLoadingText, TEXT("                        로딩이 완료되었습니다."));
 
 	m_isFinished = true;

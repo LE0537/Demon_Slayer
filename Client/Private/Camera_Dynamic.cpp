@@ -6,6 +6,7 @@
 #include "Effect_Manager.h"
 #include "SoundMgr.h" 
 #include "Tanjiro.h"
+#include "Layer.h"
 CCamera_Dynamic::CCamera_Dynamic(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CCamera(pDevice, pContext)
 {
@@ -263,7 +264,10 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 
 
 	static _bool	bCamAttach = true;
-	if (true == m_bCutScene)
+
+
+	
+	 if (true == m_bCutScene)
 	{
 		m_bCutScene = CutScene(m_eCutScene, fTimeDelta);	//	끝나면 m_bCutScene = false. 자동으로 못들어옴.
 	}
@@ -892,8 +896,29 @@ void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vDestPos);
 
 	_vector vLookPos = XMVectorSetY(pTransform->Get_State(CTransform::STATE_TRANSLATION), XMVectorGetY(pTransform->Get_State(CTransform::STATE_TRANSLATION)) + 0.8f);
+
+
 	vLookPos.m128_f32[1] += 3.f;
+
 	m_pTransform->LookAt(vLookPos);
+
+	//if (m_bTopView == true)
+	//{
+	//	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+	//	_vector cameraPos = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION) + XMVectorSet(0.0f, 15.0f, 0.0f, 0.0f);
+	//	_vector cameraTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	//	//_vector cameraUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);  
+
+	//	//_matrix viewMatrix = XMMatrixLookAtLH(cameraPos, cameraTarget, cameraUp);
+	//	//
+	//	//m_pPipeLine->Set_Transform(CPipeLine::D3DTS_VIEW, viewMatrix);
+
+	//	//m_pTransform->Set_State(CTransform::STATE_UP, cameraUp);
+	//	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, cameraPos);
+	//	m_pTransform->LookAt(cameraTarget);
+
+	//}
+
 
 	RELEASE_INSTANCE(CGameInstance);
 

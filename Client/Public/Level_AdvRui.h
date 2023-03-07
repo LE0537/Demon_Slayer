@@ -33,6 +33,7 @@ public:
 	HRESULT Ready_Layer_Camera(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_Monster(const _tchar* pLayerTag);
 	HRESULT Ready_Layer_BackGround(const _tchar* pLayerTag);
+	HRESULT Ready_Layer_MGameHeart(const _tchar* pLayerTag);
 	HRESULT Load_StaticObjects(char* pFileName);
 	HRESULT Load_Map(const _tchar* pLayerTag, char* pFileName);
 	HRESULT Load_Weed(char* pFileName);
@@ -43,6 +44,11 @@ public:
 	HRESULT	Check_Smell();
 	
 	HRESULT	Create_Stone(_float fTimeDelta);
+
+
+	void RuiBombTick(_float fTimeDelta);
+
+
 	void Set_Renderer(CRenderer* _pRenderer) { m_pRendererCom = _pRenderer; }
 	CRenderer* Get_Renderer() { return m_pRendererCom; }
 private:

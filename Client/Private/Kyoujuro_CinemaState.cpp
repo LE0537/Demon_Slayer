@@ -9,6 +9,7 @@
 #include "MeshObj_Static.h"
 #include "MeshObj_Static_Inst.h"
 #include "Effect_AnimMesh.h"
+#include "BattleDialog.h"
 
 using namespace Kyoujuro;
 
@@ -134,6 +135,14 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 				RELEASE_INSTANCE(CUI_Manager);
 				pKyoujuro->Set_Stop(true);
 			}
+			else
+			{
+			/*	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_FADE, this);
+
+				RELEASE_INSTANCE(CEffect_Manager);*/
+			}
 			return new CKyoujuro_CinemaState(SCENE_END);
 		}
 		break;
@@ -141,11 +150,15 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro::ANIM_SPLSKL_END))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro::ANIM_SPLSKL_END);
-
-			CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_AKAZA_DEAD);
-			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
-			RELEASE_INSTANCE(CGameInstance);
+			CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+			if (!pUIManager->Get_BattleTypeCheck())
+			{
+				CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_AKAZA_DEAD);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
+				RELEASE_INSTANCE(CGameInstance);
+			}
+			RELEASE_INSTANCE(CUI_Manager);
 			return new CIdleState();
 		}
 		break;
@@ -173,6 +186,8 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 	pKyoujuro->Set_SplSkl(true);
 
 	CGameInstance* pGameInstance = nullptr;
+	CUI_Manager* pUI_Manager = nullptr;
+
 	if (m_eScene == CKyoujuro_CinemaState::SCENE_END)
 	{
 		pGameInstance = GET_INSTANCE(CGameInstance);
@@ -216,6 +231,11 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		RELEASE_INSTANCE(CGameInstance);
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_SplSkr.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_SplSkr.wav"), g_fEffect);
+
+		pUI_Manager = GET_INSTANCE(CUI_Manager);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplCharNum(1);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplDialogStart(true);
+		RELEASE_INSTANCE(CUI_Manager);
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_0:
 

@@ -13,6 +13,10 @@ texture2D		g_DissolveTexture;
 vector			g_vDissolveColor;
 float			g_fDeadTimeRatio;
 
+int				g_iFrame;
+int				g_iNumUV_U;
+int				g_iNumUV_V;
+
 struct VS_IN
 {
 	float3		vPosition : POSITION;
@@ -78,6 +82,43 @@ VS_OUT VS_MAIN(VS_IN In)
 
 	return Out;
 }
+
+VS_OUT VS_MAIN_SPRITE(VS_IN In)
+{
+	VS_OUT		Out = (VS_OUT)0;
+
+	matrix		matWV, matWVP;
+
+	matWV = mul(g_WorldMatrix, g_ViewMatrix);
+	matWVP = mul(matWV, g_ProjMatrix);
+
+	float		fW = 1.f - (In.vBlendWeight.x + In.vBlendWeight.y + In.vBlendWeight.z);
+
+	matrix		BoneMatrix = g_BoneMatrices[In.vBlendIndex.x] * In.vBlendWeight.x +
+		g_BoneMatrices[In.vBlendIndex.y] * In.vBlendWeight.y +
+		g_BoneMatrices[In.vBlendIndex.z] * In.vBlendWeight.z +
+		g_BoneMatrices[In.vBlendIndex.w] * fW;
+
+	vector		vPosition = mul(vector(In.vPosition, 1.f), BoneMatrix);
+	vector		vNormal = mul(vector(In.vNormal, 0.f), BoneMatrix);
+	vNormal = normalize(mul(vNormal, g_WorldMatrix));
+
+	/* 정점의 위치에 월드 뷰 투영행렬을 곱한다. 현재 정점은 ViewSpace에 존재하낟. */
+	/* 투영행렬까지 곱하면 정점위치의 w에 뷰스페이스 상의 z를 보관한다. == Out.vPosition이 반드시 float4이어야하는 이유. */
+	Out.vPosition = mul(vPosition, matWVP);
+	Out.vNormal = vNormal;
+	Out.vTexUV = In.vTexUV;
+	Out.vProjPos = Out.vPosition;
+	vector vWorldPos = mul(vPosition, g_WorldMatrix);
+	Out.vWorld = vWorldPos;
+
+	float			fTexU = ((g_iFrame % g_iNumUV_U) + In.vTexUV.x) / g_iNumUV_U;
+	float			fTexV = ((g_iFrame / g_iNumUV_U) + In.vTexUV.y) / g_iNumUV_V;
+	Out.vTexUV = float2(fTexU, fTexV);
+
+	return Out;
+}
+
 VS_NORMALOUT VS_NORMAL(VS_IN In)
 {
 	VS_NORMALOUT		Out = (VS_NORMALOUT)0;
@@ -334,5 +375,16 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_ONI_DISSOLVE();
+	}
+
+	pass Sprite //6
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN_SPRITE();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN();
 	}
 }

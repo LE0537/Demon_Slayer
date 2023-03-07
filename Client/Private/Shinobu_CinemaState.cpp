@@ -5,7 +5,7 @@
 #include "Camera_Dynamic.h"
 #include "Layer.h"
 #include "Effect_Manager.h"
-
+#include "BattleDialog.h"
 
 using namespace Shinobu;
 
@@ -57,6 +57,11 @@ CShinobuState * CShinobu_CinemaState::Tick(CShinobu * pShinobu, _float fTimeDelt
 		if (pShinobu->Get_Model()->Get_End(CShinobu_CinemaState::ANIM_SCENE_3))
 		{
 			pShinobu->Get_Model()->Set_End(CShinobu_CinemaState::ANIM_SCENE_3);
+	/*		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_FADE, this);
+
+			RELEASE_INSTANCE(CEffect_Manager);*/
 			return new CShinobu_CinemaState(SCENE_END);
 		}
 		break;
@@ -93,6 +98,8 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 {
 	CGameInstance* pGameInstance = nullptr;
 	CEffect_Manager* pEffectManger = nullptr;
+	CUI_Manager* pUI_Manager = nullptr;
+
 	switch (m_eScene)
 	{
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_START:
@@ -111,7 +118,10 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pGameInstance = GET_INSTANCE(CGameInstance);
 		((CCamera_Dynamic*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Camera")->Get_LayerFront()))->Start_CutScene(true, CCamera_Dynamic::CUTSCENE_SNB_START);
 		RELEASE_INSTANCE(CGameInstance);
-
+		pUI_Manager = GET_INSTANCE(CUI_Manager);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplCharNum(5);
+		dynamic_cast<CBattleDialog*>(pUI_Manager->Get_DialogUI())->Set_SplDialogStart(true);
+		RELEASE_INSTANCE(CUI_Manager);
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_SplSkr.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_SplSkr.wav"), g_fEffect);
 
