@@ -4,6 +4,8 @@
 #include "HinoCami_CinemaState.h"
 #include "TanjiroIdleState.h"
 #include "Effect_Manager.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Tanjiro;
 
 
@@ -35,13 +37,16 @@ CTanjiroState * CSplSkrStartState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			return new CSplSkrStartState(TYPE_LOOP);
 			break;
 		case Client::CTanjiroState::TYPE_LOOP:
-			if (m_bCollision == true)
+			/*if (m_bCollision == true)
 			{
 				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 				pTanjiro->Get_BattleTarget()->Play_Scene();
+				g_bSpecialSkillHit = true;
+				CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.5f);
 				return new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);
-			}
-			else
+			}*/
+			//else
 			{
 				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 				return new CIdleState();
@@ -71,6 +76,29 @@ CTanjiroState * CSplSkrStartState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 
 		if (m_fDuration <= 0.7f)
 			Move(pTanjiro, fTimeDelta);
+
+		if (m_bCollision == true && m_bCreate == false)
+		{
+			m_bPlayScene = true;
+			g_bSpecialSkillHit = true;
+			m_bCreate = true;
+			pTanjiro->Get_BattleTarget()->Take_Damage(0.f, false);
+			CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 1.f);
+		}
+
+		if (m_bPlayScene == true)
+		{
+			if (g_bSpecialSkillHit == false)
+			{
+				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+				pTanjiro->Get_BattleTarget()->Play_Scene();
+				return new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);
+			}
+		}
+
+
+
 		break;
 	case Client::CTanjiroState::TYPE_END:
 		break;
@@ -95,7 +123,8 @@ CTanjiroState * CSplSkrStartState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDe
 
 		m_fMove += fTimeDelta;
 
-		if (m_fMove > 0.3f)
+		if(pTanjiro->Get_Model()->Get_CurrentTime_Index(CTanjiro::ANIMID::ANIM_SPLSKL_START_1) >= 14.5f)
+		//if (m_fMove > 0.5f)
 		{
 			_vector vCollPos = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 			_vector vCollLook = pTanjiro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
@@ -105,7 +134,7 @@ CTanjiroState * CSplSkrStartState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDe
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 			CCollider*	pMyCollider2 = pTanjiro->Get_SphereCollider();
-			if (m_fMove < 0.5f && !m_bHit)
+			//if (m_fMove < 0.5f && !m_bHit)
 			{
 				if (nullptr == pTargetCollider)
 					return nullptr;
@@ -133,7 +162,7 @@ CTanjiroState * CSplSkrStartState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDe
 					{
 						m_bCollision = true;
 					}
-					if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
+					if (pTanjiro->Get_BattleTarget()->Get_GodMode() == false && m_bCollision == false)
 					{
 						_int iDest = rand() % 5;
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

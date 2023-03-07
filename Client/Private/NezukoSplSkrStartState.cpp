@@ -4,6 +4,8 @@
 #include "Nezuko_CinemaState.h"
 #include "NezukoIdleState.h"
 #include "Effect_Manager.h"
+#include "Layer.h"
+#include "Camera_Dynamic.h"
 using namespace Nezuko;
 
 
@@ -70,11 +72,32 @@ CNezukoState * CSplSkrStartState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 			Move(pNezuko, fTimeDelta);
 		break;
 	case Client::CNezukoState::TYPE_DEFAULT:
-		if (m_bCollision == true)
+		/*if (m_bCollision == true)
 		{
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
 			pNezuko->Get_BattleTarget()->Play_Scene();
 			return new CNezuko_CinemaState(CNezuko_CinemaState::SCENE_START);
+		}*/
+
+
+		if (m_bCollision == true && m_bCreate == false)
+		{
+			m_bPlayScene = true;
+			g_bSpecialSkillHit = true;
+			m_bCreate = true;
+			pNezuko->Get_BattleTarget()->Take_Damage(0.f, false);
+			CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 1.f);
+		}
+
+		if (m_bPlayScene == true)
+		{
+			if (g_bSpecialSkillHit == false)
+			{
+				pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+				pNezuko->Get_BattleTarget()->Play_Scene();
+				return new CNezuko_CinemaState(CNezuko_CinemaState::SCENE_START);
+			}
 		}
 		break;
 	case Client::CNezukoState::TYPE_CHANGE:

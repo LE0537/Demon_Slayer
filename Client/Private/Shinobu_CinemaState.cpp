@@ -148,6 +148,7 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu_CinemaState::ANIM_SCENE_3, 0.01f);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_END:
+		pShinobu->Get_BattleTarget()->Set_Hp(-400);
 		pShinobu->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_BOUND, 20.f, 30.f, 3.f);
 		pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_SPLSKL_END);
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_SPLSKL_END);

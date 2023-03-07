@@ -60,7 +60,7 @@ void CRuiSplColl::Late_Tick(_float fTimeDelta)
 {
 	m_fMove += fTimeDelta;
 
-	if (m_fMove > 0.6f && m_fMove < 0.8f)
+	if (m_fMove > 1.2f && m_fMove < 1.4f)
 	{
 		if (m_iHit == 0)
 		{

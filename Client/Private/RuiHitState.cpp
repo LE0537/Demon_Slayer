@@ -29,6 +29,7 @@ CRuiState * CHitState::Tick(CRui* pRui, _float fTimeDelta)
 		if (pRui->Get_PlayerInfo().iUnicCount < 3 && pRui->Get_PlayerInfo().iUnicBar < pRui->Get_PlayerInfo().iUnicMaxBar)
 		{
 			pRui->Set_UnicBar(33);
+			pRui->Get_BattleTarget()->Set_UnicBar(16);
 			if (pRui->Get_PlayerInfo().iUnicBar >= pRui->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pRui->Get_PlayerInfo().iUnicCount < 3)

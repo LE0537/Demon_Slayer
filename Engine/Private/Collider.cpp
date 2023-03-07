@@ -76,7 +76,9 @@ HRESULT CCollider::Initialize(void * pArg)
 		}
 	}
 
-	
+	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
+	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH(1280.f,720.f, 0.f, 1.f)));
+
 
 	return S_OK;
 }
@@ -106,10 +108,16 @@ HRESULT CCollider::Render()
 	m_pEffect->SetWorld(XMMatrixIdentity());
 
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-
-	m_pEffect->SetView(pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW));
-	m_pEffect->SetProjection(pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ));
-	
+	if (g_iLevelNum == 1)
+	{
+		m_pEffect->SetView(XMLoadFloat4x4(&m_ViewMatrix));
+		m_pEffect->SetProjection(XMLoadFloat4x4(&m_ProjMatrix));
+	}
+	else
+	{
+		m_pEffect->SetView(pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW));
+		m_pEffect->SetProjection(pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_PROJ));
+	}
 	RELEASE_INSTANCE(CGameInstance);
 
 	m_pEffect->Apply(m_pContext);

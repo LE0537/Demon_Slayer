@@ -590,11 +590,20 @@ void CRui::LateTickState(_float fTimeDelta)
 void CRui::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
 
-	if (m_pRuiState->Get_RuiState() == CRuiState::STATE_HIT)
-		m_pModelCom->Reset_Anim(CRui::ANIMID::ANIM_HIT);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CRuiState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CRuiState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+	}
 
-	CRuiState* pState = new CHitState(_fPow, _bJumpHit);
-	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+	else
+	{
+
+		CRuiState* pState = new CHitState(_fPow, _bJumpHit);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+	}
 
 }
 
@@ -616,14 +625,36 @@ void CRui::Get_GuardHit(_int eType)
 
 void CRui::Player_TakeDown(_float _fPow, _bool _bJump)
 {
-	CRuiState* pState = new CTakeDownState(_fPow, _bJump);
-	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CRuiState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CRuiState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+	}
+
+	else
+	{
+		CRuiState* pState = new CTakeDownState(_fPow, _bJump);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+	}
 }
 
 void CRui::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
-	CRuiState* pState = new CUpperHitState(eHitType, CRuiState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
-	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CRuiState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CRuiState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+	}
+
+	else
+	{
+		CRuiState* pState = new CUpperHitState(eHitType, CRuiState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+		m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+	}
 }
 
 void CRui::Play_Scene()

@@ -25,6 +25,8 @@ private:
 
 private:
 	_bool m_bCollision = false;
+	_bool m_bPlayScene = false;
+	_bool m_bCreate = false;
 	CBaseAtk*	m_pCollBox = nullptr;
 
 	_bool m_bAtkCombo = false;

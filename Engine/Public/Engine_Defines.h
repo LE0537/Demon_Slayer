@@ -32,6 +32,7 @@ using namespace DirectX;
 enum DIMK { DIMK_LBUTTON, DIMK_RBUTTON, DIMK_WHEEL, DIMK_END };
 enum DIMM { DIMM_X, DIMM_Y, DIMM_WHEEL, DIMM_END };
 
+extern int g_iLevelNum;
 #include <vector>
 #include <map>
 #include <list>

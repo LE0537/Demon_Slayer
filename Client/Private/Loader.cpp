@@ -287,15 +287,19 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 
 
-	/* 텍스쳐 로딩 중. */
-	lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
 
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Dissolve"),
-		CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Dissolve/%d.png"), 3))))
-		return E_FAIL;
+
 #pragma region UI
 	{
 #pragma region BattleUI
+		/* 텍스쳐 로딩 중. */
+		lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MiniGame"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/MiniGame/%d.png"), 9))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Dissolve"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Dissolve/%d.png"), 3))))
+			return E_FAIL;
 		//Battle
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeFrame"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/Btl_UI/Ult_Gauge_Frame_%d.png"), 4))))

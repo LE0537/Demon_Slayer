@@ -33,6 +33,8 @@ private:
 	_float m_fMove = 0.f;
 	_int   m_iHit = 0;
 	_bool  m_bHit = false;
+
+	_bool m_bPlayScene = false;
 };
 
 END

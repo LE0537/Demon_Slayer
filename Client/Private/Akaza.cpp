@@ -506,11 +506,19 @@ void CAkaza::Set_Info()
 
 void CAkaza::Take_Damage(_float _fPow, _bool _bJumpHit)
 {
-	if (m_pAkazaState->Get_AkazaState() == CAkazaState::STATE_HIT)
-		m_pModelCom->Reset_Anim(CAkaza::ANIMID::ANIM_HIT);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CAkazaState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CAkazaState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+	}
 
-	CAkazaState* pState = new CHitState(_fPow, _bJumpHit);
-	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+	else
+	{
+		CAkazaState* pState = new CHitState(_fPow, _bJumpHit);
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+	}
 
 }
 
@@ -534,15 +542,37 @@ void CAkaza::Get_GuardHit(_int eType)
 
 void CAkaza::Player_TakeDown(_float _fPow, _bool _bJump)
 {
-	CAkazaState* pState = new CTakeDownState(_fPow, _bJump);
-	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CAkazaState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CAkazaState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+	}
+
+	else
+	{
+		CAkazaState* pState = new CTakeDownState(_fPow, _bJump);
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+	}
 }
 
 
 void CAkaza::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
-	CAkazaState* pState = new CUpperHitState(eHitType, CAkazaState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
-	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CAkazaState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CAkazaState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+	}
+
+	else
+	{
+		CAkazaState* pState = new CUpperHitState(eHitType, CAkazaState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+	}
 }
 
 void CAkaza::Play_Scene()
