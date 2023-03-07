@@ -36,6 +36,7 @@ private:
 	_float				m_fCreateMonsterTime = 0.f;
 	_bool				m_bPlayerDead = false;
 	_bool				m_bMiniGameStart = false;
+	_int				m_iPrevRankScore = 0;
 public:
 	static CLevel_Loading* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eNextLevel);
 	virtual void Free() override;

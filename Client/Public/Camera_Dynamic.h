@@ -86,6 +86,8 @@ public:
 	void Set_StoryScene(STORYSCENE _eCutScene) { m_eStoryScene = _eCutScene; m_bStoryScene = true; }
 	void Set_ADVAkaza() { m_bADVAKaza = true; m_bStart = true; m_bLerp = true;}
 	_bool Get_ADVAkaza() { return m_bADVAKaza; }
+	void Set_EnmuGround() { m_bEnmuGroundDead = true; }
+	_bool Get_EnmuGround() { return m_bEnmuGroundDead; }
 private:									
 	//Shake
 	void Check_Shake(_float fTimeDelta);
@@ -179,6 +181,7 @@ private:
 	_float m_fBattleCamY = 0.f;
 	_float m_fBattleCamZ = 0.f;
 	_bool  m_bADVAKaza = false;
+	_bool  m_bEnmuGroundDead = false;
 	//	CamAction
 	CRenderer*	m_pRendererCom = nullptr;
 

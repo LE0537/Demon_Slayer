@@ -146,6 +146,7 @@ void CLevel_BossEnmu::Tick(_float fTimeDelta)
 			dynamic_cast<CBattleDialog*>(pUIManager->Get_DialogUI())->Set_DialogStart(true);
 			m_bCinema2 = true;
 			pGameInstance = GET_INSTANCE(CGameInstance);
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_EnmuGround();
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_BOSSENMU_DEAD);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
 			RELEASE_INSTANCE(CGameInstance);

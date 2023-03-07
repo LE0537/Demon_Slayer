@@ -90,7 +90,8 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	if (pGameInstance->Key_Down(DIK_RETURN))
 	{
-		Save_Score();
+		if(m_iPrevRankScore < m_pMini_Result->Get_RankScore())
+			Save_Score();
 	}
 	RELEASE_INSTANCE(CGameInstance);
 	if (m_eNextLevel == LEVEL_LOGO && m_bNextLevel)
@@ -276,19 +277,18 @@ void CLevel_Loading::Load_Score()
 	// 2. 파일 쓰기
 
 	DWORD		dwByte = 0;
-	_int		iRankScore = 0;
 
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
 
 	while (true)
 	{
-		ReadFile(hFile, &iRankScore, sizeof(_int), &dwByte, nullptr);
+		ReadFile(hFile, &m_iPrevRankScore, sizeof(_int), &dwByte, nullptr);
 
 		if (0 == dwByte)	// 더이상 읽을 데이터가 없을 경우
 			break;
 		
-		m_pMini_Result->Set_RankScore(iRankScore);
+		m_pMini_Result->Set_RankScore(m_iPrevRankScore);
 	}
 
 	Safe_Release(pGameInstance);
