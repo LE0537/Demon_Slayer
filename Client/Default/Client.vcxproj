@@ -310,6 +310,7 @@
     <ClInclude Include="..\Public\KyoujuroSplSkrStartState.h" />
     <ClInclude Include="..\public\Mini_Monster.h" />
     <ClInclude Include="..\public\Mini_Player.h" />
+    <ClInclude Include="..\public\Mini_Result.h" />
     <ClInclude Include="..\public\Mini_Tail.h" />
     <ClInclude Include="..\Public\NezukoHitCinema_Akaza.h" />
     <ClInclude Include="..\Public\NezukoHitCinema_Kyoujuro.h" />
@@ -824,6 +825,7 @@
     <ClCompile Include="..\Private\KyoujuroSplSkrStartState.cpp" />
     <ClCompile Include="..\private\Mini_Monster.cpp" />
     <ClCompile Include="..\private\Mini_Player.cpp" />
+    <ClCompile Include="..\private\Mini_Result.cpp" />
     <ClCompile Include="..\private\Mini_Tail.cpp" />
     <ClCompile Include="..\Private\NezukoHitCinema_Akaza.cpp" />
     <ClCompile Include="..\Private\NezukoHitCinema_Kyoujuro.cpp" />

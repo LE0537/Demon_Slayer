@@ -1555,18 +1555,6 @@
     <Filter Include="06.MiniGame">
       <UniqueIdentifier>{7ee81a6f-81d7-4dfa-8a07-1b94c2c9b1c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="06.MiniGame\Player">
-      <UniqueIdentifier>{9159f80f-1407-4d84-a70a-c9903c341a62}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06.MiniGame\Monster">
-      <UniqueIdentifier>{8a2a8be7-3755-4215-a903-82b4174a0fb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06.MiniGame\Item">
-      <UniqueIdentifier>{7dc2c009-58e5-46db-a513-eb141055da42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="06.MiniGame\Tail">
-      <UniqueIdentifier>{267124f3-cc72-4195-b473-1c2703ea29e3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro">
       <UniqueIdentifier>{b5e55ae6-1d11-41da-a130-1abb867bcc28}</UniqueIdentifier>
     </Filter>
@@ -1671,6 +1659,21 @@
     </Filter>
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Shinobu">
       <UniqueIdentifier>{14868ebd-37de-49a6-96ba-569f55979641}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.MiniGame\04.Mini_Result">
+      <UniqueIdentifier>{ee446752-7e40-4690-bc35-019776fe2f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.MiniGame\00.Player">
+      <UniqueIdentifier>{9159f80f-1407-4d84-a70a-c9903c341a62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.MiniGame\01.Tail">
+      <UniqueIdentifier>{267124f3-cc72-4195-b473-1c2703ea29e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.MiniGame\02.Monster">
+      <UniqueIdentifier>{8a2a8be7-3755-4215-a903-82b4174a0fb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="06.MiniGame\03.Item">
+      <UniqueIdentifier>{7dc2c009-58e5-46db-a513-eb141055da42}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -3208,16 +3211,19 @@
       <Filter>02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza\AkazaLeg</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Mini_Player.h">
-      <Filter>06.MiniGame\Player</Filter>
+      <Filter>06.MiniGame\00.Player</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Item.h">
-      <Filter>06.MiniGame\Item</Filter>
+      <Filter>06.MiniGame\03.Item</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Mini_Monster.h">
-      <Filter>06.MiniGame\Monster</Filter>
+      <Filter>06.MiniGame\02.Monster</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Mini_Tail.h">
-      <Filter>06.MiniGame\Tail</Filter>
+      <Filter>06.MiniGame\01.Tail</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Mini_Result.h">
+      <Filter>06.MiniGame\04.Mini_Result</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -4719,16 +4725,19 @@
       <Filter>02.GameObjects\99.GameObj\01.Monster\04.ADV_Akaza\AkazaLeg</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Mini_Player.cpp">
-      <Filter>06.MiniGame\Player</Filter>
+      <Filter>06.MiniGame\00.Player</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Item.cpp">
-      <Filter>06.MiniGame\Item</Filter>
+      <Filter>06.MiniGame\03.Item</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Mini_Monster.cpp">
-      <Filter>06.MiniGame\Monster</Filter>
+      <Filter>06.MiniGame\02.Monster</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Mini_Tail.cpp">
-      <Filter>06.MiniGame\Tail</Filter>
+      <Filter>06.MiniGame\01.Tail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mini_Result.cpp">
+      <Filter>06.MiniGame\04.Mini_Result</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

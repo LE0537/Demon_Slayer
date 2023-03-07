@@ -222,6 +222,7 @@ void CEnmuBoss_Pattern3State::Enter(CEnmuBoss * pEnmuBoss)
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN3_2);
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_Loop(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN3_2);
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Right_Hand::ANIMID::ANIM_PATTERN3_2, 0.1f);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Attack_1.wav"), g_fEffect); //æÁ∆»»÷µŒ∏£±‚
 		}
 		// LEFT_HAND
 		//else if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
@@ -231,6 +232,7 @@ void CEnmuBoss_Pattern3State::Enter(CEnmuBoss * pEnmuBoss)
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_CurrentAnimIndex(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN3_2);
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_Loop(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN3_2);
 			pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND]->Get_Model()->Set_LinearTime(CEnmu_Left_Hand::ANIMID::ANIM_PATTERN3_2, 0.1f);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_Attack_1.wav"), g_fEffect); //æÁ∆»»÷µŒ∏£±‚
 		}
 		break;
 	case Client::CEnmuBossState::TYPE_DEFAULT:

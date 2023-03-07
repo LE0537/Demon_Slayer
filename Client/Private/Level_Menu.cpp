@@ -48,16 +48,16 @@ void CLevel_Menu::Tick(_float fTimeDelta)
 		if (pUI_Manager->Get_MenuCursor()->Get_SelectVS())
 		{
 			pUI_Manager->Set_BattleTypeCheck(true);
+			CSoundMgr::Get_Instance()->BGM_Stop();
 			if (FAILED(pGameInstance->Open_Level(LEVEL_SELECTCHAR, CLevel_SelectChar::Create(m_pDevice, m_pContext))))
 				return;
-			CSoundMgr::Get_Instance()->BGM_Stop();
 		}
 		else if (pUI_Manager->Get_MenuCursor()->Get_SelectStoryMenu())
 		{
 			pUI_Manager->Set_BattleTypeCheck(false);
+			CSoundMgr::Get_Instance()->BGM_Stop();
 			if (FAILED(pGameInstance->Open_Level(LEVEL_STORYMENU, CLevel_StoryMenu::Create(m_pDevice, m_pContext))))
 				return;
-			CSoundMgr::Get_Instance()->BGM_Stop();
 		}
 	}
 
