@@ -38,20 +38,28 @@ HRESULT CItem::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
 	_int iDest = rand() % 4;
-
+	_int iRandScore = 0;
 	switch (iDest)
 	{
 	case 0:
 		m_iTextrueNum = 5;
+		iRandScore = rand() % 20 + 21;
+		m_iScore = iRandScore;
 		break;
 	case 1:
 		m_iTextrueNum = 6;
+		iRandScore = rand() % 30 + 31;
+		m_iScore = iRandScore;
 		break;
 	case 2:
 		m_iTextrueNum = 7;
+		iRandScore = rand() % 50 + 51;
+		m_iScore = iRandScore;
 		break;
 	case 3:
 		m_iTextrueNum = 8;
+		iRandScore = rand() % 10 + 11;
+		m_iScore = iRandScore;
 		break;
 	default:
 		break;
@@ -70,6 +78,7 @@ void CItem::Tick(_float fTimeDelta)
 	if (fDist < 40.f)
 	{
 		dynamic_cast<CMini_Player*>(m_pPlayer)->Set_Eat();
+		dynamic_cast<CMini_Player*>(m_pPlayer)->Set_Score(m_iScore);
 		Set_Dead();
 	}
 	m_fDeadTime += fTimeDelta;

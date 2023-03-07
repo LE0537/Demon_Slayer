@@ -35,7 +35,7 @@ HRESULT CMini_Monster::Initialize(void * pArg)
 		break;
 	case 1:
 		m_fX = 0.f;
-		m_fY = 720.f;
+		m_fY = 700.f;
 		break;
 	case 2:
 		m_fX = 1280.f;
@@ -43,7 +43,7 @@ HRESULT CMini_Monster::Initialize(void * pArg)
 		break;
 	case 3:
 		m_fX = 1280.f;
-		m_fY = 720.f;
+		m_fY = 700.f;
 		break;
 	default:
 		break;
@@ -75,7 +75,7 @@ void CMini_Monster::Tick(_float fTimeDelta)
 		_vector vPos2 = vPos;
 		_vector vTargetPos = m_pPlayer->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
-		vPos2 += XMVector3Normalize(vTargetPos - vPos2) * 100.f * fTimeDelta;
+		vPos2 += XMVector3Normalize(vTargetPos - vPos2) * 110.f * fTimeDelta;
 		m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos2);
 		if (!dynamic_cast<CMini_Player*>(m_pPlayer)->Get_PlayerDead())
 		{
@@ -90,6 +90,8 @@ void CMini_Monster::Tick(_float fTimeDelta)
 					_float fDist = XMVectorGetX(XMVector3Length(vTargetPos - vPos));
 					if (fDist < 40.f)
 					{
+						_int iDest = rand() % 30 + 31;
+						dynamic_cast<CMini_Player*>(m_pPlayer)->Set_Score(iDest);
 						Set_Dead();
 						return;
 					}

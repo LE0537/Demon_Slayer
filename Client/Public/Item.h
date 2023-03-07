@@ -37,7 +37,7 @@ private:
 	CGameObj*				m_pPlayer = nullptr;
 	CGameObj*				m_pTarget = nullptr;
 	_int					m_iTextrueNum = 0;
-
+	_int					m_iScore = 0;
 	_float					m_fDeadTime = 0.f;
 	_float					m_fRenderTime = 0.f;
 	_bool					m_bRenderItem = false;
