@@ -198,9 +198,22 @@ HRESULT CNezuko::Render()
 
 	for (_uint i = 0; i < iNumMeshes; ++i)
 	{
-		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
-			return E_FAIL;
-
+		
+		if (m_bSplSkl && (i == 0 || i == 1))
+		{
+			if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(2))))
+				return E_FAIL;
+		}
+		else if (m_bSplSkl && i == 6 )
+		{
+			if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(1))))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
+				return E_FAIL;
+		}
 		if (i == 0 || i == 1)
 		{
 			if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pTextureCom->Get_SRV(0))))

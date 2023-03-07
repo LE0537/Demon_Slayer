@@ -307,7 +307,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_NezukoMask"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Meshes/Anim/NezukoMask/%d.png"), 1))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Meshes/Anim/NezukoMask/%d.png"), 3))))
 			return E_FAIL;
 		g_fLoading = 3.f;
 		//Battle
