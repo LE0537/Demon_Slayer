@@ -246,7 +246,7 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 
 		break;
 	}
-	case Client::Akaza::CAkaza_CinemaState::SCENE_2: 
+	case Client::Akaza::CAkaza_CinemaState::SCENE_2:
 		pAkaza->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_040);
 		pAkaza->Get_Model()->Reset_Anim(CAkaza_CinemaState::ANIM_SCENE_2);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza_CinemaState::ANIM_SCENE_2);
@@ -280,7 +280,7 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_DASH1, pAkaza);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_HAND1, pAkaza->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_HAND1, pAkaza->Get_WeaponWorld2());
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_HIT1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_HIT2, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO5_KICK1, pAkaza);
@@ -361,7 +361,7 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_BG1, pAkaza);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_HAND1, pAkaza->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_HAND1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_PROJ1, pAkaza);
 
 		RELEASE_INSTANCE(CEffect_Manager);
@@ -385,10 +385,13 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_AURA1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_BG1, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_PROJ1, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_BOOM1, pAkaza);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Akaza::CAkaza_CinemaState::SCENE_8:{
+	}
+	case Client::Akaza::CAkaza_CinemaState::SCENE_8: {
 		pAkaza->Get_BattleTarget()->Set_Hp(-400);
 		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pAkaza->Get_NavigationHeight().y, 56.1f, 1.f));
 		pAkaza->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pAkaza->Get_NavigationHeight().y, 50.03f, 1.f));
@@ -407,7 +410,6 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 	default:
 		break;
 	}
-
 }
 
 void CAkaza_CinemaState::Exit(CAkaza * pAkaza)

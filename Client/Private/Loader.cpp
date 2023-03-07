@@ -1825,6 +1825,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion8_Proj1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_Aura1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_Boom1"));
 
 		pEffect_Manager->Load_Effect(TEXT("Train_Smoke"));
 		pEffect_Manager->Load_Effect(TEXT("Train_Wind"));
