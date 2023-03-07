@@ -201,8 +201,18 @@ HRESULT CNezuko::Render()
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
-			return E_FAIL;
+		if (i == 0 || i == 1)
+		{
+			if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_MaskTexture", m_pTextureCom->Get_SRV(0))))
+				return E_FAIL;
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 2)))
+				return E_FAIL;
+		}
+		else
+		{
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+				return E_FAIL;
+		}
 
 	}
 	_vector vPos = m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION);
@@ -584,7 +594,8 @@ HRESULT CNezuko::Ready_Components()
 	if (FAILED(__super::Add_Components(TEXT("Com_Model"), LEVEL_STATIC, TEXT("Nezuko"), (CComponent**)&m_pModelCom)))
 		return E_FAIL;
 
-
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_NezukoMask"), (CComponent**)&m_pTextureCom)))
+		return E_FAIL;
 
 	CCollider::COLLIDERDESC		ColliderDesc;
 

@@ -157,7 +157,7 @@ HRESULT CLevel_GamePlay::Initialize()
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 
 	pUIManager->Add_Loading();
-
+	
 	CoInitializeEx(nullptr, 0);
 
 	InitializeCriticalSection(&m_CriticalSection);

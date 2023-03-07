@@ -135,6 +135,14 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 				RELEASE_INSTANCE(CUI_Manager);
 				pKyoujuro->Set_Stop(true);
 			}
+			else
+			{
+			/*	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_FADE, this);
+
+				RELEASE_INSTANCE(CEffect_Manager);*/
+			}
 			return new CKyoujuro_CinemaState(SCENE_END);
 		}
 		break;

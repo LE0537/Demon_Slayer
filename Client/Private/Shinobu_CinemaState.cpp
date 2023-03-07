@@ -5,7 +5,7 @@
 #include "Camera_Dynamic.h"
 #include "Layer.h"
 #include "BattleDialog.h"
-
+#include "Effect_Manager.h"
 using namespace Shinobu;
 
 CShinobu_CinemaState::CShinobu_CinemaState(CINEMASCENE eScene)
@@ -56,6 +56,11 @@ CShinobuState * CShinobu_CinemaState::Tick(CShinobu * pShinobu, _float fTimeDelt
 		if (pShinobu->Get_Model()->Get_End(CShinobu_CinemaState::ANIM_SCENE_3))
 		{
 			pShinobu->Get_Model()->Set_End(CShinobu_CinemaState::ANIM_SCENE_3);
+	/*		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_FADE, this);
+
+			RELEASE_INSTANCE(CEffect_Manager);*/
 			return new CShinobu_CinemaState(SCENE_END);
 		}
 		break;
