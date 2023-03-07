@@ -25,29 +25,22 @@ HRESULT CFadeUIEff::Initialize(void * pArg)
 
 	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
 
-	m_fSizeX = m_ThrowUIinfo.vScale.x;
-	m_fSizeY = m_ThrowUIinfo.vScale.y;
-	m_fX = m_ThrowUIinfo.vPos.x;
-	m_fY = m_ThrowUIinfo.vPos.y;
+	m_fSizeX = 1280.f;
+	m_fSizeY = 720.f;
+	m_fX = 640.f;
+	m_fY = 360.f;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
-
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
-
-	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-
-	if (!m_ThrowUIinfo.bReversal)
-		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
-	else
-		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight * -1.f);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	pUI_Manager->Set_FadeUI(this);
 	RELEASE_INSTANCE(CUI_Manager);
+
 	return S_OK;
 }
 
@@ -64,9 +57,15 @@ void CFadeUIEff::Tick(_float fTimeDelta)
 			m_bUIOn = true;
 		}
 	}
-	
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
-
+	else if (!pUI_Manager->Get_FadeSwitch() && m_bUIOn)
+	{
+		m_fFadeTime -= 0.01f;
+		if (m_fFadeTime <= 0.f)
+		{
+			m_fFadeTime = 0.f;
+			m_bUIOn = false;
+		}
+	}
 	RELEASE_INSTANCE(CUI_Manager);
 }
 

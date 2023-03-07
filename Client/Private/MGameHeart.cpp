@@ -1,67 +1,70 @@
 #include "stdafx.h"
-#include "LoadingBar.h"
+#include "MGameHeart.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
-CLoadingBar::CLoadingBar(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+
+CMGameHeart::CMGameHeart(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
 {
 }
 
-CLoadingBar::CLoadingBar(const CLoadingBar & rhs)
+CMGameHeart::CMGameHeart(const CMGameHeart & rhs)
 	: CUI(rhs)
 {
 }
 
-HRESULT CLoadingBar::Initialize_Prototype()
+HRESULT CMGameHeart::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CLoadingBar::Initialize(void * pArg)
+HRESULT CMGameHeart::Initialize(void * pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	memcpy(&m_ThrowUIinfo, pArg, sizeof(THROWUIINFO));
+	memcpy(&m_iLayerNum, pArg, sizeof(_uint));
 
-	m_fSizeX = m_ThrowUIinfo.vScale.x;
-	m_fSizeY = m_ThrowUIinfo.vScale.y;
-	m_fX = m_ThrowUIinfo.vPos.x;
-	m_fY = m_ThrowUIinfo.vPos.y;
+	m_fSizeX = 50.f;
+	m_fSizeY = 50.f;
+	m_fY = 130.f;
+	if (m_iLayerNum == 0)
+		m_fX = 80.f;
+	else if(m_iLayerNum == 1)
+		m_fX = 130.f;
+	else if (m_iLayerNum == 2)
+		m_fX = 180.f;
 
 	m_pTransformCom->Set_Scale(XMVectorSet(m_fSizeX, m_fSizeY, 0.f, 1.f));
-
-	if (m_ThrowUIinfo.vRot >= 0 && m_ThrowUIinfo.vRot <= 360)
-		m_pTransformCom->Set_Rotation(_float3(0.f, 0.f, m_ThrowUIinfo.vRot));
-
-	_vector vRight = m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
-
-	m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
-	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-	pUIManager->Get_LoadingList()->push_back(this);
+	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+	pUI_Manager->Set_HeartUI(this, m_iLayerNum);
 	RELEASE_INSTANCE(CUI_Manager);
-	\
 	return S_OK;
 }
 
-void CLoadingBar::Tick(_float fTimeDelta)
+void CMGameHeart::Tick(_float fTimeDelta)
 {
-	if(g_fLoading >= m_fCurTime)
-		m_fCurTime += 1.f;
-	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f, 1.f));
+
 }
 
-void CLoadingBar::Late_Tick(_float fTimeDelta)
+void CMGameHeart::Late_Tick(_float fTimeDelta)
 {
-	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+	if (nullptr != m_pRendererCom && m_bRender)
+	{
+		CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+		if(m_iLayerNum <= pUI_Manager->Get_1P()->Get_Heart())
+			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+		RELEASE_INSTANCE(CUI_Manager);
+	}
 }
 
-HRESULT CLoadingBar::Render()
+HRESULT CMGameHeart::Render()
 {
 	if (nullptr == m_pShaderCom ||
 		nullptr == m_pVIBufferCom)
@@ -70,14 +73,14 @@ HRESULT CLoadingBar::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(3);
-
+	m_pShaderCom->Begin();
+	
 	m_pVIBufferCom->Render();
 
 	return S_OK;
 }
 
-HRESULT CLoadingBar::Ready_Components()
+HRESULT CMGameHeart::Ready_Components()
 {
 	/* For.Com_Renderer */
 	if (FAILED(__super::Add_Components(TEXT("Com_Renderer"), LEVEL_STATIC, TEXT("Prototype_Component_Renderer"), (CComponent**)&m_pRendererCom)))
@@ -92,7 +95,7 @@ HRESULT CLoadingBar::Ready_Components()
 		return E_FAIL;
 
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingBar"), (CComponent**)&m_pTextureCom)))
+	if (FAILED(__super::Add_Components(TEXT("Com_Texture"), LEVEL_STATIC, TEXT("Prototype_Component_Texture_MGameHeart"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
@@ -102,7 +105,7 @@ HRESULT CLoadingBar::Ready_Components()
 	return S_OK;
 }
 
-HRESULT CLoadingBar::SetUp_ShaderResources()
+HRESULT CMGameHeart::SetUp_ShaderResources()
 {
 	if (nullptr == m_pShaderCom)
 		return E_FAIL;
@@ -114,25 +117,19 @@ HRESULT CLoadingBar::SetUp_ShaderResources()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fMaxBar", &m_fMaxTime, sizeof(_float))))
-		return E_FAIL;
-
-	if (FAILED(m_pShaderCom->Set_RawValue("g_fCurBar", &m_fCurTime, sizeof(_float))))
-		return E_FAIL;
-
 	if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_DiffuseTexture", m_pTextureCom->Get_SRV(0))))
 		return E_FAIL;
 
 	return S_OK;
 }
 
-CLoadingBar * CLoadingBar::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
+CMGameHeart * CMGameHeart::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
-	CLoadingBar*	pInstance = new CLoadingBar(pDevice, pContext);
+	CMGameHeart*	pInstance = new CMGameHeart(pDevice, pContext);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		ERR_MSG(TEXT("Failed to Created : CLoadingBar"));
+		ERR_MSG(TEXT("Failed to Created : CMGameHeart"));
 		Safe_Release(pInstance);
 	}
 
@@ -140,20 +137,20 @@ CLoadingBar * CLoadingBar::Create(ID3D11Device * pDevice, ID3D11DeviceContext * 
 }
 
 
-CGameObject * CLoadingBar::Clone(void * pArg)
+CGameObject * CMGameHeart::Clone(void * pArg)
 {
-	CLoadingBar*	pInstance = new CLoadingBar(*this);
+	CMGameHeart*	pInstance = new CMGameHeart(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		ERR_MSG(TEXT("Failed to Cloned : CLoadingBar"));
+		ERR_MSG(TEXT("Failed to Cloned : CMGameHeart"));
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CLoadingBar::Free()
+void CMGameHeart::Free()
 {
 	__super::Free();
 

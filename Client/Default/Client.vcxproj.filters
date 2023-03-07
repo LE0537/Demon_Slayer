@@ -1672,6 +1672,12 @@
     <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Shinobu">
       <UniqueIdentifier>{14868ebd-37de-49a6-96ba-569f55979641}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\93.MGame">
+      <UniqueIdentifier>{c487630d-b658-44af-89c4-995b260210b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\93.MGame\Heart">
+      <UniqueIdentifier>{7a4ce041-0aa0-4b5e-9ec3-7fa7a3c55bdd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3219,6 +3225,9 @@
     <ClInclude Include="..\public\Mini_Tail.h">
       <Filter>06.MiniGame\Tail</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\MGameHeart.h">
+      <Filter>03.UI\93.MGame\Heart</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4729,6 +4738,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Mini_Tail.cpp">
       <Filter>06.MiniGame\Tail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MGameHeart.cpp">
+      <Filter>03.UI\93.MGame\Heart</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

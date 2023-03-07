@@ -5,12 +5,16 @@
 
 BEGIN(Client)
 
-class CLoadingBar final : public CUI
+class CMGameHeart final : public CUI
 {
 private:
-	CLoadingBar(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
-	CLoadingBar(const CLoadingBar& rhs);
-	virtual ~CLoadingBar() = default;
+	CMGameHeart(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	CMGameHeart(const CMGameHeart& rhs);
+	virtual ~CMGameHeart() = default;
+
+public:
+	_bool Get_RenderOn() { return m_bRender; }
+	void Set_RenderOn(_bool bCheck) { m_bRender = bCheck; }
 
 public:
 	virtual HRESULT Initialize_Prototype();
@@ -24,12 +28,12 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 private:
-	_float					m_fMaxTime = 100.f;
-	_float					m_fCurTime = 0.f;
+	_uint			m_iLayerNum = 0;
+	_bool			m_bRender = false;
 
 
 public:
-	static CLoadingBar* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
+	static CMGameHeart* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
 	virtual void Free() override;
 };

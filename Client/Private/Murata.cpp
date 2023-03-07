@@ -418,6 +418,7 @@ void CMurata::Check_Event()
 				break;
 			default:
 				pUIManager->Set_MsgOff();
+				pUIManager->Reset_MsgCount();
 				pUIManager->Set_QuestCount(1);
 				pUIManager->Set_MainQuestOn();
 				m_bMsgEnd = true;

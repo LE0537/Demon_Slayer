@@ -194,6 +194,7 @@
 #include "EnmuShoot.h"
 #include "RuiSplColl.h"
 #include "StoneSphere.h"
+#include "MGameHeart.h"
 //Ani
 #include "Butterfly.h"
 #include "Deer.h"
@@ -294,6 +295,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 #pragma region BattleUI
 		/* 텍스쳐 로딩 중. */
 		lstrcpy(m_szLoadingText, TEXT("                       텍스쳐 로딩 중."));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MGameHeart"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/UI/MGame/Heart.png"), 1))))
+			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MiniGame"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/MiniGame/%d.png"), 9))))
 			return E_FAIL;
@@ -2294,6 +2298,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 #pragma region UI객체
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MGameHeart"),
+		CMGameHeart::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_BattleDialog"),
 		CBattleDialog::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
