@@ -38,13 +38,15 @@ private:
 public:
 	void Set_Eat() { m_bEat = true; }
 	void Set_PlayerDead() { m_bPlayerDead = true; }
+	void Set_Score(_int _iScore) { m_iScore += _iScore; }
+	_int Get_Score() { return m_iScore; }
 	_bool Get_PlayerDead() { return m_bPlayerDead; }
 	list<CMini_Tail*> Get_Tail() { return m_listTail; }
 private:
 	_float					m_fX, m_fY, m_fSizeX, m_fSizeY;
 	_float4x4				m_ViewMatrix, m_ProjMatrix;
 
-
+	class CMini_Result*		m_pResult = nullptr;
 	list<CMini_Tail*>		m_listTail;
 	list<_vector>			m_listPos;
 	_bool					m_bEat = false;
@@ -53,6 +55,9 @@ private:
 	_bool					m_bPlayerDead = false;
 
 	_float4					m_vPlayerPos;
+	_bool					m_bResultDead = false;
+
+	_int					m_iScore = 0;
 public:
 	static CMini_Player* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
