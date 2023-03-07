@@ -4,6 +4,8 @@
 #include "Akaza_CinemaState.h"
 #include "AkazaIdleState.h"
 #include "Effect_Manager.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Akaza;
 
 
@@ -35,13 +37,13 @@ CAkazaState * CSplSkrStartState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 			return new CSplSkrStartState(TYPE_LOOP);
 			break;
 		case Client::CAkazaState::TYPE_LOOP:
-			if (m_bCollision == true)
-			{
-				pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-				pAkaza->Get_BattleTarget()->Play_Scene();
-				return new CAkaza_CinemaState(CAkaza_CinemaState::SCENE_START);
-			}
-			else
+			//if (m_bCollision == true)
+			//{
+			//	pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+			//	pAkaza->Get_BattleTarget()->Play_Scene();
+			//	return new CAkaza_CinemaState(CAkaza_CinemaState::SCENE_START);
+			//}
+			//else
 			{
 				pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
 				return new CIdleState();
@@ -73,6 +75,26 @@ CAkazaState * CSplSkrStartState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 			if (m_fDuration <= 0.5f)
 				Move(pAkaza, fTimeDelta);
+
+			if (m_bCollision == true && m_bCreate == false)
+			{
+				m_bPlayScene = true;
+				g_bSpecialSkillHit = true;
+				m_bCreate = true;
+				pAkaza->Get_BattleTarget()->Take_Damage(0.f, false);
+				CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 1.f);
+			}
+
+			if (m_bPlayScene == true)
+			{
+				if (g_bSpecialSkillHit == false)
+				{
+					pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+					pAkaza->Get_BattleTarget()->Play_Scene();
+					return new CAkaza_CinemaState(CAkaza_CinemaState::SCENE_START);
+				}
+			}
 		}
 		break;
 	case Client::CAkazaState::TYPE_END:
@@ -97,8 +119,8 @@ CAkazaState * CSplSkrStartState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 		CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
 
 		m_fMove += fTimeDelta;
-
-		if (m_fMove > 0.3f)
+		if (pAkaza->Get_Model()->Get_CurrentTime_Index(CAkaza::ANIMID::ANIM_SPLSKL_START_1) >= 4.f)
+		//if (m_fMove > 0.3f)
 		{
 			_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 			_vector vCollLook = pAkaza->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
@@ -108,7 +130,7 @@ CAkazaState * CSplSkrStartState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 			CCollider*	pMyCollider2 = pAkaza->Get_SphereCollider();
-			if (m_fMove < 0.5f && !m_bHit)
+			//if (m_fMove < 0.5f && !m_bHit)
 			{
 				if (nullptr == pTargetCollider)
 					return nullptr;

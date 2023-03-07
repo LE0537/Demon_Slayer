@@ -119,6 +119,7 @@ CTanjiroState * CHinoCami_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDel
 CTanjiroState * CHinoCami_CinemaState::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 {
 
+
 	pTanjiro->Get_Model()->Play_Animation_Skill(fTimeDelta);
 
 	return nullptr;
@@ -231,6 +232,7 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		break;
 	}
 	case Client::Tanjiro::CHinoCami_CinemaState::SCENE_4:
+		pTanjiro->Get_BattleTarget()->Set_Hp(-400);
 		pTanjiro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, 10.f, 56.1f, 1.f));
 		pTanjiro->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pTanjiro->Get_NavigationHeight().y, 50.03f, 1.f));
 

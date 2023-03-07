@@ -367,6 +367,8 @@ void CTanjiro::Tick(_float fTimeDelta)
 
 void CTanjiro::Late_Tick(_float fTimeDelta)
 {
+
+
 	if (!m_bChange || m_i1p == 33)
 	{
 		LateTickState(fTimeDelta);
@@ -806,7 +808,18 @@ void CTanjiro::Take_Damage(_float _fPow, _bool _bJumpHit)
 	//STATE_SKILL_KAGURA_MOVE,
 	//STATE_SKILL_KAGURA_SPHERE,
 
-	if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
+
+
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CTanjiroState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CTanjiroState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+	}
+
+
+	else if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
 	{
 
 		CTanjiroState* pState = new CHitState(_fPow, _bJumpHit);
@@ -833,7 +846,16 @@ void CTanjiro::Get_GuardHit(_int eType)
 
 void CTanjiro::Player_TakeDown(_float _fPow, _bool _bJumpHit)
 {
-	if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CTanjiroState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CTanjiroState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+	}
+
+
+	else if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
 	{
 		CTanjiroState* pState = new CTakeDownState(_fPow, _bJumpHit);
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
@@ -842,7 +864,15 @@ void CTanjiro::Player_TakeDown(_float _fPow, _bool _bJumpHit)
 
 void CTanjiro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower)
 {
-	if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
+	if (m_tInfo.iAccComboDmg >= 300)
+	{
+		Reset_AccComboDmg();
+		Set_GodMode(true);
+		CTanjiroState* pState = new CUpperHitState(CCharacters::HIT_KNOCKBACK, CTanjiroState::STATE_TYPE::TYPE_START, 20.f, 30.f, 7.f);
+		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
+	}
+
+	else if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
 	{
 		CTanjiroState* pState = new CUpperHitState(eHitType, CTanjiroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);

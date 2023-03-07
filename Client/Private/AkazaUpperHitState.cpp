@@ -27,6 +27,7 @@ CAkazaState * CUpperHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 		if (pAkaza->Get_PlayerInfo().iUnicCount < 3 && pAkaza->Get_PlayerInfo().iUnicBar < pAkaza->Get_PlayerInfo().iUnicMaxBar)
 		{
 			pAkaza->Set_UnicBar(33);
+			pAkaza->Get_BattleTarget()->Set_UnicBar(16);
 			if (pAkaza->Get_PlayerInfo().iUnicBar >= pAkaza->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pAkaza->Get_PlayerInfo().iUnicCount < 3)

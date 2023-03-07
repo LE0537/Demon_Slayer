@@ -27,12 +27,14 @@ bool			g_bCollBox = false;
 int		    	g_iLevel = 0;
 bool			g_bThread = false;
 bool			g_bDeathTime = false;
+bool			g_bSpecialSkillHit = false;
 float			g_fFar = 1800.f;
 float			g_fBGM = 0.7f;
 float			g_fEffect = 0.8f;
 float			g_fVoice = 0.7f;
 float			g_fDialog = 1.f;
 float			g_fLoading = 0.f;
+bool			g_bMiniGame = false;
 
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())
@@ -74,11 +76,11 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pGameInstance->Add_Fonts(m_pDevice, m_pContext, TEXT("Font_Nexon"), TEXT("../Bin/Resources/Fonts/DemonSlayer.spritefont"))))
 		return E_FAIL;
-
-#ifdef _DEBUG
-	if (FAILED(Open_DebugCMD()))
-		return E_FAIL;
-#endif // DEBUG
+//
+//#ifdef _DEBUG
+//	if (FAILED(Open_DebugCMD()))
+//		return E_FAIL;
+//#endif // DEBUG
 
 	if (FAILED(m_pImGuiManager->Initialize(m_pDevice, m_pContext)))
 		return E_FAIL;
@@ -97,6 +99,22 @@ void CMainApp::Tick(_float fTimeDelta)
 
 	if(g_bDeathTime == true)
 		fTimeDelta *= 0.2f;
+
+	if (g_bSpecialSkillHit == true)
+		fTimeDelta *= 0.05f;
+
+	if (g_bSpecialSkillHit == true)
+	{
+		static _float fTimeDelay = 0.f;
+		fTimeDelay += 1.f / 60.f;
+
+		if (fTimeDelay >= 1.f)
+		{
+			fTimeDelay = 0.f;
+			g_bSpecialSkillHit = false;
+		}
+	}
+
 
 	if (!g_bThread)
 	{
@@ -296,6 +314,8 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	if (FAILED(m_pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LoadingShojiRight"),
 		CLoadingShojiR::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	
 
 	Safe_AddRef(m_pRenderer);
 

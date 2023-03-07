@@ -26,6 +26,7 @@ CShinobuState * CUpperHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 		if (pShinobu->Get_PlayerInfo().iUnicCount < 3 && pShinobu->Get_PlayerInfo().iUnicBar < pShinobu->Get_PlayerInfo().iUnicMaxBar)
 		{
 			pShinobu->Set_UnicBar(33);
+			pShinobu->Get_BattleTarget()->Set_UnicBar(16);
 			if (pShinobu->Get_PlayerInfo().iUnicBar >= pShinobu->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pShinobu->Get_PlayerInfo().iUnicCount < 3)

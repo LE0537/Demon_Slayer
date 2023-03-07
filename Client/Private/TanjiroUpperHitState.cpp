@@ -29,6 +29,7 @@ CTanjiroState * CUpperHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (pTanjiro->Get_PlayerInfo().iUnicCount < 3 && pTanjiro->Get_PlayerInfo().iUnicBar < pTanjiro->Get_PlayerInfo().iUnicMaxBar)
 		{
 			pTanjiro->Set_UnicBar(33);
+			pTanjiro->Get_BattleTarget()->Set_UnicBar(16);
 			if (pTanjiro->Get_PlayerInfo().iUnicBar >= pTanjiro->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pTanjiro->Get_PlayerInfo().iUnicCount < 3)

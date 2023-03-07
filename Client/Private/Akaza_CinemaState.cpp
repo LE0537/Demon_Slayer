@@ -388,8 +388,8 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	}
-	case Client::Akaza::CAkaza_CinemaState::SCENE_8: {
+	case Client::Akaza::CAkaza_CinemaState::SCENE_8:{
+		pAkaza->Get_BattleTarget()->Set_Hp(-400);
 		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pAkaza->Get_NavigationHeight().y, 56.1f, 1.f));
 		pAkaza->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pAkaza->Get_NavigationHeight().y, 50.03f, 1.f));
 

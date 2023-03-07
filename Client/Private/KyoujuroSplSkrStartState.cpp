@@ -4,6 +4,8 @@
 #include "Kyoujuro_CinemaState.h"
 #include "KyoujuroIdleState.h"
 #include "Effect_Manager.h"
+#include "Camera_Dynamic.h"
+#include "Layer.h"
 using namespace Kyoujuro;
 
 
@@ -35,13 +37,13 @@ CKyoujuroState * CSplSkrStartState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta
 			return new CSplSkrStartState(TYPE_LOOP);
 			break;
 		case Client::CKyoujuroState::TYPE_LOOP:
-			if (m_bCollision == true)
-			{
-				pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-				pKyoujuro->Get_BattleTarget()->Play_Scene();
-				return new CKyoujuro_CinemaState(CKyoujuro_CinemaState::SCENE_START);
-			}
-			else
+			//if (m_bCollision == true)
+			//{
+			//	pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+			//	pKyoujuro->Get_BattleTarget()->Play_Scene();
+			//	return new CKyoujuro_CinemaState(CKyoujuro_CinemaState::SCENE_START);
+			//}
+			//else
 			{
 				pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 				return new CIdleState();
@@ -71,6 +73,29 @@ CKyoujuroState * CSplSkrStartState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta
 
 		if(m_fDuration <= 0.7f)
 			Move(pKyoujuro, fTimeDelta);
+
+
+		if (m_bCollision == true && m_bCreate == false)
+		{
+			m_bPlayScene = true;
+			g_bSpecialSkillHit = true;
+			m_bCreate = true;
+			pKyoujuro->Get_BattleTarget()->Take_Damage(0.f, false);
+			CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 1.f);
+		}
+
+		if (m_bPlayScene == true)
+		{
+			if (g_bSpecialSkillHit == false)
+			{
+				pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+				pKyoujuro->Get_BattleTarget()->Play_Scene();
+				return new CKyoujuro_CinemaState(CKyoujuro_CinemaState::SCENE_START);
+			}
+		}
+
+
 		break;
 	case Client::CKyoujuroState::TYPE_END:
 		break;
@@ -95,7 +120,8 @@ CKyoujuroState * CSplSkrStartState::Late_Tick(CKyoujuro* pKyoujuro, _float fTime
 
 		m_fMove += fTimeDelta;
 
-		if (m_fMove > 0.3f)
+		if (pKyoujuro->Get_Model()->Get_CurrentTime_Index(CKyoujuro::ANIMID::ANIM_SPLSKL_START_1) >= 14.5f)
+		//if (m_fMove > 0.3f)
 		{
 			_vector vCollPos = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //추가
 			_vector vCollLook = pKyoujuro->Get_Transform()->Get_State(CTransform::STATE_LOOK); //추가
@@ -105,7 +131,7 @@ CKyoujuroState * CSplSkrStartState::Late_Tick(CKyoujuro* pKyoujuro, _float fTime
 			CCollider*	pMyCollider = m_pCollBox->Get_Collider(); //추가
 			CCollider*	pTargetCollider = m_pTarget->Get_SphereCollider();
 			CCollider*	pMyCollider2 = pKyoujuro->Get_SphereCollider();
-			if (m_fMove < 0.5f && !m_bHit)
+			//if (m_fMove < 0.5f && !m_bHit)
 			{
 				if (nullptr == pTargetCollider)
 					return nullptr;

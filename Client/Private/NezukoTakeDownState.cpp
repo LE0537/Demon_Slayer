@@ -26,6 +26,7 @@ CNezukoState * CTakeDownState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 			if (pNezuko->Get_PlayerInfo().iUnicCount < 3 && pNezuko->Get_PlayerInfo().iUnicBar < pNezuko->Get_PlayerInfo().iUnicMaxBar)
 			{
 				pNezuko->Set_UnicBar(33);
+				pNezuko->Get_BattleTarget()->Set_UnicBar(16);
 				if (pNezuko->Get_PlayerInfo().iUnicBar >= pNezuko->Get_PlayerInfo().iUnicMaxBar)
 				{
 					if (pNezuko->Get_PlayerInfo().iUnicCount < 3)

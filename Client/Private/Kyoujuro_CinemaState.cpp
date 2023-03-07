@@ -397,6 +397,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		break;
 	}
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_END:
+		pKyoujuro->Get_BattleTarget()->Set_Hp(-400);
 		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pKyoujuro->Get_NavigationHeight().y, 56.1f, 1.f));
 		pKyoujuro->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pKyoujuro->Get_NavigationHeight().y, 50.03f, 1.f));
 

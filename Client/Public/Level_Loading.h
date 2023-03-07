@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "Level.h"
+#include "GameObj.h"
 
 BEGIN(Client)
 
@@ -16,11 +17,19 @@ public:
 	virtual void Tick(_float fTimeDelta) override;
 	virtual void Late_Tick(_float fTimeDelta) override;
 
-
+private:
+	HRESULT Create_MiniGame();
+	HRESULT Create_Item(_float fTimeDelta);
 private:
 	LEVEL				m_eNextLevel = LEVEL_END;
 	class CLoader*		m_pLoader = nullptr;
 
+	_bool				m_bMiniGameIni = false;
+	CGameObj*			m_pMiniGame_Player = nullptr;
+
+	_float				m_fCreateItemTime = 0.f;
+	_float				m_fCreateMonsterTime = 0.f;
+	_bool				m_bPlayerDead = false;
 public:
 	static CLevel_Loading* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, LEVEL eNextLevel);
 	virtual void Free() override;

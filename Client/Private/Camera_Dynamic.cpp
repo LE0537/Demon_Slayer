@@ -1199,6 +1199,7 @@ void CCamera_Dynamic::Set_BattleStart(_float fTimeDelta)
 }
 void CCamera_Dynamic::Check_Shake(_float fTimeDelta)
 {
+
 	if (m_ShakeTime > 0.f)
 	{
 		switch (m_ShakeInfo)
@@ -1207,6 +1208,7 @@ void CCamera_Dynamic::Check_Shake(_float fTimeDelta)
 			Camera_ShakeDown(fTimeDelta);
 			break;
 		case CCamera_Dynamic::SHAKE::SHAKE_HIT:
+	
 			Camera_ShakeHit(fTimeDelta);
 			break;
 		default:
@@ -1231,11 +1233,17 @@ void CCamera_Dynamic::Camera_ShakeDown(_float fTimeDelta)
 }
 void CCamera_Dynamic::Camera_ShakeHit(_float fTimeDelta)
 {
+	if (g_bSpecialSkillHit == true)
+		fTimeDelta *= 20.f;
+
 	m_fShakeAmount = 0.15f;
 	m_fShakeFrequency = 20.f;
 	_float fProgress = (fTimeDelta - 0.016667f) / m_fShakeFrequency;
 	_float fShake = m_fShakeAmount * (1.f - fProgress) * ((rand() % 200) - 100) * 0.01f;
 	_vector vPos = m_pTransform->Get_State(CTransform::STATE_TRANSLATION);
+
+
+
 	vPos += XMVectorSet(fShake, fShake, fShake, 0.f);
 
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vPos);

@@ -26,6 +26,7 @@ CKyoujuroState * CTakeDownState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 			if (pKyoujuro->Get_PlayerInfo().iUnicCount < 3 && pKyoujuro->Get_PlayerInfo().iUnicBar < pKyoujuro->Get_PlayerInfo().iUnicMaxBar)
 			{
 				pKyoujuro->Set_UnicBar(33);
+				pKyoujuro->Get_BattleTarget()->Set_UnicBar(16);
 				if (pKyoujuro->Get_PlayerInfo().iUnicBar >= pKyoujuro->Get_PlayerInfo().iUnicMaxBar)
 				{
 					if (pKyoujuro->Get_PlayerInfo().iUnicCount < 3)
