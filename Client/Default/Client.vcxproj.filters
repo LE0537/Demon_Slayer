@@ -1567,6 +1567,111 @@
     <Filter Include="06.MiniGame\Tail">
       <UniqueIdentifier>{267124f3-cc72-4195-b473-1c2703ea29e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro">
+      <UniqueIdentifier>{b5e55ae6-1d11-41da-a130-1abb867bcc28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\Sheath">
+      <UniqueIdentifier>{b4871925-76bb-432f-8e57-685c75aab43d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\Weapon">
+      <UniqueIdentifier>{a40c6a1c-96db-431c-be67-67a5fdbdf442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState">
+      <UniqueIdentifier>{5af457d9-d643-46fd-8786-eb12be4d98f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Idle">
+      <UniqueIdentifier>{78fcab44-16d9-4e7c-bdd4-de38128a802f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Jump">
+      <UniqueIdentifier>{ba389b34-b319-4a61-9b49-470e41f62c68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move">
+      <UniqueIdentifier>{25b4b8b3-bbc5-4044-bf75-69cac27a658a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Move\MoveJump">
+      <UniqueIdentifier>{276d0c91-978d-4ed6-b859-f4463be410bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_1">
+      <UniqueIdentifier>{aed82783-aee7-429c-8f76-d98c037425db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_2">
+      <UniqueIdentifier>{5fe8c000-1964-4089-9559-3971787b84a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_3">
+      <UniqueIdentifier>{a50756df-75d1-428d-ba31-a4798a80fa1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Attack_4">
+      <UniqueIdentifier>{735d8c88-857f-47ff-9e99-cac2977f93d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Hit">
+      <UniqueIdentifier>{2f6ae4d9-4e6b-4ae2-8ff4-fcb0b8917f52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Guard">
+      <UniqueIdentifier>{b6a0ca98-f4ec-48cc-888c-ccc14f0f7609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Dash">
+      <UniqueIdentifier>{772b995d-4462-442f-b41d-7ccf548daaca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Tool">
+      <UniqueIdentifier>{ed6166fe-f7c0-4579-9484-da1351a6b58d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill">
+      <UniqueIdentifier>{7708309f-7d1e-476e-80d5-a2d38a15b832}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\Common">
+      <UniqueIdentifier>{1bf3e3b1-cd36-4ff4-be5d-837f0d498384}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DashSlash">
+      <UniqueIdentifier>{cec25342-11ec-4ffa-87fa-647e81ce47b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\DoubleUpper">
+      <UniqueIdentifier>{e21190c1-9328-4668-838f-7976627ab0f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpCommon">
+      <UniqueIdentifier>{299afe96-4f68-4bc2-a229-cd3df3b00aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Skill\JumpMove">
+      <UniqueIdentifier>{95b19c9d-69a6-4c86-9a17-b42c751820f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\Change">
+      <UniqueIdentifier>{6760f552-2abb-40ae-9c92-c690d3ce838f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack">
+      <UniqueIdentifier>{a5978d52-8047-47bc-94ad-362a386f2d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\JumpAttack\JumpMoveAttack">
+      <UniqueIdentifier>{59a427b9-4c76-445d-929f-b1fe03875ae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\BattleStart">
+      <UniqueIdentifier>{5c33a784-8bf4-463e-ae38-a30761861896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\TargetRush">
+      <UniqueIdentifier>{8ea809a3-aef0-4d63-ae15-5ac6c86f501d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\SplSkrStart">
+      <UniqueIdentifier>{cf795ff6-c779-4ea4-8206-f54c846128ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\KyoujuroState\AkazaScene">
+      <UniqueIdentifier>{e5fdd595-4a0b-47fb-a243-475f517f743e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState">
+      <UniqueIdentifier>{851a4edb-118c-4c70-97bd-05e8295106cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Akaza">
+      <UniqueIdentifier>{d6c5c3c9-4a17-4d5d-9e25-8c655c9546b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Tanjiro">
+      <UniqueIdentifier>{e4c9dc2e-e9f0-4a6e-8674-43b5476f730a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Rui">
+      <UniqueIdentifier>{2aa6da24-aef1-456e-9e36-674e41d66a81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Nezuko">
+      <UniqueIdentifier>{90baf7a1-527d-41bc-b4bd-f734411abf37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\00.Characters\01.Char\02.Kyoujuro\CinemaState\Shinobu">
+      <UniqueIdentifier>{14868ebd-37de-49a6-96ba-569f55979641}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

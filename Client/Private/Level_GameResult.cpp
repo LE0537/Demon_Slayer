@@ -18,7 +18,7 @@ CLevel_GameResult::CLevel_GameResult(ID3D11Device* pDevice, ID3D11DeviceContext*
 
 HRESULT CLevel_GameResult::Initialize()
 {
-	g_iLevel == LEVEL_GAMERESULT;
+	g_iLevel = LEVEL_GAMERESULT;
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
 
