@@ -4,6 +4,7 @@
 #include "ShinobuIdleState.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "Effect_Manager.h"
 
 
 using namespace Shinobu;
@@ -91,6 +92,7 @@ CShinobuState * CShinobu_CinemaState::Late_Tick(CShinobu * pShinobu, _float fTim
 void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 {
 	CGameInstance* pGameInstance = nullptr;
+	CEffect_Manager* pEffectManger = nullptr;
 	switch (m_eScene)
 	{
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_START:
@@ -112,6 +114,11 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_SplSkr.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_SplSkr.wav"), g_fEffect);
+
+		pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_1, pShinobu);
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_0:
 		pShinobu->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);
@@ -121,6 +128,10 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Get_Model()->Set_Loop(CShinobu_CinemaState::ANIM_SCENE_0);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu_CinemaState::ANIM_SCENE_0, 0.01f);
 		pShinobu->Get_BattleTarget()->Set_SceneRender(false);
+
+		pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_2, pShinobu);
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_1:
 		pShinobu->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_030);
@@ -130,6 +141,10 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Get_Model()->Set_Loop(CShinobu_CinemaState::ANIM_SCENE_1);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu_CinemaState::ANIM_SCENE_1, 0.01f);
 		pShinobu->Get_BattleTarget()->Set_SceneRender(true);
+
+		pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_3, pShinobu);
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_2:
 		pShinobu->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_040);
@@ -138,6 +153,12 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Set_AnimIndex(static_cast<CShinobu::ANIMID>(CShinobu_CinemaState::ANIM_SCENE_2));
 		pShinobu->Get_Model()->Set_Loop(CShinobu_CinemaState::ANIM_SCENE_2);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu_CinemaState::ANIM_SCENE_2, 0.01f);
+
+		pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_4_NONFOL, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_4_PTC, pShinobu->Get_WeaponWorld2());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_4_WPN, pShinobu->Get_WeaponWorld());
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_3:
 		pShinobu->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_050);
@@ -146,6 +167,11 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Set_AnimIndex(static_cast<CShinobu::ANIMID>(CShinobu_CinemaState::ANIM_SCENE_3));
 		pShinobu->Get_Model()->Set_Loop(CShinobu_CinemaState::ANIM_SCENE_3);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu_CinemaState::ANIM_SCENE_3, 0.01f);
+
+		pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_5, pShinobu);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_5_WEAPON, pShinobu->Get_WeaponWorld());
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_END:
 		pShinobu->Get_BattleTarget()->Set_Hp(-400);

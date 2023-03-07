@@ -55,7 +55,7 @@ unsigned int APIENTRY Thread_AdvRui(void* pArg)
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_DISTORTION), 20.f);
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_OUTLINE), 100.f);
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_INNERLINE), 0.05f);
-	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_ENVLIGHT), 1.4f);
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT), 0.4f);
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_TESTLENGTH), 0.5f);
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_MINUS), 2.f);
