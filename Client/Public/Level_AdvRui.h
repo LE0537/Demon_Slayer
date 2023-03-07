@@ -43,6 +43,11 @@ public:
 	HRESULT	Check_Smell();
 	
 	HRESULT	Create_Stone(_float fTimeDelta);
+
+
+	void RuiBombTick(_float fTimeDelta);
+
+
 	void Set_Renderer(CRenderer* _pRenderer) { m_pRendererCom = _pRenderer; }
 	CRenderer* Get_Renderer() { return m_pRendererCom; }
 private:

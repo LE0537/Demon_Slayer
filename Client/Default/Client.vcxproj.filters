@@ -1567,6 +1567,9 @@
     <Filter Include="06.MiniGame\Tail">
       <UniqueIdentifier>{267124f3-cc72-4195-b473-1c2703ea29e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05.CollBox\19.RuiBomb">
+      <UniqueIdentifier>{a61593d7-0954-4af1-b3b6-732ef16421c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3114,6 +3117,9 @@
     <ClInclude Include="..\public\Mini_Tail.h">
       <Filter>06.MiniGame\Tail</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\RuiBomb.h">
+      <Filter>05.CollBox\19.RuiBomb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4624,6 +4630,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Mini_Tail.cpp">
       <Filter>06.MiniGame\Tail</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\RuiBomb.cpp">
+      <Filter>05.CollBox\19.RuiBomb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

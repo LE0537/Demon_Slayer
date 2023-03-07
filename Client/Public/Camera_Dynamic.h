@@ -86,6 +86,9 @@ public:
 	void Set_StoryScene(STORYSCENE _eCutScene) { m_eStoryScene = _eCutScene; m_bStoryScene = true; }
 	void Set_ADVAkaza() { m_bADVAKaza = true; m_bStart = true; m_bLerp = true;}
 	_bool Get_ADVAkaza() { return m_bADVAKaza; }
+
+	void Set_TopView(_bool bView) { m_bTopView = bView; }
+
 private:									
 	//Shake
 	void Check_Shake(_float fTimeDelta);
@@ -106,6 +109,8 @@ private:
 
 
 	void Check_StoryCam();
+
+
 
 private:/*For.ActionCam*/
 	_bool	CutScene(CUTSCENE eCutScene, _float fTimeDelta);
@@ -202,6 +207,12 @@ private:
 	std::vector<std::vector<_float>>		m_vecStoryCamTime;
 
 	//TrainCam
+
+
+
+	// minigame
+
+	_bool m_bTopView = false;
 
 public:
 	static CCamera_Dynamic* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
