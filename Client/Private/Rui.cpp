@@ -519,9 +519,10 @@ void CRui::StorySpl(_float fTimeDelta)
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ADV_RUI);
 		dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QuestBattleCam(true);
 		RELEASE_INSTANCE(CGameInstance);
+		
 	}
 	
-	if(pUI_Manager->Get_MsgCount() > 1)
+	if(pUI_Manager->Get_MsgCount() > 1 && m_fStoryTime > 14.7f)
 	{
 		dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_Stop(false);
 		dynamic_cast<CTanjiro*>(m_pBattleTarget)->Set_StoryRuiSpl(true);

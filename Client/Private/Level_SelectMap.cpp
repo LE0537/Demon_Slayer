@@ -40,6 +40,13 @@ void CLevel_SelectMap::Tick(_float fTimeDelta)
 	CWindowLeft* pWindowLeft = dynamic_cast<CWindowLeft*>(pUIManager->Get_Window(0));
 	CWindowRight* pWindowRight = dynamic_cast<CWindowRight*>(pUIManager->Get_Window(1));
 
+	if (!m_bCreateUI)
+	{
+		CSoundMgr::Get_Instance()->BGM_Stop();
+		CSoundMgr::Get_Instance()->PlayBGM(TEXT("CharSel.wav"), g_fBGM);
+
+		m_bCreateUI = true;
+	}
 
 	if (pWindowLeft->Get_CloseCheck() && pWindowRight->Get_CloseCheck())
 	{

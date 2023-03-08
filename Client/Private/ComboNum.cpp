@@ -63,7 +63,8 @@ void CComboNum::Tick(_float fTimeDelta)
 	{
 		_float fTime = pUI_Manager->Get_1P()->Get_PlayerInfo().fComboTime + fTimeDelta;
 
-		pUI_Manager->Get_1P()->Set_ComboTime(fTime);
+		if(pUI_Manager->Get_1P()->Get_PlayerInfo().iCombo != 0)
+			pUI_Manager->Get_1P()->Set_ComboTime(fTime);
 
 		_float fComboTime = pUI_Manager->Get_1P()->Get_PlayerInfo().fComboTime;
 
@@ -91,7 +92,8 @@ void CComboNum::Tick(_float fTimeDelta)
 	{
 		_float fTime = pUI_Manager->Get_2P()->Get_PlayerInfo().fComboTime + fTimeDelta;
 
-		pUI_Manager->Get_2P()->Set_ComboTime(fTime);
+		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iCombo != 0)
+			pUI_Manager->Get_2P()->Set_ComboTime(fTime);
 
 		_float fComboTime = pUI_Manager->Get_2P()->Get_PlayerInfo().fComboTime;
 

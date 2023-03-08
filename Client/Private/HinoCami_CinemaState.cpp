@@ -196,7 +196,8 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		RELEASE_INSTANCE(CEffect_Manager);
 
 		pUI_Manager = GET_INSTANCE(CUI_Manager);
-		pUI_Manager->Set_MsgCount(1);
+		if(pUI_Manager->Get_BattleTypeCheck())
+			pUI_Manager->Set_MsgCount(1);
 		RELEASE_INSTANCE(CUI_Manager);
 		break;
 	}

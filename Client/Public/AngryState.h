@@ -19,6 +19,8 @@ public:
 
 private:
 	_bool m_bEffect = false;
+	_bool m_bSound = false;
+	_float m_fSoundDelay = 0.f;
 
 };
 
