@@ -255,7 +255,7 @@ HRESULT CItemBox::Render()
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_DiffuseTexture", i, aiTextureType_DIFFUSE)))
 			return E_FAIL;
 
-		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 7)))
+		if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 8)))
 			return E_FAIL;
 
 	}

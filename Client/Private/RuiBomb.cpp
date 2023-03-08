@@ -40,7 +40,7 @@ HRESULT CRuiBomb::Initialize(void * pArg)
 	RELEASE_INSTANCE(CEffect_Manager);
 	_float4 vPosition; XMStoreFloat4(&vPosition, m_tBombInfo.vPosition);
 	
-	CImGuiManager::Get_Instance()->Set_RuiBombPosition(vPosition);
+//	CImGuiManager::Get_Instance()->Set_RuiBombPosition(vPosition);
 
 	return S_OK;
 }
