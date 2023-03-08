@@ -2,6 +2,7 @@
 #include "InkEff.h"
 #include "GameInstance.h"
 #include "UI_Manager.h"
+#include "LogoButton.h"
 
 CInkEff::CInkEff(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CUI(pDevice, pContext)
@@ -56,10 +57,12 @@ void CInkEff::Tick(_float fTimeDelta)
 		m_fSpriteTime = 0.f;
 	}
 
-	if (m_iFrame == 46 && m_iImgNum == 0)
+	if (m_iFrame >= 46 && m_iImgNum == 0)
 	{
-		pUI_Manager->Set_LevelMenuOn(true);
-
+		if(dynamic_cast<CLogoButton*>(pUI_Manager->Get_LogoCursor(0))->Get_CursorCheck())
+			pUI_Manager->Set_LevelMenuOn(true);
+		else if(dynamic_cast<CLogoButton*>(pUI_Manager->Get_LogoCursor(1))->Get_CursorCheck())
+			pUI_Manager->Set_LevelEndingOn(true);
 	}
 
 	if (m_iImgNum == 1 && m_iFrame == 29)

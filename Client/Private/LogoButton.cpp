@@ -51,6 +51,12 @@ HRESULT CLogoButton::Initialize(void * pArg)
 	XMStoreFloat4x4(&m_ViewMatrix, XMMatrixTranspose(XMMatrixIdentity()));
 	XMStoreFloat4x4(&m_ProjMatrix, XMMatrixTranspose(XMMatrixOrthographicLH((_float)g_iWinSizeX, (_float)g_iWinSizeY, 0.f, 1.f)));
 
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	pUI_Manager->Set_LogoCursor(this, m_ThrowUIinfo.iLayerNum);
+
+	RELEASE_INSTANCE(CUI_Manager);
+
 	return S_OK;
 }
 
@@ -59,6 +65,9 @@ void CLogoButton::Tick(_float fTimeDelta)
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	
+	if (m_ThrowUIinfo.iLayerNum != 0 && m_ThrowUIinfo.iLayerNum != 1)
+		m_bDead = true;
+
 	m_fAlpha += fTimeDelta;
 
 	if (m_fAlpha >= 1)
@@ -86,8 +95,9 @@ void CLogoButton::Tick(_float fTimeDelta)
 	if (pGameInstance->Key_Down(DIK_E))
 	{
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickLogoButton.wav"), g_fEffect);
-		if (m_ThrowUIinfo.iLayerNum == 0 && m_iImgNum == 1)
+		if (m_iImgNum == 1)
 		{
+			m_bCursorCheck = true;
 			Add_InkEff();
 		}
 
@@ -100,7 +110,7 @@ void CLogoButton::Tick(_float fTimeDelta)
 void CLogoButton::Late_Tick(_float fTimeDelta)
 {
 	if (nullptr != m_pRendererCom)
-		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UI, this);
+		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_UIPOKE, this);
 }
 
 HRESULT CLogoButton::Render()
@@ -112,7 +122,7 @@ HRESULT CLogoButton::Render()
 	if (FAILED(SetUp_ShaderResources()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(12);
+	m_pShaderCom->Begin(0);
 
 	m_pVIBufferCom->Render();
 

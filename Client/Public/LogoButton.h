@@ -13,6 +13,10 @@ private:
 	virtual ~CLogoButton() = default;
 
 public:
+	_bool Get_CursorCheck() { return m_bCursorCheck; }
+	void Set_CursorCheck(_bool _bCheck) { m_bCursorCheck = _bCheck; }
+
+public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg);
 	virtual void Tick(_float fTimeDelta);
@@ -30,6 +34,7 @@ private:
 private:
 	_float4				m_vFontColor;
 	_float				m_fAlpha = 0.f;
+	_bool				m_bCursorCheck = false;
 
 public:
 	static CLogoButton* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);

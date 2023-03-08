@@ -19,6 +19,7 @@
 #include "Level_BossEnmu.h"
 #include "Effect_Manager.h"
 #include "Layer.h"
+#include "SoundMgr.h"
 unsigned int APIENTRY Thread_Ending(void* pArg)
 {
 	CLevel_Ending*		pLoader = (CLevel_Ending*)pArg;
@@ -34,6 +35,7 @@ unsigned int APIENTRY Thread_Ending(void* pArg)
 	pLoader->Ready_Layer_Player(TEXT("Layer_Player"));
 	g_fLoading = 60.f;
 	pLoader->Ready_Layer_BackGround(TEXT("Layer_BackGround"));
+	pLoader->Ready_Layer_EndingFont(TEXT("Layer_Font"));
 	g_fLoading = 80.f;
 	pLoader->Load_StaticObjects("TrainMap");
 	g_fLoading = 100.f;
@@ -133,6 +135,8 @@ void CLevel_Ending::Tick(_float fTimeDelta)
 		
 		if (!m_bEnding)
 		{
+			CSoundMgr::Get_Instance()->BGM_Stop();
+			CSoundMgr::Get_Instance()->PlayBGM(TEXT("Ending.wav"), g_fBGM);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_StoryScene(CCamera_Dynamic::STORYSCENE_ENDING);
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_QusetCam();
 			m_bEnding = true;
@@ -314,6 +318,19 @@ HRESULT CLevel_Ending::Ready_Layer_BackGround(const _tchar * pLayerTag)
 
 	Safe_Release(pGameInstance);
 
+
+	return S_OK;
+}
+
+HRESULT CLevel_Ending::Ready_Layer_EndingFont(const _tchar * pLayerTag)
+{
+	CGameInstance*			pGameInstance = CGameInstance::Get_Instance();
+	Safe_AddRef(pGameInstance);
+
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_EndingCredit"), LEVEL_ENDING, pLayerTag)))
+		return E_FAIL;
+
+	Safe_Release(pGameInstance);
 
 	return S_OK;
 }

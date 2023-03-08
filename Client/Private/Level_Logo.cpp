@@ -7,6 +7,8 @@
 #include "LogoButton.h"
 #include "SoundMgr.h"
 #include "Level_Menu.h"
+#include "Level_Ending.h"
+
 CLevel_Logo::CLevel_Logo(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -65,6 +67,12 @@ void CLevel_Logo::Tick(_float fTimeDelta)
 			return;
 		CSoundMgr::Get_Instance()->BGM_Stop();
 		pUIManager->Set_LevelMenuOn(false);
+	}
+
+	if (pUIManager->Get_LevelEndingOn())
+	{
+		if (FAILED(pGameInstance->Open_Level(LEVEL_ENDING, CLevel_Ending::Create(m_pDevice, m_pContext))))
+			return;
 	}
 	Safe_Release(pGameInstance);
 

@@ -203,6 +203,9 @@ public:
 
 	CUI*	Get_HeartUI(_uint iLayerNum) { return m_pHeartUI[iLayerNum]; }
 	void	Set_HeartUI(CUI* pTarget, _uint iLayerNum) { m_pHeartUI[iLayerNum] = pTarget; }
+
+	CUI*	Get_LogoCursor(_uint iLayerNum) { return m_pLogoCursor[iLayerNum]; }
+	void	Set_LogoCursor(CUI* pTarget, _uint iLayerNum) { m_pLogoCursor[iLayerNum] = pTarget; }
 	
 	_uint   Get_Sel1P() { return m_i1p; }
 	void	Set_Sel1P(_uint _i1p) { m_i1p = _i1p; }
@@ -274,6 +277,9 @@ public:
 
 	_bool	Get_LevelMenuOn() { return m_bLevelMenu; }
 	void	Set_LevelMenuOn(_bool bCheck) { m_bLevelMenu = bCheck; }
+
+	_bool	Get_LevelEndingOn() { return m_bEnding; }
+	void	Set_LevelEndingOn(_bool bCheck) { m_bEnding = bCheck; }
 
 	_bool	Get_BattleTypeCheck() { return m_bBattleTypeCheck; }
 	void	Set_BattleTypeCheck(_bool bCheck) { m_bBattleTypeCheck = bCheck; }
@@ -393,12 +399,16 @@ private:
 	CUI*							m_pFadeUI = nullptr;
 	CUI*							m_pDialog = nullptr;
 	CUI*							m_pHeartUI[3] = { nullptr };
+	CUI*							m_pLogoCursor[2] = { nullptr };
 
 	CUI::THROWUIINFO				m_ThrowInfo;
 	CUI::RESULTINFO					m_ResultInfo;
 	RANKINFO						m_RankInfo[2];
 
 	_uint							m_iKeyLayerNum = 0;
+	_uint							m_iLogoEffLayerNum = 0;
+	_uint							m_iLogoLayerNum = 0;
+	_uint							m_iLogoLightLayerNum = 0;
 	_uint							m_iCharIconLayerNum = 0;
 	_uint							m_iCharNameLayerNum = 0;
 	_uint							m_iCharFrameLayerNum = 0;
@@ -450,6 +460,7 @@ private:
 
 	_bool							m_bLevelResultOn = false; 
 	_bool							m_bLevelMenu = false;
+	_bool							m_bEnding = false;
 
 	_bool							m_bBattleTypeCheck = false;
 	_bool							m_bStorySplEnd = false;
