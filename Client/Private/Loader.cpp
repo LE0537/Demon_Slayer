@@ -165,6 +165,7 @@
 #include "Adv_ResultBase.h"
 #include "FadeUIEff.h"
 #include "BattleDialog.h"
+#include "EndingCredit.h"
 //Effect
 #include "Effect.h"
 #include "Effect_Manager.h"
@@ -2362,6 +2363,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	g_fLoading = 95.f;
 #pragma region UI°´Ã¼
 	//UI
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EndingCredit"),
+		CEndingCredit::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MGameHeart"),
 		CMGameHeart::Create(m_pDevice, m_pContext))))
 		return E_FAIL;

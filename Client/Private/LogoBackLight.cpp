@@ -50,6 +50,9 @@ HRESULT CLogoBackLight::Initialize(void * pArg)
 
 void CLogoBackLight::Tick(_float fTimeDelta)
 {
+	if (m_ThrowUIinfo.iLayerNum != 0)
+		m_bDead = true;
+
 	/*if (!m_bAlphaValueCheck)
 		m_fAlphaTime += fTimeDelta * 0.05f;
 

@@ -1693,6 +1693,9 @@
     <Filter Include="01.Levels\12.Ending">
       <UniqueIdentifier>{e11d1636-aadc-483d-8d37-deb4c852e735}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03.UI\08.Ending">
+      <UniqueIdentifier>{946b786c-9e6d-49da-8566-77e736358f23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3258,6 +3261,9 @@
     <ClInclude Include="..\public\Level_Ending.h">
       <Filter>01.Levels\12.Ending</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\EndingCredit.h">
+      <Filter>03.UI\08.Ending</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -3349,9 +3355,6 @@
     </ClCompile>
     <ClCompile Include="..\private\UI_Manager.cpp">
       <Filter>03.UI\99.Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\UI.cpp">
-      <Filter>03.UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\CharNameUI.cpp">
       <Filter>03.UI\98.Char\Name</Filter>
@@ -4786,6 +4789,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_Ending.cpp">
       <Filter>01.Levels\12.Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI.cpp">
+      <Filter>03.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\EndingCredit.cpp">
+      <Filter>03.UI\08.Ending</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -262,6 +262,7 @@
     <ClInclude Include="..\Public\Effect_Particle_New.h" />
     <ClInclude Include="..\public\Deer.h" />
     <ClInclude Include="..\public\Deer2.h" />
+    <ClInclude Include="..\Public\EndingCredit.h" />
     <ClInclude Include="..\public\EndingModel.h" />
     <ClInclude Include="..\public\Enmu.h" />
     <ClInclude Include="..\Public\EnmuAttack_1.h" />
@@ -784,6 +785,7 @@
     <ClCompile Include="..\Private\Effect_Particle_New.cpp" />
     <ClCompile Include="..\private\Deer.cpp" />
     <ClCompile Include="..\private\Deer2.cpp" />
+    <ClCompile Include="..\Private\EndingCredit.cpp" />
     <ClCompile Include="..\private\EndingModel.cpp" />
     <ClCompile Include="..\private\Enmu.cpp" />
     <ClCompile Include="..\Private\EnmuAttack_1.cpp" />

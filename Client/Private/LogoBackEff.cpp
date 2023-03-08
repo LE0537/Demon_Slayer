@@ -50,6 +50,8 @@ HRESULT CLogoBackEff::Initialize(void * pArg)
 
 void CLogoBackEff::Tick(_float fTimeDelta)
 {
+	if (m_ThrowUIinfo.iLayerNum != 0)
+		m_bDead = true;
 	if (m_fUvMoveTime < 1.f)
 		m_fUvMoveTime += fTimeDelta * 0.07f;
 	else
