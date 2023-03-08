@@ -313,6 +313,24 @@ PS_GLOWOUT PS_ONI_DISSOLVE(PS_IN In)
 	return Out;
 }
 
+
+
+PS_OUT PS_ITEMBOX(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+
+	Out.vDiffuse = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	Out.vNormal = vector(In.vNormal.xyz * 0.5f + 0.5f, 1.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fFar, 0.f, 0.1f);
+	Out.vDrawPlayer = Out.vDiffuse;
+	Out.vWorld = In.vWorld/* / g_fFar*/;
+
+	Out.vDiffuse.a = 1.f;
+	
+
+	return Out;
+}
+
 technique11 DefaultTechnique
 {
 	pass Default //0
@@ -387,4 +405,18 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
+
+	pass ITemBox //7
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_ITEMBOX();
+	}
+
+
+	
 }

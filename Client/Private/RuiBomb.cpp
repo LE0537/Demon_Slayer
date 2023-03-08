@@ -5,6 +5,7 @@
 #include "Effect_Manager.h"
 #include "Camera_Dynamic.h"
 #include "Layer.h"
+#include "ImGuiManager.h"
 CRuiBomb::CRuiBomb(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCollBox(pDevice, pContext)
 {
@@ -37,8 +38,9 @@ HRESULT CRuiBomb::Initialize(void * pArg)
 	pEffectManger->Create_Effect(CEffect_Manager::EFF_BOOM1, this);
 
 	RELEASE_INSTANCE(CEffect_Manager);
-
-
+	_float4 vPosition; XMStoreFloat4(&vPosition, m_tBombInfo.vPosition);
+	
+	CImGuiManager::Get_Instance()->Set_RuiBombPosition(vPosition);
 
 	return S_OK;
 }
@@ -57,7 +59,7 @@ void CRuiBomb::Tick(_float fTimeDelta)
 
 void CRuiBomb::Late_Tick(_float fTimeDelta)
 {
-
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 	CCollider*	pMyCollider = m_pOBBCom;
 	CCollider*	pTargetCollider = m_tBombInfo.pTarget->Get_SphereCollider();
@@ -65,9 +67,12 @@ void CRuiBomb::Late_Tick(_float fTimeDelta)
 	if (nullptr == pTargetCollider)
 		return;
 
-	if (pMyCollider->Collision(pTargetCollider))
+	if (0.2f <= m_fDeadTime && m_fDeadTime <= 0.6f)
 	{
-
+		if (pMyCollider->Collision(pTargetCollider) && !pGameInstance->Key_Pressing(DIK_T))
+		{
+			m_tBombInfo.pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-289.935f, 45.183f, -152.779f, 1.f));
+		}
 	}
 
 
@@ -109,7 +114,7 @@ HRESULT CRuiBomb::Ready_Components()
 	ZeroMemory(&ColliderDesc, sizeof(CCollider::COLLIDERDESC));
 
 	/* For.Com_OBB*/
-	ColliderDesc.vScale = _float3(15.f, 10.f, 15.f);
+	ColliderDesc.vScale = _float3(7.5f, 5.f, 7.5f);
 	ColliderDesc.vPosition = _float3(0.f, 0.f, 0.f);
 	if (FAILED(__super::Add_Components(TEXT("Com_OBB"), LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB"), (CComponent**)&m_pOBBCom, &ColliderDesc)))
 		return E_FAIL;

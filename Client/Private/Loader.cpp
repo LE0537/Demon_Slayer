@@ -213,7 +213,7 @@
 //CamAction
 #include "CamLine.h"
 #include "RuiBomb.h"
-
+#include "ItemBox.h"
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
 	, m_pContext(pContext)
@@ -2290,6 +2290,14 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		return E_FAIL;
 
 
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_ItemBox"),
+		CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/ItemBox/ItemBox.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	//	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("TanjiroWeapon2"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ItemBox"),
+		CItemBox::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
 	
 
 	//Map
