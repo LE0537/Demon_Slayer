@@ -159,6 +159,7 @@ void CVIBuffer_NewParticle_Instance::Update(_float fTimeDelta, _float2 fScaleRed
 				}
 				if (iNum != -1) {
 					m_pParticleData[iNum].fLifeTime = LifeTimeRand(Seed);
+					XMStoreFloat4x4(&m_matWorld[iNum], matParent);
 				}
 			}
 		}
