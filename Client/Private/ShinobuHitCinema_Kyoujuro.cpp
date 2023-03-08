@@ -171,4 +171,5 @@ void CHitCinema_Kyoujuro::Enter(CShinobu* pShinobu)
 
 void CHitCinema_Kyoujuro::Exit(CShinobu* pShinobu)
 {
+	pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
 }

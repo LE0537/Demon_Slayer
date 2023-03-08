@@ -168,4 +168,5 @@ void CHitCinema_Nezuko::Enter(CShinobu * pShinobu)
 
 void CHitCinema_Nezuko::Exit(CShinobu * pShinobu)
 {
+	pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
 }

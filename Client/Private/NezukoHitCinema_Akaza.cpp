@@ -130,4 +130,5 @@ void CHitCinema_Akaza::Enter(CNezuko* pNezuko)
 
 void CHitCinema_Akaza::Exit(CNezuko* pNezuko)
 {
+	pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
 }

@@ -171,4 +171,5 @@ void CHitCinema_Kyoujuro::Enter(CAkaza * pAkaza)
 
 void CHitCinema_Kyoujuro::Exit(CAkaza * pAkaza)
 {
+	pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
 }

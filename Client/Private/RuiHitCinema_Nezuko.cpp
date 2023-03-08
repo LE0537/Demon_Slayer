@@ -164,4 +164,5 @@ void CHitCinema_Nezuko::Enter(CRui* pRui)
 
 void CHitCinema_Nezuko::Exit(CRui* pRui)
 {
+	pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 }

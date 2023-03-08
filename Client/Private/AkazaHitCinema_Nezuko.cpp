@@ -164,4 +164,5 @@ void CHitCinema_Nezuko::Enter(CAkaza* pAkaza)
 
 void CHitCinema_Nezuko::Exit(CAkaza* pAkaza)
 {
+	pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
 }
