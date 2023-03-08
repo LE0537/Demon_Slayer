@@ -189,87 +189,173 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_SplSkr.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_SplSkr.wav"), g_fEffect);
 		break;
-	case Client::Nezuko::CNezuko_CinemaState::SCENE_0:
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_0: {
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_020);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_0);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_0);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_0));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_0);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_0, 0.01f);
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO2_BLOODL, pNezuko->Get_WeaponWorld2());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO2_BLOODR, pNezuko->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO2_DIST, pNezuko);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Nezuko::CNezuko_CinemaState::SCENE_1:
+	}
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_1: {
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_030);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_1);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_1);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_1));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_1);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_1, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO3_BGWIND, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO3_HANDL, pNezuko->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO3_PROJ1, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO3_RUN1, pNezuko);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Nezuko::CNezuko_CinemaState::SCENE_2:
+	}
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_2: {
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_040);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_2);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_2);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_2));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_2);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_2, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO4_CLAW1, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO4_BLOODL, pNezuko->Get_WeaponWorld2());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO4_BLOODR, pNezuko->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO4_SHOCK1, pNezuko);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Nezuko::CNezuko_CinemaState::SCENE_3:
+	}
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_3: {
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_050);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_3);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_3);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_3));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_3);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_3, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO5_SHOCK1, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO5_BLOOD1, pNezuko->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO5_CLAW2, pNezuko->Get_WeaponWorld2());
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Nezuko::CNezuko_CinemaState::SCENE_4:
+	}
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_4: {
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_060);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_4);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_4);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_4));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_4);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_4, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO6_PROJ, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO6_BLOODL, pNezuko->Get_WeaponWorld());
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Nezuko::CNezuko_CinemaState::SCENE_5:
+	}
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_5: {
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_070);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_5);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_5);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_5));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_5);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_5, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO7_BG1, pNezuko);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Nezuko::CNezuko_CinemaState::SCENE_6:
+	}
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_6: {
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_080);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_6);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_6);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_6));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_6);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_6, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO8_BG1, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO8_GROUND1, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO8_HAND1, pNezuko->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO8_HAND2, pNezuko->Get_WeaponWorld2());
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Nezuko::CNezuko_CinemaState::SCENE_7:
+	}
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_7: {
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_090);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_7);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_7);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_7));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_7);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_7, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO9_HAND1, pNezuko->Get_WeaponWorld());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO9_HAND2, pNezuko->Get_WeaponWorld2());
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Nezuko::CNezuko_CinemaState::SCENE_8:
+	}
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_8: {
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_100);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_8);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_8);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_8));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_8);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_8, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO10_GROUND, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO10_HAND1, pNezuko->Get_WeaponWorld());
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Nezuko::CNezuko_CinemaState::SCENE_9:
+	}
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_9: {
 		pNezuko->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_110);
 		pNezuko->Get_Model()->Reset_Anim(CNezuko_CinemaState::ANIM_SCENE_9);
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko_CinemaState::ANIM_SCENE_9);
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko_CinemaState::ANIM_SCENE_9));
 		pNezuko->Get_Model()->Set_Loop(CNezuko_CinemaState::ANIM_SCENE_9);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko_CinemaState::ANIM_SCENE_9, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO11_GROUND, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO11_PROJ, pNezuko);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::Nezuko::CNezuko_CinemaState::SCENE_END:
+	}
+	case Client::Nezuko::CNezuko_CinemaState::SCENE_END: {
 		pNezuko->Get_BattleTarget()->Set_Hp(-400);
 		pNezuko->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pNezuko->Get_NavigationHeight().y, 56.1f, 1.f));
 		pNezuko->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pNezuko->Get_NavigationHeight().y, 50.03f, 1.f));
@@ -280,7 +366,14 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 		pNezuko->Set_AnimIndex(static_cast<CNezuko::ANIMID>(CNezuko::ANIM_SPLSKL_END));
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_SPLSKL_END);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_END, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_END_GROUND, pNezuko);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
+	}
 	default:
 		break;
 	}

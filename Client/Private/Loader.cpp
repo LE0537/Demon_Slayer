@@ -1033,7 +1033,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	{
 		/* Texture */
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Particle"),
-			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 108))))
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Effect/Texture/Particle/Particle%d.png"), 113))))
 			return E_FAIL;
 
 		/* For.Prototype_Component_Texture_Noise */
@@ -1057,6 +1057,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		Load_Texture("Rui_Action", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Rengoku_Action", "../Bin/Resources/Effect/Texture/");
 		Load_Texture("Akaza_Action", "../Bin/Resources/Effect/Texture/");
+		Load_Texture("Nezuko_Action", "../Bin/Resources/Effect/Texture/");
 
 		g_fLoading = 55.f;
 
@@ -1415,6 +1416,13 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Spl_Rock3"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu_Spl/Shinobu_Spl_Rock3.fbx", PivotMatrix)))) return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Spl_Spark"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Shinobu_Spl/Shinobu_Spl_Spark.fbx", PivotMatrix)))) return E_FAIL;
 
+
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ne_Spl_ClawTrail_01"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/Ne_Spl_ClawTrail_01.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ne_Spl_GroundRock_01"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/Ne_Spl_GroundRock_01.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ne_Spl_GroundRock_02"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/Ne_Spl_GroundRock_02.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ne_Spl_GroundRock_03"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/Ne_Spl_GroundRock_03.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ne_Spl_Line_01"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/Ne_Spl_Line_01.fbx", PivotMatrix)))) return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Ne_Spl_Stone_01"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_NONANIM, "../Bin/Resources/Effect/Mesh/Nezuko/Ne_Spl_Stone_01.fbx", PivotMatrix)))) return E_FAIL;
 		//if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_Tornado"), CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin//Effect/Mesh/Rengoku/Spl/Rengoku_Spl_Tornado.fbx", PivotMatrix)))) return E_FAIL;
 		PivotMatrix = XMMatrixScaling(0.02f, 0.02f, 0.02f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_FlameTrail01_11"),
@@ -1878,6 +1886,40 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_4_Weapon"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_5"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_5_Weapon"));
+
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion1_Dist"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion1_Dist2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion1_Hit"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion2_BloodL"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion2_BloodR"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion2_Dist"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion3_BGWind"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion3_HandL"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion3_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion3_Run1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion4_BloodL"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion4_BloodR"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion4_Claw1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion4_Shock1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion5_Blood1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion5_Claw2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion5_Shock1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion6_BloodL"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion6_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion7_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion8_BG1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion8_Ground1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion8_Hand1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion8_Hand2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion9_Hand1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion9_Hand2"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion10_Ground1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion10_Hand1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion11_Ground1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion11_Proj1"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Start_Hit"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_End_Ground"));
 
 		pEffect_Manager->Load_Effect(TEXT("Boom1"));
 		pEffect_Manager->Load_Effect(TEXT("Train_Smoke"));

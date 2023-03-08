@@ -29,15 +29,15 @@ HRESULT CEffect_Particle_New::Initialize(void * pArg)
 void CEffect_Particle_New::Tick(_float fTimeDelta)
 {
 	m_fTime += fTimeDelta;
-
-	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime + m_ParticleInfo.fDuration) {
-		m_pVIBufferCom->Update(fTimeDelta, m_ParticleInfo.vSizeReduction, m_CombinedWorldMatrix, m_ParticleInfo.fSpeedReduction, m_ParticleInfo.fGravity, m_ParticleInfo.bSpeedkill,
-			XMLoadFloat4x4(&m_CombinedWorldMatrix));
-	}
 }
 
 void CEffect_Particle_New::Late_Tick(_float fTimeDelta)
 {
+	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime + m_ParticleInfo.fDuration) {
+		m_pVIBufferCom->Update(fTimeDelta, m_ParticleInfo.vSizeReduction, m_CombinedWorldMatrix, m_ParticleInfo.fSpeedReduction, m_ParticleInfo.fGravity, m_ParticleInfo.bSpeedkill,
+			XMLoadFloat4x4(&m_CombinedWorldMatrix));
+	}
+
 	if (static_cast<CEffect*>(m_pParents)->Get_EffectMove() == CEffect::EFFMOVE_STOP) {
 		if (m_fTime <= m_ParticleInfo.fStartTime) {
 			_matrix mtrParents = XMLoadFloat4x4(&m_pParents->Get_CombinedWorldMatrix());

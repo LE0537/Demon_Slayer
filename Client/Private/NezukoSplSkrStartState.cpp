@@ -230,7 +230,7 @@ void CSplSkrStartState::Enter(CNezuko* pNezuko)
 
 	switch (m_eStateType)
 	{
-	case Client::CNezukoState::TYPE_START:
+	case Client::CNezukoState::TYPE_START: {
 		pNezuko->Get_Transform()->Set_PlayerLookAt(pNezuko->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_SPLSKL_START_0);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_SPLSKL_START_0);
@@ -238,13 +238,28 @@ void CSplSkrStartState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_START_0, 0.01f);
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Nezuko_SplSkr_Start.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Nezuko_SE_SplSkr_Start.wav"), g_fEffect);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_START, pNezuko);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
-	case Client::CNezukoState::TYPE_LOOP:
+	}
+	case Client::CNezukoState::TYPE_LOOP: {
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_SPLSKL_START_1);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_SPLSKL_START_1);
 		pNezuko->Get_Model()->Set_Loop(CNezuko::ANIM_SPLSKL_START_1);
 		pNezuko->Get_Model()->Set_LinearTime(CNezuko::ANIM_SPLSKL_START_1, 0.01f);
-		break;
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_START_HIT, pNezuko);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		break; 
+	}
 	case Client::CNezukoState::TYPE_END:
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_SPLSKL_START_2);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_SPLSKL_START_2);

@@ -376,6 +376,38 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_AKA_MO4_DIST:
 	case CEffect_Manager::EFF_SPL_AKA_MO9_PROJ1:
 	case CEffect_Manager::EFF_SPL_AKA_MO9_BOOM1:
+	case CEffect_Manager::EFF_SPL_NE_MO1_DIST1:
+	case CEffect_Manager::EFF_SPL_NE_MO1_DIST2:
+	case CEffect_Manager::EFF_SPL_NE_MO1_HIT:
+	case CEffect_Manager::EFF_SPL_NE_MO2_BLOODL:
+	case CEffect_Manager::EFF_SPL_NE_MO2_BLOODR:
+	case CEffect_Manager::EFF_SPL_NE_MO2_DIST:
+	case CEffect_Manager::EFF_SPL_NE_MO3_BGWIND:
+	case CEffect_Manager::EFF_SPL_NE_MO3_HANDL:
+	case CEffect_Manager::EFF_SPL_NE_MO3_PROJ1:
+	case CEffect_Manager::EFF_SPL_NE_MO3_RUN1:
+	case CEffect_Manager::EFF_SPL_NE_MO4_BLOODL:
+	case CEffect_Manager::EFF_SPL_NE_MO4_BLOODR:
+	case CEffect_Manager::EFF_SPL_NE_MO4_CLAW1:
+	case CEffect_Manager::EFF_SPL_NE_MO4_SHOCK1:
+	case CEffect_Manager::EFF_SPL_NE_MO5_BLOOD1:
+	case CEffect_Manager::EFF_SPL_NE_MO5_CLAW2:
+	case CEffect_Manager::EFF_SPL_NE_MO5_SHOCK1:
+	case CEffect_Manager::EFF_SPL_NE_MO6_BLOODL:
+	case CEffect_Manager::EFF_SPL_NE_MO6_PROJ:
+	case CEffect_Manager::EFF_SPL_NE_MO7_BG1:
+	case CEffect_Manager::EFF_SPL_NE_MO8_BG1:
+	case CEffect_Manager::EFF_SPL_NE_MO8_GROUND1:
+	case CEffect_Manager::EFF_SPL_NE_MO8_HAND1:
+	case CEffect_Manager::EFF_SPL_NE_MO8_HAND2:
+	case CEffect_Manager::EFF_SPL_NE_MO9_HAND1:
+	case CEffect_Manager::EFF_SPL_NE_MO9_HAND2:
+	case CEffect_Manager::EFF_SPL_NE_MO10_GROUND:
+	case CEffect_Manager::EFF_SPL_NE_MO10_HAND1:
+	case CEffect_Manager::EFF_SPL_NE_MO11_GROUND:
+	case CEffect_Manager::EFF_SPL_NE_MO11_PROJ:
+	case CEffect_Manager::EFF_SPL_NE_START:
+	case CEffect_Manager::EFF_SPL_NE_START_HIT:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			if (m_bLateStart) {
 				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {

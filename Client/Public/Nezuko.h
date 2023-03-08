@@ -178,6 +178,7 @@ private:
 	HRESULT Ready_Components();
 	void Set_Shadow();
 	void	Set_Info();
+	void    Check_Spl();
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
 	virtual	void  Get_GuardHit(_int eType);

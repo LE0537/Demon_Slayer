@@ -116,6 +116,12 @@ void CNezuko::Tick(_float fTimeDelta)
 			m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 			m_bBattleStart = false;
 		}
+
+		if (m_bSplSkl)
+		{
+			Check_Spl();
+		}
+
 		__super::Tick(fTimeDelta);
 		m_fDelta = fTimeDelta;
 		if (m_tInfo.fHitTime > 0.f)
@@ -656,6 +662,29 @@ void CNezuko::Set_Info()
 	m_tInfo.bChange = false;
 	m_tInfo.iMaxGuard = 500;
 	m_tInfo.iGuard = m_tInfo.iMaxGuard;
+}
+
+void CNezuko::Check_Spl()
+{
+	if (!m_bSplEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO1_DIST1, &m_WeaponWorld);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO1_DIST2, &m_WeaponWorld2);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO1_HIT, this);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bSplEffect = true;
+	}
+
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("R_Hand_1_Lct");
+	CHierarchyNode*		pSocket2 = m_pModelCom->Get_BonePtr("L_Hand_1_Lct");
+	_float4x4 SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	_float4x4 pParentWorldMatrix = *m_pTransformCom->Get_World4x4Ptr();
+
+	XMStoreFloat4x4(&m_WeaponWorld, (pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
+	XMStoreFloat4x4(&m_WeaponWorld2, (pSocket2->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
 }
 
 void CNezuko::Take_Damage(_float _fPow, _bool _bJumpHit)
