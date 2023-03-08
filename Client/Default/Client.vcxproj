@@ -261,6 +261,7 @@
     <ClInclude Include="..\Public\Effect_Particle_New.h" />
     <ClInclude Include="..\public\Deer.h" />
     <ClInclude Include="..\public\Deer2.h" />
+    <ClInclude Include="..\public\EndingModel.h" />
     <ClInclude Include="..\public\Enmu.h" />
     <ClInclude Include="..\Public\EnmuAttack_1.h" />
     <ClInclude Include="..\Public\EnmuAttack_2.h" />
@@ -308,6 +309,7 @@
     <ClInclude Include="..\Public\KyoujuroHitCinema_Shinobu.h" />
     <ClInclude Include="..\Public\KyoujuroHitCinema_Tanjiro.h" />
     <ClInclude Include="..\Public\KyoujuroSplSkrStartState.h" />
+    <ClInclude Include="..\public\Level_Ending.h" />
     <ClInclude Include="..\Public\MGameHeart.h" />
     <ClInclude Include="..\public\Mini_Monster.h" />
     <ClInclude Include="..\public\Mini_Player.h" />
@@ -779,6 +781,7 @@
     <ClCompile Include="..\Private\Effect_Particle_New.cpp" />
     <ClCompile Include="..\private\Deer.cpp" />
     <ClCompile Include="..\private\Deer2.cpp" />
+    <ClCompile Include="..\private\EndingModel.cpp" />
     <ClCompile Include="..\private\Enmu.cpp" />
     <ClCompile Include="..\Private\EnmuAttack_1.cpp" />
     <ClCompile Include="..\Private\EnmuAttack_2.cpp" />
@@ -824,6 +827,7 @@
     <ClCompile Include="..\Private\KyoujuroHitCinema_Shinobu.cpp" />
     <ClCompile Include="..\Private\KyoujuroHitCinema_Tanjiro.cpp" />
     <ClCompile Include="..\Private\KyoujuroSplSkrStartState.cpp" />
+    <ClCompile Include="..\private\Level_Ending.cpp" />
     <ClCompile Include="..\Private\MGameHeart.cpp" />
     <ClCompile Include="..\private\Mini_Monster.cpp" />
     <ClCompile Include="..\private\Mini_Player.cpp" />

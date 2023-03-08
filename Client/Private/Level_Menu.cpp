@@ -7,7 +7,7 @@
 #include "SoundMgr.h"
 #include "Level_SelectChar.h"
 #include "Level_StroyMenu.h"
-
+#include "Level_Ending.h"
 CLevel_Menu::CLevel_Menu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -60,8 +60,11 @@ void CLevel_Menu::Tick(_float fTimeDelta)
 				return;
 		}
 	}
-
-
+	if (pGameInstance->Key_Down(DIK_6))
+	{
+		if (FAILED(pGameInstance->Open_Level(LEVEL_ENDING, CLevel_Ending::Create(m_pDevice, m_pContext))))
+			return;
+	}
 	Safe_Release(pGameInstance);
 
 	RELEASE_INSTANCE(CUI_Manager);

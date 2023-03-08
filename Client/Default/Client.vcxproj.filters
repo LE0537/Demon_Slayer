@@ -1681,6 +1681,12 @@
     <Filter Include="03.UI\93.MGame\Heart">
       <UniqueIdentifier>{7a4ce041-0aa0-4b5e-9ec3-7fa7a3c55bdd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC\EndingModel">
+      <UniqueIdentifier>{a97d2aad-0cf4-4dbc-96f5-42d2a5717ba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\12.Ending">
+      <UniqueIdentifier>{e11d1636-aadc-483d-8d37-deb4c852e735}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3234,6 +3240,12 @@
     <ClInclude Include="..\Public\MGameHeart.h">
       <Filter>03.UI\93.MGame\Heart</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\EndingModel.h">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\EndingModel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Ending.h">
+      <Filter>01.Levels\12.Ending</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4750,6 +4762,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\MGameHeart.cpp">
       <Filter>03.UI\93.MGame\Heart</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EndingModel.cpp">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\EndingModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Ending.cpp">
+      <Filter>01.Levels\12.Ending</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
