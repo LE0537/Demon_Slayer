@@ -171,6 +171,7 @@
 #include "Effect_Texture.h"
 #include "Effect_Mesh.h"
 #include "Effect_AnimMesh.h"
+#include "Effect_AnimFly.h"
 #include "Effect_Particle.h"
 #include "Effect_Particle_New.h"
 //CollBox
@@ -1416,6 +1417,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Rengoku_Spl_078_FlameTrail01_11"),
 			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Effect/Mesh/Rengoku/Spl/Rengoku_Spl_078_FlameTrail01_11.fbx", PivotMatrix))))
 			return E_FAIL;
+		PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(180.0f));
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Shinobu_Spl_Butterfly"),
+			CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Effect/Mesh/Shinobu_Spl/flytothesky/A_P0011_V00_C00_SplTwm_c040_N0052_V01_C00_NonTex.fbx", PivotMatrix))))
+			return E_FAIL;
 
 		g_fLoading = 75.f;
 
@@ -1432,6 +1437,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectAnimMesh"),
 			CEffect_AnimMesh::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectAnimFly"),
+			CEffect_AnimFly::Create(m_pDevice, m_pContext))))
 			return E_FAIL;
 		if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EffectParticle"),
 			CEffect_Particle::Create(m_pDevice, m_pContext))))

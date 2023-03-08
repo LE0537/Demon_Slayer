@@ -54,6 +54,10 @@ private:
 	_float m_fJumpTime = 0.f;
 	_float m_fDelay = 0.f;
 
+	_float	m_fTime = 0.f;
+	_bool	m_bBlurFirst = false;
+	_bool	m_bBlurSecond = false;
+
 };
 
 END

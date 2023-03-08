@@ -385,7 +385,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		MeshInfo.vRotation = _float3(0.f, 0.f, 0.f);
 		MeshInfo.pParents = pKyoujuro;
 
-		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_EffectAnimMesh"), LEVEL_GAMEPLAY, TEXT("Layer_Effect"), &MeshInfo);
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_EffectAnimMesh"), g_iLevel, TEXT("Layer_Effect"), &MeshInfo);
 
 		RELEASE_INSTANCE(CGameInstance);
 
