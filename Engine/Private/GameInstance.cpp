@@ -77,6 +77,7 @@ void CGameInstance::Tick_Engine(_float fTimeDelta,_bool* _pThread)
 	if (*_pThread == true)
 		return;
 	m_pObject_Manager->Tick(fTimeDelta);
+	m_pLight_Manager->Tick(fTimeDelta);
 
 	m_pPipeLine->Update();
 

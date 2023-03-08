@@ -13,9 +13,28 @@ CLight::CLight(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 HRESULT CLight::Initialize(const LIGHTDESC & LightDesc)
 {
 	m_LightDesc = LightDesc;
+	m_bDead = false;
+
+	m_fOriginRange = m_LightDesc.fRange;
 
 	return S_OK;
 }
+
+void CLight::Tick(_float fTimeDelta)
+{
+	if (m_LightDesc.eType >= LIGHTDESC::TYPE_EFF1 &&
+		m_LightDesc.eType <= LIGHTDESC::TYPE_EFF3)
+	{
+		m_fAccLifeTime += fTimeDelta;
+
+		_float fRatio = m_fAccLifeTime / m_LightDesc.fLifeTime;
+		m_LightDesc.fRange = m_fOriginRange * fRatio;
+
+		if (m_fAccLifeTime >= m_LightDesc.fLifeTime)
+			m_bDead = true;
+	}
+}
+
 HRESULT CLight::Render(CShader * pShader, CVIBuffer_Rect * pVIBuffer)
 {
 	_uint			iPassIndex = 0;

@@ -22,16 +22,23 @@ public:
 		memcpy(&m_LightDesc, &tLightDesc, sizeof(LIGHTDESC));
 		return S_OK;
 	}
+	_bool	Get_Dead() { return m_bDead;
+	}
 public:
 	HRESULT Initialize(const LIGHTDESC& LightDesc);
 
 public:
+	void	Tick(_float fTimeDelta);
 	HRESULT Render(class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 
 private:
 	ID3D11Device*			m_pDevice = nullptr;
 	ID3D11DeviceContext*	m_pContext = nullptr;
 	LIGHTDESC				m_LightDesc;
+
+	_float				m_fAccLifeTime = 0.f;
+	_float				m_fOriginRange = 0.f;
+	_bool			m_bDead = false;
 
 public:
 	static CLight* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, const LIGHTDESC& LightDesc);

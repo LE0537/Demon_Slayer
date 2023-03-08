@@ -404,12 +404,14 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		RELEASE_INSTANCE(CGameInstance);
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_BG1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_HAND1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_PROJ1, pAkaza);
-
 		RELEASE_INSTANCE(CEffect_Manager);
+
+		pAkaza->Get_Renderer()->Set_Value(CRenderer::VALUE_ENVLIGHT, 1.f);
+		pAkaza->Get_Renderer()->Set_Value(CRenderer::VALUE_LIGHTPOWER, 0.25f);
+		pAkaza->Add_Light(_float4(50.f, 2.2f, 66.6f, 1.f), _float4(0.1f, 0.5f, 1.f, 1.f), _float4(1.f, 1.f, 1.f, 1.f), 3.f);
 		break;
 	}
 	case Client::Akaza::CAkaza_CinemaState::SCENE_7: {
@@ -427,13 +429,15 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_AURA1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_BG1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_PROJ1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_BOOM1, pAkaza);
-
 		RELEASE_INSTANCE(CEffect_Manager);
+
+		pAkaza->Get_Renderer()->Set_Value(CRenderer::VALUE_ENVLIGHT, 1.f);
+		pAkaza->Get_Renderer()->Set_Value(CRenderer::VALUE_LIGHTPOWER, 0.25f);
+		pAkaza->Add_EffectLight(LIGHTDESC::TYPE_EFF1, _float4(49.8f, 2.2f, 63.f, 1.f), _float4(0.1f, 0.5f, 1.f, 1.f), _float4(1.f, 1.f, 1.f, 1.f), 50.f, 1.3f);
 		break;
 	}
 	case Client::Akaza::CAkaza_CinemaState::SCENE_8: {
@@ -447,6 +451,7 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza::ANIM_SPLSKL_END));
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_SPLSKL_END);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_END, 0.01f);
+
 		break;
 	}
 	case Client::Akaza::CAkaza_CinemaState::SCENE_END:
@@ -463,6 +468,11 @@ void CAkaza_CinemaState::Exit(CAkaza * pAkaza)
 	list<CGameObject*> plistMeshInst;
 	switch (m_eScene)
 	{
+	case Client::Akaza::CAkaza_CinemaState::SCENE_6:
+		pAkaza->Delete_MyLights();
+		pAkaza->Get_Renderer()->ReturnValue();
+		break;
+
 	case Client::Akaza::CAkaza_CinemaState::SCENE_7:
 		pGameInstance = GET_INSTANCE(CGameInstance);
 		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(false);
@@ -477,6 +487,9 @@ void CAkaza_CinemaState::Exit(CAkaza * pAkaza)
 			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(false);
 		}
 		RELEASE_INSTANCE(CGameInstance);
+
+		pAkaza->Delete_MyLights();
+		pAkaza->Get_Renderer()->ReturnValue();
 		break;
 
 	case Client::Akaza::CAkaza_CinemaState::SCENE_8:
