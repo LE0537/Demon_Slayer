@@ -94,10 +94,11 @@ void CUpperHitState::Enter(CRui* pRui)
 	switch (m_eStateType)
 	{
 	case Client::CRuiState::TYPE_START:
+		pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_HIT_DMG_UPPER_0);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_HIT_DMG_UPPER_0);
 		pRui->Set_AnimIndex(CRui::ANIM_HIT_DMG_UPPER_0);
 		pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex());
-		pRui->Get_Model()->Set_LinearTime(pRui->Get_AnimIndex(), 0.01f);
+		pRui->Get_Model()->Set_LinearTime(pRui->Get_AnimIndex(), 0.2f);
 
 		if (pRui->Get_PlayerInfo().iHp <= 0)
 		{
@@ -109,24 +110,28 @@ void CUpperHitState::Enter(CRui* pRui)
 		}
 		break;
 	case Client::CRuiState::TYPE_LOOP:
+		pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_HIT_DMG_UPPER_1);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_HIT_DMG_UPPER_1);
 		pRui->Set_AnimIndex(CRui::ANIM_HIT_DMG_UPPER_1);
 		pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex(), true);
 		pRui->Get_Model()->Set_LinearTime(pRui->Get_AnimIndex(), 0.01f);
 		break;
 	case Client::CRuiState::TYPE_END:
+		pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_HIT_DMG_UPPER_2);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_HIT_DMG_UPPER_2);
 		pRui->Set_AnimIndex(CRui::ANIM_HIT_DMG_UPPER_2);
 		pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex());
 		pRui->Get_Model()->Set_LinearTime(pRui->Get_AnimIndex(), 0.01f);
 		break;
 	case Client::CRuiState::TYPE_DEFAULT:
+		pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_HIT_DMG_DOWN_0);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_HIT_DMG_DOWN_0);
 		pRui->Set_AnimIndex(CRui::ANIM_HIT_DMG_DOWN_0);
 		pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex());
 		pRui->Get_Model()->Set_LinearTime(pRui->Get_AnimIndex(), 0.01f);
 		break;
 	case Client::CRuiState::TYPE_CHANGE:
+		pRui->Get_Model()->Reset_Anim(CRui::ANIMID::ANIM_HIT_DMG_DOWN_1);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_HIT_DMG_DOWN_1);
 		pRui->Set_AnimIndex(CRui::ANIM_HIT_DMG_DOWN_1);
 		pRui->Get_Model()->Set_Loop(pRui->Get_AnimIndex());
@@ -577,13 +582,13 @@ CRuiState * CUpperHitState::BoundState(CRui* pRui, _float fTimeDelta)
 		{
 		case Client::CRuiState::TYPE_START:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			return new CUpperHitState(m_eHitType, TYPE_LOOP, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CRuiState::TYPE_LOOP:
-			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
-			pRui->Set_GodMode(true);
-			
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			//pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			//pRui->Set_GodMode(true);
+			//
+			//return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CRuiState::TYPE_END:
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
@@ -626,6 +631,15 @@ CRuiState * CUpperHitState::BoundState(CRui* pRui, _float fTimeDelta)
 		break;
 	case Client::CRuiState::TYPE_LOOP:
 		Bound_Player(pRui, fTimeDelta);
+
+		if (m_bNextAnim == true)
+		{
+			//pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			pRui->Set_GodMode(true);
+
+			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+		}
+
 		break;
 	case Client::CRuiState::TYPE_END:
 		Bound_Player(pRui, fTimeDelta);
@@ -687,6 +701,7 @@ CRuiState * CUpperHitState::UpperState(CRui* pRui, _float fTimeDelta)
 		if (m_bNextAnim)
 		{
 			pRui->Set_GodMode(true);
+			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 		}
 		break;
@@ -773,6 +788,7 @@ CRuiState * CUpperHitState::Upper2State(CRui * pRui, _float fTimeDelta)
 void CUpperHitState::Exit(CRui* pRui)
 {
 	pRui->Set_HitTime(0.3f);
+	//pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 	//pRui->Get_Model()->Reset_Anim(pRui->Get_AnimIndex());
 }
 

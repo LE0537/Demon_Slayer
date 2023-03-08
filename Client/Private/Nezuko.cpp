@@ -751,7 +751,7 @@ void CNezuko::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJu
 
 	else
 	{
-		CNezukoState* pState = new CUpperHitState(eHitType, CNezukoState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+		CNezukoState* pState = new CUpperHitState(eHitType, CNezukoState::STATE_TYPE::TYPE_START, 15.f, 20.f, fKnockBackPower);
 		m_pNezukoState = m_pNezukoState->ChangeState(this, m_pNezukoState, pState);
 	}
 }

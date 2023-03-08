@@ -156,7 +156,7 @@ void CItemBox::Late_Tick(_float fTimeDelta)
 		_vector vDestPos = XMVectorSet(-227.567f, 42.087f, -212.677f, 1.f);
 		_float fDistance = XMVectorGetX(XMVector3Length(vDestPos - vTargetPos));
 
-		if (fDistance <= 4.f)
+		if (fDistance <= 7.f)
 		{
 			m_bTopView = false;
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(LEVEL_ADVRUI, L"Layer_Camera")->Get_LayerFront())->Set_TopView(m_bTopView);

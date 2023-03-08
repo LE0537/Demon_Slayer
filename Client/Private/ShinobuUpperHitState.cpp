@@ -96,7 +96,7 @@ void CUpperHitState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_HIT_DMG_UPPER_0);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_HIT_DMG_UPPER_0);
 		pShinobu->Get_Model()->Set_Loop(pShinobu->Get_AnimIndex());
-		pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.01f);
+		pShinobu->Get_Model()->Set_LinearTime(pShinobu->Get_AnimIndex(), 0.2f);
 
 		if (pShinobu->Get_PlayerInfo().iHp <= 0)
 		{
@@ -576,12 +576,12 @@ CShinobuState * CUpperHitState::BoundState(CShinobu* pShinobu, _float fTimeDelta
 		{
 		case Client::CShinobuState::TYPE_START:
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			return new CUpperHitState(m_eHitType, TYPE_LOOP, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CShinobuState::TYPE_LOOP:
-			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
-			pShinobu->Set_GodMode(true);
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			//pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
+			//pShinobu->Set_GodMode(true);
+			//return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CShinobuState::TYPE_END:
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
@@ -609,6 +609,15 @@ CShinobuState * CUpperHitState::BoundState(CShinobu* pShinobu, _float fTimeDelta
 		break;
 	case Client::CShinobuState::TYPE_LOOP:
 		Bound_Player(pShinobu, fTimeDelta);
+
+		if (m_bNextAnim == true)
+		{
+			//pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			pShinobu->Set_GodMode(true);
+
+			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+		}
+
 		break;
 	case Client::CShinobuState::TYPE_END:
 		Bound_Player(pShinobu, fTimeDelta);
@@ -732,7 +741,7 @@ CShinobuState * CUpperHitState::Upper2State(CShinobu * pShinobu, _float fTimeDel
 		Fall_Height(pShinobu, fTimeDelta);
 
 		if (m_bNextAnim == true)
-			return new CUpperHitState(m_eHitType, TYPE_END, 0.f, 0.f, 0.f);
+			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 		break;
 	case Client::CShinobuState::TYPE_END:
 		break;

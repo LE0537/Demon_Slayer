@@ -573,7 +573,7 @@ void CShinobu::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJ
 
 	else
 	{
-		CShinobuState* pState = new CUpperHitState(eHitType, CShinobuState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+		CShinobuState* pState = new CUpperHitState(eHitType, CShinobuState::STATE_TYPE::TYPE_START, 15.f, 20.f, fKnockBackPower);
 		m_pShinobuState = m_pShinobuState->ChangeState(this, m_pShinobuState, pState);
 	}
 }
