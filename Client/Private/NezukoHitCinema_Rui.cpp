@@ -147,4 +147,5 @@ void CHitCinema_Rui::Enter(CNezuko* pNezuko)
 
 void CHitCinema_Rui::Exit(CNezuko* pNezuko)
 {
+	pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
 }

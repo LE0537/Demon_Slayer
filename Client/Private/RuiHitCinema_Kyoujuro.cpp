@@ -171,4 +171,5 @@ void CHitCinema_Kyoujuro::Enter(CRui* pRui)
 
 void CHitCinema_Kyoujuro::Exit(CRui* pRui)
 {
+	pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 }

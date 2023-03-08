@@ -171,4 +171,5 @@ void CHitCinema_Kyoujuro::Enter(CNezuko* pNezuko)
 
 void CHitCinema_Kyoujuro::Exit(CNezuko* pNezuko)
 {
+	pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
 }

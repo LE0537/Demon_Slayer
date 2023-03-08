@@ -447,6 +447,7 @@ void CHitState::Set_JumpHitState(CAkaza* pAkaza)
 void CHitState::Exit(CAkaza* pAkaza)
 {
 	pAkaza->Set_HitTime(0.3f);
+	//	pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
 	pAkaza->Get_Model()->Reset_Anim(pAkaza->Get_AnimIndex());
 }
 

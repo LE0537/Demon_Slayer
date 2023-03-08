@@ -37,15 +37,15 @@ CTanjiroState * CSplSkrStartState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			return new CSplSkrStartState(TYPE_LOOP);
 			break;
 		case Client::CTanjiroState::TYPE_LOOP:
-			/*if (m_bCollision == true)
-			{
-				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-				pTanjiro->Get_BattleTarget()->Play_Scene();
-				g_bSpecialSkillHit = true;
-				CGameInstance* pGameInstance = CGameInstance::Get_Instance();
-				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.5f);
-				return new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);
-			}*/
+			//if (m_bCollision == true)
+			//{
+			//	pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+			//	pTanjiro->Get_BattleTarget()->Play_Scene();
+			//	/*g_bSpecialSkillHit = true;
+			//	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+			//	dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 0.5f);*/
+			//	return new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);
+			//}
 			//else
 			{
 				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
@@ -82,16 +82,17 @@ CTanjiroState * CSplSkrStartState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			m_bPlayScene = true;
 			g_bSpecialSkillHit = true;
 			m_bCreate = true;
-			pTanjiro->Get_BattleTarget()->Take_Damage(0.f, false);
+			//pTanjiro->Get_BattleTarget()->Take_Damage(0.f, false);
+			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 			CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 1.f);
 		}
-
+	
 		if (m_bPlayScene == true)
 		{
 			if (g_bSpecialSkillHit == false)
 			{
-				pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+				
 				pTanjiro->Get_BattleTarget()->Play_Scene();
 				return new CHinoCami_CinemaState(CHinoCami_CinemaState::SCENE_START);
 			}
@@ -249,6 +250,7 @@ void CSplSkrStartState::Enter(CTanjiro * pTanjiro)
 	switch (m_eStateType)
 	{
 	case Client::CTanjiroState::TYPE_START:
+		pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_SPLSKL_START_0);
 		pTanjiro->Get_Transform()->Set_PlayerLookAt(pTanjiro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SPLSKL_START_0);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SPLSKL_START_0);
@@ -258,6 +260,7 @@ void CSplSkrStartState::Enter(CTanjiro * pTanjiro)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_SplSkr_Start.wav"), g_fEffect);
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
+		pTanjiro->Get_Model()->Reset_Anim(CTanjiro::ANIMID::ANIM_SPLSKL_START_1);
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_SPLSKL_START_1);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_SPLSKL_START_1);
 		pTanjiro->Get_Model()->Set_Loop(CTanjiro::ANIM_SPLSKL_START_1);

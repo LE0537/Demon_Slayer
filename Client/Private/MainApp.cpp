@@ -101,12 +101,9 @@ void CMainApp::Tick(_float fTimeDelta)
 		fTimeDelta *= 0.2f;
 
 	if (g_bSpecialSkillHit == true)
-		fTimeDelta *= 0.05f;
-
-	if (g_bSpecialSkillHit == true)
 	{
 		static _float fTimeDelay = 0.f;
-		fTimeDelay += 1.f / 60.f;
+		fTimeDelay += fTimeDelta;
 
 		if (fTimeDelay >= 1.f)
 		{
@@ -114,6 +111,9 @@ void CMainApp::Tick(_float fTimeDelta)
 			g_bSpecialSkillHit = false;
 		}
 	}
+
+	if (g_bSpecialSkillHit == true)
+		fTimeDelta *= 0.05f;
 
 
 	if (!g_bThread)

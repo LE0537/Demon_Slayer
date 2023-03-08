@@ -113,4 +113,5 @@ void CHitCinema_Shinobu::Enter(CTanjiro* pTanjiro)
 
 void CHitCinema_Shinobu::Exit(CTanjiro* pTanjiro)
 {
+	pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 }
