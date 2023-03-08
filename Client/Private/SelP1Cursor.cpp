@@ -90,6 +90,7 @@ void CSelP1Cursor::Tick(_float fTimeDelta)
 				{
 					if (!m_SelectInfo_2.bOni && m_SelectInfo.strName != m_SelectInfo_2.strName) //중복선택 오니 안됨
 					{
+						CSoundMgr::Get_Instance()->PlayEffect(TEXT("UI_ClickCharSelButton.wav"), g_fEffect);
 						PlayVoiceSound();
 						++m_iSelCount;
 						if (m_iSelCount == 1)

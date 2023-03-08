@@ -1684,6 +1684,9 @@
     <Filter Include="05.CollBox\19.RuiBomb">
       <UniqueIdentifier>{a61593d7-0954-4af1-b3b6-732ef16421c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\04.ItemBox">
+      <UniqueIdentifier>{a6bdc0a9-a916-49ab-9d55-123ace4a4dca}</UniqueIdentifier>
+    </Filter>
     <Filter Include="04.Effect\05.Effect_AnimMesh\Eff_Anim_Butterfly">
       <UniqueIdentifier>{4abf3f2b-428f-4595-adf0-bde544f22a8c}</UniqueIdentifier>
     </Filter>
@@ -3249,6 +3252,9 @@
     <ClInclude Include="..\Public\RuiBomb.h">
       <Filter>05.CollBox\19.RuiBomb</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\ItemBox.h">
+      <Filter>02.GameObjects\99.GameObj\04.ItemBox</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\Effect_AnimFly.h">
       <Filter>04.Effect\05.Effect_AnimMesh\Eff_Anim_Butterfly</Filter>
     </ClInclude>
@@ -4777,6 +4783,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\RuiBomb.cpp">
       <Filter>05.CollBox\19.RuiBomb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\ItemBox.cpp">
+      <Filter>02.GameObjects\99.GameObj\04.ItemBox</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Effect_AnimFly.cpp">
       <Filter>04.Effect\05.Effect_AnimMesh\Eff_Anim_Butterfly</Filter>

@@ -194,6 +194,8 @@ CAkazaState * CSkill_DestoryState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 				if(pAkaza->Get_NavigationCom()->Cheak_Cell(vTarget))
 					pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTarget);
 				//pAkaza->Get_NavigationCom()->Find_CurrentCellIndex(vTarget);
+
+				pAkaza->Get_Model()->Set_End(CAkazaState::TYPE_START);
 				return new CSkill_DestoryState(CAkazaState::TYPE_END);
 			}
 		}
@@ -480,6 +482,7 @@ void CSkill_DestoryState::Enter(CAkaza* pAkaza)
 	switch (m_eStateType)
 	{
 	case Client::CAkazaState::TYPE_START:
+		pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_SKILL_DESTROY_0);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_SKILL_DESTROY_0);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SKILL_DESTROY_0, 0.01f);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SKILL_DESTROY_0);
@@ -487,6 +490,7 @@ void CSkill_DestoryState::Enter(CAkaza* pAkaza)
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Destroy.wav"), g_fEffect);
 		break;
 	case Client::CAkazaState::TYPE_END:
+		pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_SKILL_DESTROY_1);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_SKILL_DESTROY_1);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SKILL_DESTROY_1, 0.01f);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SKILL_DESTROY_1);

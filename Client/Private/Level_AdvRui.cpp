@@ -80,7 +80,7 @@ unsigned int APIENTRY Thread_AdvRui(void* pArg)
 	g_bThread = false;
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 	pUIManager->Set_LoadingDead();
-	
+
 	if (!pUIManager->Get_SaveStory())
 	{
 		CSoundMgr::Get_Instance()->BGM_Stop();
@@ -311,13 +311,18 @@ HRESULT CLevel_AdvRui::Ready_Layer_Player(const _tchar * pLayerTag)
 	tCharacterDesc1p.pSubChar = tCharacterDesc.pSubChar;
 	m_pPlayer = tCharacterDesc.pSubChar;
 
+	if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ItemBox"), LEVEL_ADVRUI, TEXT("Layer_ItemBox"), &tCharacterDesc)))
+		return E_FAIL;
+
+
+
 	if (!CUI_Manager::Get_Instance()->Get_SaveStory())
 	{
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiDad"), LEVEL_ADVRUI, TEXT("Layer_RuiDad"), &tCharacterDesc1p)))
 			return E_FAIL;
 	}
 	else
-	{ 
+	{
 		++m_iQuestIndex;
 
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Rui"), LEVEL_ADVRUI, TEXT("Layer_Rui"), &tCharacterDesc1p)))
@@ -325,7 +330,7 @@ HRESULT CLevel_AdvRui::Ready_Layer_Player(const _tchar * pLayerTag)
 
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiSister"), LEVEL_ADVRUI, TEXT("Layer_RuiSister"), &tCharacterDesc1p)))
 			return E_FAIL;
-		
+
 	}
 
 	//tCharacterDesc1p.bSub = true;
@@ -1006,43 +1011,43 @@ HRESULT CLevel_AdvRui::Load_Smell_1(char * pFileName)
 			switch (Pair.first)
 			{
 			case 2087:
-				
-					tSmellDesc[0][0].pWorld = arrWorld;
-					tSmellDesc[0][0].pGlowPower = arrGlowPower;
-					tSmellDesc[0][0].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[0][0].iModelIndex = Pair.first;
-					tSmellDesc[0][0].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[0][0])))
-						return E_FAIL;
-				
+
+				tSmellDesc[0][0].pWorld = arrWorld;
+				tSmellDesc[0][0].pGlowPower = arrGlowPower;
+				tSmellDesc[0][0].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[0][0].iModelIndex = Pair.first;
+				tSmellDesc[0][0].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[0][0])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
 				break;
 			case 2088:
-			
-					tSmellDesc[0][1].pWorld = arrWorld;
-					tSmellDesc[0][1].pGlowPower = arrGlowPower;
-					tSmellDesc[0][1].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[0][1].iModelIndex = Pair.first;
-					tSmellDesc[0][1].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[0][1])))
-						return E_FAIL;
-				
+
+				tSmellDesc[0][1].pWorld = arrWorld;
+				tSmellDesc[0][1].pGlowPower = arrGlowPower;
+				tSmellDesc[0][1].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[0][1].iModelIndex = Pair.first;
+				tSmellDesc[0][1].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[0][1])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
 				break;
 			case 2089:
-			
-					tSmellDesc[0][2].pWorld = arrWorld;
-					tSmellDesc[0][2].pGlowPower = arrGlowPower;
-					tSmellDesc[0][2].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[0][2].iModelIndex = Pair.first;
-					tSmellDesc[0][2].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[0][2])))
-						return E_FAIL;
-				
+
+				tSmellDesc[0][2].pWorld = arrWorld;
+				tSmellDesc[0][2].pGlowPower = arrGlowPower;
+				tSmellDesc[0][2].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[0][2].iModelIndex = Pair.first;
+				tSmellDesc[0][2].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[0][2])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
@@ -1091,7 +1096,7 @@ HRESULT CLevel_AdvRui::Load_Smell_1(char * pFileName)
 
 		}
 
-		
+
 
 		Safe_Delete(pWorld);
 		Safe_Delete(pMeshIndex);
@@ -1208,43 +1213,43 @@ HRESULT CLevel_AdvRui::Load_Smell_2(char * pFileName)
 			switch (Pair.first)
 			{
 			case 2087:
-			
-					tSmellDesc[1][0].pWorld = arrWorld;
-					tSmellDesc[1][0].pGlowPower = arrGlowPower;
-					tSmellDesc[1][0].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[1][0].iModelIndex = Pair.first;
-					tSmellDesc[1][0].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[1][0])))
-						return E_FAIL;
-				
+
+				tSmellDesc[1][0].pWorld = arrWorld;
+				tSmellDesc[1][0].pGlowPower = arrGlowPower;
+				tSmellDesc[1][0].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[1][0].iModelIndex = Pair.first;
+				tSmellDesc[1][0].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[1][0])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
 				break;
 			case 2088:
-			
-					tSmellDesc[1][1].pWorld = arrWorld;
-					tSmellDesc[1][1].pGlowPower = arrGlowPower;
-					tSmellDesc[1][1].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[1][1].iModelIndex = Pair.first;
-					tSmellDesc[1][1].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[1][1])))
-						return E_FAIL;
-				
+
+				tSmellDesc[1][1].pWorld = arrWorld;
+				tSmellDesc[1][1].pGlowPower = arrGlowPower;
+				tSmellDesc[1][1].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[1][1].iModelIndex = Pair.first;
+				tSmellDesc[1][1].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[1][1])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
 				break;
 			case 2089:
-			
-					tSmellDesc[1][2].pWorld = arrWorld;
-					tSmellDesc[1][2].pGlowPower = arrGlowPower;
-					tSmellDesc[1][2].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[1][2].iModelIndex = Pair.first;
-					tSmellDesc[1][2].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[1][2])))
-						return E_FAIL;
-				
+
+				tSmellDesc[1][2].pWorld = arrWorld;
+				tSmellDesc[1][2].pGlowPower = arrGlowPower;
+				tSmellDesc[1][2].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[1][2].iModelIndex = Pair.first;
+				tSmellDesc[1][2].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[1][2])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
@@ -1410,43 +1415,43 @@ HRESULT CLevel_AdvRui::Load_Smell_3(char * pFileName)
 			switch (Pair.first)
 			{
 			case 2087:
-			
-					tSmellDesc[2][0].pWorld = arrWorld;
-					tSmellDesc[2][0].pGlowPower = arrGlowPower;
-					tSmellDesc[2][0].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[2][0].iModelIndex = Pair.first;
-					tSmellDesc[2][0].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[2][0])))
-						return E_FAIL;
-				
+
+				tSmellDesc[2][0].pWorld = arrWorld;
+				tSmellDesc[2][0].pGlowPower = arrGlowPower;
+				tSmellDesc[2][0].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[2][0].iModelIndex = Pair.first;
+				tSmellDesc[2][0].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[2][0])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
 				break;
 			case 2088:
-			
-					tSmellDesc[2][1].pWorld = arrWorld;
-					tSmellDesc[2][1].pGlowPower = arrGlowPower;
-					tSmellDesc[2][1].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[2][1].iModelIndex = Pair.first;
-					tSmellDesc[2][1].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[2][1])))
-						return E_FAIL;
-				
+
+				tSmellDesc[2][1].pWorld = arrWorld;
+				tSmellDesc[2][1].pGlowPower = arrGlowPower;
+				tSmellDesc[2][1].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[2][1].iModelIndex = Pair.first;
+				tSmellDesc[2][1].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[2][1])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
 				break;
 			case 2089:
-		
-					tSmellDesc[2][2].pWorld = arrWorld;
-					tSmellDesc[2][2].pGlowPower = arrGlowPower;
-					tSmellDesc[2][2].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[2][2].iModelIndex = Pair.first;
-					tSmellDesc[2][2].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[2][2])))
-						return E_FAIL;
-				
+
+				tSmellDesc[2][2].pWorld = arrWorld;
+				tSmellDesc[2][2].pGlowPower = arrGlowPower;
+				tSmellDesc[2][2].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[2][2].iModelIndex = Pair.first;
+				tSmellDesc[2][2].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[2][2])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
@@ -1612,43 +1617,43 @@ HRESULT CLevel_AdvRui::Load_Smell_4(char * pFileName)
 			switch (Pair.first)
 			{
 			case 2087:
-				
-					tSmellDesc[3][0].pWorld = arrWorld;
-					tSmellDesc[3][0].pGlowPower = arrGlowPower;
-					tSmellDesc[3][0].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[3][0].iModelIndex = Pair.first;
-					tSmellDesc[3][0].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[3][0])))
-						return E_FAIL;
-				
+
+				tSmellDesc[3][0].pWorld = arrWorld;
+				tSmellDesc[3][0].pGlowPower = arrGlowPower;
+				tSmellDesc[3][0].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[3][0].iModelIndex = Pair.first;
+				tSmellDesc[3][0].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[3][0])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
 				break;
 			case 2088:
-			
-					tSmellDesc[3][1].pWorld = arrWorld;
-					tSmellDesc[3][1].pGlowPower = arrGlowPower;
-					tSmellDesc[3][1].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[3][1].iModelIndex = Pair.first;
-					tSmellDesc[3][1].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[3][1])))
-						return E_FAIL;
-				
+
+				tSmellDesc[3][1].pWorld = arrWorld;
+				tSmellDesc[3][1].pGlowPower = arrGlowPower;
+				tSmellDesc[3][1].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[3][1].iModelIndex = Pair.first;
+				tSmellDesc[3][1].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[3][1])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
 				break;
 			case 2089:
-				
-					tSmellDesc[3][2].pWorld = arrWorld;
-					tSmellDesc[3][2].pGlowPower = arrGlowPower;
-					tSmellDesc[3][2].iCurrentLevel = LEVEL_ADVRUI;
-					tSmellDesc[3][2].iModelIndex = Pair.first;
-					tSmellDesc[3][2].iNumInstancing = iNumInstancing;
-					if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[3][2])))
-						return E_FAIL;
-				
+
+				tSmellDesc[3][2].pWorld = arrWorld;
+				tSmellDesc[3][2].pGlowPower = arrGlowPower;
+				tSmellDesc[3][2].iCurrentLevel = LEVEL_ADVRUI;
+				tSmellDesc[3][2].iModelIndex = Pair.first;
+				tSmellDesc[3][2].iNumInstancing = iNumInstancing;
+				if (FAILED(pGameInstance->Add_GameObject(L"Prototype_GameObject_MeshObj_Smell_Instancing", LEVEL_ADVRUI, L"Layer_MeshObj_Smell_Inst", &tSmellDesc[3][2])))
+					return E_FAIL;
+
 				Safe_Delete_Array(arrWorld);
 				Safe_Delete_Array(arrGlowPower);
 				continue;
@@ -1761,13 +1766,13 @@ HRESULT CLevel_AdvRui::Create_Stone(_float fTimeDelta)
 	{
 		_int iDest = rand() % 3;
 
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneSphere"), LEVEL_ADVRUI, TEXT("Layer_Stone"),&iDest)))
+		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_StoneSphere"), LEVEL_ADVRUI, TEXT("Layer_Stone"), &iDest)))
 			return E_FAIL;
 
 		m_fCreateStoneTime = 0.f;
 		++m_iStoneIndex;
 	}
-	
+
 
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
@@ -1775,7 +1780,7 @@ HRESULT CLevel_AdvRui::Create_Stone(_float fTimeDelta)
 
 void CLevel_AdvRui::RuiBombTick(_float fTimeDelta)
 {
-	
+
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 
 	static _bool bCamTopView = false;
@@ -1794,17 +1799,83 @@ void CLevel_AdvRui::RuiBombTick(_float fTimeDelta)
 
 
 	//if (CUI_Manager::Get_Instance()->Get_SaveStory()) // true 면 루이아빠죽음
+	//{
+	//	if (pGameInstance->Key_Down(DIK_INSERT))
+	//	{
+	//		CRuiBomb::BOMBDESC tInfo{};
+	//		ZeroMemory(&tInfo, sizeof(tInfo));
+	//		tInfo.vPosition = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+	//		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+	//		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);		
+	//	}
+
+	//}
+
+	if (pGameInstance->Key_Down(DIK_INSERT))
 	{
-		if (pGameInstance->Key_Down(DIK_INSERT))
-		{
-			CRuiBomb::BOMBDESC tInfo{};
-			ZeroMemory(&tInfo, sizeof(tInfo));
-			tInfo.vPosition = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-			tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
-			pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);		
-		}
+		CRuiBomb::BOMBDESC tInfo{};
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-286.408f, 45.681f, -170.159f, 1.f); // 1
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-279.755f, 45.498f, -162.657f, 1.f); // 2 
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-278.285f, 45.430f, -176.928f, 1.f); // 3
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-272.327f, 45.217f, -169.341f, 1.f); // 4
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-270.036f, 45.181f, -183.980f, 1.f); // 5
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-265.082f, 44.495f, -176.133f, 1.f); // 6
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-262.401f, 44.776, -188.255f, 1.f); // 7
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-257.669f, 43.808f, -180.832f, 1.f); // 8
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-249.994f, 43.257f, -183.497f, 1.f); // 9
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-254.315f, 44.088f, -190.543f, 1.f); // 10
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-241.398f, 42.958f, -186.916f, 1.f); // 11
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-246.529f, 43.394f, -193.548f, 1.f); // 12
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
 
 	}
+
 }
 
 

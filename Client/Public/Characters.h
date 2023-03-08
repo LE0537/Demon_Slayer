@@ -79,7 +79,7 @@ public:
 	{
 		m_tInfo.iHp += _iDmg; 
 		m_tInfo.iAccDamage += abs(_iDmg);  
-		if (m_tInfo.fComboTime > 0) 
+		if (m_pBattleTarget->Get_PlayerInfo().fComboTime > 0)
 		{
 			m_tInfo.iAccComboDmg += abs(_iDmg);
 		}

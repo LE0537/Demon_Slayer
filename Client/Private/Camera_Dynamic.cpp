@@ -285,13 +285,22 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
 				fSpeed *= 10.f;
 
-			if (pGameInstance->Key_Pressing(DIK_W))
+			//if (pGameInstance->Key_Pressing(DIK_W))
+			//	m_pTransform->Go_Straight(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_S))
+			//	m_pTransform->Go_Backward(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_A))
+			//	m_pTransform->Go_Left(fTimeDelta * fSpeed);
+			//if (pGameInstance->Key_Pressing(DIK_D))
+			//	m_pTransform->Go_Right(fTimeDelta * fSpeed);
+
+			if (pGameInstance->Key_Pressing(DIK_1))
 				m_pTransform->Go_Straight(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_S))
+			if (pGameInstance->Key_Pressing(DIK_3))
 				m_pTransform->Go_Backward(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_A))
+			if (pGameInstance->Key_Pressing(DIK_2))
 				m_pTransform->Go_Left(fTimeDelta * fSpeed);
-			if (pGameInstance->Key_Pressing(DIK_D))
+			if (pGameInstance->Key_Pressing(DIK_4))
 				m_pTransform->Go_Right(fTimeDelta * fSpeed);
 
 			if (pGameInstance->Key_Pressing(DIK_NUMPAD8))
@@ -891,12 +900,27 @@ void CCamera_Dynamic::Key_Input(_float fTimeDelta)
 
 	_vector vCamDir = XMVector3TransformNormal(XMVectorSet(0.f, 1.f, -1.f, 0.f), matRotX);
 	vCamDir = XMVector3TransformNormal(vCamDir, matRotY);
+
 	_vector vCamPos = vCamDir * 5.f;
+
+	if (m_bTopView == true)
+	{
+		vCamPos = vCamDir * 10.f;
+	}
+
 	_vector vDestPos = pTransform->Get_State(CTransform::STATE_TRANSLATION) + vCamPos;
+
+
+	
 
 	m_pTransform->Set_State(CTransform::STATE_TRANSLATION, vDestPos);
 
 	_vector vLookPos = XMVectorSetY(pTransform->Get_State(CTransform::STATE_TRANSLATION), XMVectorGetY(pTransform->Get_State(CTransform::STATE_TRANSLATION)) + 0.8f);
+
+	if (m_bTopView == true)
+	{
+		vLookPos = XMVectorSetY(pTransform->Get_State(CTransform::STATE_TRANSLATION), XMVectorGetY(pTransform->Get_State(CTransform::STATE_TRANSLATION)) + 6.f);
+	}
 
 
 	vLookPos.m128_f32[1] += 3.f;

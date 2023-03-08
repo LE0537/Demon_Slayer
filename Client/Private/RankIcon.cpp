@@ -130,6 +130,20 @@ void CRankIcon::Tick(_float fTimeDelta)
 	}
 	else if(m_ThrowUIinfo.iLevelIndex == LEVEL_GAMEPLAY)
 	{
+		pUI_Manager->Set_AdvRankScore();
+		m_iRankScore = pUI_Manager->Get_RankInfo(0).iRankScore;
+
+		if (m_iRankScore >= 0 && m_iRankScore < 300)
+			m_iImgNum = 0;
+		else if (m_iRankScore >= 300 && m_iRankScore < 600)
+			m_iImgNum = 1;
+		else if (m_iRankScore >= 600 && m_iRankScore < 900)
+			m_iImgNum = 2;
+		else if (m_iRankScore >= 900 && m_iRankScore < 1200)
+			m_iImgNum = 3;
+		else if (m_iRankScore >= 1200)
+			m_iImgNum = 4;
+
 		if (pUI_Manager->Get_FadeSwitch()&& !m_bZoomEnd)
 		{
 			if (!m_bSound)
@@ -204,7 +218,7 @@ HRESULT CRankIcon::Render()
 
 	if(m_bZoomStart && m_ThrowUIinfo.iLevelIndex == LEVEL_GAMERESULT)
 		m_pVIBufferCom->Render();
-	else 
+	else if(g_iLevel == LEVEL_GAMEPLAY)
 		m_pVIBufferCom->Render();
 
 	return S_OK;

@@ -294,6 +294,7 @@ void COzaki::Check_Event(_float fTimeDelta)
 				break;
 			default:
 				pUIManager->Set_MsgOff();
+				pUIManager->Reset_MsgCount();
 				pUIManager->Set_QuestCount(1);
 				pUIManager->Set_ClearCheck(true, 1);
 				pUIManager->Set_RescueCount(2);
