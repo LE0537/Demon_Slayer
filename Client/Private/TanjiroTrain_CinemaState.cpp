@@ -192,7 +192,7 @@ CTanjiroState * CTrain_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_MAIN1, pTanjiro);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_MAIN2, pTanjiro);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_ATC1, pTanjiro);
 
 				RELEASE_INSTANCE(CEffect_Manager);
 				m_bEffect2 = true;
@@ -285,8 +285,8 @@ CTanjiroState * CTrain_CinemaState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 		{
 			pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_MAIN1, pTanjiro);
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_MAIN2, pTanjiro);
+			//pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_MAIN1, pTanjiro);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOSPHERE_ATC2, pTanjiro);
 
 			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
