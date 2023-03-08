@@ -67,6 +67,7 @@ private:
 	_bool					m_bSplDialogStart = false;
 	_uint					m_iCharNum = 0;
 	_bool					m_bResetCheck = false;
+	_bool					m_bDelayStart = false;
 public:
 	static CBattleDialog* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

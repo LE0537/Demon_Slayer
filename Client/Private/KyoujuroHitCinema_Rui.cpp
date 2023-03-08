@@ -147,4 +147,5 @@ void CHitCinema_Rui::Enter(CKyoujuro* pKyoujuro)
 
 void CHitCinema_Rui::Exit(CKyoujuro* pKyoujuro)
 {
+	pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 }

@@ -134,4 +134,5 @@ void CHitCinema_Tanjiro::Enter(CShinobu* pShinobu)
 
 void CHitCinema_Tanjiro::Exit(CShinobu* pShinobu)
 {
+	pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
 }

@@ -19,6 +19,7 @@
 #include "Layer.h"
 #include "Kyoujuro.h"
 #include "Akaza.h"
+
 unsigned int APIENTRY Thread_GamePlay(void* pArg)
 {
 	CLevel_GamePlay*		pLoader = (CLevel_GamePlay*)pArg;
@@ -465,12 +466,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
 	_uint i2p = pUIManager->Get_Sel2P();
 	_uint i1p_2 = pUIManager->Get_Sel1P_2();
 	_uint i2p_2 = pUIManager->Get_Sel2P_2();
+	
  	switch (i1p)
 	{
 	case 0:
 		tCharacterDesc1p.bSub = false;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_Tanjiro"), LEVEL_GAMEPLAY, TEXT("Layer_Tanjiro"), &tCharacterDesc1p)))
 			return E_FAIL;
+	
 		break;
 	case 1:
 		tCharacterDesc1p.bSub = false;

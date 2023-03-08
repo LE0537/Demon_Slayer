@@ -30,8 +30,8 @@ bool			g_bDeathTime = false;
 bool			g_bSpecialSkillHit = false;
 float			g_fFar = 1800.f;
 float			g_fBGM = 0.7f;
-float			g_fEffect = 0.8f;
-float			g_fVoice = 0.7f;
+float			g_fEffect = 1.f;
+float			g_fVoice = 0.4f;
 float			g_fDialog = 1.f;
 float			g_fLoading = 0.f;
 bool			g_bMiniGame = false;
@@ -101,12 +101,9 @@ void CMainApp::Tick(_float fTimeDelta)
 		fTimeDelta *= 0.2f;
 
 	if (g_bSpecialSkillHit == true)
-		fTimeDelta *= 0.05f;
-
-	if (g_bSpecialSkillHit == true)
 	{
 		static _float fTimeDelay = 0.f;
-		fTimeDelay += 1.f / 60.f;
+		fTimeDelay += fTimeDelta;
 
 		if (fTimeDelay >= 1.f)
 		{
@@ -114,6 +111,9 @@ void CMainApp::Tick(_float fTimeDelta)
 			g_bSpecialSkillHit = false;
 		}
 	}
+
+	if (g_bSpecialSkillHit == true)
+		fTimeDelta *= 0.05f;
 
 
 	if (!g_bThread)

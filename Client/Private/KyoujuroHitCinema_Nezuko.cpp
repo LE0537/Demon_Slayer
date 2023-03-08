@@ -164,4 +164,5 @@ void CHitCinema_Nezuko::Enter(CKyoujuro* pKyoujuro)
 
 void CHitCinema_Nezuko::Exit(CKyoujuro* pKyoujuro)
 {
+	pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 }

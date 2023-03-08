@@ -19,23 +19,9 @@ CHinoCami_CinemaState::CHinoCami_CinemaState(CINEMASCENE eScene)
 
 CTanjiroState * CHinoCami_CinemaState::HandleInput(CTanjiro * pTanjiro)
 {
-	CTanjiroState* pState = nullptr;
-	//if (pGameInstance->Key_Down(DIK_F5) && !pTanjiro->Get_StoryKey())
-	//	pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_START);
-	//if (pGameInstance->Key_Down(DIK_F6) && !pTanjiro->Get_StoryKey())
-	//	pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_0);
-	//if (pGameInstance->Key_Down(DIK_F7) && !pTanjiro->Get_StoryKey())
-	//	pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_1);
-	//if (pGameInstance->Key_Down(DIK_F8) && !pTanjiro->Get_StoryKey())
-	//	pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_2);
-	//if (pGameInstance->Key_Down(DIK_F9) && !pTanjiro->Get_StoryKey())
-	//	pState = new CHinoCami_CinemaState(CHinoCami_CinemaState::CINEMASCENE::SCENE_3);
 
 
-	if(nullptr != pState)
-		pTanjiro->Get_BattleTarget()->Play_Scene();
-
-	return pState;
+	return nullptr;
 }
 
 CTanjiroState * CHinoCami_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
@@ -210,7 +196,8 @@ void CHinoCami_CinemaState::Enter(CTanjiro * pTanjiro)
 		RELEASE_INSTANCE(CEffect_Manager);
 
 		pUI_Manager = GET_INSTANCE(CUI_Manager);
-		pUI_Manager->Set_MsgCount(1);
+		if(pUI_Manager->Get_BattleTypeCheck())
+			pUI_Manager->Set_MsgCount(1);
 		RELEASE_INSTANCE(CUI_Manager);
 		break;
 	}

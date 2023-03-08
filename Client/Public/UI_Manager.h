@@ -110,6 +110,14 @@ public:
 				m_RankInfo[1].iUseSkillCount * 50 +
 				m_RankInfo[1].iMaximumCombo * 100;
 		}}
+	void Set_AdvRankScore() {
+		m_RankInfo[0].iRankScore =
+			m_RankInfo[0].iFriendUseCount * 100 +
+			m_RankInfo[0].iRemnantTime * 10 +
+			m_RankInfo[0].iUltUseCount * 100 +
+			m_RankInfo[0].iUseSkillCount * 50 +
+			m_RankInfo[0].iMaximumCombo * 100;
+	}
 	/*void Set_Rank(_uint _iWinPlyNum) {
 		if()
 		m_RankInfo[_iWinPlyNum].iRank;
@@ -280,7 +288,7 @@ public:
 	void	Set_StroyEventEnd(_bool bCheck) { m_bStroyEventend = bCheck; }
 	
 	_bool	Get_FadeSwitch() { return m_bFadeSwitch; }
-	void	Set_FadeIn() { m_bFadeSwitch = true; }
+	void	Set_FadeIn() { m_bFadeSwitch = true; } 
 	void	Set_FadeOut() { m_bFadeSwitch = false; }
 
 	CUI::RESULTINFO Get_Result_Info() { return m_ResultInfo; }

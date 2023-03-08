@@ -134,4 +134,5 @@ void CHitCinema_Tanjiro::Enter(CKyoujuro* pKyoujuro)
 
 void CHitCinema_Tanjiro::Exit(CKyoujuro* pKyoujuro)
 {
+	pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 }

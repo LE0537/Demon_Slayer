@@ -7,7 +7,7 @@
 #include "SoundMgr.h"
 #include "Level_SelectChar.h"
 #include "Level_StroyMenu.h"
-
+#include "Level_Ending.h"
 CLevel_Menu::CLevel_Menu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -21,17 +21,18 @@ HRESULT CLevel_Menu::Initialize()
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 	_uint iNum = 1;		
+	
 	pUI_Manager->Add_Menu();
 	Ready_Layer_InkEff();
 	pUI_Manager->Set_LevelResultOn(false);
 	pUI_Manager->RankInfo_ZeroMemory(0);
 	pUI_Manager->RankInfo_ZeroMemory(1);
+
 	RELEASE_INSTANCE(CUI_Manager);
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
-	CSoundMgr::Get_Instance()->BGM_Stop();
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("ModeSel.wav"), g_fBGM);
+
 	return S_OK;
 }
 
@@ -42,7 +43,13 @@ void CLevel_Menu::Tick(_float fTimeDelta)
 	CGameInstance*		pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(pGameInstance);
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
-	
+	if (!m_bCreateUI)
+	{
+		CSoundMgr::Get_Instance()->BGM_Stop();
+		CSoundMgr::Get_Instance()->PlayBGM(TEXT("ModeSel.wav"), g_fBGM);
+		m_bCreateUI = true;
+	}
+
 	if (pUI_Manager->Get_MenuCursor() != nullptr)
 	{
 		if (pUI_Manager->Get_MenuCursor()->Get_SelectVS())
@@ -60,8 +67,11 @@ void CLevel_Menu::Tick(_float fTimeDelta)
 				return;
 		}
 	}
-
-
+	if (pGameInstance->Key_Down(DIK_6))
+	{
+		if (FAILED(pGameInstance->Open_Level(LEVEL_ENDING, CLevel_Ending::Create(m_pDevice, m_pContext))))
+			return;
+	}
 	Safe_Release(pGameInstance);
 
 	RELEASE_INSTANCE(CUI_Manager);

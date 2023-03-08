@@ -113,4 +113,5 @@ void CHitCinema_Shinobu::Enter(CAkaza* pAkaza)
 
 void CHitCinema_Shinobu::Exit(CAkaza* pAkaza)
 {
+	pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
 }

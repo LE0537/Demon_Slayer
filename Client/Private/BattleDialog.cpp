@@ -56,23 +56,21 @@ void CBattleDialog::Tick(_float fTimeDelta)
 
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	if (pUI_Manager->Get_MsgCount() == 8 || pUI_Manager->Get_MsgCount() == 9)
+	if (g_iLevel == LEVEL_GAMEPLAY && !pUI_Manager->Get_BattleTypeCheck() && pUI_Manager->Get_2P()->Get_PlayerInfo().strName == TEXT("루이") && pUI_Manager->Get_MsgCount() >= 8)
 		m_fDelay += fTimeDelta;
-
-	if (g_iLevel == LEVEL_BOSSENMU)
+	else if (g_iLevel == LEVEL_BOSSENMU)
 	{
 		m_fDelay += fTimeDelta;
 		if (pUI_Manager->Get_MsgCount() == 3)
 			m_fDelay2 += fTimeDelta;
 	}
-	else if (g_iLevel == LEVEL_GAMEPLAY && !pUI_Manager->Get_BattleTypeCheck())
+	else if (g_iLevel == LEVEL_GAMEPLAY && !pUI_Manager->Get_BattleTypeCheck() && pUI_Manager->Get_2P()->Get_PlayerInfo().strName != TEXT("루이"))
 	{
 		m_fDelay += fTimeDelta;
 		if (pUI_Manager->Get_MsgCount() == 2)
 			m_fDelay2 += fTimeDelta;
 	}
-
-	if(g_iLevel == LEVEL_GAMEPLAY && pUI_Manager->Get_BattleTypeCheck() && m_bSplDialogStart)
+	else if(g_iLevel == LEVEL_GAMEPLAY && pUI_Manager->Get_BattleTypeCheck() && m_bSplDialogStart)
 		m_fDelay += fTimeDelta;
 
 	RELEASE_INSTANCE(CUI_Manager);
@@ -304,7 +302,7 @@ void CBattleDialog::Battle_RuiDialog2()
 	default:
 		//pUI_Manager->Reset_MsgCount();
 		g_fEffect = 0.8f;
-		g_fVoice = 0.7f;
+		g_fVoice = 0.4f;
 		break;
 	}
 	
@@ -485,6 +483,8 @@ void CBattleDialog::Battle_RuiDialog3()
 					pUI_Manager->Set_MsgCount(1);
 					g_fEffect = 0.5f;
 					g_fVoice = 0.5f;
+					m_bDelayStart = true;
+					m_fDelay = 0.f;
 				}
 			}
 		}
@@ -502,7 +502,7 @@ void CBattleDialog::Battle_RuiDialog3()
 		}
 		break;
 	case 8:
-		if (m_fDelay >= 3.f)
+		if (m_fDelay >= 4.f)
 		{
 			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("[카마도 탄지로]"), XMVectorSet(350.f, 540.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("널, 지금 여기서 쓰러뜨린다!!"), XMVectorSet(460.f, 595.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));

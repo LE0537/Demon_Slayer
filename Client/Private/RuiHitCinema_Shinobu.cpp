@@ -113,4 +113,5 @@ void CHitCinema_Shinobu::Enter(CRui* pRui)
 
 void CHitCinema_Shinobu::Exit(CRui* pRui)
 {
+	pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 }

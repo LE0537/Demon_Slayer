@@ -126,4 +126,5 @@ void CHitCinema_Akaza::Enter(CRui* pRui)
 
 void CHitCinema_Akaza::Exit(CRui* pRui)
 {
+	pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 }

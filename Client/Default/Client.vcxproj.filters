@@ -1687,6 +1687,15 @@
     <Filter Include="02.GameObjects\99.GameObj\04.ItemBox">
       <UniqueIdentifier>{a6bdc0a9-a916-49ab-9d55-123ace4a4dca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Effect\05.Effect_AnimMesh\Eff_Anim_Butterfly">
+      <UniqueIdentifier>{4abf3f2b-428f-4595-adf0-bde544f22a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\99.GameObj\03.NPC\EndingModel">
+      <UniqueIdentifier>{a97d2aad-0cf4-4dbc-96f5-42d2a5717ba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\12.Ending">
+      <UniqueIdentifier>{e11d1636-aadc-483d-8d37-deb4c852e735}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -3246,6 +3255,15 @@
     <ClInclude Include="..\Public\ItemBox.h">
       <Filter>02.GameObjects\99.GameObj\04.ItemBox</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Effect_AnimFly.h">
+      <Filter>04.Effect\05.Effect_AnimMesh\Eff_Anim_Butterfly</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\EndingModel.h">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\EndingModel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Ending.h">
+      <Filter>01.Levels\12.Ending</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -4768,6 +4786,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\ItemBox.cpp">
       <Filter>02.GameObjects\99.GameObj\04.ItemBox</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Effect_AnimFly.cpp">
+      <Filter>04.Effect\05.Effect_AnimMesh\Eff_Anim_Butterfly</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\EndingModel.cpp">
+      <Filter>02.GameObjects\99.GameObj\03.NPC\EndingModel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Ending.cpp">
+      <Filter>01.Levels\12.Ending</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

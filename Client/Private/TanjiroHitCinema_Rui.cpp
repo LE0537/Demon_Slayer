@@ -148,4 +148,5 @@ void CHitCinema_Rui::Enter(CTanjiro * pTanjiro)
 
 void CHitCinema_Rui::Exit(CTanjiro * pTanjiro)
 {
+	pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 }

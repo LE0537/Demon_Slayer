@@ -233,6 +233,7 @@ private:
 	_bool m_bNextRound = false;
 	_bool m_bStorySpl = false;
 	_float m_fStoryTime = 0.f;
+	_float m_fStoryDelayTime = 0.f;
 	_bool  m_bStoryDead = false;
 	_float	m_fDissolve = 0.f;
 	list <class CRuiState*> m_AIStateList;

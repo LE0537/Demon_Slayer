@@ -85,7 +85,7 @@ CNezukoState * CSplSkrStartState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 			m_bPlayScene = true;
 			g_bSpecialSkillHit = true;
 			m_bCreate = true;
-			pNezuko->Get_BattleTarget()->Take_Damage(0.f, false);
+			//	pNezuko->Get_BattleTarget()->Take_Damage(0.f, false);
 			CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 			dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 1.f);
 		}

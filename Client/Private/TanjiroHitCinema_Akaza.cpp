@@ -130,4 +130,5 @@ void CHitCinema_Akaza::Enter(CTanjiro* pTanjiro)
 
 void CHitCinema_Akaza::Exit(CTanjiro* pTanjiro)
 {
+	pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 }

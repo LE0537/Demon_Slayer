@@ -171,4 +171,5 @@ void CHitCinema_Kyoujuro::Enter(CTanjiro* pTanjiro)
 
 void CHitCinema_Kyoujuro::Exit(CTanjiro* pTanjiro)
 {
+	pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
 }

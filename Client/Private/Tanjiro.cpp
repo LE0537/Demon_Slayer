@@ -1977,7 +1977,7 @@ void CTanjiro::Set_Info()
 	m_tInfo.bChange = false;
 	m_tInfo.iMaxGuard = 500;
 	m_tInfo.iGuard = m_tInfo.iMaxGuard;
-	m_iHeart = 2;
+	m_iHeart = 999;
 }
 void CTanjiro::Check_Spl()
 {

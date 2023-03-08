@@ -203,6 +203,8 @@ private:
 	HRESULT Ready_Parts();
 	HRESULT Ready_Parts2();
 	void	Set_Info();
+	void    Check_Spl();
+
 private:
 	CModel*					m_pModelCom = nullptr;
 

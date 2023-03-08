@@ -60,7 +60,7 @@ HRESULT CMeshObj_Static::Initialize(void * pArg)
 
 	XMStoreFloat4x4(&m_matProjOrigin, XMMatrixPerspectiveFovLH(fFovy, fAspect, fNear, fFar));
 
-	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU || g_iLevel == LEVEL_ENDING)
 	{
 		switch (m_tMyDesc.iTypeNum)
 		{
@@ -85,7 +85,7 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
 
-	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU || g_iLevel == LEVEL_ENDING)
 	{
 		Move_Mesh(fTimeDelta);
 	}
