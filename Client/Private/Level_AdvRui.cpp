@@ -14,6 +14,9 @@
 #include "Characters.h"
 #include "ImGuiManager.h"
 #include "SoundMgr.h"
+#include "Layer.h"
+#include "RuiBomb.h"
+
 
 unsigned int APIENTRY Thread_AdvRui(void* pArg)
 {
@@ -146,6 +149,7 @@ void CLevel_AdvRui::Tick(_float fTimeDelta)
 		}
 
 		Create_Stone(fTimeDelta);
+		RuiBombTick(fTimeDelta);
 
 		CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
@@ -1767,6 +1771,40 @@ HRESULT CLevel_AdvRui::Create_Stone(_float fTimeDelta)
 
 	RELEASE_INSTANCE(CGameInstance);
 	return S_OK;
+}
+
+void CLevel_AdvRui::RuiBombTick(_float fTimeDelta)
+{
+	
+	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
+
+	static _bool bCamTopView = false;
+
+	//if (pGameInstance->Key_Down(DIK_INSERT))
+	//{
+	//	//if (bCamTopView == false)
+	//	//	bCamTopView = true;
+	//	//else
+	//	//	bCamTopView = false;
+
+	//	bCamTopView = bCamTopView == true ? false : true;
+	//}
+
+	//dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_TopView(bCamTopView);
+
+
+	//if (CUI_Manager::Get_Instance()->Get_SaveStory()) // true 면 루이아빠죽음
+	{
+		if (pGameInstance->Key_Down(DIK_INSERT))
+		{
+			CRuiBomb::BOMBDESC tInfo{};
+			ZeroMemory(&tInfo, sizeof(tInfo));
+			tInfo.vPosition = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+			tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+			pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);		
+		}
+
+	}
 }
 
 
