@@ -214,6 +214,9 @@
 //CamAction
 #include "CamLine.h"
 #include "RuiBomb.h"
+//Ending
+#include "EndingModel.h"
+
 
 CLoader::CLoader(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: m_pDevice(pDevice)
@@ -1981,6 +1984,15 @@ HRESULT CLoader::Loading_ForLogoLevel()
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_RuiSister"),
 		CRuiSister::Create(m_pDevice, m_pContext))))
 		return E_FAIL;
+
+	/*if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_Muzan"),
+	CModel::Create(m_pDevice, m_pContext, CModel::TYPE_ANIM, "../Bin/Resources/Meshes/Anim/Muzan/Muzan.fbx", PivotMatrix))))
+	return E_FAIL;*/
+	CData_Manager::Get_Instance()->Create_Try_BinModel(TEXT("Muzan"), LEVEL_STATIC, CData_Manager::DATA_ANIM);
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_EndingModel"),
+		CEndingModel::Create(m_pDevice, m_pContext))))
+		return E_FAIL;
+
 
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Train_Head"),
 		CTrain_Head::Create(m_pDevice, m_pContext))))

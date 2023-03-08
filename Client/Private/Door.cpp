@@ -47,11 +47,12 @@ HRESULT CDoor::Initialize(void * pArg)
 void CDoor::Tick(_float fTimeDelta)
 {
 	__super::Tick(fTimeDelta);
-
-
-	Move_Mesh(fTimeDelta);
-	if(m_tMyDesc.iModelIndex == 0)
-		Event_Check(fTimeDelta);
+	if (g_iLevel != LEVEL_ENDING)
+	{
+		Move_Mesh(fTimeDelta);
+		if (m_tMyDesc.iModelIndex == 0)
+			Event_Check(fTimeDelta);
+	}
 }
 
 void CDoor::Late_Tick(_float fTimeDelta)
