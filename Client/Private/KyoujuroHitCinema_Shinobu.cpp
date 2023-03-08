@@ -113,4 +113,5 @@ void CHitCinema_Shinobu::Enter(CKyoujuro* pKyoujuro)
 
 void CHitCinema_Shinobu::Exit(CKyoujuro* pKyoujuro)
 {
+	pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 }

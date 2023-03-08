@@ -169,7 +169,21 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	return Out;
 }
+PS_OUT PS_TEXT(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
 
+	Out.vDiffuse = vector(0.5f,0.5f,0.5f,1.f);
+	Out.vNormal = In.vNormal;
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / g_fFar, 0.f, 0.f);
+//	Out.vGlow = g_GlowTexture.Sample(LinearSampler, In.vTexUV) * g_fGlowPower;
+	Out.vWorld = In.vWorld/* / g_fFar*/;
+
+	if (Out.vDiffuse.a <= 0.1f)
+		discard;
+
+	return Out;
+}
 PS_OUT PS_MAIN_NONBIN(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
@@ -406,5 +420,16 @@ technique11 DefaultTechnique
 		VertexShader = compile vs_5_0 VS_MAIN();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_FINAL2();
+	}
+
+	pass TEXT //7
+	{
+		SetRasterizerState(RS_Effect);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_TEXT();
 	}
 }

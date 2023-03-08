@@ -130,4 +130,5 @@ void CHitCinema_Akaza::Enter(CKyoujuro * pKyoujuro)
 
 void CHitCinema_Akaza::Exit(CKyoujuro * pKyoujuro)
 {
+	pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 }

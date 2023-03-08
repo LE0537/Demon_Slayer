@@ -339,6 +339,14 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_ENMUBOSS_PAT2_FLASH2:
 	case CEffect_Manager::EFF_ENMUBOSS_PAT3_FLASH2:
 	case CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASH2:
+	case CEffect_Manager::EFF_SNBSPL_1:
+	case CEffect_Manager::EFF_SNBSPL_2:
+	case CEffect_Manager::EFF_SNBSPL_3:
+	case CEffect_Manager::EFF_SNBSPL_4_NONFOL:
+	case CEffect_Manager::EFF_SNBSPL_4_PTC:
+	case CEffect_Manager::EFF_SNBSPL_4_WPN:
+	case CEffect_Manager::EFF_SNBSPL_5:
+	case CEffect_Manager::EFF_SNBSPL_5_WEAPON:
 	case CEffect_Manager::EFF_TRAIN_WIND:
 	case CEffect_Manager::EFF_TRAIN_SMOKE:
 	case CEffect_Manager::EFF_SPL_AKA_MO1_HIT:

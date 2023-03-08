@@ -82,7 +82,7 @@ CShinobuState * CSplSkrStartState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 				m_bPlayScene = true;
 				g_bSpecialSkillHit = true;
 				m_bCreate = true;
-				pShinobu->Get_BattleTarget()->Take_Damage(0.f, false);
+				//pShinobu->Get_BattleTarget()->Take_Damage(0.f, false);
 				CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_HIT, 1.f);
 			}

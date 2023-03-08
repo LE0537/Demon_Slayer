@@ -71,7 +71,7 @@ HRESULT CMeshObj_Static_Inst::Initialize(void * pArg)
 
 	m_bInit = false;
 
-	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU || g_iLevel == LEVEL_ENDING)
 	{
 		switch (m_tMyDesc.iTypeNum)
 		{
@@ -142,7 +142,7 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 	}
 
 
-	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU)
+	if (g_iLevel == LEVEL_ADVAKAZA || g_iLevel == LEVEL_BATTLEENMU || g_iLevel == LEVEL_BOSSENMU || g_iLevel == LEVEL_ENDING)
 	{
 		Move_Mesh(fTimeDelta);
 	}

@@ -87,7 +87,9 @@ void CStoneSphere::Late_Tick(_float fTimeDelta)
 		}
 		else
 		{
-			m_pPlayer->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-556.3474f, 53.5169f, -61.9126f, 1.f));
+			
+			m_pPlayer->Set_NavigationHeight(XMVectorSet(-556.3474f, 53.5169f, -61.9126f, 1.f));
+			m_pPlayer->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-556.3474f, m_pPlayer->Get_NavigationHeight().y, -61.9126f, 1.f));
 			m_pPlayer->Get_NavigationCom()->Cheak_Cell(XMVectorSet(-556.3474f, 53.5169f, -61.9126f, 1.f));
 			m_pPlayer->Set_Heart(2);
 		}

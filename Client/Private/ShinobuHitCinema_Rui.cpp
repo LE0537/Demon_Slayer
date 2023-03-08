@@ -147,4 +147,5 @@ void CHitCinema_Rui::Enter(CShinobu* pShinobu)
 
 void CHitCinema_Rui::Exit(CShinobu* pShinobu)
 {
+	pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
 }

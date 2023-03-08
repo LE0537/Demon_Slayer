@@ -147,4 +147,5 @@ void CHitCinema_Tanjiro::Enter(CRui * pRui)
 
 void CHitCinema_Tanjiro::Exit(CRui * pRui)
 {
+	pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 }

@@ -134,4 +134,5 @@ void CHitCinema_Tanjiro::Enter(CNezuko* pNezuko)
 
 void CHitCinema_Tanjiro::Exit(CNezuko* pNezuko)
 {
+	pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
 }

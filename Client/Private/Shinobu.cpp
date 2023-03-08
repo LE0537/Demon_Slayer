@@ -112,6 +112,11 @@ void CShinobu::Tick(_float fTimeDelta)
 {
 	if (!m_bChange)
 	{
+		if (m_bSplSkl)
+		{
+			Check_Spl();
+		}
+
 		m_fEffectStartTime = 0.f;
 		if (m_bBattleStart)
 		{
@@ -790,6 +795,16 @@ void CShinobu::Set_Info()
 	m_tInfo.bChange = false;
 	m_tInfo.iMaxGuard = 500;
 	m_tInfo.iGuard = m_tInfo.iMaxGuard;
+}
+void CShinobu::Check_Spl()
+{
+	m_WeaponWorld = *dynamic_cast<CShinobuWeapon*>(m_pWeapon)->Get_CombinedWorld4x4();
+
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("C_Spine_3");
+	_float4x4 SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	_float4x4 pParentWorldMatrix = *m_pTransformCom->Get_World4x4Ptr();
+
+	XMStoreFloat4x4(&m_WeaponWorld2, (pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
 }
 CShinobu * CShinobu::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {
