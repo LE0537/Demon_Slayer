@@ -100,7 +100,7 @@ void CUpperHitState::Enter(CTanjiro * pTanjiro)
 		pTanjiro->Get_Model()->Set_CurrentAnimIndex(CTanjiro::ANIMID::ANIM_HIT_DMG_UPPER_0);
 		pTanjiro->Set_AnimIndex(CTanjiro::ANIM_HIT_DMG_UPPER_0);
 		pTanjiro->Get_Model()->Set_Loop(pTanjiro->Get_AnimIndex());
-		pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.01f);
+		pTanjiro->Get_Model()->Set_LinearTime(pTanjiro->Get_AnimIndex(), 0.2f);
 
 		if (pTanjiro->Get_PlayerInfo().iHp <= 0)
 		{
@@ -579,13 +579,13 @@ CTanjiroState * CUpperHitState::BoundState(CTanjiro * pTanjiro, _float fTimeDelt
 		{
 		case Client::CTanjiroState::TYPE_START:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			return new CUpperHitState(m_eHitType, TYPE_LOOP, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CTanjiroState::TYPE_LOOP:
-			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			pTanjiro->Set_GodMode(true);
+			//pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
+			//pTanjiro->Set_GodMode(true);
 
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			//return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CTanjiroState::TYPE_END:
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
@@ -617,6 +617,15 @@ CTanjiroState * CUpperHitState::BoundState(CTanjiro * pTanjiro, _float fTimeDelt
 		break;
 	case Client::CTanjiroState::TYPE_LOOP:
 		Bound_Player(pTanjiro, fTimeDelta);
+
+		if (m_bNextAnim == true)
+		{
+			//pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			pTanjiro->Set_GodMode(true);
+
+			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+		}
+
 		break;
 	case Client::CTanjiroState::TYPE_END:
 		Bound_Player(pTanjiro, fTimeDelta);

@@ -573,7 +573,7 @@ void CAkaza::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJum
 
 	else
 	{
-		CAkazaState* pState = new CUpperHitState(eHitType, CAkazaState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+		CAkazaState* pState = new CUpperHitState(eHitType, CAkazaState::STATE_TYPE::TYPE_START, 15.f, 20.f, fKnockBackPower);
 		m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 	}
 }

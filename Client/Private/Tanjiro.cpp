@@ -875,7 +875,7 @@ void CTanjiro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJ
 
 	else if (m_pTanjiroState->Get_TanjiroState() != CTanjiroState::STATE_SKILL_KAGURA_SPHERE)
 	{
-		CTanjiroState* pState = new CUpperHitState(eHitType, CTanjiroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+		CTanjiroState* pState = new CUpperHitState(eHitType, CTanjiroState::STATE_TYPE::TYPE_START, 15.f, 20.f, fKnockBackPower);
 		m_pTanjiroState = m_pTanjiroState->ChangeState(this, m_pTanjiroState, pState);
 	}
 

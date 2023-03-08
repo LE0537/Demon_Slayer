@@ -819,7 +819,7 @@ void CKyoujuro::Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float f
 
 	else
 	{
-		CKyoujuroState* pState = new CUpperHitState(eHitType, CKyoujuroState::STATE_TYPE::TYPE_START, fBoundPower, fJumpPower, fKnockBackPower);
+		CKyoujuroState* pState = new CUpperHitState(eHitType, CKyoujuroState::STATE_TYPE::TYPE_START, 15.f, 20.f, fKnockBackPower);
 		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
 	}
 }

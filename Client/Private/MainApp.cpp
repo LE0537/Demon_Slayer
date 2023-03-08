@@ -97,6 +97,20 @@ void CMainApp::Tick(_float fTimeDelta)
 	if (nullptr == m_pGameInstance)
 		return;
 
+	if (g_bDeathTime == true)
+	{
+		static _float fTimeDelay1 = 0.f;
+		fTimeDelay1 += fTimeDelta;
+
+		if (fTimeDelay1 >= 2.f)
+		{
+			fTimeDelay1 = 0.f;
+			g_bDeathTime = false;
+		}
+	}
+
+
+
 	if(g_bDeathTime == true)
 		fTimeDelta *= 0.2f;
 

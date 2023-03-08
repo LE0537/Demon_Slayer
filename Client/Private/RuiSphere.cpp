@@ -156,7 +156,7 @@ void CRuiSphere::Late_Tick(_float fTimeDelta)
 				dynamic_cast<CCamera_Dynamic*>(pGameInstance2->Find_Layer(LEVEL_GAMEPLAY, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE_DOWN, 0.2f);
 				RELEASE_INSTANCE(CGameInstance);
 				m_ShootInfo.pTarget->Set_Hp(_int(-30 * m_ShootInfo.pPlayer->Get_PlayerInfo().fPowerUp));
-				m_ShootInfo.pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 15.f, 20.f, 5.f);
+				m_ShootInfo.pTarget->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 2.f);
 				m_ShootInfo.pPlayer->Set_Combo(1);
 				m_ShootInfo.pPlayer->Set_ComboTime(1.f);
 			}
