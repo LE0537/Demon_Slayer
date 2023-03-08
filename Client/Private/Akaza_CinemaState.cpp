@@ -32,6 +32,7 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 	list<CGameObject*> plistMeshInst;
 	_matrix matColl;
 	_float3 vPos;
+	_float	fValue;
 	switch (m_eScene)
 	{
 	case Client::Akaza::CAkaza_CinemaState::SCENE_START:
@@ -78,7 +79,9 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 	case Client::Akaza::CAkaza_CinemaState::SCENE_4:
 		if (4.f < pAkaza->Get_Model()->Get_Duration())
 		{
-			pAkaza->Get_Renderer()->Set_PointBlur(640, 360, 130.f, 0.3f, 0.7f);
+			fValue = 0.6f + fabs(sin(_float(rand() % 314) / 100.f) * 0.3f);
+			pAkaza->Get_Renderer()->Set_PointBlur(640, 200, 120.f, 0.3f, fValue);
+
 			if (false == m_bRenderObjects)
 			{
 				pGameInstance = GET_INSTANCE(CGameInstance);
@@ -115,6 +118,11 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		}
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_6:
+		m_fTime += fTimeDelta;
+
+		fValue = 0.6f + fabs(sin(m_fTime * 10.f) * 0.3f);
+		pAkaza->Get_Renderer()->Set_PointBlur(640, 360, 120.f, 0.3f, fValue);			//	PointBlur		
+
 		matColl = pAkaza->Get_Model()->Get_BonePtr("C_Spine_3")->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&pAkaza->Get_Model()->Get_PivotFloat4x4()) * XMLoadFloat4x4(pAkaza->Get_Transform()->Get_World4x4Ptr());
 		XMStoreFloat3(&vPos, matColl.r[3]);
 		pAkaza->Get_Renderer()->Set_PointBlur(vPos, 130.f, 0.1f, 0.8f);
@@ -125,6 +133,24 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		}
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_7:
+		m_fTime += fTimeDelta;
+		if (1.f <= m_fTime)
+		{
+			pGameInstance = GET_INSTANCE(CGameInstance);
+			((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(false);
+			plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+			plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+			for (auto& iterMesh : plistMesh)
+			{
+				dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(false);
+			}
+			for (auto& iterMeshinst : plistMeshInst)
+			{
+				dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(false);
+			}
+			RELEASE_INSTANCE(CGameInstance);
+		}
+
 		matColl = pAkaza->Get_Model()->Get_BonePtr("C_Spine_3")->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&pAkaza->Get_Model()->Get_PivotFloat4x4()) * XMLoadFloat4x4(pAkaza->Get_Transform()->Get_World4x4Ptr());
 		XMStoreFloat3(&vPos, matColl.r[3]);
 		pAkaza->Get_Renderer()->Set_PointBlur(vPos, 130.f, 0.1f, 0.6f);
@@ -350,7 +376,6 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		RELEASE_INSTANCE(CGameInstance);
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_BACKLIGHT, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_HAND, pAkaza->Get_WeaponWorld());
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_HAND2, pAkaza->Get_WeaponWorld());
@@ -358,8 +383,10 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_BG1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_BG2, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_PROJ1, pAkaza);
-
 		RELEASE_INSTANCE(CEffect_Manager);
+
+		pAkaza->Get_Renderer()->Set_Value(CRenderer::VALUE_DISTORTION, 100.f);
+		
 
 		break;
 	}
@@ -451,6 +478,11 @@ void CAkaza_CinemaState::Exit(CAkaza * pAkaza)
 		}
 		RELEASE_INSTANCE(CGameInstance);
 		break;
+
+	case Client::Akaza::CAkaza_CinemaState::SCENE_8:
+		pAkaza->Get_Renderer()->ReturnValue();
+		break;
+
 	default:
 		break;
 	}

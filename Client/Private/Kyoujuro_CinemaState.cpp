@@ -86,7 +86,7 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		}
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_4:
-		pKyoujuro->Get_Renderer()->Set_PointBlur(860, 460, 100.f, 0.1f, 0.5f);			//	PointBlur
+		pKyoujuro->Get_Renderer()->Set_PointBlur(860, 460, 100.f, 0.1f, 0.65f);			//	PointBlur
 
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro_CinemaState::ANIM_SCENE_4))
 		{
@@ -113,6 +113,29 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		}
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_7:
+		if (60.f < pKyoujuro->Get_Model()->Get_Duration())
+		{
+			if (false == m_bRenderObjects)
+			{
+				pGameInstance = GET_INSTANCE(CGameInstance);
+				((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(false);
+				list<CGameObject*> plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+				list<CGameObject*> plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+				for (auto& iterMesh : plistMesh)
+				{
+					dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(false);
+				}
+				for (auto& iterMeshinst : plistMeshInst)
+				{
+					dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(false);
+				}
+				RELEASE_INSTANCE(CGameInstance);
+
+				m_bRenderObjects = true;
+			}
+		}
+
+
 		if (pKyoujuro->Get_Model()->Get_End(CKyoujuro_CinemaState::ANIM_SCENE_7))
 		{
 			pKyoujuro->Get_Model()->Set_End(CKyoujuro_CinemaState::ANIM_SCENE_7);
@@ -137,11 +160,11 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 			}
 			else
 			{
-			/*	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				/*	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_FADE, this);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_FADE, this);
 
-				RELEASE_INSTANCE(CEffect_Manager);*/
+					RELEASE_INSTANCE(CEffect_Manager);*/
 			}
 			return new CKyoujuro_CinemaState(SCENE_END);
 		}
@@ -372,7 +395,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_BattleTarget()->Set_SceneRender(false);
 
 		CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
-		
+
 		CEffect_AnimMesh::ANIM_MESH_INFO MeshInfo;
 
 		MeshInfo.fLifeTime = 2.f;
@@ -430,7 +453,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro::ANIM_SPLSKL_END));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_END);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_END, 0.01f);
-		
+
 		break;
 	default:
 		break;
