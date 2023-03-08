@@ -1498,6 +1498,8 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Sphere_Main1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Sphere_Main2"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Sphere_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Sphere_Action_1"));
+		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Sphere_Action_2"));
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_NormAtk_1_Cl"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Rengoku_NormAtk_2_1_Cl"));
@@ -1848,6 +1850,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_Proj1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_Boom1"));
 
+		pEffect_Manager->Load_Effect(TEXT("Boom1"));
 		pEffect_Manager->Load_Effect(TEXT("Train_Smoke"));
 		pEffect_Manager->Load_Effect(TEXT("Train_Wind"));
 		pEffect_Manager->Load_Effect(TEXT("Fade"));

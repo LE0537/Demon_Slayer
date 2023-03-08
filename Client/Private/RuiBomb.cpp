@@ -34,7 +34,7 @@ HRESULT CRuiBomb::Initialize(void * pArg)
 	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 	pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_FRIENDCOM_START, this);
-	pEffectManger->Create_Effect(CEffect_Manager::EFF_RUISKL_COLL_FRIENDCOM_MAIN, this);
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_BOOM1, this);
 
 	RELEASE_INSTANCE(CEffect_Manager);
 
