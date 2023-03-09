@@ -109,7 +109,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pTanjiro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_TAN, pTanjiro);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
@@ -118,7 +118,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pTanjiro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_TAN, pTanjiro);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 			}
@@ -235,7 +235,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pTanjiro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_TAN, pTanjiro);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
@@ -244,7 +244,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pTanjiro);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pTanjiro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_TAN, pTanjiro);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 			}

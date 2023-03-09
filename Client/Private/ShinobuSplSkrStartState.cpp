@@ -237,7 +237,7 @@ void CSplSkrStartState::Enter(CShinobu* pShinobu)
 
 	switch (m_eStateType)
 	{
-	case Client::CShinobuState::TYPE_START:
+	case Client::CShinobuState::TYPE_START: {
 		pShinobu->Get_Transform()->Set_PlayerLookAt(pShinobu->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_SPLSKL_START_0);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_SPLSKL_START_0);
@@ -245,13 +245,21 @@ void CSplSkrStartState::Enter(CShinobu* pShinobu)
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SPLSKL_START_0, 0.01f);
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Shinobu_SplSkr_Start.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Shinobu_SE_SplSkr_Start.wav"), g_fEffect);
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_START, pShinobu);
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::CShinobuState::TYPE_LOOP:
+	}
+	case Client::CShinobuState::TYPE_LOOP: {
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIMID::ANIM_SPLSKL_START_1);
 		pShinobu->Set_AnimIndex(CShinobu::ANIM_SPLSKL_START_1);
 		pShinobu->Get_Model()->Set_Loop(CShinobu::ANIM_SPLSKL_START_1);
 		pShinobu->Get_Model()->Set_LinearTime(CShinobu::ANIM_SPLSKL_START_1, 0.01f);
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_START_HIT, pShinobu);
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
+	}
 	case Client::CShinobuState::TYPE_CHANGE:
 		break;
 	default:

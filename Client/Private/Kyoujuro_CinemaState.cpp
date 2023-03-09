@@ -419,7 +419,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 
 		break;
 	}
-	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_END:
+	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_END: {
 		pKyoujuro->Get_BattleTarget()->Set_Hp(-400);
 		pKyoujuro->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pKyoujuro->Get_NavigationHeight().y, 56.1f, 1.f));
 		pKyoujuro->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, pKyoujuro->Get_NavigationHeight().y, 50.03f, 1.f));
@@ -430,8 +430,14 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro::ANIM_SPLSKL_END));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_END);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_END, 0.01f);
-		
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_END, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_END_GROUND, pKyoujuro->Get_BattleTarget());
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
+	}
 	default:
 		break;
 	}

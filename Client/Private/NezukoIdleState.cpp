@@ -95,7 +95,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 					pNezuko->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pNezuko);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_NE, pNezuko);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 				else if (pNezuko->Get_PlayerInfo().iPowerIndex == 1)
@@ -107,7 +107,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 					pNezuko->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pNezuko);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_NE, pNezuko);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 			}
@@ -216,7 +216,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 					pNezuko->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pNezuko);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_NE, pNezuko);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 				else if (pNezuko->Get_PlayerInfo().iPowerIndex == 1)
@@ -228,7 +228,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 					pNezuko->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pNezuko);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pNezuko);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_NE, pNezuko);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 			}

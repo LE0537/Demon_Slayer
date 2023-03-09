@@ -233,7 +233,7 @@ void CSplSkrStartState::Enter(CAkaza* pAkaza)
 
 	switch (m_eStateType)
 	{
-	case Client::CAkazaState::TYPE_START:
+	case Client::CAkazaState::TYPE_START: {
 		pAkaza->Get_Transform()->Set_PlayerLookAt(pAkaza->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_SPLSKL_START_0);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SPLSKL_START_0);
@@ -241,13 +241,24 @@ void CSplSkrStartState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_START_0, 0.01f);
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Akaza_SplSkr_Start.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_SplSkr_Start.wav"), g_fEffect);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_START, pAkaza);
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::CAkazaState::TYPE_LOOP:
+	}
+	case Client::CAkazaState::TYPE_LOOP: {
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIMID::ANIM_SPLSKL_START_1);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SPLSKL_START_1);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_SPLSKL_START_1);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_START_1, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_START_GROUND, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_START_HIT, pAkaza);
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
+	}
 	case Client::CAkazaState::TYPE_END:
 		break;
 	case Client::CAkazaState::TYPE_DEFAULT:

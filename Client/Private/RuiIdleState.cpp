@@ -102,7 +102,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 				pRui->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pRui);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_RUI, pRui);
 				RELEASE_INSTANCE(CEffect_Manager);
 			}
 			else if (pRui->Get_PlayerInfo().iPowerIndex == 1)
@@ -114,7 +114,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 				pRui->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pRui);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_RUI, pRui);
 				RELEASE_INSTANCE(CEffect_Manager);
 			}
 		}
@@ -234,7 +234,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 				pRui->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pRui);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_RUI, pRui);
 				RELEASE_INSTANCE(CEffect_Manager);
 			}
 			else if (pRui->Get_PlayerInfo().iPowerIndex == 1)
@@ -246,7 +246,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 				pRui->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pRui);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pRui);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_RUI, pRui);
 				RELEASE_INSTANCE(CEffect_Manager);
 			}
 		}

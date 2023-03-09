@@ -369,7 +369,7 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_END_GROUND, pNezuko);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_END_GROUND, pNezuko->Get_BattleTarget());
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		break;

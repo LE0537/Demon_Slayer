@@ -153,14 +153,16 @@ CEnmuBossState * CEnmuBoss_Pattern1State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 		{
 			++m_iHit;
 			_vector vEffectPos;
-			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND)
-				vEffectPos = XMLoadFloat4(&dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Check_CollPos());
-			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND)
-				vEffectPos = XMLoadFloat4(&dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Check_CollPos());
-
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-			
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT1_FLASH,&vEffectPos);
+			if (m_eParts == CEnmuBoss::PARTS::PARTS_LEFT_HAND) {
+				//vEffectPos = XMLoadFloat4(&dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Check_CollPos());				
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT1_FLASH, dynamic_cast<CEnmu_Left_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_LEFT_HAND])->Get_WeaponWorld());
+
+			}
+			else if (m_eParts == CEnmuBoss::PARTS::PARTS_RIGHT_HAND) {
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT1_FLASH, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
+				//vEffectPos = XMLoadFloat4(&dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Check_CollPos());
+			}
 
 			RELEASE_INSTANCE(CEffect_Manager);
 		}

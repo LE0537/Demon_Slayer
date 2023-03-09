@@ -1482,8 +1482,18 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Rush_Hit"));
 		pEffect_Manager->Load_Effect(TEXT("Power_Charging"));
 		pEffect_Manager->Load_Effect(TEXT("Power_Up"));
-		pEffect_Manager->Load_Effect(TEXT("Power_Up_Player"));
-		pEffect_Manager->Load_Effect(TEXT("Perfect_Power_UP_Player"));
+		pEffect_Manager->Load_Effect(TEXT("Power_UP_Aka"));
+		pEffect_Manager->Load_Effect(TEXT("Power_UP_Ne"));
+		pEffect_Manager->Load_Effect(TEXT("Power_UP_Ren"));
+		pEffect_Manager->Load_Effect(TEXT("Power_UP_Rui"));
+		pEffect_Manager->Load_Effect(TEXT("Power_UP_Si"));
+		pEffect_Manager->Load_Effect(TEXT("Power_UP_Tan"));
+		pEffect_Manager->Load_Effect(TEXT("Perfect_Power_UP_Aka"));
+		pEffect_Manager->Load_Effect(TEXT("Perfect_Power_UP_Ne"));
+		pEffect_Manager->Load_Effect(TEXT("Perfect_Power_UP_Ren"));
+		pEffect_Manager->Load_Effect(TEXT("Perfect_Power_UP_Rui"));
+		pEffect_Manager->Load_Effect(TEXT("Perfect_Power_UP_Si"));
+		pEffect_Manager->Load_Effect(TEXT("Perfect_Power_UP_Tan"));
 		pEffect_Manager->Load_Effect(TEXT("Game_Start"));
 
 		pEffect_Manager->Load_Effect(TEXT("Dash_Tanjiro_Move"));
@@ -1517,6 +1527,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Water6"));
 		pEffect_Manager->Load_Effect(TEXT("Water6_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Water8"));
+		pEffect_Manager->Load_Effect(TEXT("Water8_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Common_1"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Common_2"));
 		pEffect_Manager->Load_Effect(TEXT("Tanjiro(Hinokami)_Move1"));
@@ -1781,6 +1792,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Tan(Hi)_Motion5_Slash3"));
 
 		//루이 오의
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Start_Web"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_End_Ground"));
+
 		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion1_Web1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion2_Proj1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Rui_Motion2_RedWeb1"));
@@ -1807,6 +1822,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Enmu_Skill_Start"));
 
 		//렌고쿠 오의
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Start_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Start_Slash"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_End"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_End_Ground"));
+
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion1_Sword1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion2_BG1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Ren_Motion2_Sword1"));
@@ -1841,9 +1862,12 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat3_Flash2"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat3_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat4_Flash"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat4_FlashR"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat4_Flash2"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat4_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat4_GroundR"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat4_Hand"));
+		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat4_HandR"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Ground2"));
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Hand"));
@@ -1851,6 +1875,11 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("EnmuBoss_Pat5_Flash"));
 
 		//아카자 오의
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Start_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Start_Hit"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_End_Ground"));
+
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion1_Hit"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion2_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion3_Ground"));
@@ -1879,6 +1908,9 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_Proj1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion9_Boom1"));
 
+		pEffect_Manager->Load_Effect(TEXT("Spl_Si_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Si_Start_Hit"));
+
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_1"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_2"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_3"));
@@ -1887,6 +1919,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_4_Weapon"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_5"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Shinobu_Spl_5_Weapon"));
+
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Start"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Start_Hit"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_End_Ground"));
 
 		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion1_Dist"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion1_Dist2"));
@@ -1918,10 +1954,10 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion10_Hand1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion11_Ground1"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Motion11_Proj1"));
-		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Start"));
-		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_Start_Hit"));
-		pEffect_Manager->Load_Effect(TEXT("Spl_Nezuko_End_Ground"));
 
+
+		pEffect_Manager->Load_Effect(TEXT("Ball_Hit"));
+		pEffect_Manager->Load_Effect(TEXT("Ball_Smoke"));
 		pEffect_Manager->Load_Effect(TEXT("Boom1"));
 		pEffect_Manager->Load_Effect(TEXT("Train_Smoke"));
 		pEffect_Manager->Load_Effect(TEXT("Train_Wind"));

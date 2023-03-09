@@ -945,7 +945,7 @@ void CTanjiro::Set_StoryPowerUp()
 	m_tInfo.fPowerUpTime = 9999.f;
 	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 	pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, this);
-	pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, this);
+	pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_TAN, this);
 	RELEASE_INSTANCE(CEffect_Manager);
 }
 

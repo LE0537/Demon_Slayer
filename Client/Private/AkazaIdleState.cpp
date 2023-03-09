@@ -105,7 +105,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 				pAkaza->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pAkaza);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_AKA, pAkaza);
 				RELEASE_INSTANCE(CEffect_Manager);
 			}
 			else if (pAkaza->Get_PlayerInfo().iPowerIndex == 1)
@@ -117,7 +117,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 				pAkaza->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pAkaza);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_AKA, pAkaza);
 				RELEASE_INSTANCE(CEffect_Manager);
 			}
 		}
@@ -237,7 +237,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 				pAkaza->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pAkaza);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_AKA, pAkaza);
 				RELEASE_INSTANCE(CEffect_Manager);
 			}
 			else if (pAkaza->Get_PlayerInfo().iPowerIndex == 1)
@@ -249,7 +249,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 				pAkaza->Set_PowerUpTime(10.f);
 				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pAkaza);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pAkaza);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_AKA, pAkaza);
 				RELEASE_INSTANCE(CEffect_Manager);
 			}
 		}

@@ -233,7 +233,7 @@ void CSplSkrStartState::Enter(CKyoujuro* pKyoujuro)
 
 	switch (m_eStateType)
 	{
-	case Client::CKyoujuroState::TYPE_START:
+	case Client::CKyoujuroState::TYPE_START: {
 		pKyoujuro->Get_Transform()->Set_PlayerLookAt(pKyoujuro->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_SPLSKL_START_0);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_SPLSKL_START_0);
@@ -241,13 +241,23 @@ void CSplSkrStartState::Enter(CKyoujuro* pKyoujuro)
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_START_0, 0.01f);
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Kyojuro_SplSkr_Start.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Kyojuro_SE_SplSkr_Start.wav"), g_fEffect);
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_START, pKyoujuro);
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
-	case Client::CKyoujuroState::TYPE_LOOP:
+	}
+	case Client::CKyoujuroState::TYPE_LOOP: {
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_SPLSKL_START_1);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_SPLSKL_START_1);
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_START_1);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_START_1, 0.01f);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_START_GROUND, pKyoujuro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_STRART_SLASH, pKyoujuro);
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
+	}
 	case Client::CKyoujuroState::TYPE_END:
 		break;
 	case Client::CKyoujuroState::TYPE_DEFAULT:

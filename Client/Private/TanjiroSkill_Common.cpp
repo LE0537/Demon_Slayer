@@ -334,6 +334,7 @@ CTanjiroState * CSkill_CommonState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_WATER8_1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_WATER8_1_GROUND, pTanjiro);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;

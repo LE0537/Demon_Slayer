@@ -81,7 +81,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 					pKyoujuro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pKyoujuro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_REN, pKyoujuro);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 				else if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 1)
@@ -90,7 +90,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 					pKyoujuro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pKyoujuro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_REN, pKyoujuro);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 			}
@@ -171,7 +171,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 					pKyoujuro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pKyoujuro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_REN, pKyoujuro);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 				else if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 1)
@@ -180,7 +180,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 					pKyoujuro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pKyoujuro);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pKyoujuro);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_REN, pKyoujuro);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 			}

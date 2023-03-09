@@ -5,6 +5,7 @@
 #include "RuiIdleState.h"
 #include "RuiSplColl.h"
 #include "Camera_Dynamic.h"
+#include "Effect_Manager.h"
 #include "Layer.h"
 using namespace Rui;
 
@@ -168,7 +169,7 @@ void CSplSkrStartState::Enter(CRui* pRui)
 
 	switch (m_eStateType)
 	{
-	case Client::CRuiState::TYPE_START:
+	case Client::CRuiState::TYPE_START: {
 		pRui->Get_Transform()->Set_PlayerLookAt(pRui->Get_BattleTarget()->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION));
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui::ANIMID::ANIM_SPLSKL_START_0);
 		pRui->Set_AnimIndex(CRui::ANIM_SPLSKL_START_0);
@@ -176,7 +177,16 @@ void CSplSkrStartState::Enter(CRui* pRui)
 		pRui->Get_Model()->Set_LinearTime(CRui::ANIM_SPLSKL_START_0, 0.01f);
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Rui_SplSkr_Start.wav"), g_fVoice);
 		CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SplSkr_Start.wav"), g_fEffect);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_START, pRui);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_START_WEB, pRui->Get_BattleTarget());
+
+		RELEASE_INSTANCE(CEffect_Manager);
+
 		break;
+	}
 	case Client::CRuiState::TYPE_END:
 		break;
 	case Client::CRuiState::TYPE_DEFAULT:

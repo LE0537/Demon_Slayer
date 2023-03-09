@@ -422,8 +422,15 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_END, 0.01f);
 		break;
 	}
-	case Client::Akaza::CAkaza_CinemaState::SCENE_END:
+	case Client::Akaza::CAkaza_CinemaState::SCENE_END: {
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_END_GROUND, pAkaza->Get_BattleTarget());
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
+	}
 	default:
 		break;
 	}

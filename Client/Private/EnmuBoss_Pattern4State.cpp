@@ -191,9 +191,9 @@ CEnmuBossState * CEnmuBoss_Pattern4State::Late_Tick(CEnmuBoss * pEnmuBoss, _floa
 				_vector vTargetPos = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(LEVEL_BOSSENMU, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 				pEnmuBoss->Set_Position(vTargetPos);
 				pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]->Get_Transform()->Set_PlayerLookAt(vTargetPos);
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASH, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_GROUND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
-				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_HAND, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASHR, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_GROUNDR, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND]));
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_ENMUBOSS_PAT4_HANDR, dynamic_cast<CEnmu_Right_Hand*>(pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_RIGHT_HAND])->Get_WeaponWorld());
 			}
 
 			RELEASE_INSTANCE(CEffect_Manager);

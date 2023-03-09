@@ -88,7 +88,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pShinobu);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_SI, pShinobu);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
@@ -97,7 +97,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pShinobu);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_SI, pShinobu);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 			}
@@ -184,7 +184,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER, pShinobu);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_SI, pShinobu);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
@@ -193,7 +193,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP, pShinobu);
-					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT, pShinobu);
+					pEffectManger->Create_Effect(CEffect_Manager::EFF_POWER_UP_PFT_SI, pShinobu);
 					RELEASE_INSTANCE(CEffect_Manager);
 				}
 			}

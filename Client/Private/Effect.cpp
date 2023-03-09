@@ -233,8 +233,18 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_RUSH_HIT:
 	case CEffect_Manager::EFF_POWER_CHARGING:
 	case CEffect_Manager::EFF_POWER_UP:
-	case CEffect_Manager::EFF_POWER_UP_PLAYER:
-	case CEffect_Manager::EFF_POWER_UP_PLAYER_PERFACT:
+	case CEffect_Manager::EFF_POWER_UP_AKA:
+	case CEffect_Manager::EFF_POWER_UP_NE:
+	case CEffect_Manager::EFF_POWER_UP_RUI:
+	case CEffect_Manager::EFF_POWER_UP_REN:
+	case CEffect_Manager::EFF_POWER_UP_SI:
+	case CEffect_Manager::EFF_POWER_UP_TAN:
+	case CEffect_Manager::EFF_POWER_UP_PFT_AKA:
+	case CEffect_Manager::EFF_POWER_UP_PFT_NE:
+	case CEffect_Manager::EFF_POWER_UP_PFT_REN:
+	case CEffect_Manager::EFF_POWER_UP_PFT_RUI:
+	case CEffect_Manager::EFF_POWER_UP_PFT_SI:
+	case CEffect_Manager::EFF_POWER_UP_PFT_TAN:
 	case CEffect_Manager::EFF_GAMESTART:
 	case CEffect_Manager::EFF_DASH_TAN_MOVE:
 	case CEffect_Manager::EFF_DASH_TAN_STOP:
@@ -330,8 +340,11 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_ENMUBOSS_PAT3_FLASH:
 	case CEffect_Manager::EFF_ENMUBOSS_PAT3_GROUND:
 	case CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASH:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT4_FLASHR:
 	case CEffect_Manager::EFF_ENMUBOSS_PAT4_HAND:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT4_HANDR:
 	case CEffect_Manager::EFF_ENMUBOSS_PAT4_GROUND:
+	case CEffect_Manager::EFF_ENMUBOSS_PAT4_GROUNDR:
 	case CEffect_Manager::EFF_ENMUBOSS_PAT5_GROUND:
 	case CEffect_Manager::EFF_ENMUBOSS_PAT5_GROUND2:
 	case CEffect_Manager::EFF_ENMUBOSS_PAT5_WIND:
@@ -407,7 +420,22 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_NE_MO11_GROUND:
 	case CEffect_Manager::EFF_SPL_NE_MO11_PROJ:
 	case CEffect_Manager::EFF_SPL_NE_START:
+	case CEffect_Manager::EFF_SPL_RUI_START:
+	case CEffect_Manager::EFF_SPL_RUI_START_WEB:
+	case CEffect_Manager::EFF_SPL_RUI_END_GROUDN:
+	case CEffect_Manager::EFF_SPL_REN_START:
+	case CEffect_Manager::EFF_SPL_REN_START_GROUND:
+	case CEffect_Manager::EFF_SPL_REN_STRART_SLASH:
+	case CEffect_Manager::EFF_SPL_REN_END_GROUND:
+	case CEffect_Manager::EFF_SPL_REN_END:
+	case CEffect_Manager::EFF_SPL_AKA_START:
+	case CEffect_Manager::EFF_SPL_AKA_START_GROUND:
+	case CEffect_Manager::EFF_SPL_AKA_START_HIT:
+	case CEffect_Manager::EFF_SPL_AKA_END_GROUND:
+	case CEffect_Manager::EFF_SPL_NE_END_GROUND:
 	case CEffect_Manager::EFF_SPL_NE_START_HIT:
+	case CEffect_Manager::EFF_SNBSPL_START:
+	case CEffect_Manager::EFF_SNBSPL_START_HIT:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			if (m_bLateStart) {
 				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {
