@@ -4,6 +4,7 @@
 #include "Kyoujuro.h"
 #include "Layer.h"
 #include "AkazaIdleState.h"
+#include "Effect_Manager.h"
 using namespace Akaza;
 
 CAkazaAkazaScene::CAkazaAkazaScene(STATE_TYPE eType)
@@ -149,6 +150,11 @@ void CAkazaAkazaScene::Fall_Height(CAkaza * pAkaza, _float fTimeDelta)
 
 		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
 
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZATK_4, pAkaza);
+
+		RELEASE_INSTANCE(CEffect_Manager);
 		m_bNextAnim = true;
 	}
 	else
