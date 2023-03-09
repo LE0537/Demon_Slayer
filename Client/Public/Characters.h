@@ -177,6 +177,13 @@ public:
 	_int Get_Heart() { return m_iHeart; }
 	void Set_StoneHit(_float _fStoneHit) { m_iStoneHitTime = _fStoneHit; }
 	_float Get_StoneHit() { return m_iStoneHitTime; }
+
+	//	일정시간 후 자동 삭제됩니다.
+	HRESULT Add_EffectLight(LIGHTDESC::TYPE eType, _float4 vPosition, _float4 vDiffuse, _float4 vAmbient, _float fRange, _float fLifeTime);
+	//	Clear_MyLights를 통해 직접 삭제해야합니다.
+	HRESULT Add_Light(_float4 vPosition, _float4 vDiffuse, _float4 vAmbient, _float fRange);
+	HRESULT Delete_MyLights(LIGHTDESC::TYPE eType = LIGHTDESC::TYPE_END);
+
 protected:
 	PLAYERINFO				m_tInfo;
 	CCharacters*			m_pBattleTarget = nullptr;
@@ -219,6 +226,9 @@ protected:
 	_float4x4				m_WeaponWorld;
 	_float4x4				m_WeaponWorld2;
 	_bool					m_bInteractionCheck = false;
+
+	//	Light
+	std::vector<LIGHTDESC::TYPE>		m_vecCreateLights;
 
 	//돌굴러가유
 	_int					m_iHeart = 0;

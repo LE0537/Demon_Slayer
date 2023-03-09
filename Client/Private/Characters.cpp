@@ -148,3 +148,70 @@ void CCharacters::Free()
 
 }
 
+HRESULT CCharacters::Add_EffectLight(LIGHTDESC::TYPE eType, _float4 vPosition, _float4 vDiffuse, _float4 vAmbient, _float fRange, _float fLifeTime)
+{
+	if (eType < LIGHTDESC::TYPE_EFF1 ||
+		eType > LIGHTDESC::TYPE_EFF3)
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	LIGHTDESC tLightDesc;
+	ZeroMemory(&tLightDesc, sizeof tLightDesc);
+	tLightDesc.eType = eType;
+	tLightDesc.vPosition = vPosition;
+	tLightDesc.vDiffuse = vDiffuse;
+	tLightDesc.vAmbient = vAmbient;
+	tLightDesc.fRange = fRange;
+	tLightDesc.fLifeTime = fLifeTime;
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, tLightDesc)))
+		return E_FAIL;
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CCharacters::Add_Light(_float4 vPosition, _float4 vDiffuse, _float4 vAmbient, _float fRange)
+{
+	if (3 <= m_vecCreateLights.size())
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	LIGHTDESC tLightDesc;
+	ZeroMemory(&tLightDesc, sizeof tLightDesc);
+	tLightDesc.eType = LIGHTDESC::TYPE((_int)LIGHTDESC::TYPE_EFFPOINT1 + (_int)m_vecCreateLights.size());
+	tLightDesc.vPosition = vPosition;
+	tLightDesc.vDiffuse = vDiffuse;
+	tLightDesc.vAmbient = vAmbient;
+	tLightDesc.fRange = fRange;
+	if (FAILED(pGameInstance->Add_Light(m_pDevice, m_pContext, tLightDesc)))
+		return E_FAIL;
+	m_vecCreateLights.push_back(tLightDesc.eType);
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}
+
+HRESULT CCharacters::Delete_MyLights(LIGHTDESC::TYPE eType)
+{
+	if (eType != LIGHTDESC::TYPE_EFFPOINT1 &&
+		eType != LIGHTDESC::TYPE_EFFPOINT2 &&
+		eType != LIGHTDESC::TYPE_EFFPOINT3 &&
+		eType != LIGHTDESC::TYPE_END)
+		return E_FAIL;
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+	if (eType == LIGHTDESC::TYPE_END)
+	{
+		for (auto& iter = m_vecCreateLights.begin();
+			iter != m_vecCreateLights.end();)
+		{
+			pGameInstance->Delete_Light(*iter);
+			iter = m_vecCreateLights.erase(iter);			
+		}
+	}
+	else
+		pGameInstance->Delete_Light(eType);
+	RELEASE_INSTANCE(CGameInstance);
+
+	return S_OK;
+}

@@ -57,6 +57,8 @@ private:
 	_float m_fPositionY;
 	_float3 m_vPosition;
 	_float3 m_vVelocity;
+
+	_bool		m_bRenderObjects = false;
 };
 
 END
