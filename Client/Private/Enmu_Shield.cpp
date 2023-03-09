@@ -319,7 +319,7 @@ void CEnmu_Shield::Set_Info()
 {
 	m_tInfo.strName = TEXT("¿£¹«(½¯µå)");
 	m_tInfo.bOni = true;
-	m_tInfo.iMaxHp = 300;
+	m_tInfo.iMaxHp = 200;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
 	m_tInfo.iSkMaxBar = 1000;
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;

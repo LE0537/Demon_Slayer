@@ -99,7 +99,7 @@ void CMainApp::Tick(_float fTimeDelta)
 	if (nullptr == m_pGameInstance)
 		return;
 
-	if (g_bDeathTime == true)
+	if (g_bDeathTime == true && g_iLevel != LEVEL_BOSSENMU)
 	{
 		static _float fTimeDelay1 = 0.f;
 		fTimeDelay1 += fTimeDelta;

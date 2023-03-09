@@ -27,8 +27,7 @@ HRESULT CLevel_StoryMenu::Initialize()
 	pUI_Manager->Set_MsgOff();
 	RELEASE_INSTANCE(CUI_Manager);
 
-	CSoundMgr::Get_Instance()->BGM_Stop();
-	CSoundMgr::Get_Instance()->PlayBGM(TEXT("Adv_Menu.wav"), g_fBGM);
+
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
@@ -46,6 +45,13 @@ void CLevel_StoryMenu::Tick(_float fTimeDelta)
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
 	_uint iStageNum = pUI_Manager->Get_AdvStageNum();
+
+	if (!m_bCreateUI)
+	{
+		CSoundMgr::Get_Instance()->BGM_Stop();
+		CSoundMgr::Get_Instance()->PlayBGM(TEXT("Adv_Menu.wav"), g_fBGM);
+		m_bCreateUI = true;
+	}
 
 	//0번 루이맵
 	//1번 아카자맵
