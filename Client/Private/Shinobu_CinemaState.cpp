@@ -208,6 +208,10 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_5, pShinobu);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SNBSPL_5_WEAPON, pShinobu->Get_WeaponWorld());
 		RELEASE_INSTANCE(CEffect_Manager);
+
+		pShinobu->Get_Renderer()->Set_Value(CRenderer::VALUE_ENVLIGHT, 1.1f);
+		pShinobu->Get_Renderer()->Set_Value(CRenderer::VALUE_LIGHTPOWER, 0.55f);
+		pShinobu->Add_Light(_float4(63.2f, 3.f, 47.1f, 1.f), _float4(0.5f, 0.f, 1.f, 1.f), _float4(1.f, 1.f, 1.f, 1.f), 50.f);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_END:
 		pShinobu->Get_BattleTarget()->Set_Hp(-400);
@@ -232,6 +236,14 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 
 void CShinobu_CinemaState::Exit(CShinobu * pShinobu)
 {
+	switch (m_eScene)
+	{
+	case Client::Shinobu::CShinobu_CinemaState::SCENE_3:
+		pShinobu->Delete_MyLights();
+		pShinobu->Get_Renderer()->ReturnValue();
+		break;
+	}
+
 }
 
 void CShinobu_CinemaState::Jump(CShinobu * pShinobu, _float fTimeDelta)
