@@ -360,6 +360,8 @@ void CAtk_1_State::Enter(CTanjiro * pTanjiro)
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack1_2.wav"), g_fVoice);
 	else if (iRand == 2)
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack1_3.wav"), g_fVoice);
+
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_Attack_1.wav"), g_fEffect);
 }
 
 void CAtk_1_State::Exit(CTanjiro * pTanjiro)

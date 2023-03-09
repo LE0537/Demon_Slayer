@@ -44,6 +44,7 @@ private:
 	_float m_fHitTime = 0.f;
 	_float m_fDelay = 0.f;
 	_float m_fMove = 0.f;
+	class CCharacters*  m_pPlayer = nullptr;
 public:
 	static CRuiBomb* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

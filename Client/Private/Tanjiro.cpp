@@ -274,6 +274,17 @@ void CTanjiro::Tick(_float fTimeDelta)
 					m_fHitRenderTime += fTimeDelta;
 					m_iStoneHitTime -= fTimeDelta;
 				}
+				if (m_fSphereHitTime > 0.f)
+				{
+					m_bHitRender = true;
+					if (m_fHitRenderTime > 0.1f)
+					{
+						m_fHitRenderTime = 0.f;
+						m_bHitRender = !m_bHitRender;
+					}
+					m_fHitRenderTime += fTimeDelta;
+					m_iStoneHitTime -= fTimeDelta;
+				}
 			}
 			if (m_bBattleStart && m_i1p != 33)
 			{
@@ -393,6 +404,26 @@ void CTanjiro::Late_Tick(_float fTimeDelta)
 			if (g_iLevel == LEVEL_ADVRUI)
 			{
 				if (m_iStoneHitTime > 0.f)
+				{
+					if (!m_bHitRender)
+					{
+						m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+						m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+						dynamic_cast<CTanjiroWeapon2*>(m_pWeapon2)->Set_Render(true);
+						m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon2);
+						m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon2);
+					}
+				}
+				else
+				{
+					m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
+					m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+					dynamic_cast<CTanjiroWeapon2*>(m_pWeapon2)->Set_Render(true);
+					m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, m_pWeapon2);
+					m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, m_pWeapon2);
+				}
+
+				if (m_fSphereHitTime > 0.f)
 				{
 					if (!m_bHitRender)
 					{
@@ -1068,6 +1099,35 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 {
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+
+	if (!m_bItemBoxMsg)
+	{
+		_vector vItemBoxClearPos = { -235.040131f, 42.7410583f, -197.561172f, 1.f };
+		_float fDist = XMVectorGetX(XMVector3Length(vItemBoxClearPos - m_pTransformCom->Get_State(CTransform::STATE_TRANSLATION)));
+
+		if (pUIManager->Get_ItemBoxCheck() && fDist < 10.f)
+		{
+			switch (pUIManager->Get_MsgCount())
+			{
+			case 0:
+				pUIManager->Set_MsgOn();
+				pUIManager->Set_MsgName(TEXT("Ä«¸¶µµ ÅºÁö·Î"));
+				pUIManager->Set_Msg(TEXT("ÈÞ... Áöµ¶ÇÑ Ç÷±Í³ðµé.."));
+				break;
+			default:
+				pUIManager->Set_MsgOff();
+				pUIManager->Reset_MsgCount();
+				for (_uint i = 0; i < 3; ++i)
+				{
+					dynamic_cast<CMGameHeart*>(pUIManager->Get_HeartUI(i))->Set_RenderOn(false);
+				}
+				m_iHeart = 2;
+				m_bItemBoxMsg = true;
+				break;
+			}
+		}
+	}
+
 	if (!pUIManager->Get_SaveStory())
 	{
 		if (!m_bQuest1)
@@ -1096,6 +1156,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 				default:
 					CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
 					pUIManager->Set_MsgOff();
+					pUIManager->Reset_MsgCount();
 					pUIManager->Set_ClearCheck(true, 0);
 					m_bSoundCheck = false;
 					m_bQuest1 = true;
@@ -1977,7 +2038,7 @@ void CTanjiro::Set_Info()
 	m_tInfo.bChange = false;
 	m_tInfo.iMaxGuard = 500;
 	m_tInfo.iGuard = m_tInfo.iMaxGuard;
-	m_iHeart = 999;
+	m_iHeart = 2;
 }
 void CTanjiro::Check_Spl()
 {

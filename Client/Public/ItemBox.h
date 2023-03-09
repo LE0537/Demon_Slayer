@@ -60,7 +60,8 @@ private:
 	void Pattern_Bomb7(_float fTimeDelta);
 	void Pattern_Bomb8(_float fTimeDelta);
 	void Pattern_Bomb9(_float fTimeDelta);
-
+	void EventCheck();
+	void EventCheck2();
 
 public:
 	virtual	void  Take_Damage(_float _fPow, _bool _bJumpHit = 0);
@@ -78,8 +79,8 @@ private:
 	_bool					m_bMsgEnd = false;
 	_bool					m_bSoundCheck = false;
 	_bool					m_bIsPlaying = false;
+	//_bool					m_bIsPlaying = false;
 	_float					m_fMsgTime = 0.f;
-
 
 	_vector					m_vPosition;
 
