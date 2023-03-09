@@ -8,6 +8,8 @@
 #include "Level_SelectChar.h"
 #include "Level_StroyMenu.h"
 #include "Level_Ending.h"
+#include "Level_Logo.h"
+
 CLevel_Menu::CLevel_Menu(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)
 	: CLevel(pDevice, pContext)
 {
@@ -29,6 +31,12 @@ HRESULT CLevel_Menu::Initialize()
 	pUI_Manager->RankInfo_ZeroMemory(1);
 
 	RELEASE_INSTANCE(CUI_Manager);
+
+	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
+
+	//pGameInstance->Clear(LEVEL_LOGO);
+
+	RELEASE_INSTANCE(CGameInstance);
 
 	if (FAILED(__super::Initialize()))
 		return E_FAIL;
@@ -67,9 +75,14 @@ void CLevel_Menu::Tick(_float fTimeDelta)
 				return;
 		}
 	}
-	if (pGameInstance->Key_Down(DIK_6))
+	/*if (pGameInstance->Key_Down(DIK_6))
 	{
 		if (FAILED(pGameInstance->Open_Level(LEVEL_ENDING, CLevel_Ending::Create(m_pDevice, m_pContext))))
+			return;
+	}*/
+	if (pGameInstance->Key_Down(DIK_Q))
+	{
+		if (FAILED(pGameInstance->Open_Level(LEVEL_LOGO, CLevel_Logo::Create(m_pDevice, m_pContext))))
 			return;
 	}
 	Safe_Release(pGameInstance);

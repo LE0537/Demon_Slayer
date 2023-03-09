@@ -23,6 +23,9 @@ public:
 
 	void	Clear();
 
+public:
+	void	Tick(_float fTimeDelta);
+
 private:
 	list<class CLight*>				m_Lights;
 	list<class CLight*>				m_ShadowLights;

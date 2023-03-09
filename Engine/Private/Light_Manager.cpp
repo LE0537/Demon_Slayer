@@ -68,12 +68,15 @@ HRESULT CLight_Manager::Add_Light(ID3D11Device * pDevice, ID3D11DeviceContext * 
 
 HRESULT CLight_Manager::Delete_Light(_int iLightIndex)
 {
-	if (m_Lights.size() <= iLightIndex)
+	if (LIGHTDESC::TYPE_END <= iLightIndex)
 		return E_FAIL;
 
 	list<class CLight*>::iterator	iter = m_Lights.begin();
-	for (_int i = 0; i < iLightIndex; ++i)
-		++iter;
+	for ( ; iter != m_Lights.end(); ++iter)
+	{
+		if ((*iter)->Get_LightDesc()->eType == iLightIndex)
+			break;
+	}
 
 	Safe_Release(*iter);
 	m_Lights.erase(iter);
@@ -111,6 +114,22 @@ void CLight_Manager::Clear()
 	}
 
 	m_Lights.clear();
+}
+
+void CLight_Manager::Tick(_float fTimeDelta)
+{
+	for (auto& pLight = m_Lights.begin();
+		pLight != m_Lights.end();)
+	{
+		(*pLight)->Tick(fTimeDelta);
+		if (true == (*pLight)->Get_Dead())
+		{
+			Safe_Release(*pLight);
+			pLight = m_Lights.erase(pLight);
+		}
+		else
+			++pLight;
+	}
 }
 
 void CLight_Manager::Free()

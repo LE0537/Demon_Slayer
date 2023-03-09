@@ -15,7 +15,7 @@ public:
 		ANIM_SCENE_0 = 127,
 		ANIM_SCENE_1 = 128,
 		ANIM_SCENE_2 = 129,
-		ANIM_SCENE_END,
+		ANIM_SCENE_END = 3,
 	};
 
 

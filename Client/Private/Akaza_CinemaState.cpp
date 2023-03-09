@@ -32,6 +32,7 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 	list<CGameObject*> plistMeshInst;
 	_matrix matColl;
 	_float3 vPos;
+	_float	fValue;
 	switch (m_eScene)
 	{
 	case Client::Akaza::CAkaza_CinemaState::SCENE_START:
@@ -78,7 +79,9 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 	case Client::Akaza::CAkaza_CinemaState::SCENE_4:
 		if (4.f < pAkaza->Get_Model()->Get_Duration())
 		{
-			pAkaza->Get_Renderer()->Set_PointBlur(640, 360, 130.f, 0.3f, 0.7f);
+			fValue = 0.6f + fabs(sin(_float(rand() % 314) / 100.f) * 0.3f);
+			pAkaza->Get_Renderer()->Set_PointBlur(640, 200, 120.f, 0.3f, fValue);
+
 			if (false == m_bRenderObjects)
 			{
 				pGameInstance = GET_INSTANCE(CGameInstance);
@@ -115,6 +118,11 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		}
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_6:
+		m_fTime += fTimeDelta;
+
+		fValue = 0.6f + fabs(sin(m_fTime * 10.f) * 0.3f);
+		pAkaza->Get_Renderer()->Set_PointBlur(640, 360, 120.f, 0.3f, fValue);			//	PointBlur		
+
 		matColl = pAkaza->Get_Model()->Get_BonePtr("C_Spine_3")->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&pAkaza->Get_Model()->Get_PivotFloat4x4()) * XMLoadFloat4x4(pAkaza->Get_Transform()->Get_World4x4Ptr());
 		XMStoreFloat3(&vPos, matColl.r[3]);
 		pAkaza->Get_Renderer()->Set_PointBlur(vPos, 130.f, 0.1f, 0.8f);
@@ -125,6 +133,24 @@ CAkazaState * CAkaza_CinemaState::Tick(CAkaza * pAkaza, _float fTimeDelta)
 		}
 		break;
 	case Client::Akaza::CAkaza_CinemaState::SCENE_7:
+		m_fTime += fTimeDelta;
+		if (1.f <= m_fTime)
+		{
+			pGameInstance = GET_INSTANCE(CGameInstance);
+			((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(false);
+			plistMesh = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static")->Get_ObjectList();
+			plistMeshInst = pGameInstance->Find_Layer(g_iLevel, L"Layer_MeshObj_Static_Inst")->Get_ObjectList();
+			for (auto& iterMesh : plistMesh)
+			{
+				dynamic_cast<CMeshObj_Static*>(iterMesh)->Set_SplRender(false);
+			}
+			for (auto& iterMeshinst : plistMeshInst)
+			{
+				dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(false);
+			}
+			RELEASE_INSTANCE(CGameInstance);
+		}
+
 		matColl = pAkaza->Get_Model()->Get_BonePtr("C_Spine_3")->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&pAkaza->Get_Model()->Get_PivotFloat4x4()) * XMLoadFloat4x4(pAkaza->Get_Transform()->Get_World4x4Ptr());
 		XMStoreFloat3(&vPos, matColl.r[3]);
 		pAkaza->Get_Renderer()->Set_PointBlur(vPos, 130.f, 0.1f, 0.6f);
@@ -350,7 +376,6 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		RELEASE_INSTANCE(CGameInstance);
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_BACKLIGHT, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_HAND, pAkaza->Get_WeaponWorld());
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_HAND2, pAkaza->Get_WeaponWorld());
@@ -358,8 +383,10 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_BG1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_BG2, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO7_PROJ1, pAkaza);
-
 		RELEASE_INSTANCE(CEffect_Manager);
+
+		pAkaza->Get_Renderer()->Set_Value(CRenderer::VALUE_DISTORTION, 100.f);
+		
 
 		break;
 	}
@@ -377,12 +404,14 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		RELEASE_INSTANCE(CGameInstance);
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_BG1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_HAND1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO8_PROJ1, pAkaza);
-
 		RELEASE_INSTANCE(CEffect_Manager);
+
+		pAkaza->Get_Renderer()->Set_Value(CRenderer::VALUE_ENVLIGHT, 1.f);
+		pAkaza->Get_Renderer()->Set_Value(CRenderer::VALUE_LIGHTPOWER, 0.25f);
+		pAkaza->Add_Light(_float4(50.f, 2.2f, 66.6f, 1.f), _float4(0.1f, 0.5f, 1.f, 1.f), _float4(1.f, 1.f, 1.f, 1.f), 3.f);
 		break;
 	}
 	case Client::Akaza::CAkaza_CinemaState::SCENE_7: {
@@ -400,13 +429,15 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_AURA1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_BG1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_PROJ1, pAkaza);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_MO9_BOOM1, pAkaza);
-
 		RELEASE_INSTANCE(CEffect_Manager);
+
+		pAkaza->Get_Renderer()->Set_Value(CRenderer::VALUE_ENVLIGHT, 1.f);
+		pAkaza->Get_Renderer()->Set_Value(CRenderer::VALUE_LIGHTPOWER, 0.25f);
+		pAkaza->Add_EffectLight(LIGHTDESC::TYPE_EFF1, _float4(49.8f, 2.2f, 63.f, 1.f), _float4(0.1f, 0.5f, 1.f, 1.f), _float4(1.f, 1.f, 1.f, 1.f), 50.f, 1.3f);
 		break;
 	}
 	case Client::Akaza::CAkaza_CinemaState::SCENE_8: {
@@ -420,6 +451,7 @@ void CAkaza_CinemaState::Enter(CAkaza * pAkaza)
 		pAkaza->Set_AnimIndex(static_cast<CAkaza::ANIMID>(CAkaza::ANIM_SPLSKL_END));
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_SPLSKL_END);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SPLSKL_END, 0.01f);
+
 		break;
 	}
 	case Client::Akaza::CAkaza_CinemaState::SCENE_END: {
@@ -443,6 +475,11 @@ void CAkaza_CinemaState::Exit(CAkaza * pAkaza)
 	list<CGameObject*> plistMeshInst;
 	switch (m_eScene)
 	{
+	case Client::Akaza::CAkaza_CinemaState::SCENE_6:
+		pAkaza->Delete_MyLights();
+		pAkaza->Get_Renderer()->ReturnValue();
+		break;
+
 	case Client::Akaza::CAkaza_CinemaState::SCENE_7:
 		pGameInstance = GET_INSTANCE(CGameInstance);
 		((CTerrain*)(pGameInstance->Find_Layer(g_iLevel, L"Layer_Terrain")->Get_LayerFront()))->Set_SplRender(false);
@@ -457,7 +494,15 @@ void CAkaza_CinemaState::Exit(CAkaza * pAkaza)
 			dynamic_cast<CMeshObj_Static_Inst*>(iterMeshinst)->Set_SplRender(false);
 		}
 		RELEASE_INSTANCE(CGameInstance);
+
+		pAkaza->Delete_MyLights();
+		pAkaza->Get_Renderer()->ReturnValue();
 		break;
+
+	case Client::Akaza::CAkaza_CinemaState::SCENE_8:
+		pAkaza->Get_Renderer()->ReturnValue();
+		break;
+
 	default:
 		break;
 	}

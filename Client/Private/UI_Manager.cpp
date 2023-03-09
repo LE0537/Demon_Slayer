@@ -441,6 +441,10 @@ void CUI_Manager::Add_Logo_Title()
 		Add_LogoUI(iter);
 
 	LOGOTITLE_DATALIST.clear();
+
+	m_iLogoButtonNum = 0;
+	m_iLogoEffLayerNum = 0;
+	m_iLogoLightLayerNum = 0;
 }
 
 void CUI_Manager::Add_Menu()
@@ -1680,12 +1684,16 @@ HRESULT CUI_Manager::Add_LogoUI(CUI::THROWUIINFO iter)
 			return E_FAIL;
 		break;
 	case 1:
+		iter.iLayerNum = m_iLogoEffLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackEff"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
+		++m_iLogoEffLayerNum;
 		break;
 	case 2:
+		iter.iLayerNum = m_iLogoLightLayerNum;
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoBackLight"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
+		++m_iLogoLightLayerNum;
 		break;
 	case 3:
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoFixedImg"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
@@ -1704,14 +1712,12 @@ HRESULT CUI_Manager::Add_LogoUI(CUI::THROWUIINFO iter)
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_LogoButton"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
 			return E_FAIL;
 		++m_iLogoButtonNum;
-		if (m_iLogoButtonNum == 2)
-			m_iLogoButtonNum = 0;
 		break;
 	case 7:
-		iter.iLayerNum = m_iLogoButtonNum;
-		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ButtonEff"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
-			return E_FAIL;
-		++m_iLogoButtonNum;
+		//iter.iLayerNum = m_iLogoButtonNum;
+		//if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_ButtonEff"), LEVEL_LOGO, TEXT("Layer_LogoUI"), &iter)))
+		//	return E_FAIL;
+		//++m_iLogoButtonNum;
 		break;
 	default:
 		break;

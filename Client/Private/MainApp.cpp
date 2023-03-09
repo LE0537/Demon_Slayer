@@ -76,6 +76,8 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(m_pGameInstance->Add_Fonts(m_pDevice, m_pContext, TEXT("Font_Nexon"), TEXT("../Bin/Resources/Fonts/DemonSlayer.spritefont"))))
 		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Fonts(m_pDevice, m_pContext, TEXT("Font_Nexon2"), TEXT("../Bin/Resources/Fonts/DemonSlayer2.spritefont"))))
+		return E_FAIL;
 //
 //#ifdef _DEBUG
 //	if (FAILED(Open_DebugCMD()))
@@ -96,6 +98,20 @@ void CMainApp::Tick(_float fTimeDelta)
 {
 	if (nullptr == m_pGameInstance)
 		return;
+
+	if (g_bDeathTime == true)
+	{
+		static _float fTimeDelay1 = 0.f;
+		fTimeDelay1 += fTimeDelta;
+
+		if (fTimeDelay1 >= 2.f)
+		{
+			fTimeDelay1 = 0.f;
+			g_bDeathTime = false;
+		}
+	}
+
+
 
 	if(g_bDeathTime == true)
 		fTimeDelta *= 0.2f;

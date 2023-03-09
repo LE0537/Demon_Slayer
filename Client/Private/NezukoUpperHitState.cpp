@@ -95,7 +95,7 @@ void CUpperHitState::Enter(CNezuko* pNezuko)
 		pNezuko->Get_Model()->Set_CurrentAnimIndex(CNezuko::ANIMID::ANIM_HIT_DMG_UPPER_0);
 		pNezuko->Set_AnimIndex(CNezuko::ANIM_HIT_DMG_UPPER_0);
 		pNezuko->Get_Model()->Set_Loop(pNezuko->Get_AnimIndex());
-		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.01f);
+		pNezuko->Get_Model()->Set_LinearTime(pNezuko->Get_AnimIndex(), 0.2f);
 
 		if (pNezuko->Get_PlayerInfo().iHp <= 0)
 		{
@@ -575,12 +575,12 @@ CNezukoState * CUpperHitState::BoundState(CNezuko* pNezuko, _float fTimeDelta)
 		{
 		case Client::CNezukoState::TYPE_START:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			return new CUpperHitState(m_eHitType, TYPE_LOOP , m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CNezukoState::TYPE_LOOP:
-			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-			pNezuko->Set_GodMode(true);
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			//pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
+			//pNezuko->Set_GodMode(true);
+			//return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CNezukoState::TYPE_END:
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
@@ -608,6 +608,14 @@ CNezukoState * CUpperHitState::BoundState(CNezuko* pNezuko, _float fTimeDelta)
 		break;
 	case Client::CNezukoState::TYPE_LOOP:
 		Bound_Player(pNezuko, fTimeDelta);
+
+		if (m_bNextAnim == true)
+		{
+			//pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			pNezuko->Set_GodMode(true);
+
+			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+		}
 		break;
 	case Client::CNezukoState::TYPE_END:
 		Bound_Player(pNezuko, fTimeDelta);

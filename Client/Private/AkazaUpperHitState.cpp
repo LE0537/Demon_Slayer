@@ -586,12 +586,12 @@ CAkazaState * CUpperHitState::BoundState(CAkaza* pAkaza, _float fTimeDelta)
 		{
 		case Client::CAkazaState::TYPE_START:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			return new CUpperHitState(m_eHitType, TYPE_LOOP, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CAkazaState::TYPE_LOOP:
-			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
-			pAkaza->Set_GodMode(true);
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			//pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+			//pAkaza->Set_GodMode(true);
+			//return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CAkazaState::TYPE_END:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
@@ -619,6 +619,15 @@ CAkazaState * CUpperHitState::BoundState(CAkaza* pAkaza, _float fTimeDelta)
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
 		Bound_Player(pAkaza, fTimeDelta);
+
+		if (m_bNextAnim == true)
+		{
+			//pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			pAkaza->Set_GodMode(true);
+
+			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+		}
+
 		break;
 	case Client::CAkazaState::TYPE_END:
 		Bound_Player(pAkaza, fTimeDelta);

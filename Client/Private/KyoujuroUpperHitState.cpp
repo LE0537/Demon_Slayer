@@ -98,7 +98,7 @@ void CUpperHitState::Enter(CKyoujuro* pKyoujuro)
 		pKyoujuro->Get_Model()->Set_CurrentAnimIndex(CKyoujuro::ANIMID::ANIM_HIT_DMG_UPPER_0);
 		pKyoujuro->Set_AnimIndex(CKyoujuro::ANIM_HIT_DMG_UPPER_0);
 		pKyoujuro->Get_Model()->Set_Loop(pKyoujuro->Get_AnimIndex());
-		pKyoujuro->Get_Model()->Set_LinearTime(pKyoujuro->Get_AnimIndex(), 0.01f);
+		pKyoujuro->Get_Model()->Set_LinearTime(pKyoujuro->Get_AnimIndex(), 0.2f);
 
 		if (pKyoujuro->Get_PlayerInfo().iHp <= 0)
 		{
@@ -578,12 +578,12 @@ CKyoujuroState * CUpperHitState::BoundState(CKyoujuro* pKyoujuro, _float fTimeDe
 		{
 		case Client::CKyoujuroState::TYPE_START:
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			return new CUpperHitState(m_eHitType, TYPE_LOOP, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CKyoujuroState::TYPE_LOOP:
-			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
-			pKyoujuro->Set_GodMode(true);
-			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+			//pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
+			//pKyoujuro->Set_GodMode(true);
+			//return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
 			break;
 		case Client::CKyoujuroState::TYPE_END:
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
@@ -611,6 +611,16 @@ CKyoujuroState * CUpperHitState::BoundState(CKyoujuro* pKyoujuro, _float fTimeDe
 		break;
 	case Client::CKyoujuroState::TYPE_LOOP:
 		Bound_Player(pKyoujuro, fTimeDelta);
+
+		if (m_bNextAnim == true)
+		{
+			//pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
+			pKyoujuro->Set_GodMode(true);
+
+			return new CUpperHitState(m_eHitType, TYPE_END, m_fBoundPower, m_fJumpPower, m_fKnockBackPower, m_fJumpTime);
+		}
+
+
 		break;
 	case Client::CKyoujuroState::TYPE_END:
 		Bound_Player(pKyoujuro, fTimeDelta);

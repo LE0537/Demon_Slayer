@@ -255,8 +255,8 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				}
 				else if(pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-					//m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * pTanjiro->Get_PlayerInfo().fPowerUp);
-					m_pTarget->Set_Hp(-900);
+					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * pTanjiro->Get_PlayerInfo().fPowerUp);
+					//m_pTarget->Set_Hp(-900);
 					if (m_bIsCreate == false)
 					{
 						m_pTarget->Take_Damage(0.0f, false);
@@ -360,6 +360,8 @@ void CAtk_1_State::Enter(CTanjiro * pTanjiro)
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack1_2.wav"), g_fVoice);
 	else if (iRand == 2)
 		CSoundMgr::Get_Instance()->PlayVoice(TEXT("Tanjiro_Attack1_3.wav"), g_fVoice);
+
+	CSoundMgr::Get_Instance()->PlayEffect(TEXT("Tanjiro_SE_Attack_1.wav"), g_fEffect);
 }
 
 void CAtk_1_State::Exit(CTanjiro * pTanjiro)
