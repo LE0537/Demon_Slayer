@@ -1121,6 +1121,7 @@ void CTanjiro::Check_QuestEvent(_float fTimeDelta)
 				{
 					dynamic_cast<CMGameHeart*>(pUIManager->Get_HeartUI(i))->Set_RenderOn(false);
 				}
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_TopView(false);
 				m_iHeart = 2;
 				m_bItemBoxMsg = true;
 				break;

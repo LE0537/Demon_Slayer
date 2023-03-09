@@ -86,7 +86,7 @@ void CEndingCredit::Ending()
 		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("담당 : UI"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
 	}
 	else if(m_fDelayTime >= 44.f )
-		pGameInstance->Render_Font(TEXT("Font_Nexon2"), TEXT("130기 팀 포트폴리오 끝!\n고생하셨습니다~"), XMVectorSet(300.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon2"), TEXT("130기 팀 포트폴리오 끝!\n\n\n      고생하셨습니다~"), XMVectorSet(300.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);
 }
