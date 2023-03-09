@@ -435,6 +435,9 @@ HRESULT CMeshContainer::Bin_Create_VertexBuffer_NonAnimModel(DATA_BINMESH * pAIM
 		pVertices[i] = pAIMesh->pNonAnimVertices[i];
 		XMStoreFloat3(&pVertices[i].vPosition, XMVector3TransformCoord(XMLoadFloat3(&pVertices[i].vPosition), PivotMatrix));
 		XMStoreFloat3(&pVertices[i].vNormal, XMVector3TransformNormal(XMLoadFloat3(&pVertices[i].vNormal), PivotMatrix));
+
+		XMStoreFloat2(&pVertices[i].vTexUV, XMLoadFloat2(&pAIMesh->pNonAnimVertices[i].vTexUV));
+		XMStoreFloat3(&pVertices[i].vTangent, XMLoadFloat3(&pAIMesh->pNonAnimVertices[i].vTangent));
 	}
 
 	ZeroMemory(&m_SubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
