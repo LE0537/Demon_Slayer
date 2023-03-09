@@ -250,8 +250,8 @@ CKyoujuroState * CAtk_1_State::Late_Tick(CKyoujuro * pKyoujuro, _float fTimeDelt
 				}
 				else if (pKyoujuro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-					//m_pTarget->Set_Hp(_int(-pKyoujuro->Get_PlayerInfo().iDmg * pKyoujuro->Get_PlayerInfo().fPowerUp));
-					m_pTarget->Set_Hp(-900);
+					m_pTarget->Set_Hp(_int(-pKyoujuro->Get_PlayerInfo().iDmg * pKyoujuro->Get_PlayerInfo().fPowerUp));
+					//m_pTarget->Set_Hp(-900);
 					m_pTarget->Take_Damage(0.0f,false);
 					pKyoujuro->Set_Combo(1);
 					pKyoujuro->Set_ComboTime(0.f);

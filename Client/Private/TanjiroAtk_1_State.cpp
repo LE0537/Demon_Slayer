@@ -255,8 +255,8 @@ CTanjiroState * CAtk_1_State::Late_Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				}
 				else if(pTanjiro->Get_BattleTarget()->Get_GodMode() == false)
 				{
-					//m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * pTanjiro->Get_PlayerInfo().fPowerUp);
-					m_pTarget->Set_Hp(-900);
+					m_pTarget->Set_Hp(-pTanjiro->Get_PlayerInfo().iDmg * pTanjiro->Get_PlayerInfo().fPowerUp);
+					//m_pTarget->Set_Hp(-900);
 					if (m_bIsCreate == false)
 					{
 						m_pTarget->Take_Damage(0.0f, false);
