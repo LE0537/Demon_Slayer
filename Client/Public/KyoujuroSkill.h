@@ -25,6 +25,7 @@ private:
 	HRESULT Ready_Components();
 private:
 	_float m_fTime = 0.f;
+	_bool	m_bStart = true;
 public:
 	static CKyoujuroSkill* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);
