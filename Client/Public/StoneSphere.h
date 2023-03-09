@@ -47,6 +47,7 @@ private:
 	_bool  m_bStone = true;
 	STONEPOS m_eStone;
 	_float		m_fTurnAngle = 0.f;
+	_float		m_fStoneSmoke = 0.f;
 public:
 	static CStoneSphere* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

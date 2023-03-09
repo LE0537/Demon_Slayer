@@ -461,10 +461,15 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Set_AnimIndex(static_cast<CKyoujuro::ANIMID>(CKyoujuro::ANIM_SPLSKL_END));
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_END);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_END, 0.01f);
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_END, pKyoujuro);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_END_GROUND, pKyoujuro->Get_BattleTarget());
-		RELEASE_INSTANCE(CEffect_Manager);
+		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+		if (!pUIManager->Get_BattleTypeCheck())
+		{
+			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+			//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_END, pKyoujuro);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_END_GROUND, pKyoujuro->Get_BattleTarget());
+			RELEASE_INSTANCE(CEffect_Manager);
+		}
+		RELEASE_INSTANCE(CUI_Manager);
 		break;
 	}
 	default:

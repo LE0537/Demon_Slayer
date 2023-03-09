@@ -182,7 +182,6 @@ CTanjiroState * CTrain_CinemaState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 			g_bDeathTime = false;
 			pTanjiro->Set_BossEnmu_Dead(false);
 			pTanjiro->Get_Transform()->Turn2(pTanjiro->Get_Transform()->Get_State(CTransform::STATE_RIGHT), -120.f);
-		
 		}
 		else if (m_fTime > 2.f)
 		{
