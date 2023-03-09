@@ -658,7 +658,8 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 	PS_OUT		Out = (PS_OUT)0;
 
 	vector			vDepthDesc = g_DepthTexture.Sample(DepthSampler, In.vTexUV);
-	vector			vWorldDesc = g_WorldTexture.Sample(DepthSampler, In.vTexUV)/* * g_fFar*/;
+	vector			vWorldDesc = g_WorldTexture.Sample(DepthSampler, In.vTexUV);
+	vector			vEffectDesc = g_EffectTexture.Sample(DepthSampler, In.vTexUV);
 
 	float			fViewZ = vDepthDesc.y * g_fFar;
 
@@ -709,7 +710,7 @@ PS_OUT PS_LIGHTSHAFT(PS_IN In)
 		}
 	}
 
-	float		fLightPower = 0.3f * all(vWorldPos.a);
+	float		fLightPower = 0.3f * all(vWorldPos.a) * (1.f - all(vEffectDesc.a));
 
 	iValue = min(max(0, iValue), fNumSamples / 3.f);
 

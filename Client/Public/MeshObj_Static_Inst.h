@@ -53,6 +53,7 @@ private:
 	_bool		m_bRenderShadow = true;
 	_bool			m_bRender = false;
 	_bool		m_bInit = false;
+	_bool		m_bNonLight = false;
 	_float4x4	m_matProjOrigin;
 
 private:/*For.Wind*/
