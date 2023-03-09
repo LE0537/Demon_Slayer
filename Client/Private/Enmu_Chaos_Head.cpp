@@ -7,7 +7,7 @@
 #include "Layer.h"
 #include "Level_GamePlay.h"
 #include "ImGuiManager.h"
-
+#include "Tanjiro.h"
 #include "EnmuBoss.h"
 
 CEnmu_Chaos_Head::CEnmu_Chaos_Head(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
@@ -38,7 +38,9 @@ HRESULT CEnmu_Chaos_Head::Initialize(void * pArg)
 
 	m_tInfo.bSub = false;
 
-
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	m_pBattleTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+	RELEASE_INSTANCE(CGameInstance);
 	_vector vPos = { 0.956f, 16.6f, 174.106f,1.f };
 	m_pTransformCom->Set_State(CTransform::STATE_TRANSLATION, vPos);
 	m_pTransformCom->Set_Scale(XMVectorSet(0.5f, 0.5f, 0.5f, 0.f));
