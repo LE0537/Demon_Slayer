@@ -51,7 +51,6 @@ HRESULT CMini_Result::Initialize(void * pArg)
 
 void CMini_Result::Tick(_float fTimeDelta)
 {
-
 }
 
 void CMini_Result::Late_Tick(_float fTimeDelta)

@@ -462,7 +462,7 @@ void CKyoujuro_CinemaState::Enter(CKyoujuro * pKyoujuro)
 		pKyoujuro->Get_Model()->Set_Loop(CKyoujuro::ANIM_SPLSKL_END);
 		pKyoujuro->Get_Model()->Set_LinearTime(CKyoujuro::ANIM_SPLSKL_END, 0.01f);
 		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-		if (!pUIManager->Get_BattleTypeCheck())
+		if (pUIManager->Get_BattleTypeCheck())
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_REN_END, pKyoujuro);
