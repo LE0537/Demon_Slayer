@@ -408,6 +408,7 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_NE_MO11_PROJ:
 	case CEffect_Manager::EFF_SPL_NE_START:
 	case CEffect_Manager::EFF_SPL_NE_START_HIT:
+	case CEffect_Manager::EFF_AKZSKL_DESTROY_FAILEDFINAL:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
 			if (m_bLateStart) {
 				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {

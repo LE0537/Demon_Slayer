@@ -109,6 +109,8 @@ void CMeshObj_Static::Late_Tick(_float fTimeDelta)
 		{
 			if (false == m_tMyDesc.bAlphaBlend)
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			else if(true == m_bNonLight)
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONLIGHT, this);
 			else
 				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_ALPHABLEND, this);
 
@@ -385,7 +387,7 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2035: lstrcpy(pPrototypeTag_Model, L"Grass5");m_bRenderShadow = false; break;
 	case 2036: lstrcpy(pPrototypeTag_Model, L"Grass6");m_bRenderShadow = false; break;
 
-	case 2037: lstrcpy(pPrototypeTag_Model, L"Lavender");m_bRenderShadow = false;  break;
+	case 2037: lstrcpy(pPrototypeTag_Model, L"Lavender");m_bRenderShadow = false; m_bNonLight = true; break;
 	case 2038: lstrcpy(pPrototypeTag_Model, L"Flower1"); m_bRenderShadow = false; break;
 	case 2039: lstrcpy(pPrototypeTag_Model, L"Flower2"); m_bRenderShadow = false; break;
 	case 2040: lstrcpy(pPrototypeTag_Model, L"Flower3"); m_bRenderShadow = false; break;
@@ -405,9 +407,9 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2051: lstrcpy(pPrototypeTag_Model, L"Wall1"); m_fFrustumRadiusRatio = 30.f; break;
 	case 2052: lstrcpy(pPrototypeTag_Model, L"Wall2"); m_fFrustumRadiusRatio = 30.f; break;
 
-	case 2053: lstrcpy(pPrototypeTag_Model, L"SpiderWeb1"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
-	case 2054: lstrcpy(pPrototypeTag_Model, L"SpiderWeb2"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
-	case 2055: lstrcpy(pPrototypeTag_Model, L"SpiderWeb3"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2053: lstrcpy(pPrototypeTag_Model, L"SpiderWeb1"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2054: lstrcpy(pPrototypeTag_Model, L"SpiderWeb2"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2055: lstrcpy(pPrototypeTag_Model, L"SpiderWeb3"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
 
 	case 2056: lstrcpy(pPrototypeTag_Model, L"Bush1"); m_bRenderShadow = false; break;
 	case 2057: lstrcpy(pPrototypeTag_Model, L"Bush2"); m_bRenderShadow = false; break;
@@ -431,12 +433,12 @@ HRESULT CMeshObj_Static::Ready_ModelComponent()
 	case 2071: lstrcpy(pPrototypeTag_Model, L"Home1"); break;
 	case 2072: lstrcpy(pPrototypeTag_Model, L"Rubble1"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
 	case 2073: lstrcpy(pPrototypeTag_Model, L"Rubble2"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
-	case 2074: lstrcpy(pPrototypeTag_Model, L"SpiderWeb4"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
-	case 2075: lstrcpy(pPrototypeTag_Model, L"SpiderWeb5"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
-	case 2076: lstrcpy(pPrototypeTag_Model, L"SpiderWeb6"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
-	case 2077: lstrcpy(pPrototypeTag_Model, L"SpiderWeb7"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
-	case 2078: lstrcpy(pPrototypeTag_Model, L"SpiderWeb8"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
-	case 2079: lstrcpy(pPrototypeTag_Model, L"SpiderWeb9"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;break;
+	case 2074: lstrcpy(pPrototypeTag_Model, L"SpiderWeb4"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2075: lstrcpy(pPrototypeTag_Model, L"SpiderWeb5"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2076: lstrcpy(pPrototypeTag_Model, L"SpiderWeb6"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2077: lstrcpy(pPrototypeTag_Model, L"SpiderWeb7"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2078: lstrcpy(pPrototypeTag_Model, L"SpiderWeb8"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2079: lstrcpy(pPrototypeTag_Model, L"SpiderWeb9"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
 	case 2080: lstrcpy(pPrototypeTag_Model, L"Tree_Jenitsu"); m_fFrustumRadiusRatio = 70.f; break;
 	case 2081: lstrcpy(pPrototypeTag_Model, L"TreeFar2"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false;break;
 	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false;break;

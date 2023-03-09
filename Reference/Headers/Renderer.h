@@ -51,6 +51,11 @@ public:
 		for (_int i = 0; i < VALUE_END; ++i)
 			m_fValue[i] = m_fOriginValue[i];
 	}
+	void	ReturnValue_Smooth(_float fReturnTime = 1.f)
+	{
+		m_fMaxReturnSmoothTime = fReturnTime;
+		m_fReturnSmoothTime = 0.f;
+	}
 	void	AO_OnOff(_bool bTrueisOn) { m_bRenderAO = bTrueisOn; }
 	_bool	Get_MapGrayValue() { return m_bMapGrayScale; }
 	HRESULT		Bind_Target(class CShader* pShader, _tchar* pTargetName, const char* pConstantName);
@@ -120,6 +125,9 @@ private:/*For.PointBlur*/
 	_float		m_fBlurMinRatio = 0.f;
 	_float2		m_vBlurPoint_Viewport;
 	
+private:/*For.ReturnValue_Smooth*/
+	_float	m_fReturnSmoothTime = 0.f;
+	_float	m_fMaxReturnSmoothTime = 0.f;
 
 //	Function
 private:/* For.Glow*/
@@ -160,7 +168,7 @@ private:
 
 private:
 	_float3	Get_AnglebyMatrix(_float4x4 matrix);
-
+	void	SmoothReturn(_float fRatio);
 
 public:
 	static CRenderer* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
