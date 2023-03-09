@@ -11,6 +11,8 @@
 #include "Tanjiro.h"
 #include "ImGuiManager.h"
 #include "RuiBomb.h"
+#include "SoundMgr.h"
+#include "MGameHeart.h"
 
 CItemBox::CItemBox(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCharacters(pDevice, pContext)
@@ -142,6 +144,8 @@ void CItemBox::Tick(_float fTimeDelta)
 	Play_Bomb(fTimeDelta);
 
 
+	if (m_bPlayAnim)
+		m_fMsgTime += fTimeDelta;
 }
 
 void CItemBox::Late_Tick(_float fTimeDelta)
@@ -184,19 +188,42 @@ void CItemBox::Late_Tick(_float fTimeDelta)
 
 			if (m_bSound2 == false)
 			{
-				CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiBombStart.wav"), g_fEffect);
+				CSoundMgr::Get_Instance()->PlayEffect(TEXT("RuiBombStart.wav"), 0.4f);
 				m_bSound2 = true;
 			}
 		}
 
 		if (m_pModelCom->Get_CurrentTime_Index(1) >= 10.f && m_bSound == false)
 		{
-			CSoundMgr::Get_Instance()->PlayEffect(TEXT("CMN_BoxL_Open.wav"), g_fEffect);
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("CMN_BoxL_Open.wav"), 0.4f);
 			m_bSound = true;
 		}
-
 	}
 
+
+	if (fDist < 8.f && !m_bMsgStart)
+	{
+		EventCheck();
+		
+	}
+
+	/*if (fDist < 8.f)
+	{
+		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+		pUIManager->Set_InteractionOn();
+		RELEASE_INSTANCE(CUI_Manager);
+	}
+	else
+	{
+		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+		pUIManager->Set_InteractionOff();
+		RELEASE_INSTANCE(CUI_Manager);
+	}*/
+
+	if (fDist < 8.f && !m_bMsgEnd && m_fMsgTime >= 2.f)
+	{
+		EventCheck2();
+	}
 
 	if (fDist < 8.f && pGameInstance->Key_Down(DIK_F))
 	{
@@ -336,6 +363,7 @@ void CItemBox::Play_Bomb(_float fTimeDelta)
 
 		if (m_bCreate[BOMB_1] == false)
 		{
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), 0.5f);
 			m_bCreate[BOMB_1] = true;
 			Pattern_Bomb1(fTimeDelta);
 		}
@@ -358,6 +386,7 @@ void CItemBox::Play_Bomb(_float fTimeDelta)
 
 		if (m_bCreate[BOMB_2] == false)
 		{
+			//CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), g_fEffect);
 			m_bCreate[BOMB_2] = true;
 			Pattern_Bomb2(fTimeDelta);
 		}
@@ -380,6 +409,7 @@ void CItemBox::Play_Bomb(_float fTimeDelta)
 
 		if (m_bCreate[BOMB_3] == false)
 		{
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), 0.5f);
 			m_bCreate[BOMB_3] = true;
 			Pattern_Bomb3(fTimeDelta);
 		}
@@ -404,6 +434,7 @@ void CItemBox::Play_Bomb(_float fTimeDelta)
 
 		if (m_bCreate[BOMB_4] == false)
 		{
+			//CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), 0.5f);
 			m_bCreate[BOMB_4] = true;
 			Pattern_Bomb4(fTimeDelta);
 		}
@@ -426,6 +457,7 @@ void CItemBox::Play_Bomb(_float fTimeDelta)
 
 		if (m_bCreate[BOMB_5] == false)
 		{
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), 0.5f);
 			m_bCreate[BOMB_5] = true;
 			Pattern_Bomb5(fTimeDelta);
 		}
@@ -449,6 +481,7 @@ void CItemBox::Play_Bomb(_float fTimeDelta)
 
 		if (m_bCreate[BOMB_6] == false)
 		{
+			//CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), 0.5f);
 			m_bCreate[BOMB_6] = true;
 			Pattern_Bomb6(fTimeDelta);
 		}
@@ -472,6 +505,7 @@ void CItemBox::Play_Bomb(_float fTimeDelta)
 
 		if (m_bCreate[BOMB_7] == false)
 		{
+			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), 0.5f);
 			m_bCreate[BOMB_7] = true;
 			Pattern_Bomb7(fTimeDelta);
 		}
@@ -494,6 +528,7 @@ void CItemBox::Play_Bomb(_float fTimeDelta)
 
 		if (m_bCreate[BOMB_8] == false)
 		{
+			//CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), 0.5f);
 			m_bCreate[BOMB_8] = true;
 			Pattern_Bomb8(fTimeDelta);
 		}
@@ -516,6 +551,7 @@ void CItemBox::Play_Bomb(_float fTimeDelta)
 
 		if (m_bCreate[BOMB_9] == false)
 		{
+			//CSoundMgr::Get_Instance()->PlayEffect(TEXT("Rui_SE_SpMoveSkill.wav"), 0.5f);
 			m_bCreate[BOMB_9] = true;
 			Pattern_Bomb9(fTimeDelta);
 		}
@@ -756,6 +792,61 @@ void CItemBox::Pattern_Bomb9(_float fTimeDelta)
 	tInfo.vPosition = m_vBombPosition[11];
 	tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
 	pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+}
+
+void CItemBox::EventCheck()
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	switch (pUI_Manager->Get_MsgCount())
+	{
+	case 0:
+		pUI_Manager->Set_MsgOn();
+		pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
+		pUI_Manager->Set_Msg(TEXT("뭐지 이 괴상한 물체는?"));
+		break;
+	case 1:
+		pUI_Manager->Set_Msg(TEXT("다른 세계에서 온 상자같아..\n한 번 열어보자.."));
+		break;
+	default:
+		pUI_Manager->Reset_MsgCount();
+		pUI_Manager->Set_MsgOff();
+		m_bMsgStart = true;
+		break;
+	}
+	
+
+	RELEASE_INSTANCE(CUI_Manager);
+}
+
+void CItemBox::EventCheck2()
+{
+	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
+
+	switch (pUI_Manager->Get_MsgCount())
+	{
+	case 0:
+		pUI_Manager->Set_MsgOn();
+		pUI_Manager->Set_MsgName(TEXT("카마도 탄지로"));
+		pUI_Manager->Set_Msg(TEXT("뭐지? 상자 안에는 아무것도 없다..."));
+		break;
+	case 1:
+		pUI_Manager->Set_Msg(TEXT("혈귀가 파놓은 함정이다!! 큭.."));
+		break;
+	default:
+		pUI_Manager->Reset_MsgCount();
+		pUI_Manager->Set_MsgOff();
+		for (_uint i = 0; i < 3; ++i)
+		{
+			dynamic_cast<CMGameHeart*>(pUI_Manager->Get_HeartUI(i))->Set_RenderOn(true);
+		}
+		pUI_Manager->Set_ItemBoxCheck(true);
+		m_bMsgEnd = true;
+		break;
+	}
+
+
+	RELEASE_INSTANCE(CUI_Manager);
 }
 
 
