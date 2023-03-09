@@ -269,6 +269,9 @@ public:
 	_bool	Get_AdvMenuSelCheck() { return m_bAdvMenuSelCheck; }
 	void	Set_AdvMenuSelCheck(_bool bCheck) { m_bAdvMenuSelCheck = bCheck; }
 	
+	_bool	Get_ItemBoxCheck() { return m_bItemBoxMGame; }
+	void	Set_ItemBoxCheck(_bool bCheck) { m_bItemBoxMGame = bCheck; }
+	
 	_bool	Get_AdvResult() { return m_bAdvResultCheck; }
 	void	Set_AdvResult(_bool bCheck) { m_bAdvResultCheck = bCheck; }
 
@@ -461,7 +464,7 @@ private:
 	_bool							m_bLevelResultOn = false; 
 	_bool							m_bLevelMenu = false;
 	_bool							m_bEnding = false;
-
+	_bool							m_bItemBoxMGame = false;
 	_bool							m_bBattleTypeCheck = false;
 	_bool							m_bStorySplEnd = false;
 	_bool							m_bAdvResultCheck = false;

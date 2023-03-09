@@ -279,6 +279,7 @@ private:
 	_bool					m_bQuest3_1MSG = false;
 	_bool					m_bQuest3_2MSG = false;
 	_bool					m_bQuestStoneBallMSG = false;
+	_bool					m_bItemBoxMsg = false;
 	_bool					m_bStoneEnd = false;
 	_bool					m_bSoundCheck = false;
 	_bool					m_bIsPlaying = false;

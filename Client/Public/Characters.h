@@ -223,6 +223,7 @@ protected:
 	//µ¹±¼·¯°¡À¯
 	_int					m_iHeart = 0;
 	_float					m_iStoneHitTime = 0.f;
+	_float					m_fSphereHitTime = 0.f;
 public:
 //	static CCharacters* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

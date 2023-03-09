@@ -6,6 +6,7 @@
 #include "Camera_Dynamic.h"
 #include "Layer.h"
 #include "ImGuiManager.h"
+#include "Tanjiro.h"
 CRuiBomb::CRuiBomb(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCollBox(pDevice, pContext)
 {
@@ -40,6 +41,10 @@ HRESULT CRuiBomb::Initialize(void * pArg)
 	RELEASE_INSTANCE(CEffect_Manager);
 	_float4 vPosition; XMStoreFloat4(&vPosition, m_tBombInfo.vPosition);
 	
+	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+
+	m_pPlayer = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+	RELEASE_INSTANCE(CGameInstance);
 //	CImGuiManager::Get_Instance()->Set_RuiBombPosition(vPosition);
 
 	return S_OK;
@@ -69,9 +74,22 @@ void CRuiBomb::Late_Tick(_float fTimeDelta)
 
 	if (0.2f <= m_fDeadTime && m_fDeadTime <= 0.6f)
 	{
-		if (pMyCollider->Collision(pTargetCollider) && !pGameInstance->Key_Pressing(DIK_T))
+		if (pMyCollider->Collision(pTargetCollider) && !pGameInstance->Key_Pressing(DIK_T) && m_pPlayer->Get_StoneHit() <= 0.f)
 		{
-			m_tBombInfo.pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-289.935f, 45.183f, -152.779f, 1.f));
+			if (m_pPlayer->Get_Heart() > 0)
+			{
+				m_pPlayer->Set_Heart(-1);
+				m_pPlayer->Set_StoneHit(0.7f);
+			}
+			else
+			{
+				m_pPlayer->Set_NavigationHeight(XMVectorSet(-289.935f, 45.183f, -152.779f, 1.f));
+				m_pPlayer->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-289.935f, m_pPlayer->Get_NavigationHeight().y, -152.779f, 1.f));
+			
+				m_pPlayer->Get_NavigationCom()->Cheak_Cell(XMVectorSet(-289.935f, 45.183f, -152.779f, 1.f));
+				m_pPlayer->Set_Heart(2);
+			}
+			//m_tBombInfo.pTarget->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-289.935f, 45.183f, -152.779f, 1.f));
 		}
 	}
 
