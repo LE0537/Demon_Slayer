@@ -83,7 +83,7 @@ void CEnmu_ChokChok::Tick(_float fTimeDelta)
 	{
 		m_fTime += fTimeDelta;
 
-		if (m_fTime >= 0.3f)
+		if (m_fTime >= 0.8f)
 		{
 			CEnmu_ChokChok::CHOKCHOK tInfo{};
 			ZeroMemory(&tInfo, sizeof(tInfo));
@@ -154,7 +154,8 @@ void CEnmu_ChokChok::Late_Tick(_float fTimeDelta)
 						if (m_bIsCreate == false)
 						{
 							m_pTanjiro->Set_GodMode(true);
-							m_pTanjiro->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 0.f);
+							m_pTanjiro->Take_Damage(0.0f, false);
+							//m_pTanjiro->Player_UpperDown(CCharacters::HIT_TYPE::HIT_BOUND, 20.f, 30.f, 0.f);
 							//m_pTanjiro->Take_Damage(0.0f, false);
 							m_bIsCreate = true;
 						}

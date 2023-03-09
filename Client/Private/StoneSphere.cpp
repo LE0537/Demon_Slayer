@@ -5,6 +5,7 @@
 #include "Layer.h"
 #include "Tanjiro.h"
 #include "SoundMgr.h"
+#include "Effect_Manager.h"
 CStoneSphere::CStoneSphere(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 	: CCollBox(pDevice, pContext)
 {
@@ -60,7 +61,14 @@ void CStoneSphere::Tick(_float fTimeDelta)
 		m_bStone = true;
 	if (m_bStone)
 		Move_Stone(m_eStone, fTimeDelta);
-
+	m_fStoneSmoke += fTimeDelta;
+	if (m_fStoneSmoke > 9.5f)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_BALL_SMOKE, this);
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_fStoneSmoke = 0.f;
+	}
 	m_pSphereCom->Update(m_pTransformCom->Get_WorldMatrix());
 
 	m_fTurnAngle += 10.f;
@@ -77,7 +85,7 @@ void CStoneSphere::Late_Tick(_float fTimeDelta)
 {
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_SHADOWDEPTH, this);
 	m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
-
+	CEffect_Manager* pEffectManger = nullptr;
 	CCollider* m_pPlayerCollBox = m_pPlayer->Get_SphereCollider();
 	if (m_pSphereCom->Collision(m_pPlayerCollBox) && m_pPlayer->Get_StoneHit() <= 0.f)
 	{
@@ -86,9 +94,15 @@ void CStoneSphere::Late_Tick(_float fTimeDelta)
 			m_pPlayer->Set_Heart(-1);
 			m_pPlayer->Set_StoneHit(0.7f);
 			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_GuardHit.wav"), g_fEffect);
+			pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_BALL_HIT, m_pPlayer);
+			RELEASE_INSTANCE(CEffect_Manager);
 		}
 		else
 		{
+			pEffectManger = GET_INSTANCE(CEffect_Manager);
+			pEffectManger->Create_Effect(CEffect_Manager::EFF_BALL_HIT, m_pPlayer);
+			RELEASE_INSTANCE(CEffect_Manager);
 			m_pPlayer->Set_NavigationHeight(XMVectorSet(-556.3474f, 53.5169f, -61.9126f, 1.f));
 			m_pPlayer->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(-556.3474f, m_pPlayer->Get_NavigationHeight().y, -61.9126f, 1.f));
 			CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_GuardHit.wav"), g_fEffect);
