@@ -50,6 +50,7 @@ private:
 	_bool			m_bRender = false;
 	_float		m_fFrustumRadiusRatio = 1.f;
 	_bool     m_bNonAlpha = false;
+	_bool	m_bNonLight = false;
 private:
 	HRESULT Delete_Component(const _tchar* pComponentTag);
 

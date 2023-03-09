@@ -37,13 +37,8 @@ void CKyoujuroJumpSkill::Tick(_float fTimeDelta)
 	m_fDeadTime += fTimeDelta;
 	//if (m_fDeadTime > 3.9f)
 	//	m_pEffect->Set_Dead();
-	if (m_fDeadTime > 4.f)
+	if (m_fDeadTime > 1.3f)
 	{
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_JUMP_5TIGER_END, this);
-
-		RELEASE_INSTANCE(CEffect_Manager);
 
 		Set_Dead();
 	}
@@ -128,6 +123,7 @@ CGameObject * CKyoujuroJumpSkill::Clone(void * pArg)
 void CKyoujuroJumpSkill::Free()
 {
 	__super::Free();
+
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pOBBCom);
 }

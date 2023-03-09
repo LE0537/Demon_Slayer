@@ -404,6 +404,12 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 	if (0.f > m_fBlurTime)
 		m_fBlurTime = 0.f;
 
+	m_fReturnSmoothTime += fTimeDelta;
+	if (m_fReturnSmoothTime < m_fMaxReturnSmoothTime)
+	{
+		SmoothReturn(m_fReturnSmoothTime / m_fMaxReturnSmoothTime);
+	}
+
 	RELEASE_INSTANCE(CGameInstance);
 
 	if (FAILED(Render_Priority()))
@@ -1226,6 +1232,8 @@ HRESULT CRenderer::Render_LightShaft(const _tchar * pTexName, const _tchar * pMR
 
 	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Static_LightDepth"), m_pShader, "g_ShadowDepthTexture_Once")))
 		return E_FAIL;
+	if (FAILED(m_pTarget_Manager->Bind_ShaderResource(TEXT("Target_Effect"), m_pShader, "g_EffectTexture")))
+		return E_FAIL;
 
 
 	if (nullptr != pLightDesc)
@@ -1796,6 +1804,12 @@ _float3 CRenderer::Get_AnglebyMatrix(_float4x4 matrix)
 		atan2(-matrix._13, sqrt(pow(matrix._23, 2) + pow(matrix._33, 2))),
 		atan2(matrix._12, matrix._11)
 	};
+}
+
+void CRenderer::SmoothReturn(_float fRatio)
+{
+	//for (_int i = 0; i < VALUE_END; ++i)
+	//	m_fValue[i] = m_fOriginValue[i] * fRatio;
 }
 
 CRenderer * CRenderer::Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext)

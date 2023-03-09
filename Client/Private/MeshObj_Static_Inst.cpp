@@ -127,7 +127,7 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 
 	//	ÀÜµð ¹Ù¶÷¿¡ Èçµé¸²
 	if (2031 <= m_tMyDesc.iModelIndex &&
-		2036 >= m_tMyDesc.iModelIndex)
+		2040 >= m_tMyDesc.iModelIndex)
 	{
 		m_fWindTime += fTimeDelta * 0.1f;
 		if (20.f < m_fWindTime)
@@ -163,7 +163,10 @@ void CMeshObj_Static_Inst::Late_Tick(_float fTimeDelta)
 
 		if (nullptr != m_pRendererCom)
 		{
-			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
+			if(true == m_bNonLight)
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONLIGHT, this);
+			else
+				m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_NONALPHABLEND, this);
 
 		}
 	}
@@ -189,7 +192,7 @@ HRESULT CMeshObj_Static_Inst::Render()
 		if (FAILED(m_pModelCom->SetUp_Material(m_pShaderCom, "g_NormalTexture", i, aiTextureType_NORMALS)))
 			return E_FAIL;
 		if (2031 <= m_tMyDesc.iModelIndex &&
-			2036 >= m_tMyDesc.iModelIndex)
+			2040 >= m_tMyDesc.iModelIndex)
 		{
 			if (FAILED(m_pShaderCom->Set_ShaderResourceView("g_NoiseTexture", m_pNoiseTextureCom->Get_SRV(1))))
 				return E_FAIL;
@@ -197,12 +200,17 @@ HRESULT CMeshObj_Static_Inst::Render()
 				return E_FAIL;
 			if (FAILED(m_pShaderCom->Set_RawValue("g_fWindTime", &m_fWindTime, sizeof(_float))))
 				return E_FAIL;
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 3)))
+
+			_int iPass = true == m_bNonLight ? 4 : 3;
+
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, iPass)))
 				return E_FAIL;
 		}
 		else
 		{
-			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, 0)))
+			_int iPass = true == m_bNonLight ? 4 : 0;
+
+			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, iPass)))
 				return E_FAIL;
 		}
 	}
@@ -386,7 +394,7 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2035: lstrcpy(pPrototypeTag_Model, L"Grass5_Instancing"); m_bRenderShadow = false; break;
 	case 2036: lstrcpy(pPrototypeTag_Model, L"Grass6_Instancing"); m_bRenderShadow = false; break;
 
-	case 2037: lstrcpy(pPrototypeTag_Model, L"Lavender_Instancing"); m_bRenderShadow = false; break;
+	case 2037: lstrcpy(pPrototypeTag_Model, L"Lavender_Instancing"); m_bRenderShadow = false; m_bNonLight = true; break;
 	case 2038: lstrcpy(pPrototypeTag_Model, L"Flower1_Instancing"); m_bRenderShadow = false; break;
 	case 2039: lstrcpy(pPrototypeTag_Model, L"Flower2_Instancing"); m_bRenderShadow = false; break;
 	case 2040: lstrcpy(pPrototypeTag_Model, L"Flower3_Instancing"); m_bRenderShadow = false; break;
@@ -406,9 +414,9 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2051: lstrcpy(pPrototypeTag_Model, L"Wall1_Instancing"); m_fFrustumRadiusRatio = 30.f; break;
 	case 2052: lstrcpy(pPrototypeTag_Model, L"Wall2_Instancing"); m_fFrustumRadiusRatio = 30.f; break;
 
-	case 2053: lstrcpy(pPrototypeTag_Model, L"SpiderWeb1_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
-	case 2054: lstrcpy(pPrototypeTag_Model, L"SpiderWeb2_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
-	case 2055: lstrcpy(pPrototypeTag_Model, L"SpiderWeb3_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2053: lstrcpy(pPrototypeTag_Model, L"SpiderWeb1_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;  m_bNonLight = true; break;
+	case 2054: lstrcpy(pPrototypeTag_Model, L"SpiderWeb2_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;  m_bNonLight = true; break;
+	case 2055: lstrcpy(pPrototypeTag_Model, L"SpiderWeb3_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false;  m_bNonLight = true; break;
 
 	case 2056: lstrcpy(pPrototypeTag_Model, L"Bush1_Instancing"); m_bRenderShadow = false; break;
 	case 2057: lstrcpy(pPrototypeTag_Model, L"Bush2_Instancing"); m_bRenderShadow = false; break;
@@ -432,12 +440,12 @@ HRESULT CMeshObj_Static_Inst::Ready_ModelComponent()
 	case 2071: lstrcpy(pPrototypeTag_Model, L"Home1_Instancing"); break;
 	case 2072: lstrcpy(pPrototypeTag_Model, L"Rubble1_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
 	case 2073: lstrcpy(pPrototypeTag_Model, L"Rubble2_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
-	case 2074: lstrcpy(pPrototypeTag_Model, L"SpiderWeb4_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
-	case 2075: lstrcpy(pPrototypeTag_Model, L"SpiderWeb5_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
-	case 2076: lstrcpy(pPrototypeTag_Model, L"SpiderWeb6_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
-	case 2077: lstrcpy(pPrototypeTag_Model, L"SpiderWeb7_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
-	case 2078: lstrcpy(pPrototypeTag_Model, L"SpiderWeb8_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
-	case 2079: lstrcpy(pPrototypeTag_Model, L"SpiderWeb9_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; break;
+	case 2074: lstrcpy(pPrototypeTag_Model, L"SpiderWeb4_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2075: lstrcpy(pPrototypeTag_Model, L"SpiderWeb5_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2076: lstrcpy(pPrototypeTag_Model, L"SpiderWeb6_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2077: lstrcpy(pPrototypeTag_Model, L"SpiderWeb7_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2078: lstrcpy(pPrototypeTag_Model, L"SpiderWeb8_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
+	case 2079: lstrcpy(pPrototypeTag_Model, L"SpiderWeb9_Instancing"); m_fFrustumRadiusRatio = 7.f; m_bRenderShadow = false; m_bNonLight = true; break;
 	case 2080: lstrcpy(pPrototypeTag_Model, L"Tree_Jenitsu_Instancing"); m_fFrustumRadiusRatio = 70.f; break;
 	case 2081: lstrcpy(pPrototypeTag_Model, L"TreeFar2_Instancing"); m_fFrustumRadiusRatio = 5000.f; m_bRenderShadow = false; break;
 	case 2082: lstrcpy(pPrototypeTag_Model, L"TreeFar3_Instancing"); m_fFrustumRadiusRatio = 5.f; m_bRenderShadow = false; break;

@@ -224,6 +224,23 @@ PS_OUT_SHADOW PS_SHADOW(PS_IN In)
 	return Out;
 }
 
+struct PS_NONLIGHT_OUT
+{
+	float4		vColor : SV_TARGET0;
+};
+
+PS_NONLIGHT_OUT PS_NONLIGHT(PS_IN In)
+{
+	PS_NONLIGHT_OUT		Out = (PS_NONLIGHT_OUT)0;
+
+	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
+	Out.vColor = vTexture;
+
+	if (Out.vColor.a < 0.3f)
+		discard;
+
+	return Out;
+}
 
 struct PS_FLOWMAP_IN
 {
@@ -326,4 +343,16 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN();
 	}
+
+	pass NonLightObj	//	4
+	{
+		SetRasterizerState(RS_Effect);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_NONLIGHT();
+	}
+
 }

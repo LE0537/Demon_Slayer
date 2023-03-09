@@ -184,7 +184,7 @@ CAkazaState * CSkill_DestoryState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 		if (fDist < 18.f && !m_bNotHit)
 		{
-			if (pAkaza->Get_Model()->Get_CurrentTime() > 30.f)
+			if (pAkaza->Get_Model()->Get_CurrentTime_Index(CAkaza::ANIM_SKILL_DESTROY_0) > 30.f)
 			{
 				pAkaza->Get_Model()->Reset_Anim(pAkaza->Get_AnimIndex());
 				_vector vTargetPos = vPos - vTarget;
@@ -199,13 +199,13 @@ CAkazaState * CSkill_DestoryState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 				return new CSkill_DestoryState(CAkazaState::TYPE_END);
 			}
 		}
-		else  if (pAkaza->Get_Model()->Get_CurrentTime() > 30.f &&
-			!m_bNotHit)
+		else  if (pAkaza->Get_Model()->Get_CurrentTime_Index(CAkaza::ANIM_SKILL_DESTROY_0) > 30.f &&
+			!m_bNotHit && !m_bEffect_FailedPtc)
 		{
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_FAILEDFINAL, pAkaza);
 			RELEASE_INSTANCE(CEffect_Manager);
-			m_bNotHit = true;
+			m_bEffect_FailedPtc = true;
 		}
 
 	}
@@ -464,9 +464,6 @@ CAkazaState * CSkill_DestoryState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 	{
 		if (true == m_bHit)
 		{
-			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-			pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_SUCCESSS_FINAL, pAkaza);
-			RELEASE_INSTANCE(CEffect_Manager);
 			m_bEffect = true;
 		}
 	}
@@ -494,6 +491,10 @@ void CSkill_DestoryState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_SKILL_DESTROY_1);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SKILL_DESTROY_1, 0.01f);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SKILL_DESTROY_1);
+
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_SUCCESSS_FINAL, pAkaza);
+		RELEASE_INSTANCE(CEffect_Manager);
 		break;
 	}
 
