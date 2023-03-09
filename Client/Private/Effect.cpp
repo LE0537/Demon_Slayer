@@ -432,6 +432,7 @@ void CEffect::Late_Tick(_float fTimeDelta)
 	case CEffect_Manager::EFF_SPL_AKA_START_GROUND:
 	case CEffect_Manager::EFF_SPL_AKA_START_HIT:
 	case CEffect_Manager::EFF_SPL_AKA_END_GROUND:
+	case CEffect_Manager::EFF_SPL_AKA_END_GROUND_NOTIME:
 	case CEffect_Manager::EFF_SPL_NE_END_GROUND:
 	case CEffect_Manager::EFF_SPL_NE_START_HIT:
 	case CEffect_Manager::EFF_SNBSPL_START:

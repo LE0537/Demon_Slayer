@@ -92,7 +92,7 @@ void CAkazaAkazaScene::Enter(CAkaza * pAkaza)
 	case Client::CAkazaState::TYPE_LOOP:
 		pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_END_GROUND, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_END_GROUND_NOTIME, pAkaza);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_JUMP_LOOP_END);
