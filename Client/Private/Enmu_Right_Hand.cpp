@@ -118,7 +118,8 @@ void CEnmu_Right_Hand::Late_Tick(_float fTimeDelta)
 
 					if (m_bIsCreate == false)
 					{
-						m_pTanjiro->Take_Damage(0.0f, false);
+						//m_pTanjiro->Take_Damage(0.0f, false);
+						m_pTanjiro->Player_UpperDown(Client::CCharacters::HIT_KNOCKBACK, 15.f, 20.f, 8.f);
 						m_bIsCreate = true;
 					}
 
