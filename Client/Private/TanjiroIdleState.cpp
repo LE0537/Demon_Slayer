@@ -185,7 +185,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			}
 			break;
 		case 2:
-			if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey() && g_iLevel == LEVEL_GAMEPLAY)
+			if (pGameInstance->Key_Down(DIK_RSHIFT) && !pTanjiro->Get_StoryKey() && g_iLevel == LEVEL_GAMEPLAY)
 			{
 				if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
 				{

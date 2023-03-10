@@ -59,6 +59,8 @@ public:
 	_bool Get_Free() const { return m_bFree; }
 	void Set_Free(_bool bFree) { m_bFree; }
 
+	void Set_HITHIT(_bool bHit) { m_bHit = bHit; }
+
 private:
 	void HandleInput();
 	void TickState(_float fTimeDelta);

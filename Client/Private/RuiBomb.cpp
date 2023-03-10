@@ -72,10 +72,18 @@ void CRuiBomb::Late_Tick(_float fTimeDelta)
 	if (nullptr == pTargetCollider)
 		return;
 
-	if (0.2f <= m_fDeadTime && m_fDeadTime <= 0.6f)
+	if (0.2f <= m_fDeadTime && m_fDeadTime <= 0.8f)
 	{
 		if (pMyCollider->Collision(pTargetCollider) && !pGameInstance->Key_Pressing(DIK_T) && m_pPlayer->Get_StoneHit() <= 0.f)
 		{
+			if (m_bCreate == false)
+			{
+				m_tBombInfo.pTarget->Get_Renderer()->Set_PointBlur(640, 360, 120.f, 0.5f, 0.9f);
+				dynamic_cast<CCamera_Dynamic*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Camera"))->Get_LayerFront())->Set_Shake(CCamera_Dynamic::SHAKE::SHAKE_HIT, 0.2f);
+				m_bCreate = true;
+			}
+
+
 			if (m_pPlayer->Get_Heart() > 0)
 			{
 				m_pPlayer->Set_Heart(-1);

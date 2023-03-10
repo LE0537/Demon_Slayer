@@ -462,7 +462,7 @@ CTanjiroState * CSkill_WaterMillState::CommandCheck(CTanjiro * pTanjiro)
 			}
 			break;
 		case 2:
-			if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
+			if (pGameInstance->Key_Down(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
 			{
 				if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
 				{

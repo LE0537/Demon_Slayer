@@ -383,13 +383,13 @@ CEnmuBossState * CIdleState::Return_AIState(CEnmuBoss * pEnmuBoss)
 	if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_PlayerInfo().iHp < 0)
 		return nullptr;
 
-	if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_PlayerInfo().iHp <= 600 && pEnmuBoss->Get_Pattern1() == false)
+	if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_PlayerInfo().iHp <= 400 && pEnmuBoss->Get_Pattern1() == false)
 	{
 		m_ePattern = PATTERN_6;
 		pEnmuBoss->Set_Pattern1();
 	}
 
-	if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_PlayerInfo().iHp <= 250 && pEnmuBoss->Get_Pattern2() == false)
+	if (pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Get_PlayerInfo().iHp <= 200 && pEnmuBoss->Get_Pattern2() == false)
 	{
 		m_ePattern = PATTERN_6;
 		pEnmuBoss->Set_Pattern2();

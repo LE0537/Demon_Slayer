@@ -232,7 +232,7 @@ CTanjiroState * CMoveState::HandleInput(CTanjiro * pTanjiro)
 				return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
+		if (pGameInstance->Key_Down(DIK_RSHIFT) && !pTanjiro->Get_StoryKey())
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
 			if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)

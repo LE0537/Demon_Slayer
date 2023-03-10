@@ -184,7 +184,7 @@ CKyoujuroState * CMoveState::HandleInput(CKyoujuro * pKyoujuro)
 			return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+		if (pGameInstance->Key_Down(DIK_RSHIFT))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
 			if (pKyoujuro->Get_PlayerInfo().iUnicCount > 0)

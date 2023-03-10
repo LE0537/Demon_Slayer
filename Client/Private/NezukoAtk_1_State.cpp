@@ -423,7 +423,7 @@ CNezukoState * CAtk_1_State::CommandCheck(CNezuko * pNezuko)
 		}
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+		if (pGameInstance->Key_Down(DIK_RSHIFT))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
 			if (pNezuko->Get_PlayerInfo().iUnicCount > 0)

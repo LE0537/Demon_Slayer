@@ -210,7 +210,7 @@ CAkazaState * CAtk_2_State::Tick(CAkaza* pAkaza, _float fTimeDelta)
 	}
 
 
-	if (m_bAtkCombo == true && m_fTime >= 40.f)
+	if (m_bAtkCombo == true && m_fTime >= 33.f)
 		return new CAtk_3_State();
 
 
@@ -471,7 +471,7 @@ CAkazaState * CAtk_2_State::CommandCheck(CAkaza * pAkaza)
 
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+		if (pGameInstance->Key_Down(DIK_RSHIFT))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
 			if (pAkaza->Get_PlayerInfo().iUnicCount > 0)
