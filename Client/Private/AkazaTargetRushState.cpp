@@ -441,7 +441,7 @@ CAkazaState * CTargetRushState::CommandCheck(CAkaza * pAkaza)
 
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+		if (pGameInstance->Key_Down(DIK_RSHIFT))
 		{
 			if (pAkaza->Get_PlayerInfo().iUnicCount > 0)
 			{

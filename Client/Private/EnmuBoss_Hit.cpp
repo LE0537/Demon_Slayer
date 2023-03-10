@@ -22,6 +22,8 @@ CEnmuBoss_Hit::CEnmuBoss_Hit(STATE_TYPE eType, CEnmuBoss::PARTS eParts)
 
 CEnmuBossState * CEnmuBoss_Hit::HandleInput(CEnmuBoss * pEnmuBoss)
 {
+	
+
 	return nullptr;
 }
 
@@ -47,7 +49,6 @@ CEnmuBossState * CEnmuBoss_Hit::Tick(CEnmuBoss * pEnmuBoss, _float fTimeDelta)
 			return new CEnmuBoss_Hit(STATE_TYPE::TYPE_END, m_eParts);
 		break;
 	case Client::CEnmuBossState::TYPE_END:
-		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Set_GodMode(true);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_HEAD]->Set_GodMode(true);
 
 		m_fDuration += fTimeDelta;
@@ -91,6 +92,10 @@ CEnmuBossState * CEnmuBoss_Hit::Late_Tick(CEnmuBoss * pEnmuBoss, _float fTimeDel
 
 void CEnmuBoss_Hit::Enter(CEnmuBoss * pEnmuBoss)
 {
+
+	pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Set_GodMode(true);
+
+
 	switch (m_eStateType)
 	{
 	case Client::CEnmuBossState::TYPE_START:
@@ -106,6 +111,8 @@ void CEnmuBoss_Hit::Enter(CEnmuBoss * pEnmuBoss)
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_CurrentAnimIndex(3);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_Loop(3);
 		pEnmuBoss->Get_EnmuPartsList()[CEnmuBoss::PARTS::PARTS_SHIELD]->Get_Model()->Set_LinearTime(3, 0.1f);
+
+		
 
 		// RIGHT_HAND
 

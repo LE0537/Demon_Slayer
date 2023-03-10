@@ -282,7 +282,7 @@ void CCamera_Dynamic::Tick(_float fTimeDelta)
 		if (false == bCamAttach)
 		{
 			_float fSpeed = 1.f;
-			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			if (pGameInstance->Key_Down(DIK_RSHIFT))
 				fSpeed *= 10.f;
 
 			//if (pGameInstance->Key_Pressing(DIK_W))

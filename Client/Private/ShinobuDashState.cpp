@@ -129,7 +129,7 @@ CShinobuState * CDashState::HandleInput(CShinobu* pShinobu)
 		{
 			pShinobu->Get_Model()->Set_End(pShinobu->Get_AnimIndex());
 
-			if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+			if (pGameInstance->Key_Down(DIK_RSHIFT))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
 				if (pShinobu->Get_PlayerInfo().iUnicCount > 0)

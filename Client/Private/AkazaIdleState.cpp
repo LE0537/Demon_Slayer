@@ -174,7 +174,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_RSHIFT) && g_iLevel == LEVEL_GAMEPLAY)
+		if (pGameInstance->Key_Down(DIK_RSHIFT) && g_iLevel == LEVEL_GAMEPLAY)
 		{
 			if (pAkaza->Get_PlayerInfo().iUnicCount > 0)
 			{

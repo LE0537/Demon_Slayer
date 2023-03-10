@@ -165,7 +165,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_RSHIFT) && g_iLevel == LEVEL_GAMEPLAY)
+		if (pGameInstance->Key_Down(DIK_RSHIFT) && g_iLevel == LEVEL_GAMEPLAY)
 		{
 			if (pRui->Get_PlayerInfo().iUnicCount > 0)
 			{

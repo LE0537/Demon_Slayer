@@ -122,7 +122,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 			}
 			break;
 		case 2:
-			if (pGameInstance->Key_Pressing(DIK_RSHIFT) && g_iLevel == LEVEL_GAMEPLAY)
+			if (pGameInstance->Key_Down(DIK_RSHIFT) && g_iLevel == LEVEL_GAMEPLAY)
 			{
 				if (pKyoujuro->Get_PlayerInfo().iUnicCount > 0)
 				{

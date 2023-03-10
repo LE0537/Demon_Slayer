@@ -206,7 +206,7 @@ CRuiState * CMoveState::HandleInput(CRui* pRui)
 			return new CIdleState(STATE_MOVE);
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+		if (pGameInstance->Key_Down(DIK_RSHIFT))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
 			if (pRui->Get_PlayerInfo().iUnicCount > 0)

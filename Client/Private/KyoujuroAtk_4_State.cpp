@@ -412,7 +412,7 @@ CKyoujuroState * CAtk_4_State::CommandCheck(CKyoujuro * pKyoujuro)
 		}
 		break;
 	case 2:
-		if (pGameInstance->Key_Pressing(DIK_RSHIFT))
+		if (pGameInstance->Key_Down(DIK_RSHIFT))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
 			if (pKyoujuro->Get_PlayerInfo().iUnicCount > 0)
