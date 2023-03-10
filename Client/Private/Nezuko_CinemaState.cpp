@@ -253,7 +253,7 @@ void CNezuko_CinemaState::Enter(CNezuko * pNezuko)
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO5_SHOCK1, pNezuko);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO5_BLOOD1, pNezuko->Get_WeaponWorld());
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO5_CLAW2, pNezuko->Get_WeaponWorld2());
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_NE_MO5_CLAW2, pNezuko);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		break;

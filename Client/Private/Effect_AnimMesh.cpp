@@ -98,8 +98,8 @@ HRESULT CEffect_AnimMesh::SetUp_ShaderResources()
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	_int iNumU = 3;
-	_int iNumV = 4;
+	_int iNumU = 4;
+	_int iNumV = 7;
 
 	_float		fAccTime = m_fTime - m_pInfo.fStartTime;
 	_float		fAllLifeTime = m_pInfo.fLifeTime;
