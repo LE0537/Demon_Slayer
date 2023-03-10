@@ -1811,6 +1811,18 @@ void CLevel_AdvRui::RuiBombTick(_float fTimeDelta)
 
 	//}
 
+	if (pGameInstance->Key_Down(DIK_G))
+	{
+		CRuiBomb::BOMBDESC tInfo{};
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront())->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+
+
+	}
+
 	if (pGameInstance->Key_Down(DIK_INSERT))
 	{
 		CRuiBomb::BOMBDESC tInfo{};
@@ -1871,6 +1883,11 @@ void CLevel_AdvRui::RuiBombTick(_float fTimeDelta)
 
 		ZeroMemory(&tInfo, sizeof(tInfo));
 		tInfo.vPosition = XMVectorSet(-246.529f, 43.394f, -193.548f, 1.f); // 12
+		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
+		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
+
+		ZeroMemory(&tInfo, sizeof(tInfo));
+		tInfo.vPosition = XMVectorSet(-240.706f, 43.069f, -198.302f, 1.f); // 13
 		tInfo.pTarget = dynamic_cast<CTanjiro*>(pGameInstance->Find_Layer(g_iLevel, TEXT("Layer_Tanjiro"))->Get_LayerFront());
 		pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiBomb"), LEVEL_ADVRUI, TEXT("Layer_RuiBomb"), &tInfo);
 

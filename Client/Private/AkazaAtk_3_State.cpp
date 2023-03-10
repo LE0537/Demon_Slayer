@@ -206,7 +206,7 @@ CAkazaState * CAtk_3_State::Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 	}
 
-	if (m_bAtkCombo == true && m_fTime >= 70.f)
+	if (m_bAtkCombo == true && m_fTime >= 60.f)
 		return new CAtk_4_State();
 
 
