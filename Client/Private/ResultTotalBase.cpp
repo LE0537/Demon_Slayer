@@ -105,7 +105,7 @@ HRESULT CResultTotalBase::Render()
 	}
 	
 
-	pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szScore, XMVectorSet(m_fX - 130.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(1.1f, 1.1f, 0.f, 1.f));
+	pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), m_szScore, XMVectorSet(m_fX - 130.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(1.1f, 1.1f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);

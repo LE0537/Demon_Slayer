@@ -66,7 +66,8 @@ void CNumTimer::Tick(_float fTimeDelta)
 
 		if (!m_bTimerOnoff)
 		{
-			m_fTimer -= fTimeDelta;
+			if(!pUI_Manager->Get_1P()->Get_SplSkl() && !pUI_Manager->Get_2P()->Get_SplSkl())
+				m_fTimer -= fTimeDelta;
 
 			if (m_ThrowUIinfo.iLayerNum == 0)
 				m_iFirstNum = (_uint)m_fTimer / 10;
