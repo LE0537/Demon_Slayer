@@ -1617,6 +1617,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk1"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk2"));
+		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk2_Ptc"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk3"));
 		pEffect_Manager->Load_Effect(TEXT("Effect_Akaza_Atk4"));
 
