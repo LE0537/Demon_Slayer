@@ -182,11 +182,12 @@ void CRui_CinemaState::Enter(CRui * pRui)
 		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
 		if (pUIManager->Get_BattleTypeCheck())
 		{
-			pRui->Get_BattleTarget()->Set_Hp(-400);
+			pRui->Get_BattleTarget()->Set_Hp(-300);
 		}
 		else
-			pRui->Get_BattleTarget()->Set_Hp(-200);
+			pRui->Get_BattleTarget()->Set_Hp(-150);
 		RELEASE_INSTANCE(CUI_Manager);
+
 		pRui->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_050);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui_CinemaState::ANIM_SCENE_2);
 		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CRui_CinemaState::ANIM_SCENE_2));

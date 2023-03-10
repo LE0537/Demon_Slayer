@@ -316,6 +316,22 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_NezukoMask"),
 			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/Meshes/Anim/NezukoMask/%d.png"), 3))))
 			return E_FAIL;
+		//Ending
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Jaehun"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/EndingMovie/Jaehun/%d.png"), 47))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sungjun"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/EndingMovie/Sungjun/%d.png"), 45))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Minjun"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/EndingMovie/Minjun/%d.png"), 46))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Yoonji"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/EndingMovie/Yoonji/%d.png"), 45))))
+			return E_FAIL;
+		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sukhun"),
+			CTexture::Create(m_pDevice, m_pContext, TEXT("../Bin/Resources/EndingMovie/Sukhun/%d.png"), 46))))
+			return E_FAIL;
 		g_fLoading = 3.f;
 		//Battle
 		if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_UltGaugeFrame"),

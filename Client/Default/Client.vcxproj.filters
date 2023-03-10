@@ -751,30 +751,6 @@
     <Filter Include="03.UI\04.Result\Result\ResultUI\Under">
       <UniqueIdentifier>{e2692f70-ba92-4dd3-85f7-f54d639fd6aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03.UI\05.Menu">
-      <UniqueIdentifier>{3682f94c-9e7e-45cc-ba0d-550580dc4d9e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\05.Menu\Menu">
-      <UniqueIdentifier>{59619527-2d03-4f0c-9592-e2b87cbc72f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\05.Menu\Menu\Cursor">
-      <UniqueIdentifier>{9569da02-8e5e-4ee0-ace3-487f6f03577e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\05.Menu\Menu\Cloud">
-      <UniqueIdentifier>{fdf5e444-f307-4863-921f-7290c70917ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\05.Menu\Menu\FixedImg">
-      <UniqueIdentifier>{cb0d21f9-7aeb-47be-9745-046a89a7b5f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\05.Menu\Menu\MenuBackDeco">
-      <UniqueIdentifier>{feff26cc-376a-4e49-a4f0-e1060a7bf9e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\05.Menu\Menu\Title">
-      <UniqueIdentifier>{2965ef00-9624-4011-868c-3be8af894d19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03.UI\05.Menu\Menu\MenuChar">
-      <UniqueIdentifier>{2c3045c0-c88a-4559-99c6-1fa534f4ec55}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03.UI\06.StoryMenu">
       <UniqueIdentifier>{1c9a16f2-bedd-42d0-8fc3-fe122bf02b24}</UniqueIdentifier>
     </Filter>
@@ -1698,6 +1674,30 @@
     </Filter>
     <Filter Include="03.UI\08.Ending">
       <UniqueIdentifier>{946b786c-9e6d-49da-8566-77e736358f23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Menu">
+      <UniqueIdentifier>{3682f94c-9e7e-45cc-ba0d-550580dc4d9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Menu\Menu">
+      <UniqueIdentifier>{59619527-2d03-4f0c-9592-e2b87cbc72f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Menu\Menu\Cursor">
+      <UniqueIdentifier>{9569da02-8e5e-4ee0-ace3-487f6f03577e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Menu\Menu\Cloud">
+      <UniqueIdentifier>{fdf5e444-f307-4863-921f-7290c70917ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Menu\Menu\FixedImg">
+      <UniqueIdentifier>{cb0d21f9-7aeb-47be-9745-046a89a7b5f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Menu\Menu\MenuBackDeco">
+      <UniqueIdentifier>{feff26cc-376a-4e49-a4f0-e1060a7bf9e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Menu\Menu\Title">
+      <UniqueIdentifier>{2965ef00-9624-4011-868c-3be8af894d19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03.UI\05.Menu\Menu\MenuChar">
+      <UniqueIdentifier>{2c3045c0-c88a-4559-99c6-1fa534f4ec55}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
