@@ -29,7 +29,6 @@ CRuiState * CHitState::Tick(CRui* pRui, _float fTimeDelta)
 		if (pRui->Get_PlayerInfo().iUnicCount < 3 && pRui->Get_PlayerInfo().iUnicBar < pRui->Get_PlayerInfo().iUnicMaxBar)
 		{
 			pRui->Set_UnicBar(33);
-			pRui->Get_BattleTarget()->Set_UnicBar(16);
 			if (pRui->Get_PlayerInfo().iUnicBar >= pRui->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pRui->Get_PlayerInfo().iUnicCount < 3)
@@ -39,6 +38,17 @@ CRuiState * CHitState::Tick(CRui* pRui, _float fTimeDelta)
 				}
 				else
 					pRui->Set_UnicBar(pRui->Get_PlayerInfo().iUnicMaxBar);
+			}
+			pRui->Get_BattleTarget()->Set_UnicBar(16);
+			if (pRui->Get_BattleTarget()->Get_PlayerInfo().iUnicBar >= pRui->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pRui->Get_BattleTarget()->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pRui->Get_BattleTarget()->Reset_UnicBar();
+					pRui->Get_BattleTarget()->Set_UnicCount(1);
+				}
+				else
+					pRui->Get_BattleTarget()->Set_UnicBar(pRui->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar);
 			}
 		}
 		pRui->Get_Model()->Reset_Anim(CRui::ANIM_HIT);

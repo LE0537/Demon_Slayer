@@ -41,7 +41,7 @@ public:
 
 	void		Set_PlayerOriginPosY(_float fTimeDelta);
 	void			Set_Effect(CGameObj* _Effect) { m_pEffect = _Effect; }
-
+	CGameObj*		Get_Effect() { return m_pEffect; }
 public:
 	typedef struct tagInfo {
 		wstring		strName; //캐릭터 이름;

@@ -100,6 +100,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				}
 				else if (pNezuko->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					pNezuko->Get_Effect()->Set_Dead();
 					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 					pUI_Manager->Set_UltUseCount(1, 0);
 					RELEASE_INSTANCE(CUI_Manager);
@@ -221,6 +222,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				}
 				else if (pNezuko->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					pNezuko->Get_Effect()->Set_Dead();
 					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 					pUI_Manager->Set_UltUseCount(1, 1);
 					RELEASE_INSTANCE(CUI_Manager);

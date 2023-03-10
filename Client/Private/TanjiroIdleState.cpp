@@ -114,6 +114,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				}
 				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					pTanjiro->Get_Effect()->Set_Dead();
 					pTanjiro->Set_PowerIndex(2);
 					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -240,6 +241,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				}
 				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					pTanjiro->Get_Effect()->Set_Dead();
 					pTanjiro->Set_PowerIndex(2);
 					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
