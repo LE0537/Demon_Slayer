@@ -113,7 +113,7 @@ HRESULT CAdv_ResultBase::Render()
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
 	if (m_fStopTime <= 1.f && m_bFadeCheck)
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("배틀 결과"), XMVectorSet(m_fX - 150.f, m_fY - 23.f, 0.f, 1.f), XMVectorSet(1.f, 0.5f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("배틀 결과"), XMVectorSet(m_fX - 70.f, m_fY, 0.f, 1.f), XMVectorSet(1.f, 0.5f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);
 	RELEASE_INSTANCE(CUI_Manager);

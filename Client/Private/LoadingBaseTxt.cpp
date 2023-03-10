@@ -86,7 +86,7 @@ HRESULT CLoadingBaseTxt::Render()
 	
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 
-	pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szTitle.c_str(), XMVectorSet(m_fX - 240.f, m_fY - 180.f, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+	pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szTitle.c_str(), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(0.f, 0.f, 0.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);
 

@@ -112,7 +112,7 @@ HRESULT CMsgNameBase::Render()
 	CGameInstance* pGameInstance = GET_INSTANCE(CGameInstance);
 	CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 
-	pGameInstance->Render_Font(TEXT("Font_Nexon"), pUI_Manager->Get_MsgName().c_str(), XMVectorSet(m_fX - 120.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+	pGameInstance->Render_Font(TEXT("Font_Nexon"), pUI_Manager->Get_MsgName().c_str(), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CUI_Manager);
 	RELEASE_INSTANCE(CGameInstance);

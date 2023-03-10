@@ -92,7 +92,7 @@ HRESULT CCharSelMsg::Render()
 		else if (m_ThrowUIinfo.iLayerNum == 2)
 		{
 			m_pVIBufferCom->Render();
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("이 캐릭터와는 협력할 수 없습니다."), XMVectorSet(m_fX - 160.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("이 캐릭터와는 협력할 수 없습니다."), XMVectorSet(m_fX , m_fY, 0.f, 1.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
 		}
 	}
 	else if (Select1PInfo.strName == Select1PInfo_2.strName && pP1Cursor->Get_FirstSelCheck())
@@ -104,7 +104,7 @@ HRESULT CCharSelMsg::Render()
 		else if (m_ThrowUIinfo.iLayerNum == 2)
 		{
 			m_pVIBufferCom->Render();
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("같은 캐릭터는 선택할 수 없습니다."), XMVectorSet(m_fX - 160.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("같은 캐릭터는 선택할 수 없습니다."), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
 		}
 	}
 
@@ -117,7 +117,7 @@ HRESULT CCharSelMsg::Render()
 		else if (m_ThrowUIinfo.iLayerNum == 5)
 		{
 			m_pVIBufferCom->Render();
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("이 캐릭터와는 협력할 수 없습니다."), XMVectorSet(m_fX - 160.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("이 캐릭터와는 협력할 수 없습니다."), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
 		}		
 	}
 	else if (Select2PInfo.strName == Select2PInfo_2.strName && pP2Cursor->Get_FirstSelCheck())
@@ -129,7 +129,7 @@ HRESULT CCharSelMsg::Render()
 		else if (m_ThrowUIinfo.iLayerNum == 5)
 		{
 			m_pVIBufferCom->Render();
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("같은 캐릭터는 선택할 수 없습니다."), XMVectorSet(m_fX - 160.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("같은 캐릭터는 선택할 수 없습니다."), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(1.f, 0.f, 0.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
 		}
 	}
 
@@ -137,9 +137,9 @@ HRESULT CCharSelMsg::Render()
 	{
 		m_pVIBufferCom->Render();
 		if (pP1Cursor->Get_SelComple() && pP2Cursor->Get_SelComple())
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("잠시 후 대전이 시작됩니다."), XMVectorSet(m_fX - 123.f, m_fY - 15.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("잠시 후 대전이 시작됩니다."), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
 		else
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("캐릭터를 선택해 주세요."), XMVectorSet(m_fX - 123.f, m_fY - 15.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("캐릭터를 선택해 주세요."), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(0.7f, 0.7f, 0.f, 1.f));
 	}
 
 	RELEASE_INSTANCE(CUI_Manager);

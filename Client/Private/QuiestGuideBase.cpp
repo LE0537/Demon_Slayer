@@ -100,12 +100,12 @@ HRESULT CQuiestGuideBase::Render()
 		if (m_ThrowUIinfo.iLayerNum == 0 && m_ThrowUIinfo.iLevelIndex == LEVEL_ADVRUI)
 		{
 			m_pVIBufferCom->Render();
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("³¿»õ Å½Áö"), XMVectorSet(m_fX - 70.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("³¿»õ Å½Áö"), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
 		}
 		else if (m_ThrowUIinfo.iLayerNum == 1)
 		{
 			m_pVIBufferCom->Render();
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("Äù½ºÆ® Ã¢"), XMVectorSet(m_fX - 70.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("Äù½ºÆ® Ã¢"), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
 		}
 	}
 
