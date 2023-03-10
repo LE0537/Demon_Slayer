@@ -180,7 +180,7 @@ void CSplSkrStartState::Enter(CRui* pRui)
 
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_START, pRui);
+		//pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_START, pRui);
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_START_WEB, pRui->Get_BattleTarget());
 
 		RELEASE_INSTANCE(CEffect_Manager);

@@ -478,6 +478,30 @@ void CEffect::Late_Tick(_float fTimeDelta)
 		break;
 	default:
 		if (m_fEffectTime > m_EffectInfo.fEffectStartTime) {
+			if (m_bLateStart) {
+				if (EFFMOVE_MATRIXPIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {
+					_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
+
+					mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
+					mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
+					mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
+
+					XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParentWorld);
+				}
+				m_bLateStart = false;
+			}
+			else {
+				if (EFFMOVE_MATRIX == m_EffectInfo.iMoveType || EFFMOVE_MATRIX2 == m_EffectInfo.iMoveType) {
+					_matrix mtrParentWorld = XMLoadFloat4x4(m_ParentWorldMatrix);
+
+					mtrParentWorld.r[0] = XMVector3Normalize(mtrParentWorld.r[0]);
+					mtrParentWorld.r[1] = XMVector3Normalize(mtrParentWorld.r[1]);
+					mtrParentWorld.r[2] = XMVector3Normalize(mtrParentWorld.r[2]);
+
+					XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParentWorld);
+				}
+			}
+
 			int i = 0;
 			for (auto& pTex : m_Textures) {
 				if (m_fEffectStartTime >= m_EffectInfo.fEffectStartTime + m_TextureInfo[i].fStartTime)
