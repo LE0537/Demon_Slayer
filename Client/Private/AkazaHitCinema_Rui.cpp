@@ -45,7 +45,7 @@ CAkazaState * CHitCinema_Rui::Tick(CAkaza* pAkaza, _float fTimeDelta)
 		break;
 	case Client::Akaza::CHitCinema_Rui::SCENE_1:
 		m_fDuration += fTimeDelta;
-		if (5.46f < m_fDuration)
+		if (5.26f < m_fDuration)
 			return new CHitCinema_Rui(CHitCinema_Rui::SCENE_2);
 		break;
 	case Client::Akaza::CHitCinema_Rui::SCENE_2:

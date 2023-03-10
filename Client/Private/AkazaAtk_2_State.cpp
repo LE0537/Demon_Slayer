@@ -350,6 +350,7 @@ CAkazaState * CAtk_2_State::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZATK_2, pAkaza);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZATK_2_PTC, pAkaza);
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;
