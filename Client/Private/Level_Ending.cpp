@@ -166,8 +166,8 @@ HRESULT CLevel_Ending::Ready_Lights()
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
 	LightDesc.eType = LIGHTDESC::TYPE_RUISHADOW;
-	LightDesc.vDirection = _float4(-1.f, 30.f, 60.f, 1.f);
-	LightDesc.vDiffuse = _float4(0.f, 4.f, 0.f, 1.f);
+	LightDesc.vDirection = _float4(-1.f, 30.f, 60.f, 1.f);	//	eye
+	XMStoreFloat4(&LightDesc.vDiffuse, XMLoadFloat4(&LightDesc.vDirection) + XMLoadFloat4(&_float4(1.f, -1.f, 1.5f, 1.f)));
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
 	if (nullptr == pLightDesc)
@@ -206,7 +206,7 @@ HRESULT CLevel_Ending::Ready_Lights()
 
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 	LightDesc.eType = LIGHTDESC::TYPE_BATTLESHADOW;
-	LightDesc.vDirection = _float4(-10.f, 110.f, 1145.f, 1.f);		//	eye
+	LightDesc.vDirection = _float4(-800.f, 850.f, -250.f, 1.f);		//	eye
 	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&LightDesc.vDirection) + XMVector3Normalize(vLook), 1.f));
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 	pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW);
