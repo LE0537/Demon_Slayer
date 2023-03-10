@@ -116,14 +116,16 @@ CEnmuState * CIdleState::Late_Tick(CEnmu* pEnmu, _float fTimeDelta)
 
 	pEnmu->Get_Model()->Play_Animation(fTimeDelta);
 
-	_vector vPlayerY = pEnmu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
-
-	pEnmu->Set_NavigationHeight(vPlayerY);
-	if (vPlayerY.m128_f32[1] > pEnmu->Get_NavigationHeight().y + 0.1f)
+	if (pEnmu->Get_i1P() != 10)
 	{
-		pEnmu->Set_PlayerOriginPosY(fTimeDelta);
-	}
+		_vector vPlayerY = pEnmu->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 
+		pEnmu->Set_NavigationHeight(vPlayerY);
+		if (vPlayerY.m128_f32[1] > pEnmu->Get_NavigationHeight().y + 0.1f)
+		{
+			pEnmu->Set_PlayerOriginPosY(fTimeDelta);
+		}
+	}
 	if (pEnmu->Get_PlayerInfo().iGuard < pEnmu->Get_PlayerInfo().iMaxGuard)
 	{
 		pEnmu->Set_GuardHp(1);

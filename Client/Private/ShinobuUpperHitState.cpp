@@ -26,7 +26,6 @@ CShinobuState * CUpperHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 		if (pShinobu->Get_PlayerInfo().iUnicCount < 3 && pShinobu->Get_PlayerInfo().iUnicBar < pShinobu->Get_PlayerInfo().iUnicMaxBar)
 		{
 			pShinobu->Set_UnicBar(33);
-			pShinobu->Get_BattleTarget()->Set_UnicBar(16);
 			if (pShinobu->Get_PlayerInfo().iUnicBar >= pShinobu->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pShinobu->Get_PlayerInfo().iUnicCount < 3)
@@ -36,6 +35,17 @@ CShinobuState * CUpperHitState::Tick(CShinobu* pShinobu, _float fTimeDelta)
 				}
 				else
 					pShinobu->Set_UnicBar(pShinobu->Get_PlayerInfo().iUnicMaxBar);
+			}
+			pShinobu->Get_BattleTarget()->Set_UnicBar(16);
+			if (pShinobu->Get_BattleTarget()->Get_PlayerInfo().iUnicBar >= pShinobu->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pShinobu->Get_BattleTarget()->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pShinobu->Get_BattleTarget()->Reset_UnicBar();
+					pShinobu->Get_BattleTarget()->Set_UnicCount(1);
+				}
+				else
+					pShinobu->Get_BattleTarget()->Set_UnicBar(pShinobu->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar);
 			}
 		}
 		m_bReset = true;

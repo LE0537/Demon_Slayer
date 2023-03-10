@@ -25,7 +25,6 @@ CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 		if (pAkaza->Get_PlayerInfo().iUnicCount < 3 && pAkaza->Get_PlayerInfo().iUnicBar < pAkaza->Get_PlayerInfo().iUnicMaxBar)
 		{
 			pAkaza->Set_UnicBar(33);
-			pAkaza->Get_BattleTarget()->Set_UnicBar(16);
 			if (pAkaza->Get_PlayerInfo().iUnicBar >= pAkaza->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pAkaza->Get_PlayerInfo().iUnicCount < 3)
@@ -35,6 +34,17 @@ CAkazaState * CHitState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 				}
 				else
 					pAkaza->Set_UnicBar(pAkaza->Get_PlayerInfo().iUnicMaxBar);
+			}
+			pAkaza->Get_BattleTarget()->Set_UnicBar(16);
+			if (pAkaza->Get_BattleTarget()->Get_PlayerInfo().iUnicBar >= pAkaza->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pAkaza->Get_BattleTarget()->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pAkaza->Get_BattleTarget()->Reset_UnicBar();
+					pAkaza->Get_BattleTarget()->Set_UnicCount(1);
+				}
+				else
+					pAkaza->Get_BattleTarget()->Set_UnicBar(pAkaza->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar);
 			}
 		}
 		pAkaza->Get_Model()->Reset_Anim(CAkaza::ANIM_HIT);

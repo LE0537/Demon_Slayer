@@ -26,7 +26,6 @@ CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 		if (pKyoujuro->Get_PlayerInfo().iUnicCount < 3 && pKyoujuro->Get_PlayerInfo().iUnicBar < pKyoujuro->Get_PlayerInfo().iUnicMaxBar)
 		{
 			pKyoujuro->Set_UnicBar(33);
-			pKyoujuro->Get_BattleTarget()->Set_UnicBar(16);
 			if (pKyoujuro->Get_PlayerInfo().iUnicBar >= pKyoujuro->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pKyoujuro->Get_PlayerInfo().iUnicCount < 3)
@@ -36,6 +35,17 @@ CKyoujuroState * CHitState::Tick(CKyoujuro* pKyoujuro, _float fTimeDelta)
 				}
 				else
 					pKyoujuro->Set_UnicBar(pKyoujuro->Get_PlayerInfo().iUnicMaxBar);
+			}
+			pKyoujuro->Get_BattleTarget()->Set_UnicBar(16);
+			if (pKyoujuro->Get_BattleTarget()->Get_PlayerInfo().iUnicBar >= pKyoujuro->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pKyoujuro->Get_BattleTarget()->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pKyoujuro->Get_BattleTarget()->Reset_UnicBar();
+					pKyoujuro->Get_BattleTarget()->Set_UnicCount(1);
+				}
+				else
+					pKyoujuro->Get_BattleTarget()->Set_UnicBar(pKyoujuro->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar);
 			}
 		}
 		pKyoujuro->Get_Model()->Reset_Anim(CKyoujuro::ANIM_HIT);
