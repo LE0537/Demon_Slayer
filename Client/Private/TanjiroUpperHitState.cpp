@@ -29,7 +29,6 @@ CTanjiroState * CUpperHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 		if (pTanjiro->Get_PlayerInfo().iUnicCount < 3 && pTanjiro->Get_PlayerInfo().iUnicBar < pTanjiro->Get_PlayerInfo().iUnicMaxBar)
 		{
 			pTanjiro->Set_UnicBar(33);
-			pTanjiro->Get_BattleTarget()->Set_UnicBar(16);
 			if (pTanjiro->Get_PlayerInfo().iUnicBar >= pTanjiro->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pTanjiro->Get_PlayerInfo().iUnicCount < 3)
@@ -39,6 +38,17 @@ CTanjiroState * CUpperHitState::Tick(CTanjiro * pTanjiro, _float fTimeDelta)
 				}
 				else
 					pTanjiro->Set_UnicBar(pTanjiro->Get_PlayerInfo().iUnicMaxBar);
+			}
+			pTanjiro->Get_BattleTarget()->Set_UnicBar(16);
+			if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().iUnicBar >= pTanjiro->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pTanjiro->Get_BattleTarget()->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pTanjiro->Get_BattleTarget()->Reset_UnicBar();
+					pTanjiro->Get_BattleTarget()->Set_UnicCount(1);
+				}
+				else
+					pTanjiro->Get_BattleTarget()->Set_UnicBar(pTanjiro->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar);
 			}
 		}
 		m_bReset = true;

@@ -107,6 +107,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			}
 			else if (pRui->Get_PlayerInfo().iPowerIndex == 1)
 			{
+				pRui->Get_Effect()->Set_Dead();
 				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 				pUI_Manager->Set_UltUseCount(1, 0);
 				RELEASE_INSTANCE(CUI_Manager);
@@ -239,6 +240,7 @@ CRuiState * CIdleState::HandleInput(CRui * pRui)
 			}
 			else if (pRui->Get_PlayerInfo().iPowerIndex == 1)
 			{
+				pRui->Get_Effect()->Set_Dead();
 				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 				pUI_Manager->Set_UltUseCount(1, 1);
 				RELEASE_INSTANCE(CUI_Manager);

@@ -327,7 +327,7 @@ void CEnmu_Chaos_Head::Set_Info()
 {
 	m_tInfo.strName = TEXT("엔무(각성)");
 	m_tInfo.bOni = true;
-	m_tInfo.iMaxHp = 1000;
+	m_tInfo.iMaxHp = 600;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
 	m_tInfo.iSkMaxBar = 1000;
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
