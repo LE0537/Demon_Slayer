@@ -147,13 +147,13 @@ HRESULT CMini_Result::SetUp_ShaderResources()
 		vPos = { 390.f,260.f,0.f,1.f };
 		vScale = { 2.5f,2.5f,1.f,1.f };
 
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
 
 		szName = TEXT("Press  ' F '  Key");
 		vPos = { 500.f,400.f,0.f,1.f };
 		vScale = { 1.f,1.f,1.f,1.f };
 
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
 	}
 	else if (m_bPlayerDead)
 	{
@@ -161,13 +161,13 @@ HRESULT CMini_Result::SetUp_ShaderResources()
 		vPos = { 390.f,260.f,0.f,1.f };
 		vScale = { 2.5f,2.5f,1.f,1.f };
 
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
 
 		szName = TEXT("ReStart  Press  ' F '  Key");
 		vPos = { 430.f,400.f,0.f,1.f };
 		vScale = { 1.f,1.f,1.f,1.f };
 
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
 	}
 	if (m_bStart)
 	{
@@ -175,25 +175,25 @@ HRESULT CMini_Result::SetUp_ShaderResources()
 		vPos = { 1050.f,10.f,0.f,1.f };
 		vScale = { 0.7f,0.7f,1.f,1.f };
 
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
 
 		szName = to_wstring(m_pTarget->Get_Score());
 		vPos = { 1170.f,12.f,0.f,1.f };
 		vScale = { 0.7f,0.7f,1.f,1.f };
 
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
 	
 		szName = TEXT("Rank Score :");
 		vPos = { 20.f,10.f,0.f,1.f };
 		vScale = { 0.7f,0.7f,1.f,1.f };
 
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
 
 		szName = to_wstring(m_iRankScore);
 		vPos = { 180.f,12.f,0.f,1.f };
 		vScale = { 0.7f,0.7f,1.f,1.f };
 
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
 
 	}
 	if (g_fLoading >= 100.f)
@@ -202,7 +202,7 @@ HRESULT CMini_Result::SetUp_ShaderResources()
 		vPos = { 480.f,680.f,0.f,1.f };
 		vScale = { 0.5f,0.5f,1.f,1.f };
 
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), szName.c_str(), vPos, XMVectorSet(1.f, 1.f, 1.f, 1.f), vScale);
 
 	}
 	RELEASE_INSTANCE(CGameInstance);

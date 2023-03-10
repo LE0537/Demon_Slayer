@@ -806,7 +806,7 @@ void CItemBox::EventCheck()
 		pUI_Manager->Set_Msg(TEXT("뭐지 이 괴상한 물체는?"));
 		break;
 	case 1:
-		pUI_Manager->Set_Msg(TEXT("다른 세계에서 온 상자같아..\n한 번 열어보자.."));
+		pUI_Manager->Set_Msg(TEXT("다른 세계에서 온 상자같아.. 한 번 열어보자.."));
 		break;
 	default:
 		pUI_Manager->Reset_MsgCount();

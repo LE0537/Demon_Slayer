@@ -1724,7 +1724,7 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 					break;
 				case 7:
 					pUIManager->Set_MsgName(TEXT("렌고쿠 쿄주로"));
-					pUIManager->Set_Msg(TEXT("나도 혈귀를 찾으며 싸우겠다!\n너도 마음을 다잡아라!"));
+					pUIManager->Set_Msg(TEXT("나도 혈귀를 찾으며 싸우겠다!! 너도 마음을 다잡아라!"));
 					if (m_bSoundCheck)
 					{
 						CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
@@ -1817,7 +1817,7 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 						break;
 					case 3:
 						pUIManager->Set_MsgName(TEXT("엔무"));
-						pUIManager->Set_Msg(TEXT("'정신의 핵'을 파괴하면 되는 거야\n그럼 살아있는 시체가 돼서 죽이는 것도 간단하지"));
+						pUIManager->Set_Msg(TEXT("'정신의 핵'을 파괴하면 되는 거야"));
 						if (m_bSoundCheck)
 						{
 							CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);
@@ -1830,7 +1830,7 @@ void CTanjiro::Check_QuestTrainEvent(_float fTimeDelta)
 						break;
 					case 4:
 						pUIManager->Set_MsgName(TEXT("엔무"));
-						pUIManager->Set_Msg(TEXT("인간의 마음 따위는 모두 똑같아\n유리 세공품처럼 무르고 약하거든"));
+						pUIManager->Set_Msg(TEXT("인간의 마음 따위는 모두 똑같아 유리 세공품처럼 무르고 약하거든"));
 						if (!m_bSoundCheck)
 						{
 							CSoundMgr::Get_Instance()->Effect_Stop(SOUND_DIALOG);

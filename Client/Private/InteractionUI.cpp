@@ -120,7 +120,7 @@ HRESULT CInteractionUI::Render()
 	if (pUI_Manager->Get_InteractionOnOff() && g_iLevel == LEVEL_ADVRUI)
 	{
 		m_pVIBufferCom->Render();
-		pGameInstance->Render_Font(TEXT("Font_Nexon"),TEXT(" : 대화 하기"), XMVectorSet(m_fX - 45.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"),TEXT(" : 대화 하기"), XMVectorSet(m_fX + 10.f, m_fY, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 	}
 	else if (g_iLevel == LEVEL_ADVAKAZA)
 	{
@@ -130,9 +130,9 @@ HRESULT CInteractionUI::Render()
 			{
 				m_pVIBufferCom->Render();
 				if(!dynamic_cast<CDoor*>(iter.pDoor)->Get_Turn())
-					pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT(" : 문 열기"), XMVectorSet(m_fX - 45.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+					pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT(" : 문 열기"), XMVectorSet(m_fX + 10.f, m_fY, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 				else
-					pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT(" : 문 닫기"), XMVectorSet(m_fX - 45.f, m_fY - 18.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+					pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT(" : 문 닫기"), XMVectorSet(m_fX + 10.f, m_fY, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 			}
 		}
 		

@@ -156,9 +156,9 @@ HRESULT CQuiestSubBase::Render()
 	{
 		m_pVIBufferCom->Render();
 		if(m_ThrowUIinfo.iLayerNum != 1)
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szQuest.c_str(), XMVectorSet(m_fX - 120.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szQuest.c_str(), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
 		else
-			pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szQuest2, XMVectorSet(m_fX - 120.f, m_fY - 22.f, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
+			pGameInstance->Render_Font(TEXT("Font_Nexon"), m_szQuest2, XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(m_fFadeTime, m_fFadeTime, m_fFadeTime, m_fFadeTime), XMVectorSet(0.9f, 0.9f, 0.f, 1.f));
 	}
 
 	
