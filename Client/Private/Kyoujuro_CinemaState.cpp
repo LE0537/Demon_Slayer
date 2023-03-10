@@ -114,7 +114,7 @@ CKyoujuroState * CKyoujuro_CinemaState::Tick(CKyoujuro * pKyoujuro, _float fTime
 		break;
 	case Client::Kyoujuro::CKyoujuro_CinemaState::SCENE_7:
 		m_fTime += fTimeDelta;
-		if (2.f <= m_fTime)
+		if (2.2f <= m_fTime)
 		{
 			if (false == m_bRenderObjects)
 			{
