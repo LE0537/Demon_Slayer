@@ -115,6 +115,10 @@ void CEffect_Manager::Create_Effect(_uint iEffectNum, void* pTarget)
 {
 	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
 
+	if (m_Effect.size() == 0) {
+		int i = 0;
+	}
+
 	if (FAILED(pGameInstance->Add_GameObject(m_Effect[iEffectNum], g_iLevel, TEXT("Layer_Effect"), pTarget)))
 		return ;
 

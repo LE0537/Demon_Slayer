@@ -277,9 +277,9 @@ CTanjiroState * CAtk_2_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 					default:
 						break;
 					}
-				}
 
-				RELEASE_INSTANCE(CEffect_Manager);
+					RELEASE_INSTANCE(CEffect_Manager);
+				}
 
 				++m_iHit;
 			}

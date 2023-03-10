@@ -240,7 +240,7 @@ CTanjiroState * CAtk_1_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-						  pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
 						RELEASE_INSTANCE(CEffect_Manager);
 						m_pTarget->Set_ResetGuardHp();
 						m_pTarget->Set_GuardTime(2.f);

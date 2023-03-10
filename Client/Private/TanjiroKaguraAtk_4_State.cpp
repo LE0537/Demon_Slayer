@@ -248,7 +248,7 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-						  pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
 						RELEASE_INSTANCE(CEffect_Manager);
 						m_pTarget->Set_ResetGuardHp();
 						m_pTarget->Set_GuardTime(2.f);
@@ -268,6 +268,7 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_SE_Hit_Attack_3.wav"), g_fEffect);
 					_int iDest = rand() % 5;
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
 					switch (iDest)
 					{
 					case 0:
@@ -288,7 +289,6 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 					default:
 						break;
 					}
-
 
 					RELEASE_INSTANCE(CEffect_Manager);
 
@@ -325,7 +325,7 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 					if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 					{
 						CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-						  pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
+						pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
 						RELEASE_INSTANCE(CEffect_Manager);
 						m_pTarget->Set_ResetGuardHp();
 						m_pTarget->Set_GuardTime(2.f);
@@ -347,6 +347,7 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 					CSoundMgr::Get_Instance()->PlayEffect(TEXT("Hinokami_SE_Hit_Attack_3.wav"), g_fEffect);
 					_int iDest = rand() % 5;
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
 					switch (iDest)
 					{
 					case 0:
@@ -367,7 +368,6 @@ CTanjiroState * CAtk_4_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 					default:
 						break;
 					}
-
 
 					RELEASE_INSTANCE(CEffect_Manager);
 
