@@ -22,6 +22,8 @@
 #include "AkazaMoveJumpState.h"
 #include "AkazaTargetRushState.h"
 #include "AkazaJumpMoveAttackState.h"
+#include "AkazaJumpState.h"
+
 
 using namespace Akaza;
 
@@ -783,7 +785,7 @@ CAkazaState * CAkazaAIState::Return_AIState(CAkaza * pAkaza)
 		}
 		break;
 	case Client::Akaza::CAkazaAIState::AI_JUMPATK:
-		return new CJumpMoveAttackState(TYPE_START);
+		return new CJumpState(TYPE_START, 0.f,0.035f);
 		break;
 	case Client::Akaza::CAkazaAIState::AI_JUMP:
 		break;

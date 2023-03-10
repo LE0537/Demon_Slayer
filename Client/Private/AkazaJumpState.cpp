@@ -5,6 +5,7 @@
 #include "AkazaJumpAttackState.h"
 #include "AkazaJumpSkill_Common.h"
 #include "Effect_Manager.h"
+#include "AkazaJumpMoveAttackState.h"
 using namespace Akaza;
 
 CJumpState::CJumpState(STATE_TYPE eType, _float fPositionY, _float fJumpTime)
@@ -111,6 +112,10 @@ CAkazaState * CJumpState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 
 	if (m_eStateType != TYPE_END)
 		Jump(pAkaza, fTimeDelta + m_fJumpTime);
+
+
+	if (m_fJumpTime >= 0.45f && pAkaza->Get_IsAIMode())
+		return new CJumpMoveAttackState(TYPE_START);
 
 	return nullptr;
 }

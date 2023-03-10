@@ -222,10 +222,13 @@ CAkazaState * CMoveJumpState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 		case Client::CAkazaState::TYPE_LOOP:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
 
+		
+
 			//return new CJumpState(STATE_TYPE::TYPE_END, m_fCurrentPosY, m_fJumpTime);
 			break;
 		case Client::CAkazaState::TYPE_END:
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
+
 			return new CIdleState(STATE_ID::STATE_JUMP);
 			break;
 		}
