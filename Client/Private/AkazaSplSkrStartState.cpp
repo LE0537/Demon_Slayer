@@ -119,7 +119,7 @@ CAkazaState * CSplSkrStartState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 		CCharacters* m_pTarget = pAkaza->Get_BattleTarget();
 
 		m_fMove += fTimeDelta;
-		if (pAkaza->Get_Model()->Get_CurrentTime_Index(CAkaza::ANIMID::ANIM_SPLSKL_START_1) >= 4.f)
+		if (pAkaza->Get_Model()->Get_CurrentTime_Index(CAkaza::ANIMID::ANIM_SPLSKL_START_1) >= 4.f && m_bHit == false)
 		//if (m_fMove > 0.3f)
 		{
 			_vector vCollPos = pAkaza->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION); //Ãß°¡
@@ -147,6 +147,7 @@ CAkazaState * CSplSkrStartState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 						m_pTarget->Set_GuardHp(-1);
 						if (m_pTarget->Get_PlayerInfo().iGuard <= 0)
 						{
+	
 							CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 							pEffectManger->Create_Effect(CEffect_Manager::EFF_GUARD3_BROKEN, m_pTarget);
 							RELEASE_INSTANCE(CEffect_Manager);
@@ -158,7 +159,7 @@ CAkazaState * CSplSkrStartState::Late_Tick(CAkaza* pAkaza, _float fTimeDelta)
 					{
 						m_bCollision = true;
 					}
-					if (pAkaza->Get_BattleTarget()->Get_GodMode() == false)
+					if (pAkaza->Get_BattleTarget()->Get_GodMode() == false )
 					{
 						CSoundMgr::Get_Instance()->PlayEffect(TEXT("Akaza_SE_Hit_SplSkr.wav"), g_fEffect);
 						_int iDest = rand() % 5;
