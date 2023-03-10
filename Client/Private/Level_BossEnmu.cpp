@@ -155,7 +155,7 @@ void CLevel_BossEnmu::Tick(_float fTimeDelta)
 		if (dynamic_cast<CBattleDialog*>(pUIManager->Get_DialogUI())->Get_DialogEnd())//아카자 넘어가는 딜레이
 		{
 			m_fNextLevelTime += fTimeDelta;
-			if (m_fNextLevelTime >= 5.f)
+			if (m_fNextLevelTime >= 4.f)
 			{
 				pUIManager->Set_SelMapNum(1);
 				pUIManager->Set_Sel1P(1);

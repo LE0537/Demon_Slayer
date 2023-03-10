@@ -98,7 +98,7 @@ void CMainApp::Tick(_float fTimeDelta)
 {
 	if (nullptr == m_pGameInstance)
 		return;
-	ShowCursor(false);
+	//ShowCursor(false);
 	if (g_bDeathTime == true && g_iLevel != LEVEL_BOSSENMU)
 	{
 		static _float fTimeDelay1 = 0.f;

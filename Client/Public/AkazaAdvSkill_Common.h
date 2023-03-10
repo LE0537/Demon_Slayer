@@ -36,6 +36,7 @@ private:
 
 	_bool	m_bEffect = false;
 	_bool	m_bEffect_Increase = false;
+	_bool	m_bEffect_Increase2 = false;
 
 private:
 	_vector m_vTargetPosition;

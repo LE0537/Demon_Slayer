@@ -26,7 +26,6 @@ CNezukoState * CHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 		if (pNezuko->Get_PlayerInfo().iUnicCount < 3 && pNezuko->Get_PlayerInfo().iUnicBar < pNezuko->Get_PlayerInfo().iUnicMaxBar)
 		{
 			pNezuko->Set_UnicBar(33);
-			pNezuko->Get_BattleTarget()->Set_UnicBar(16);
 			if (pNezuko->Get_PlayerInfo().iUnicBar >= pNezuko->Get_PlayerInfo().iUnicMaxBar)
 			{
 				if (pNezuko->Get_PlayerInfo().iUnicCount < 3)
@@ -36,6 +35,17 @@ CNezukoState * CHitState::Tick(CNezuko* pNezuko, _float fTimeDelta)
 				}
 				else
 					pNezuko->Set_UnicBar(pNezuko->Get_PlayerInfo().iUnicMaxBar);
+			}
+			pNezuko->Get_BattleTarget()->Set_UnicBar(16);
+			if (pNezuko->Get_BattleTarget()->Get_PlayerInfo().iUnicBar >= pNezuko->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar)
+			{
+				if (pNezuko->Get_BattleTarget()->Get_PlayerInfo().iUnicCount < 3)
+				{
+					pNezuko->Get_BattleTarget()->Reset_UnicBar();
+					pNezuko->Get_BattleTarget()->Set_UnicCount(1);
+				}
+				else
+					pNezuko->Get_BattleTarget()->Set_UnicBar(pNezuko->Get_BattleTarget()->Get_PlayerInfo().iUnicMaxBar);
 			}
 		}
 		pNezuko->Get_Model()->Reset_Anim(CNezuko::ANIM_HIT);

@@ -94,11 +94,20 @@ CAkazaState * CAdvSkill_CommmonState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 			pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_ADVSKILL_COMMON_0);
 			pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_ADVSKILL_COMMON_0, 0.01f);
 			pAkaza->Set_AnimIndex(CAkaza::ANIM_ADVSKILL_COMMON_0);
+
+			if(false == m_bEffect_Increase2)
+			{
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_INGFOLLOW, pAkaza->Get_WeaponWorld2());
+				RELEASE_INSTANCE(CEffect_Manager);
+				m_bEffect_Increase2 = true;
+			}
+
 		}
 		
 
 		Increase_Height(pAkaza, fTimeDelta);
-	
+
 		if (m_bNextAnim == true && pAkaza->Get_Model()->Get_CurrentTime() >= 15.f)
 			return new CAdvSkill_CommmonState(CAkazaState::TYPE_LOOP);
 
@@ -341,15 +350,6 @@ CAkazaState * CAdvSkill_CommmonState::Late_Tick(CAkaza* pAkaza, _float fTimeDelt
 		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
 		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DASH, pAkaza);
-
-		RELEASE_INSTANCE(CEffect_Manager);
-		m_bEffect = true;
-	}
-	else if (!m_bEffect && m_eStateType == TYPE_LOOP)
-	{
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_FRIEND_COM_INGFOLLOW, pAkaza);
-		
 
 		RELEASE_INSTANCE(CEffect_Manager);
 		m_bEffect = true;

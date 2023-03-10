@@ -80,9 +80,9 @@ HRESULT CSelMapNameBase::Render()
 	_uint iFrameNum = dynamic_cast<CSelMapCursor*>(pUI_Manager->Get_SelMapCursor())->Get_FrameNum();
 
 	if(iFrameNum == 0)
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("나타구모 산"), XMVectorSet(m_fX - 70.f, m_fY - 20.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("나타구모 산"), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 	else if (iFrameNum == 1)
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("무한 열차·탈선 현장"), XMVectorSet(m_fX - 115.f, m_fY - 20.f, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
+		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("무한 열차·탈선 현장"), XMVectorSet(m_fX, m_fY, 0.f, 1.f), XMVectorSet(1.f, 1.f, 1.f, 1.f), XMVectorSet(0.8f, 0.8f, 0.f, 1.f));
 
 
 	RELEASE_INSTANCE(CGameInstance);

@@ -93,6 +93,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				}
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					pShinobu->Get_Effect()->Set_Dead();
 					pShinobu->Set_PowerIndex(2);
 					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -189,6 +190,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				}
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
 				{
+					pShinobu->Get_Effect()->Set_Dead();
 					pShinobu->Set_PowerIndex(2);
 					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

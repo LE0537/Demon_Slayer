@@ -148,37 +148,37 @@ void CEndingCredit::Ending()
 	
 	if (m_fDelayTime >= 4.5f && m_fDelayTime <= 8.5f)
 	{
-		pGameInstance->Render_Font(TEXT("Font_Nexon2"), TEXT("[ÆÀÀå ÀÌÀçÈÆ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("´ã´ç : ÇÁ·¹ÀÓ ¿öÅ©"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon2"), TEXT("[ÆÀÀå ÀÌÀçÈÆ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), TEXT("´ã´ç : ÇÁ·¹ÀÓ ¿öÅ©"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
 	}
 	else if (m_fDelayTime >= 14.5f && m_fDelayTime <= 18.5f)
 	{
-		/*pGameInstance->Render_Font(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø Çã¼ºÁØ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("´ã´ç : ½¦ÀÌ´õ, SubÀÌÆåÆ®"), XMVectorSet(740.f, 300.f, 0.f, 1.f), XMVectorSet(0.5451f, 0.f, 1.f, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));*/
-		pGameInstance->Render_Font(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø Çã¼ºÁØ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("´ã´ç : ½¦ÀÌ´õ, SubÀÌÆåÆ®"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
+		/*pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø Çã¼ºÁØ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), TEXT("´ã´ç : ½¦ÀÌ´õ, SubÀÌÆåÆ®"), XMVectorSet(740.f, 300.f, 0.f, 1.f), XMVectorSet(0.5451f, 0.f, 1.f, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));*/
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø Çã¼ºÁØ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), TEXT("´ã´ç : ½¦ÀÌ´õ, SubÀÌÆåÆ®"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
 	}
 	else if (m_fDelayTime >= 23.f && m_fDelayTime <= 27.f)
 	{
-		/*pGameInstance->Render_Font(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø ÃÖ¹ÎÁØ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("´ã´ç : ¾Ö´Ï¸ÞÀÌ¼Ç"), XMVectorSet(740.f, 300.f, 0.f, 1.f), XMVectorSet(0.f, 0.3725f, 1.f, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));*/
-		pGameInstance->Render_Font(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø ÃÖ¹ÎÁØ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("´ã´ç : ¾Ö´Ï¸ÞÀÌ¼Ç"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
+		/*pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø ÃÖ¹ÎÁØ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), TEXT("´ã´ç : ¾Ö´Ï¸ÞÀÌ¼Ç"), XMVectorSet(740.f, 300.f, 0.f, 1.f), XMVectorSet(0.f, 0.3725f, 1.f, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));*/
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø ÃÖ¹ÎÁØ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), TEXT("´ã´ç : ¾Ö´Ï¸ÞÀÌ¼Ç"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
 	}
 	else if (m_fDelayTime >= 30.5f && m_fDelayTime <= 34.5f)
 	{
-		/*pGameInstance->Render_Font(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø ¼®À±Áö]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("´ã´ç : MainÀÌÆåÆ®"), XMVectorSet(740.f, 300.f, 0.f, 1.f), XMVectorSet(1.f, 0.2f, 0.6f, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));*/
-		pGameInstance->Render_Font(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø ¼®À±Áö]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("´ã´ç : MainÀÌÆåÆ®"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
+		/*pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø ¼®À±Áö]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), TEXT("´ã´ç : MainÀÌÆåÆ®"), XMVectorSet(740.f, 300.f, 0.f, 1.f), XMVectorSet(1.f, 0.2f, 0.6f, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));*/
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø ¼®À±Áö]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), TEXT("´ã´ç : MainÀÌÆåÆ®"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
 	}
 	else if (m_fDelayTime >= 36.5f && m_fDelayTime <= 40.5f)
 	{
-		pGameInstance->Render_Font(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø Á¤¼®ÈÆ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
-		pGameInstance->Render_Font(TEXT("Font_Nexon"), TEXT("´ã´ç : UI"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon2"), TEXT("[ÆÀ¿ø Á¤¼®ÈÆ]"), XMVectorSet(700.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), TEXT("´ã´ç : UI"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
 	}
 	else if(m_fDelayTime >= 44.f )
-		pGameInstance->Render_Font(TEXT("Font_Nexon2"), TEXT("130±â ÆÀ Æ÷Æ®Æú¸®¿À ³¡!\n\n\n      °í»ýÇÏ¼Ì½À´Ï´Ù~"), XMVectorSet(300.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon2"), TEXT("130±â ÆÀ Æ÷Æ®Æú¸®¿À ³¡!\n\n\n      °í»ýÇÏ¼Ì½À´Ï´Ù~"), XMVectorSet(300.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);
 }

@@ -218,6 +218,15 @@ void CAkaza::Tick(_float fTimeDelta)
 			RELEASE_INSTANCE(CGameInstance);
 		}
 	}
+
+	CHierarchyNode*		pSocket = m_pModelCom->Get_BonePtr("L_Hand_1_P1012_V00_C00_Lct");
+	CHierarchyNode*		pSocket2 = m_pModelCom->Get_BonePtr("R_Hand_1_P1012_V00_C00_Lct");
+	_float4x4 SocketPivotMatrix = m_pModelCom->Get_PivotFloat4x4();
+	_float4x4 pParentWorldMatrix = *m_pTransformCom->Get_World4x4Ptr();
+
+	XMStoreFloat4x4(&m_WeaponWorld, (pSocket->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
+	XMStoreFloat4x4(&m_WeaponWorld2, (pSocket2->Get_CombinedTransformationMatrix() * XMLoadFloat4x4(&SocketPivotMatrix) * XMLoadFloat4x4(&pParentWorldMatrix)));
+
 	RELEASE_INSTANCE(CUI_Manager);
 }
 

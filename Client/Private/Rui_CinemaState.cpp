@@ -72,11 +72,19 @@ CRuiState * CRui_CinemaState::Tick(CRui * pRui, _float fTimeDelta)
 			pRui->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(50.5183f, pRui->Get_NavigationHeight().y, 56.1f, 1.f));
 			pRui->Get_BattleTarget()->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, XMVectorSet(56.56f, 10.f, 50.03f, 1.f));
 			pRui->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_BOUND, 20.f, 30.f, 0.f);
+
 			CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
 			pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_RUI_END_GROUDN, pRui);
-
 			RELEASE_INSTANCE(CEffect_Manager);
+
+			CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
+			if (pUIManager->Get_BattleTypeCheck())
+			{
+				pRui->Get_BattleTarget()->Set_Hp(-300);
+			}
+			else
+				pRui->Get_BattleTarget()->Set_Hp(-150);
+			RELEASE_INSTANCE(CUI_Manager);
 
 			return new CIdleState();
 		}
@@ -179,15 +187,6 @@ void CRui_CinemaState::Enter(CRui * pRui)
 	}
 	case Client::Rui::CRui_CinemaState::SCENE_2: 
 	{
-		CUI_Manager* pUIManager = GET_INSTANCE(CUI_Manager);
-		if (pUIManager->Get_BattleTypeCheck())
-		{
-			pRui->Get_BattleTarget()->Set_Hp(-300);
-		}
-		else
-			pRui->Get_BattleTarget()->Set_Hp(-150);
-		RELEASE_INSTANCE(CUI_Manager);
-
 		pRui->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_050);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui_CinemaState::ANIM_SCENE_2);
 		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CRui_CinemaState::ANIM_SCENE_2));

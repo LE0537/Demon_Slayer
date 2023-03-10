@@ -195,6 +195,10 @@ CAkazaState * CSkill_DestoryState::Tick(CAkaza* pAkaza, _float fTimeDelta)
 					pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vTarget);
 				//pAkaza->Get_NavigationCom()->Find_CurrentCellIndex(vTarget);
 
+				CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+				pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_SUCCESSS_FINAL, pAkaza);
+				RELEASE_INSTANCE(CEffect_Manager);
+
 				pAkaza->Get_Model()->Set_End(CAkazaState::TYPE_START);
 				return new CSkill_DestoryState(CAkazaState::TYPE_END);
 			}
@@ -491,10 +495,6 @@ void CSkill_DestoryState::Enter(CAkaza* pAkaza)
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_SKILL_DESTROY_1);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_SKILL_DESTROY_1, 0.01f);
 		pAkaza->Set_AnimIndex(CAkaza::ANIM_SKILL_DESTROY_1);
-
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_AKZSKL_DESTROY_SUCCESSS_FINAL, pAkaza);
-		RELEASE_INSTANCE(CEffect_Manager);
 		break;
 	}
 
