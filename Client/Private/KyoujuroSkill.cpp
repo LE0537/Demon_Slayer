@@ -25,11 +25,6 @@ HRESULT CKyoujuroSkill::Initialize(void * pArg)
 
 	*(CKyoujuroSkill**)pArg = this;
 
-	CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-	pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_5TIGER_MAIN, this);
-	pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_COLL_5TIGER_PARTICLE, this);
-	RELEASE_INSTANCE(CEffect_Manager);
 
 	return S_OK;
 }
@@ -60,6 +55,15 @@ void CKyoujuroSkill::Late_Tick(_float fTimeDelta)
 	if (g_bCollBox)
 	{
 		m_pRendererCom->Add_Debug(m_pOBBCom);
+	}
+	if (m_bStart) {
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
+
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_5TIGER_MAIN, this);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_RGKSKL_COLL_5TIGER_PARTICLE, this);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bStart = false;
 	}
 }
 

@@ -29,10 +29,7 @@ HRESULT CEffect_Particle_New::Initialize(void * pArg)
 void CEffect_Particle_New::Tick(_float fTimeDelta)
 {
 	m_fTime += fTimeDelta;
-}
 
-void CEffect_Particle_New::Late_Tick(_float fTimeDelta)
-{
 	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime + m_ParticleInfo.fDuration) {
 		m_pVIBufferCom->Update(fTimeDelta, m_ParticleInfo.vSizeReduction, m_CombinedWorldMatrix, m_ParticleInfo.fSpeedReduction, m_ParticleInfo.fGravity, m_ParticleInfo.bSpeedkill,
 			XMLoadFloat4x4(&m_CombinedWorldMatrix));
@@ -52,6 +49,10 @@ void CEffect_Particle_New::Late_Tick(_float fTimeDelta)
 		_matrix mtrParents = XMLoadFloat4x4(&m_pParents->Get_CombinedWorldMatrix());
 		XMStoreFloat4x4(&m_CombinedWorldMatrix, m_pTransformCom->Get_WorldMatrix() * mtrParents);
 	}
+}
+
+void CEffect_Particle_New::Late_Tick(_float fTimeDelta)
+{
 
 	if (m_fTime > m_ParticleInfo.fStartTime && m_fTime < m_ParticleInfo.fLifeTime[1] + m_ParticleInfo.fStartTime + m_ParticleInfo.fDuration) {
 		Compute_CamDistance(XMVectorSet(m_CombinedWorldMatrix._41, m_CombinedWorldMatrix._42, m_CombinedWorldMatrix._43, m_CombinedWorldMatrix._44));

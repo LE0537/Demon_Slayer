@@ -207,7 +207,16 @@ CTanjiroState * CAtk_3_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 	CCharacters* m_pTarget = pTanjiro->Get_BattleTarget();
 	_vector vLooAt = m_pTarget->Get_Transform()->Get_State(CTransform::STATE_TRANSLATION);
 	pTanjiro->Get_Transform()->Set_PlayerLookAt(vLooAt);
+	if (!m_bEffect)
+	{
+		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOATT3_1, pTanjiro);
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOATT3_2, pTanjiro);
+
+		RELEASE_INSTANCE(CEffect_Manager);
+		m_bEffect = true;
+	}
 	m_fMove += fTimeDelta;
 	m_fDelay += fTimeDelta;
 	if (m_fMove < 0.6f)
@@ -320,16 +329,7 @@ CTanjiroState * CAtk_3_KaguraState::Late_Tick(CTanjiro * pTanjiro, _float fTimeD
 
 	pTanjiro->Get_Model()->Play_Animation(fTimeDelta);
 
-	if (!m_bEffect)
-	{
-		CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
 
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOATT3_1, pTanjiro);
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_HINOATT3_2, pTanjiro);
-
-		RELEASE_INSTANCE(CEffect_Manager);
-		m_bEffect = true;
-	}
 	return nullptr;
 }
 

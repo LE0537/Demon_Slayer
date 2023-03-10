@@ -81,7 +81,7 @@ CAkazaState * CAkazaAkazaScene::Late_Tick(CAkaza * pAkaza, _float fTimeDelta)
 
 void CAkazaAkazaScene::Enter(CAkaza * pAkaza)
 {
-	CEffect_Manager* pEffectManger = nullptr;
+	
 	CGameInstance* pGameInstance = CGameInstance::Get_Instance();
 	switch (m_eStateType)
 	{
@@ -90,11 +90,6 @@ void CAkazaAkazaScene::Enter(CAkaza * pAkaza)
 		pAkaza->Get_Transform()->Set_PlayerLookAt(XMVectorSet(50.459f, 0.f, 53.669f, 1.f));
 		break;
 	case Client::CAkazaState::TYPE_LOOP:
-		pEffectManger = GET_INSTANCE(CEffect_Manager);
-
-		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_END_GROUND, pAkaza);
-
-		RELEASE_INSTANCE(CEffect_Manager);
 		pAkaza->Get_Model()->Set_CurrentAnimIndex(CAkaza::ANIM_JUMP_LOOP_END);
 		pAkaza->Get_Model()->Set_LinearTime(CAkaza::ANIM_JUMP_LOOP_END, 0.01f);
 		pAkaza->Get_Model()->Set_Loop(CAkaza::ANIM_JUMP_LOOP_END, true);
@@ -156,8 +151,12 @@ void CAkazaAkazaScene::Fall_Height(CAkaza * pAkaza, _float fTimeDelta)
 		vecPos = XMVectorSetY(vecPos, vPosition.y);
 
 		pAkaza->Get_Transform()->Set_State(CTransform::STATE_TRANSLATION, vecPos);
+		
+		CEffect_Manager*  pEffectManger = GET_INSTANCE(CEffect_Manager);
 
+		pEffectManger->Create_Effect(CEffect_Manager::EFF_SPL_AKA_END_GROUND_NOTIME, pAkaza);
 
+		RELEASE_INSTANCE(CEffect_Manager);
 		m_bNextAnim = true;
 	}
 	else

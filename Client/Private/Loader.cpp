@@ -1880,6 +1880,7 @@ HRESULT CLoader::Loading_ForLogoLevel()
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Start_Ground"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Start_Hit"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_End_Ground"));
+		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_End_Ground_NoTime"));
 
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion1_Hit"));
 		pEffect_Manager->Load_Effect(TEXT("Spl_Aka_Motion2_Ground"));

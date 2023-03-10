@@ -234,7 +234,7 @@ PS_NONLIGHT_OUT PS_NONLIGHT(PS_IN In)
 	PS_NONLIGHT_OUT		Out = (PS_NONLIGHT_OUT)0;
 
 	vector		vTexture = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
-	Out.vColor = vTexture;
+	Out.vColor = vTexture * 0.7f;
 
 	if (Out.vColor.a < 0.3f)
 		discard;

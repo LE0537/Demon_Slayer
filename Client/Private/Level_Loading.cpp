@@ -94,6 +94,7 @@ void CLevel_Loading::Tick(_float fTimeDelta)
 			Save_Score();
 		else
 			m_bNextLevel = m_pLoader->Get_Finished();
+
 	}
 	RELEASE_INSTANCE(CGameInstance);
 	if (m_eNextLevel == LEVEL_LOGO && m_bNextLevel)
@@ -247,7 +248,7 @@ void CLevel_Loading::Save_Score()
 
 	DWORD		dwByte = 0;
 	_int		iRankScore = m_pMini_Result->Get_RankScore();
-
+	
 	WriteFile(hFile, &iRankScore, sizeof(_int), &dwByte, nullptr);
 	
 
