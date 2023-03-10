@@ -486,7 +486,7 @@ void CAkaza::Set_Info()
 {
 	m_tInfo.strName = TEXT("¾ÆÄ«ÀÚ");
 	m_tInfo.bOni = true;
-	m_tInfo.iMaxHp = 1000;
+	m_tInfo.iMaxHp = 700;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
 	m_tInfo.iSkMaxBar = 1000;
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;
