@@ -214,7 +214,7 @@ void CShinobu_CinemaState::Enter(CShinobu * pShinobu)
 		pShinobu->Add_Light(_float4(63.2f, 3.f, 47.1f, 1.f), _float4(0.5f, 0.f, 1.f, 1.f), _float4(1.f, 1.f, 1.f, 1.f), 50.f);
 		break;
 	case Client::Shinobu::CShinobu_CinemaState::SCENE_END:
-		pShinobu->Get_BattleTarget()->Set_Hp(-400);
+		pShinobu->Get_BattleTarget()->Set_Hp(-300);
 		pShinobu->Get_BattleTarget()->Player_UpperDown(CCharacters::HIT_BOUND, 20.f, 30.f, 3.f);
 		pShinobu->Get_Model()->Reset_Anim(CShinobu::ANIM_SPLSKL_END);
 		pShinobu->Get_Model()->Set_CurrentAnimIndex(CShinobu::ANIM_SPLSKL_END);

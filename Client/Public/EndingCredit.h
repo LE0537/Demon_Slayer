@@ -27,9 +27,14 @@ private:
 	HRESULT SetUp_ShaderResources(); /* 셰이더 전역변수에 값을 전달한다. */
 
 private:
+	CTexture*				m_pTextureCom[5] = { nullptr };
 	_float					m_fFontFade = 1.f;
 	_float					m_fDelayTime = 0.f;
 
+	_float					m_fFrame = 0.f;
+	_int					m_iFrame = 0;
+	_int					m_iTextureNum = 0;
+	_bool					m_bRenderTrue = false;
 public:
 	static CEndingCredit* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pContext);
 	virtual CGameObject* Clone(void* pArg = nullptr);

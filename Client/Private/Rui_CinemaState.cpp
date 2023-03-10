@@ -179,7 +179,7 @@ void CRui_CinemaState::Enter(CRui * pRui)
 	}
 	case Client::Rui::CRui_CinemaState::SCENE_2: 
 	{
-		pRui->Get_BattleTarget()->Set_Hp(-400);
+		pRui->Get_BattleTarget()->Set_Hp(-300);
 		pRui->Set_SkillType(CCharacters::SKILL_TYPE::SKILL_050);
 		pRui->Get_Model()->Set_CurrentAnimIndex(CRui_CinemaState::ANIM_SCENE_2);
 		pRui->Set_AnimIndex(static_cast<CRui::ANIMID>(CRui_CinemaState::ANIM_SCENE_2));
