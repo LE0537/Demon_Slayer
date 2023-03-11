@@ -37,7 +37,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 		switch (pShinobu->Get_i1P())
 		{
 		case 1:
-			if (pGameInstance->Key_Pressing(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
+			if (pGameInstance->Key_Down(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
 			{
 				if (pShinobu->Get_PlayerInfo().iUnicCount > 0)
 				{
@@ -93,7 +93,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				}
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					pShinobu->Get_Effect()->Set_Dead();
+					//pShinobu->Get_Effect()->Set_Dead();
 					pShinobu->Set_PowerIndex(2);
 					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -190,7 +190,7 @@ CShinobuState * CIdleState::HandleInput(CShinobu* pShinobu)
 				}
 				else if (pShinobu->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					pShinobu->Get_Effect()->Set_Dead();
+					//pShinobu->Get_Effect()->Set_Dead();
 					pShinobu->Set_PowerIndex(2);
 					pShinobu->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

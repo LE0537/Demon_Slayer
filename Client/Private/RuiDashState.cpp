@@ -26,7 +26,7 @@ CRuiState * CDashState::HandleInput(CRui* pRui)
 		{
 			pRui->Get_Model()->Set_End(pRui->Get_AnimIndex());
 
-			if (pGameInstance->Key_Pressing(DIK_E))
+			if (pGameInstance->Key_Down(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
 				if (pRui->Get_PlayerInfo().iUnicCount > 0)

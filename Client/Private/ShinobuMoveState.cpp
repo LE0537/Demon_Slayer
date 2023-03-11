@@ -30,7 +30,7 @@ CShinobuState * CMoveState::HandleInput(CShinobu* pShinobu)
 	{
 	case 1:
 
-		if (pGameInstance->Key_Pressing(DIK_E))
+		if (pGameInstance->Key_Down(DIK_E))
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
 			if (pShinobu->Get_PlayerInfo().iUnicCount > 0)

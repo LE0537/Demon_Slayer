@@ -24,7 +24,7 @@ CKyoujuroState * CDashState::HandleInput(CKyoujuro* pKyoujuro)
 		{
 			pKyoujuro->Get_Model()->Set_End(pKyoujuro->Get_AnimIndex());
 
-			if (pGameInstance->Key_Pressing(DIK_E))
+			if (pGameInstance->Key_Down(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
 				if (pKyoujuro->Get_PlayerInfo().iUnicCount > 0)

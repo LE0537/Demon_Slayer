@@ -38,7 +38,7 @@ CTanjiroState * CTargetRushState::HandleInput(CTanjiro * pTanjiro)
 	{
 	case 1:
 
-		if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
+		if (pGameInstance->Key_Down(DIK_E) && !pTanjiro->Get_StoryKey())
 		{
 			if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
 			{

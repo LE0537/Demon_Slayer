@@ -23,7 +23,7 @@ CNezukoState * CDashState::HandleInput(CNezuko* pNezuko)
 		if (pNezuko->Get_Model()->Get_End(pNezuko->Get_AnimIndex()))
 		{
 			pNezuko->Get_Model()->Set_End(pNezuko->Get_AnimIndex());
-			if (pGameInstance->Key_Pressing(DIK_E))
+			if (pGameInstance->Key_Down(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
 				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)

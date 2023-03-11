@@ -32,7 +32,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 		switch (pNezuko->Get_i1P())
 		{
 		case 1:
-			if (pGameInstance->Key_Pressing(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
+			if (pGameInstance->Key_Down(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
 			{
 				if (pNezuko->Get_PlayerInfo().iUnicCount > 0)
 				{
@@ -100,7 +100,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				}
 				else if (pNezuko->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					pNezuko->Get_Effect()->Set_Dead();
+					//pNezuko->Get_Effect()->Set_Dead();
 					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 					pUI_Manager->Set_UltUseCount(1, 0);
 					RELEASE_INSTANCE(CUI_Manager);
@@ -222,7 +222,7 @@ CNezukoState * CIdleState::HandleInput(CNezuko* pNezuko)
 				}
 				else if (pNezuko->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					pNezuko->Get_Effect()->Set_Dead();
+					//pNezuko->Get_Effect()->Set_Dead();
 					CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 					pUI_Manager->Set_UltUseCount(1, 1);
 					RELEASE_INSTANCE(CUI_Manager);

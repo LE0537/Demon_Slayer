@@ -497,7 +497,7 @@ CAkazaState * CSkill_PunchState::CommandCheck(CAkaza * pAkaza)
 		switch (pAkaza->Get_i1P())
 		{
 		case 1:
-			if (pGameInstance->Key_Pressing(DIK_E))
+			if (pGameInstance->Key_Down(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
 				if (pAkaza->Get_PlayerInfo().iUnicCount > 0)

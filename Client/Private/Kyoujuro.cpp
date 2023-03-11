@@ -711,7 +711,7 @@ void CKyoujuro::Set_Info()
 {
 	m_tInfo.strName = TEXT("ƒÏ¡÷∑Œ");
 	m_tInfo.bOni = false;
-	m_tInfo.iMaxHp = 1000;
+	m_tInfo.iMaxHp = 700;
 	m_tInfo.iHp = m_tInfo.iMaxHp;
 	m_tInfo.iSkMaxBar = 1000;
 	m_tInfo.iSkBar = m_tInfo.iSkMaxBar;

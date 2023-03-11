@@ -57,7 +57,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 			
 
 
-			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey() && g_iLevel == LEVEL_GAMEPLAY)
+			if (pGameInstance->Key_Down(DIK_E) && !pTanjiro->Get_StoryKey() && g_iLevel == LEVEL_GAMEPLAY)
 			{
 				if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)
 				{
@@ -114,7 +114,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				}
 				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					pTanjiro->Get_Effect()->Set_Dead();
+					//pTanjiro->Get_Effect()->Set_Dead();
 					pTanjiro->Set_PowerIndex(2);
 					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -241,7 +241,7 @@ CTanjiroState * CIdleState::HandleInput(CTanjiro * pTanjiro)
 				}
 				else if (pTanjiro->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					pTanjiro->Get_Effect()->Set_Dead();
+					//pTanjiro->Get_Effect()->Set_Dead();
 					pTanjiro->Set_PowerIndex(2);
 					pTanjiro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

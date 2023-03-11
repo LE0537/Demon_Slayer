@@ -24,7 +24,7 @@ CTanjiroState * CDashState::HandleInput(CTanjiro * pTanjiro)
 		if (pTanjiro->Get_Model()->Get_End(pTanjiro->Get_AnimIndex()))
 		{
 			pTanjiro->Get_Model()->Set_End(pTanjiro->Get_AnimIndex());
-			if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
+			if (pGameInstance->Key_Down(DIK_E) && !pTanjiro->Get_StoryKey())
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
 				if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)

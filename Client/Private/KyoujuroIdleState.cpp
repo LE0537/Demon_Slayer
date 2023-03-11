@@ -30,7 +30,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 		switch (pKyoujuro->Get_i1P())
 		{
 		case 1:
-			if (pGameInstance->Key_Pressing(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
+			if (pGameInstance->Key_Down(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
 			{
 				if (pKyoujuro->Get_PlayerInfo().iUnicCount > 0)
 				{
@@ -86,7 +86,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				}
 				else if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					pKyoujuro->Get_Effect()->Set_Dead();
+					//pKyoujuro->Get_Effect()->Set_Dead();
 					pKyoujuro->Set_PowerIndex(2);
 					pKyoujuro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);
@@ -177,7 +177,7 @@ CKyoujuroState * CIdleState::HandleInput(CKyoujuro * pKyoujuro)
 				}
 				else if (pKyoujuro->Get_PlayerInfo().iPowerIndex == 1)
 				{
-					pKyoujuro->Get_Effect()->Set_Dead();
+					//pKyoujuro->Get_Effect()->Set_Dead();
 					pKyoujuro->Set_PowerIndex(2);
 					pKyoujuro->Set_PowerUpTime(10.f);
 					CEffect_Manager* pEffectManger = GET_INSTANCE(CEffect_Manager);

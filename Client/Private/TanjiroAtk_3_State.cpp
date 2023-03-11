@@ -384,7 +384,7 @@ CTanjiroState * CAtk_3_State::CommandCheck(CTanjiro * pTanjiro)
 	switch (pTanjiro->Get_i1P())
 	{
 	case 1:
-		if (pGameInstance->Key_Pressing(DIK_E) && !pTanjiro->Get_StoryKey())
+		if (pGameInstance->Key_Down(DIK_E) && !pTanjiro->Get_StoryKey())
 		{
 			//	pTanjiro->Get_BattleTarget()->Play_Scene();
 			if (pTanjiro->Get_PlayerInfo().iUnicCount > 0)

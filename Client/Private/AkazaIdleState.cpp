@@ -40,7 +40,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 	switch (pAkaza->Get_i1P())
 	{
 	case 1:
-		if (pGameInstance->Key_Pressing(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
+		if (pGameInstance->Key_Down(DIK_E) && g_iLevel == LEVEL_GAMEPLAY)
 		{
 			if (pAkaza->Get_PlayerInfo().iUnicCount > 0)
 			{
@@ -110,7 +110,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			}
 			else if (pAkaza->Get_PlayerInfo().iPowerIndex == 1)
 			{
-				pAkaza->Get_Effect()->Set_Dead();
+				//pAkaza->Get_Effect()->Set_Dead();
 				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 				pUI_Manager->Set_UltUseCount(1, 0);
 				RELEASE_INSTANCE(CUI_Manager);
@@ -243,7 +243,7 @@ CAkazaState * CIdleState::HandleInput(CAkaza* pAkaza)
 			}
 			else if (pAkaza->Get_PlayerInfo().iPowerIndex == 1)
 			{
-				pAkaza->Get_Effect()->Set_Dead();
+				//pAkaza->Get_Effect()->Set_Dead();
 				CUI_Manager* pUI_Manager = GET_INSTANCE(CUI_Manager);
 				pUI_Manager->Set_UltUseCount(1, 1);
 				RELEASE_INSTANCE(CUI_Manager);

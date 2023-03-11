@@ -25,7 +25,7 @@ CAkazaState * CDashState::HandleInput(CAkaza* pAkaza)
 		{
 			pAkaza->Get_Model()->Set_End(pAkaza->Get_AnimIndex());
 
-			if (pGameInstance->Key_Pressing(DIK_E))
+			if (pGameInstance->Key_Down(DIK_E))
 			{
 				//	pTanjiro->Get_BattleTarget()->Play_Scene();
 				if (pAkaza->Get_PlayerInfo().iUnicCount > 0)
