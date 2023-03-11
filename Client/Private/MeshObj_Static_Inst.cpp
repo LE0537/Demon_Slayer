@@ -135,7 +135,8 @@ void CMeshObj_Static_Inst::Tick(_float fTimeDelta)
 	}
 
 
-	if (g_iLevel == LEVEL_ADVAKAZA)
+	if (g_iLevel == LEVEL_ADVAKAZA ||
+		g_iLevel == LEVEL_ENDING)
 	{
 		if (true == m_bRenderShadow)
 			m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
@@ -202,6 +203,8 @@ HRESULT CMeshObj_Static_Inst::Render()
 				return E_FAIL;
 
 			_int iPass = true == m_bNonLight ? 4 : 3;
+			if (2037 == m_tMyDesc.iModelIndex)
+				iPass = 5;
 
 			if (FAILED(m_pModelCom->Render(m_pShaderCom, i, iPass)))
 				return E_FAIL;

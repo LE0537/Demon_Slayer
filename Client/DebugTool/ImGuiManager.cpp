@@ -488,14 +488,14 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 	if (nullptr != pPlayerFolShadowLightDesc)
 	{
 		LIGHTDESC tLightDesc = *pPlayerFolShadowLightDesc;
-		memcpy(&vPlayerShadowLightPos, &tLightDesc.vDirection.x, sizeof(_float4));
+		memcpy(&vPlayerFol_ShadowLightPos, &tLightDesc.vDirection.x, sizeof(_float4));
 		_vector vLook = XMVectorSetW(XMLoadFloat4(&tLightDesc.vDiffuse) + XMLoadFloat3(&vDirLightDir), 1.f);
-		memcpy(&vPlayerShadowLighAt, &vLook, sizeof(_float4));
+		memcpy(&vPlayerFol_ShadowLighAt, &vLook, sizeof(_float4));
 
 		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.8f);
-		ImGui::DragFloat3("Player(NonFol) Shadow pos", &vPlayerShadowLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");
+		ImGui::DragFloat3("Player_Fol Shadow pos", &vPlayerFol_ShadowLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");
 
-		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW, vPlayerShadowLightPos, vPlayerShadowLighAt);
+		pGameInstance->Set_ShadowLightDesc(LIGHTDESC::TYPE_FIELDSHADOW, vPlayerFol_ShadowLightPos, vPlayerFol_ShadowLighAt);
 	}
 
 
@@ -511,7 +511,7 @@ void CImGuiManager::PostProcessing(_float fTimeDelta)
 		LIGHTDESC tLightDesc = *pShadowLightDesc;
 		memcpy(&vObjectShadowLightPos, &tLightDesc.vDirection.x, sizeof(_float4));
 		_vector vLook = XMVectorSetW(XMLoadFloat4(&tLightDesc.vDiffuse) + XMLoadFloat3(&vDirLightDir), 1.f);
-		memcpy(&vPlayerShadowLighAt, &vLook, sizeof(_float4));
+		memcpy(&vObjectShadowLighAt, &vLook, sizeof(_float4));
 
 		ImGui::PushItemWidth(ImGui::GetWindowWidth() * 0.8f);
 		ImGui::DragFloat3("Shadow pos", &vObjectShadowLightPos.x, 5.f, -2000.f, 2000.f, "%.1f");

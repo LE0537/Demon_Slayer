@@ -89,6 +89,13 @@ void CMeshObj_Static::Tick(_float fTimeDelta)
 	{
 		Move_Mesh(fTimeDelta);
 	}
+
+	//if (g_iLevel == LEVEL_ADVAKAZA ||
+	//	g_iLevel == LEVEL_ENDING)
+	//{
+	//	if (true == m_bRenderShadow)
+	//		m_pRendererCom->Add_RenderGroup(CRenderer::RENDER_STATIC_SHADOWDEPTH, this);
+	//}
 }
 
 void CMeshObj_Static::Late_Tick(_float fTimeDelta)

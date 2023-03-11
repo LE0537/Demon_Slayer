@@ -42,7 +42,7 @@ unsigned int APIENTRY Thread_Ending(void* pArg)
 	CComponent* pOut = pGameInstance->Clone_Component(LEVEL_STATIC, L"Prototype_Component_Renderer");
 	pLoader->Set_Renderer((CRenderer*)pOut);
 
-	_float fValue[CRenderer::VALUE_END] = { 1.f, 0.37f ,0.1f ,182.f ,1571.f ,0.142f ,0.f ,1.36f,0.4f,1.f,20.f,20.f,0.07f,1.3f,0.3f,0.5f, 2.f, 0.6f,0.1f,0.3f,15.f,0.f,0.f, 0.07f };
+	_float fValue[CRenderer::VALUE_END] = { 1.f, 0.37f ,0.1f ,182.f ,1571.f ,0.142f ,0.f ,1.36f,0.4f,1.f,20.f,20.f,0.07f,1.3f,0.3f,0.5f, 2.f, 0.6f,0.1f,0.1f,15.f,0.f,0.f, 0.07f };
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_R), 1.f);
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_G), 0.37f);
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_FOGCOLOR_B), 0.1f);
@@ -62,7 +62,7 @@ unsigned int APIENTRY Thread_Ending(void* pArg)
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTSHAFT_MINUS), 2.f);
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_LIGHTPOWER), 0.6f);
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWTESTLENGTH), 0.1f);
-	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.3f);
+	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_PLC_SHADOW), 0.1f);
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_MAPGRAYSCALETIME), 15.f);
 	pLoader->Get_Renderer()->Set_OriginValue(CRenderer::VALUETYPE(CRenderer::VALUE_SHADOWPOWER), 0.07f);
 	pLoader->Get_Renderer()->ReturnValue();
@@ -166,7 +166,7 @@ HRESULT CLevel_Ending::Ready_Lights()
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 
 	LightDesc.eType = LIGHTDESC::TYPE_RUISHADOW;
-	LightDesc.vDirection = _float4(-1.f, 30.f, 60.f, 1.f);	//	eye
+	LightDesc.vDirection = _float4(-111.f, 110.f, 30.f, 1.f);	//	eye
 	XMStoreFloat4(&LightDesc.vDiffuse, XMLoadFloat4(&LightDesc.vDirection) + XMLoadFloat4(&_float4(1.f, -1.f, 1.5f, 1.f)));
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 	const LIGHTDESC* pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_RUISHADOW);
@@ -206,7 +206,7 @@ HRESULT CLevel_Ending::Ready_Lights()
 
 	ZeroMemory(&LightDesc, sizeof(LIGHTDESC));
 	LightDesc.eType = LIGHTDESC::TYPE_BATTLESHADOW;
-	LightDesc.vDirection = _float4(-800.f, 850.f, -250.f, 1.f);		//	eye
+	LightDesc.vDirection = _float4(-475.f, 605.f, -1080.f, 1.f);		//	eye
 	XMStoreFloat4(&LightDesc.vDiffuse, XMVectorSetW(XMLoadFloat4(&LightDesc.vDirection) + XMVector3Normalize(vLook), 1.f));
 	LightDesc.vAmbient = _float4(0.f, 0.1f, 0.f, 0.f);
 	pLightDesc = pGameInstance->Get_ShadowLightDesc(LIGHTDESC::TYPE_BATTLESHADOW);

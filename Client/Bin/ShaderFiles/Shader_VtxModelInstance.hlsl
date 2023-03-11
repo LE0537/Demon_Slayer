@@ -355,4 +355,15 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_NONLIGHT();
 	}
 
+	pass Wind_NonLight	//	5
+	{
+		SetRasterizerState(RS_Effect);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_Default, 0);
+
+		VertexShader = compile vs_5_0 VS_WIND();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_NONLIGHT();
+	}
+
 }
