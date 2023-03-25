@@ -34,7 +34,7 @@ HRESULT CTarget_Manager::Add_MRT(const _tchar * pMRTTag, const _tchar * pTargetT
 	if (nullptr == pMRTList)
 	{
 		list<CRenderTarget*>		MRTList;
-
+ 
 		MRTList.push_back(pRenderTarget);
 
 		m_MRTs.emplace(pMRTTag, MRTList);
@@ -327,6 +327,20 @@ HRESULT CTarget_Manager::Render_Debug(const _tchar * pMRTTag, class CShader* pSh
 	{
 		if (nullptr != pTarget)
 			pTarget->Render_Debug(pShader, pVIBuffer);
+
+	}
+
+	return S_OK;
+}
+
+HRESULT CTarget_Manager::Render_DebugDiffuse(const _tchar * pMRTTag, CShader * pShader, CVIBuffer_Rect * pVIBuffer)
+{
+	list<class CRenderTarget*>*		pMRTList = Find_MRT(pMRTTag);
+
+	for (auto& pTarget : *pMRTList)
+	{
+		if (nullptr != pTarget)
+			pTarget->Render_DebugDiffuse(pShader, pVIBuffer);
 
 	}
 

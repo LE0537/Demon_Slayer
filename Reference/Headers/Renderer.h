@@ -140,7 +140,7 @@ private:
 	HRESULT Render_Priority();
 	HRESULT Render_StaticShadowDepth();
 	HRESULT Render_ShadowDepth();
-	HRESULT Render_NonAlphaBlend();
+	HRESULT Render_NonAlphaBlend(_bool Debug);
 	HRESULT Render_Lights();
 	HRESULT Render_AO();
 	HRESULT Render_Blend(_int _iLevel);

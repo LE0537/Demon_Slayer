@@ -203,7 +203,14 @@ PS_OUT PS_MAIN(PS_IN In)
 
 	return Out;
 }
+PS_OUT PS_DEBUG(PS_IN In)
+{
+	PS_OUT		Out = (PS_OUT)0;
+	In.vTexUV.x = In.vTexUV.x * 0.5f;
+	Out.vColor = g_DiffuseTexture.Sample(LinearSampler, In.vTexUV);
 
+	return Out;
+}
 PS_OUT PS_SSAO(PS_IN In)
 {
 	PS_OUT		Out = (PS_OUT)0;
@@ -1127,5 +1134,14 @@ technique11 DefaultTechnique
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_EXCEPT();
 	}
+	pass Debug	//	20
+	{
+		SetRasterizerState(RS_Default);
+		SetBlendState(BS_Default, float4(0.f, 0.f, 0.f, 1.f), 0xffffffff);
+		SetDepthStencilState(DSS_ZEnable_Disable_ZWrite_Disable, 0);
 
+		VertexShader = compile vs_5_0 VS_MAIN();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_DEBUG();
+	}
 }

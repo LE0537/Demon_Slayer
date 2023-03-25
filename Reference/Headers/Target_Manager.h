@@ -35,6 +35,7 @@ public:
 public:
 	HRESULT Ready_Debug(const _tchar* pTargetTag, _float fX, _float fY, _float fSizeX, _float fSizeY);
 	HRESULT Render_Debug(const _tchar* pMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
+	HRESULT Render_DebugDiffuse(const _tchar* pMRTTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 	HRESULT Render_SoloTarget_Debug(const _tchar* pRenderTargetTag, class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 
 

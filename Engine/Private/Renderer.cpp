@@ -95,6 +95,7 @@ HRESULT CRenderer::Initialize_Prototype()
 		DXGI_FORMAT_R32G32B32A32_FLOAT, &_float4(1.f, 1.f, 1.f, 1.f))))
 		return E_FAIL;
 
+	
 	/* For.Target_Diffuse */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_Diffuse"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(1.f, 1.f, 1.f, 0.f)))) return E_FAIL;
 	/* For.Target_Normal */
@@ -165,6 +166,9 @@ HRESULT CRenderer::Initialize_Prototype()
 	/* For.Target_BackEffect */
 	if (FAILED(m_pTarget_Manager->Add_RenderTarget(m_pDevice, m_pContext, TEXT("Target_BackEffect"), (_uint)ViewportDesc.Width, (_uint)ViewportDesc.Height, DXGI_FORMAT_R8G8B8A8_UNORM, &_float4(0.0f, 0.0f, 0.0f, 0.0f)))) return E_FAIL;
 
+	//for.Debug
+	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Debug_Deferred"), TEXT("Target_Diffuse"))))
+		return E_FAIL;
 
 	/* For.MRT_Deferred */
 	if (FAILED(m_pTarget_Manager->Add_MRT(TEXT("MRT_Deferred"), TEXT("Target_Diffuse"))))
@@ -423,7 +427,7 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 		return E_FAIL;
 
 	//	광원 효과를 받는 객체를 Deferred에 그립니다.
-	if (FAILED(Render_NonAlphaBlend()))
+	if (FAILED(Render_NonAlphaBlend(bDiffuse)))
 		return E_FAIL;
 	if (FAILED(Render_Lights()))
 		return E_FAIL;
@@ -523,20 +527,15 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 		return E_FAIL;
 
 
-
+	if (FAILED(Render_Navi(bNaviRender)))
+		return E_FAIL;
+	if (FAILED(Render_CollBox(bCollBox)))
+		return E_FAIL;
+	if (FAILED(Render_Diffuse(bDiffuse)))
+		return E_FAIL;
 	if (FAILED(Render_Debug(_bDebug)))
 		return E_FAIL;
 
-	if (FAILED(Render_Navi(bNaviRender)))
-		return E_FAIL;
-
-	if (FAILED(Render_CollBox(bCollBox)))
-		return E_FAIL;
-
-	if (FAILED(Render_Diffuse(bDiffuse)))
-		return E_FAIL;
-
-	
 	//	Clear MRT_Master
 	if (FAILED(m_pTarget_Manager->MRT_Clear(m_pContext, TEXT("MRT_Master"))))
 		return E_FAIL;
@@ -759,7 +758,7 @@ HRESULT CRenderer::Render_ShadowDepth()
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_NonAlphaBlend()
+HRESULT CRenderer::Render_NonAlphaBlend(_bool Debug)
 {
 	if (nullptr == m_pTarget_Manager)
 		return E_FAIL;
@@ -1846,6 +1845,7 @@ HRESULT CRenderer::Render_CollBox(_bool _bCollBox)
 			}
 			Safe_Release(pComponent);
 		}
+		m_CollBoxComponents.clear();
 	}
 	return S_OK;
 }
@@ -1871,12 +1871,26 @@ HRESULT CRenderer::Render_Navi(_bool _bNavi)
 			}
 			Safe_Release(pComponent);
 		}
+		m_NaviComponents.clear();
 	}
 	return S_OK;
 }
 
 HRESULT CRenderer::Render_Diffuse(_bool _bDiffuse)
 {
+	if (_bDiffuse)
+	{
+		if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), 1280.f / 4.f, 720.f / 2.f, 1280.f / 2.f, 720.f)))
+			return E_FAIL;
+		if (FAILED(m_pTarget_Manager->Render_DebugDiffuse(TEXT("MRT_Debug_Deferred"), m_pShader, m_pVIBuffer)))
+			return E_FAIL;
+	}
+	else
+	{
+		_float		fVIBufferRadius = 120.f;
+		if (FAILED(m_pTarget_Manager->Ready_Debug(TEXT("Target_Diffuse"), 0.5f * fVIBufferRadius, 0.5f * fVIBufferRadius, fVIBufferRadius, fVIBufferRadius)))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

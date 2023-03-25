@@ -101,6 +101,23 @@ HRESULT CRenderTarget::Render_Debug(CShader* pShader, CVIBuffer_Rect * pVIBuffer
 	return S_OK;
 }
 
+HRESULT CRenderTarget::Render_DebugDiffuse(CShader * pShader, CVIBuffer_Rect * pVIBuffer)
+{
+	if (FAILED(pShader->Set_RawValue("g_WorldMatrix", &m_WorldMatrix, sizeof(_float4x4))))
+		return E_FAIL;
+
+	if (FAILED(pShader->Set_ShaderResourceView("g_DiffuseTexture", m_pSRV)))
+		return E_FAIL;
+
+	if (FAILED(pShader->Begin(20)))
+		return E_FAIL;
+
+	if (FAILED(pVIBuffer->Render()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 
 CRenderTarget * CRenderTarget::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext, _uint iSizeX, _uint iSizeY, DXGI_FORMAT eFormat, const _float4 * pColor)
 {

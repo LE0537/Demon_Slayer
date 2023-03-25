@@ -24,7 +24,7 @@ public:
 public:
 	HRESULT Ready_Debug(_float fX, _float fY, _float fSizeX, _float fSizeY);
 	HRESULT Render_Debug(class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
-
+	HRESULT Render_DebugDiffuse(class CShader* pShader, class CVIBuffer_Rect* pVIBuffer);
 
 private:
 	ID3D11Device*						m_pDevice = nullptr;
