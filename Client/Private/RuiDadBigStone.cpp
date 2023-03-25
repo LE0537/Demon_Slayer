@@ -68,7 +68,7 @@ void CRuiDadBigStone::Late_Tick(_float fTimeDelta)
 	
 	if (g_bCollBox)
 	{
-		m_pRendererCom->Add_Debug(m_pOBBCom);
+		m_pRendererCom->Add_CollBox(m_pOBBCom);
 	}
 }
 

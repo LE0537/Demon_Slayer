@@ -371,7 +371,7 @@ HRESULT CRenderer::Add_RenderGroup_Front(RENDERGROUP eRenderGroup, CGameObject *
 	return S_OK;
 }
 
-HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel, _bool bLoading)
+HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel, _bool bLoading, _bool bNaviRender, _bool bCollBox, _bool bDiffuse)
 {
 	g_iLevelNum = _iLevel;
 	m_fMapGrayScaleTime += fTimeDelta;
@@ -527,6 +527,16 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 	if (FAILED(Render_Debug(_bDebug)))
 		return E_FAIL;
 
+	if (FAILED(Render_Navi(bNaviRender)))
+		return E_FAIL;
+
+	if (FAILED(Render_CollBox(bCollBox)))
+		return E_FAIL;
+
+	if (FAILED(Render_Diffuse(bDiffuse)))
+		return E_FAIL;
+
+	
 	//	Clear MRT_Master
 	if (FAILED(m_pTarget_Manager->MRT_Clear(m_pContext, TEXT("MRT_Master"))))
 		return E_FAIL;
@@ -540,6 +550,24 @@ HRESULT CRenderer::Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iL
 HRESULT CRenderer::Add_Debug(CComponent* pDebugCom)
 {
 	m_DebugComponents.push_back(pDebugCom);
+
+	Safe_AddRef(pDebugCom);
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Add_CollBox(CComponent * pDebugCom)
+{
+	m_CollBoxComponents.push_back(pDebugCom);
+
+	Safe_AddRef(pDebugCom);
+
+	return S_OK;
+}
+
+HRESULT CRenderer::Add_Navi(CComponent * pDebugCom)
+{
+	m_NaviComponents.push_back(pDebugCom);
 
 	Safe_AddRef(pDebugCom);
 
@@ -1794,6 +1822,61 @@ HRESULT CRenderer::Render_Debug(_bool _bDebug)
 		if (FAILED(m_pTarget_Manager->Render_SoloTarget_Debug(TEXT("Target_BackEffect"), m_pShader, m_pVIBuffer)))
 			return E_FAIL;
 	}
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_CollBox(_bool _bCollBox)
+{
+	if (nullptr == m_pShader ||
+		nullptr == m_pVIBuffer)
+		return E_FAIL;
+	if (_bCollBox)
+	{
+		if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+
+		if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+
+		for (auto& pComponent : m_CollBoxComponents)
+		{
+			if (nullptr != pComponent)
+			{
+				pComponent->Render();
+			}
+			Safe_Release(pComponent);
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Navi(_bool _bNavi)
+{
+	if (nullptr == m_pShader ||
+		nullptr == m_pVIBuffer)
+		return E_FAIL;
+	if (_bNavi)
+	{
+		if (FAILED(m_pShader->Set_RawValue("g_ViewMatrix", &m_ViewMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+
+		if (FAILED(m_pShader->Set_RawValue("g_ProjMatrix", &m_ProjMatrix, sizeof(_float4x4))))
+			return E_FAIL;
+
+		for (auto& pComponent : m_NaviComponents)
+		{
+			if (nullptr != pComponent)
+			{
+				pComponent->Render();
+			}
+			Safe_Release(pComponent);
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CRenderer::Render_Diffuse(_bool _bDiffuse)
+{
 	return S_OK;
 }
 

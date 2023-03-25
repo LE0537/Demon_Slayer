@@ -34,5 +34,7 @@ extern float		g_fDialog;
 extern float        g_fLoading;
 extern bool			g_bSpecialSkillHit;
 extern bool			g_bMiniGame;
+extern bool			g_bNaviRender;
+extern bool			g_bDiffuseRender;
 
 using namespace Client;

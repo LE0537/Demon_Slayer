@@ -27,11 +27,12 @@ public:
 public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
 	HRESULT Add_RenderGroup_Front(RENDERGROUP eRenderGroup, class CGameObject* pGameObject);
-	HRESULT Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel, _bool bLoading);
+	HRESULT Render_GameObjects(_float fTimeDelta, _bool _bDebug, _int _iLevel, _bool bLoading,_bool bNaviRender,_bool bCollBox , _bool bDiffuse);
 
 public:
 	HRESULT Add_Debug(class CComponent* pDebugCom);
-
+	HRESULT Add_CollBox(class CComponent* pDebugCom);
+	HRESULT Add_Navi(class CComponent* pDebugCom);
 public:
 	void	Set_Far(_float fFar);
 	void	Set_Value(VALUETYPE eValueType, _float fValue) 
@@ -77,7 +78,8 @@ private:
 private:
 	_bool						m_bRenderDebug = false;
 	list<class CComponent*>					m_DebugComponents;
-
+	list<class CComponent*>					m_CollBoxComponents;
+	list<class CComponent*>					m_NaviComponents;
 private:
 	class CTarget_Manager*					m_pTarget_Manager = nullptr;
 	class CLight_Manager*					m_pLight_Manager = nullptr;
@@ -165,7 +167,9 @@ private:
 	HRESULT Render_UIMaster();
 
 	HRESULT Render_Debug(_bool _bDebug);
-
+	HRESULT Render_CollBox(_bool _bCollBox);
+	HRESULT Render_Navi(_bool _bNavi);
+	HRESULT Render_Diffuse(_bool _bDiffuse);
 private:
 	_float3	Get_AnglebyMatrix(_float4x4 matrix);
 	void	SmoothReturn(_float fRatio);
