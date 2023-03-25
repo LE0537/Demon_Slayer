@@ -35,7 +35,8 @@ float			g_fVoice = 0.4f;
 float			g_fDialog = 1.f;
 float			g_fLoading = 0.f;
 bool			g_bMiniGame = false;
-
+bool			g_bNaviRender = false;
+bool			g_bDiffuseRender = false;
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())
 	, m_pImGuiManager(CImGuiManager::Get_Instance())
@@ -155,7 +156,7 @@ HRESULT CMainApp::Render()
 	m_pGameInstance->Clear_BackBuffer_View(_float4(0.f, 0.f, 0.f, 1.f));
 	m_pGameInstance->Clear_DepthStencil_View();
 
-	m_pRenderer->Render_GameObjects(m_fTimeDelta, g_bDebug, g_iLevel, g_bThread);
+	m_pRenderer->Render_GameObjects(m_fTimeDelta, g_bDebug, g_iLevel, g_bThread, g_bNaviRender, g_bCollBox, g_bDiffuseRender);
 
 	m_pImGuiManager->Render();
 	m_pGameInstance->Present();
@@ -177,6 +178,12 @@ HRESULT CMainApp::Render()
 
 	if (m_pGameInstance->Key_Down(DIK_F2))
 		g_bCollBox = !g_bCollBox;
+
+	if (m_pGameInstance->Key_Down(DIK_F3))
+		g_bNaviRender = !g_bNaviRender;
+
+	if (m_pGameInstance->Key_Down(DIK_F4))
+		g_bDiffuseRender = !g_bDiffuseRender;
 
 	return S_OK;
 }

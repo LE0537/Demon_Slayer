@@ -186,8 +186,9 @@ HRESULT CNavigation::Render()
 
 	if (-1 == m_NaviDesc.iCurrentCellIndex)
 	{
+		WorldMatrix._24 = 0.1f;
 		m_pShader->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4));
-		m_pShader->Set_RawValue("g_vColor", &_float4(0.f, 1.f, 0.f, 1.f), sizeof(_float4));
+		m_pShader->Set_RawValue("g_vColor", &_float4(1.f, 1.f, 1.f, 1.f), sizeof(_float4));
 		m_pShader->Begin(0);
 
 		for (auto& pCell : m_Cells)

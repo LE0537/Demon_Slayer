@@ -109,7 +109,7 @@ void CEnmu_Shield::Late_Tick(_float fTimeDelta)
 
 	if (g_bCollBox)
 	{
-		m_pRendererCom->Add_Debug(m_pSphereCom);
+		m_pRendererCom->Add_CollBox(m_pSphereCom);
 	}
 
 
