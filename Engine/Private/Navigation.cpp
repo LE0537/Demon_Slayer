@@ -184,8 +184,6 @@ HRESULT CNavigation::Render()
 
 	RELEASE_INSTANCE(CPipeLine);
 
-	if (-1 == m_NaviDesc.iCurrentCellIndex)
-	{
 		WorldMatrix._24 = 0.1f;
 		m_pShader->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4));
 		m_pShader->Set_RawValue("g_vColor", &_float4(1.f, 1.f, 1.f, 1.f), sizeof(_float4));
@@ -198,17 +196,14 @@ HRESULT CNavigation::Render()
 				pCell->Render();
 			}
 		}
-	}
+	
 
-	else
-	{
-		WorldMatrix._24 = 0.1f;
 		m_pShader->Set_RawValue("g_WorldMatrix", &WorldMatrix, sizeof(_float4x4));
 		m_pShader->Set_RawValue("g_vColor", &_float4(1.f, 0.f, 0.f, 1.f), sizeof(_float4));
 
 		m_pShader->Begin(0);
 		m_Cells[m_NaviDesc.iCurrentCellIndex]->Render();
-	}
+	
 
 	return S_OK;
 }
