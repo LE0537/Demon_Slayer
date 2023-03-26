@@ -164,6 +164,7 @@ void CRui::Tick(_float fTimeDelta)
 			}
 			m_StoryTime -= fTimeDelta;
 		}
+	
 		if (m_bSplSkl)
 		{
 			Check_Spl();
@@ -541,6 +542,13 @@ void CRui::StorySpl(_float fTimeDelta)
 _bool CRui::Get_RuiHit()
 {
 	return m_bIsHit;
+}
+
+void CRui::Set_StorySplDead()
+{
+	CRuiState* pState = new CIdleState();
+	m_pRuiState = m_pRuiState->ChangeState(this, m_pRuiState, pState);
+	m_bStorySplDead = true; 
 }
 
 void CRui::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)

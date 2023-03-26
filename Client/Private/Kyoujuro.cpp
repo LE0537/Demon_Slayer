@@ -914,12 +914,22 @@ void CKyoujuro::LateTickState(_float fTimeDelta)
 }
 void CKyoujuro::StorySpl(_float fTimeDelta)
 {
-	dynamic_cast<CAkaza*>(m_pBattleTarget)->Set_StoryDead();
-	m_pBattleTarget->Play_Scene();
-	CKyoujuroState* pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::SCENE_START);
-	m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
-	m_bStorySpl = false;
-	m_bStorySplEnd = true;
+	if (!dynamic_cast<CAkaza*>(m_pBattleTarget)->Get_StorySplDead())
+		dynamic_cast<CAkaza*>(m_pBattleTarget)->Set_StorySplDead();
+	else
+	{
+		m_SplTime += fTimeDelta;
+		
+	}
+	if(m_SplTime > 0.3f)
+	{
+		dynamic_cast<CAkaza*>(m_pBattleTarget)->Set_StoryDead();
+		m_pBattleTarget->Play_Scene();
+		CKyoujuroState* pState = new CKyoujuro_CinemaState(CKyoujuro_CinemaState::SCENE_START);
+		m_pKyoujuroState = m_pKyoujuroState->ChangeState(this, m_pKyoujuroState, pState);
+		m_bStorySpl = false;
+		m_bStorySplEnd = true;
+	}
 }
 CKyoujuro * CKyoujuro::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pContext)
 {

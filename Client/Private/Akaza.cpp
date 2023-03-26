@@ -356,6 +356,13 @@ void CAkaza::Play_AkazaScene()
 	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
 }
 
+void CAkaza::Set_StorySplDead()
+{
+	CAkazaState* pState = new CIdleState();
+	m_pAkazaState = m_pAkazaState->ChangeState(this, m_pAkazaState, pState);
+	m_bStorySplDead = true;
+}
+
 void CAkaza::Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue)
 {
 	CAkazaState* pState = new CToolState(iAnimIndex, iAnimIndex_2, iAnimIndex_3, static_cast<CAkazaState::STATE_TYPE>(iTypeIndex), bIsContinue);

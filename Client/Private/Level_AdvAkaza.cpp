@@ -18,6 +18,7 @@
 #include "ImGuiManager.h"
 #include "Level_BossEnmu.h"
 #include "Effect_Manager.h"
+#include "Level_Menu.h"
 unsigned int APIENTRY Thread_AdvAkaza(void* pArg)
 {
 	CLevel_AdvAkaza*		pLoader = (CLevel_AdvAkaza*)pArg;
@@ -146,6 +147,12 @@ void CLevel_AdvAkaza::Tick(_float fTimeDelta)
 			//if (FAILED(pGameInstance->Open_Level(LEVEL_BOSSENMU, CLevel_BossEnmu::Create(m_pDevice, m_pContext))))
 				//return;
 
+		}
+
+		if (pGameInstance->Key_Down(DIK_BACKSPACE))
+		{
+			if (FAILED(pGameInstance->Open_Level(LEVEL_MENU, CLevel_Menu::Create(m_pDevice, m_pContext))))
+				return;
 		}
 		RELEASE_INSTANCE(CUI_Manager);
 		RELEASE_INSTANCE(CGameInstance);
