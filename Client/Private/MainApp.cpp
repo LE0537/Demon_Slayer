@@ -37,6 +37,7 @@ float			g_fLoading = 0.f;
 bool			g_bMiniGame = false;
 bool			g_bNaviRender = false;
 bool			g_bDiffuseRender = false;
+bool			g_bCursor = false;
 CMainApp::CMainApp()
 	: m_pGameInstance(CGameInstance::Get_Instance())
 	, m_pImGuiManager(CImGuiManager::Get_Instance())
@@ -99,7 +100,7 @@ void CMainApp::Tick(_float fTimeDelta)
 {
 	if (nullptr == m_pGameInstance)
 		return;
-	ShowCursor(false);
+	
 	if (g_bDeathTime == true && g_iLevel != LEVEL_BOSSENMU)
 	{
 		static _float fTimeDelay1 = 0.f;
@@ -136,6 +137,7 @@ void CMainApp::Tick(_float fTimeDelta)
 	if (!g_bThread)
 	{
 		m_pImGuiManager->Tick(fTimeDelta);
+		ShowCursor(false);
 
 		m_pGameInstance->Tick_Engine(fTimeDelta,&g_bThread);
 

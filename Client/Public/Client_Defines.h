@@ -36,5 +36,5 @@ extern bool			g_bSpecialSkillHit;
 extern bool			g_bMiniGame;
 extern bool			g_bNaviRender;
 extern bool			g_bDiffuseRender;
-
+extern bool			g_bCursor;
 using namespace Client;

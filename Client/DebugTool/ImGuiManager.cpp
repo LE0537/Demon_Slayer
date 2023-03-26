@@ -83,7 +83,11 @@ void CImGuiManager::Tick(_float fTimeDelta)
 	CGameInstance*	pGameInstance = GET_INSTANCE(CGameInstance);
 	if (pGameInstance->Key_Pressing(DIK_LCONTROL))
 		if (pGameInstance->Key_Down(DIK_1))
+		{
 			m_bImguiEnable = !m_bImguiEnable;
+			g_bCursor = !g_bCursor;
+
+		}
 
 
 	if (m_bImguiEnable/* && true == g_bDebug*/)
