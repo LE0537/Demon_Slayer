@@ -293,7 +293,7 @@ private:
 	_float					m_fStoryTime = 0.f;
 	_bool					m_bStorySplEnd = false;
 
-
+	_float					m_SplTime = 0.f;
 	_bool					m_bBossEnmu_Dead = false;
 
 	_bool					m_bAkazaScene = false;

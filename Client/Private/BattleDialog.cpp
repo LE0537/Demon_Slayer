@@ -327,7 +327,7 @@ void CBattleDialog::Battle_RuiDialog3()
 	case 0:
 		if (!m_bSoundValumCheck)
 		{
-			g_fBGM -= 0.05f;
+			//g_fBGM -= 0.05f;
 			g_fEffect -= 0.05f;
 			g_fVoice -= 0.05f;
 
@@ -339,7 +339,7 @@ void CBattleDialog::Battle_RuiDialog3()
 				g_fVoice = 0.f;
 			if (g_fVoice <= 0.f && g_fVoice <= 0.f && g_fVoice <= 0.f)
 			{
-				g_fBGM = 1.f;
+				//g_fBGM = 1.f;
 				g_fEffect = 0.4f;
 				CSoundMgr::Get_Instance()->Effect_Stop(SOUND_BGM);
 				CSoundMgr::Get_Instance()->PlayBGM(TEXT("Tanjiro_noUta.wav"), g_fBGM);
@@ -469,7 +469,7 @@ void CBattleDialog::Battle_RuiDialog3()
 	case 7:
 		if (pUI_Manager->Get_2P()->Get_PlayerInfo().iHp <= 0)
 		{
-			g_fBGM = 1.f;
+			//g_fBGM = 1.f;
 			g_fDialog = 1.f;
 			g_fEffect = 0.f;
 			g_fVoice = 0.f;
@@ -501,7 +501,7 @@ void CBattleDialog::Battle_RuiDialog3()
 			{
 				g_fEffect = 0.5f;
 				g_fVoice = 0.5f;
-				g_fBGM = 1.f;
+				//g_fBGM = 1.f;
 				CSoundMgr::Get_Instance()->Effect_Stop(SOUND_BGM);
 				CSoundMgr::Get_Instance()->PlayBGM(TEXT("Tanjiro_noUta2.wav"), g_fBGM);
 				m_bSoundCheck = false;

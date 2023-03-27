@@ -191,6 +191,8 @@ public:
 	void Play_AkazaScene();
 	void	Set_StoryDead() { m_bStoryDead = true; }
 	_bool   Get_StoryDead() { return m_bStoryDead; }
+	void	Set_StorySplDead();
+	_bool   Get_StorySplDead() { return m_bStorySplDead; }
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 private:
@@ -212,6 +214,8 @@ public:
 	void    Check_Spl();
 
 private:
+	_bool		m_bStorySplDead = false;
+
 	CModel*					m_pModelCom = nullptr;
 	CCollider*				m_pAABBCom = nullptr;
 	CCollider*				m_pOBBCom = nullptr;

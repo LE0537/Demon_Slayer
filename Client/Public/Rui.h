@@ -177,6 +177,8 @@ public:
 	_bool   Get_StoryDead() { return m_bStoryDead; }
 	void	Set_HitSpl(_bool _bHit) { m_bHitSpl = _bHit; }
 	_bool   Get_HitSpl() { return m_bHitSpl; }
+	void	Set_StorySplDead();
+	_bool   Get_StorySplDead() { return m_bStorySplDead; }
 public:
 	void Set_ToolState(_uint iAnimIndex, _uint iAnimIndex_2, _uint iAnimIndex_3, _uint iTypeIndex, _bool bIsContinue);
 	void Set_StoryDelay(_float _fTime) { m_StoryTime = _fTime; }
@@ -202,6 +204,8 @@ public:
 	virtual void  Player_UpperDown(HIT_TYPE eHitType, _float fBoundPower, _float fJumpPower, _float fKnockBackPower);
 	virtual void  Play_Scene();
 private:
+	_bool		m_bStorySplDead = false;
+
 	CModel*					m_pModelCom = nullptr;
 	CCollider*				m_pAABBCom = nullptr;
 	CCollider*				m_pOBBCom = nullptr;

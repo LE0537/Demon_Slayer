@@ -16,7 +16,7 @@
 #include "SoundMgr.h"
 #include "Layer.h"
 #include "RuiBomb.h"
-
+#include "Level_Menu.h"
 
 unsigned int APIENTRY Thread_AdvRui(void* pArg)
 {
@@ -331,6 +331,12 @@ HRESULT CLevel_AdvRui::Ready_Layer_Player(const _tchar * pLayerTag)
 		if (FAILED(pGameInstance->Add_GameObject(TEXT("Prototype_GameObject_RuiSister"), LEVEL_ADVRUI, TEXT("Layer_RuiSister"), &tCharacterDesc1p)))
 			return E_FAIL;
 
+	}
+
+	if (pGameInstance->Key_Down(DIK_BACKSPACE))
+	{
+		if (FAILED(pGameInstance->Open_Level(LEVEL_MENU, CLevel_Menu::Create(m_pDevice, m_pContext))))
+			return E_FAIL;
 	}
 
 	//tCharacterDesc1p.bSub = true;
