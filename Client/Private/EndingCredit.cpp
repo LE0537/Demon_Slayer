@@ -178,7 +178,7 @@ void CEndingCredit::Ending()
 		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon"), TEXT("담당 : UI"), XMVectorSet(720.f, 300.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.2f, 1.2f, 0.f, 1.f));
 	}
 	else if(m_fDelayTime >= 44.f )
-		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon2"), TEXT("130기 팀 포트폴리오 끝!\n\n\n      고생하셨습니다~"), XMVectorSet(300.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(2.f, 2.f, 0.f, 1.f));
+		pGameInstance->Render_Font_Defalut(TEXT("Font_Nexon2"), TEXT("* 이 게임은 비상업적 목적으로 제작 되었습니다.\n\n           제작기간   23-01-13 ~ 23-03-13 \n\n       두달간 예비 클라이언트 프로그래머들이 \n      DirectX 11을 활용하여 개발 하였습니다.\n\n                             감사합니다."), XMVectorSet(300.f, 150.f, 0.f, 1.f), XMVectorSet(m_fFontFade, m_fFontFade, m_fFontFade, m_fFontFade), XMVectorSet(1.f, 1.f, 1.f, 1.f));
 
 	RELEASE_INSTANCE(CGameInstance);
 }

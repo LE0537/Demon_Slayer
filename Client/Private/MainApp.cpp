@@ -137,7 +137,7 @@ void CMainApp::Tick(_float fTimeDelta)
 	if (!g_bThread)
 	{
 		m_pImGuiManager->Tick(fTimeDelta);
-		ShowCursor(false);
+		ShowCursor(true);
 
 		m_pGameInstance->Tick_Engine(fTimeDelta,&g_bThread);
 
